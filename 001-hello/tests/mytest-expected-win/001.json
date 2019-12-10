@@ -1,0 +1,44 @@
+{
+  "input": {
+    "bins": 30
+  },
+  "output": {
+    "distPlot": {
+      "src": "[image data sha1: c9af4e73051b670ea8ec5900ed9d0777ac97b0c0]",
+      "width": 631,
+      "height": 400,
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 40.88,
+              "right": 98.12,
+              "bottom": -1.08,
+              "top": 28.08
+            },
+            "range": {
+              "left": 59.0400093565784,
+              "right": 600.759995207606,
+              "bottom": 325.559981639995,
+              "top": 58.0400147600037
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 631,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}
