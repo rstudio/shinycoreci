@@ -36,8 +36,7 @@ jobs:
       - name: R Options
         shell: bash
         run: |
-          echo 'MAKE=make -j2' >> .Renviron
-          echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' >> .Rprofile
+          echo 'MAKEFLAGS=-j2' >> .Renviron
 
       - name: Cache R library
         uses: actions/cache@v1
