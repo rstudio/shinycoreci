@@ -77,11 +77,8 @@ jobs:
           Rscript -e "if (!shinytest::dependenciesInstalled()) shinytest::installDependencies()"
 
       - name: Run shinytest
-        run: >
-          Rscript -e "library(shinytest)"
-          -e "suffix <- switch('${{ runner.os }}', macOS='mac', Windows='win', Linux='linux')"
-          -e "expect_pass(testApp('001-hello', suffix=suffix))"
-          -e "viewTestDiff('001-hello', suffix=suffix)"
+        run: |
+          Rscript -e "source('run_tests.R')"
 
       - name: Upload test results
         uses: actions/upload-artifact@v1
