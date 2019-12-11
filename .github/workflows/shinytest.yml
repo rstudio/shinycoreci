@@ -37,8 +37,6 @@ jobs:
         shell: bash
         run: |
           echo 'MAKE=make -j2' >> .Renviron
-          mkdir ~/R_LIB
-          echo 'R_LIBS=~/R_LIB' >> .Renviron
           echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' >> .Rprofile
 
       - name: Cache R library
