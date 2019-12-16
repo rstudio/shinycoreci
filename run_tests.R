@@ -13,6 +13,10 @@ platform <- function() {
 
 
 test_apps <- function(suffix = platform()) {
+  # Record platform info and package versions
+  cat(capture.output(print(R.version)), sep = "\n", file = "apps/sysinfo.txt")
+  renv::snapshot("apps/renv.lock", confirm = FALSE)
+
   appdirs <- file.path("apps", dir("apps"))
   for (appdir in appdirs) {
     message("Testing ", appdir)
