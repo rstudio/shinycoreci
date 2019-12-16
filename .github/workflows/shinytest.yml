@@ -80,7 +80,7 @@ jobs:
       - name: Upload test results
         uses: actions/upload-artifact@v1
         with:
-          name: reuslts-${{ runner.os }}
+          name: results-${{ runner.os }}
           path: ./
 
       - name: Fix path for Windows caching
