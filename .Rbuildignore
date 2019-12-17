@@ -2,3 +2,5 @@
 ^apps
 ^renv$
 ^renv\.lock$
+^shinycoreci\.Rproj$
+^\.Rproj\.user$
