@@ -91,6 +91,7 @@ jobs:
         with:
           node-version: '12.x'
       - name: Build JS
+        if: false
         run: |
           yarn install --frozen-lockfile
           yarn build
