@@ -25,12 +25,15 @@ rm_files <- function(filenames) {
 #' @inheritParams shinytest::testApp
 #' @export
 #' @import shinytest
-test_shinytest <- function(apps = list.dirs("apps", recursive = FALSE), suffix = platform()) {
+test_shinytest <- function(apps = list.dirs(".", recursive = FALSE), suffix = platform()) {
   # Record platform info and package versions
-  cat(capture.output(print(R.version)), sep = "\n", file = "apps/r_version.txt")
-  # Call it renv.txt instead of renv.lock, because we just want it to be a log
-  # of the packages, not an actual lock file.
-  renv::snapshot(getwd(), lockfile = "apps/renv.txt", confirm = FALSE)
+  cat(
+    capture.output(print(R.version)), sep = "\n",
+    file = paste0("rversion-", suffix, ".txt")
+  )
+  # Call it renv-mac.json instead of renv.lock, because we just want it to be a
+  # log of the packages, not an actual lock file.
+  renv::snapshot(getwd(), lockfile = paste0("renv-", suffix, ".json"), confirm = FALSE)
   # The renv/ dir is created by snapshot(), but we don't need it.
   rm_files(c(
     file.path(getwd(), "renv", "activate.R"),
