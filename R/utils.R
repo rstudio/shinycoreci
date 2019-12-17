@@ -9,8 +9,6 @@ rm_files <- function(filenames) {
 }
 
 # add a few lines that requires shiny, but will never be used
-local({
-  run_app <- function(...) {
-    shiny::runApp(...)
-  }
-})
+`_run_app` <- function(...) {
+  shiny::runApp(...)
+}
