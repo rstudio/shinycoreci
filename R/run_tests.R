@@ -1,4 +1,3 @@
-library(shinytest)
 
 is_windows <- function() .Platform$OS.type == "windows"
 is_mac     <- function() Sys.info()[["sysname"]] == "Darwin"
@@ -20,6 +19,12 @@ rm_files <- function(filenames) {
 }
 
 
+#' Test shinytest
+#'
+#' @param apps Character vector of shiny applications
+#' @inheritParams shinytest::testApp
+#' @export
+#' @import shinytest
 test_shinytest <- function(apps = list.dirs("apps", recursive = FALSE), suffix = platform()) {
   # Record platform info and package versions
   cat(capture.output(print(R.version)), sep = "\n", file = "apps/r_version.txt")
