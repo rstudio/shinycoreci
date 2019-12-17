@@ -1,2 +1,2 @@
-shiny-core-ci
+shinycoreci
 =============

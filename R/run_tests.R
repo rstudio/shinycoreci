@@ -20,7 +20,7 @@ rm_files <- function(filenames) {
 }
 
 
-test_apps <- function(suffix = platform()) {
+test_shinytest <- function(apps = list.dirs("apps", recursive = FALSE), suffix = platform()) {
   # Record platform info and package versions
   cat(capture.output(print(R.version)), sep = "\n", file = "apps/r_version.txt")
   # Call it renv.txt instead of renv.lock, because we just want it to be a log
@@ -32,12 +32,11 @@ test_apps <- function(suffix = platform()) {
     file.path(getwd(), "renv")
   ))
 
-  appdirs <- list.dirs("apps", recursive = FALSE)
-  for (appdir in appdirs) {
+  for (appdir in apps) {
     message("Testing ", appdir)
     expect_pass(testApp(appdir, suffix = suffix))
   }
 }
 
 
-test_apps()
+# test_shinytest()

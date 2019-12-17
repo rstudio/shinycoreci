@@ -1,0 +1,18 @@
+Package: shinycoreci
+Title: CI Testing for shiny
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Winston", "Chang", role = c("aut", "cre"),
+           email = "winston@rstudio.com"),
+    person("Barret", "Schloerke", role = "aut", email = "barret@rstudio.com"),
+    person("Alan", "Dipert", role = "aut", email = "alan@rstudio.com"),
+    person("RStudio", role = c("cph", "fnd")))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Imports:
+  shinytest
+Remotes:
+  rstudio/shinytest

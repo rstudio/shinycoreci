@@ -28,6 +28,9 @@ jobs:
           git config --global core.autocrlf false
 
       - uses: actions/checkout@v1
+      - uses: actions/checkout@v1
+        with:
+          repository: rstudio/shinycoreci-apps
 
       - uses: r-lib/actions/setup-r@master
         with:
@@ -54,7 +57,7 @@ jobs:
         run: >
           Rscript -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
           -e "remotes::install_cran(c('shiny', 'renv'))"
-          -e "remotes::install_github('rstudio/shinytest')"
+          -e "remotes::install_local(force = TRUE)"
           -e "remotes::update_packages()"
 
       - name: Find PhantomJS path
@@ -75,7 +78,7 @@ jobs:
 
       - name: Run shinytest
         run: |
-          Rscript -e "source('run_tests.R')"
+          Rscript -e "shinycoreci::test_shinytest('apps/001-hello/')"
 
       - name: Upload test results
         uses: actions/upload-artifact@v1

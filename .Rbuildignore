@@ -1,0 +1,4 @@
+^LICENSE\.md$
+^apps
+^renv$
+^renv\.lock$
