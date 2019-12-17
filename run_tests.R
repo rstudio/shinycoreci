@@ -11,13 +11,28 @@ platform <- function() {
 }
 
 
+# Remove files, but only try to remove if they exist (so we don't get
+# warnings).
+rm_files <- function(filenames) {
+  # Only try to remove files that actually exist
+  filenames <- filenames[file.exists(filenames)]
+  file.remove(filenames)
+}
+
 
 test_apps <- function(suffix = platform()) {
   # Record platform info and package versions
-  cat(capture.output(print(R.version)), sep = "\n", file = "apps/sysinfo.txt")
-  renv::snapshot(getwd(), lockfile = "apps/renv.lock", confirm = FALSE)
+  cat(capture.output(print(R.version)), sep = "\n", file = "apps/r_version.txt")
+  # Call it renv.txt instead of renv.lock, because we just want it to be a log
+  # of the packages, not an actual lock file.
+  renv::snapshot(getwd(), lockfile = "apps/renv.txt", confirm = FALSE)
+  # The renv/ dir is created by snapshot(), but we don't need it.
+  rm_files(c(
+    file.path(getwd(), "renv", "activate.R"),
+    file.path(getwd(), "renv")
+  ))
 
-  appdirs <- file.path("apps", dir("apps"))
+  appdirs <- list.dirs("apps", recursive = FALSE)
   for (appdir in appdirs) {
     message("Testing ", appdir)
     expect_pass(testApp(appdir, suffix = suffix))
