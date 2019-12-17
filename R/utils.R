@@ -7,3 +7,10 @@ rm_files <- function(filenames) {
   filenames <- filenames[file.exists(filenames)]
   file.remove(filenames)
 }
+
+# add a few lines that requires shiny, but will never be used
+local({
+  run_app <- function(...) {
+    shiny::runApp(...)
+  }
+})
