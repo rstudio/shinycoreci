@@ -1,4 +1,3 @@
-
 is_windows <- function() .Platform$OS.type == "windows"
 is_mac     <- function() Sys.info()[["sysname"]] == "Darwin"
 is_linux   <- function() Sys.info()[["sysname"]] == "Linux"
@@ -22,29 +21,21 @@ rm_files <- function(filenames) {
 #' Test shinytest
 #'
 #' @param apps Character vector of shiny applications
+#' @param dir Name of directory to look for shiny apps, and to save platform
+#'   information.
 #' @inheritParams shinytest::testApp
 #' @export
 #' @import shinytest
-test_shinytest <- function(apps = list.dirs(".", recursive = FALSE), suffix = platform()) {
+test_shinytest <- function(
+  apps = list.dirs(dir, recursive = FALSE),
+  dir = ".",
+  suffix = platform()
+) {
   # Record platform info and package versions
-  cat(
-    capture.output(print(R.version)), sep = "\n",
-    file = paste0("rversion-", suffix, ".txt")
-  )
-  # Call it renv-mac.json instead of renv.lock, because we just want it to be a
-  # log of the packages, not an actual lock file.
-  renv::snapshot(getwd(), lockfile = paste0("renv-", suffix, ".json"), confirm = FALSE)
-  # The renv/ dir is created by snapshot(), but we don't need it.
-  rm_files(c(
-    file.path(getwd(), "renv", "activate.R"),
-    file.path(getwd(), "renv")
-  ))
+  write_sysinfo(file.path(dir, paste0("sysinfo-", suffix, ".txt")))
 
   for (appdir in apps) {
     message("Testing ", appdir)
     expect_pass(testApp(appdir, suffix = suffix))
   }
 }
-
-
-# test_shinytest()
