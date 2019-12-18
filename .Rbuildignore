@@ -2,6 +2,7 @@
 ^apps
 ^renv$
 ^renv\.lock$
-^shinycoreci\.Rproj$
+^shinycoreci.Rproj$
 ^\.Rproj\.user$
+^.git
 \.sublime-project$

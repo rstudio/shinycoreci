@@ -1,0 +1,111 @@
+name: shinytest
+
+on:
+  push:
+    branches:
+      - master
+      - ghactions
+  pull_request:
+    branches:
+      - master
+  # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
+  schedule:
+    - cron:  '0 0 * * 1' # every monday at midnight
+
+jobs:
+  shinytest-apps:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        config:
+        - { os: windows-latest, r: '3.6'}
+        - { os: macOS-latest, r: '3.6'}
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      CRAN: ${{ matrix.config.cran }}
+
+    steps:
+      - name: Windows git setup
+        if: runner.os == 'Windows'
+        run:
+          git config --global core.autocrlf false
+
+      - uses: actions/checkout@v2
+        name: GitHub Pull
+      - uses: actions/checkout@v2
+        name: GitHub Pull ./apps
+        with:
+          repository: rstudio/shinycoreci-apps
+          ref: master
+          path: apps
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - name: R Options
+        shell: bash
+        run: |
+          echo 'MAKEFLAGS=-j2' >> .Renviron
+
+      - name: Cache R library
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          # Use the git SHA that triggered this action. For the purposes here,
+          # it is essentially a nonce. Before the packages are installed, we
+          # can't know what all the package versions will be after they're
+          # installed, so we will just use the most recent cache (on this
+          # branch), and then update packages afterward.
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-lib-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-lib-
+
+      - name: Install Packages
+        run: >
+          Rscript
+          -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
+          -e "remotes::install_cran(c('shiny', 'renv'))"
+          -e "remotes::install_local(force = TRUE)"
+          -e "remotes::update_packages()"
+
+      - name: Find PhantomJS path
+        id: phantomjs
+        run: |
+          echo "::set-output name=path::$(Rscript -e 'cat(shinytest:::phantom_paths()[[1]])')"
+
+      - name: Cache PhantomJS
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.phantomjs.outputs.path }}
+          key: ${{ runner.os }}-phantomjs
+          restore-keys: ${{ runner.os }}-phantomjs
+
+      - name: Install PhantomJS
+        run: >
+          Rscript
+          -e "if (!shinytest::dependenciesInstalled()) shinytest::installDependencies()"
+
+      - name: Run shinytest
+        run: >
+          Rscript
+          -e "shinycoreci::test_shinytest('apps/001-hello/')"
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v1
+        with:
+          name: results-${{ github.sha }}-${{ runner.os }}
+          path: ./
+
+      - name: Fix path for Windows caching
+        if: runner.os == 'Windows'
+        # This is needed because if you use the default tar at this stage,
+        # C:/Rtools/bin/tar.exe, it will say that it can't find gzip.exe. So
+        # we'll just set the path so that the original tar that would be
+        # found, will be found.
+        run: echo "::add-path::C:/Program Files/Git/usr/bin"
