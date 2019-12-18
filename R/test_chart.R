@@ -8,7 +8,7 @@ get_test_chart <- function() {
     sheet_name
   )
 
-  app_data <- read.csv(url, stringsAsFactors = FALSE)
+  app_data <- utils::read.csv(url, stringsAsFactors = FALSE)
   app_data <- app_data[, c("App", "manual", "shinytest", "shinyjster", "shinytest.done", "shinyjster.done")]
   app_data
 }
