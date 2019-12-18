@@ -70,7 +70,6 @@ jobs:
         run: >
           Rscript
           -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
-          -e "remotes::install_cran(c('shiny', 'renv'))"
           -e "remotes::install_local(force = TRUE)"
           -e "remotes::update_packages()"
 
@@ -91,16 +90,20 @@ jobs:
           Rscript
           -e "if (!shinytest::dependenciesInstalled()) shinytest::installDependencies()"
 
+      - name: Log platform and package information
+        run: Rscript -e "shinycoreci::write_sysinfo()"
+
       - name: Run shinytest
         run: >
           Rscript
-          -e "shinycoreci::test_shinytest('apps/001-hello/')"
+          Rscript -e "appdirs <- file.path('apps', c('001-hello', '002-text', '003-reactivity', '004-mpg', '005-sliders', '006-tabsets', '007-widgets', '008-html', '009-upload', '010-download'))"
+          -e "shinycoreci::test_shinytest(appdirs, './apps')"
 
       - name: Upload test results
         uses: actions/upload-artifact@v1
         with:
-          name: results-${{ github.sha }}-${{ runner.os }}
-          path: ./
+          name: shinytest-results-${{ runner.os }}-${{ github.sha }}
+          path: ./apps
 
       - name: Fix path for Windows caching
         if: runner.os == 'Windows'
