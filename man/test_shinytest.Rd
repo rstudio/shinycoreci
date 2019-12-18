@@ -5,12 +5,16 @@
 \title{Test shinytest}
 \usage{
 test_shinytest(
-  apps = list.dirs("apps", recursive = FALSE),
+  apps = list.dirs(dir, recursive = FALSE),
+  dir = ".",
   suffix = platform()
 )
 }
 \arguments{
 \item{apps}{Character vector of shiny applications}
+
+\item{dir}{Name of directory to look for shiny apps, and to save platform
+information.}
 
 \item{suffix}{An optional suffix for the expected results directory. For
 example, if the suffix is \code{"mac"}, the expected directory would be

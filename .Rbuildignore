@@ -5,3 +5,4 @@
 ^shinycoreci.Rproj$
 ^\.Rproj\.user$
 ^.git
+\.sublime-project$
