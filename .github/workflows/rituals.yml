@@ -74,7 +74,7 @@ jobs:
           sudo -s eval "$sysreqs"
 
       - name: Install dependencies
-        run: Rscript -e "remotes::update(readRDS('depends.Rds'))"
+        run: Rscript -e "library(remotes); update(readRDS('depends.Rds'))"
 
       - name: Document
         run: |
