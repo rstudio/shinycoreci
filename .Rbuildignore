@@ -4,3 +4,4 @@
 ^renv\.lock$
 ^shinycoreci\.Rproj$
 ^\.Rproj\.user$
+\.sublime-project$
