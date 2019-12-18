@@ -95,7 +95,7 @@ jobs:
 
       - name: Run shinytest
         run: >
-          Rscript -e "test_shinytest(dir = 'apps/')"
+          Rscript -e "shinycoreci::test_shinytest(dir = 'apps/')"
 
       - name: Upload test results
         uses: actions/upload-artifact@v1
