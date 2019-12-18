@@ -8,9 +8,11 @@ rm_files <- function(filenames) {
   file.remove(filenames)
 }
 
-# add a few lines that requires shiny, but will never be used
-`_run_app` <- function(...) {
-  shiny::runApp(...)
+# This function is never called; it exists only to make R CMD check happy that
+# these packages are used.
+`_dummy_` <- function() {
+  shiny::runApp
+  renv::snapshot
 }
 
 triple_colon <- function(pkg, name) {
