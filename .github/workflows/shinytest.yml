@@ -95,8 +95,7 @@ jobs:
 
       - name: Run shinytest
         run: >
-          Rscript -e "appdirs <- file.path('apps', c('001-hello', '002-text', '003-reactivity', '004-mpg', '005-sliders', '006-tabsets', '007-widgets', '008-html', '009-upload', '010-download'))"
-          -e "shinycoreci::test_shinytest(appdirs, './apps')"
+          Rscript -e "test_shinytest(dir = 'apps/')"
 
       - name: Upload test results
         uses: actions/upload-artifact@v1
