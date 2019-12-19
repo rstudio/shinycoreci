@@ -104,6 +104,9 @@ jobs:
         if: false
         run: echo "::add-matcher::.github/matchers/shinyjster.json"
 
+      - name: Log platform and package information
+        run: Rscript -e "shinycoreci::write_sysinfo()"
+
       - name: Run headless Chrome checks
         shell: bash
         run: >
