@@ -2,10 +2,14 @@
 % Please edit documentation in R/test_chart.R
 \name{apps_shinytest}
 \alias{apps_shinytest}
-\title{Get names of apps to be tested with shinytest}
+\alias{apps_shinyjster}
+\title{Get names of apps to be tested with shinytest or shinyjster}
 \usage{
 apps_shinytest()
+
+apps_shinyjster()
 }
 \description{
-Get names of apps to be tested with shinytest
+The data is fetched from a Google spreadsheet and cached for the duration
+of the R session. To reset the cache, call \code{clear_cache()}.
 }

@@ -73,6 +73,15 @@ jobs:
           -e "remotes::install_local(force = TRUE)"
           -e "remotes::update_packages()"
 
+      - name: Install dependencies for apps
+        run: >
+          Rscript
+          -e "remotes::install_cran('renv')"
+          -e "app_dirs <- file.path("apps", shinycoreci::apps_shinytest())"
+          -e "app_deps <- unique(renv::dependencies(app_dirs, quiet = TRUE)[['Package']])"
+          -e "app_deps <- setdiff(app_deps, base_packages())"
+          -e "remotes::install_cran(app_deps)"
+
       - name: Find PhantomJS path
         id: phantomjs
         run: |

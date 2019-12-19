@@ -1,5 +1,3 @@
-
-
 # Remove files, but only try to remove if they exist (so we don't get
 # warnings).
 rm_files <- function(filenames) {
