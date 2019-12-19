@@ -62,6 +62,6 @@ write_sysinfo <- function(file = stdout()) {
 #' because it will fail.
 #' @export
 base_packages <- function() {
-  pkg_df <- as.data.frame(installed.packages(), stringsAsFactors = FALSE)
+  pkg_df <- as.data.frame(utils::installed.packages(), stringsAsFactors = FALSE)
   pkg_df$Package[pkg_df$Priority %in% c("base", "recommended")]
 }
