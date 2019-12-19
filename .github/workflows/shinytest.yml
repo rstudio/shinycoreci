@@ -58,13 +58,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          # Use the git SHA that triggered this action. For the purposes here,
-          # it is essentially a nonce. Before the packages are installed, we
-          # can't know what all the package versions will be after they're
-          # installed, so we will just use the most recent cache (on this
-          # branch), and then update packages afterward.
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-lib-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-lib-
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinytest-${{ github.ref }}
+          restore_keys: |
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinytest-${{ github.base_ref }}
 
       - name: Install Packages
         run: >
@@ -73,7 +69,7 @@ jobs:
           -e "remotes::install_local(force = TRUE)"
           -e "remotes::update_packages()"
 
-      - name: Install dependencies for apps
+      - name: Install app deps
         run: >
           Rscript
           -e "remotes::install_cran('renv')"

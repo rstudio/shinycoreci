@@ -56,10 +56,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-rituals-${{ github.ref }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rituals-${{ github.ref }}
           restore_keys: |
-            ${{ runner.os }}-r-${{ matrix.config.r }}-rituals-${{ github.ref }}
-            ${{ runner.os }}-r-${{ matrix.config.r }}-${{ github.ref }}
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rituals-${{ github.base_ref }}
 
       - name: Install remotes
         run: >
