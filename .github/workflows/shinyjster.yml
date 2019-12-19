@@ -67,17 +67,13 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-      - name: Query dependencies
-        run: >
-          Rscript -e "install.packages('remotes')"
-          -e "saveRDS(remotes::dev_package_deps(dependencies = TRUE), 'depends.Rds')"
-
       - name: Cache R packages
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ github.ref }}
+          restore_keys: |
+            ${{ runner.os }}-r-${{ matrix.config.r }}-
 
       - name: Install remotes
         run: >
@@ -93,6 +89,12 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
 
+      - name: Install app deps
+        run: >
+          Rscript
+          -e "remotes::install_cran('renv')"
+          -e "remotes::install_cran(unique(renv::dependencies('apps', quiet = TRUE)[['Package']]))"
+
       - name: Install shinyjster
         run: >
           Rscript
@@ -101,18 +103,6 @@ jobs:
       - name: Add shinyjster matchers
         if: false
         run: echo "::add-matcher::.github/matchers/shinyjster.json"
-
-      - name: Install app deps
-        run: >
-          Rscript
-          -e "remotes::install_cran('renv')"
-          -e "lapply(print(unique(renv::dependencies('apps', quiet = TRUE)[['Package']])), remotes::install_cran)"
-      # to avoid odd 'raw' bug
-      - name: Install rstudio/shiny
-        if: runner.os == 'Linux'
-        run: >
-          Rscript
-          -e "remotes::install_github('rstudio/shiny')"
 
       - name: Run headless Chrome checks
         shell: bash

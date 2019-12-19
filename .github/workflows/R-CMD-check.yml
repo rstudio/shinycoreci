@@ -52,17 +52,18 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-      - name: Query dependencies
-        run: >
-          Rscript -e "install.packages('remotes')"
-          -e "saveRDS(remotes::dev_package_deps(dependencies = TRUE), 'depends.Rds')"
-
       - name: Cache R packages
         uses: actions/cache@v1
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ github.ref }}
+          restore_keys: |
+            ${{ runner.os }}-r-${{ matrix.config.r }}-${{ github.ref }}
+            ${{ runner.os }}-r-${{ matrix.config.r }}-${{ github.base_ref }}
+
+      - name: Install remotes
+        run: >
+          Rscript
+          -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
@@ -76,8 +77,7 @@ jobs:
       - name: Install dependencies
         run: >
           Rscript
-          -e "library(remotes)"
-          -e "update(readRDS('depends.Rds'))"
+          -e "remotes::install_deps(dependencies = TRUE)"
           -e "remotes::install_cran('rcmdcheck')"
 
       - name: Check
