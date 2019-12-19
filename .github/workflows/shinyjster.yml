@@ -94,11 +94,7 @@ jobs:
       - name: Install app deps
         run: >
           Rscript
-          -e "remotes::install_cran('renv')"
-          -e "app_dirs <- file.path('apps', shinycoreci::apps_shinyjster())"
-          -e "app_deps <- unique(renv::dependencies(app_dirs, quiet = TRUE)[['Package']])"
-          -e "app_deps <- setdiff(app_deps, shinycoreci::base_packages())"
-          -e "remotes::install_cran(app_deps)"
+          -e "shinycoreci::install_app_deps()"
 
       - name: Add shinyjster matchers
         if: false
