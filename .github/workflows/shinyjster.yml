@@ -75,10 +75,12 @@ jobs:
           restore_keys: |
             ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinyjster-${{ github.base_ref }}
 
-      - name: Install remotes
+      - name: Install Packages
         run: >
           Rscript
           -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
+          -e "remotes::install_local(dependencies = TRUE, force = TRUE)"
+          -e "remotes::update_packages()"
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
@@ -95,14 +97,9 @@ jobs:
           -e "remotes::install_cran('renv')"
           -e "app_dirs <- file.path('apps', shinycoreci::apps_shinyjster())"
           -e "app_deps <- unique(renv::dependencies(app_dirs, quiet = TRUE)[['Package']])"
-          -e "app_deps <- setdiff(app_deps, base_packages())"
+          -e "app_deps <- setdiff(app_deps, shinycoreci::base_packages())"
           -e "remotes::install_cran(app_deps)"
 
-      - name: Install shinyjster
-        run: >
-          Rscript
-          -e "remotes::install_deps(dependencies = TRUE)"
-          -e "remotes::install_local(dependencies = TRUE, force = TRUE)"
       - name: Add shinyjster matchers
         if: false
         run: echo "::add-matcher::.github/matchers/shinyjster.json"
