@@ -54,13 +54,20 @@ jobs:
         run: |
           echo 'MAKEFLAGS=-j2' >> .Renviron
 
+      - name: Generate random number for cache ID
+        id: random
+        run: |
+          echo "::set-output name=value::$(Rscript -e 'cat(as.numeric(Sys.time()))')"
+
+
       - name: Cache R library
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinytest-${{ github.ref }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinytest-${{ steps.random.outputs.value }}
           restore_keys: |
-            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinytest-${{ github.base_ref }}
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinytest-
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rcmdcheck-
 
       - name: Install Packages
         run: >
