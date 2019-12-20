@@ -67,13 +67,18 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
+      - name: Generate random number for cache ID
+        id: random
+        run: |
+          echo "::set-output name=value::$(Rscript -e 'cat(as.numeric(Sys.time()))')"
       - name: Cache R packages
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinyjster-${{ github.ref }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinyjster-${{ steps.random.outputs.value }}
           restore_keys: |
-            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinyjster-${{ github.base_ref }}
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinyjster-
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rcmdcheck-
 
       - name: Install Packages
         run: >

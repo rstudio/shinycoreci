@@ -52,13 +52,17 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
+      - name: Generate random number for cache ID
+        id: random
+        run: |
+          echo "::set-output name=value::$(Rscript -e 'cat(as.numeric(Sys.time()))')"
       - name: Cache R packages
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rituals-${{ github.ref }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rituals-${{ steps.random.outputs.value }}
           restore_keys: |
-            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rituals-${{ github.base_ref }}
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rituals-
 
       - name: Install remotes
         run: >

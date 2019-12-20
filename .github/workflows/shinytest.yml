@@ -58,9 +58,7 @@ jobs:
         id: random
         run: |
           echo "::set-output name=value::$(Rscript -e 'cat(as.numeric(Sys.time()))')"
-
-
-      - name: Cache R library
+      - name: Cache R packages
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
