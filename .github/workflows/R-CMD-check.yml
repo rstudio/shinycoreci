@@ -81,12 +81,9 @@ jobs:
       - name: Install dependencies
         run: >
           Rscript
-          -e "update.packages(ask = FALSE)"
+          -e "update.packages(ask = FALSE, instlib = .libPaths()[1]))"
           -e "remotes::install_deps(dependencies = TRUE)"
           -e "remotes::install_cran('rcmdcheck')"
-
-      - name: Log platform and package information
-        run: Rscript -e "shinycoreci::write_sysinfo()"
 
       - name: Check
         run: >

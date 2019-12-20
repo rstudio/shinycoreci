@@ -67,15 +67,15 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-      - name: Generate random number for cache ID
-        id: random
+      - name: Create cache ID from time
+        id: cache_id
         run: |
           echo "::set-output name=value::$(Rscript -e 'cat(as.numeric(Sys.time()))')"
       - name: Cache R packages
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinyjster-${{ steps.random.outputs.value }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinyjster-${{ steps.cache_id.outputs.value }}
           restore_keys: |
             ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinyjster-
             ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rcmdcheck-
@@ -83,7 +83,7 @@ jobs:
       - name: Install Packages
         run: >
           Rscript
-          -e "update.packages(ask = FALSE)"
+          -e "update.packages(ask = FALSE, instlib = .libPaths()[1]))"
           -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
           -e "remotes::install_local(dependencies = TRUE, force = TRUE)"
 
