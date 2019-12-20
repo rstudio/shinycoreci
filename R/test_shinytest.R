@@ -5,7 +5,6 @@
 #'   information.
 #' @inheritParams shinytest::testApp
 #' @export
-#' @import shinytest
 test_shinytest <- function(
   dir = ".",
   apps = apps_shinytest(),
@@ -18,6 +17,6 @@ test_shinytest <- function(
 
   for (appdir in appdirs) {
     message("Testing ", appdir)
-    expect_pass(testApp(appdir, suffix = suffix))
+    expect_pass(shinytest::testApp(appdir, suffix = suffix))
   }
 }
