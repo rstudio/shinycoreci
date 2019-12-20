@@ -81,6 +81,7 @@ jobs:
       - name: Install dependencies
         run: >
           Rscript
+          -e "update.packages(ask = FALSE)"
           -e "remotes::install_deps(dependencies = TRUE)"
 
       - name: Document

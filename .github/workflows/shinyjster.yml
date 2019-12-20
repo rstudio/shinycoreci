@@ -83,9 +83,9 @@ jobs:
       - name: Install Packages
         run: >
           Rscript
+          -e "update.packages(ask = FALSE)"
           -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
           -e "remotes::install_local(dependencies = TRUE, force = TRUE)"
-          -e "remotes::update_packages()"
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
