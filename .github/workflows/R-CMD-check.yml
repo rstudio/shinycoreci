@@ -61,7 +61,7 @@ jobs:
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rcmdcheck-${{ steps.cache_id.outputs.value }}
-          restore_keys: |
+          restore-keys: |
             ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rcmdcheck-
 
       - name: Install remotes
