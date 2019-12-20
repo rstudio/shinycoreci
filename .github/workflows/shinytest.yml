@@ -54,24 +54,30 @@ jobs:
         run: |
           echo 'MAKEFLAGS=-j2' >> .Renviron
 
-      - name: Cache R library
+      - name: Generate random number for cache ID
+        id: random
+        run: |
+          echo "::set-output name=value::$(Rscript -e 'cat(as.numeric(Sys.time()))')"
+      - name: Cache R packages
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          # Use the git SHA that triggered this action. For the purposes here,
-          # it is essentially a nonce. Before the packages are installed, we
-          # can't know what all the package versions will be after they're
-          # installed, so we will just use the most recent cache (on this
-          # branch), and then update packages afterward.
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-lib-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-lib-
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinytest-${{ steps.random.outputs.value }}
+          restore_keys: |
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-shinytest-
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rcmdcheck-
 
       - name: Install Packages
         run: >
           Rscript
           -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
-          -e "remotes::install_local(force = TRUE)"
+          -e "remotes::install_local(dependencies = TRUE, force = TRUE)"
           -e "remotes::update_packages()"
+
+      - name: Install app deps
+        run: >
+          Rscript
+          -e "shinycoreci::install_app_deps()"
 
       - name: Find PhantomJS path
         id: phantomjs
@@ -95,7 +101,7 @@ jobs:
 
       - name: Run shinytest
         run: >
-          Rscript -e "test_shinytest(dir = 'apps/')"
+          Rscript -e "shinycoreci::test_shinytest(dir = 'apps')"
 
       - name: Upload test results
         uses: actions/upload-artifact@v1

@@ -52,15 +52,17 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
+      - name: Generate random number for cache ID
+        id: random
+        run: |
+          echo "::set-output name=value::$(Rscript -e 'cat(as.numeric(Sys.time()))')"
       - name: Cache R packages
-        if: runner.os != 'Windows'
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ github.ref }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rcmdcheck-${{ steps.random.outputs.value }}
           restore_keys: |
-            ${{ runner.os }}-r-${{ matrix.config.r }}-${{ github.ref }}
-            ${{ runner.os }}-r-${{ matrix.config.r }}-${{ github.base_ref }}
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rcmdcheck-
 
       - name: Install remotes
         run: >
@@ -93,3 +95,11 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
+
+      - name: Fix path for Windows caching
+        if: runner.os == 'Windows'
+        # This is needed because if you use the default tar at this stage,
+        # C:/Rtools/bin/tar.exe, it will say that it can't find gzip.exe. So
+        # we'll just set the path so that the original tar that would be
+        # found, will be found.
+        run: echo "::add-path::C:/Program Files/Git/usr/bin"
