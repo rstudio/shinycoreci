@@ -17,6 +17,6 @@ test_shinytest <- function(
 
   for (appdir in appdirs) {
     message("Testing ", appdir)
-    expect_pass(shinytest::testApp(appdir, suffix = suffix))
+    shinytest::expect_pass(shinytest::testApp(appdir, suffix = suffix))
   }
 }
