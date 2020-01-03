@@ -101,11 +101,11 @@ jobs:
         run: Rscript -e "shinycoreci::write_sysinfo()"
 
       - name: Run shinytest
-        continue-on-error: true
         run: >
           Rscript -e "shinycoreci::test_shinytest(dir = 'apps')"
 
       - name: Upload test results
+        if: failure()
         uses: actions/upload-artifact@v1
         with:
           name: shinytest-results-${{ runner.os }}-${{ github.sha }}
