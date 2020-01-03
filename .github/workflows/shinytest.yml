@@ -11,6 +11,7 @@ on:
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   schedule:
     - cron:  '0 0 * * 1' # every monday at midnight
+  repository_dispatch:
 
 jobs:
   shinytest-apps:
