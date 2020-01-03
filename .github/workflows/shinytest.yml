@@ -46,6 +46,8 @@ jobs:
           ref: master
           path: apps
 
+      - uses: r-lib/actions/setup-pandoc@master
+
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: ${{ matrix.config.r }}
