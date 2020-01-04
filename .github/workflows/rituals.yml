@@ -81,7 +81,7 @@ jobs:
       - name: Install dependencies
         run: >
           Rscript
-          -e "update.packages(ask = FALSE, instlib = .libPaths()[1])"
+          -e "update.packages(ask = FALSE, lib.loc = .libPaths()[1])"
           -e "remotes::install_deps(dependencies = TRUE)"
 
       - name: Document

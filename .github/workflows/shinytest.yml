@@ -73,7 +73,7 @@ jobs:
       - name: Install Packages
         run: >
           Rscript
-          -e "update.packages(ask = FALSE, instlib = .libPaths()[1])"
+          -e "update.packages(ask = FALSE, lib.loc = .libPaths()[1])"
           -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
           -e "remotes::install_local(dependencies = TRUE, force = TRUE)"
 
