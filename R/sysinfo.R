@@ -3,7 +3,7 @@
 #' @param dir The directory to look in.
 #'
 #' @export
-find_deps <- function(dir = ".") {
+find_deps_installed <- function(dir = ".") {
   deps <- triple_colon("renv", "renv_snapshot_r_packages")(.libPaths(), normalizePath(dir))
   cols <- c(
     "Package",
@@ -48,9 +48,20 @@ write_sysinfo <- function(file = stdout()) {
     utils::capture.output({
       print(sessioninfo::platform_info())
       cat(rep("-", 80), "\n", sep = "")
-      print(find_deps(), max = 10000)
+      print(find_deps_installed(), max = 10000)
     }),
     sep = "\n",
     file = file
   )
+}
+
+#' Return names of packages included with R
+#'
+#' Some installed packages have a Priority of "base" or "recommended".
+#' Shouldn't try to upgrade these packages with \code{remotes::install_cran}
+#' because it will fail.
+#' @export
+base_packages <- function() {
+  pkg_df <- as.data.frame(utils::installed.packages(), stringsAsFactors = FALSE)
+  pkg_df$Package[pkg_df$Priority %in% c("base", "recommended")]
 }

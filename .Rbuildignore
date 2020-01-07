@@ -6,3 +6,4 @@
 ^\.Rproj\.user$
 ^.git
 \.sublime-project$
+^.*\.Rproj$

@@ -52,20 +52,23 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
+      - name: Create cache ID from time
+        id: cache_id
+        run: |
+          echo "::set-output name=value::$(Rscript -e 'cat(as.numeric(Sys.time()))')"
       - name: Cache R packages
-        if: runner.os != 'Windows'
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-rituals-${{ github.ref }}
-          restore_keys: |
-            ${{ runner.os }}-r-${{ matrix.config.r }}-rituals-${{ github.ref }}
-            ${{ runner.os }}-r-${{ matrix.config.r }}-${{ github.ref }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rituals-${{ steps.cache_id.outputs.value }}
+          restore-keys: |
+            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rituals-
 
       - name: Install remotes
         run: >
           Rscript
           -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
+
       - name: Install system dependencies
         if: runner.os == 'Linux'
         env:
@@ -74,9 +77,11 @@ jobs:
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
+
       - name: Install dependencies
         run: >
           Rscript
+          -e "update.packages(ask = FALSE, lib.loc = .libPaths()[1])"
           -e "remotes::install_deps(dependencies = TRUE)"
 
       - name: Document
@@ -113,3 +118,11 @@ jobs:
         if: github.event_name == 'push'
         run: |
           git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to push"
+
+      - name: Fix path for Windows caching
+        if: runner.os == 'Windows'
+        # This is needed because if you use the default tar at this stage,
+        # C:/Rtools/bin/tar.exe, it will say that it can't find gzip.exe. So
+        # we'll just set the path so that the original tar that would be
+        # found, will be found.
+        run: echo "::add-path::C:/Program Files/Git/usr/bin"

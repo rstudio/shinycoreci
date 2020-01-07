@@ -1,5 +1,3 @@
-
-
 # Remove files, but only try to remove if they exist (so we don't get
 # warnings).
 rm_files <- function(filenames) {
@@ -8,9 +6,27 @@ rm_files <- function(filenames) {
   file.remove(filenames)
 }
 
-# add a few lines that requires shiny, but will never be used
-`_run_app` <- function(...) {
-  shiny::runApp(...)
+# This function is never called; it exists only to make R CMD check happy that
+# these packages are used.
+`_dummy_` <- function() {
+  shiny::runApp
+  renv::snapshot
+  remotes::available_packages
+  htmltools::a
+  httpuv::decodeURI
+  promises::promise
+  later::later
+  htmlwidgets::JS
+  reactlog::reactlog_render
+  fastmap::fastmap
+  websocket::WebSocket
+  plotly::plot_ly
+  leaflet::leaflet
+  leaflet.providers::get_providers
+  crosstalk::crosstalkLibs
+  flexdashboard::flex_dashboard
+  shinymeta::formatCode
+  pool::Pool
 }
 
 triple_colon <- function(pkg, name) {
