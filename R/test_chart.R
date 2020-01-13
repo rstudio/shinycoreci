@@ -38,7 +38,9 @@ apps_shinyjster <- function() {
   df <- get_test_chart()
   apps <- df$App[df$shinyjster.done != ""]
 
-  if (is_windows()) {
+  if (is_mac()) {
+    apps <- setdiff(apps, "174-throttle-debounce")
+  } else if (is_windows()) {
     apps <- setdiff(apps, "022-unicode-chinese")
   }
 
