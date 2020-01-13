@@ -5,12 +5,12 @@
 \title{Test shinyjster}
 \usage{
 test_shinyjster(
-  apps = shinyjster_apps_to_test(),
+  apps = file.path("apps", apps_shinyjster()),
   port = 8000,
   host = "127.0.0.1",
   debug_port = NULL,
   browser = c("chrome", "firefox"),
-  type = c("lapply", "parallel", "callr"),
+  type = c("serial", "lapply", "parallel", "callr"),
   assert = TRUE
 )
 }
