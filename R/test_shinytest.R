@@ -13,7 +13,7 @@ test_shinytest <- function(
   # Record platform info and package versions
   write_sysinfo(file.path(dir, paste0("sysinfo-", suffix, ".txt")))
 
-  appdirs <- file.path(dir, apps_shinytest())
+  appdirs <- file.path(dir, apps)
 
   for (appdir in appdirs) {
     message("Testing ", appdir)
