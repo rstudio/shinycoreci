@@ -112,12 +112,12 @@ jobs:
         shell: bash
         run: >
           Rscript
-          -e "shinyjster::run_headless(browser = 'chrome', type = 'lapply')"
+          -e "shinycoreci::test_shinyjster(browser = 'chrome', type = 'serial')"
       - name: Run headless Firefox checks
         if: false
         run: >
           Rscript
-          -e "shinyjster::run_headless(browser = 'firefox', type = 'lapply')"
+          -e "shinycoreci::test_shinyjster(browser = 'firefox', type = 'serial')"
 
       - name: Fix path for Windows caching
         if: runner.os == 'Windows'
