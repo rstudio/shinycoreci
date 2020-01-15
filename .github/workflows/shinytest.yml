@@ -24,7 +24,7 @@ jobs:
 
       matrix:
         config:
-        - { os: macOS-latest, r: '3.6'}
+        # - { os: macOS-latest, r: '3.6'}
         - { os: windows-latest, r: '3.6'}
 
     env:
@@ -108,12 +108,21 @@ jobs:
         run: >
           Rscript -e "shinycoreci::test_shinytest(dir = 'apps')"
 
-      - name: Upload test results
+      # - name: Determine if test failed
+      #   if: failure()
+      #   id: shinytest_failed
+      #   run: |
+      #     echo "::set-output name=horribly::1"
+
+      - name: Commit files
+        # if: steps.shinytest_failed.outputs.horribly
         if: failure()
-        uses: actions/upload-artifact@v1
-        with:
-          name: shinytest-results-${{ runner.os }}-${{ github.sha }}
-          path: ./apps
+        run: |
+          cd apps
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Actions"
+          git commit -a -m "GitHub Actions changes" || echo "No changes to commit"
+          git push https://${{github.actor}}:${{secrets.GH_PAT}}@github.com/rstudio/shinycoreci-apps.git HEAD:${{ github.sha }}-${{ runner.os }} || echo "No changes to push"
 
       - name: Fix path for Windows caching
         if: runner.os == 'Windows'
