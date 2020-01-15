@@ -20,7 +20,8 @@ test_shinytest <- function(
     message("Testing ", appdir)
     tryCatch(
       shinytest::expect_pass(shinytest::testApp(appdir, suffix = suffix)),
-      error = function(e) {
+      error = function(failed) {
+        message("Failed: ", failed$message)
         fail_apps <<- c(fail_apps, basename(appdir))
       }
     )
