@@ -38,3 +38,14 @@ apps_shinyjster <- function() {
   df <- get_test_chart()
   df$App[df$shinyjster.done != ""]
 }
+
+#' @rdname apps_testthat
+#' @export
+apps_testthat <- function(dir) {
+  files <- list.files(
+    path = dir,
+    pattern = "testthat.R$",
+    recursive = TRUE
+  )
+  dirname(dirname(files))
+}
