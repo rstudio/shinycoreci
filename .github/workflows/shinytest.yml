@@ -108,12 +108,19 @@ jobs:
         run: >
           Rscript -e "shinycoreci::test_shinytest(dir = 'apps')"
 
-      - name: Upload test results
+      - name: Commit files
         if: failure()
-        uses: actions/upload-artifact@v1
-        with:
-          name: shinytest-results-${{ runner.os }}-${{ github.sha }}
-          path: ./apps
+        shell: bash
+        # need to unset the extra header to allow for regular https push
+        run: |
+          cd apps
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git commit -m "GitHub Actions changes" || echo "No changes to commit"
+          git config --local --unset http.https://github.com/.extraheader
+          git config --local --list
+          git push https://schloerke:${{secrets.GH_PAT}}@github.com/rstudio/shinycoreci-apps.git HEAD:${{ github.sha }}-${{ runner.os }}
 
       - name: Fix path for Windows caching
         if: runner.os == 'Windows'
