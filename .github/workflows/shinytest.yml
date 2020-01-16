@@ -124,6 +124,8 @@ jobs:
           git config --local user.name "GitHub Actions"
           git add .
           git commit -m "GitHub Actions changes" || echo "No changes to commit"
+          git status
+          git log --graph -n 5
           git push https://schloerke:${{secrets.GH_PAT}}@github.com/rstudio/shinycoreci-apps.git HEAD:${{ github.sha }}-${{ runner.os }} || echo "No changes to push"
 
       - name: Fix path for Windows caching
