@@ -9,14 +9,14 @@ find_bad_shinytest_files <- function(path = ".") {
 }
 
 bad_shinytest_platform <- function() {
-  branch <- system("git rev-parse --abbrev-ref HEAD")
+  branch <- system("git rev-parse --abbrev-ref HEAD", intern = TRUE)
 
   system_val <- tail(strsplit(branch, "-")[[1]], 1)
   switch(
     system_val,
     "macOS" = "mac",
     "Windows" = "win",
-    stop("unknown type: ", system_val)
+    stop("unknown system type for branch: ", branch)
   )
 }
 
