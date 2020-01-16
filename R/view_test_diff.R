@@ -16,6 +16,7 @@ bad_shinytest_platform <- function() {
     system_val[[length(system_val)]],
     "macOS" = "mac",
     "Windows" = "win",
+    "Linux" = "linux",
     stop("unknown system type for branch: ", branch)
   )
 }
@@ -27,13 +28,29 @@ bad_shinytest_platform <- function() {
 #' @param path Root folder path
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
 #' @export
-view_test_diff <- function(suffix = c("win", "mac"), path = ".", ...) {
+view_test_diff <- function(suffix = c("win", "mac", "linux"), path = ".", ...) {
   if (missing(suffix)) {
     suffix <- bad_shinytest_platform()
   }
   suffix <- match.arg(suffix)
 
   folders <- find_bad_shinytest_files(path)
+
+  if (length(folders) == 0) {
+    stop("No app folders to view")
+  }
+
+  if (length(folders) > 1) {
+    ans <- utils::menu(c("(All apps)", folders), graphics = FALSE, title = "Select the app folder to view shinytest diff")
+    # ans = 0; all
+    # ans = 1; all
+    if (ans > 1) {
+      # if ans is not 'all', subset the folders
+      ans_pos <- ans - 1
+      folders <- folders[ans_pos]
+    }
+  }
+
   for (folder in folders) {
     shinytest::viewTestDiff(folder, suffix = suffix, ...)
   }
