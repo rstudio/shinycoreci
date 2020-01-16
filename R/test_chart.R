@@ -40,6 +40,7 @@ apps_shinyjster <- function() {
 }
 
 #' @rdname apps_testthat
+#' @description Currently doesn't rely on the spreadsheet
 #' @export
 apps_testthat <- function(dir) {
   files <- list.files(
