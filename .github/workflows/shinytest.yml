@@ -108,37 +108,19 @@ jobs:
         run: >
           Rscript -e "shinycoreci::test_shinytest(dir = 'apps')"
 
-      # - name: Determine if test failed
-      #   if: failure()
-      #   id: shinytest_failed
-      #   run: |
-      #     echo "::set-output name=horribly::1"
-
       - name: Commit files
-        # if: steps.shinytest_failed.outputs.horribly
         if: failure()
         shell: bash
+        # need to unset the extra header to allow for regular https push
         run: |
           cd apps
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Actions"
           git add .
           git commit -m "GitHub Actions changes" || echo "No changes to commit"
-          git status
-          git log --graph -n 5
           git config --local --unset http.https://github.com/.extraheader
           git config --local --list
-          git push https://schloerke:${{secrets.GH_PAT}}@github.com/rstudio/shinycoreci-apps.git HEAD:${{ github.sha }}-${{ runner.os }} || echo "No changes to push"
-
-      # - name: Push files
-      #   if: steps.shinytest_failed.outputs.horribly
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     directory: apps
-      #     github_token: ${{ secrets.GH_PAT }}
-      #     repository: rstudio/shinycoreci-apps
-      #     branch: ${{ github.sha }}-${{ runner.os }}
-      #     force: true
+          git push https://schloerke:${{secrets.GH_PAT}}@github.com/rstudio/shinycoreci-apps.git HEAD:${{ github.sha }}-${{ runner.os }}
 
       - name: Fix path for Windows caching
         if: runner.os == 'Windows'
