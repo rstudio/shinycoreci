@@ -86,9 +86,9 @@ jobs:
 
       - name: Create failure branch name
         id: failed_branch
-        shell: bash
-        run: |
-          echo "::set-output name=name::$(Rscript -e 'cat(substr("${{ github.sha }}", 1, 7))')"
+        run: >
+          Rscript
+          -e "cat('::set-output name=name::', substr('${{ github.sha }}', 1, 7), sep = '')"
 
       - name: Find PhantomJS path
         id: phantomjs
