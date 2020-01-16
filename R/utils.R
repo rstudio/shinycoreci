@@ -59,3 +59,34 @@ d3_to_df <- function(x, colnames) {
   res <- lapply(colnames, function(colname) extract_vector(x, colname))
   as.data.frame(res, stringsAsFactors = FALSE)
 }
+
+
+#' @export
+#' @description https://developer.github.com/v3/repos/#create-a-repository-dispatch-event
+trigger <- function(
+  event_type,
+  ci_repo = "rstudio/shinycoreci",
+  apps_repo = "rstudio/shinycoreci-apps",
+  apps_repo_ref = "master",
+  auth_token = Sys.getenv("GITHUB_PAT")
+) {
+  h <- curl::new_handle()
+  handle_setheaders(h, .list = list(
+    Authorization = sprintf("token %s", auth_token),
+    Accept = "application/vnd.github.v3+json, application/vnd.github.everest-preview+json"
+  ))
+  handle_setopt(h, .list = list(
+    postfields = jsonlite::toJSON(
+      auto_unbox = TRUE,
+      list(
+        event_type = event_type,
+        client_payload = list(
+          apps_repo = apps_repo,
+          apps_ref = apps_repo_ref
+        )
+      )
+    )
+  ))
+  url <- sprintf("https://api.github.com/repos/%s/dispatches", ci_repo)
+  curl_fetch_memory(url, handle = h)
+}
