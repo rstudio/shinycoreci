@@ -11,9 +11,9 @@ find_bad_shinytest_files <- function(path = ".") {
 bad_shinytest_platform <- function() {
   branch <- system("git rev-parse --abbrev-ref HEAD", intern = TRUE)
 
-  system_val <- utils::tail(strsplit(branch, "-")[[1]], 1)
+  system_val <- strsplit(branch, "-")[[1]]
   switch(
-    system_val,
+    system_val[[length(system_val)]],
     "macOS" = "mac",
     "Windows" = "win",
     stop("unknown system type for branch: ", branch)
