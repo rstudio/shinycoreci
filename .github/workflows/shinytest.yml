@@ -12,6 +12,7 @@ on:
   schedule:
     - cron:  '0 0 * * 1' # every monday at midnight
   repository_dispatch:
+    types: [shinytest-apps]
 
 jobs:
   shinytest-apps:
