@@ -63,6 +63,8 @@ d3_to_df <- function(x, colnames) {
 
 #' @export
 #' @description https://developer.github.com/v3/repos/#create-a-repository-dispatch-event
+#' @importFrom curl new_handle handle_setheaders handle_setopt curl_fetch_memory
+#' @importFrom jsonlite toJSON
 trigger <- function(
   event_type,
   ci_repo = "rstudio/shinycoreci",
@@ -70,19 +72,19 @@ trigger <- function(
   apps_repo_ref = "master",
   auth_token = Sys.getenv("GITHUB_PAT")
 ) {
-  h <- curl::new_handle()
+  h <- new_handle()
   handle_setheaders(h, .list = list(
     Authorization = sprintf("token %s", auth_token),
     Accept = "application/vnd.github.v3+json, application/vnd.github.everest-preview+json"
   ))
   handle_setopt(h, .list = list(
-    postfields = jsonlite::toJSON(
+    postfields = toJSON(
       auto_unbox = TRUE,
       list(
         event_type = event_type,
         client_payload = list(
           apps_repo = apps_repo,
-          apps_ref = apps_repo_ref
+          apps_repo_ref = apps_repo_ref
         )
       )
     )
