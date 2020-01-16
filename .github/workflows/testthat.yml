@@ -43,16 +43,16 @@ jobs:
         name: GitHub Pull ./apps
         if: github.event_name == 'repository_dispatch'
         with:
-          repository: ${{ github.event.client_payload.ref }}
-          ref: ${{ github.event.client_payload.ref }}
+          repository: ${{ github.event.client_payload.apps_repo }}
+          ref: ${{ github.event.client_payload.apps_repo_ref }}
           path: apps
 
       - uses: actions/checkout@v2
         name: GitHub Pull ./apps
         if: github.event_name != 'repository_dispatch'
         with:
-          repository: ${{ github.event.client_payload.ref }}
-          ref: ${{ github.event.client_payload.ref }}
+          repository: rstudio/shinycoreci-apps
+          ref: master
           path: apps
 
       - uses: r-lib/actions/setup-pandoc@master
