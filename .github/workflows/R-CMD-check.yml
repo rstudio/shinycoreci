@@ -13,15 +13,15 @@ on:
 name: R-CMD-check
 
 jobs:
-  # added so that the workflow doesn't fail.
-  always_runner:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Always run
-        run: echo "This job is used to prevent the workflow status from showing as failed when all other jobs are skipped"
+  # # added so that the workflow doesn't fail.
+  # always_runner:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Always run
+  #       run: echo "This job is used to prevent the workflow status from showing as failed when all other jobs are skipped"
 
   R-CMD-check:
-    if: false
+    # if: false
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
