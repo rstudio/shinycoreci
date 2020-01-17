@@ -51,7 +51,8 @@ view_test_diff <- function(suffix = c("win", "mac", "linux"), path = ".", ...) {
     }
   }
 
-  for (folder in folders) {
-    shinytest::viewTestDiff(folder, suffix = suffix, ...)
-  }
+  lapply(folders, function(folder) {
+    ans <- shinytest::viewTestDiff(appDir = folder, suffix = suffix, interactive = TRUE, ...)
+    ans
+  })
 }
