@@ -88,6 +88,12 @@ jobs:
           -e "if (.Platform[['OS.type']] == 'windows' || Sys.info()[['sysname']] == 'Darwin') options(pkgType = 'binary')"
           -e "shinycoreci::install_app_deps()"
 
+      - name: Create failure branch name
+        id: failed_branch
+        run: >
+          Rscript
+          -e "cat('::set-output name=name::', substr('${{ github.sha }}', 1, 7), sep = '')"
+
       - name: Find PhantomJS path
         id: phantomjs
         run: |
@@ -124,7 +130,7 @@ jobs:
           git commit -m "GitHub Actions changes" || echo "No changes to commit"
           git config --local --unset http.https://github.com/.extraheader
           git config --local --list
-          git push https://schloerke:${{secrets.GH_PAT}}@github.com/rstudio/shinycoreci-apps.git HEAD:${{ github.sha }}-${{ runner.os }}
+          git push https://schloerke:${{secrets.GH_PAT}}@github.com/rstudio/shinycoreci-apps.git HEAD:gha-${{ steps.failed_branch.outputs.name }}-${{ runner.os }}
 
       - name: Fix path for Windows caching
         if: runner.os == 'Windows'
