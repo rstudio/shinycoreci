@@ -52,6 +52,12 @@ view_test_diff <- function(suffix = c("win", "mac", "linux"), path = ".", ...) {
   }
 
   lapply(folders, function(folder) {
+    # pause between apps for a second and let later clear out what is executing.
+    # https://github.com/rstudio/shiny/issues/2743
+    for(i in 1:10) {
+      later::run_now()
+    }
+
     ans <- shinytest::viewTestDiff(appDir = folder, suffix = suffix, interactive = TRUE, ...)
     ans
   })
