@@ -12,6 +12,10 @@ on:
   schedule:
     - cron:  '0 0 * * 1' # every monday at midnight
   repository_dispatch:
+    types:
+      - all
+      - shinytest
+      - updated-apps
 
 jobs:
   shinytest-apps:
@@ -84,6 +88,12 @@ jobs:
           -e "if (.Platform[['OS.type']] == 'windows' || Sys.info()[['sysname']] == 'Darwin') options(pkgType = 'binary')"
           -e "shinycoreci::install_app_deps()"
 
+      - name: Create failure branch name
+        id: failed_branch
+        run: >
+          Rscript
+          -e "cat('::set-output name=name::', substr('${{ github.sha }}', 1, 7), '-', format(Sys.time(), '%Y_%m_%d_%H_%M'), sep = '')"
+
       - name: Find PhantomJS path
         id: phantomjs
         run: |
@@ -108,12 +118,19 @@ jobs:
         run: >
           Rscript -e "shinycoreci::test_shinytest(dir = 'apps')"
 
-      - name: Upload test results
+      - name: Push broken tests to rstudio/shinycoreci-apps
         if: failure()
-        uses: actions/upload-artifact@v1
-        with:
-          name: shinytest-results-${{ runner.os }}-${{ github.sha }}
-          path: ./apps
+        shell: bash
+        # need to unset the extra header to allow for regular https push
+        run: |
+          cd apps
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git commit -m "GitHub Actions changes" || echo "No changes to commit"
+          git config --local --unset http.https://github.com/.extraheader
+          git config --local --list
+          git push https://schloerke:${{secrets.GH_PAT}}@github.com/rstudio/shinycoreci-apps.git HEAD:gha-${{ steps.failed_branch.outputs.name }}-${{ runner.os }}
 
       - name: Fix path for Windows caching
         if: runner.os == 'Windows'
