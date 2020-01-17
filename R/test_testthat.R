@@ -18,7 +18,7 @@ test_testthat <- function(
   for (appdir in appdirs) {
     message("Testing ", appdir)
     tryCatch(
-      testthat::test_file(file.path(appdir, "tests", "testthat.R")),
+      shiny::runTests(appDir = appdir, filter = "^testthat.R$"),
       error = function(failed) {
         message("Failed: ", failed$message)
         fail_apps <<- c(fail_apps, basename(appdir))
