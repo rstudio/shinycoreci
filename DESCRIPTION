@@ -34,10 +34,8 @@ Imports:
     flexdashboard,
     shinymeta,
     pool,
-    rmarkdown (>= 2.0.6),
     callr
 Remotes:
-  rstudio/rmarkdown,
   rstudio/shinytest,
   schloerke/shinyjster,
   rstudio/shiny,

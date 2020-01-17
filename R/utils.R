@@ -9,7 +9,6 @@ rm_files <- function(filenames) {
 # This function is never called; it exists only to make R CMD check happy that
 # these packages are used.
 `_dummy_` <- function() {
-  rmarkdown::run
   shiny::runApp
   renv::snapshot
   remotes::available_packages
