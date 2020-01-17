@@ -88,6 +88,7 @@ jobs:
       - name: Install Packages
         run: >
           Rscript
+          -e "if (.Platform[['OS.type']] == 'windows' || Sys.info()[['sysname']] == 'Darwin') options(pkgType = 'binary')"
           -e "update.packages(ask = FALSE, lib.loc = .libPaths()[1])"
           -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
           -e "remotes::install_local(dependencies = TRUE, force = TRUE)"
@@ -104,6 +105,7 @@ jobs:
       - name: Install app deps
         run: >
           Rscript
+          -e "if (.Platform[['OS.type']] == 'windows' || Sys.info()[['sysname']] == 'Darwin') options(pkgType = 'binary')"
           -e "shinycoreci::install_app_deps()"
 
       - name: Add shinyjster matchers
@@ -117,12 +119,12 @@ jobs:
         shell: bash
         run: >
           Rscript
-          -e "shinyjster::run_headless(browser = 'chrome', type = 'lapply')"
+          -e "shinycoreci::test_shinyjster(browser = 'chrome', type = 'serial')"
       - name: Run headless Firefox checks
         if: false
         run: >
           Rscript
-          -e "shinyjster::run_headless(browser = 'firefox', type = 'lapply')"
+          -e "shinycoreci::test_shinyjster(browser = 'firefox', type = 'serial')"
 
       - name: Fix path for Windows caching
         if: runner.os == 'Windows'
