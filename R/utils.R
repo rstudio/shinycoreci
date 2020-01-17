@@ -61,15 +61,42 @@ d3_to_df <- function(x, colnames) {
 }
 
 
-#' @export
-#' @description https://developer.github.com/v3/repos/#create-a-repository-dispatch-event
+#' Generate a repository event.
+#'
+#' @description This function uses the Github API to create a [repository
+#'   dispatch
+#'   event](https://developer.github.com/v3/repos/#create-a-repository-dispatch-event)
+#'    that can trigger workflows. Currently, the `testthat.yml` workflow
+#'   registers itself for the `shinytest-apps` event, and so can be initiated by
+#'   running this function with an `event_type` of "shinytest-apps".
+#'
+#' @param event_type The name of the event to create on the repository
+#' @param ci_repo The shinycoreci repo to create the event on; defaults to
+#'   rstudio/shinycoreci
+#' @param apps_repo The shinycoreci-apps repo to clone and test; defaults to
+#'   rstudio/shinycoreci-apps
+#' @param apps_repo_ref The ref (branch, tag, sha) of `apps_repo` to clone;
+#'   defaults to master.
+#' @param client_payload The JSON object to make available in the workflow as
+#'   the `github.event.client_payload` object
+#' @param auth_token Your Github Oauth2 token; defaults to
+#'   `Sys.getenv("GITHUB_PAT")`
+#'
 #' @importFrom curl new_handle handle_setheaders handle_setopt curl_fetch_memory
 #' @importFrom jsonlite toJSON
+#' @export
 trigger <- function(
   event_type,
   ci_repo = "rstudio/shinycoreci",
   apps_repo = "rstudio/shinycoreci-apps",
   apps_repo_ref = "master",
+  client_payload = list(
+    event_type = event_type,
+    client_payload = list(
+      apps_repo = apps_repo,
+      apps_repo_ref = apps_repo_ref
+    )
+  ),
   auth_token = Sys.getenv("GITHUB_PAT")
 ) {
   h <- new_handle()
@@ -82,10 +109,7 @@ trigger <- function(
       auto_unbox = TRUE,
       list(
         event_type = event_type,
-        client_payload = list(
-          apps_repo = apps_repo,
-          apps_repo_ref = apps_repo_ref
-        )
+        client_payload = client_payload
       )
     )
   ))
