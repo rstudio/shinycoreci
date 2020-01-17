@@ -92,7 +92,7 @@ jobs:
         id: failed_branch
         run: >
           Rscript
-          -e "cat('::set-output name=name::', substr('${{ github.sha }}', 1, 7), sep = '')"
+          -e "cat('::set-output name=name::', substr('${{ github.sha }}', 1, 7), '-', format(Sys.time(), '%Y_%m_%d_%H_%M'), sep = '')"
 
       - name: Find PhantomJS path
         id: phantomjs
