@@ -118,7 +118,7 @@ jobs:
         run: >
           Rscript -e "shinycoreci::test_shinytest(dir = 'apps')"
 
-      - name: Commit files
+      - name: Push broken tests to rstudio/shinycoreci-apps
         if: failure()
         shell: bash
         # need to unset the extra header to allow for regular https push
