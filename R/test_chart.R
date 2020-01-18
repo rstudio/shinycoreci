@@ -36,7 +36,9 @@ apps_shinytest <- function() {
 #' @export
 apps_shinyjster <- function() {
   df <- get_test_chart()
-  df$App[df$shinyjster.done != ""]
+  apps <- df$App[df$shinyjster.done != ""]
+
+  apps
 }
 
 #' @rdname apps_testthat

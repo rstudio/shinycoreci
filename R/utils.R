@@ -60,6 +60,28 @@ d3_to_df <- function(x, colnames) {
   as.data.frame(res, stringsAsFactors = FALSE)
 }
 
+set_options <- function(new_options) {
+  do.call(options, as.list(new_options))
+}
+#' Eval with Options
+#'
+#' @export
+#' @param new_options list of options to be supplied to `options()`
+#' @param code code to evaluate, given the new options
+#' @examples
+#' \dontrun{with_options(list(warn = 0), {
+#'   warning('just a warning')
+#'   with_options(list(warn = 2), { warning('made into error') })
+#'   warning('just a warning')
+#' })}
+with_options <- function(new_options, code) {
+  old_options <- set_options(new_options)
+  on.exit({
+    set_options(old_options)
+  })
+
+  force(code)
+}
 
 #' Generate a repository event.
 #'
