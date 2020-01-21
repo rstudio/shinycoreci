@@ -6,7 +6,7 @@
 #' @param suffix Suffix to use for sysinfo file
 #' @export
 test_testthat <- function(
-  dir = ".",
+  dir = "apps",
   apps = apps_testthat(dir),
   suffix = platform()
 ) {
