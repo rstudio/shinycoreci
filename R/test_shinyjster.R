@@ -48,8 +48,9 @@ test_shinyjster <- function(
 
   ret <- rbind(regular_dt, source_dt, stringsAsFactors = FALSE)
 
-  # reorder rows to match original order
-  appDir <- ret$appDir
-  order <- vapply(apps, function(app) { which(app == appDir) }, numeric(1))
-  ret[order, ]
+  if (isTRUE(assert)) {
+    shinyjster::assert_jster(ret)
+  } else {
+    ret
+  }
 }
