@@ -11,6 +11,8 @@ test_testthat(dir = ".", apps = apps_testthat(dir), suffix = platform())
 information.}
 
 \item{apps}{Character vector of shiny applications}
+
+\item{suffix}{Suffix to use for sysinfo file}
 }
 \description{
 Test testthat

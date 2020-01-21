@@ -1,8 +1,9 @@
 #' Test testthat
 #'
-#' @param apps Character vector of shiny applications
 #' @param dir Name of directory to look for shiny apps, and to save platform
 #'   information.
+#' @param apps Character vector of shiny applications
+#' @param suffix Suffix to use for sysinfo file
 #' @export
 test_testthat <- function(
   dir = ".",
