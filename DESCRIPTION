@@ -34,6 +34,8 @@ Imports:
     flexdashboard,
     shinymeta,
     pool,
+    curl,
+    jsonlite,
     callr
 Remotes:
   rstudio/shinytest,
