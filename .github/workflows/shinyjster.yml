@@ -32,7 +32,6 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
-    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v2
         name: GitHub Pull
@@ -116,6 +115,7 @@ jobs:
         run: Rscript -e "shinycoreci::write_sysinfo()"
 
       - name: Run headless Chrome checks
+        timeout-minutes: 20
         shell: bash
         run: >
           Rscript
