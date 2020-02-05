@@ -1,0 +1,33 @@
+on:
+  push:
+    branches:
+      - master
+  repository_dispatch:
+    types:
+      - all
+      - trigger
+      - ci
+
+name: Trigger Actions
+
+jobs:
+  # # added so that the workflow doesn't fail.
+  # always_runner:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Always run
+  #       run: echo "This job is used to prevent the workflow status from showing as failed when all other jobs are skipped"
+
+  trigger:
+    name: shinycoreci-apps
+    # if: false
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          repository: rstudio/shinycoreci-apps
+          token: ${{ secrets.GH_PAT }}
+          event-type: ci
