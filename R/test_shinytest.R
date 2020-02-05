@@ -6,7 +6,7 @@
 #' @inheritParams shinytest::testApp
 #' @export
 test_shinytest <- function(
-  dir = ".",
+  dir = "apps",
   apps = apps_shinytest(),
   suffix = platform()
 ) {

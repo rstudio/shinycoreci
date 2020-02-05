@@ -1,9 +1,11 @@
 #' Test shinyjster
 #'
 #' @inheritParams shinyjster::run_headless
+#' @param apps applications within \verb{dir} to run
 #' @export
 test_shinyjster <- function(
-  apps = file.path('apps', apps_shinyjster()),
+  dir = "apps",
+  apps = apps_shinyjster(),
   port = 8000,
   host = "127.0.0.1",
   debug_port = NULL,
@@ -12,7 +14,7 @@ test_shinyjster <- function(
   assert = TRUE
 ) {
 
-  ras <- regular_and_source_apps(apps, "_shinyjster.R")
+  ras <- regular_and_source_apps(file.path(dir, apps), "_shinyjster.R")
 
   regular_dt <- NULL
   source_dt <- NULL
