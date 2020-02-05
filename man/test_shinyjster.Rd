@@ -5,7 +5,8 @@
 \title{Test shinyjster}
 \usage{
 test_shinyjster(
-  apps = file.path("apps", apps_shinyjster()),
+  dir = "apps",
+  apps = apps_shinyjster(),
   port = 8000,
   host = "127.0.0.1",
   debug_port = NULL,
@@ -15,7 +16,7 @@ test_shinyjster(
 )
 }
 \arguments{
-\item{apps}{Vector of \code{appDir} values}
+\item{apps}{applications within \verb{dir} to run}
 
 \item{port}{The TCP port that the application should listen on. If the
 \code{port} is not specified, and the \code{shiny.port} option is set (with
