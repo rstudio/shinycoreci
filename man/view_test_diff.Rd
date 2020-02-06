@@ -4,7 +4,7 @@
 \alias{view_test_diff}
 \title{View Shinytest Diff}
 \usage{
-view_test_diff(suffix = c("win", "mac", "linux"), path = ".", ...)
+view_test_diff(suffix = c("win", "mac", "linux"), path = "apps", ...)
 }
 \arguments{
 \item{suffix}{Test output suffix to compare against}

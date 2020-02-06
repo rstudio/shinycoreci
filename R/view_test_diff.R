@@ -28,7 +28,7 @@ bad_shinytest_platform <- function() {
 #' @param path Root folder path
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
 #' @export
-view_test_diff <- function(suffix = c("win", "mac", "linux"), path = ".", ...) {
+view_test_diff <- function(suffix = c("win", "mac", "linux"), path = "apps", ...) {
   if (missing(suffix)) {
     suffix <- bad_shinytest_platform()
   }
@@ -51,7 +51,7 @@ view_test_diff <- function(suffix = c("win", "mac", "linux"), path = ".", ...) {
     }
   }
 
-  lapply(folders, function(folder) {
+  lapply(file.path(path, folders), function(folder) {
     # pause between apps for a second and let later clear out what is executing.
     # https://github.com/rstudio/shiny/issues/2743
     for(i in 1:10) {
