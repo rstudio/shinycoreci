@@ -29,5 +29,5 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           repository: rstudio/shinycoreci-apps
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.GITHUB_PAT }}
           event-type: ci
