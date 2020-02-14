@@ -1,7 +1,8 @@
 #' Test shinyjster
 #'
-#' @inheritParams shinyjster::run_headless
+#' @param dir base folder to look for applications
 #' @param apps applications within \verb{dir} to run
+#' @inheritParams shinyjster::run_headless
 #' @export
 test_shinyjster <- function(
   dir = "apps",
