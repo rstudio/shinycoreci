@@ -1,0 +1,61 @@
+---
+output:
+  md_document:
+    variant: gfm
+    pandoc_args: "--wrap=preserve"
+# devtools::build_readme()
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# shinycoreci
+
+<!-- badges: start -->
+[![R CMD check](https://github.com/rstudio/shinycoreci/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/shinycoreci/actions?query=workflow%3AR-CMD-check)
+[![shinytest](https://github.com/rstudio/shinycoreci-apps/workflows/shinytest/badge.svg?branch=master)](https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3Ashinytest)
+[![shinyjster](https://github.com/rstudio/shinycoreci-apps/workflows/shinyjster/badge.svg?branch=master)](https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3Ashinyjster)
+[![testthat](https://github.com/rstudio/shinycoreci-apps/workflows/testthat/badge.svg?branch=master)](https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3Atestthat)
+<!-- badges: end -->
+
+This is an R package to install all dependencies to test the bleeding edge of all relavent packages to the Shiny team.
+
+For more direct usage examples, see [`rstudio/shinycoreci-apps`](https://github.com/rstudio/shinycoreci-apps).
+
+
+## Installation
+
+Install the development version from [GitHub](https://github.com/) with:
+
+``` r
+remotes::install_github("rstudio/shinycoreci")
+```
+
+These `Remotes` will be installed to make sure the latest package development is working as expected:
+
+```{r, echo = FALSE, results = "asis"}
+pkgs <-
+  sort(
+    strsplit(
+      desc::desc_get_field("Remotes"),
+      "\\n\\s*"
+    )[[1]]
+  )
+# remove branches, sha, and commas
+pkgs <- sub("[, (@#].*$", "", pkgs)
+# print as links to repos
+cat(
+  paste0(
+    "* [", pkgs, "](http://github.com/", pkgs, ")",
+    collapse = "\n"
+  )
+)
+```
