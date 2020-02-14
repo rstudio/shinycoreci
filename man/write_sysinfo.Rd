@@ -7,7 +7,7 @@
 write_sysinfo(file = stdout())
 }
 \arguments{
-\item{file}{Name of file, or file obect to write to (defaults to stdout).}
+\item{file}{Name of file, or file object to write to (defaults to stdout).}
 }
 \description{
 Write system information to a file

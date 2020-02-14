@@ -16,6 +16,8 @@ test_shinyjster(
 )
 }
 \arguments{
+\item{dir}{base folder to look for applications}
+
 \item{apps}{applications within \verb{dir} to run}
 
 \item{port}{The TCP port that the application should listen on. If the

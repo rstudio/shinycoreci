@@ -85,7 +85,7 @@ with_options <- function(new_options, code) {
 
 #' Generate a repository event.
 #'
-#' @description This function uses the Github API to create a [repository
+#' @description This function uses the GitHub API to create a [repository
 #'   dispatch
 #'   event](https://developer.github.com/v3/repos/#create-a-repository-dispatch-event)
 #'    that can trigger workflows. Currently, the `testthat.yml` workflow
@@ -101,7 +101,7 @@ with_options <- function(new_options, code) {
 #'   defaults to master.
 #' @param client_payload The JSON object to make available in the workflow as
 #'   the `github.event.client_payload` object
-#' @param auth_token Your Github Oauth2 token; defaults to
+#' @param auth_token Your GitHub OAuth2 token; defaults to
 #'   `Sys.getenv("GITHUB_PAT")`
 #'
 #' @importFrom curl new_handle handle_setheaders handle_setopt curl_fetch_memory

@@ -37,7 +37,7 @@ find_deps_installed <- function(dir = ".") {
 
 #' Write system information to a file
 #'
-#' @param file Name of file, or file obect to write to (defaults to stdout).
+#' @param file Name of file, or file object to write to (defaults to stdout).
 #' @export
 write_sysinfo <- function(file = stdout()) {
   opts <- options()
