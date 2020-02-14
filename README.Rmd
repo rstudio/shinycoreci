@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 [![testthat](https://github.com/rstudio/shinycoreci-apps/workflows/testthat/badge.svg?branch=master)](https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3Atestthat)
 <!-- badges: end -->
 
-This is an R package to install all dependencies to test the bleeding edge of all relavent packages to the Shiny team.
+This is an R package to install all dependencies to test the bleeding edge of all relevant packages to the Shiny team.
 
 For more direct usage examples, see [`rstudio/shinycoreci-apps`](https://github.com/rstudio/shinycoreci-apps).
 

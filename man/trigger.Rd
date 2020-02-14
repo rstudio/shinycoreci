@@ -29,11 +29,11 @@ defaults to master.}
 \item{client_payload}{The JSON object to make available in the workflow as
 the \code{github.event.client_payload} object}
 
-\item{auth_token}{Your Github Oauth2 token; defaults to
+\item{auth_token}{Your GitHub OAuth2 token; defaults to
 \code{Sys.getenv("GITHUB_PAT")}}
 }
 \description{
-This function uses the Github API to create a \href{https://developer.github.com/v3/repos/#create-a-repository-dispatch-event}{repository dispatch event}
+This function uses the GitHub API to create a \href{https://developer.github.com/v3/repos/#create-a-repository-dispatch-event}{repository dispatch event}
 that can trigger workflows. Currently, the \code{testthat.yml} workflow
 registers itself for the \code{shinytest-apps} event, and so can be initiated by
 running this function with an \code{event_type} of "shinytest-apps".
