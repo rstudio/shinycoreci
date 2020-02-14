@@ -45,7 +45,7 @@ These `Remotes` will be installed to make sure the latest package development is
 pkgs <-
   sort(
     strsplit(
-      desc::desc_get_field("Remotes"),
+      unname(read.dcf("DESCRIPTION")[1, "Remotes"]),
       "\\n\\s*"
     )[[1]]
   )
