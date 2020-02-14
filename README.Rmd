@@ -49,8 +49,10 @@ pkgs <-
       "\\n\\s*"
     )[[1]]
   )
+
 # remove branches, sha, and commas
 pkgs <- sub("[, (@#].*$", "", pkgs)
+
 # print as links to repos
 cat(
   paste0(
