@@ -39,5 +39,6 @@ Imports:
     callr
 Remotes:
   schloerke/shinyjster,
-  rstudio/shiny
+  rstudio/shiny,
+  rstudio/shinymeta
 RoxygenNote: 7.0.2
