@@ -25,7 +25,7 @@ app_deps <- function(dir = "apps") {
 
   # Find the dependencies from application code
   renv_deps <- renv::dependencies(dir, quiet = TRUE)
-  app_deps <- remotes::package_deps(unique(renv_deps$Package))
+  app_deps <- remotes::package_deps(unique(c("shinycoreci", renv_deps$Package)))
 
   if (length(desc_deps) == 0) {
     return(app_deps)
@@ -36,6 +36,7 @@ app_deps <- function(dir = "apps") {
     } else {
       desc_deps <- Reduce(combine_deps, desc_deps[-1], desc_deps[[1]])
     }
+    stop("combine_deps will not return information as expected. Needs a fix!")
     combine_deps(app_deps, desc_deps)
   }
 }
