@@ -36,7 +36,9 @@ Imports:
     pool,
     curl,
     jsonlite,
-    callr
+    callr,
+    progress,
+    rsconnect
 Remotes:
   rstudio/shinytest,
   schloerke/shinyjster,
