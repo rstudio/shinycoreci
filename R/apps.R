@@ -3,6 +3,8 @@
 #'
 #' All \code{apps_*} methods inspect each application to determine if if testing is possible.
 #'
+#' @param dir base directory to look for shiny applications
+#'
 #' @rdname apps
 #' @export
 apps_shinytest <- function(dir) {
