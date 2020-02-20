@@ -138,8 +138,10 @@ validate_rsconnect_account <- function(account, server) {
     (server %in% accts$server)
   )
   if (accts_found == 0) {
+    print(accts)
     stop("please set an account with `rsconnect::setAccountInfo()` to match directly to `rsconnect::accounts()` information")
   } else if (accts_found > 1) {
+    print(accts)
     stop("more than one account matches `rsconnect::accounts()`. Fix it?")
   }
 }
