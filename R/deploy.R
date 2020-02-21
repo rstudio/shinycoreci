@@ -28,12 +28,6 @@ deploy_apps <- function(
   validate_rsconnect_account(account, server)
   validate_packages_installed(dir, update_pkgs = update_pkgs)
 
-  if (isTRUE(apps)) {
-    # accept all apps
-    # legacy
-    apps <- basename(shiny_app_dirs(dir))
-  }
-
   # Use a new R process just in case there were some packages updated
   # this avoids any odd "currently loaded" namespace issue
   apps_dirs <- file.path(dir, apps)
@@ -144,6 +138,7 @@ validate_rsconnect_account <- function(account, server) {
     print(accts)
     stop("more than one account matches `rsconnect::accounts()`. Fix it?")
   }
+  invisible(rsconnect::accountInfo(account, server))
 }
 
 
