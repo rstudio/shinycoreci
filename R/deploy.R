@@ -7,6 +7,7 @@
 #' @param account,server args supplied to `[rsconnect::deployApp]`
 #' @param cores number of cores to use when deploying
 #' @param update_pkgs A logical value indicating if a check should be made to update all installed packages
+#' @param retry If \code{TRUE}, try failure apps again. (Only happens once.)
 #' @export
 deploy_apps <- function(
   dir = "apps",
@@ -14,7 +15,8 @@ deploy_apps <- function(
   account = "testing-apps",
   server = "shinyapps.io",
   cores = 1,
-  update_pkgs = c("all", "shinycoreci", "installed", "none")
+  update_pkgs = c("all", "shinycoreci", "installed", "none"),
+  retry = TRUE
 ) {
 
   is_missing <- list(
@@ -30,7 +32,9 @@ deploy_apps <- function(
 
   # Use a new R process just in case there were some packages updated
   # this avoids any odd "currently loaded" namespace issue
-  apps_dirs <- file.path(dir, apps)
+  original_dir <- dir
+  original_apps <- apps
+  apps_dirs <- if (identical(dir, "")) apps else file.path(dir, apps)
   deploy_res <- callr::r(
     show = TRUE,
     spinner = TRUE, # helps with CI from timing out
@@ -90,37 +94,57 @@ deploy_apps <- function(
     }
   )
 
-  if (any(deploy_res != 0)) {
-    dput_arg <- function(x) {
-      f <- file()
-      on.exit({
-        close(f)
-      })
-      dput(x, f)
-      ret <- paste0(readLines(f), collapse = "\n")
-      ret
-    }
-    error_apps <- apps_dirs[deploy_res != 0]
-    args <- c(
-      if (!is_missing$account) paste0("account = ", dput_arg(account)),
-      if (!is_missing$server) paste0("server = ", dput_arg(server)),
-      paste0("apps = ", dput_arg(error_apps)),
-      "dir = \"\"",
-      "cores = 1",
-      "update_pkgs = \"none\""
-    )
-    fn <- paste0(
-      "deploy_apps(", paste0(args, collapse = ", "),")"
-    )
-    stop(
-      "\nError deploying apps. To re-deploy:\n",
-      fn,
-      "\n"
-    )
-  } else {
+  if (all(deploy_res == 0)) {
+    # success!
     message("No errors found when deploying apps")
+    return(invisible(NULL))
   }
-  invisible(TRUE)
+
+  # something failed... make a "retry failed apps" func call
+  dput_arg <- function(x) {
+    f <- file()
+    on.exit({
+      close(f)
+    })
+    dput(x, f)
+    ret <- paste0(readLines(f), collapse = "\n")
+    ret
+  }
+  error_apps <- original_apps[deploy_res != 0]
+  args <- c(
+    "dir = ", dput_arg(original_dir),
+    paste0("apps = ", dput_arg(error_apps)),
+    if (!is_missing$account) paste0("account = ", dput_arg(account)),
+    if (!is_missing$server) paste0("server = ", dput_arg(server)),
+    "cores = 1",
+    "update_pkgs = \"none\"",
+    "retry = FALSE"
+  )
+  fn <- paste0(
+    "deploy_apps(", paste0(args, collapse = ", "),")"
+  )
+
+  if (isTRUE(deploy_apps)) {
+    message("Retrying to deploy problem apps.  Calling:\n", fn)
+    return(
+      deploy_apps(
+        dir = original_dir,
+        apps = error_apps,
+        account = account,
+        server = server,
+        cores = 1,            # simplify it
+        update_pkgs = "none", # no need to update again, still in the original function exec
+        retry = FALSE         # do not allow for infinite retries
+      )
+    )
+  }
+
+  # do not retry... throw error
+  stop(
+    "\nError deploying apps. To re-deploy:\n",
+    fn,
+    "\n"
+  )
 
 }
 

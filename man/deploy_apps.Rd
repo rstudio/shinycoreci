@@ -6,11 +6,12 @@
 \usage{
 deploy_apps(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = basename(apps_deploy(dir)),
   account = "testing-apps",
   server = "shinyapps.io",
   cores = 1,
-  update_pkgs = c("all", "shinycoreci", "installed", "none")
+  update_pkgs = c("all", "shinycoreci", "installed", "none"),
+  retry = TRUE
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ deploy_apps(
 \item{cores}{number of cores to use when deploying}
 
 \item{update_pkgs}{A logical value indicating if a check should be made to update all installed packages}
+
+\item{retry}{If \code{TRUE}, try failure apps again. (Only happens once.)}
 }
 \description{
 Run this in the terminal (not RStudio IDE) as it has issues when installing some packages.

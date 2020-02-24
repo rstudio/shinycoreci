@@ -26,7 +26,7 @@ apps_shinyjster <- function(dir) {
       return(TRUE)
     }
 
-    app_or_ui_file <- shiny_app_files(folder)[1]
+    app_or_ui_file <- c(shiny_app_files(folder), rmarkdown_app_files(folder))[1]
 
     # if shinyjster appears in the file... success!
     any(grepl(
@@ -61,7 +61,8 @@ apps_deploy <- function(dir) {
   app_folders <- shiny_app_dirs(dir)
   Filter(x = app_folders, function(app_folder) {
     return(
-      length(shiny_app_files(app_folder)) > 0
+      length(shiny_app_files(app_folder)) > 0 ||
+      length(rmarkdown_app_files(app_folder)) > 0
     )
   })
 
@@ -72,5 +73,8 @@ shiny_app_dirs <- function(dir) {
   list.dirs(dir, full.names = TRUE, recursive = FALSE)
 }
 shiny_app_files <- function(app_folder) {
-  dir(app_folder, pattern = "^(app|ui|server)|(.Rmd|.rmd)$", full.names = TRUE)
+  dir(app_folder, pattern = "^(app|ui|server)\\.(r|R)$", full.names = TRUE)
+}
+rmarkdown_app_files <- function(app_folder) {
+  dir(app_folder, pattern = "(.Rmd|.rmd)$", full.names = TRUE)
 }
