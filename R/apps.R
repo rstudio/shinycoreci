@@ -5,7 +5,7 @@
 #'
 #' @param dir base directory to look for shiny applications
 #'
-#' @rdname apps
+#' @describeIn app-folders App folders that contain a \verb{shinytest.R} file
 #' @export
 apps_shinytest <- function(dir) {
   files <- list.files(
@@ -17,7 +17,7 @@ apps_shinytest <- function(dir) {
 }
 
 
-#' @rdname apps
+#' @describeIn app-folders App folders that contain the text \code{shinyjster} in a Shiny R file
 #' @export
 apps_shinyjster <- function(dir) {
   app_folders <- shiny_app_dirs(dir)
@@ -26,21 +26,19 @@ apps_shinyjster <- function(dir) {
       return(TRUE)
     }
 
-    app_or_ui_file <- dir(folder, pattern = "^(app|ui|server)|(.Rmd|.rmd)$", full.names = TRUE)[1]
+    app_or_ui_file <- shiny_app_files(folder)[1]
 
     # if shinyjster appears in the file... success!
     any(grepl(
       "shinyjster",
-      readLines(
-        app_or_ui_file
-      )
+      readLines(app_or_ui_file)
     ))
   }, logical(1))
 
   app_folders[calls_shinyjster]
 }
 
-#' @rdname apps
+#' @describeIn app-folders App folders that contain a \verb{testthat.R} file
 #' @export
 apps_testthat <- function(dir) {
   files <- list.files(
@@ -51,13 +49,28 @@ apps_testthat <- function(dir) {
   dirname(dirname(files))
 }
 
-#' @rdname apps
+#' @describeIn app-folders Any folder in the supplied \code{dir}
 #' @export
 apps_manual <- function(dir) {
   shiny_app_dirs(dir)
 }
 
+#' @describeIn app-folders App folders that contain a any Shiny app file
+#' @export
+apps_deploy <- function(dir) {
+  app_folders <- shiny_app_dirs(dir)
+  Filter(x = app_folders, function(app_folder) {
+    return(
+      length(shiny_app_files(app_folder)) > 0
+    )
+  })
+
+}
+
 
 shiny_app_dirs <- function(dir) {
   list.dirs(dir, full.names = TRUE, recursive = FALSE)
+}
+shiny_app_files <- function(app_folder) {
+  dir(app_folder, pattern = "^(app|ui|server)|(.Rmd|.rmd)$", full.names = TRUE)
 }

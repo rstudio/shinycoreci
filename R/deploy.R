@@ -10,7 +10,7 @@
 #' @export
 deploy_apps <- function(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = basename(apps_deploy(dir)),
   account = "testing-apps",
   server = "shinyapps.io",
   cores = 1,
