@@ -65,7 +65,18 @@ apps_deploy <- function(dir) {
       length(rmarkdown_app_files(app_folder)) > 0
     )
   })
+}
 
+#' @describeIn app-folders App folders for SSO/SSP
+#' @export
+apps_sso <- function(dir) {
+  app_folders <- shiny_app_dirs(dir)
+  Filter(x = app_folders, function(app_folder) {
+    return(
+      length(shiny_app_files(app_folder)) > 0 ||
+      length(rmarkdown_app_files(app_folder)) > 0
+    )
+  })
 }
 
 

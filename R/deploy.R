@@ -28,7 +28,7 @@ deploy_apps <- function(
 
   cores <- validate_cores(cores)
   validate_rsconnect_account(account, server)
-  validate_packages_installed(dir, update_pkgs = update_pkgs)
+  update_packages_installed(dir, update_pkgs = update_pkgs)
 
   # Use a new R process just in case there were some packages updated
   # this avoids any odd "currently loaded" namespace issue
@@ -167,7 +167,7 @@ validate_rsconnect_account <- function(account, server) {
 }
 
 
-validate_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci", "installed", "none")) {
+update_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci", "installed", "none")) {
   update_pkgs <- match.arg(update_pkgs, several.ok = TRUE)
   if ("all" %in% update_pkgs) {
     update_pkgs <- c("shinycoreci", "installed")

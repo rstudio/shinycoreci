@@ -6,6 +6,7 @@
 \alias{apps_testthat}
 \alias{apps_manual}
 \alias{apps_deploy}
+\alias{apps_sso}
 \title{Get names of Shiny apps to be tested}
 \usage{
 apps_shinytest(dir)
@@ -17,6 +18,8 @@ apps_testthat(dir)
 apps_manual(dir)
 
 apps_deploy(dir)
+
+apps_sso(dir)
 }
 \arguments{
 \item{dir}{base directory to look for shiny applications}
@@ -35,5 +38,7 @@ All \code{apps_*} methods inspect each application to determine if if testing is
 \item \code{apps_manual}: Any folder in the supplied \code{dir}
 
 \item \code{apps_deploy}: App folders that contain a any Shiny app file
+
+\item \code{apps_sso}: App folders for SSO/SSP
 }}
 
