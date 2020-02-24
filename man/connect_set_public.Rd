@@ -27,8 +27,6 @@ connect_urls(
 \item{account}{args supplied to \verb{[rsconnect::deployApp]}}
 
 \item{server}{args supplied to \verb{[rsconnect::deployApp]}}
-
-\item{api_key}{API key generated from the connect server.}
 }
 \description{
 To not have to provide the key, the \code{rsconnect} account should already exist.  This can be done by calling \code{rsconnect::connectApiUser} to add the appropriate account information.

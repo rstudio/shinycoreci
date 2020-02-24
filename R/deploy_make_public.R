@@ -6,7 +6,6 @@
 #' To not have to provide the key, the \code{rsconnect} account should already exist.  This can be done by calling \code{rsconnect::connectApiUser} to add the appropriate account information.
 #'
 #' @inheritParams deploy_apps
-#' @param api_key API key generated from the connect server.
 #' @rdname connect_set_public
 #' @export
 #' @examples
@@ -124,7 +123,7 @@ api_post_ <- function(server, api_key) {
   }
 }
 
-
+#' @importFrom stats setNames
 subset_and_order_apps <- function(appInfos, final_names) {
 
   # order the urls
