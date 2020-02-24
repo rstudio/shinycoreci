@@ -47,9 +47,10 @@ deploy_apps <- function(
     function(apps_dirs, cores, account, server) {
       pb <- progress::progress_bar$new(
         total = ceiling(length(apps_dirs) / cores),
-        format = "Deploying :name [:bar] :current/:total eta::eta elapsed::elapsed\n",
+        format = "\n\n:name [:bar] :current/:total eta::eta elapsed::elapsed\n",
         show_after = 0,
-        clear = FALSE
+        clear = FALSE,
+        force = TRUE
       )
       deploy_apps_ <- function(app_dir) {
         pb$tick(tokens = list(name = basename(app_dir)))
@@ -124,7 +125,7 @@ deploy_apps <- function(
     "deploy_apps(", paste0(args, collapse = ", "),")"
   )
 
-  if (isTRUE(deploy_apps)) {
+  if (isTRUE(retry)) {
     message("Retrying to deploy problem apps.  Calling:\n", fn)
     return(
       deploy_apps(
