@@ -1,0 +1,168 @@
+#' @importFrom magrittr %>%
+NULL
+
+# Info
+#   https://demo.rstudiopm.com/client/#/repos/3/overview
+# Has ID
+#   https://demo.rstudiopm.com/__api__/repos/4/packages?name=highcharter
+# Has sys reqs
+#   https://demo.rstudiopm.com/__api__/repos/4/packages/highcharter/sysreqs?id=593567&distribution=ubuntu&release=18.04
+
+# used in docker files
+
+#' RStudio Package Manager System Install Scripts
+#'
+#' @inheritParams apps_shinytest
+#' @param distro Docker distro to use. Such as \verb{'bionic'} or \verb{'centos7'}
+#' @rdname rspm_install
+#' @export
+rspm_install_scripts <- function(
+  dir = "apps",
+  distro = "bionic"
+) {
+  ret <- rspm_sys_reqs(
+    dir = dir,
+    distro = distro
+  )
+  ret$install_scripts
+}
+#' @rdname rspm_install
+#' @export
+rspm_pre_install_scripts <- function(
+  dir = "apps",
+  distro = "bionic"
+) {
+  ret <- rspm_sys_reqs(
+    dir = dir,
+    distro = distro
+  )
+  ret$pre_install_scripts
+}
+#' @rdname rspm_install
+#' @export
+rspm_all_install_scripts <- function(
+  dir = "apps",
+  distro = "bionic"
+) {
+  ret <- rspm_sys_reqs(
+    dir = dir,
+    distro = distro
+  )
+  ret$all_install_scripts
+}
+
+rspm_sys_reqs <- function(
+  dir = "apps",
+  distro = "bionic"
+) {
+
+  distro_val <- rspm_distro(distro)
+  release_val <- rspm_release(distro)
+
+  deps <- app_deps(dir)$package
+
+  pr <- progress::progress_bar$new(
+    total = length(deps),
+    format = paste0("[:current/:total, :eta/:elapsed] RSPM ", distro_val, "-", release_val, " deps: :name"),
+    show_after = 0
+  )
+  reqs <- deps %>%
+    lapply(function(dep) {
+      pr$tick(tokens = list(name = dep))
+      tryCatch({
+        rspm_pkg_reqs(dep, distro_val, release_val)
+      }, error = function(e) {
+        message(e)
+        NULL
+      })
+    })
+
+  list(
+    pre_install_scripts = rspm_output_txt(reqs, "pre_install", distro_val = distro_val),
+    install_scripts = rspm_output_txt(reqs, "install_scripts", distro_val = distro_val),
+    all_install_scripts = rspm_output_txt(reqs, c("pre_install", "install_scripts"), distro_val = distro_val)
+  )
+}
+
+rspm_pkg_reqs <- function(pkg_name, distro_val, release_val) {
+
+  # id <-
+  #   paste0("https://demo.rstudiopm.com/__api__/repos/4/packages?name=", pkg_name) %>%
+  #   jsonlite::fromJSON(simplifyDataFrame = FALSE) %>%
+  #   magrittr::extract2(1) %>%
+  #   magrittr::extract2("id")
+
+  info <-
+    paste0(
+      "https://demo.rstudiopm.com/__api__/repos/4/packages/", pkg_name, "/sysreqs",
+      "?distribution=", distro_val,
+      "&release=", release_val
+    ) %>%
+    jsonlite::fromJSON(simplifyDataFrame = FALSE)
+
+  list(
+    pre_install = rspm_output(info, "pre_install"),
+    install_scripts = rspm_output(info, "install_scripts")
+  )
+}
+
+
+rspm_release <- function(distro) {
+  switch(distro,
+    "xenial" = "14.04",
+    "bionic" = "18.04",
+    "centos6" = "6",
+    "centos7" = "7",
+    "centos8" = "8",
+    stop("Unknown distro: ", distro)
+  )
+}
+rspm_distro <- function(distro) {
+  switch(distro,
+    "xenial" = ,
+    "bionic" = "ubuntu",
+    "centos6" = ,
+    "centos7" = ,
+    "centos8" = "centos",
+    stop("Unknown distro: ", distro)
+  )
+}
+
+
+rspm_output <- function(info, key) {
+  c(
+    info[[key]],
+    info$dependencies %>%
+      lapply(`[[`, key) %>%
+      unlist()
+  ) %>%
+    unique()
+}
+rspm_output_txt <- function(reqs, keys, distro_val) {
+  txt <-
+    lapply(keys, function(key) {
+      lapply(reqs, `[[`, key)
+    }) %>%
+    unlist() %>%
+    unique() %>%
+    sort()
+
+  if (length(txt) == 0) {
+    return("")
+  }
+
+  install_txt <- switch(
+    distro_val,
+    "centos" = "yum install -y ",
+    "ubuntu" = "apt-get install -y ",
+    stop("unknown distro: ", distro_val)
+  )
+  txt <- sub(install_txt, "", txt) %>%
+    paste0(collapse = " ")
+
+  paste0(
+    # "RUN ",
+    install_txt,
+    txt
+  )
+}
