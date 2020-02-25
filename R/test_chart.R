@@ -1,3 +1,14 @@
+# This cache is used for test chart data and package information.
+cache <- new.env()
+
+#' Clear cache for test chart and package info
+#'
+#' @export
+clear_cache <- function() {
+  names <- ls(cache, all.names = TRUE)
+  rm(list = names, envir = cache)
+}
+
 # Fetch spreadsheet with app testing information. Result is memoized. Use
 # `reset=TRUE` to clear cache.
 get_test_chart <- function() {
@@ -18,40 +29,4 @@ get_test_chart <- function() {
 
   cache$last_result <- app_data
   app_data
-}
-
-#' Get names of apps to be tested with shinytest or shinyjster
-#'
-#' The data is fetched from a Google spreadsheet and cached for the duration
-#' of the R session. To reset the cache, call \code{clear_cache()}.
-#'
-#' @export
-apps_shinytest <- function() {
-  df <- get_test_chart()
-  df$App[df$shinytest.done != ""]
-}
-
-
-#' @rdname apps_shinytest
-#' @export
-apps_shinyjster <- function() {
-  df <- get_test_chart()
-  apps <- df$App[df$shinyjster.done != ""]
-
-  apps
-}
-
-#' Get names of apps to test with testthat/integration tests
-#'
-#' @rdname apps_testthat
-#' @param dir Directory of apps to scan for testthat.R files
-#' @description Currently doesn't rely on the spreadsheet
-#' @export
-apps_testthat <- function(dir) {
-  files <- list.files(
-    path = dir,
-    pattern = "testthat.R$",
-    recursive = TRUE
-  )
-  dirname(dirname(files))
 }
