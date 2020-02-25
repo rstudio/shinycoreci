@@ -29,7 +29,7 @@ connect_urls(
 \item{server}{args supplied to \verb{[rsconnect::deployApp]}}
 }
 \description{
-To not have to provide the key, the \code{rsconnect} account should already exist.  This can be done by calling \code{rsconnect::connectApiUser} to add the appropriate account information.
+The corresponding \code{rsconnect} account should already exist before calling \code{connect_set_public}.  This can be done by calling \code{rsconnect::connectApiUser} to add the appropriate account information.
 }
 \section{Functions}{
 \itemize{
@@ -44,6 +44,6 @@ To not have to provide the key, the \code{rsconnect} account should already exis
   rsconnect::connectApiUser('barret', 'CustomName', apiKey = 'SuperSecretKey')"
   deploy_apps(dir = 'apps', account = 'barret', server = 'CustomName')"
   connect_set_public(dir = 'apps', account = 'barret', server = 'CustomName')"
-  cat(sep = '\n', connect_urls(dir = 'apps', account = 'barret', server = 'CustomName'))
+  urls <- connect_urls(dir = 'apps', account = 'barret', server = 'CustomName')
 }
 }
