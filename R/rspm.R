@@ -59,12 +59,15 @@ rspm_sys_reqs <- function(
   distro_val <- rspm_distro(docker_release)
   release_val <- rspm_release(docker_release)
 
+  message("Retrieving dependencies...")
   deps <- app_deps(dir)$package
 
+  message("Query RSPM...")
   pr <- progress::progress_bar$new(
     total = length(deps),
     format = paste0("[:current/:total, :eta/:elapsed] RSPM ", distro_val, "-", release_val, " deps: :name"),
-    show_after = 0
+    show_after = 0,
+    clear = FALSE
   )
   reqs <- deps %>%
     lapply(function(dep) {
