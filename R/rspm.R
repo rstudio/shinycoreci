@@ -101,6 +101,7 @@ rspm_pkg_reqs <- function(pkg_name, distro_val, release_val) {
       "?distribution=", distro_val,
       "&release=", release_val
     ) %>%
+    print() %>%
     jsonlite::fromJSON(simplifyDataFrame = FALSE)
 
   list(
