@@ -175,7 +175,6 @@ update_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci",
     update_pkgs <- "none"
   }
 
-  # TODO pull in app_deps!
   if ("shinycoreci" %in% update_pkgs) {
     message("Update shinycoreci and app dependencies")
     shinycoreci_deps <- app_deps(dir)

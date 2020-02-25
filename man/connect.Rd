@@ -31,8 +31,19 @@ connect_urls(
 \description{
 To not have to provide the key, the \code{rsconnect} account should already exist.  This can be done by calling \code{rsconnect::connectApiUser} to add the appropriate account information.
 }
+\section{Functions}{
+\itemize{
+\item \code{connect_set_public}: Set all the Shiny apps to be public on a Connect server using the Shiny applications provided in \verb{dir}
+
+\item \code{connect_urls}: Retrieve the urls from a Connect server using the Shiny applications provided in \verb{dir}
+}}
+
 \examples{
 \dontrun{
-  connect_set_public(account = "barret", server = "beta.rstudioconnect.com")
+  rsconnect::addConnectServer(url = 'https://SERVER.com/API', name = 'CustomName')"
+  rsconnect::connectApiUser('barret', 'CustomName', apiKey = 'SuperSecretKey')"
+  deploy_apps(dir = 'apps', account = 'barret', server = 'CustomName')"
+  connect_set_public(dir = 'apps', account = 'barret', server = 'CustomName')"
+  cat(sep = '\n', connect_urls(dir = 'apps', account = 'barret', server = 'CustomName'))
 }
 }
