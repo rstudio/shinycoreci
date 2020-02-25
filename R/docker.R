@@ -130,19 +130,19 @@ docker_build_distro <- function(
 
   docker_release <- docker_release_val(distro, release)
 
-  docker_update_file(
-    template_folder = template_folder,
-    r_version = r_version,
-    docker_release = docker_release,
-    pre_install_scripts = rspm_pre_install_scripts(
-      distro = distro, release = release,
-      examples_repo = examples_repo
-    ),
-    install_scripts = rspm_install_scripts(
-      distro = distro, release = release,
-      examples_repo = examples_repo
-    )
-  )
+  # docker_update_file(
+  #   template_folder = template_folder,
+  #   r_version = r_version,
+  #   docker_release = docker_release,
+  #   pre_install_scripts = rspm_pre_install_scripts(
+  #     distro = distro, release = release,
+  #     examples_repo = examples_repo
+  #   ),
+  #   install_scripts = rspm_install_scripts(
+  #     distro = distro, release = release,
+  #     examples_repo = examples_repo
+  #   )
+  # )
   docker_build_cmd(
     r_version,
     docker_release,

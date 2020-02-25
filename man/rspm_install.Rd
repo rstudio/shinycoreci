@@ -6,17 +6,26 @@
 \alias{rspm_all_install_scripts}
 \title{RStudio Package Manager System Install Scripts}
 \usage{
-rspm_install_scripts(dir = "apps", distro = "bionic")
+rspm_install_scripts(dir = "apps", docker_release = "bionic")
 
-rspm_pre_install_scripts(dir = "apps", distro = "bionic")
+rspm_pre_install_scripts(dir = "apps", docker_release = "bionic")
 
-rspm_all_install_scripts(dir = "apps", distro = "bionic")
+rspm_all_install_scripts(dir = "apps", docker_release = "bionic")
 }
 \arguments{
 \item{dir}{base directory to look for shiny applications}
 
-\item{distro}{Docker distro to use. Such as \verb{'bionic'} or \verb{'centos7'}}
+\item{docker_release}{Docker release to use. Such as \verb{'bionic'} or \verb{'centos7'}}
 }
 \description{
 RStudio Package Manager System Install Scripts
 }
+\section{Functions}{
+\itemize{
+\item \code{rspm_install_scripts}: Install script needed for R packages to run
+
+\item \code{rspm_pre_install_scripts}: Install script needed for R packages to install
+
+\item \code{rspm_all_install_scripts}: All install script needed for R packages
+}}
+
