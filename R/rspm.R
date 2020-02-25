@@ -75,7 +75,7 @@ rspm_sys_reqs <- function(
       tryCatch({
         rspm_pkg_reqs(dep, distro_val, release_val)
       }, error = function(e) {
-        message(e)
+        message("Error for dep '", dep, "'. Error: ", e)
         NULL
       })
     })
@@ -101,7 +101,6 @@ rspm_pkg_reqs <- function(pkg_name, distro_val, release_val) {
       "?distribution=", distro_val,
       "&release=", release_val
     ) %>%
-    print() %>%
     jsonlite::fromJSON(simplifyDataFrame = FALSE)
 
   list(
