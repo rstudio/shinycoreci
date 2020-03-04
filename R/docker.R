@@ -36,6 +36,7 @@ docker_run_sso <- function(
   launch_browser = TRUE
 ) {
   release <- match.arg(release)
+  r_version <- match.arg(r_version)
 
   docker_run_server(
     type = "sso",
@@ -57,6 +58,7 @@ docker_run_ssp <- function(
   launch_browser = TRUE
 ) {
   release <- match.arg(release)
+  r_version <- match.arg(r_version)
 
   docker_run_server(
     type = "ssp",
