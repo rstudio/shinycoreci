@@ -6,43 +6,23 @@
 \title{Docker Testing}
 \usage{
 docker_run_sso(
-  r_version = "3.6",
-  distro = c("ubuntu", "centos"),
-  release = if (distro == "ubuntu") "bionic" else "7",
-  port = if (distro == "ubuntu") 3838 else 7878,
-  examples_repo = "rstudio/shiny-examples",
-  testing_repo = "rstudio/testShinyExamples",
-  auth_token = remotes:::github_pat(),
-  launch_browser = interactive()
+  release = c("bionic", "xenial", "centos7"),
+  port = switch(release, centos7 = 7878, 3838),
+  r_version = "3.6"
 )
 
 docker_run_ssp(
-  r_version = "3.6",
-  distro = c("ubuntu", "centos"),
-  release = if (distro == "ubuntu") "bionic" else "7",
-  port = if (distro == "ubuntu") 3939 else 7979,
-  examples_repo = "rstudio/shiny-examples",
-  testing_repo = "rstudio/testShinyExamples",
-  auth_token = remotes:::github_pat(),
-  launch_browser = interactive()
+  release = c("bionic", "xenial", "centos7"),
+  port = switch(release, centos7 = 7878, 3838),
+  r_version = "3.6"
 )
 }
 \arguments{
-\item{r_version}{R version to use. Ex: 3.6}
-
-\item{distro}{Distro name}
-
 \item{release}{Distro release name, such as "bionic" for ubuntu or "7" for centos}
 
 \item{port}{port to have server function locally}
 
-\item{examples_repo}{shiny examples github repo location}
-
-\item{testing_repo}{testing github repo to download}
-
-\item{auth_token}{github PAT.  See \code{?usethis::github_token}}
-
-\item{launch_browser}{boolean that determines if browser is launched}
+\item{r_version}{R version to use. Ex: \code{"3.6"}}
 }
 \description{
 Docker Testing
