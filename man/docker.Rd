@@ -8,13 +8,15 @@
 docker_run_sso(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, centos7 = 7878, 3838),
-  r_version = "3.6"
+  r_version = "3.6",
+  launch_browser = TRUE
 )
 
 docker_run_ssp(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, centos7 = 7878, 3838),
-  r_version = "3.6"
+  r_version = "3.6",
+  launch_browser = TRUE
 )
 }
 \arguments{
@@ -23,6 +25,8 @@ docker_run_ssp(
 \item{port}{port to have server function locally}
 
 \item{r_version}{R version to use. Ex: \code{"3.6"}}
+
+\item{launch_browser}{Logical variable that determines if the browser should open to the specified port location}
 }
 \description{
 Docker Testing

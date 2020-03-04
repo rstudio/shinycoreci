@@ -13,16 +13,16 @@ NULL
 #' RStudio Package Manager System Install Scripts
 #'
 #' @inheritParams apps_shinytest
-#' @param docker_release Docker release to use. Such as \verb{'bionic'} or \verb{'centos7'}
+#' @param release Docker release to use. Such as \verb{'bionic'} or \verb{'centos7'}
 #' @describeIn rspm_install Install script needed for R packages to run
 #' @export
 rspm_install_scripts <- function(
   dir = "apps",
-  docker_release = "bionic"
+  release = c("bionic", "xenial", "centos7")
 ) {
   ret <- rspm_sys_reqs(
     dir = dir,
-    docker_release = docker_release
+    release = match.arg(release)
   )
   ret$install_scripts
 }
@@ -30,11 +30,11 @@ rspm_install_scripts <- function(
 #' @export
 rspm_pre_install_scripts <- function(
   dir = "apps",
-  docker_release = "bionic"
+  release = c("bionic", "xenial", "centos7")
 ) {
   ret <- rspm_sys_reqs(
     dir = dir,
-    docker_release = docker_release
+    release = match.arg(release)
   )
   ret$pre_install_scripts
 }
@@ -42,22 +42,23 @@ rspm_pre_install_scripts <- function(
 #' @export
 rspm_all_install_scripts <- function(
   dir = "apps",
-  docker_release = "bionic"
+  release = c("bionic", "xenial", "centos7")
 ) {
   ret <- rspm_sys_reqs(
     dir = dir,
-    docker_release = docker_release
+    release = match.arg(release)
   )
   ret$all_install_scripts
 }
 
 rspm_sys_reqs <- function(
   dir = "apps",
-  docker_release = "bionic"
+  release = c("bionic", "xenial", "centos7")
 ) {
 
-  distro_val <- rspm_distro(docker_release)
-  release_val <- rspm_release(docker_release)
+  release <- match.arg(release)
+  distro_val <- rspm_distro(release)
+  release_val <- rspm_release(release)
 
   message("Retrieving dependencies...")
   deps <- app_deps(dir)$package
