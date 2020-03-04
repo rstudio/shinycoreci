@@ -19,6 +19,27 @@ test_shinyjster(
 \item{dir}{base folder to look for applications}
 
 \item{apps}{applications within \verb{dir} to run}
+
+\item{port}{The TCP port that the application should listen on. If the
+\code{port} is not specified, and the \code{shiny.port} option is set (with
+\code{options(shiny.port = XX)}), then that port will be used. Otherwise,
+use a random port.}
+
+\item{host}{The IPv4 address that the application should listen on. Defaults
+to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
+Details.}
+
+\item{debug_port}{Port for chrome debugger}
+
+\item{browser}{Browser to be set for testing.  If using \code{"chrome"} or \code{"firefox"}, the system application will be used.}
+
+\item{type}{Single value to determine how applications are executed. \describe{
+\item{\code{'parallel'}}{Runs apps using \code{parallel::mclapply} using \code{cores} cores}
+\item{\code{'callr'}}{Runs apps using \code{callr::r_bg} using \code{cores} cores}
+\item{\code{'serial'}}{Runs apps one after another using \code{lapply}. \code{port} is only used with options \code{'serial'} and \code{'lapply'}}
+}}
+
+\item{assert}{Logical which determines if \link[shinyjster]{assert_jster} should be run on the final output}
 }
 \description{
 Test shinyjster
