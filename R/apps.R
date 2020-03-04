@@ -35,7 +35,10 @@ apps_shinyjster <- function(dir) {
     ))
   }, logical(1))
 
-  app_folders[calls_shinyjster]
+  app_folders <- app_folders[calls_shinyjster]
+  # Strip off leading dir, which was passed to this function.
+  app_folders <- substring(app_folders, nchar(dir) + 2, 10000)
+  app_folders
 }
 
 #' @describeIn app-folders App folders that contain a \verb{testthat.R} file
