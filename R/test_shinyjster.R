@@ -6,7 +6,7 @@
 #' @export
 test_shinyjster <- function(
   dir = "apps",
-  apps = apps_shinyjster(),
+  apps = apps_shinyjster(dir),
   port = 8000,
   host = "127.0.0.1",
   debug_port = NULL,
