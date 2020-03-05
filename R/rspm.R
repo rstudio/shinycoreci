@@ -1,5 +1,3 @@
-#' @importFrom magrittr %>%
-NULL
 
 # Info
 #   https://demo.rstudiopm.com/client/#/repos/3/overview
@@ -70,16 +68,15 @@ rspm_sys_reqs <- function(
     show_after = 0,
     clear = FALSE
   )
-  reqs <- deps %>%
-    lapply(function(dep) {
-      pr$tick(tokens = list(name = dep))
-      tryCatch({
-        rspm_pkg_reqs(dep, distro_val, release_val)
-      }, error = function(e) {
-        message("Error for dep '", dep, "'. Error: ", e)
-        NULL
-      })
+  reqs <- lapply(deps, function(dep) {
+    pr$tick(tokens = list(name = dep))
+    tryCatch({
+      rspm_pkg_reqs(dep, distro_val, release_val)
+    }, error = function(e) {
+      message("Error for dep '", dep, "'. Error: ", e)
+      NULL
     })
+  })
 
   list(
     pre_install_scripts = rspm_output_txt(reqs, "pre_install", distro_val = distro_val),
@@ -96,13 +93,14 @@ rspm_pkg_reqs <- function(pkg_name, distro_val, release_val) {
   #   magrittr::extract2(1) %>%
   #   magrittr::extract2("id")
 
-  info <-
+  info <- jsonlite::fromJSON(
     paste0(
       "https://demo.rstudiopm.com/__api__/repos/4/packages/", pkg_name, "/sysreqs",
       "?distribution=", distro_val,
       "&release=", release_val
-    ) %>%
-    jsonlite::fromJSON(simplifyDataFrame = FALSE)
+    ),
+    simplifyDataFrame = FALSE
+  )
 
   list(
     pre_install = rspm_output(info, "pre_install"),
@@ -134,22 +132,17 @@ rspm_distro <- function(distro) {
 
 
 rspm_output <- function(info, key) {
-  c(
+  unique(c(
     info[[key]],
-    info$dependencies %>%
-      lapply(`[[`, key) %>%
-      unlist()
-  ) %>%
-    unique()
+    unlist(lapply(info$dependencies, `[[`, key))
+  ))
 }
 rspm_output_txt <- function(reqs, keys, distro_val) {
-  txt <-
+  txt <- sort(unique(unlist(
     lapply(keys, function(key) {
       lapply(reqs, `[[`, key)
-    }) %>%
-    unlist() %>%
-    unique() %>%
-    sort()
+    })
+  )))
 
   if (length(txt) == 0) {
     return("")
@@ -161,8 +154,7 @@ rspm_output_txt <- function(reqs, keys, distro_val) {
     "ubuntu" = "apt-get install -y ",
     stop("unknown distro: ", distro_val)
   )
-  txt <- sub(install_txt, "", txt) %>%
-    paste0(collapse = " ")
+  txt <- paste0(sub(install_txt, "", txt), collapse = " ")
 
   paste0(
     # "RUN ",
