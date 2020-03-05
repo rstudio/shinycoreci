@@ -80,11 +80,15 @@ docker_run_server <- function(
   r_version = "3.6",
   launch_browser = launch_browser
 ) {
+  tag <- paste0(type, "-", r_version, "-", release)
+  docker_cmd(
+    "docker pull rstudio/shinycoreci:", tag
+  )
   if (isTRUE(launch_browser)) {
     utils::browseURL(paste0("http://localhost:", port, "/"))
   }
   docker_cmd(
-    "docker run --rm -p ", port, ":3838 --name ", "sso_", r_version, "_", release, " rstudio/shinycoreci:", type, "-", r_version, "-", release
+    "docker run --rm -p ", port, ":3838 --name ", type, "_", r_version, "_", release, " rstudio/shinycoreci:", tag
   )
 }
 
