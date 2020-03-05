@@ -1,9 +1,6 @@
 # to be called within `test_shinyjster()`
 test_shinyjster_source <- function(apps, args = list()) {
 
-  args$assert <- FALSE
-  args$type <- 'lapply'
-
   ret <- lapply(apps, function(app) {
     callr::r(
       function(app_, ...) {
