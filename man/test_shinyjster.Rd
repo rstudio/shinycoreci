@@ -9,8 +9,7 @@ test_shinyjster(
   apps = apps_shinyjster(dir),
   port = 8000,
   host = "127.0.0.1",
-  debug_port = NULL,
-  browser = c("chrome", "firefox"),
+  browser = "chrome",
   type = c("serial", "lapply", "parallel", "callr"),
   assert = TRUE
 )
@@ -29,17 +28,22 @@ use a random port.}
 to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
 Details.}
 
-\item{debug_port}{Port for chrome debugger}
+\item{browser}{a non-empty character string giving the name of the
+    program to be used as the HTML browser.  It should be in the PATH,
+    or a full path specified.  Alternatively, an \R function to be
+    called to invoke the browser.
 
-\item{browser}{Browser to be set for testing.  If using \code{"chrome"} or \code{"firefox"}, the system application will be used.}
+    Under Windows \code{NULL} is also allowed (and is the default), and
+    implies that the file association mechanism will be used.
+  }
 
 \item{type}{Single value to determine how applications are executed. \describe{
-\item{\code{'parallel'}}{Runs apps using \code{parallel::mclapply} using \code{cores} cores}
-\item{\code{'callr'}}{Runs apps using \code{callr::r_bg} using \code{cores} cores}
-\item{\code{'serial'}}{Runs apps one after another using \code{lapply}. \code{port} is only used with options \code{'serial'} and \code{'lapply'}}
+\item{\code{'serial'}}{Runs apps one after another using \code{lapply}. \code{port} will be random for each app unless specified.}
+\item{\code{'callr'}}{Runs apps using \code{callr::r_bg} using \code{cores} cores. \code{port} will be random for each app to allow concurrent execution.}
+\item{\code{'lapply'}}{Runs apps in succession using \code{lapply}. \code{port} will be random for each app unless specified.}
 }}
 
-\item{assert}{Logical which determines if \link[shinyjster]{assert_jster} should be run on the final output}
+\item{assert}{Logical value which will determine if \code{shinyjster::assert_jster} will be run on the final output. Defaults to \code{TRUE}}
 }
 \description{
 Test shinyjster
