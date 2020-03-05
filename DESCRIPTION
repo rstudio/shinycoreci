@@ -39,8 +39,7 @@ Imports:
     callr,
     progress,
     rsconnect (>= 0.8.16-9001),
-    httr,
-    magrittr
+    httr
 Remotes:
   rstudio/shinytest,
   schloerke/shinyjster,
