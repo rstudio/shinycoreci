@@ -81,7 +81,7 @@ docker_run_server <- function(
   launch_browser = launch_browser
 ) {
   if (isTRUE(launch_browser)) {
-    browseURL(paste0("http://localhost:", port, "/"))
+    utils::browseURL(paste0("http://localhost:", port, "/"))
   }
   docker_cmd(
     "docker run --rm -p ", port, ":3838 --name ", "sso_", r_version, "_", release, " rstudio/shinycoreci:", type, "-", r_version, "-", release
