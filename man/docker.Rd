@@ -14,7 +14,7 @@ docker_run_sso(
 
 docker_run_ssp(
   release = c("bionic", "xenial", "centos7"),
-  port = switch(release, centos7 = 7878, 3838),
+  port = switch(release, centos7 = 8989, 4949),
   r_version = "3.6",
   launch_browser = TRUE
 )
