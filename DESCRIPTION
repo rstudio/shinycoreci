@@ -43,5 +43,6 @@ Imports:
 Remotes:
   schloerke/shinyjster,
   rstudio/shiny@rc-v1.4.0.1,
+  rstudio/shinymeta,
   rstudio/rsconnect
 RoxygenNote: 7.0.2
