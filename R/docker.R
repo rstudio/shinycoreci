@@ -31,7 +31,7 @@ docker_clean <- function(stopped_containers = TRUE, untagged_images = TRUE) {
 docker_run_sso <- function(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, "centos7" = 7878, 3838),
-  r_version = "3.6",
+  r_version = c("3.5", "3.6"),
   tag = NULL,
   launch_browser = TRUE
 ) {
@@ -55,7 +55,7 @@ docker_run_sso <- function(
 docker_run_ssp <- function(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, "centos7" = 8989, 4949),
-  r_version = "3.6",
+  r_version = c("3.5", "3.6"),
   tag = NULL,
   launch_browser = TRUE
 ) {
@@ -82,10 +82,14 @@ docker_run_server <- function(
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
-  r_version = "3.6",
+  r_version = c("3.5", "3.6"),
   tag = NULL,
   launch_browser = launch_browser
 ) {
+  type <- match.arg(type)
+  release <- match.arg(release)
+  r_version <- match.arg(r_version)
+
   tag <- paste0(type, "-", r_version, "-", release, if(!is.null(tag)) paste0("-", tag))
   docker_cmd(
     "docker pull rstudio/shinycoreci:", tag
