@@ -9,6 +9,7 @@ docker_run_sso(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, centos7 = 7878, 3838),
   r_version = "3.6",
+  tag = NULL,
   launch_browser = TRUE
 )
 
@@ -16,6 +17,7 @@ docker_run_ssp(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, centos7 = 8989, 4949),
   r_version = "3.6",
+  tag = NULL,
   launch_browser = TRUE
 )
 }
@@ -25,6 +27,8 @@ docker_run_ssp(
 \item{port}{port to have server function locally}
 
 \item{r_version}{R version to use. Ex: \code{"3.6"}}
+
+\item{tag}{Extra tag information for the docker image. This will prepend a \verb{-} if a value is given.}
 
 \item{launch_browser}{Logical variable that determines if the browser should open to the specified port location}
 }

@@ -24,6 +24,7 @@ docker_clean <- function(stopped_containers = TRUE, untagged_images = TRUE) {
 #' @param r_version R version to use. Ex: \code{"3.6"}
 #' @param release Distro release name, such as "bionic" for ubuntu or "7" for centos
 #' @param port port to have server function locally
+#' @param tag Extra tag information for the docker image. This will prepend a \verb{-} if a value is given.
 #' @param launch_browser Logical variable that determines if the browser should open to the specified port location
 #' @describeIn docker Run SSO in a docker container
 #' @export
@@ -31,6 +32,7 @@ docker_run_sso <- function(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, "centos7" = 7878, 3838),
   r_version = "3.6",
+  tag = NULL,
   launch_browser = TRUE
 ) {
   release <- match.arg(release)
@@ -41,6 +43,7 @@ docker_run_sso <- function(
     release = release,
     port = port,
     r_version = r_version,
+    tag = tag,
     launch_browser = launch_browser
   )
 }
@@ -53,6 +56,7 @@ docker_run_ssp <- function(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, "centos7" = 8989, 4949),
   r_version = "3.6",
+  tag = NULL,
   launch_browser = TRUE
 ) {
   release <- match.arg(release)
@@ -63,6 +67,7 @@ docker_run_ssp <- function(
     release = release,
     port = port,
     r_version = r_version,
+    tag = tag,
     launch_browser = launch_browser
   )
 }
@@ -78,9 +83,10 @@ docker_run_server <- function(
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
   r_version = "3.6",
+  tag = NULL,
   launch_browser = launch_browser
 ) {
-  tag <- paste0(type, "-", r_version, "-", release)
+  tag <- paste0(type, "-", r_version, "-", release, if(!is.null(tag)) paste0("-", tag))
   docker_cmd(
     "docker pull rstudio/shinycoreci:", tag
   )
