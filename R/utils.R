@@ -27,6 +27,7 @@ rm_files <- function(filenames) {
   flexdashboard::flex_dashboard
   shinymeta::formatCode
   pool::Pool
+  Rcpp::cppFunction
 }
 
 triple_colon <- function(pkg, name) {

@@ -13,6 +13,7 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 Imports:
+    Rcpp (> 1.0.4),
     sessioninfo,
     renv,
     remotes,
@@ -39,8 +40,7 @@ Imports:
     callr,
     progress,
     rsconnect (>= 0.8.16-9001),
-    httr,
-    Rcpp (> 1.0.4)
+    httr
 Remotes:
   RcppCore/Rcpp,
   rstudio/shinytest,
