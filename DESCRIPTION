@@ -42,6 +42,7 @@ Imports:
     httr,
     Rcpp (> 1.0.4)
 Remotes:
+  RcppCore/Rcpp,
   rstudio/shinytest,
   schloerke/shinyjster,
   rstudio/shiny,
@@ -60,6 +61,5 @@ Remotes:
   rstudio/flexdashboard,
   rstudio/shinymeta,
   rstudio/pool,
-  rstudio/rsconnect#407,
-  RcppCore/Rcpp
+  rstudio/rsconnect#407
 RoxygenNote: 7.0.2
