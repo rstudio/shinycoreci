@@ -39,7 +39,8 @@ Imports:
     callr,
     progress,
     rsconnect (>= 0.8.16-9001),
-    httr
+    httr,
+    Rcpp (> 1.0.4)
 Remotes:
   rstudio/shinytest,
   schloerke/shinyjster,
@@ -59,5 +60,6 @@ Remotes:
   rstudio/flexdashboard,
   rstudio/shinymeta,
   rstudio/pool,
-  rstudio/rsconnect#407
+  rstudio/rsconnect#407,
+  RcppCore/Rcpp
 RoxygenNote: 7.0.2
