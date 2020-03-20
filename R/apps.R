@@ -90,5 +90,5 @@ shiny_app_files <- function(app_folder) {
   dir(app_folder, pattern = "^(app|ui|server)\\.(r|R)$", full.names = TRUE)
 }
 rmarkdown_app_files <- function(app_folder) {
-  dir(app_folder, pattern = "(.Rmd|.rmd)$", full.names = TRUE)
+  dir(app_folder, pattern = "^index\\.(Rmd|rmd)$", full.names = TRUE)
 }
