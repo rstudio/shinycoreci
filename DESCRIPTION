@@ -17,7 +17,7 @@ Imports:
     renv,
     remotes,
     shinytest (>= 1.3.1.9001),
-    shinyjster (>= 0.0.0.9006),
+    shinyjster (>= 0.0.0.9008),
     shiny (>= 1.4.0.9001),
     htmltools,
     httpuv,
