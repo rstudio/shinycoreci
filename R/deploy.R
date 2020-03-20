@@ -182,8 +182,7 @@ update_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci",
     needs_update <- as.logical(shinycoreci_deps$diff)
     if (any(needs_update)) {
       # make sure these packages are installed!
-      update_package_deps <- utils::getFromNamespace("update.package_deps", "remotes")
-      update_package_deps(shinycoreci_deps, upgrade = "always")
+      remotes__update_package_deps(shinycoreci_deps, upgrade = "always")
     }
   }
 

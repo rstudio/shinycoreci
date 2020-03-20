@@ -4,9 +4,8 @@
 #' @export
 install_app_deps <- function(dir = "apps") {
   deps <- app_deps(dir)
-  invisible(
-    triple_colon("remotes", "update.package_deps")(deps, upgrade = TRUE)
-  )
+  remotes__update_package_deps(deps, upgrade = TRUE)
+  invisible(deps)
 }
 
 #' @rdname install_app_deps
