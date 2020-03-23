@@ -39,7 +39,9 @@ Imports:
     callr,
     progress,
     rsconnect (>= 0.8.16-9001),
-    httr
+    httr,
+    rstudioapi (>= 0.11),
+    rmarkdown (>= 2.1)
 Remotes:
   rstudio/shinytest,
   schloerke/shinyjster,
@@ -60,4 +62,4 @@ Remotes:
   rstudio/shinymeta,
   rstudio/pool,
   rstudio/rsconnect#407
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
