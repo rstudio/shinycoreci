@@ -2,9 +2,14 @@
 
 #' Install direct \pkg{shinycoreci} dependencies
 #'
+#' If something goes wrong, default to installing `shinycoreci` from GitHub. Then try installing the dependencies again. See the examples.
+#'
 #' @inheritParams test_shinyjster
 #' @param try_again Logical to determine if RStudio IDE should try again after a failure
 #' @export
+#' @examples
+#' \dontrun{remotes::install_github("rstudio/shinycoreci")
+#' shinycoreci::install_exact_shinycoreci_deps("apps")}
 install_exact_shinycoreci_deps <- function(dir = "apps", try_again = TRUE) {
 
   installed_something <- FALSE

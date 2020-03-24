@@ -12,5 +12,9 @@ install_exact_shinycoreci_deps(dir = "apps", try_again = TRUE)
 \item{try_again}{Logical to determine if RStudio IDE should try again after a failure}
 }
 \description{
-Install direct \pkg{shinycoreci} dependencies
+If something goes wrong, default to installing \code{shinycoreci} from GitHub. Then try installing the dependencies again. See the examples.
+}
+\examples{
+\dontrun{remotes::install_github("rstudio/shinycoreci")
+shinycoreci::install_exact_shinycoreci_deps("apps")}
 }
