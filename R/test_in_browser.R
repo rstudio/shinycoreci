@@ -60,7 +60,14 @@ test_in_browser <- function(
   force(update_pkgs)
 
   if (rstudioapi::isAvailable()) {
-    message("This function should only be run outside the RStudio IDE. (Such as a terminal tab)")
+    # browser, window, pane
+    shiny_viewer_type <- rstudioapi::readRStudioPreference("shiny_viewer_type", "not-correct")
+    if (!identical(shiny_viewer_type, "browser")) {
+      on.exit({
+        rstudioapi::writeRStudioPreference("shiny_viewer_type", shiny_viewer_type)
+      }, add = TRUE)
+      rstudioapi::writeRStudioPreference("shiny_viewer_type", "browser")
+    }
   }
 
   app_dirs <- file.path(dir, apps)
