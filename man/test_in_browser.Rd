@@ -8,8 +8,9 @@ test_in_browser(
   dir = "apps",
   apps = basename(apps_manual(dir)),
   app = apps[1],
+  port = 8080,
   port_background = 8001,
-  host_background = "127.0.0.1",
+  host = "127.0.0.1",
   delay = 1,
   update_pkgs = TRUE
 )
@@ -21,7 +22,16 @@ test_in_browser(
 
 \item{app}{app number or name to start with. If numeric, it will match the leading number in the testing application}
 
-\item{host_background, port_background}{\code{host} and \code{port} for the background app process}
+\item{port}{The TCP port that the application should listen on. If the
+\code{port} is not specified, and the \code{shiny.port} option is set (with
+\code{options(shiny.port = XX)}), then that port will be used. Otherwise,
+use a random port.}
+
+\item{port_background}{\code{port} for the background app process}
+
+\item{host}{The IPv4 address that the application should listen on. Defaults
+to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
+Details.}
 
 \item{update_pkgs}{Logical that will try to automatically install packages. [\code{TRUE}]}
 }

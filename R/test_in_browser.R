@@ -1,3 +1,5 @@
+
+# TODO remove once test_ide is merged
 normalize_app_name <- function(
   dir,
   apps,
@@ -38,7 +40,7 @@ normalize_app_name <- function(
 #' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
 #'
 #' @inheritParams test_shinyjster
-#' @param host_background,port_background `host` and `port` for the background app process
+#' @param port_background `port` for the background app process
 #' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
 #' @param update_pkgs Logical that will try to automatically install packages. \[`TRUE`\]
 #' @export
@@ -48,17 +50,18 @@ test_in_browser <- function(
   dir = "apps",
   apps = basename(apps_manual(dir)),
   app = apps[1],
+  port = 8080,
   port_background = 8001,
-  host_background = "127.0.0.1",
+  host = "127.0.0.1",
   delay = 1,
   update_pkgs = TRUE
 ) {
   sys_call <- match.call()
   force(update_pkgs)
 
-  # if (rstudioapi::isAvailable()) {
-  #   stop("This function should only be run outside the RStudio IDE")
-  # }
+  if (rstudioapi::isAvailable()) {
+    message("This function should only be run outside the RStudio IDE. (Such as a terminal tab)")
+  }
 
   app_dirs <- file.path(dir, apps)
 
@@ -74,26 +77,77 @@ test_in_browser <- function(
 
   app <- normalize_app_name(dir, apps, app, increment = FALSE)
 
+  panel_width <- "350px"
+
   ui <- shiny::fluidPage(
-    shiny::column(2,
-      "App directory: ", dir,
-      shiny::selectizeInput("app_name", "App", apps, selected = app),
-      shiny::actionButton("accept", "Accept!"),
-      shiny::actionButton("reject", "Reject"),
+    shiny::fixedPanel(
+      class = "server_panel",
+      shiny::tags$div(
+        class = "apps_dir",
+        shiny::tags$strong("App directory: "), shiny::tags$code(dir)
+      ),
+      shiny::selectizeInput("app_name", NULL, apps, selected = app),
+      shiny::tags$div(
+        class = "button_container",
+        shiny::actionButton("accept", "Accept!", class = "accept_button"),
+        shiny::actionButton("refresh", "Refresh", class = "refresh_button"),
+        shiny::actionButton("reject", "Reject", class = "reject_button"),
+      ),
       shiny::verbatimTextOutput("server_output"),
-      shiny::actionButton("refresh", "Refresh"),
     ),
 
-    shiny::column(10,
+    shiny::fixedPanel(
+      class = "background_app",
       shiny::uiOutput("app_iframe", class = "iframe_container")
     ),
 
     shiny::tags$head(
-      shiny::tags$style("
-        body .container-fluid, body .col-sm-10 {
-          padding-right: 0;
-          padding-left: 0;
+      shiny::tags$style(paste0("
+        .apps_dir {
+          margin-bottom: 10px;
         }
+        .server_panel {
+          padding: 5px;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          width: ", panel_width, ";
+          height: 100vh;
+          border-right-style: solid;
+          border-right-color: #f0f0f0;
+        }
+        .background_app {
+          top: 0;
+          bottom: 0;
+          left: ", panel_width, ";
+          right: 0;
+          height: 100vh;
+        }
+
+        .button_container {
+          display: flex;
+          flex-direction: row;
+          align-items: stretch;
+          align-content: stretch;
+          justify-content: space-evenly;
+          margin-bottom: 10px;
+        }
+        .button_container .btn {
+          flex: 0 0 auto;
+        }
+        .button_container .accept_button:hover {
+          background-color: rgb(172, 219, 180);
+        }
+        .button_container .accept_button {
+          border-color: rgb(5, 164, 53);
+        }
+        .button_container .reject_button:hover {
+          background-color: rgb(255, 182, 182);
+        }
+        .button_container .reject_button {
+          border-color: rgb(228, 117, 117);
+        }
+
         .iframe_container {
           display: flex;
           flex-direction: column;
@@ -106,11 +160,8 @@ test_in_browser <- function(
         }
         iframe {
           border-style: hidden;
-          border-left-style: solid;
-          border-left-color: #f0f0f0;
         }
-
-      ")
+      "))
     )
   )
 
@@ -125,7 +176,6 @@ test_in_browser <- function(
         req(FALSE)
       }
 
-      # message("normalize_app_name: '", input$app_name, "'")
       normalize_app_name(dir, apps, input$app_name, increment = FALSE)
     })
 
@@ -149,9 +199,6 @@ test_in_browser <- function(
     })
 
 
-    # proc_env <- as.list(callr::rcmd_safe_env())
-    # proc_env$R_BROWSER <- NULL
-    # proc_env <- unlist(proc_env)
     app_proc <- NULL
     session$onSessionEnded(function() {
       if (!is.null(app_proc)) {
@@ -161,6 +208,7 @@ test_in_browser <- function(
     })
     app_has_restarted <- shiny::eventReactive({input$refresh; app_name()}, {
 
+      message("")
       message("Starting app: ", app_name())
 
       # kill prior app
@@ -175,7 +223,7 @@ test_in_browser <- function(
       for (i in seq_len(tries)) {
         tryCatch(
           {
-            s <- httpuv::startServer(host_background, port_background, list(), quiet = TRUE)
+            s <- httpuv::startServer(host, port_background, list(), quiet = TRUE)
             s$stop()
             port_is_available <- TRUE
             break
@@ -194,8 +242,7 @@ test_in_browser <- function(
 
 
       # start new app
-      message("")
-      message("Starting background app process...", appendLF = FALSE)
+      message("Launching background app process...", appendLF = FALSE)
       app_proc <<- callr::r_bg(
         function(app_dir_, port_, host_) {
           shiny::runApp(
@@ -208,9 +255,8 @@ test_in_browser <- function(
         list(
           app_dir_ = app_name(),
           port_ = port_background,
-          host_ = host_background
+          host_ = host
         ),
-        # env = proc_env,
         supervise = TRUE,
         stdout = "|",
         stderr = "2>&1",
@@ -226,7 +272,16 @@ test_in_browser <- function(
 
       # make sure the app is alive
       message("Making sure background app is alive...", appendLF = FALSE)
-      httr::RETRY("GET", paste0("http://", host_background, ":", port_background), pause_min = 0.25, pause_cap = 0.25, times = 10 / 0.25, quiet = TRUE)
+      total_wait <- 10
+      interval <- 0.25
+      httr::RETRY(
+        "GET",
+        paste0("http://", host, ":", port_background),
+        pause_min = interval,
+        pause_cap = interval,
+        times = total_wait / interval,
+        quiet = TRUE
+      )
       message(" OK")
 
       TRUE
@@ -260,32 +315,28 @@ test_in_browser <- function(
               )
             )
           })
-          # cat(
-          #   paste0("shinyproc - ", proc_output_lines, collapse = "\n"), "\n"
-          # )
         }
       }
     })
-
-
 
     output$app_iframe <- renderUI({
       # trigger build
       app_has_restarted()
 
       shiny::tags$iframe(
-        src = paste0("http://", host_background, ":", port_background, "/"),
+        src = paste0("http://", host, ":", port_background, "/"),
         class = "iframe_child"
       )
     })
   }
 
-  # shiny::runApp(
-    shiny::shinyApp(ui = ui, server = server)
-    # ,
-  #   port = port,
-  #   host = host,
-  #   launch.browser = TRUE
-  # )
-
+  shiny::shinyApp(
+    ui = ui,
+    server = server,
+    options = list(
+      host = host,
+      port = port,
+      launch.browser = TRUE
+    )
+  )
 }
