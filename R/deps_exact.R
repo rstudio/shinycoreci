@@ -54,7 +54,7 @@ install_exact_shinycoreci_deps <- function(dir = "apps", try_again = TRUE) {
           }, silent = TRUE)
         })
         # install all the things from CRAN
-        remotes::install_cran(to_install_, upgrade = TRUE, force = TRUE, dependencies = TRUE)
+        utils::install.packages(to_install_, dependencies = TRUE)
       },
       list(to_install_ = to_install),
       show = TRUE

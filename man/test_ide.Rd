@@ -10,8 +10,9 @@ test_ide(
   app = apps[1],
   port = 8000,
   host = "127.0.0.1",
-  delay = 0.5,
-  update_pkgs = TRUE
+  delay = 1,
+  update_pkgs = TRUE,
+  viewer = rstudioapi::readRStudioPreference("shiny_viewer_type", "pane")
 )
 }
 \arguments{
@@ -30,9 +31,11 @@ use a random port.}
 to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
 Details.}
 
-\item{delay}{Time to wait between applications. [\code{0.5}]}
+\item{delay}{Time to wait between applications. [\code{1}]}
 
 \item{update_pkgs}{Logical that will try to automatically install packages. [\code{TRUE}]}
+
+\item{viewer}{RStudio IDE viewer to use.  [\code{"pane"}]}
 }
 \description{
 Automatically runs the next app in a fresh RStudio session after closing the current app. To stop,  send an interrupt signal (\verb{esc} or \verb{ctrl+c}) to the app twice in rapid succession.

@@ -72,8 +72,9 @@ normalize_app_name <- function(
 #'
 #' @inheritParams test_shinyjster
 #' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
-#' @param delay Time to wait between applications. \[`0.5`\]
+#' @param delay Time to wait between applications. \[`1`\]
 #' @param update_pkgs Logical that will try to automatically install packages. \[`TRUE`\]
+#' @param viewer RStudio IDE viewer to use.  \[`"pane"`\]
 #' @export
 #' @examples
 #' \dontrun{test_ide(dir = "apps")}
@@ -83,15 +84,33 @@ test_ide <- function(
   app = apps[1],
   port = 8000,
   host = "127.0.0.1",
-  delay = 0.5,
-  update_pkgs = TRUE
+  delay = 1,
+  update_pkgs = TRUE,
+  viewer = rstudioapi::readRStudioPreference("shiny_viewer_type", "pane")
 ) {
   sys_call <- match.call()
   force(update_pkgs)
 
-  # if (!rstudioapi::isAvailable()) {
-  #   stop("This function should only be run within the RStudio IDE")
-  # }
+  if (rstudioapi::isAvailable()) {
+    # stop("This function should only be run within the RStudio IDE")
+
+    # window, pane, browser
+    shiny_viewer_type <- force(viewer)
+    on.exit({
+      rstudioapi::writeRStudioPreference("shiny_viewer_type", shiny_viewer_type)
+    }, add = TRUE)
+
+    # shiny viewer is not `window` or `pane`
+    if (!is.null(viewer)) {
+      viewer <- match.arg(viewer, c("window", "pane"), several.ok = FALSE)
+    }
+    if (is.null(viewer)) {
+      message("!! Setting `shiny_viewer_type` to `'pane'` !!")
+      viewer <- "pane"
+    }
+    # viewer supplied
+    rstudioapi::writeRStudioPreference("shiny_viewer_type", viewer)
+  }
 
   app_dirs <- file.path(dir, apps)
 
