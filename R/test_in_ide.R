@@ -77,8 +77,8 @@ normalize_app_name <- function(
 #' @param viewer RStudio IDE viewer to use.  \[`"pane"`\]
 #' @export
 #' @examples
-#' \dontrun{test_ide(dir = "apps")}
-test_ide <- function(
+#' \dontrun{test_in_ide(dir = "apps")}
+test_in_ide <- function(
   dir = "apps",
   apps = basename(apps_manual(dir)),
   app = apps[1],
@@ -136,7 +136,7 @@ test_ide <- function(
 
     # do not try to update apps again. Set the next app. Keep all existing arguments.
     next_sys_call_list <- as.list(sys_call)
-    next_sys_call_list[[1]] <- substitute(shinycoreci::test_ide)
+    next_sys_call_list[[1]] <- substitute(shinycoreci::test_in_ide)
     next_sys_call_list$app <- next_app
     next_sys_call_list$update_pkgs <- FALSE
     next_sys_call <- as.call(next_sys_call_list)
@@ -148,7 +148,7 @@ test_ide <- function(
     is_loaded_with_devtools <- ".__DEVTOOLS__" %in% ls(envir = asNamespace("shinycoreci"), all.names = TRUE)
     if (is_loaded_with_devtools) {
       # dev mode
-      next_sys_call_txt <- sub("shinycoreci::test_ide", "pkgload::load_all(); test_ide", next_sys_call_txt)
+      next_sys_call_txt <- sub("shinycoreci::test_in_ide", "pkgload::load_all(); test_in_ide", next_sys_call_txt)
     }
 
     if (rstudioapi::isAvailable()) {
