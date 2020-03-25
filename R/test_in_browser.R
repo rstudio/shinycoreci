@@ -1,40 +1,4 @@
 
-# TODO remove once test_ide is merged
-normalize_app_name <- function(
-  dir,
-  apps,
-  app_name,
-  increment = FALSE
-) {
-  if (is.null(app_name) || identical(app_name, 0L)) {
-    return(apps[1])
-  }
-
-  if (is.numeric(app_name)) {
-    app_name <- app_num(app_name)
-  }
-  if (!(app_name %in% apps)) {
-    app_name <- dir(dir, pattern = basename(app_name))
-    if (length(app_name) > 1) {
-      message("Found multiple apps.\n\tUsing the first app: ", app_name[1], ".\n\tFrom set: ", paste0(app_name, collapse = ", "))
-      app_name <- app_name[1]
-    }
-  }
-  app_pos <- which(basename(apps) == basename(app_name))
-  if (length(app_pos) == 0) {
-    stop("unknown app: ", app_name)
-  }
-  if (increment) {
-    app_pos <- app_pos + 1
-  }
-  if (app_pos > length(apps)) {
-    return(NULL)
-  }
-  file.path(dir, apps[app_pos])
-}
-
-
-
 #' Test apps within the terminal
 #'
 #' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
@@ -53,7 +17,6 @@ test_in_browser <- function(
   port = 8080,
   port_background = 8001,
   host = "127.0.0.1",
-  delay = 1,
   update_pkgs = TRUE
 ) {
   sys_call <- match.call()
@@ -187,11 +150,11 @@ test_in_browser <- function(
 
     app_name <- shiny::eventReactive({input$app_name}, {
       if (identical(input$app_name, "")) {
-        req(FALSE)
+        shiny::req(FALSE)
       }
       if (! input$app_name %in% apps) {
         message("incorrect app name: '", input$app_name, "'")
-        req(FALSE)
+        shiny::req(FALSE)
       }
 
       normalize_app_name(dir, apps, input$app_name, increment = FALSE)
@@ -305,26 +268,26 @@ test_in_browser <- function(
       TRUE
     })
 
-    output_lines <- reactiveVal("")
+    output_lines <- shiny::reactiveVal("")
 
-    output$server_output <- renderText({
+    output$server_output <- shiny::renderText({
       output_lines()
     })
 
-    observe({
+    shiny::observe({
       app_has_restarted()
-      isolate({
+      shiny::isolate({
         output_lines("")
       })
     })
 
-    observe({
+    shiny::observe({
       app_has_restarted()
       shiny::invalidateLater(200)
       if (!is.null(app_proc)) {
         proc_output_lines <- app_proc$read_output_lines()
         if (any(nchar(proc_output_lines) > 0)) {
-          isolate({
+          shiny::isolate({
             output_lines(
               paste0(
                 output_lines(),
@@ -337,7 +300,7 @@ test_in_browser <- function(
       }
     })
 
-    output$app_iframe <- renderUI({
+    output$app_iframe <- shiny::renderUI({
       # trigger build
       app_has_restarted()
 

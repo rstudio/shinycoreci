@@ -11,7 +11,6 @@ test_in_browser(
   port = 8080,
   port_background = 8001,
   host = "127.0.0.1",
-  delay = 1,
   update_pkgs = TRUE
 )
 }
