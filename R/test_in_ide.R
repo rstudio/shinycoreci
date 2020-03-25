@@ -86,7 +86,7 @@ test_in_ide <- function(
   host = "127.0.0.1",
   delay = 1,
   update_pkgs = TRUE,
-  viewer = rstudioapi::readRStudioPreference("shiny_viewer_type", "pane")
+  viewer = NULL
 ) {
   sys_call <- match.call()
   force(update_pkgs)
@@ -94,22 +94,51 @@ test_in_ide <- function(
   if (rstudioapi::isAvailable()) {
     # stop("This function should only be run within the RStudio IDE")
 
-    # window, pane, browser
-    shiny_viewer_type <- force(viewer)
-    on.exit({
-      rstudioapi::writeRStudioPreference("shiny_viewer_type", shiny_viewer_type)
-    }, add = TRUE)
+    if (rstudioapi::isAvailable("1.3.387")) {
+      # window, pane, browser
+      if (missing(viewer)) {
+        # this should be the default value for `viewer` once IDEv1.2 is not supported
+        viewer <- rstudioapi::readRStudioPreference("shiny_viewer_type", "pane")
+      }
+      shiny_viewer_type <- force(viewer)
+      on.exit({
+        rstudioapi::writeRStudioPreference("shiny_viewer_type", shiny_viewer_type)
+      }, add = TRUE)
 
-    # shiny viewer is not `window` or `pane`
-    if (!is.null(viewer)) {
-      viewer <- match.arg(viewer, c("window", "pane"), several.ok = FALSE)
+      if (is.null(viewer)) {
+        message("!! Setting `shiny_viewer_type` to `'pane'` !!")
+        viewer <- "pane"
+      }
+      # shiny viewer is not `window` or `pane`
+      if (!is.null(viewer)) {
+        viewer <- match.arg(viewer, c("pane", "window"), several.ok = FALSE)
+      }
+      # viewer supplied
+      rstudioapi::writeRStudioPreference("shiny_viewer_type", viewer)
+
+    } else {
+      # RStudio, but early version
+      # This feels hacky, but is necessary
+      # This code should mirror the code above
+
+      # shiny viewer is not `window` or `pane`
+      if (is.null(viewer)) {
+        message("!! Setting `shiny_viewer_type` to `'pane'` !!")
+        viewer <- "pane"
+      }
+      runPane <- get(".rs.invokeShinyPaneViewer", envir = as.environment("tools:rstudio"))
+      runWindow <- get(".rs.invokeShinyWindowViewer", envir = as.environment("tools:rstudio"))
+      runFn <- switch(
+        match.arg(viewer, c("pane", "window")),
+        "pane" = runPane,
+        "window" = runWindow
+      )
+      old_option <- options(shiny.launch.browser = runFn)
+      on.exit({
+        options(old_option)
+      })
+
     }
-    if (is.null(viewer)) {
-      message("!! Setting `shiny_viewer_type` to `'pane'` !!")
-      viewer <- "pane"
-    }
-    # viewer supplied
-    rstudioapi::writeRStudioPreference("shiny_viewer_type", viewer)
   }
 
   app_dirs <- file.path(dir, apps)
