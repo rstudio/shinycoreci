@@ -12,7 +12,7 @@ test_in_ide(
   host = "127.0.0.1",
   delay = 1,
   update_pkgs = TRUE,
-  viewer = rstudioapi::readRStudioPreference("shiny_viewer_type", "pane")
+  viewer = NULL
 )
 }
 \arguments{
