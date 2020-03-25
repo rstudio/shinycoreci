@@ -30,10 +30,6 @@ rm_files <- function(filenames) {
   Rcpp::cppFunction
 }
 
-triple_colon <- function(pkg, name) {
-  getNamespace(pkg)[[name]]
-}
-
 # Is this a SHA-1 hash? (vectorized)
 is_sha <- function(x) {
   !is.na(x) &
