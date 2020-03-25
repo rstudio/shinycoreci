@@ -60,13 +60,24 @@ test_in_browser <- function(
   force(update_pkgs)
 
   if (rstudioapi::isAvailable()) {
-    # browser, window, pane
-    shiny_viewer_type <- rstudioapi::readRStudioPreference("shiny_viewer_type", "not-correct")
-    if (!identical(shiny_viewer_type, "browser")) {
+    if (rstudioapi::isAvailable("1.3.387")) {
+      # browser, window, pane
+      shiny_viewer_type <- rstudioapi::readRStudioPreference("shiny_viewer_type", "not-correct")
+      if (!identical(shiny_viewer_type, "browser")) {
+        on.exit({
+          rstudioapi::writeRStudioPreference("shiny_viewer_type", shiny_viewer_type)
+        }, add = TRUE)
+        rstudioapi::writeRStudioPreference("shiny_viewer_type", "browser")
+      }
+    } else {
+      # RStudio, but early version
+      # This feels hacky, but is necessary
+      runExternal <- get(".rs.invokeShinyWindowExternal", envir = as.environment("tools:rstudio"))
+      old_option <- options(shiny.launch.browser = runExternal)
       on.exit({
-        rstudioapi::writeRStudioPreference("shiny_viewer_type", shiny_viewer_type)
-      }, add = TRUE)
-      rstudioapi::writeRStudioPreference("shiny_viewer_type", "browser")
+        options(old_option)
+      })
+
     }
   }
 
