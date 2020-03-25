@@ -168,6 +168,11 @@ validate_rsconnect_account <- function(account, server) {
 
 
 update_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci", "installed", "none")) {
+  if (identical(update_pkgs, FALSE) || identical(update_pkgs, NULL)) {
+    update_pkgs <- "none"
+  } else if (isTRUE(update_pkgs)) {
+    update_pkgs <- "all"
+  }
   update_pkgs <- match.arg(update_pkgs, several.ok = TRUE)
   if ("all" %in% update_pkgs) {
     update_pkgs <- c("shinycoreci", "installed")
@@ -182,8 +187,7 @@ update_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci",
     needs_update <- as.logical(shinycoreci_deps$diff)
     if (any(needs_update)) {
       # make sure these packages are installed!
-      update_package_deps <- utils::getFromNamespace("update.package_deps", "remotes")
-      update_package_deps(shinycoreci_deps, upgrade = "always")
+      remotes__update_package_deps(shinycoreci_deps, upgrade = "always")
     }
   }
 

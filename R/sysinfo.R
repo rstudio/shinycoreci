@@ -4,7 +4,7 @@
 #'
 #' @export
 find_deps_installed <- function(dir = ".") {
-  deps <- triple_colon("renv", "renv_snapshot_r_packages")(.libPaths(), normalizePath(dir))
+  deps <- renv__renv_snapshot_r_packages(.libPaths(), normalizePath(dir))
   cols <- c(
     "Package",
     "Version",
