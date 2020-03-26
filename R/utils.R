@@ -135,3 +135,23 @@ trigger <- function(
   url <- sprintf("https://api.github.com/repos/%s/dispatches", ci_repo)
   curl_fetch_memory(url, handle = h)
 }
+
+
+# Ask a yes no question defaulting to 'no'
+ask_yes_no <- function(..., default = FALSE) {
+  utils::askYesNo(
+    paste0(...),
+    default = default
+  )
+}
+
+# returns TRUE is pkg is loaded with devtools
+shinycoreci_is_loaded_with_devtools <- function() {
+  ".__DEVTOOLS__" %in% ls(envir = asNamespace("shinycoreci"), all.names = TRUE)
+}
+
+# run a system command and get the response
+run_system_cmd <- function(...) {
+  cmd <- paste0(...)
+  system(cmd, intern = TRUE)
+}

@@ -174,7 +174,7 @@ test_in_ide <- function(
     Sys.sleep(delay)
 
     next_sys_call_txt <- format(next_sys_call)
-    is_loaded_with_devtools <- ".__DEVTOOLS__" %in% ls(envir = asNamespace("shinycoreci"), all.names = TRUE)
+    is_loaded_with_devtools <- shinycoreci_is_loaded_with_devtools()
     if (is_loaded_with_devtools) {
       # dev mode
       next_sys_call_txt <- sub("shinycoreci::test_in_ide", "pkgload::load_all(); test_in_ide", next_sys_call_txt)
