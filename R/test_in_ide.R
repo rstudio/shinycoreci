@@ -71,9 +71,9 @@ normalize_app_name <- function(
 #' If \code{options()} need to be set, set them in your \preformatted{.Rprofile} file.  See \code{usethis::edit_r_profile()}
 #'
 #' @inheritParams test_shinyjster
+#' @inheritParams test_in_browser
 #' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
 #' @param delay Time to wait between applications. \[`1`\]
-#' @param update_pkgs Logical that will try to automatically install packages. \[`TRUE`\]
 #' @param viewer RStudio IDE viewer to use.  \[`"pane"`\]
 #' @export
 #' @examples
@@ -86,7 +86,8 @@ test_in_ide <- function(
   host = "127.0.0.1",
   delay = 1,
   update_pkgs = TRUE,
-  viewer = NULL
+  viewer = NULL,
+  verify = TRUE
 ) {
   sys_call <- match.call()
   force(update_pkgs)
@@ -141,6 +142,11 @@ test_in_ide <- function(
     }
   }
 
+  # make sure the apps are ok to run
+  if (isTRUE(verify)) {
+    app_status_verify(dir)
+  }
+  app_status_init(dir, user_agent = app_status_user_agent_ide())
   app_dirs <- file.path(dir, apps)
 
   # install all the packages
@@ -173,8 +179,15 @@ test_in_ide <- function(
     message("Restarting RStudio and launching next app in ", delay, " second... (interrupt again to stop)")
     Sys.sleep(delay)
 
+    # if this section of code is reached, it is considered a pass!
+    app_status_save(
+      app_dir = app,
+      pass = TRUE,
+      log = "(unknown; can not capture)",
+      user_agent = app_status_user_agent_ide()
+    )
     next_sys_call_txt <- format(next_sys_call)
-    is_loaded_with_devtools <- ".__DEVTOOLS__" %in% ls(envir = asNamespace("shinycoreci"), all.names = TRUE)
+    is_loaded_with_devtools <- shinycoreci_is_loaded_with_devtools()
     if (is_loaded_with_devtools) {
       # dev mode
       next_sys_call_txt <- sub("shinycoreci::test_in_ide", "pkgload::load_all(); test_in_ide", next_sys_call_txt)

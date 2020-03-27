@@ -11,7 +11,8 @@ test_in_browser(
   port = 8080,
   port_background = 8001,
   host = "127.0.0.1",
-  update_pkgs = TRUE
+  update_pkgs = TRUE,
+  verify = TRUE
 )
 }
 \arguments{
@@ -33,6 +34,8 @@ to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
 Details.}
 
 \item{update_pkgs}{Logical that will try to automatically install packages. [\code{TRUE}]}
+
+\item{verify}{Logical that will try to confirm shinycoreci-apps directory is the master branch}
 }
 \description{
 Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.

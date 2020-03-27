@@ -7,6 +7,7 @@
 #' @param port_background `port` for the background app process
 #' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
 #' @param update_pkgs Logical that will try to automatically install packages. \[`TRUE`\]
+#' @param verify Logical that will try to confirm shinycoreci-apps directory is the master branch
 #' @export
 #' @examples
 #' \dontrun{test_in_browser(dir = "apps")}
@@ -17,7 +18,8 @@ test_in_browser <- function(
   port = 8080,
   port_background = 8001,
   host = "127.0.0.1",
-  update_pkgs = TRUE
+  update_pkgs = TRUE,
+  verify = TRUE
 ) {
   sys_call <- match.call()
   force(update_pkgs)
@@ -60,6 +62,11 @@ test_in_browser <- function(
 
   panel_width <- "350px"
 
+  # make sure the apps are ok to run
+  if (isTRUE(verify)) {
+    app_status_verify(dir)
+  }
+
   ui <- shiny::fluidPage(
     shiny::fixedPanel(
       class = "server_panel",
@@ -75,6 +82,18 @@ test_in_browser <- function(
         shiny::actionButton("reject", "Reject", class = "reject_button"),
       ),
       shiny::verbatimTextOutput("server_output"),
+      shiny::tags$script("
+        $(function() {
+          var wait = function() {
+            if (Shiny.setInputValue) {
+              Shiny.setInputValue('user_agent', window.navigator.userAgent);
+              return;
+            }
+            setTimeout(wait, 10);
+          }
+          wait();
+        })
+      ")
     ),
 
     shiny::fixedPanel(
@@ -160,6 +179,16 @@ test_in_browser <- function(
       normalize_app_name(dir, apps, input$app_name, increment = FALSE)
     })
 
+    user_agent <- shiny::reactive({
+      shiny::req(input$user_agent)
+      app_status_user_agent_browser(input$user_agent)
+    })
+    # observe right here to save the value once user_agent is valid.
+    # Should only happen once.
+    shiny::observe({
+      app_status_init(dir, user_agent())
+    })
+
     go_to_next_app <- function() {
       next_app <- normalize_app_name(dir, apps, input$app_name, increment = TRUE)
       shiny::updateSelectizeInput(
@@ -170,12 +199,24 @@ test_in_browser <- function(
     }
 
     shiny::observeEvent({input$accept}, {
-      message("test_in_browser - | ", input$app_name)
+      message("PASS ", input$app_name)
+      app_status_save(
+        app_dir = file.path(dir, input$app_name),
+        pass = TRUE,
+        log = output_lines(),
+        user_agent = user_agent()
+      )
       go_to_next_app()
     })
 
     shiny::observeEvent({input$reject}, {
-      message("test_in_browser - X ", input$app_name)
+      message("FAIL ", input$app_name)
+      app_status_save(
+        app_dir = file.path(dir, input$app_name),
+        pass = FALSE,
+        log = output_lines(),
+        user_agent = user_agent()
+      )
       go_to_next_app()
     })
 
