@@ -333,7 +333,8 @@ app_status_validate_app_branch <- function(dir) {
   }
 
   run_system_cmd("git fetch")
-  is_up_to_date <- run_system_cmd("git status -s -u no")
+  # make sure there is some character value to test
+  is_up_to_date <- paste0(run_system_cmd("git status -s -u no"), "")
   if (nchar(is_up_to_date) > 0) {
     if (
       !ask_yes_no("'apps' branch is not in sync with GitHub: '", apps_branch, "'. Is this ok?")
