@@ -17,6 +17,8 @@ app_status_sheet(
 \item{dir}{base folder containing all shiny apps}
 
 \item{apps}{names of all shiny applications}
+
+\item{status}{Status object to be printed.  If not supplied, it will be created used, \code{dir} and \code{apps}.}
 }
 \description{
 Testing status

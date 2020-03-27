@@ -12,7 +12,8 @@ test_in_ide(
   host = "127.0.0.1",
   delay = 1,
   update_pkgs = TRUE,
-  viewer = NULL
+  viewer = NULL,
+  verify = TRUE
 )
 }
 \arguments{
@@ -36,6 +37,8 @@ Details.}
 \item{update_pkgs}{Logical that will try to automatically install packages. [\code{TRUE}]}
 
 \item{viewer}{RStudio IDE viewer to use.  [\code{"pane"}]}
+
+\item{verify}{Logical that will try to confirm shinycoreci-apps directory is the master branch}
 }
 \description{
 Automatically runs the next app in a fresh RStudio session after closing the current app. To stop,  send an interrupt signal (\verb{esc} or \verb{ctrl+c}) to the app twice in rapid succession.

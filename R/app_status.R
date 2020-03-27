@@ -23,6 +23,8 @@ app_status_folder_name <- "test_status"
 app_status_version_info_name <- "_version_info.json"
 app_status_latest_name <- "_latest.json"
 
+check_mark <- "\u2714"
+
 
 #' Testing status
 #'
@@ -33,7 +35,8 @@ app_status_latest_name <- "_latest.json"
 #' @examples
 #' \dontrun{app_status()}
 app_status <- function(dir = "apps", apps = basename(apps_manual(dir))) {
-  statuses <- lapply(dir(file.path(dirname(dir), app_status_folder_name), full.names = TRUE), function(status_folder) {
+  folders <- dir(file.path(dirname(dir), app_status_folder_name), full.names = TRUE)
+  statuses <- lapply(folders, function(status_folder) {
     app_status_info(dir = dir, apps = apps, status_folder = status_folder)
   })
 
@@ -96,12 +99,11 @@ app_status_info <- function(dir = "apps", apps = basename(apps_manual(dir)), sta
 #' @export
 print.shinycoreci_app_status_info <- function(x, ...) {
   if (x$stats$passing == x$stats$total) {
-    cat("# ", basename(x$status_folder), " √\n", sep = "")
+    cat("# ", basename(x$status_folder), " ", check_mark, "\n", sep = "")
     return()
   } else {
     cat("# ", basename(x$status_folder), "\n", sep = "")
   }
-
 
   pad_num <- function(y) {
     pad_left(as.character(y), " ", nchar(as.character(x$stats$total)))
@@ -116,7 +118,7 @@ print.shinycoreci_app_status_info <- function(x, ...) {
 
 
   if (x$stats$passing > 0) {
-    cat("√ Pass: ", pad_num(x$stats$passing), " / ", x$stats$total, "\n", sep = "")
+    cat(check_mark, " Pass: ", pad_num(x$stats$passing), " / ", x$stats$total, "\n", sep = "")
   }
   if (x$stats$completed < x$stats$total) {
     cat(
@@ -165,6 +167,7 @@ print.shinycoreci_app_status <- function(x, ...) {
 }
 
 #' @export
+#' @param status Status object to be printed.  If not supplied, it will be created used, \code{dir} and \code{apps}.
 #' @describeIn app_status Display the google sheet status to be submitted
 app_status_sheet <- function(dir = "apps", apps = basename(apps_manual(dir)), status = app_status(dir = dir, apps = apps)) {
   ans <- utils::menu(
@@ -174,7 +177,6 @@ app_status_sheet <- function(dir = "apps", apps = basename(apps_manual(dir)), st
   )
 
   status_item <- status$statuses[[ans]]
-  str(status_item)
   status_dt <- status_item$status
   status_dt
   merged_dt <- merge(
@@ -204,11 +206,11 @@ app_status_sheet <- function(dir = "apps", apps = basename(apps_manual(dir)), st
 
 app_status_init <- function(
   dir,
-  user_agent,
-  verify = TRUE
+  user_agent
 ) {
-  app_status_folder_save(user_agent)
-
+  app_status_folder_save(dir, user_agent)
+}
+app_status_verify <- function(dir) {
   app_status_validate_app_branch(dir)
   app_status_validate_shinycoreci_branch()
 }
@@ -246,8 +248,8 @@ app_status_folder_create <- function(folder) {
   invisible(folder)
 }
 # save all information in base status folder
-app_status_folder_save <- function(user_agent) {
-  save_file <- file.path(app_status_folder(user_agent = user_agent), app_status_version_info_name)
+app_status_folder_save <- function(dir, user_agent) {
+  save_file <- file.path(dirname(dir), app_status_folder(user_agent = user_agent), app_status_version_info_name)
   # * folder api version
   # * all identifiying string in parent folder
   info <- list(
@@ -266,6 +268,7 @@ app_status_r_version <- function() {
 
 app_status_write_json <- function(x, file) {
   app_status_folder_create(dirname(file))
+  message("Saving status file: ", file)
   jsonlite::write_json(x, file, auto_unbox = TRUE, pretty = TRUE)
   invisible(x)
 }
@@ -329,6 +332,16 @@ app_status_validate_app_branch <- function(dir) {
       stop("Change 'apps' branch to `master`")
     }
   }
+
+  run_system_cmd("git fetch")
+  is_up_to_date <- run_system_cmd("git status -s -u no")
+  if (nchar(is_up_to_date) > 0) {
+    if (
+      !ask_yes_no("'apps' branch is not in sync with GitHub: '", apps_branch, "'. Is this ok?")
+    ) {
+      stop("Pull in the latest 'apps' changes to `", apps_branch, "`")
+    }
+  }
   invisible(TRUE)
 }
 app_status_validate_shinycoreci_branch <- function() {
@@ -353,10 +366,41 @@ app_status_validate_shinycoreci_branch <- function() {
 app_status_browser <- function(user_agent) {
 
   rstudio_version <- function() {
-    paste0(
-      "rstudio_",
-      gsub("[^0-9]", "_", rstudioapi::versionInfo()$version, fixed = TRUE)
+    version_info <- rstudioapi::versionInfo()
+
+    type <- switch(
+      version_info$mode,
+      "server" = {
+        edition <- version_info$edition
+        if (is.null(edition)) {
+          "rsos"
+        } else {
+          switch(
+            version_info$edition,
+            "Professional" = {
+              if (grepl(".cloud/", Sys.getenv("RSTUDIO_HTTP_REFERER", NA), fixed = TRUE)) {
+                "cloud"
+              } else {
+                "rsp"
+              }
+            },
+            {
+              utils::str(version_info)
+              message("UNKNOWN Server RSTUDIO VERSION!")
+              warning("UNKNOWN Server RSTUDIO VERSION!")
+              version_info$edition
+            }
+          )
+        }
+      },
+      "desktop" = "ide",
+      {
+        stop("UNKNOWN RSTUDIO VERSION!")
+      }
     )
+
+    version <- gsub("[^0-9]", "-", version_info$version)
+    paste("rstudio", type, version, sep = "_")
   }
 
   if (rstudioapi::isAvailable("1.3.387")) {
@@ -392,8 +436,9 @@ app_status_browser <- function(user_agent) {
   if (grepl("Edge/", user_agent)) return("edge")
   if (grepl("Firefox/", user_agent)) return("firefox")
   if (grepl("Trident/", user_agent)) return("ie")
-  if (grepl("Safari/", user_agent)) return("safari")
+  # must be before safari. Safari does not contain 'Chrome', but chrome contains 'Safari'
   if (grepl("Chrome/", user_agent)) return("chrome")
+  if (grepl("Safari/", user_agent)) return("safari")
 
   ret <- gsub("[^a-z0-9]", "_", tolower(user_agent))
 
