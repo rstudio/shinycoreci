@@ -146,7 +146,7 @@ test_in_ide <- function(
   if (isTRUE(verify)) {
     app_status_verify(dir)
   }
-  app_status_init(dir, user_agent = "rstudio")
+  app_status_init(dir, user_agent = app_status_user_agent_ide())
   app_dirs <- file.path(dir, apps)
 
   # install all the packages
@@ -184,7 +184,7 @@ test_in_ide <- function(
       app_dir = app,
       pass = TRUE,
       log = "(unknown; can not capture)",
-      user_agent = "rstudio"
+      user_agent = app_status_user_agent_ide()
     )
     next_sys_call_txt <- format(next_sys_call)
     is_loaded_with_devtools <- shinycoreci_is_loaded_with_devtools()

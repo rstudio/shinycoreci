@@ -181,7 +181,7 @@ test_in_browser <- function(
 
     user_agent <- shiny::reactive({
       shiny::req(input$user_agent)
-      input$user_agent
+      app_status_user_agent_browser(input$user_agent)
     })
     # observe right here to save the value once user_agent is valid.
     # Should only happen once.

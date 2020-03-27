@@ -225,7 +225,7 @@ app_status_folder <- function(
       sep = "_",
       platform(),
       app_status_r_version(),
-      app_status_browser(user_agent)
+      user_agent
     )
   )
 }
@@ -256,8 +256,7 @@ app_status_folder_save <- function(dir, user_agent) {
     version = app_status_version,
     user_agent = user_agent,
     r = app_status_r_version(),
-    platform = platform(),
-    browser = app_status_browser(user_agent = user_agent)
+    platform = platform()
   )
 
   app_status_write_json(info, save_file)
@@ -363,63 +362,45 @@ app_status_validate_shinycoreci_branch <- function() {
 # app_status_os <- function() {
 #   platform()
 # }
-app_status_browser <- function(user_agent) {
 
-  rstudio_version <- function() {
-    version_info <- rstudioapi::versionInfo()
+app_status_user_agent_ide <- function() {
+  version_info <- rstudioapi::versionInfo()
 
-    type <- switch(
-      version_info$mode,
-      "server" = {
-        edition <- version_info$edition
-        if (is.null(edition)) {
-          "rsos"
-        } else {
-          switch(
-            version_info$edition,
-            "Professional" = {
-              if (grepl(".cloud/", Sys.getenv("RSTUDIO_HTTP_REFERER", NA), fixed = TRUE)) {
-                "cloud"
-              } else {
-                "rsp"
-              }
-            },
-            {
-              utils::str(version_info)
-              message("UNKNOWN Server RSTUDIO VERSION!")
-              warning("UNKNOWN Server RSTUDIO VERSION!")
-              version_info$edition
+  type <- switch(
+    version_info$mode,
+    "server" = {
+      edition <- version_info$edition
+      if (is.null(edition)) {
+        "rsos"
+      } else {
+        switch(
+          version_info$edition,
+          "Professional" = {
+            if (grepl(".cloud/", Sys.getenv("RSTUDIO_HTTP_REFERER", NA), fixed = TRUE)) {
+              "cloud"
+            } else {
+              "rsp"
             }
-          )
-        }
-      },
-      "desktop" = "ide",
-      {
-        stop("UNKNOWN RSTUDIO VERSION!")
+          },
+          {
+            utils::str(version_info)
+            message("UNKNOWN Server RSTUDIO VERSION!")
+            warning("UNKNOWN Server RSTUDIO VERSION!")
+            version_info$edition
+          }
+        )
       }
-    )
-
-    version <- gsub("[^0-9]", "-", version_info$version)
-    paste("rstudio", type, version, sep = "_")
-  }
-
-  if (rstudioapi::isAvailable("1.3.387")) {
-    viewer_type <- rstudioapi::readRStudioPreference("shiny_viewer_type", "not-correct")
-    if (!identical(viewer_type, "browser")) {
-      return(rstudio_version())
+    },
+    "desktop" = "ide",
+    {
+      stop("UNKNOWN RSTUDIO VERSION!")
     }
-    # if browser, continue like a regular app
-  } else if (rstudioapi::isAvailable()) {
-    runExternal <- get(".rs.invokeShinyWindowExternal", envir = as.environment("tools:rstudio"))
-    if (!identical(
-      getOption("shiny.launch.browser", "not-correct"),
-      runExternal
-    )) {
-      return(rstudio_version())
-    }
-    # if browser, continue like a regular app
-  }
+  )
 
+  version <- gsub("[^0-9]", "-", version_info$version)
+  paste("rstudio", type, version, sep = "_")
+}
+app_status_user_agent_browser <- function(user_agent) {
   ## Windows 10-based PC using Edge browser
   # Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246
   ## Chrome OS-based laptop using Chrome browser (Chromebook)
