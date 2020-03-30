@@ -209,21 +209,7 @@ test_in_ide <- function(
   message("Running ", basename(app), " in ", dirname(app))
   tryCatch(
     {
-      if ("index.Rmd" %in% dir(app)) {
-        rmarkdown::run(
-          file.path(app, "index.Rmd"),
-          shiny_args = list(
-            port = port,
-            host = host
-          )
-        )
-      } else {
-        shiny::runApp(
-          app,
-          port = port,
-          host = host
-        )
-      }
+      run_app(app, port = port, host = host)
     },
     error = function(e) {
       utils::alarm()

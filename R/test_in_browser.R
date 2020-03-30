@@ -106,18 +106,18 @@ test_in_browser <- function(
         # start new app
         message("Launching background app process...", appendLF = FALSE)
         app_proc <<- callr::r_bg(
-          function(app_dir_, port_, host_) {
-            shiny::runApp(
+          function(app_dir_, port_, host_, run_app_) {
+            run_app(
               app_dir_,
               port = port_,
-              host = host_,
-              launch.browser = FALSE
+              host = host_
             )
           },
           list(
             app_dir_ = app_dir,
             port_ = port_background,
-            host_ = host
+            host_ = host,
+            run_app_ = run_app
           ),
           supervise = TRUE,
           stdout = "|",
@@ -148,6 +148,9 @@ test_in_browser <- function(
 
         TRUE
       },
+      header = function() {
+        shiny::tagList(shiny::tags$strong("App directory: "), shiny::tags$code(dir))
+      },
       on_session_ended = stop_app,
       output_lines = output_lines_fn,
       app_url = function() {
@@ -160,7 +163,6 @@ test_in_browser <- function(
     dir = dir,
     app_infos = app_infos,
     app = app,
-    header = shiny::tagList(shiny::tags$strong("App directory: "), shiny::tags$code(dir)),
     host = host,
     port = port
   )
