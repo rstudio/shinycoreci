@@ -1,14 +1,13 @@
 
-#' Test apps within the terminal
+#' Test deployed apps
 #'
 #' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
 #'
-#' @inheritParams test_shinyjster
-#' @param port_background `port` for the background app process
-#' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
-#' @param update_pkgs Logical that will try to automatically install packages. \[`TRUE`\]
-#' @param verify Logical that will try to confirm shinycoreci-apps directory is the master branch
+#' @inheritParams test_in_browser
+#' @param urls Named vector of urls to visit. By default this is determined using the `server`, `account`, `dir`, and `apps`
+#' @param server,account Parameters that could be supplied to `[rsconnect::deployApp]`
 #' @export
+#' @describeIn test_in_deployed Test connect applications given the server and account
 #' @examples
 #' \dontrun{test_in_connect(dir = "apps")}
 test_in_connect <- function(
