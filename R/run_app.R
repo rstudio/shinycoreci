@@ -4,9 +4,9 @@ run_app <- function(
   host,
   port
 ) {
-  if ("index.Rmd" %in% dir(app)) {
+  if ("index.Rmd" %in% dir(app_dir)) {
     rmarkdown::run(
-      file.path(app, "index.Rmd"),
+      file.path(app_dir, "index.Rmd"),
       shiny_args = list(
         port = port,
         host = host
@@ -14,7 +14,7 @@ run_app <- function(
     )
   } else {
     shiny::runApp(
-      app,
+      app_dir,
       port = port,
       host = host
     )

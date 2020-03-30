@@ -33,7 +33,7 @@ test_in_external <- function(
 
   app_names <- vapply(app_infos, `[[`, character(1), "app_name")
   if (any(duplicated(app_names))) {
-    str(app_names[duplicated(app_names)])
+    utils::str(app_names[duplicated(app_names)])
     stop("Not all app names are unique!")
   }
   names(app_infos) <- app_names
@@ -254,7 +254,7 @@ test_in_external <- function(
       # must have a value before allowing an invalidate later
       ret <- app_info()$output_lines()
       # check constantly
-      invalidateLater(200)
+      shiny::invalidateLater(200)
       # set to output_lines to dedupe the value
       output_lines(ret)
     })
