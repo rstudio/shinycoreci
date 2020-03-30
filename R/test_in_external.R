@@ -5,7 +5,6 @@ test_in_external <- function(
   dir,
   app_infos,
   app,
-  header,
   host = "127.0.0.1",
   port = 8080
 ) {
@@ -48,6 +47,7 @@ test_in_external <- function(
         "start",
         "on_session_ended",
         "output_lines",
+        "header",
         "app_url"
       )
     ) {
@@ -68,7 +68,7 @@ test_in_external <- function(
       class = "server_panel",
       shiny::tags$div(
         class = "apps_dir",
-        header
+        shiny::uiOutput("header")
       ),
       shiny::selectizeInput("app_name", NULL, app_names, selected = app),
       shiny::tags$div(
@@ -177,6 +177,10 @@ test_in_external <- function(
 
     app_info <- shiny::reactive({
       app_infos[[app_name()]]
+    })
+
+    output$header <- shiny::renderUI({
+      app_info()$header()
     })
 
     output_lines <- shiny::reactiveVal()
