@@ -107,7 +107,7 @@ test_in_browser <- function(
         message("Launching background app process...", appendLF = FALSE)
         app_proc <<- callr::r_bg(
           function(app_dir_, port_, host_, run_app_) {
-            run_app(
+            run_app_(
               app_dir_,
               port = port_,
               host = host_
