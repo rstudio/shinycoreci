@@ -7,11 +7,11 @@
 \usage{
 test_in_connect(
   dir = "apps",
-  server = "beta.rstudioconnect.com",
-  account = "barret",
-  apps = basename(apps_deploy(dir)),
-  urls = connect_urls(dir, apps = apps, account = account, server = server),
-  app = basename(apps)[1],
+  urls = test_in_connect_urls(),
+  apps = names(urls),
+  app = apps[1],
+  server = attr(urls, "server"),
+  account = attr(urls, "account"),
   port = 8080,
   host = "127.0.0.1"
 )
@@ -29,13 +29,13 @@ test_in_shinyappsio(
 \arguments{
 \item{dir}{base folder to look for applications}
 
-\item{server, account}{Parameters that could be supplied to \verb{[rsconnect::deployApp]}}
+\item{urls}{Named vector of urls to visit. This should be the output of \verb{[connect_urls]}. By default this is determined using the \code{server}, \code{account}, \code{dir}, and \code{apps}}
 
 \item{apps}{applications within \verb{dir} to run}
 
-\item{urls}{Named vector of urls to visit. By default this is determined using the \code{server}, \code{account}, \code{dir}, and \code{apps}}
-
 \item{app}{app number or name to start with. If numeric, it will match the leading number in the testing application}
+
+\item{server, account}{Parameters that could be supplied to \verb{[rsconnect::deployApp]}}
 
 \item{port}{The TCP port that the application should listen on. If the
 \code{port} is not specified, and the \code{shiny.port} option is set (with

@@ -95,6 +95,9 @@ connect_urls <- function(
   app_urls <- vapply(apps, `[[`, character(1), "url")
   names(app_urls) <- vapply(apps, `[[`, character(1), "name")
 
+  attr(app_urls, "account") <- account
+  attr(app_urls, "server") <- server
+
   app_urls
 }
 

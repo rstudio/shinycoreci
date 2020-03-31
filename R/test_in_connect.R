@@ -4,7 +4,7 @@
 #' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
 #'
 #' @inheritParams test_in_browser
-#' @param urls Named vector of urls to visit. By default this is determined using the `server`, `account`, `dir`, and `apps`
+#' @param urls Named vector of urls to visit. This should be the output of `[connect_urls]`. By default this is determined using the `server`, `account`, `dir`, and `apps`
 #' @param server,account Parameters that could be supplied to `[rsconnect::deployApp]`
 #' @export
 #' @describeIn test_in_deployed Test connect applications given the server and account
@@ -12,16 +12,11 @@
 #' \dontrun{test_in_connect(dir = "apps")}
 test_in_connect <- function(
   dir = "apps",
-  server = "beta.rstudioconnect.com",
-  account = "barret",
-  apps = basename(apps_deploy(dir)),
-  urls = connect_urls(
-    dir,
-    apps = apps,
-    account = account,
-    server = server
-  ),
-  app = basename(apps)[1],
+  urls = test_in_connect_urls(),
+  apps = names(urls),
+  app = apps[1],
+  server = attr(urls, "server"),
+  account = attr(urls, "account"),
   port = 8080,
   host = "127.0.0.1"
 ) {
@@ -60,7 +55,8 @@ test_in_connect <- function(
 }
 
 
-test_in_connect_script <- function(
+generate_test_in_connect_urls <- function(
+  save_file = "R/zzz-test_in_connect_urls.R",
   dir = "apps",
   server = "beta.rstudioconnect.com",
   account = "barret",
@@ -72,16 +68,13 @@ test_in_connect_script <- function(
 ) {
   sys_call <- match.call()
 
-  sys_call_list <- as.list(sys_call)
-  sys_call_list[[1]] <- substitute(shinycoreci::test_in_connect)
-  sys_call_list$dir <- dir
-  sys_call_list$server <- server
-  sys_call_list$account <- account
-  sys_call_list$port <- port
-  sys_call_list$host <- host
-  sys_call_list$urls <- urls
-  sys_call <- as.call(sys_call_list)
-
-
-  sys_call
+  cat(
+    file = save_file,
+    paste0(
+      "test_in_connect_urls <- function() {\n",
+      paste0(capture.output({dput(urls)}), collapse = "\n"), "\n",
+      "}\n"
+    )
+  )
+  message("Saved ", length(urls), " urls to: ", save_file)
 }

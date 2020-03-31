@@ -61,6 +61,7 @@ test_in_external <- function(
   # on.exit({
   #   options(old_ops)
   # }, add = TRUE)
+  print(app)
 
   panel_width <- "350px"
   ui <- shiny::fluidPage(
@@ -70,7 +71,7 @@ test_in_external <- function(
         class = "apps_dir",
         shiny::uiOutput("header")
       ),
-      shiny::selectizeInput("app_name", NULL, app_names, selected = app),
+      shiny::selectizeInput("app_name", NULL, app_names, selected = basename(app)),
       shiny::tags$div(
         class = "button_container",
         shiny::actionButton("reject", "Reject", class = "reject_button"),
