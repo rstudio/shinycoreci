@@ -54,8 +54,8 @@ test_in_connect <- function(
 
 
 generate_test_in_connect_urls <- function(
-  save_file = "R/zzz-test_in_connect_urls.R",
   dir = "apps",
+  save_file = "R/zzz-test_in_connect_urls.R",
   server = "beta.rstudioconnect.com",
   account = "barret",
   apps = basename(apps_deploy(dir)),
@@ -64,13 +64,15 @@ generate_test_in_connect_urls <- function(
   host = "127.0.0.1",
   urls = connect_urls(dir = dir, apps = apps, account = account, server = server)
 ) {
-  sys_call <- match.call()
+
+  url_output <- capture.output({dput(urls)})
+  url_output <- sub("\\s+$", "", url_output)
 
   cat(
     file = save_file,
     paste0(
       "test_in_connect_urls <- function() {\n",
-      paste0(capture.output({dput(urls)}), collapse = "\n"), "\n",
+      paste0("  ", url_output, collapse = "\n"), "\n",
       "}\n"
     )
   )
