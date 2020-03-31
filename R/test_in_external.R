@@ -73,9 +73,10 @@ test_in_external <- function(
       shiny::selectizeInput("app_name", NULL, app_names, selected = app),
       shiny::tags$div(
         class = "button_container",
-        shiny::actionButton("accept", "Accept!", class = "accept_button"),
-        shiny::actionButton("refresh", "Refresh", class = "refresh_button"),
         shiny::actionButton("reject", "Reject", class = "reject_button"),
+        shiny::actionButton("refresh", "Refresh", class = "refresh_button"),
+        shiny::uiOutput("solo"),
+        shiny::actionButton("accept", "Accept!", class = "accept_button"),
       ),
       shiny::verbatimTextOutput("server_output"),
       shiny::tags$script("
@@ -142,6 +143,12 @@ test_in_external <- function(
         }
         .button_container .reject_button {
           border-color: rgb(228, 117, 117);
+        }
+        .button_container .solo_button:hover, .button_container .solo_button:active:hover {
+          background-color: rgb(166, 221, 237);
+        }
+        .button_container .solo_button, .button_container .solo_button:hover, .button_container .solo_button:active:hover {
+          border-color: rgb(38, 154, 188);
         }
 
         .iframe_container {
@@ -268,7 +275,14 @@ test_in_external <- function(
       output_lines()
     })
 
-
+    output$solo <- shiny::renderUI({
+      shiny::tags$a(
+        class = "btn btn-default solo_button",
+        href = app_info()$app_url(),
+        target = "_blank",
+        "Solo"
+      )
+    })
     output$app_iframe <- shiny::renderUI({
       # trigger after starting
       app_has_started()
