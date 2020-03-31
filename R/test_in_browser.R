@@ -16,7 +16,7 @@ test_in_browser <- function(
   apps = basename(apps_manual(dir)),
   app = apps[1],
   port = 8080,
-  port_background = 8001,
+  port_background = NULL,
   host = "127.0.0.1",
   update_pkgs = TRUE,
   verify = TRUE
@@ -31,12 +31,12 @@ test_in_browser <- function(
   }
 
   app_dirs <- file.path(dir, apps)
-  app <- normalize_app_name(dir, apps, app, increment = FALSE)
-
-  app_proc <- NULL
   app_infos <- lapply(app_dirs, function(app_dir) {
+    app_proc <- NULL
 
     app_name <- basename(app_dir)
+
+    port_background_val <- port_background
 
     output_lines_val <- ""
     output_lines_fn <- function(reset = FALSE) {
@@ -62,8 +62,14 @@ test_in_browser <- function(
       if (is.null(app_proc)) {
         return()
       }
-      message("Killing background Shiny Session")
-      app_proc$kill()
+
+      message("Killing background Shiny Session...", appendLF = FALSE)
+      if (app_proc$is_alive()) {
+        app_proc$kill()
+      }
+      message(" OK")
+      # tell other funcs that app_proc is gone
+      app_proc <<- NULL
     }
 
     list(
@@ -78,29 +84,34 @@ test_in_browser <- function(
         # kill prior app
         stop_app()
 
-        port_is_available <- FALSE
-        total_wait <- 2
-        tries <- 20
-        message("Testing background app port: ", port_background, "...", appendLF = FALSE)
-        for (i in seq_len(tries)) {
-          tryCatch(
-            {
-              s <- httpuv::startServer(host, port_background, list(), quiet = TRUE)
-              s$stop()
-              port_is_available <- TRUE
-              break
-            },
-            error = function(e) {
-              Sys.sleep(total_wait / tries)
-              NULL
-            }
-          )
+        if (is.null(port_background_val)) {
+          port_background_val <<- httpuv::randomPort()
+          message("Background port: ", port_background_val, "... OK")
+        } else {
+          port_is_available <- FALSE
+          total_wait <- 2
+          tries <- 20
+          message("Testing background app port: ", port_background_val, "...", appendLF = FALSE)
+          for (i in seq_len(tries)) {
+            tryCatch(
+              {
+                s <- httpuv::startServer(host, port_background_val, list(), quiet = TRUE)
+                s$stop()
+                port_is_available <- TRUE
+                break
+              },
+              error = function(e) {
+                Sys.sleep(total_wait / tries)
+                NULL
+              }
+            )
+          }
+          if (!port_is_available) {
+            message("")
+            stop("Port ", port_background_val, " was not available within ", total_wait, " seconds")
+          }
+          message(" OK")
         }
-        if (!port_is_available) {
-          message("")
-          stop("Port ", port_background, " was not available within ", total_wait, " seconds")
-        }
-        message(" OK")
 
 
         # start new app
@@ -115,7 +126,7 @@ test_in_browser <- function(
           },
           list(
             app_dir_ = app_dir,
-            port_ = port_background,
+            port_ = port_background_val,
             host_ = host,
             run_app_ = run_app
           ),
@@ -138,7 +149,7 @@ test_in_browser <- function(
         interval <- 0.25
         httr::RETRY(
           "GET",
-          paste0("http://", host, ":", port_background),
+          paste0("http://", host, ":", port_background_val),
           pause_min = interval,
           pause_cap = interval,
           times = total_wait / interval,
@@ -154,7 +165,7 @@ test_in_browser <- function(
       on_session_ended = stop_app,
       output_lines = output_lines_fn,
       app_url = function() {
-        paste0("http://", host, ":", port_background, "/")
+        paste0("http://", host, ":", port_background_val, "/")
       }
     )
   })
@@ -162,7 +173,7 @@ test_in_browser <- function(
   test_in_external(
     dir = dir,
     app_infos = app_infos,
-    app = app,
+    app = normalize_app_name(apps, app, increment = FALSE),
     host = host,
     port = port
   )

@@ -12,8 +12,6 @@ test_in_shinyappsio <- function(
   server = "shinyapps.io"
 ) {
 
-  app <- normalize_app_name(dir, apps, app, increment = FALSE)
-
   app_names <- basename(apps)
   urls <- lapply(app_names, function(app_name) {
     paste0("http://", account, ".", server, "/", app_name)
@@ -26,7 +24,7 @@ test_in_shinyappsio <- function(
     account = account,
     server = server,
     urls = urls,
-    app = app,
+    app = normalize_app_name(apps, app, increment = FALSE),
     host = host,
     port = port
   )

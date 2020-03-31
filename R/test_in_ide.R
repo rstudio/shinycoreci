@@ -14,22 +14,21 @@ app_num <- function(x) {
 }
 
 
-has_multiple_apps <- function(dir, apps, app_name) {
-  get_app_num <- function(x) {
-    sub("^(\\d+)-.*$", "\\1", basename(x))
-  }
-  app_name <- normalize_app_name(dir, apps, app_name, increment = FALSE)
+# has_multiple_apps <- function(dir, apps, app_name) {
+#   get_app_num <- function(x) {
+#     sub("^(\\d+)-.*$", "\\1", basename(x))
+#   }
+#   app_name <- normalize_app_name(dir, apps, app_name, increment = FALSE)
 
-  app_nums <- get_app_num(file.path(dir, apps))
-  duplicated_app_nums <- unique(app_nums[duplicated(app_nums)])
+#   app_nums <- get_app_num(file.path(dir, apps))
+#   duplicated_app_nums <- unique(app_nums[duplicated(app_nums)])
 
-  duplicated_app_nums <- setdiff(duplicated_app_nums, "015")
+#   duplicated_app_nums <- setdiff(duplicated_app_nums, "015")
 
-  get_app_num(app_name) %in% duplicated_app_nums
-}
+#   get_app_num(app_name) %in% duplicated_app_nums
+# }
 
 normalize_app_name <- function(
-  dir,
   apps,
   app_name,
   increment = FALSE
@@ -42,7 +41,8 @@ normalize_app_name <- function(
     app_name <- app_num(app_name)
   }
   if (!(app_name %in% apps)) {
-    app_name <- dir(dir, pattern = basename(app_name))
+    matches <- grepl(app_name, apps)
+    app_name <- apps[matches]
     if (length(app_name) > 1) {
       message("Found multiple apps.\n\tUsing the first app: ", app_name[1], ".\n\tFrom set: ", paste0(app_name, collapse = ", "))
       app_name <- app_name[1]
@@ -58,7 +58,7 @@ normalize_app_name <- function(
   if (app_pos > length(apps)) {
     return(NULL)
   }
-  file.path(dir, apps[app_pos])
+  apps[app_pos]
 }
 
 
@@ -159,10 +159,10 @@ test_in_ide <- function(
     options(old_ops)
   }, add = TRUE)
 
-  app <- normalize_app_name(dir, apps, app, increment = FALSE)
+  app <- normalize_app_name(apps, app, increment = FALSE)
   increment_app_and_wait <- function() {
 
-    next_app <- basename(normalize_app_name(dir, apps, app, increment = TRUE))
+    next_app <- normalize_app_name(apps, app, increment = TRUE)
 
     if (is.null(next_app)) {
       message("All done testing!")
@@ -181,7 +181,7 @@ test_in_ide <- function(
 
     # if this section of code is reached, it is considered a pass!
     app_status_save(
-      app_dir = app,
+      app_dir = file.path(dir, app),
       pass = TRUE,
       log = "(unknown; can not capture)",
       user_agent = app_status_user_agent_ide()
@@ -206,15 +206,15 @@ test_in_ide <- function(
   }
 
 
-  message("Running ", basename(app), " in ", dirname(app))
+  message("Running ", app, " in ", dir)
   tryCatch(
     {
-      run_app(app, port = port, host = host)
+      run_app(file.path(dir, app), port = port, host = host)
     },
     error = function(e) {
       utils::alarm()
       message("")
-      message("!! Error launching ", basename(app), " !! Error: \n", e)
+      message("!! Error launching ", app, " !! Error: \n", e)
       message("")
 
       ans <- utils::menu(

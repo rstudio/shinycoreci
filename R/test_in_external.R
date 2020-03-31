@@ -113,6 +113,7 @@ test_in_external <- function(
           height: 100vh;
           border-right-style: solid;
           border-right-color: #f0f0f0;
+          overflow-y: scroll;
         }
         .background_app {
           top: 0;
@@ -203,6 +204,7 @@ test_in_external <- function(
     })
 
     go_to_next_app <- function() {
+      # get next app
       app_pos <- which(app_names == app_name()) + 1
       shiny::updateSelectizeInput(
         session,
@@ -237,7 +239,13 @@ test_in_external <- function(
     # That is not allowed in session$onSessionEnded
     on_session_ended <- NULL
     shiny::observe({
-      on_session_ended <<- app_info()$on_session_ended()
+      if (!is.null(on_session_ended)) {
+        # kill prior app session
+        on_session_ended()
+      }
+
+      # save for later or for when the app changes
+      on_session_ended <<- app_info()$on_session_ended
     })
     session$onSessionEnded(function() {
       if (! is.function(on_session_ended)) {

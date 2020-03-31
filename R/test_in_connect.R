@@ -21,8 +21,6 @@ test_in_connect <- function(
   host = "127.0.0.1"
 ) {
 
-  app <- normalize_app_name(dir, apps, app, increment = FALSE)
-
   app_names <- names(urls)
 
   app_infos <- mapply(urls, app_names, SIMPLIFY = FALSE, FUN = function(url, app_name) {
@@ -48,7 +46,7 @@ test_in_connect <- function(
   test_in_external(
     dir = dir,
     app_infos = app_infos,
-    app = app,
+    app = normalize_app_name(apps, app, increment = FALSE),
     host = host,
     port = port
   )
