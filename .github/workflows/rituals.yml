@@ -93,9 +93,7 @@ jobs:
 
       - name: Connect urls
         run: |
-          Rscript -e 'remotes::install_cran("pkgload")'
-          Rscript -e 'pkgload::load_all()'
-          Rscript -e 'generate_test_in_connect_urls(dir = "apps/apps")'
+          Rscript -e 'remotes::install_cran("pkgload")' -e 'pkgload::load_all()' -e 'generate_test_in_connect_urls(dir = "apps/apps")'
           git add ./R
           git commit -m 'Generate Connect URLs (GitHub Actions)' || echo "No Connect URL changes to commit"
 
