@@ -79,7 +79,6 @@ app_status_info <- function(dir = "apps", apps = basename(apps_manual(dir)), sta
   total_apps <- length(apps)
   completed <- sum(basename(apps) %in% basename(app_folders))
 
-
   ret <- list(
     status_folder = status_folder,
     dir = dir,
@@ -88,7 +87,7 @@ app_status_info <- function(dir = "apps", apps = basename(apps_manual(dir)), sta
     stats = list(
       total = total_apps,
       passing = sum(status$pass),
-      failing = sum(!status$pass),
+      failing = if (is.null(status)) 0 else sum(!status$pass),
       completed = completed
     ),
     status = status # should be last
@@ -99,7 +98,10 @@ app_status_info <- function(dir = "apps", apps = basename(apps_manual(dir)), sta
 #' @export
 print.shinycoreci_app_status_info <- function(x, ...) {
   if (x$stats$passing == x$stats$total) {
-    cat("# ", basename(x$status_folder), " ", check_mark, "\n", sep = "")
+    # cat("# ", basename(x$status_folder), " ", check_mark, "\n", sep = "")
+    return()
+  } else if (x$stats$completed == 0) {
+    # cat("# ", basename(x$status_folder), " ", "(empty)", "\n", sep = "")
     return()
   } else {
     cat("# ", basename(x$status_folder), "\n", sep = "")
