@@ -61,7 +61,6 @@ test_in_external <- function(
   # on.exit({
   #   options(old_ops)
   # }, add = TRUE)
-  print(app)
 
   panel_width <- "350px"
   ui <- shiny::fluidPage(

@@ -41,13 +41,6 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/checkout@v2
-        name: GitHub Pull shinycoreci-app
-        with:
-          repository: rstudio/shinycoreci-apps
-          ref: master
-          path: apps
-
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: ${{ matrix.config.r }}
@@ -90,12 +83,6 @@ jobs:
           Rscript
           -e "update.packages(ask = FALSE, lib.loc = .libPaths()[1])"
           -e "remotes::install_deps(dependencies = TRUE)"
-
-      - name: Connect urls
-        run: |
-          Rscript -e 'remotes::install_cran("pkgload")' -e 'pkgload::load_all()' -e 'generate_test_in_connect_urls(dir = "apps/apps")'
-          git add ./R
-          git commit -m 'Generate Connect URLs (GitHub Actions)' || echo "No Connect URL changes to commit"
 
       - name: Document
         run: |
