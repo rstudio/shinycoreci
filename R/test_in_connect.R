@@ -4,7 +4,7 @@
 #' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
 #'
 #' @inheritParams test_in_browser
-#' @param urls Named vector of urls to visit. This should be the output of `[connect_urls]`. By default this is determined using the `server`, `account`, `dir`, and `apps`
+#' @param urls Named vector of urls to visit. This should be the output of `[connect_urls]`. By default this will set `server`, `account`, `dir`, and `apps`
 #' @param server,account Parameters that could be supplied to `[rsconnect::deployApp]`
 #' @export
 #' @describeIn test_in_deployed Test connect applications given the server and account
@@ -12,11 +12,11 @@
 #' \dontrun{test_in_connect(dir = "apps")}
 test_in_connect <- function(
   dir = "apps",
-  urls = test_in_connect_urls(),
-  apps = names(urls),
-  app = apps[1],
+  urls = connect_urls_cache(dir = dir, apps = apps, account = "barret", server = "beta.rstudioconnect.com"),
   server = attr(urls, "server"),
   account = attr(urls, "account"),
+  apps = names(urls),
+  app = apps[1],
   port = 8080,
   host = "127.0.0.1"
 ) {
@@ -46,35 +46,48 @@ test_in_connect <- function(
   test_in_external(
     dir = dir,
     app_infos = app_infos,
-    app = normalize_app_name(apps, app, increment = FALSE),
+    app = normalize_app_name(app_names, app, increment = FALSE),
     host = host,
     port = port
   )
 }
 
 
-generate_test_in_connect_urls <- function(
+#' @export
+#' @describeIn test_in_deployed Save connect urls as they can not be retrieved by everyone at run time
+#' @param save_file location to save the file
+#' @param urls urls to be supplied by `connect_urls` output
+connect_urls_cache_save <- function(
   dir = "apps",
-  save_file = "R/zzz-test_in_connect_urls.R",
+  apps = basename(apps_deploy(dir)),
   server = "beta.rstudioconnect.com",
   account = "barret",
-  apps = basename(apps_deploy(dir)),
-  app = basename(apps)[1],
-  port = 8080,
-  host = "127.0.0.1",
+  save_file = connect_urls_cache_file(dir = dir, account = account, server = server),
   urls = connect_urls(dir = dir, apps = apps, account = account, server = server)
 ) {
-
-  url_output <- capture.output({dput(urls)})
-  url_output <- sub("\\s+$", "", url_output)
-
-  cat(
-    file = save_file,
-    paste0(
-      "test_in_connect_urls <- function() {\n",
-      paste0("  ", url_output, collapse = "\n"), "\n",
-      "}\n"
-    )
-  )
+  if (!dir.exists(dirname(save_file))) {
+    dir.create(dirname(save_file), recursive = TRUE)
+  }
+  dput(urls, file = save_file)
   message("Saved ", length(urls), " urls to: ", save_file)
+}
+
+
+#' @export
+#' @describeIn test_in_deployed Get cached connect url information or retrieve them from server
+connect_urls_cache_file <- function(dir, account, server) {
+  file.path(dirname(dir), "zzz_shinycoreci", "connect", paste0(
+    "urls_", tolower(gsub("[^a-z]", "", server)), "_", tolower(gsub("[^a-z]", "", account)), ".R"
+  ))
+}
+
+#' @export
+#' @describeIn test_in_deployed Get cached connect url information or retrieve them from server
+connect_urls_cache <- function(dir = "apps", apps = basename(apps_deploy(dir)), account = "barret", server = "beta.rstudioconnect.com") {
+  connect_urls_filename <- connect_urls_cache_file(dir = dir, account = account, server = server)
+  if (file.exists(connect_urls_filename)) {
+    dget(connect_urls_filename)
+  } else {
+    connect_urls(dir = dir, apps = apps, account = account, server = server)
+  }
 }

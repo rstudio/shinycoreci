@@ -9,7 +9,7 @@ test_in_browser(
   apps = basename(apps_manual(dir)),
   app = apps[1],
   port = 8080,
-  port_background = 8001,
+  port_background = NULL,
   host = "127.0.0.1",
   update_pkgs = TRUE,
   verify = TRUE

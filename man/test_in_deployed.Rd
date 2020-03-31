@@ -2,18 +2,40 @@
 % Please edit documentation in R/test_in_connect.R, R/test_in_shinyapps_io.R
 \name{test_in_connect}
 \alias{test_in_connect}
+\alias{connect_urls_cache_save}
+\alias{connect_urls_cache_file}
+\alias{connect_urls_cache}
 \alias{test_in_shinyappsio}
 \title{Test deployed apps}
 \usage{
 test_in_connect(
   dir = "apps",
-  urls = test_in_connect_urls(),
-  apps = names(urls),
-  app = apps[1],
+  urls = connect_urls_cache(dir = dir, apps = apps, account = "barret", server =
+    "beta.rstudioconnect.com"),
   server = attr(urls, "server"),
   account = attr(urls, "account"),
+  apps = names(urls),
+  app = apps[1],
   port = 8080,
   host = "127.0.0.1"
+)
+
+connect_urls_cache_save(
+  dir = "apps",
+  apps = basename(apps_deploy(dir)),
+  server = "beta.rstudioconnect.com",
+  account = "barret",
+  save_file = connect_urls_cache_file(dir = dir, account = account, server = server),
+  urls = connect_urls(dir = dir, apps = apps, account = account, server = server)
+)
+
+connect_urls_cache_file(dir, account, server)
+
+connect_urls_cache(
+  dir = "apps",
+  apps = basename(apps_deploy(dir)),
+  account = "barret",
+  server = "beta.rstudioconnect.com"
 )
 
 test_in_shinyappsio(
@@ -29,13 +51,13 @@ test_in_shinyappsio(
 \arguments{
 \item{dir}{base folder to look for applications}
 
-\item{urls}{Named vector of urls to visit. This should be the output of \verb{[connect_urls]}. By default this is determined using the \code{server}, \code{account}, \code{dir}, and \code{apps}}
+\item{urls}{urls to be supplied by \code{connect_urls} output}
+
+\item{server, account}{Parameters that could be supplied to \verb{[rsconnect::deployApp]}}
 
 \item{apps}{applications within \verb{dir} to run}
 
 \item{app}{app number or name to start with. If numeric, it will match the leading number in the testing application}
-
-\item{server, account}{Parameters that could be supplied to \verb{[rsconnect::deployApp]}}
 
 \item{port}{The TCP port that the application should listen on. If the
 \code{port} is not specified, and the \code{shiny.port} option is set (with
@@ -45,6 +67,8 @@ use a random port.}
 \item{host}{The IPv4 address that the application should listen on. Defaults
 to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
 Details.}
+
+\item{save_file}{location to save the file}
 }
 \description{
 Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
@@ -52,6 +76,12 @@ Automatically runs the next app in a fresh callr::r_bg session.  To stop, close 
 \section{Functions}{
 \itemize{
 \item \code{test_in_connect}: Test connect applications given the server and account
+
+\item \code{connect_urls_cache_save}: Save connect urls as they can not be retrieved by everyone at run time
+
+\item \code{connect_urls_cache_file}: Get cached connect url information or retrieve them from server
+
+\item \code{connect_urls_cache}: Get cached connect url information or retrieve them from server
 
 \item \code{test_in_shinyappsio}: Test connect applications given the server and account
 }}
