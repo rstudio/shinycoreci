@@ -1,0 +1,245 @@
+
+#' Test deployed apps
+#'
+#' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
+#'
+#' @inheritParams test_in_browser
+#' @inheritParams docker_run_sso
+#' @param port Port for shiny application
+#' @param port_background Port to connect to the Docker container
+#' @export
+#' @describeIn test_in_ssossp Test SSO Shiny applications
+#' @examples
+#' \dontrun{test_in_connect(dir = "apps")}
+test_in_sso <- function(
+  dir = "apps",
+  apps = apps_sso(dir),
+  app = apps[1],
+  release = c("bionic", "xenial", "centos7"),
+  r_version = c("3.6", "3.5"),
+  tag = NULL,
+  port = 8080,
+  port_background = switch(release, "centos7" = 7878, 3838),
+  host = "127.0.0.1"
+) {
+  release <- match.arg(release)
+
+  test_in_ssossp(
+    dir = dir,
+    apps = apps,
+    app = app,
+    type = "sso",
+    release = release,
+    port_background = port_background,
+    r_version = match.arg(r_version),
+    tag = NULL,
+    host = "127.0.0.1",
+    port = 8080
+  )
+}
+#' @export
+#' @describeIn test_in_ssossp Test SSP Shiny applications
+test_in_ssp <- function(
+  dir = "apps",
+  apps = apps_ssp(dir),
+  app = apps[1],
+  release = c("bionic", "xenial", "centos7"),
+  r_version = c("3.6", "3.5"),
+  tag = NULL,
+  port = 8080,
+  port_background = switch(release, "centos7" = 8989, 4949),
+  host = "127.0.0.1"
+) {
+
+  test_in_ssossp(
+    dir = dir,
+    apps = apps,
+    app = app,
+    type = "ssp",
+    release = release,
+    port_background = port_background,
+    r_version = match.arg(r_version),
+    tag = NULL,
+    host = "127.0.0.1",
+    port = 8080
+  )
+}
+
+
+
+  # type = c("sso", "ssp"),
+  # release = c("bionic", "xenial", "centos7"),
+  # port = switch(type,
+  #               sso = switch(release, "centos7" = 7878, 3838),
+  #               ssp = switch(release, "centos7" = 8989, 4949)
+  #               ),
+  # r_version = c("3.6", "3.5"),
+  # tag = NULL,
+  # launch_browser = launch_browser
+
+
+test_in_ssossp <- function(
+  dir = "apps",
+  apps = basename(switch(type, "sso" = apps_sso(dir), "ssp" = apps_ssp(dir))),
+  app = apps[1],
+  type = c("sso", "ssp"),
+  release = c("bionic", "xenial", "centos7"),
+  port_background = switch(type,
+                sso = switch(release, "centos7" = 7878, 3838),
+                ssp = switch(release, "centos7" = 8989, 4949)
+                ),
+  r_version = c("3.6", "3.5"),
+  tag = NULL,
+  host = "127.0.0.1",
+  port = 8080
+) {
+  force(dir)
+  type <- match.arg(type)
+  release <- match.arg(release)
+  force(port_background)
+  r_version <- match.arg(r_version)
+  force(apps)
+
+
+  message("Verify Docker port is available...", appendLF = FALSE)
+  conn_exists <- tryCatch({
+    httr::GET(paste0("http://127.0.0.1:", port_background))
+    # connection exists
+    TRUE
+  }, error = function(e) {
+    # nothing exists
+    FALSE
+  })
+  if (conn_exists) {
+    message("")
+    stop("Port ", port_background, " is busy. Maybe stop all other docker files? (`docker stop NAME`) Can inspect with `docker ps` in terminal.")
+  }
+  message(" OK")
+
+  message("Starting Docker...")
+  if (!docker_is_alive()) {
+    stop("Cannot connect to the Docker daemon. Is the docker daemon running?")
+  }
+  docker_proc <- callr::r_bg(
+    function(type_, release_, port_, r_version_, tag_, launch_browser_, docker_run_server_) {
+      docker_run_server_(
+        type = type_,
+        release = release_,
+        port = port_,
+        r_version = r_version_,
+        tag = tag_,
+        launch_browser = launch_browser_
+      )
+    },
+    list(
+      type_ = type,
+      release_ = release,
+      port_ = port_background,
+      r_version_ = r_version,
+      tag_ = tag,
+      launch_browser_ = FALSE,
+      docker_run_server_ = docker_run_server
+    ),
+    supervise = TRUE,
+    stdout = "|",
+    stderr = "2>&1",
+    cmdargs = c(
+      "--slave", # tell the session that it's being controlled by something else
+      # "-–interactive", # (UNIX only) # tell the session that it's interactive.... but it's not
+      "--quiet", # no printing
+      "--no-save", # don't save when done
+      "--no-restore" # don't restore from .RData or .Rhistory
+    )
+  )
+  on.exit({
+    if (docker_proc$is_alive()) {
+      message("Killing Docker...")
+      docker_proc$kill()
+      docker_stop(type, r_version, release)
+      message("Killing Docker... OK")
+    }
+  }, add = TRUE)
+
+  # wait for docker to start
+  ## (wait until '/' is available)
+  get_docker_output <- function() {
+    if (!docker_proc$is_alive()) {
+      return("")
+    }
+    out <- docker_proc$read_output_lines()
+    if (length(out) > 0 && nchar(out) > 0) {
+      paste0(out, collapse = "\n")
+    } else {
+      ""
+    }
+  }
+  while (TRUE) {
+    tryCatch({
+      # will throw error on connection failure
+      httr::GET(paste0("http://127.0.0.1:", port_background))
+      cat(get_docker_output(), "\n")
+      break
+    }, error = function(e) {
+      Sys.sleep(0.5) # arbitrary, but it'll be a while till the docker is launched
+      # display all docker output
+      out <- get_docker_output()
+      if (nchar(out) > 0) {
+        cat(out, "\n", sep = "")
+      }
+      invisible()
+    })
+  }
+  cat("(Docker output will no longer be tracked in console)\n")
+  message("Starting Docker... OK") # starting docker
+
+  output_lines <- ""
+  app_names <- basename(apps)
+  app_infos <- lapply(app_names, function(app_name) {
+    list(
+      app_name = app_name,
+      start = function() {
+        output_lines <<- ""
+        invisible(TRUE)
+      },
+      on_session_ended = function() { invisible(TRUE) },
+      output_lines = function(reset = FALSE) {
+        if (release == "centos7") {
+          return("(centos7 console output not available)")
+        }
+        if (isTRUE(reset)) {
+          output_lines <<- ""
+          return(output_lines)
+        }
+        if (is.null(docker_proc) || !docker_proc$is_alive()) {
+          return("(dead)")
+        }
+        docker_proc_output_lines <- docker_proc$read_output_lines()
+        if (any(nchar(docker_proc_output_lines) > 0)) {
+          output_lines <<- paste0(
+            output_lines,
+            if (nchar(output_lines) > 0) "\n",
+            paste0(docker_proc_output_lines, collapse = "\n")
+          )
+        }
+        output_lines
+      },
+      app_url = function() {
+        paste0("http://", host, ":", port_background, "/", app_name)
+      },
+      user_agent = function(user_agent) {
+        app_status_user_agent_browser(user_agent, paste0(type, "_", r_version, "_", release))
+      },
+      header = function() {
+        shiny::tagList(shiny::tags$strong(type, ": "), shiny::tags$code(release), ", ", shiny::tags$code(paste0("r", r_version)))
+      }
+    )
+  })
+
+  test_in_external(
+    dir = dir,
+    app_infos = app_infos,
+    app = normalize_app_name(app_names, app, increment = FALSE),
+    host = host,
+    port = port
+  )
+}
