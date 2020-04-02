@@ -302,7 +302,7 @@ test_in_external <- function(
     })
   }
 
-  shiny::shinyApp(
+  print(shiny::shinyApp(
     ui = ui,
     server = server,
     options = list(
@@ -310,5 +310,5 @@ test_in_external <- function(
       port = port,
       launch.browser = TRUE
     )
-  )
+  ))
 }
