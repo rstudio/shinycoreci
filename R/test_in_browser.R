@@ -75,7 +75,7 @@ test_in_browser <- function(
     list(
       app_name = app_name,
       user_agent = function(user_agent) {
-        app_status_user_agent_browser(user_agent)
+        app_status_user_agent_browser(user_agent, "localhost")
       },
       start = function() {
         message("")

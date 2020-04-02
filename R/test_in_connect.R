@@ -35,7 +35,7 @@ test_in_connect <- function(
         url
       },
       user_agent = function(user_agent) {
-        paste0(gsub("[^a-z]", "", server), "_", app_status_user_agent_browser(user_agent))
+        app_status_user_agent_browser(user_agent, gsub("[^a-z]", "", server))
       },
       header = function() {
         shiny::tagList(shiny::tags$strong(server, ": "), shiny::tags$code(account))

@@ -403,7 +403,7 @@ app_status_user_agent_ide <- function() {
   version <- gsub("[^0-9]", "-", version_info$version)
   paste("rstudio", type, version, sep = "_")
 }
-app_status_user_agent_browser <- function(user_agent) {
+app_status_user_agent_browser <- function(user_agent, testing_location) {
   ## Windows 10-based PC using Edge browser
   # Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246
   ## Chrome OS-based laptop using Chrome browser (Chromebook)
@@ -417,17 +417,23 @@ app_status_user_agent_browser <- function(user_agent) {
   ## IE 11
   # Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko
 
-  if (grepl("Edge/", user_agent)) return("edge")
-  if (grepl("Firefox/", user_agent)) return("firefox")
-  if (grepl("Trident/", user_agent)) return("ie")
-  # must be before safari. Safari does not contain 'Chrome', but chrome contains 'Safari'
-  if (grepl("Chrome/", user_agent)) return("chrome")
-  if (grepl("Safari/", user_agent)) return("safari")
+  user_agent_val <-
+    if (grepl("Edge/", user_agent)) {
+      "edge"
+    } else if (grepl("Firefox/", user_agent)) {
+      "firefox"
+    } else if (grepl("Trident/", user_agent)) {
+      "ie"
 
-  ret <- gsub("[^a-z0-9]", "_", tolower(user_agent))
+    # must be before safari. Safari does not contain 'Chrome', but chrome contains 'Safari'
+    } else if (grepl("Chrome/", user_agent)) {
+      "chrome"
+    } else if (grepl("Safari/", user_agent)) {
+      "safari"
+    } else {
+      gsub("[^a-z0-9]", "_", tolower(user_agent))
+      message("!!Found unknown user agent string: ", user_agent)
+    }
 
-  message("Found unknown user agent string: ", user_agent)
-  message("Storing: ", ret)
-
-  ret
+  paste0(user_agent_val, "-", testing_location)
 }
