@@ -15,7 +15,7 @@
 #' \dontrun{test_in_connect(dir = "apps")}
 test_in_sso <- function(
   dir = "apps",
-  apps = apps_sso(dir),
+  apps = basename(apps_sso(dir)),
   app = apps[1],
   release = c("bionic", "xenial", "centos7"),
   r_version = c("3.6", "3.5"),
@@ -43,7 +43,7 @@ test_in_sso <- function(
 #' @describeIn test_in_ssossp Test SSP Shiny applications
 test_in_ssp <- function(
   dir = "apps",
-  apps = apps_ssp(dir),
+  apps = basename(apps_ssp(dir)),
   app = apps[1],
   release = c("bionic", "xenial", "centos7"),
   r_version = c("3.6", "3.5"),
@@ -52,6 +52,7 @@ test_in_ssp <- function(
   port_background = switch(release, "centos7" = 8989, 4949),
   host = "127.0.0.1"
 ) {
+  release <- match.arg(release)
 
   test_in_ssossp(
     dir = dir,
@@ -121,6 +122,9 @@ test_in_ssossp <- function(
   message("Starting Docker...")
   if (!docker_is_alive()) {
     stop("Cannot connect to the Docker daemon. Is the docker daemon running?")
+  }
+  if (!docker_is_logged_in()) {
+    stop("Docker is not logged in. Please run `docker login` in the terminal with your Docker Hub username / password")
   }
   docker_proc <- callr::r_bg(
     function(type_, release_, port_, r_version_, tag_, launch_browser_, docker_run_server_) {

@@ -125,3 +125,7 @@ docker_is_alive <- function() {
   ret <- system("docker ps", ignore.stdout = TRUE, ignore.stderr = TRUE)
   ret == 0
 }
+docker_is_logged_in <- function() {
+  ret <- system("docker system info | grep -E 'Username|Registry'", ignore.stdout = TRUE, ignore.stderr = TRUE)
+  ret == 0
+}
