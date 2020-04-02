@@ -3,7 +3,7 @@
 \name{test_in_sso}
 \alias{test_in_sso}
 \alias{test_in_ssp}
-\title{Test deployed apps}
+\title{Test Apps in SSO/SSP}
 \usage{
 test_in_sso(
   dir = "apps",
@@ -51,7 +51,10 @@ to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
 Details.}
 }
 \description{
-Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
+Automatically launches docker in a background process.  Once the docker is ready, a shiny application will be launched to help move through the applications.
+}
+\details{
+The docker application will stop when the shiny application exits.
 }
 \section{Functions}{
 \itemize{

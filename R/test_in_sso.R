@@ -1,7 +1,9 @@
 
-#' Test deployed apps
+#' Test Apps in SSO/SSP
 #'
-#' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
+#' Automatically launches docker in a background process.  Once the docker is ready, a shiny application will be launched to help move through the applications.
+#'
+#' The docker application will stop when the shiny application exits.
 #'
 #' @inheritParams test_in_browser
 #' @inheritParams docker_run_sso
