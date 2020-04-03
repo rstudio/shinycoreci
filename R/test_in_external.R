@@ -73,9 +73,9 @@ test_in_external <- function(
       shiny::selectizeInput("app_name", NULL, app_names, selected = basename(app)),
       shiny::tags$div(
         class = "button_container",
-        shiny::actionButton("reject", "Reject", class = "reject_button"),
-        shiny::actionButton("refresh", "Refresh", class = "refresh_button"),
         shiny::uiOutput("solo"),
+        shiny::actionButton("refresh", "Refresh", class = "refresh_button"),
+        shiny::actionButton("reject", "Reject", class = "reject_button"),
         shiny::actionButton("accept", "Accept!", class = "accept_button"),
       ),
       shiny::verbatimTextOutput("server_output"),
