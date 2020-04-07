@@ -74,9 +74,9 @@ test_in_external <- function(
       shiny::tags$div(
         class = "button_container",
         shiny::uiOutput("jster_button"),
-        shiny::actionButton("reject", "Reject", class = "reject_button"),
-        shiny::actionButton("refresh", "Refresh", class = "refresh_button"),
         shiny::uiOutput("solo"),
+        shiny::actionButton("refresh", "Refresh", class = "refresh_button"),
+        shiny::actionButton("reject", "Reject", class = "reject_button"),
         shiny::actionButton("accept", "Accept!", class = "accept_button"),
       ),
       shiny::verbatimTextOutput("server_output"),
@@ -329,7 +329,7 @@ test_in_external <- function(
     })
   }
 
-  shiny::shinyApp(
+  print(shiny::shinyApp(
     ui = ui,
     server = server,
     options = list(
@@ -337,5 +337,5 @@ test_in_external <- function(
       port = port,
       launch.browser = TRUE
     )
-  )
+  ))
 }

@@ -64,23 +64,18 @@ apps_deploy <- function(dir) {
   app_folders <- shiny_app_dirs(dir)
   Filter(x = app_folders, function(app_folder) {
     return(
-      length(shiny_app_files(app_folder)) > 0 ||
-      length(rmarkdown_app_files(app_folder)) > 0
+      has_shiny_app_files(app_folder) ||
+      has_rmarkdown_app_files(app_folder)
     )
   })
 }
 
-#' @describeIn app-folders App folders for SSO/SSP
+#' @describeIn app-folders App folders for SSO
 #' @export
-apps_sso <- function(dir) {
-  app_folders <- shiny_app_dirs(dir)
-  Filter(x = app_folders, function(app_folder) {
-    return(
-      length(shiny_app_files(app_folder)) > 0 ||
-      length(rmarkdown_app_files(app_folder)) > 0
-    )
-  })
-}
+apps_sso <- apps_deploy
+#' @describeIn app-folders App folders for SSP
+#' @export
+apps_ssp <- apps_sso
 
 
 shiny_app_dirs <- function(dir) {
@@ -89,6 +84,12 @@ shiny_app_dirs <- function(dir) {
 shiny_app_files <- function(app_folder) {
   dir(app_folder, pattern = "^(app|ui|server)\\.(r|R)$", full.names = TRUE)
 }
+has_shiny_app_files <- function(app_folder) {
+  length(shiny_app_files(app_folder) > 0)
+}
 rmarkdown_app_files <- function(app_folder) {
   dir(app_folder, pattern = "^index\\.(Rmd|rmd)$", full.names = TRUE)
+}
+has_rmarkdown_app_files <- function(app_folder) {
+  length(rmarkdown_app_files(app_folder) > 0)
 }

@@ -31,7 +31,7 @@ docker_clean <- function(stopped_containers = TRUE, untagged_images = TRUE) {
 docker_run_sso <- function(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, "centos7" = 7878, 3838),
-  r_version = c("3.5", "3.6"),
+  r_version = c("3.6", "3.5"),
   tag = NULL,
   launch_browser = TRUE
 ) {
@@ -55,7 +55,7 @@ docker_run_sso <- function(
 docker_run_ssp <- function(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, "centos7" = 8989, 4949),
-  r_version = c("3.5", "3.6"),
+  r_version = c("3.6", "3.5"),
   tag = NULL,
   launch_browser = TRUE
 ) {
@@ -82,7 +82,7 @@ docker_run_server <- function(
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
-  r_version = c("3.5", "3.6"),
+  r_version = c("3.6", "3.5"),
   tag = NULL,
   launch_browser = launch_browser
 ) {
@@ -97,8 +97,10 @@ docker_run_server <- function(
   if (isTRUE(launch_browser)) {
     utils::browseURL(paste0("http://localhost:", port, "/"))
   }
+
+  # -t   = pseudo-TTY https://stackoverflow.com/a/33027467/591574 needed for ./retail cmd
   docker_cmd(
-    "docker run --rm -p ", port, ":3838 --name ", type, "_", r_version, "_", release, " rstudio/shinycoreci:", tag
+    "docker run -t --rm -p ", port, ":3838 --name ", type, "_", r_version, "_", release, " rstudio/shinycoreci:", tag
   )
 }
 
@@ -111,4 +113,19 @@ docker_cmd <- function(...) {
     # 2 is interrupt
     stop("docker command failed")
   }
+}
+
+docker_stop <- function(type, r_version, release) {
+  docker_cmd(
+    "docker stop ", type, "_", r_version, "_", release
+  )
+}
+
+docker_is_alive <- function() {
+  ret <- system("docker ps", ignore.stdout = TRUE, ignore.stderr = TRUE)
+  ret == 0
+}
+docker_is_logged_in <- function() {
+  ret <- system("docker system info | grep -E 'Username|Registry'", ignore.stdout = TRUE, ignore.stderr = TRUE)
+  ret == 0
 }
