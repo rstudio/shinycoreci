@@ -73,6 +73,7 @@ test_in_external <- function(
       shiny::selectizeInput("app_name", NULL, app_names, selected = basename(app)),
       shiny::tags$div(
         class = "button_container",
+        shiny::uiOutput("jster_button"),
         shiny::uiOutput("solo"),
         shiny::actionButton("refresh", "Refresh", class = "refresh_button"),
         shiny::actionButton("reject", "Reject", class = "reject_button"),
@@ -150,6 +151,15 @@ test_in_external <- function(
         }
         .button_container .solo_button, .button_container .solo_button:hover, .button_container .solo_button:active:hover {
           border-color: rgb(38, 154, 188);
+        }
+        .button_container .jster_button:not(.disabled):hover, .button_container .jster_button:not(.disabled):active:hover {
+          background-color: rgb(240, 212, 239);
+        }
+        .button_container .jster_button.disabled {
+          color: #ccc;
+        }
+        .button_container .jster_button:not(.disabled), .button_container .jster_button:not(.disabled):hover, .button_container .jster_button:not(.disabled):active:hover {
+          border-color: rgb(105, 0, 99);
         }
 
         .iframe_container {
@@ -299,6 +309,23 @@ test_in_external <- function(
         src = app_info()$app_url(),
         class = "iframe_child"
       )
+    })
+
+    output$jster_button <- shiny::renderUI({
+      if (app_info()$app_name %in% apps_shinyjster(dir)) {
+        shiny::tags$a(
+          class = "btn btn-default jster_button",
+          href = paste0(app_info()$app_url(), "?shinyjster=1"),
+          target = "_blank",
+          "Jster"
+        )
+      } else {
+        shiny::tags$a(
+          class = "btn btn-default jster_button disabled",
+          href = "#",
+          "Jster"
+        )
+      }
     })
   }
 
