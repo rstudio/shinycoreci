@@ -15,7 +15,7 @@
 #' \dontrun{test_in_connect(dir = "apps")}
 test_in_sso <- function(
   dir = "apps",
-  apps = basename(apps_sso(dir)),
+  apps = basename(apps_manual(dir)),
   app = apps[1],
   release = c("bionic", "xenial", "centos7"),
   r_version = c("3.6", "3.5"),
@@ -43,7 +43,7 @@ test_in_sso <- function(
 #' @describeIn test_in_ssossp Test SSP Shiny applications
 test_in_ssp <- function(
   dir = "apps",
-  apps = basename(apps_ssp(dir)),
+  apps = basename(apps_manual(dir)),
   app = apps[1],
   release = c("bionic", "xenial", "centos7"),
   r_version = c("3.6", "3.5"),
@@ -83,7 +83,7 @@ test_in_ssp <- function(
 
 test_in_ssossp <- function(
   dir = "apps",
-  apps = basename(switch(type, "sso" = apps_sso(dir), "ssp" = apps_ssp(dir))),
+  apps = basename(apps_manual(dir)),
   app = apps[1],
   type = c("sso", "ssp"),
   release = c("bionic", "xenial", "centos7"),
