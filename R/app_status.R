@@ -65,6 +65,8 @@ app_status <- function(dir = "apps", apps = basename(apps_manual(dir))) {
 # should have a custom print method display pass/total count and possible failures plus  maybe a couple logs
 app_status_info <- function(dir = "apps", apps = basename(apps_manual(dir)), status_folder = file.path(dirname(dir), app_status_folder(user_agent = user_agent)), user_agent = NULL) {
   app_folders <- dir(status_folder, full.names = TRUE)
+  app_folders <- app_folders[basename(app_folders) %in% basename(apps)]
+
   contents <- lapply(app_folders, function(app_folder) {
     read_path <- file.path(app_folder, app_status_latest_name)
     if (!file.exists(read_path)) return(NULL)
@@ -99,10 +101,10 @@ app_status_info <- function(dir = "apps", apps = basename(apps_manual(dir)), sta
 print.shinycoreci_app_status_info <- function(x, ...) {
   if (x$stats$passing == x$stats$total) {
     # cat("# ", basename(x$status_folder), " ", check_mark, "\n", sep = "")
-    return()
+    return(invisible())
   } else if (x$stats$completed == 0) {
     # cat("# ", basename(x$status_folder), " ", "(empty)", "\n", sep = "")
-    return()
+    return(invisible())
   } else {
     cat("# ", basename(x$status_folder), "\n", sep = "")
   }
@@ -151,8 +153,13 @@ print.shinycoreci_app_status_info <- function(x, ...) {
 #' @export
 print.shinycoreci_app_status <- function(x, ...) {
   lapply(x$statuses, function(status) {
-    print(status)
-    cat("\n")
+    ret <- capture.output({
+      print(status)
+    })
+    if (length(ret) == 0) {
+      return(invisible())
+    }
+    cat(paste0(ret, "\n", collapse = ""), "\n")
   })
 
   count <- 0
@@ -348,7 +355,7 @@ app_status_validate_app_branch <- function(dir) {
 }
 app_status_validate_shinycoreci_branch <- function() {
   if (shinycoreci_is_loaded_with_devtools()) {
-    return()
+    return(invisible())
   }
 
   ref <- remotes__load_pkg_description(system.file(package = "shinycoreci"))$remoteref
