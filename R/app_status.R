@@ -153,7 +153,7 @@ print.shinycoreci_app_status_info <- function(x, ...) {
 #' @export
 print.shinycoreci_app_status <- function(x, ...) {
   lapply(x$statuses, function(status) {
-    ret <- capture.output({
+    ret <- utils::capture.output({
       print(status)
     })
     if (length(ret) == 0) {
