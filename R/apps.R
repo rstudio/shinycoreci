@@ -1,3 +1,80 @@
+manual_app_info <- list(
+  string = "### Keep this line to manually test this shiny application. Do not edit this line; shinycoreci::::is_manual_app",
+  flag = "shinycoreci::::is_manual_app"
+)
+
+#' Flag an app to be manually tested
+#'
+#' All \code{apps_*} methods inspect each application to determine if if testing is possible.
+#'
+#' @param app_dir Shiny application directory containing an app.R, ui.R, server.R, or index.Rmd
+#' @rdname use_manual_app
+#' @export
+is_manual_app <- function(app_dir) {
+    app_or_ui_files <- c(shiny_app_files(app_dir), rmarkdown_app_files(app_dir))
+
+    flag <- manual_app_info$flag
+    for (app_file in app_or_ui_files) {
+      if (
+        any(grepl(
+          # if the flag appears in the file... success!
+          flag,
+          readLines(app_file, n = 20)
+        ))
+      ) {
+        return(TRUE)
+      }
+    }
+    FALSE
+}
+#' @rdname use_manual_app
+#' @export
+use_manual_app <- function(app_dir) {
+  # find the first file
+  app_or_ui_files <- c(shiny_app_files(app_dir), rmarkdown_app_files(app_dir))
+  if (length(app_or_ui_files) == 0) {
+    stop("No shiny files found in '", app_dir, "' to add manual flag")
+  }
+  app_or_ui_file <- normalizePath(app_or_ui_files[1])
+  # read the lines
+  file_lines <- readLines(app_or_ui_file)
+
+  if (any(grepl(manual_app_info$flag, file_lines))) {
+    message(app_dir, " is already a manual app. Returning")
+    return(invisible())
+  }
+
+  content <-
+    if (grepl("index\\.Rmd", basename(app_or_ui_file))) {
+      first_yaml_header_line <- min(which(grepl("---", file_lines)))
+      if (length(first_yaml_header_line) == 0) {
+        stop("Could not find yaml header line in ", app_or_ui_file)
+      }
+
+      # insert the line just inside the yaml header
+      # (will be treated as a yaml comment)
+      file_lines <- append(file_lines, manual_app_info$string, after = first_yaml_header_line)
+      file_lines
+
+    } else {
+      paste0(c(
+        manual_app_info$string, # flag
+        "", # white space
+        file_lines
+      ))
+    }
+
+  # save the lines
+  cat(
+    file = app_or_ui_file,
+    paste0(c(
+      content, # content
+      "" # EOF
+    ), collapse = "\n")
+  )
+}
+
+
 
 #' Get names of Shiny apps to be tested
 #'
@@ -5,6 +82,12 @@
 #'
 #' @param dir base directory to look for shiny applications
 #'
+#' @describeIn app-folders App folders that are to be manually tested. See [is_manual_app()].
+#' @export
+apps_manual <- function(dir) {
+  Filter(x = shiny_app_dirs(dir), function(x) is_manual_app(x))
+}
+
 #' @describeIn app-folders App folders that contain a \verb{shinytest.R} file
 #' @export
 apps_shinytest <- function(dir) {
@@ -52,11 +135,6 @@ apps_testthat <- function(dir) {
   dirname(dirname(files))
 }
 
-#' @describeIn app-folders Any folder in the supplied \code{dir}
-#' @export
-apps_manual <- function(dir) {
-  shiny_app_dirs(dir)
-}
 
 #' @describeIn app-folders App folders that contain a any Shiny app file
 #' @export
@@ -70,12 +148,6 @@ apps_deploy <- function(dir) {
   })
 }
 
-#' @describeIn app-folders App folders for SSO
-#' @export
-apps_sso <- apps_deploy
-#' @describeIn app-folders App folders for SSP
-#' @export
-apps_ssp <- apps_sso
 
 
 shiny_app_dirs <- function(dir) {

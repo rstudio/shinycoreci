@@ -15,15 +15,25 @@ test_in_connect <- function(
   urls = connect_urls_cache(dir = dir, apps = apps, account = "barret", server = "beta.rstudioconnect.com"),
   server = attr(urls, "server"),
   account = attr(urls, "account"),
-  apps = names(urls),
+  apps = basename(apps_manual(dir)),
   app = apps[1],
   port = 8080,
   host = "127.0.0.1"
 ) {
 
-  app_names <- names(urls)
+  server <- force(server)
+  account <- force(account)
 
-  app_infos <- mapply(urls, app_names, SIMPLIFY = FALSE, FUN = function(url, app_name) {
+  apps_not_deployed <- setdiff(apps, names(urls))
+  if (length(apps_not_deployed) > 0) {
+    message("Some apps are not found! Removing:")
+    utils::str(as.list(apps_not_deployed))
+    apps <- setdiff(apps, apps_not_deployed)
+  }
+
+  urls <- urls[apps]
+
+  app_infos <- mapply(urls, apps, SIMPLIFY = FALSE, FUN = function(url, app_name) {
     list(
       app_name = app_name,
       start = function() { invisible(TRUE) },
@@ -46,7 +56,7 @@ test_in_connect <- function(
   test_in_external(
     dir = dir,
     app_infos = app_infos,
-    app = normalize_app_name(app_names, app, increment = FALSE),
+    app = normalize_app_name(apps, app, increment = FALSE),
     host = host,
     port = port
   )

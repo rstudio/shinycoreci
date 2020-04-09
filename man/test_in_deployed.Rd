@@ -14,7 +14,7 @@ test_in_connect(
     "beta.rstudioconnect.com"),
   server = attr(urls, "server"),
   account = attr(urls, "account"),
-  apps = names(urls),
+  apps = basename(apps_manual(dir)),
   app = apps[1],
   port = 8080,
   host = "127.0.0.1"
@@ -40,7 +40,7 @@ connect_urls_cache(
 
 test_in_shinyappsio(
   dir = "apps",
-  apps = basename(apps_deploy(dir)),
+  apps = basename(apps_manual(dir)),
   app = apps[1],
   port = 8080,
   host = "127.0.0.1",
