@@ -44,13 +44,31 @@ use_manual_app <- function(app_dir) {
     return(invisible())
   }
 
+  content <-
+    if (grepl("index\\.Rmd", basename(app_or_ui_file))) {
+      first_yaml_header_line <- min(which(grepl("---", file_lines)))
+      if (length(first_yaml_header_line) == 0) {
+        stop("Could not find yaml header line in ", app_or_ui_file)
+      }
+
+      # insert the line just inside the yaml header
+      # (will be treated as a yaml comment)
+      file_lines <- append(file_lines, manual_app_info$string, after = first_yaml_header_line)
+      file_lines
+
+    } else {
+      paste0(c(
+        manual_app_info$string, # flag
+        "", # white space
+        file_lines
+      ))
+    }
+
   # save the lines
   cat(
     file = app_or_ui_file,
     paste0(c(
-      manual_app_info$string, # flag
-      "", "", # white space
-      file_lines, # content
+      content, # content
       "" # EOF
     ), collapse = "\n")
   )
