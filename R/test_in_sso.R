@@ -103,6 +103,16 @@ test_in_ssossp <- function(
   r_version <- match.arg(r_version)
   force(apps)
 
+  if (identical(release, "centos7")) {
+    radiant_app <- "141-radiant"
+    if (radiant_app %in% apps) {
+      message("\n!!! Radiant app being removed. It does not play well with centos7 !!!\n")
+      apps <- setdiff(apps, radiant_app)
+      if (identical(app, radiant_app)) {
+        app <- apps[1]
+      }
+    }
+  }
 
   message("Verify Docker port is available...", appendLF = FALSE)
   conn_exists <- tryCatch({
