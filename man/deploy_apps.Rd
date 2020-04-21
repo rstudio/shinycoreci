@@ -11,7 +11,7 @@ deploy_apps(
   server = "shinyapps.io",
   cores = 1,
   update_pkgs = c("all", "shinycoreci", "installed", "none"),
-  retry = TRUE
+  retry = 3
 )
 }
 \arguments{

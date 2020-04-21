@@ -16,7 +16,7 @@ deploy_apps <- function(
   server = "shinyapps.io",
   cores = 1,
   update_pkgs = c("all", "shinycoreci", "installed", "none"),
-  retry = TRUE
+  retry = 3
 ) {
 
   is_missing <- list(
@@ -113,19 +113,19 @@ deploy_apps <- function(
   }
   error_apps <- original_apps[deploy_res != 0]
   args <- c(
-    "dir = ", dput_arg(original_dir),
+    paste0("dir = ", dput_arg(original_dir)),
     paste0("apps = ", dput_arg(error_apps)),
     if (!is_missing$account) paste0("account = ", dput_arg(account)),
     if (!is_missing$server) paste0("server = ", dput_arg(server)),
     "cores = 1",
     "update_pkgs = \"none\"",
-    "retry = FALSE"
+    "retry = ", dput_arg(retry - 1)
   )
   fn <- paste0(
     "deploy_apps(", paste0(args, collapse = ", "),")"
   )
 
-  if (isTRUE(retry)) {
+  if (is.numeric(retry) && length(retry) > 0 && retry > 0) {
     message("Retrying to deploy problem apps.  Calling:\n", fn)
     return(
       deploy_apps(
@@ -135,7 +135,7 @@ deploy_apps <- function(
         server = server,
         cores = 1,            # simplify it
         update_pkgs = "none", # no need to update again, still in the original function exec
-        retry = FALSE         # do not allow for infinite retries
+        retry = retry - 1     # do not allow for infinite retries
       )
     )
   }
