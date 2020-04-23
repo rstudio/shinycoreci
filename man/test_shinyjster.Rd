@@ -6,7 +6,7 @@
 \usage{
 test_shinyjster(
   dir = "apps",
-  apps = apps_shinyjster(dir),
+  apps = apps_shinyjster(dir, browser = browser),
   port = 8000,
   host = "127.0.0.1",
   browser = "chrome",

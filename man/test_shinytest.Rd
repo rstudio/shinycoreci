@@ -4,7 +4,11 @@
 \alias{test_shinytest}
 \title{Test shinytest}
 \usage{
-test_shinytest(dir = "apps", apps = apps_shinytest(dir), suffix = platform())
+test_shinytest(
+  dir = "apps",
+  apps = apps_shinytest(dir, suffix = suffix),
+  suffix = platform()
+)
 }
 \arguments{
 \item{dir}{Name of directory to look for shiny apps, and to save platform

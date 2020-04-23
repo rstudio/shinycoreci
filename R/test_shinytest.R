@@ -7,7 +7,7 @@
 #' @export
 test_shinytest <- function(
   dir = "apps",
-  apps = apps_shinytest(dir),
+  apps = apps_shinytest(dir, suffix = suffix),
   suffix = platform()
 ) {
   # Record platform info and package versions

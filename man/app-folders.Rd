@@ -10,9 +10,9 @@
 \usage{
 apps_manual(dir)
 
-apps_shinytest(dir)
+apps_shinytest(dir, suffix = "unknown")
 
-apps_shinyjster(dir)
+apps_shinyjster(dir, browser = "unknown")
 
 apps_testthat(dir)
 
@@ -20,6 +20,10 @@ apps_deploy(dir)
 }
 \arguments{
 \item{dir}{base directory to look for shiny applications}
+
+\item{suffix}{if a suffix string is provided, it will be appended to the shinytest flag used to search for apps that should not be tested with shinytest. If a null value or non character string is provided, all shinytest flags will be found.}
+
+\item{browser}{if a browser string is provided, it will be appended to the shinyjster flag used to search for apps that should not be tested with shinyjster. If a null value or non character string is provided, all shinyjster flags will be found.}
 }
 \description{
 All \code{apps_*} methods inspect each application to determine if if testing is possible.

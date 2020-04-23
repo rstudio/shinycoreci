@@ -7,13 +7,14 @@
 #' @export
 test_shinyjster <- function(
   dir = "apps",
-  apps = apps_shinyjster(dir),
+  apps = apps_shinyjster(dir, browser = browser),
   port = 8000,
   host = "127.0.0.1",
   browser = "chrome",
   type = c("serial", "lapply", "parallel", "callr"),
   assert = TRUE
 ) {
+  force(apps)
 
   if (is.character(browser) && length(browser) == 1) {
     browser <- switch(browser,

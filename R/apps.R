@@ -2,6 +2,28 @@ manual_app_info <- list(
   string = "### Keep this line to manually test this shiny application. Do not edit this line; shinycoreci::::is_manual_app",
   flag = "shinycoreci::::is_manual_app"
 )
+jster_app_info <- list(
+  string = "### Keep this line to NOT test this shiny application with shinycoreci::test_shinyjster. Do not edit this line; shinycoreci::::not_jster_app",
+  # may contain an extra "_BROWSER" appended
+  flag = "shinycoreci::::not_jster_app"
+)
+shinytest_app_info <- list(
+  string = "### Keep this line to NOT test this shiny application with shinycoreci::test_shinytest. Do not edit this line; shinycoreci::::not_shinytest_app",
+  # may contain an extra "_PLATFORM" appended
+  flag = "shinycoreci::::not_shinytest_app"
+)
+
+append_flag <- function(flag, suffix) {
+  if (
+    (!is.null(suffix)) &&
+    is.character(suffix) &&
+    nchar(suffix) > 0
+  ) {
+    paste0(flag, "_", tolower(suffix))
+  } else {
+    flag
+  }
+}
 
 #' Flag an app to be manually tested
 #'
@@ -89,20 +111,28 @@ apps_manual <- function(dir) {
 }
 
 #' @describeIn app-folders App folders that contain a \verb{shinytest.R} file
+#' @param suffix if a suffix string is provided, it will be appended to the shinytest flag used to search for apps that should not be tested with shinytest. If a null value or non character string is provided, all shinytest flags will be found.
 #' @export
-apps_shinytest <- function(dir) {
+apps_shinytest <- function(dir, suffix = "unknown") {
   files <- list.files(
     path = dir,
     pattern = "shinytest.R$",
-    recursive = TRUE
+    recursive = TRUE,
+    full.names = TRUE
   )
-  dirname(dirname(files))
+  flag <- append_flag(shinytest_app_info$flag, suffix)
+  files <- Filter(x = files, function(file) {
+    !any(grepl(flag, readLines(file)))
+  })
+  basename(dirname(dirname(files)))
 }
 
 
 #' @describeIn app-folders App folders that contain the text \code{shinyjster} in a Shiny R file
+#' @param browser if a browser string is provided, it will be appended to the shinyjster flag used to search for apps that should not be tested with shinyjster. If a null value or non character string is provided, all shinyjster flags will be found.
 #' @export
-apps_shinyjster <- function(dir) {
+apps_shinyjster <- function(dir, browser = "unknown") {
+  jster_flag <- append_flag(jster_app_info$flag, browser)
   app_folders <- shiny_app_dirs(dir)
   calls_shinyjster <- vapply(app_folders, function(folder) {
     if (file.exists(file.path(folder, "_shinyjster.R"))) {
@@ -111,11 +141,14 @@ apps_shinyjster <- function(dir) {
 
     app_or_ui_file <- c(shiny_app_files(folder), rmarkdown_app_files(folder))[1]
 
-    # if shinyjster appears in the file... success!
-    any(grepl(
-      "shinyjster",
-      readLines(app_or_ui_file)
-    ))
+    lines <- readLines(app_or_ui_file)
+    (
+      # if shinyjster appears in the file... success!
+      any(grepl("shinyjster", lines)) &&
+      # as long as the flag is not found
+      !any(grepl(jster_flag, lines))
+    )
+
   }, logical(1))
 
   app_folders <- app_folders[calls_shinyjster]
