@@ -1,3 +1,4 @@
+# Flag must be at the end of the line
 manual_app_info <- list(
   string = "### Keep this line to manually test this shiny application. Do not edit this line; shinycoreci::::is_manual_app",
   flag = "shinycoreci::::is_manual_app"
@@ -13,15 +14,23 @@ shinytest_app_info <- list(
   flag = "shinycoreci::::not_shinytest_app"
 )
 
-append_flag <- function(flag, suffix) {
+append_flag <- function(flag, suffix = NULL) {
   if (
     (!is.null(suffix)) &&
     is.character(suffix) &&
     nchar(suffix) > 0
   ) {
-    paste0(flag, "_", tolower(suffix))
+    paste0(
+      "(",
+      # global, no-suffix flag
+      flag,
+      "|",
+      # suffix flag
+      paste0(flag, "_", tolower(suffix)),
+      ")$"
+    )
   } else {
-    flag
+    paste0(flag, "$")
   }
 }
 
@@ -35,13 +44,13 @@ append_flag <- function(flag, suffix) {
 is_manual_app <- function(app_dir) {
     app_or_ui_files <- c(shiny_app_files(app_dir), rmarkdown_app_files(app_dir))
 
-    flag <- manual_app_info$flag
+    flag <- append_flag(manual_app_info$flag)
     for (app_file in app_or_ui_files) {
       if (
         any(grepl(
           # if the flag appears in the file... success!
           flag,
-          readLines(app_file, n = 20)
+          readLines(app_file, n = 100)
         ))
       ) {
         return(TRUE)
@@ -113,7 +122,7 @@ apps_manual <- function(dir) {
 #' @describeIn app-folders App folders that contain a \verb{shinytest.R} file
 #' @param suffix if a suffix string is provided, it will be appended to the shinytest flag used to search for apps that should not be tested with shinytest. If a null value or non character string is provided, all shinytest flags will be found.
 #' @export
-apps_shinytest <- function(dir, suffix = "unknown") {
+apps_shinytest <- function(dir, suffix = NULL) {
   files <- list.files(
     path = dir,
     pattern = "shinytest.R$",
@@ -131,7 +140,7 @@ apps_shinytest <- function(dir, suffix = "unknown") {
 #' @describeIn app-folders App folders that contain the text \code{shinyjster} in a Shiny R file
 #' @param browser if a browser string is provided, it will be appended to the shinyjster flag used to search for apps that should not be tested with shinyjster. If a null value or non character string is provided, all shinyjster flags will be found.
 #' @export
-apps_shinyjster <- function(dir, browser = "unknown") {
+apps_shinyjster <- function(dir, browser = NULL) {
   jster_flag <- append_flag(jster_app_info$flag, browser)
   app_folders <- shiny_app_dirs(dir)
   calls_shinyjster <- vapply(app_folders, function(folder) {
