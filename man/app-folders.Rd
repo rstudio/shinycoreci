@@ -10,9 +10,9 @@
 \usage{
 apps_manual(dir)
 
-apps_shinytest(dir, suffix = "unknown")
+apps_shinytest(dir, suffix = NULL)
 
-apps_shinyjster(dir, browser = "unknown")
+apps_shinyjster(dir, browser = NULL)
 
 apps_testthat(dir)
 
