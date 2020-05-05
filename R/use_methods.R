@@ -106,7 +106,7 @@ use_tests_shinyjster <- function(app_dir) {
 
     if (browser_name %in% windows_browser_names) {
       content <- paste0(
-        "if (shinycoreci::platform() == \"win\") {\n",
+        "if (shinycoreci::platform() == \"win\"", if (browser_name == "edge") " && FALSE", ") {\n",
         "  ", content, "\n",
         "}"
       )
