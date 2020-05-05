@@ -4,6 +4,7 @@
 #' @param apps applications within \verb{dir} to run
 #' @param filter filter to use on test file within application
 #' @param assert logical value which will determine if [assert_runtests()] will be called on the result
+#' @param timeout Length of time allowed for an application's full test suit can run before determining it is a failure
 #' @param retries number of attempts to retry before declaring the test a failure
 #' @describeIn runtests Generic method to call all testing files
 #' @export
@@ -12,6 +13,7 @@ test_runtests <- function(
   apps = apps_runtests(dir, filter = filter),
   filter = NULL,
   assert = TRUE,
+  timeout = as.difftime(10, units = "mins"),
   retries = 3
 ) {
   force(apps)
@@ -22,20 +24,40 @@ test_runtests <- function(
 
   run_test <- function(app_dir_val, filter_val) {
     message("Testing ", app_dir_val)
-    callr::r(
-      function(app_dir_val_, filter_val_) {
-        shiny::runTests(
-          appDir = app_dir_val_,
-          filter = filter_val_,
-          assert = FALSE,
-          envir = new.env(parent = globalenv())
+    tryCatch(
+      {
+        callr::r(
+          function(app_dir_val_, filter_val_) {
+            shiny::runTests(
+              appDir = app_dir_val_,
+              filter = filter_val_,
+              assert = FALSE,
+              envir = new.env(parent = globalenv())
+            )
+          },
+          list(
+            app_dir_val_ = app_dir_val,
+            filter_val_ = filter_val
+          ),
+          show = TRUE,
+          timeout = timeout
         )
       },
-      list(
-        app_dir_val_ = app_dir_val,
-        filter_val_ = filter_val
-      ),
-      show = TRUE
+      error = function(e) {
+        # don't know which test failed, so must provide a failure to all tests
+
+        runners <- list.files(file.path(app_dir_val, "tests"), pattern = "\\.r$", ignore.case = TRUE, full.names = TRUE)
+        if (!is.null(filter_val)) {
+          runners <- runners[grepl(filter_val, runners)]
+        }
+        error_ret <- as.data.frame(tibble::tibble(
+          file = runners,
+          pass = FALSE,
+          result = replicate(length(runners), list(e))
+        ))
+        class(error_ret) <- c("shiny_runtests", class(error_ret))
+        error_ret
+      }
     )
   }
 

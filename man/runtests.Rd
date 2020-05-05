@@ -12,6 +12,7 @@ test_runtests(
   apps = apps_runtests(dir, filter = filter),
   filter = NULL,
   assert = TRUE,
+  timeout = as.difftime(10, units = "mins"),
   retries = 3
 )
 
@@ -44,6 +45,8 @@ test_testthat(
 \item{filter}{filter to use on test file within application}
 
 \item{assert}{logical value which will determine if \code{\link[=assert_runtests]{assert_runtests()}} will be called on the result}
+
+\item{timeout}{Length of time allowed for an application's full test suit can run before determining it is a failure}
 
 \item{retries}{number of attempts to retry before declaring the test a failure}
 }
