@@ -12,80 +12,69 @@ apps_manual <- function(dir) {
 }
 
 #' @describeIn app-folders App folders that contain a \verb{shinytest.R} file
-#' @param suffix if a suffix string is provided, it will be appended to the shinytest flag used to search for apps that should not be tested with shinytest. If a null value or non character string is provided, all shinytest flags will be found.
 #' @export
-apps_shinytest <- function(dir, suffix = NULL) {
-  files <- list.files(
-    path = dir,
-    pattern = "shinytest.R$",
-    recursive = TRUE,
-    full.names = TRUE
-  )
-  flag <- append_flag(shinytest_app_info$flag, suffix)
-  files <- Filter(x = files, function(file) {
-    !any(grepl(flag, readLines(file)))
-  })
-  basename(dirname(dirname(files)))
+apps_shinytest <- function(dir) {
+  apps_runtests(dir, filter = "shinytest")
 }
 
 
 #' @describeIn app-folders App folders that contain the text \code{shinyjster} in a Shiny R file
-#' @param browser if a browser string is provided, it will be appended to the shinyjster flag used to search for apps that should not be tested with shinyjster. If a null value or non character string is provided, all shinyjster flags will be found.
 #' @export
-apps_shinyjster <- function(dir, browser = NULL) {
-  jster_flag <- append_flag(jster_app_info$flag, browser)
-  app_folders <- shiny_app_dirs(dir)
-  calls_shinyjster <- vapply(app_folders, function(folder) {
-    if (file.exists(file.path(folder, "_shinyjster.R"))) {
-      return(TRUE)
-    }
-
-    app_or_ui_file <- c(shiny_app_files(folder), rmarkdown_app_files(folder))[1]
-
-    lines <- readLines(app_or_ui_file)
-    (
-      # if shinyjster appears in the file... success!
-      any(grepl("shinyjster", lines)) &&
-      # as long as the flag is not found
-      !any(grepl(jster_flag, lines))
-    )
-
-  }, logical(1))
-
-  app_folders <- app_folders[calls_shinyjster]
-  # Strip off leading dir, which was passed to this function.
-  app_folders <- substring(app_folders, nchar(dir) + 2, 10000)
-  app_folders
+apps_shinyjster <- function(dir) {
+  apps_runtests(dir, filter = "shinyjster")
 }
 
 #' @describeIn app-folders App folders that contain a \verb{testthat.R} file
 #' @export
 apps_testthat <- function(dir) {
+  apps_runtests(dir, "testthat")
+}
+
+#' @describeIn app-folders App folders that contain a \verb{./tests} directory
+#' @export
+apps_runtests <- function(dir, filter = NULL) {
   files <- list.files(
     path = dir,
-    pattern = "testthat.R$",
+    pattern = "^tests$",
+    include.dirs = TRUE,
     recursive = TRUE
   )
-  dirname(dirname(files))
+
+  if (!is.null(filter)) {
+    files <- Filter(x = files, function(app_folder) {
+      any(
+        grepl(
+          filter,
+          list.files(
+            # app_folder already contains `tests` folder
+            file.path(dir, app_folder),
+            pattern = "\\.r$",
+            ignore.case = TRUE
+          )
+        )
+      )
+    })
+  }
+  dirname(files)
 }
 
 
 #' @describeIn app-folders App folders that contain a any Shiny app file
 #' @export
 apps_deploy <- function(dir) {
-  app_folders <- shiny_app_dirs(dir)
+  shiny_app_dirs(dir)
+}
+
+
+
+shiny_app_dirs <- function(dir) {
+  app_folders <- list.dirs(dir, full.names = TRUE, recursive = FALSE)
   Filter(x = app_folders, function(app_folder) {
     return(
       has_shiny_app_files(app_folder) ||
       has_rmarkdown_app_files(app_folder)
     )
   })
-}
-
-
-
-shiny_app_dirs <- function(dir) {
-  list.dirs(dir, full.names = TRUE, recursive = FALSE)
 }
 shiny_app_files <- function(app_folder) {
   dir(app_folder, pattern = "^(app|ui|server)\\.(r|R)$", full.names = TRUE)
