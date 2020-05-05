@@ -13,5 +13,5 @@ use_tests_shinyjster(app_dir)
 This creates a testing file to be used with \code{\link[=test_runtests]{test_runtests()}}.  It will create a file for each browser.
 }
 \seealso{
-\code{\link[=test_jster]{test_jster()}}
+\code{\link[=test_shinyjster]{test_shinyjster()}}
 }

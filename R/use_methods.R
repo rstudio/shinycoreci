@@ -80,7 +80,7 @@ use_manual_app <- function(app_dir) {
 #' This creates a testing file to be used with [test_runtests()].  It will create a file for each browser.
 #'
 #' @param app_dir Location of shiny application to test
-#' @seealso [test_jster()]
+#' @seealso [test_shinyjster()]
 #' @export
 use_tests_shinyjster <- function(app_dir) {
 
@@ -100,23 +100,20 @@ use_tests_shinyjster <- function(app_dir) {
     }
 
     message("Creating ", shinyjster_test_file)
-    content <- paste0(
-      "shinyjster::test_jster(browser = shinyjster::selenium_", browser_name, "(), type = \"lapply\")"
+    cat(
+      "shinycoreci::test_shinyjster_app(\"", browser_name, "\")", "\n",
+      file = shinyjster_test_file,
+      sep = ""
     )
-
-    if (browser_name %in% windows_browser_names) {
-      content <- paste0(
-        "if (shinycoreci::platform() == \"win\"", if (browser_name == "edge") " && FALSE", ") {\n",
-        "  ", content, "\n",
-        "}"
-      )
-    }
-    cat(content, "\n", file = shinyjster_test_file, sep = "")
   }
 
   invisible(app_dir)
 }
 
+#' Create Shinyjster test file
+#'
+#' @param app_dir Location of shiny application to test
+#' @seealso [test_shinytest()]
 #' @export
 use_tests_shinytest <- function(app_dir) {
   test_path <- file.path(app_dir, "tests")
@@ -131,17 +128,7 @@ use_tests_shinytest <- function(app_dir) {
     message(shinytest_test_file, " already exists")
   } else {
     message("Creating ", shinytest_test_file)
-    content <- paste0(
-      "library(shinytest)",
-      "shinytest::expect_pass(",
-      "  shinytest::testApp(",
-      "    \"../\",",
-      "    suffix = shinycoreci::platform()",
-      "  )",
-      ")",
-      collapse = "\n"
-    )
-    cat(content, "\n", file = shinytest_test_file, sep = "")
+    cat("shinycoreci::test_shinytest_app()", "\n", file = shinytest_test_file, sep = "")
   }
 
   shinytest_folder <- file.path(test_path, "shinytest")
@@ -164,6 +151,59 @@ use_tests_shinytest <- function(app_dir) {
       collapse = "\n"
     )
     cat(content, "\n", file = shinytest_mytest_file, sep = "")
+  }
+
+  invisible(app_dir)
+}
+
+
+#' Create an app testthat test file
+#'
+#' @param app_dir Location of shiny application to test
+#' @seealso [test_testthat()]
+#' @export
+use_tests_testthat <- function(app_dir) {
+
+  test_path <- file.path(app_dir, "tests")
+  if (!dir.exists(test_path)) {
+    message("Creating ", test_path)
+    dir.create(test_path)
+  }
+
+  testthat_test_file <- file.path(test_path, "testthat.R")
+  if (file.exists(testthat_test_file)) {
+    message(testthat_test_file, " already exists")
+  } else {
+    cat(
+      "shinycoreci::test_testthat_app()", "\n",
+      file = testthat_test_file,
+      sep = ""
+    )
+  }
+
+  testthat_folder <- file.path(test_path, "testthat")
+  if (!dir.exists(testthat_folder)) {
+    message("Creating ", testthat_folder)
+    dir.create(testthat_folder, recursive = TRUE)
+  }
+
+  testthat_test_file <- file.path(testthat_folder, "tests.R")
+  if (file.exists(testthat_test_file)) {
+    message(testthat_test_file, " already exists")
+  } else {
+    message("Creating ", testthat_test_file)
+
+    content <- paste0(
+      'context("server")',
+      '',
+      'test_that("server works", {',
+      '  testServer(expr = {',
+      '    ',
+      '  })',
+      '})',
+      collapse = "\n"
+    )
+    cat(content, "\n", file = testthat_test_file, sep = "")
   }
 
   invisible(app_dir)
