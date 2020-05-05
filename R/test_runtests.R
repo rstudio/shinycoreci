@@ -78,7 +78,8 @@ test_runtests <- function(
   }
 
   # Remove NULL result test files
-  ret <- ret[!is.null(ret$result), ]
+  is_empty_result <- vapply(ret$result, is.null, logical(1))
+  ret <- ret[!is_empty_result, ]
 
   if (isTRUE(assert)) {
     assert_runtests(ret)
