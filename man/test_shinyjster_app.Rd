@@ -19,7 +19,7 @@ test_shinyjster_app(
 
 \item{browser_func}{One of \code{c("chrome", "firefox", "edge", "ie")}. If an unknown \code{browser_name} is used, \code{browser_func} will default to using \code{chrome}.}
 
-\item{app}{shiny app to be tested using shinyjster}
+\item{apps}{shiny app to be tested using shinyjster}
 }
 \description{
 Method to avoid editing MANY different files to do the same default behavior of \code{shinyjster::test_jster(browsers = selenium_chrome(), type = "lapply")}.

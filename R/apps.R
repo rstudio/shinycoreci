@@ -5,7 +5,7 @@
 #'
 #' @param dir base directory to look for shiny applications
 #'
-#' @describeIn app-folders App folders that are to be manually tested. See [is_manual_app()].
+#' @describeIn app-folders App folders that are to be manually tested.
 #' @export
 apps_manual <- function(dir) {
   Filter(x = shiny_app_dirs(dir), function(x) is_manual_app(x))
@@ -31,6 +31,7 @@ apps_testthat <- function(dir) {
 }
 
 #' @describeIn app-folders App folders that contain a \verb{./tests} directory
+#' @param filter regex to run on file name in the \verb{./tests} directory
 #' @export
 apps_runtests <- function(dir, filter = NULL) {
   files <- list.files(

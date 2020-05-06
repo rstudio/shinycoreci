@@ -23,13 +23,15 @@ apps_deploy(dir)
 }
 \arguments{
 \item{dir}{base directory to look for shiny applications}
+
+\item{filter}{regex to run on file name in the \verb{./tests} directory}
 }
 \description{
 All \code{apps_*} methods inspect each application to determine if if testing is possible.
 }
 \section{Functions}{
 \itemize{
-\item \code{apps_manual}: App folders that are to be manually tested. See \code{\link[=is_manual_app]{is_manual_app()}}.
+\item \code{apps_manual}: App folders that are to be manually tested.
 
 \item \code{apps_shinytest}: App folders that contain a \verb{shinytest.R} file
 

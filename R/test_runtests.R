@@ -85,8 +85,8 @@ test_runtests <- function(
       )
       # store result
       if (failure_file != ans$file[1]) {
-        str(list(
-          failed_file = failed_file,
+        utils::str(list(
+          failed_file = failure_file,
           new_file = ans$file[1]
         ))
         stop("when retrying, the file names do not match")

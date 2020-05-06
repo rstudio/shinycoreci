@@ -4,6 +4,7 @@
 #' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
 #'
 #' @inheritParams test_shinyjster
+#' @inheritParams shinyjster::run_jster_apps
 #' @param port_background `port` for the background app process
 #' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
 #' @param update_pkgs Logical that will try to automatically install packages. \[`TRUE`\]

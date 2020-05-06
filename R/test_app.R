@@ -7,7 +7,7 @@
 #'
 #' @param name browser name to use to determine the browser_func
 #' @param browser_func One of `c("chrome", "firefox", "edge", "ie")`. If an unknown `browser_name` is used, `browser_func` will default to using `chrome`.
-#' @param app shiny app to be tested using shinyjster
+#' @param apps shiny app to be tested using shinyjster
 #' @seealso [test_shinytest_app()] and [test_runtests()]
 #' @export
 test_shinyjster_app <- function(
@@ -58,7 +58,8 @@ test_shinytest_app <- function(
   appDir = "..",
   suffix = shinycoreci::platform()
 ) {
-  require(shinytest)
+  base__library("shinytest", character.only = TRUE)
+
   shinytest::expect_pass(
     shinytest::testApp(
       appDir,
@@ -72,9 +73,9 @@ test_shinytest_app <- function(
 #' @seealso [test_shinyjster_app()] and [test_runtests()]
 #' @export
 test_testhat_app <- function() {
-  require(testthat)
+  base__library("testthat", character.only = TRUE)
 
-  test_dir(
+  testthat::test_dir(
     "./testthat",
     # Run in the app's environment containing all support methods.
     env = shiny::loadSupport(),

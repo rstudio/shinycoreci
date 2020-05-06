@@ -59,6 +59,15 @@ test_in_shinyappsio(
 
 \item{app}{app number or name to start with. If numeric, it will match the leading number in the testing application}
 
+\item{port}{The TCP port that the application should listen on. If the
+\code{port} is not specified, and the \code{shiny.port} option is set (with
+\code{options(shiny.port = XX)}), then that port will be used. Otherwise,
+use a random port.}
+
+\item{host}{The IPv4 address that the application should listen on. Defaults
+to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
+Details.}
+
 \item{save_file}{location to save the file}
 }
 \description{

@@ -45,6 +45,10 @@ test_in_ssp(
 \item{port}{Port for shiny application}
 
 \item{port_background}{Port to connect to the Docker container}
+
+\item{host}{The IPv4 address that the application should listen on. Defaults
+to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
+Details.}
 }
 \description{
 Automatically launches docker in a background process.  Once the docker is ready, a shiny application will be launched to help move through the applications.
