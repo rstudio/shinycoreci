@@ -10,7 +10,7 @@
 
 #' RStudio Package Manager System Install Scripts
 #'
-#' @inheritParams apps_shinytest
+#' @inheritParams apps_runtests
 #' @param release Docker release to use. Such as \verb{'bionic'} or \verb{'centos7'}
 #' @describeIn rspm_install Install script needed for R packages to run
 #' @export

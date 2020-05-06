@@ -313,7 +313,7 @@ test_in_external <- function(
 
     output$jster_button <- shiny::renderUI({
       # try to find all shinyjster apps. Use `browser = 'external'` to not match any jster flags and return all possible apps
-      if (app_info()$app_name %in% apps_shinyjster(dir, browser = "external")) {
+      if (app_info()$app_name %in% apps_shinyjster(dir)) {
         shiny::tags$a(
           class = "btn btn-default jster_button",
           href = paste0(app_info()$app_url(), "?shinyjster=1"),

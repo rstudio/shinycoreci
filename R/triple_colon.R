@@ -17,3 +17,7 @@ remotes__load_pkg_description <- function(...) {
 renv__renv_snapshot_r_packages <- function(...) {
   triple_colon("renv", "renv_snapshot_r_packages")(...)
 }
+
+base__library <- function(...) {
+  triple_colon("base", "library")(...)
+}

@@ -10,6 +10,10 @@ find_bad_shinytest_files <- function(path = ".") {
 
 bad_shinytest_platform <- function() {
   branch <- system("git rev-parse --abbrev-ref HEAD", intern = TRUE)
+  if (!grepl("^gha-", branch)) {
+    message("Not in an auto-generated git branch. Using local platform")
+    return(platform())
+  }
 
   system_val <- strsplit(branch, "-")[[1]]
   switch(
