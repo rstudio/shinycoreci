@@ -163,6 +163,7 @@ save_use_file <- function(file_path, content) {
   if (file.exists(file_path)) {
     message(file_path, " already exists")
   } else {
+    message("Creating ", file_path)
     cat(
       content, "\n",
       file = file_path,
