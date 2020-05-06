@@ -84,26 +84,12 @@ use_manual_app <- function(app_dir) {
 #' @export
 use_tests_shinyjster <- function(app_dir) {
 
-  test_path <- file.path(app_dir, "tests")
-  if (!dir.exists(test_path)) {
-    message("Creating ", test_path)
-    dir.create(test_path)
-  }
-  windows_browser_names <- c("edge", "ie")
-  browser_names <- c("chrome", "firefox", windows_browser_names)
-  for (browser_name in browser_names) {
-    shinyjster_test_file <- file.path(test_path, paste0("shinyjster-", browser_name, ".R"))
-
-    if (file.exists(shinyjster_test_file)) {
-      message(shinyjster_test_file, " already exists")
-      next
-    }
-
-    message("Creating ", shinyjster_test_file)
-    cat(
-      "shinycoreci::test_shinyjster_app(\"", browser_name, "\")", "\n",
-      file = shinyjster_test_file,
-      sep = ""
+  for (browser_name in c("chrome", "firefox", "edge", "ie")) {
+    save_use_file(
+      file.path(app_dir, "tests", paste0("shinyjster-", browser_name, ".R")),
+      paste0(
+        "shinycoreci::test_shinyjster_app(\"", browser_name, "\")"
+      )
     )
   }
 
@@ -116,42 +102,22 @@ use_tests_shinyjster <- function(app_dir) {
 #' @seealso [test_shinytest()]
 #' @export
 use_tests_shinytest <- function(app_dir) {
-  test_path <- file.path(app_dir, "tests")
-  if (!dir.exists(test_path)) {
-    message("Creating ", test_path)
-    dir.create(test_path)
-  }
-  shinytest_test_file <- file.path(test_path, paste0("shinytest.R"))
 
+  save_use_file(
+    file.path(app_dir, "tests", "shinytest.R"),
+    "shinycoreci::test_shinytest_app()"
+  )
 
-  if (file.exists(shinytest_test_file)) {
-    message(shinytest_test_file, " already exists")
-  } else {
-    message("Creating ", shinytest_test_file)
-    cat("shinycoreci::test_shinytest_app()", "\n", file = shinytest_test_file, sep = "")
-  }
-
-  shinytest_folder <- file.path(test_path, "shinytest")
-  if (!dir.exists(shinytest_folder)) {
-    message("Creating ", shinytest_folder)
-    dir.create(shinytest_folder, recursive = TRUE)
-  }
-
-  shinytest_mytest_file <- file.path(shinytest_folder, "mytest.R")
-  if (file.exists(shinytest_mytest_file)) {
-    message(shinytest_mytest_file, " already exists")
-  } else {
-    message("Creating ", shinytest_mytest_file)
-
-    content <- paste0(
+  save_use_file(
+    file.path(app_dir, "tests", "shinytest", "mytest.R"),
+    paste0(
       'app <- ShinyDriver$new("../../", seed = 100, shinyOptions = list(display.mode = "normal"))',
       'app$snapshotInit("mytest")',
       '',
       'app$snapshot()',
       collapse = "\n"
     )
-    cat(content, "\n", file = shinytest_mytest_file, sep = "")
-  }
+  )
 
   invisible(app_dir)
 }
@@ -164,36 +130,14 @@ use_tests_shinytest <- function(app_dir) {
 #' @export
 use_tests_testthat <- function(app_dir) {
 
-  test_path <- file.path(app_dir, "tests")
-  if (!dir.exists(test_path)) {
-    message("Creating ", test_path)
-    dir.create(test_path)
-  }
+  save_use_file(
+    file.path(app_dir, "tests", "testthat.R"),
+    "shinycoreci::test_testthat_app()"
+  )
 
-  testthat_test_file <- file.path(test_path, "testthat.R")
-  if (file.exists(testthat_test_file)) {
-    message(testthat_test_file, " already exists")
-  } else {
-    cat(
-      "shinycoreci::test_testthat_app()", "\n",
-      file = testthat_test_file,
-      sep = ""
-    )
-  }
-
-  testthat_folder <- file.path(test_path, "testthat")
-  if (!dir.exists(testthat_folder)) {
-    message("Creating ", testthat_folder)
-    dir.create(testthat_folder, recursive = TRUE)
-  }
-
-  testthat_test_file <- file.path(testthat_folder, "tests.R")
-  if (file.exists(testthat_test_file)) {
-    message(testthat_test_file, " already exists")
-  } else {
-    message("Creating ", testthat_test_file)
-
-    content <- paste0(
+  save_use_file(
+    file.path(app_dir, "tests", "testthat", "tests.R"),
+    paste0(
       'context("server")',
       '',
       'test_that("server works", {',
@@ -203,8 +147,26 @@ use_tests_testthat <- function(app_dir) {
       '})',
       collapse = "\n"
     )
-    cat(content, "\n", file = testthat_test_file, sep = "")
-  }
+  )
 
   invisible(app_dir)
+}
+
+# Helper function to create the enclosing directory and save the file if it doesn't already exist
+save_use_file <- function(file_path, content) {
+  file_dir <- dirname(file_path)
+  if (!dir.exists(file_dir)) {
+    message("Creating ", file_dir)
+    dir.create(file_dir)
+  }
+
+  if (file.exists(file_path)) {
+    message(file_path, " already exists")
+  } else {
+    cat(
+      content, "\n",
+      file = file_path,
+      sep = ""
+    )
+  }
 }

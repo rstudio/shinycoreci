@@ -8,7 +8,7 @@ jobs:
 
   # added so that the workflow doesn't fail.
   always_runner:
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Always run
         run: echo "This job is used to prevent the workflow status from showing as failed when all other jobs are skipped"
@@ -16,7 +16,7 @@ jobs:
   document:
     if: startsWith(github.event.comment.body, '/document')
     name: document
-    runs-on: ubuntu-18.04
+    runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
