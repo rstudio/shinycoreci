@@ -1,10 +1,10 @@
 
 # Info
-#   https://demo.rstudiopm.com/client/#/repos/3/overview
+#   https://packagemanager.rstudio.com/client/#/repos/3/overview
 # Has ID
-#   https://demo.rstudiopm.com/__api__/repos/4/packages?name=highcharter
+#   https://packagemanager.rstudio.com/__api__/repos/4/packages?name=highcharter
 # Has sys reqs
-#   https://demo.rstudiopm.com/__api__/repos/4/packages/highcharter/sysreqs?id=593567&distribution=ubuntu&release=18.04
+#   https://packagemanager.rstudio.com/__api__/repos/4/packages/highcharter/sysreqs?id=593567&distribution=ubuntu&release=18.04
 
 # used in docker files
 
@@ -88,14 +88,14 @@ rspm_sys_reqs <- function(
 rspm_pkg_reqs <- function(pkg_name, distro_val, release_val) {
 
   # id <-
-  #   paste0("https://demo.rstudiopm.com/__api__/repos/4/packages?name=", pkg_name) %>%
+  #   paste0("https://packagemanager.rstudio.com/__api__/repos/1/packages?name=", pkg_name) %>%
   #   jsonlite::fromJSON(simplifyDataFrame = FALSE) %>%
   #   magrittr::extract2(1) %>%
   #   magrittr::extract2("id")
 
   info <- jsonlite::fromJSON(
     paste0(
-      "https://demo.rstudiopm.com/__api__/repos/4/packages/", pkg_name, "/sysreqs",
+      "https://packagemanager.rstudio.com/__api__/repos/1/packages/", pkg_name, "/sysreqs",
       "?distribution=", distro_val,
       "&release=", release_val
     ),
