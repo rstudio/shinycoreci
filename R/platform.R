@@ -12,3 +12,10 @@ platform <- function() {
   if (is_linux())   return("linux")
   stop("unknown platform")
 }
+
+#' R Version
+#' @return Major and minor number only. Ex: `"4.0"`
+#' @export
+r_version_short <- function() {
+  paste0(R.Version()$major,".",strsplit(R.Version()$minor, ".", fixed = TRUE)[[1]][1])
+}

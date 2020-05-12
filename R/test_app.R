@@ -56,7 +56,8 @@ test_shinyjster_app <- function(
 #' @export
 test_shinytest_app <- function(
   appDir = "..",
-  suffix = shinycoreci::platform()
+  # suffix = paste0(platform(), "-", r_version_short())
+  suffix = platform()
 ) {
   base__library("shinytest", character.only = TRUE)
 
