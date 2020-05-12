@@ -2,12 +2,9 @@
 % Please edit documentation in R/test_app.R
 \name{test_shinytest_app}
 \alias{test_shinytest_app}
-\alias{platform_rversion}
 \title{Test shinytest app}
 \usage{
 test_shinytest_app(appDir = "..", suffix = platform_rversion())
-
-platform_rversion(platform_val = platform(), r_version = r_version_short())
 }
 \arguments{
 \item{appDir}{Path to the Shiny application to be tested.}
@@ -18,9 +15,7 @@ example, if the suffix is \code{"mac"}, the expected directory would be
 }
 \description{
 Test shinytest app
-
-'
 }
 \seealso{
-\code{\link[=test_shinyjster_app]{test_shinyjster_app()}} and \code{\link[=test_runtests]{test_runtests()}}
+\code{\link[=test_shinyjster_app]{test_shinyjster_app()}}, \code{\link[=test_runtests]{test_runtests()}}, and \code{\link[=platform_rversion]{platform_rversion()}}
 }
