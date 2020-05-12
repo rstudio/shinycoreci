@@ -16,7 +16,7 @@ bad_shinytest_suffix <- function() {
   }
 
   system_val <- strsplit(branch, "-")[[1]]
-  platform <- switch(
+  platform_val <- switch(
     system_val[[length(system_val)]],
     "macOS" = "mac",
     "Windows" = "win",
@@ -24,7 +24,7 @@ bad_shinytest_suffix <- function() {
     stop("unknown system type for branch: ", branch)
   )
   r_version <- system_val[[length(system_val) - 1]]
-  platform_rversion(platform, r_version)
+  platform_rversion(platform_val, r_version)
 }
 
 

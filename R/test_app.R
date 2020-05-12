@@ -71,7 +71,7 @@ test_shinytest_app <- function(
 
 #' Platform and R Version
 #'
-#' @param platform See [platform()]
+#' @param platform_val See [platform()]
 #' @param r_version See [r_version_short()]
 #' @export
 platform_rversion <- function(platform_val = platform(), r_version = r_version_short()) {

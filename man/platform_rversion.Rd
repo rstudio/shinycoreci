@@ -7,9 +7,9 @@
 platform_rversion(platform_val = platform(), r_version = r_version_short())
 }
 \arguments{
-\item{r_version}{See \code{\link[=r_version_short]{r_version_short()}}}
+\item{platform_val}{See \code{\link[=platform]{platform()}}}
 
-\item{platform}{See \code{\link[=platform]{platform()}}}
+\item{r_version}{See \code{\link[=r_version_short]{r_version_short()}}}
 }
 \description{
 Platform and R Version
