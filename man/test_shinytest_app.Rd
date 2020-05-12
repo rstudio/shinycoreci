@@ -4,7 +4,7 @@
 \alias{test_shinytest_app}
 \title{Test shinytest app}
 \usage{
-test_shinytest_app(appDir = "..", suffix = shinycoreci::platform())
+test_shinytest_app(appDir = "..", suffix = platform())
 }
 \arguments{
 \item{appDir}{Path to the Shiny application to be tested.}
