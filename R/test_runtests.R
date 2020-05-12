@@ -20,7 +20,7 @@ test_runtests <- function(
   retries <- as.numeric(retries)
 
   # Record platform info and package versions
-  write_sysinfo(file.path(dir, paste0("sysinfo-", platform(), ".txt")))
+  write_sysinfo(file.path(dir, paste0("sysinfo-", platform_rversion(), ".txt")))
 
   run_test <- function(app_dir_val, filter_val) {
     message("Testing ", app_dir_val)
@@ -120,7 +120,6 @@ test_shinytest <- function(
   assert = TRUE,
   retries = 3
 ) {
-
   test_runtests(
     dir = dir,
     apps = apps,

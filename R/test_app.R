@@ -49,15 +49,15 @@ test_shinyjster_app <- function(
 
 
 
+
 #' Test shinytest app
 #'
 #' @inheritParams shinytest::testApp
-#' @seealso [test_shinyjster_app()] and [test_runtests()]
+#' @seealso [test_shinyjster_app()], [test_runtests()], and [platform_rversion()]
 #' @export
 test_shinytest_app <- function(
   appDir = "..",
-  # suffix = paste0(platform(), "-", r_version_short())
-  suffix = platform()
+  suffix = platform_rversion()
 ) {
   base__library("shinytest", character.only = TRUE)
 
@@ -67,6 +67,15 @@ test_shinytest_app <- function(
       suffix = suffix
     )
   )
+}
+
+#' Platform and R Version
+#'
+#' @param platform_val See [platform()]
+#' @param r_version See [r_version_short()]
+#' @export
+platform_rversion <- function(platform_val = platform(), r_version = r_version_short()) {
+  paste0(platform_val, "-", r_version)
 }
 
 #' Test shinytest app

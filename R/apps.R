@@ -17,7 +17,6 @@ apps_shinytest <- function(dir) {
   apps_runtests(dir, filter = "shinytest")
 }
 
-
 #' @describeIn app-folders App folders that contain the text \code{shinyjster} in a Shiny R file
 #' @export
 apps_shinyjster <- function(dir) {

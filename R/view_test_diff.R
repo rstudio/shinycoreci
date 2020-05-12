@@ -8,21 +8,23 @@ find_bad_shinytest_files <- function(path = ".") {
   folder_names
 }
 
-bad_shinytest_platform <- function() {
+bad_shinytest_suffix <- function() {
   branch <- system("git rev-parse --abbrev-ref HEAD", intern = TRUE)
   if (!grepl("^gha-", branch)) {
     message("Not in an auto-generated git branch. Using local platform")
-    return(platform())
+    return(platform_rversion())
   }
 
   system_val <- strsplit(branch, "-")[[1]]
-  switch(
+  platform_val <- switch(
     system_val[[length(system_val)]],
     "macOS" = "mac",
     "Windows" = "win",
     "Linux" = "linux",
     stop("unknown system type for branch: ", branch)
   )
+  r_version <- system_val[[length(system_val) - 1]]
+  platform_rversion(platform_val, r_version)
 }
 
 
@@ -32,11 +34,10 @@ bad_shinytest_platform <- function() {
 #' @param path Root folder path
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
 #' @export
-view_test_diff <- function(suffix = c("win", "mac", "linux"), path = "apps", ...) {
+view_test_diff <- function(suffix = platform_rversion(), path = "apps", ...) {
   if (missing(suffix)) {
-    suffix <- bad_shinytest_platform()
+    suffix <- bad_shinytest_suffix()
   }
-  suffix <- match.arg(suffix)
 
   folders <- find_bad_shinytest_files(path)
 
