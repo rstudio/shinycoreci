@@ -309,9 +309,9 @@ app_status_app_sha <- function(
   dir
 ) {
   dir <- normalizePath(dir)
-
+  owd <- setwd(dir)
+  on.exit(setwd(owd), add = TRUE)
   run_system_cmd(
-    "cd '", dir, "' && ",
     "git rev-parse --short HEAD"
   )
 }
