@@ -329,8 +329,9 @@ app_status_shinycoreci_sha <- function() {
 
 app_status_validate_app_branch <- function(dir) {
   dir <- normalizePath(dir)
+  owd <- setwd(dir)
+  on.exit(setwd(owd), add = TRUE)
   apps_branch <- run_system_cmd(
-    "cd '", dir, "' && ",
     "git rev-parse --abbrev-ref HEAD"
   )
   if (!identical(apps_branch, "master")) {
