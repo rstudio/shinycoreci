@@ -111,15 +111,18 @@ deploy_apps <- function(
     ret <- paste0(readLines(f), collapse = "\n")
     ret
   }
+  fn_arg <- function(name, val) {
+    paste0(name, " = ", dput_arg(val))
+  }
   error_apps <- original_apps[deploy_res != 0]
   args <- c(
-    paste0("dir = ", dput_arg(original_dir)),
-    paste0("apps = ", dput_arg(error_apps)),
-    if (!is_missing$account) paste0("account = ", dput_arg(account)),
-    if (!is_missing$server) paste0("server = ", dput_arg(server)),
-    "cores = 1",
-    "update_pkgs = \"none\"",
-    "retry = ", dput_arg(retry - 1)
+    fn_arg("dir", original_dir),
+    fn_arg("apps", error_apps),
+    if (!is_missing$account) fn_arg("account", account),
+    if (!is_missing$server) fn_arg("server", server),
+    fn_arg("cores", 1),
+    fn_arg("update_pkgs", "none"),
+    fn_arg("retry", retry - 1)
   )
   fn <- paste0(
     "deploy_apps(", paste0(args, collapse = ", "),")"
