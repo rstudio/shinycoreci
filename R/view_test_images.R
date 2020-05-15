@@ -14,29 +14,29 @@ view_test_images <- function(dir = "apps") {
   m <- regexec(file.path(dir, "(.*)", "tests"), all_pngs)
   all_png_app_names <- vapply(regmatches(all_pngs, m), function(x) x[2], character(1))
 
-  ui <- fluidPage(
-    wellPanel(
-      selectInput("app_name", "Choose a testing app", unique(all_png_app_names))
+  ui <- shiny::fluidPage(
+    shiny::wellPanel(
+      shiny::selectInput("app_name", "Choose a testing app", unique(all_png_app_names))
     ),
-    uiOutput("images")
+    shiny::uiOutput("images")
   )
 
   server <- function(input, output, session) {
-    app_png_idx <- reactive({
+    app_png_idx <- shiny::reactive({
       req(input$app_name)
       grep(input$app_name, all_pngs)
     })
-    app_pngs <- reactive(all_pngs[app_png_idx()])
-    app_test_names <- reactive(all_png_test_names[app_png_idx()])
+    app_pngs <- shiny::reactive(all_pngs[app_png_idx()])
+    app_test_names <- shiny::reactive(all_png_test_names[app_png_idx()])
 
-    observe({
+    shiny::observe({
       lapply(app_pngs(), function(x) {
-        output[[x]] <- renderImage({
+        output[[x]] <- shiny::renderImage({
           list(src = x, width = "100%")
         }, deleteFile = FALSE)
       })
     })
-    output$images <- renderUI({
+    output$images <- shiny::renderUI({
       png_names <- app_pngs()
       row_names <- unique(basename(png_names))
       row_tags <- lapply(row_names, function(row) {
@@ -45,24 +45,24 @@ view_test_images <- function(dir = "apps") {
           test_name <- basename(dirname(png))
           # Remove the shinytest test name as it's not very informative
           test_name <- paste(strsplit(test_name, "-")[[1]][-1], collapse = "-")
-          img_tag <- div(
-            tags$p(test_name),
-            imageOutput(png)
+          img_tag <- shiny::div(
+            shiny::tags$p(test_name),
+            shiny::imageOutput(png)
           )
-          column(
+          shiny::column(
             max(4, round(12 / length(row_pngs))),
             img_tag
           )
         })
-        wellPanel(
-          h3(paste("Screenshot", english::english(match(row, row_names)))),
-          br(), fluidRow(!!!row_images)
+        shiny::wellPanel(
+          shiny::h3(paste("Screenshot", english::english(match(row, row_names)))),
+          shiny::br(), shiny::fluidRow(!!!row_images)
         )
       })
     })
   }
 
-  shinyApp(ui, server)
+  shiny::shinyApp(ui, server)
 }
 
 
