@@ -91,7 +91,7 @@ test_in_ssossp <- function(
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
-  r_version = c("3.6", "3.5"),
+  r_version = c("4.0", "3.6", "3.5"),
   tag = NULL,
   host = "127.0.0.1",
   port = 8080
