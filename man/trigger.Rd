@@ -6,25 +6,16 @@
 \usage{
 trigger(
   event_type,
-  ci_repo = "rstudio/shinycoreci",
-  apps_repo = "rstudio/shinycoreci-apps",
-  apps_repo_ref = "master",
-  client_payload = list(event_type = event_type, client_payload = list(apps_repo =
-    apps_repo, apps_repo_ref = apps_repo_ref)),
+  repo = "rstudio/shinycoreci-apps",
+  client_payload = list(),
   auth_token = Sys.getenv("GITHUB_PAT")
 )
 }
 \arguments{
 \item{event_type}{The name of the event to create on the repository}
 
-\item{ci_repo}{The shinycoreci repo to create the event on; defaults to
-rstudio/shinycoreci}
-
-\item{apps_repo}{The shinycoreci-apps repo to clone and test; defaults to
+\item{repo}{The GitHub repo to create the event on; defaults to
 rstudio/shinycoreci-apps}
-
-\item{apps_repo_ref}{The ref (branch, tag, sha) of \code{apps_repo} to clone;
-defaults to master.}
 
 \item{client_payload}{The JSON object to make available in the workflow as
 the \code{github.event.client_payload} object}

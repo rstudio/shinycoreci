@@ -98,50 +98,35 @@ with_options <- function(new_options, code) {
 #'   running this function with an `event_type` of "shinytest-apps".
 #'
 #' @param event_type The name of the event to create on the repository
-#' @param ci_repo The shinycoreci repo to create the event on; defaults to
-#'   rstudio/shinycoreci
-#' @param apps_repo The shinycoreci-apps repo to clone and test; defaults to
+#' @param repo The GitHub repo to create the event on; defaults to
 #'   rstudio/shinycoreci-apps
-#' @param apps_repo_ref The ref (branch, tag, sha) of `apps_repo` to clone;
-#'   defaults to master.
 #' @param client_payload The JSON object to make available in the workflow as
 #'   the `github.event.client_payload` object
 #' @param auth_token Your GitHub OAuth2 token; defaults to
 #'   `Sys.getenv("GITHUB_PAT")`
 #'
-#' @importFrom curl new_handle handle_setheaders handle_setopt curl_fetch_memory
-#' @importFrom jsonlite toJSON
 #' @export
 trigger <- function(
   event_type,
-  ci_repo = "rstudio/shinycoreci",
-  apps_repo = "rstudio/shinycoreci-apps",
-  apps_repo_ref = "master",
-  client_payload = list(
-    event_type = event_type,
-    client_payload = list(
-      apps_repo = apps_repo,
-      apps_repo_ref = apps_repo_ref
-    )
-  ),
+  repo = "rstudio/shinycoreci-apps",
+  client_payload = list(),
   auth_token = Sys.getenv("GITHUB_PAT")
 ) {
-  h <- new_handle()
-  handle_setheaders(h, .list = list(
-    Authorization = sprintf("token %s", auth_token),
-    Accept = "application/vnd.github.v3+json, application/vnd.github.everest-preview+json"
-  ))
-  handle_setopt(h, .list = list(
-    postfields = toJSON(
-      auto_unbox = TRUE,
-      list(
-        event_type = event_type,
-        client_payload = client_payload
-      )
+
+  req <- httr::POST(
+    sprintf("https://api.github.com/repos/%s/dispatches", repo),
+    httr::content_type_json(),
+    body = list(
+      event_type = event_type,
+      client_payload = client_payload
+    ),
+    encode = "json",
+    httr::add_headers(
+      Authorization = paste0("token ", auth_token),
+      Accept = "application/vnd.github.v3+json, application/vnd.github.everest-preview+json"
     )
-  ))
-  url <- sprintf("https://api.github.com/repos/%s/dispatches", ci_repo)
-  curl_fetch_memory(url, handle = h)
+  )
+  httr::content(req, as = "parsed")
 }
 
 
@@ -163,41 +148,3 @@ run_system_cmd <- function(...) {
   cmd <- paste0(...)
   system(cmd, intern = TRUE)
 }
-
-
-
-req_pkg <- local({
-  suggests <-
-    strsplit(
-      unname(
-        read.dcf(system.file("DESCRIPTION", package = "shinycoreci"), fields = "Suggests")[1, 1]
-      ),
-      ",\\s*"
-    )[[1]]
-
-  function(package) {
-    installed <- nzchar(system.file(package = package))
-    if (!installed) {
-      stop(package, " is not installed and is required by `shinycoreci`")
-    }
-
-
-    # get the package info line
-    suggested_package <- grep(package, suggests, value = TRUE, fixed = TRUE)
-
-    # version number match
-    version <-
-      regmatches(
-        suggested_package,
-        regexec(base::.standard_regexps()$valid_numeric_version, suggested_package)
-      )[[1]][1]
-    if (nchar(version) > 0) {
-      # required version is greater than installed version
-      if (package_version(version) > utils::packageVersion(package)) {
-        stop("Insufficient version found for package: ", package, ". Need `", suggested_package, "`. Have `", packageVersion(package), "`")
-      }
-    }
-
-    invisible(TRUE)
-  }
-})

@@ -22,6 +22,8 @@ test_in_browser <- function(
   update_pkgs = TRUE,
   verify = TRUE
 ) {
+  req_core_pkgs()
+
   # install all the packages
   if (isTRUE(update_pkgs)) {
     install_exact_shinycoreci_deps(dir)

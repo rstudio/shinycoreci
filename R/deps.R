@@ -11,6 +11,8 @@ install_app_deps <- function(dir = "apps") {
 #' @rdname install_app_deps
 #' @export
 app_deps <- function(dir = "apps") {
+  # req_core_pkgs()
+
   # First get packages specified in DESCRIPTION files - these will tend to be
   # listed in Remotes.
   app_dirs <- shiny_app_dirs(dir)

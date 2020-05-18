@@ -96,6 +96,8 @@ test_in_ssossp <- function(
   host = "127.0.0.1",
   port = 8080
 ) {
+  req_core_pkgs()
+
   force(dir)
   type <- match.arg(type)
   release <- match.arg(release)

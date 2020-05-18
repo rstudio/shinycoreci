@@ -40,6 +40,8 @@ find_deps_installed <- function(dir = ".") {
 #' @param file Name of file, or file object to write to (defaults to stdout).
 #' @export
 write_sysinfo <- function(file = stdout()) {
+  req_pkg("sessioninfo")
+
   opts <- options()
   on.exit(options(opts))
   options(width = 1000)

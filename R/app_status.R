@@ -64,6 +64,7 @@ app_status <- function(dir = "apps", apps = basename(apps_manual(dir))) {
 # * list(log outputs)
 # should have a custom print method display pass/total count and possible failures plus  maybe a couple logs
 app_status_info <- function(dir = "apps", apps = basename(apps_manual(dir)), status_folder = file.path(dirname(dir), app_status_folder(user_agent = user_agent)), user_agent = NULL) {
+
   app_folders <- dir(status_folder, full.names = TRUE)
   app_folders <- app_folders[basename(app_folders) %in% basename(apps)]
 
@@ -342,7 +343,7 @@ app_status_validate_app_branch <- function(dir) {
     }
   }
 
-  run_system_cmd("git fetch")
+  run_system_cmd("git pull")
   # make sure there is some character value to test
   is_up_to_date <- paste0(run_system_cmd("git status -s -u no"), "")
   if (nchar(is_up_to_date) > 0) {

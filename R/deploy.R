@@ -19,6 +19,8 @@ deploy_apps <- function(
   retry = 3
 ) {
 
+  update_packages_installed(dir, update_pkgs = update_pkgs)
+
   is_missing <- list(
     account = missing(account),
     server = missing(server),
@@ -28,7 +30,6 @@ deploy_apps <- function(
 
   cores <- validate_cores(cores)
   validate_rsconnect_account(account, server)
-  update_packages_installed(dir, update_pkgs = update_pkgs)
 
   # Use a new R process just in case there were some packages updated
   # this avoids any odd "currently loaded" namespace issue
@@ -154,6 +155,8 @@ deploy_apps <- function(
 
 
 validate_rsconnect_account <- function(account, server) {
+  req_pkg("rsconnect")
+
   accts <- rsconnect::accounts()
   accts_found <- sum(
     (account %in% accts$name) &
@@ -171,6 +174,8 @@ validate_rsconnect_account <- function(account, server) {
 
 
 update_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci", "installed", "none")) {
+  req_core_pkgs()
+
   if (identical(update_pkgs, FALSE) || identical(update_pkgs, NULL)) {
     update_pkgs <- "none"
   } else if (isTRUE(update_pkgs)) {

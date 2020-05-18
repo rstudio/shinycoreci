@@ -20,6 +20,7 @@ test_in_connect <- function(
   port = 8080,
   host = "127.0.0.1"
 ) {
+  req_core_pkgs()
 
   server <- force(server)
   account <- force(account)

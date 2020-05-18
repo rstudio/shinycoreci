@@ -16,6 +16,8 @@ test_runtests <- function(
   timeout = as.difftime(10, units = "mins"),
   retries = 3
 ) {
+  req_core_pkgs()
+
   force(apps)
   retries <- as.numeric(retries)
 

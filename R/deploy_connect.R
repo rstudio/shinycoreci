@@ -81,6 +81,8 @@ connect_urls <- function(
   account = "barret",
   server = "beta.rstudioconnect.com"
 ) {
+  req_pkg("rsconnect")
+
   # apps_dirs <- file.path(dir, apps)
   apps_dir_names <- basename(apps)
 
@@ -103,6 +105,8 @@ connect_urls <- function(
 
 
 api_get_ <- function(server, api_key) {
+  req_pkg("rsconnect")
+
   server_url <- rsconnect::serverInfo(server)$url
   function(route) {
     req <- httr::GET(
@@ -116,6 +120,8 @@ api_get_ <- function(server, api_key) {
   }
 }
 api_post_ <- function(server, api_key) {
+  req_pkg("rsconnect")
+
   server_url <- rsconnect::serverInfo(server)$url
   function(route, body) {
     req <- httr::POST(

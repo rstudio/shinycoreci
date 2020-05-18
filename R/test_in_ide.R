@@ -33,6 +33,7 @@ normalize_app_name <- function(
   app_name,
   increment = FALSE
 ) {
+  app_name_original <- app_name
   if (is.null(app_name) || identical(app_name, 0L)) {
     return(apps[1])
   }
@@ -50,7 +51,7 @@ normalize_app_name <- function(
   }
   app_pos <- which(basename(apps) == basename(app_name))
   if (length(app_pos) == 0) {
-    stop("unknown app: ", app_name)
+    stop("unknown app: ", app_name_original)
   }
   if (increment) {
     app_pos <- app_pos + 1
@@ -89,6 +90,8 @@ test_in_ide <- function(
   viewer = NULL,
   verify = TRUE
 ) {
+  req_core_pkgs()
+
   sys_call <- match.call()
   force(update_pkgs)
 
