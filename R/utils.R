@@ -163,3 +163,41 @@ run_system_cmd <- function(...) {
   cmd <- paste0(...)
   system(cmd, intern = TRUE)
 }
+
+
+
+req_pkg <- local({
+  suggests <-
+    strsplit(
+      unname(
+        read.dcf(system.file("DESCRIPTION", package = "shinycoreci"), fields = "Suggests")[1, 1]
+      ),
+      ",\\s*"
+    )[[1]]
+
+  function(package) {
+    installed <- nzchar(system.file(package = package))
+    if (!installed) {
+      stop(package, " is not installed and is required by `shinycoreci`")
+    }
+
+
+    # get the package info line
+    suggested_package <- grep(package, suggests, value = TRUE, fixed = TRUE)
+
+    # version number match
+    version <-
+      regmatches(
+        suggested_package,
+        regexec(base::.standard_regexps()$valid_numeric_version, suggested_package)
+      )[[1]][1]
+    if (nchar(version) > 0) {
+      # required version is greater than installed version
+      if (package_version(version) > utils::packageVersion(package)) {
+        stop("Insufficient version found for package: ", package, ". Need `", suggested_package, "`. Have `", packageVersion(package), "`")
+      }
+    }
+
+    invisible(TRUE)
+  }
+})
