@@ -21,9 +21,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R CMD check](https://github.com/rstudio/shinycoreci/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/shinycoreci/actions?query=workflow%3AR-CMD-check)
-[![shinytest](https://github.com/rstudio/shinycoreci-apps/workflows/shinytest/badge.svg?branch=master)](https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3Ashinytest)
-[![shinyjster](https://github.com/rstudio/shinycoreci-apps/workflows/shinyjster/badge.svg?branch=master)](https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3Ashinyjster)
-[![testthat](https://github.com/rstudio/shinycoreci-apps/workflows/testthat/badge.svg?branch=master)](https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3Atestthat)
+[![Lifecycle Experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 This is an R package to install all dependencies to test the bleeding edge of all relevant packages to the Shiny team.
@@ -51,12 +49,13 @@ pkgs <-
   )
 
 # remove branches, sha, and commas
-pkgs <- sub("[, (@#].*$", "", pkgs)
+github_pkgs <- sub("[, (@#].*$", "", pkgs)
+pkgs <- sub(",", "", pkgs)
 
 # print as links to repos
 cat(
   paste0(
-    "* [", pkgs, "](http://github.com/", pkgs, ")",
+    "* [", pkgs, "](http://github.com/", github_pkgs, ")",
     collapse = "\n"
   )
 )
