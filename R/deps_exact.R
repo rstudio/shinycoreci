@@ -96,7 +96,7 @@ install_exact_shinycoreci_deps <- function(dir = "apps", try_again = TRUE) {
           return()
         }
         # get the remote of the currently installed github package
-        remote <- subset(scci_dev_deps, package == pkg)$remote[[1]]
+        remote <- scci_dev_deps$remote[scci_dev_deps$package == pkg][[1]]
         # reinstall it to bring in all missing dependencies
         remotes::install_github(repo_from_remote(remote), force = TRUE, upgrade = TRUE)
       }
@@ -174,7 +174,7 @@ remote_deps_recursive <- function(package_name) {
 
 repo_from_remote <- function(remote_obj) {
   if (!inherits(remote_obj, "github_remote")) {
-    str(remote_obj)
+    utils::str(remote_obj)
     stop("not a remote!")
   }
   paste0(
