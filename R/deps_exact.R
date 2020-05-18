@@ -54,7 +54,7 @@ install_exact_shinycoreci_deps <- function(dir = "apps", try_again = TRUE) {
   cran_info <- scci_dev_deps[scci_dev_deps$package %in% should_be_cran_only, ]
   # get packages that are currently not cran sources or are behind in version
   should_install_cran <- (!cran_info$is_cran) | (cran_info$diff < 0)
-  if (any(!cran_info$is_cran)) {
+  if (any(should_install_cran)) {
     installed_something <- TRUE
     to_install <- cran_info$package[should_install_cran]
     message("") # close off line
