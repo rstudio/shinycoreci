@@ -1,3 +1,6 @@
+## To run bash in a docker file...
+# docker run --rm -ti --name NAME DOCKERFILE
+# docker exec -ti NAME /bin/bash  # Another terminal into the container
 
 
 #' Clean up docker files
