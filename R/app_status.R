@@ -342,7 +342,7 @@ app_status_validate_app_branch <- function(dir) {
     }
   }
 
-  run_system_cmd("git fetch")
+  run_system_cmd("git pull")
   # make sure there is some character value to test
   is_up_to_date <- paste0(run_system_cmd("git status -s -u no"), "")
   if (nchar(is_up_to_date) > 0) {
