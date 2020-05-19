@@ -69,12 +69,12 @@ apps_deploy <- function(dir) {
 
 shiny_app_dirs <- function(dir) {
   app_folders <- list.dirs(dir, full.names = TRUE, recursive = FALSE)
-  Filter(x = app_folders, function(app_folder) {
+  basename(Filter(x = app_folders, function(app_folder) {
     return(
       has_shiny_app_files(app_folder) ||
       has_rmarkdown_app_files(app_folder)
     )
-  })
+  }))
 }
 shiny_app_files <- function(app_folder) {
   dir(app_folder, pattern = "^(app|ui|server)\\.(r|R)$", full.names = TRUE)

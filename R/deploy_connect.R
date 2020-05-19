@@ -18,7 +18,7 @@
 #' }
 connect_set_public <- function(
   dir = "apps",
-  apps = basename(apps_deploy(dir)),
+  apps = apps_deploy(dir),
   account = "barret",
   server = "beta.rstudioconnect.com"
 ) {
@@ -77,7 +77,7 @@ connect_set_public <- function(
 #' @export
 connect_urls <- function(
   dir = "apps",
-  apps = basename(apps_deploy(dir)),
+  apps = apps_deploy(dir),
   account = "barret",
   server = "beta.rstudioconnect.com"
 ) {

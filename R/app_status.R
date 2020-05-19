@@ -34,7 +34,7 @@ check_mark <- "\u2714"
 #' @export
 #' @examples
 #' \dontrun{app_status()}
-app_status <- function(dir = "apps", apps = basename(apps_manual(dir))) {
+app_status <- function(dir = "apps", apps = apps_manual(dir)) {
   folders <- dir(file.path(dirname(dir), app_status_folder_name), full.names = TRUE)
   statuses <- lapply(folders, function(status_folder) {
     app_status_info(dir = dir, apps = apps, status_folder = status_folder)
@@ -63,7 +63,7 @@ app_status <- function(dir = "apps", apps = basename(apps_manual(dir))) {
 #   * else the full User-Agent value
 # * list(log outputs)
 # should have a custom print method display pass/total count and possible failures plus  maybe a couple logs
-app_status_info <- function(dir = "apps", apps = basename(apps_manual(dir)), status_folder = file.path(dirname(dir), app_status_folder(user_agent = user_agent)), user_agent = NULL) {
+app_status_info <- function(dir = "apps", apps = apps_manual(dir), status_folder = file.path(dirname(dir), app_status_folder(user_agent = user_agent)), user_agent = NULL) {
 
   app_folders <- dir(status_folder, full.names = TRUE)
   app_folders <- app_folders[basename(app_folders) %in% basename(apps)]
@@ -179,7 +179,7 @@ print.shinycoreci_app_status <- function(x, ...) {
 #' @export
 #' @param status Status object to be printed.  If not supplied, it will be created used, \code{dir} and \code{apps}.
 #' @describeIn app_status Display the google sheet status to be submitted
-app_status_sheet <- function(dir = "apps", apps = basename(apps_manual(dir)), status = app_status(dir = dir, apps = apps)) {
+app_status_sheet <- function(dir = "apps", apps = apps_manual(dir), status = app_status(dir = dir, apps = apps)) {
   ans <- utils::menu(
     choices = vapply(status$statuses, function(x) basename(x$status_folder), character(1)),
     graphics = FALSE,

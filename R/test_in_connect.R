@@ -15,7 +15,7 @@ test_in_connect <- function(
   urls = connect_urls_cache(dir = dir, apps = apps, account = "barret", server = "beta.rstudioconnect.com"),
   server = attr(urls, "server"),
   account = attr(urls, "account"),
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   port = 8080,
   host = "127.0.0.1"
@@ -70,7 +70,7 @@ test_in_connect <- function(
 #' @param urls urls to be supplied by `connect_urls` output
 connect_urls_cache_save <- function(
   dir = "apps",
-  apps = basename(apps_deploy(dir)),
+  apps = apps_deploy(dir),
   server = "beta.rstudioconnect.com",
   account = "barret",
   save_file = connect_urls_cache_file(dir = dir, account = account, server = server),
@@ -94,7 +94,7 @@ connect_urls_cache_file <- function(dir, account, server) {
 
 #' @export
 #' @describeIn test_in_deployed Get cached connect url information or retrieve them from server
-connect_urls_cache <- function(dir = "apps", apps = basename(apps_deploy(dir)), account = "barret", server = "beta.rstudioconnect.com") {
+connect_urls_cache <- function(dir = "apps", apps = apps_deploy(dir), account = "barret", server = "beta.rstudioconnect.com") {
   connect_urls_filename <- connect_urls_cache_file(dir = dir, account = account, server = server)
   if (file.exists(connect_urls_filename)) {
     dget(connect_urls_filename)
