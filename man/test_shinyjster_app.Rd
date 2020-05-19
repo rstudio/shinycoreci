@@ -6,12 +6,13 @@
 \usage{
 test_shinyjster_app(
   name,
-  browser_func = switch(name, chrome = shinyjster::selenium_chrome(), firefox =
-    shinyjster::selenium_firefox(), edge = shinyjster::selenium_edge(), ie =
-    shinyjster::selenium_ie(), {    
+  browser_func = switch(name, chrome = shinyjster::selenium_chrome(...), firefox =
+    shinyjster::selenium_firefox(...), edge = shinyjster::selenium_edge(...), ie =
+    shinyjster::selenium_ie(...), {    
     message("unknown browser name supplied. Using 'chrome'")    
     shinyjster::selenium_chrome() }),
-  apps = ".."
+  apps = "..",
+  ...
 )
 }
 \arguments{
@@ -20,6 +21,8 @@ test_shinyjster_app(
 \item{browser_func}{One of \code{c("chrome", "firefox", "edge", "ie")}. If an unknown \code{browser_name} is used, \code{browser_func} will default to using \code{chrome}.}
 
 \item{apps}{shiny app to be tested using shinyjster}
+
+\item{...}{parameters supplied when creating \code{browser_fun} using the \code{name} value}
 }
 \description{
 Method to avoid editing MANY different files to do the same default behavior of \code{shinyjster::test_jster(browsers = selenium_chrome(), type = "lapply")}.
