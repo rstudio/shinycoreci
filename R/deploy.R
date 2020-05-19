@@ -16,7 +16,7 @@ deploy_apps <- function(
   server = "shinyapps.io",
   cores = 1,
   update_pkgs = c("all", "shinycoreci", "installed", "none"),
-  retry = 3
+  retry = 2
 ) {
 
   update_packages_installed(dir, update_pkgs = update_pkgs)

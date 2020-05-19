@@ -14,7 +14,7 @@ test_runtests <- function(
   filter = NULL,
   assert = TRUE,
   timeout = as.difftime(10, units = "mins"),
-  retries = 3
+  retries = 2,
 ) {
   req_core_pkgs()
 
