@@ -4,10 +4,16 @@
 \alias{install_exact_shinycoreci_deps}
 \title{Install direct \pkg{shinycoreci} dependencies}
 \usage{
-install_exact_shinycoreci_deps(dir = "apps", try_again = TRUE)
+install_exact_shinycoreci_deps(
+  dir = "apps",
+  apps = apps_runtests(dir),
+  try_again = TRUE
+)
 }
 \arguments{
 \item{dir}{base folder to look for applications}
+
+\item{apps}{applications within \verb{dir} to run}
 
 \item{try_again}{Logical to determine if RStudio IDE should try again after a failure}
 }

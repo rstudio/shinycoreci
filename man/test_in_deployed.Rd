@@ -14,15 +14,16 @@ test_in_connect(
     "beta.rstudioconnect.com"),
   server = attr(urls, "server"),
   account = attr(urls, "account"),
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   port = 8080,
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  update_pkgs = TRUE
 )
 
 connect_urls_cache_save(
   dir = "apps",
-  apps = basename(apps_deploy(dir)),
+  apps = apps_deploy(dir),
   server = "beta.rstudioconnect.com",
   account = "barret",
   save_file = connect_urls_cache_file(dir = dir, account = account, server = server),
@@ -33,19 +34,20 @@ connect_urls_cache_file(dir, account, server)
 
 connect_urls_cache(
   dir = "apps",
-  apps = basename(apps_deploy(dir)),
+  apps = apps_deploy(dir),
   account = "barret",
   server = "beta.rstudioconnect.com"
 )
 
 test_in_shinyappsio(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   port = 8080,
   host = "127.0.0.1",
   account = "testing-apps",
-  server = "shinyapps.io"
+  server = "shinyapps.io",
+  update_pkgs = TRUE
 )
 }
 \arguments{
@@ -67,6 +69,8 @@ use a random port.}
 \item{host}{The IPv4 address that the application should listen on. Defaults
 to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
 Details.}
+
+\item{update_pkgs}{Logical that will try to automatically install packages. [\code{TRUE}]}
 
 \item{save_file}{location to save the file}
 }

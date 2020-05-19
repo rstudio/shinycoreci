@@ -6,7 +6,7 @@
 \usage{
 test_in_ide(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   port = 8000,
   host = "127.0.0.1",

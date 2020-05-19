@@ -13,7 +13,8 @@ test_runtests(
   filter = NULL,
   assert = TRUE,
   timeout = as.difftime(10, units = "mins"),
-  retries = 3
+  retries = 2,
+  update_pkgs = TRUE
 )
 
 test_shinytest(

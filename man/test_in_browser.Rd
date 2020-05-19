@@ -6,7 +6,7 @@
 \usage{
 test_in_browser(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   port = 8080,
   port_background = NULL,

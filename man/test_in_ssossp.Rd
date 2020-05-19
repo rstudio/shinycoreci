@@ -7,26 +7,28 @@
 \usage{
 test_in_sso(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   release = c("bionic", "xenial", "centos7"),
   r_version = c("4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, centos7 = 7878, 3838),
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  update_pkgs = TRUE
 )
 
 test_in_ssp(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   release = c("bionic", "xenial", "centos7"),
   r_version = c("4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, centos7 = 8989, 4949),
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  update_pkgs = TRUE
 )
 }
 \arguments{
@@ -49,6 +51,8 @@ test_in_ssp(
 \item{host}{The IPv4 address that the application should listen on. Defaults
 to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
 Details.}
+
+\item{update_pkgs}{Logical that will try to automatically install packages. [\code{TRUE}]}
 }
 \description{
 Automatically launches docker in a background process.  Once the docker is ready, a shiny application will be launched to help move through the applications.
