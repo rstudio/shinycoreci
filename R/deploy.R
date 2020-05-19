@@ -103,18 +103,6 @@ deploy_apps <- function(
   }
 
   # something failed... make a "retry failed apps" func call
-  dput_arg <- function(x) {
-    f <- file()
-    on.exit({
-      close(f)
-    })
-    dput(x, f)
-    ret <- paste0(readLines(f), collapse = "\n")
-    ret
-  }
-  fn_arg <- function(name, val) {
-    paste0(name, " = ", dput_arg(val))
-  }
   error_apps <- original_apps[deploy_res != 0]
   args <- c(
     fn_arg("dir", original_dir),

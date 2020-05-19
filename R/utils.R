@@ -108,3 +108,17 @@ run_system_cmd <- function(...) {
   cmd <- paste0(...)
   system(cmd, intern = TRUE)
 }
+
+
+dput_arg <- function(x) {
+  f <- file()
+  on.exit({
+    close(f)
+  })
+  dput(x, f)
+  ret <- paste0(readLines(f), collapse = "\n")
+  ret
+}
+fn_arg <- function(name, val) {
+  paste0(name, " = ", dput_arg(val))
+}
