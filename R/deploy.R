@@ -19,7 +19,8 @@ deploy_apps <- function(
   retry = 2
 ) {
 
-  update_packages_installed(dir, update_pkgs = update_pkgs)
+  req_core_pkgs(update_pkgs)
+  update_packages_installed(dir, apps = apps, update_pkgs = update_pkgs)
 
   is_missing <- list(
     account = missing(account),
@@ -162,7 +163,6 @@ validate_rsconnect_account <- function(account, server) {
 
 
 update_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci", "installed", "none")) {
-  req_core_pkgs()
 
   if (identical(update_pkgs, FALSE) || identical(update_pkgs, NULL)) {
     update_pkgs <- "none"
@@ -178,7 +178,7 @@ update_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci",
 
   if ("shinycoreci" %in% update_pkgs) {
     message("Update shinycoreci and app dependencies")
-    shinycoreci_deps <- app_deps(dir)
+    shinycoreci_deps <- app_deps(dir, apps = apps, include_shinycoreci = TRUE)
 
     needs_update <- as.logical(shinycoreci_deps$diff)
     if (any(needs_update)) {

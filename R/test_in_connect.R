@@ -18,9 +18,10 @@ test_in_connect <- function(
   apps = apps_manual(dir),
   app = apps[1],
   port = 8080,
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  update_pkgs = TRUE
 ) {
-  req_core_pkgs()
+  req_core_pkgs(update_pkgs)
 
   server <- force(server)
   account <- force(account)

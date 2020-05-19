@@ -1,3 +1,5 @@
+# These are short hand methods for testing to make testing uniform (where possible) between apps
+
 
 #' Test shinyjster app
 #'

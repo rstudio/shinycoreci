@@ -9,7 +9,8 @@ test_in_shinyappsio <- function(
   port = 8080,
   host = "127.0.0.1",
   account = "testing-apps",
-  server = "shinyapps.io"
+  server = "shinyapps.io",
+  update_pkgs = TRUE
 ) {
 
   app_names <- basename(apps)
@@ -26,6 +27,7 @@ test_in_shinyappsio <- function(
     urls = urls,
     app = normalize_app_name(apps, app, increment = FALSE),
     host = host,
-    port = port
+    port = port,
+    update_pkgs = update_pkgs
   )
 }

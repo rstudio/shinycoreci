@@ -57,10 +57,26 @@ req_pkg <- local({
   }
 })
 
-req_core_pkgs <- function() {
-  pkgs <- suggested_pkgs()
-  pkgs <- vapply(strsplit(pkgs, " "), `[[`, character(1), 1)
-  lapply(pkgs, req_pkg)
+# require all shinyverse packages.
+# If there is an insufficient version, reinstall shinycoreci and it's suggested dependencies
+req_core_pkgs <- function(update_pkgs = TRUE, install_missing = TRUE) {
+  if (!isTRUE(update_pkgs)) {
+    return()
+  }
+
+  tryCatch({
+    pkgs <- suggested_pkgs()
+    pkgs <- vapply(strsplit(pkgs, " "), `[[`, character(1), 1)
+    lapply(pkgs, req_pkg)
+  }, error = function(e) {
+    if (!isTRUE(install_missing)) {
+      stop(e)
+    }
+    message('', e)
+    message("Installing all of shinycoreci")
+    shinycoreci_info <- remotes::package_deps("shinycoreci")
+    remotes__update_package_deps(shinycoreci_info, upgrade = TRUE, dependencies = TRUE)
+  })
 
   invisible(TRUE)
 }

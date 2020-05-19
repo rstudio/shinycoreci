@@ -15,8 +15,10 @@ test_runtests <- function(
   assert = TRUE,
   timeout = as.difftime(10, units = "mins"),
   retries = 2,
+  update_pkgs = TRUE
 ) {
-  req_core_pkgs()
+
+  req_core_pkgs(update_pkgs)
 
   force(apps)
   retries <- as.numeric(retries)

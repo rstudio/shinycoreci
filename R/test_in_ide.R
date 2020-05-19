@@ -90,10 +90,15 @@ test_in_ide <- function(
   viewer = NULL,
   verify = TRUE
 ) {
-  req_core_pkgs()
+  force(update_pkgs)
+  req_core_pkgs(update_pkgs)
+
+  # install all the packages
+  if (isTRUE(update_pkgs)) {
+    install_exact_shinycoreci_deps(dir, apps = apps, include_shinycoreci = TRUE)
+  }
 
   sys_call <- match.call()
-  force(update_pkgs)
 
   if (rstudioapi::isAvailable()) {
     # stop("This function should only be run within the RStudio IDE")
@@ -151,11 +156,6 @@ test_in_ide <- function(
   }
   app_status_init(dir, user_agent = app_status_user_agent_ide())
   app_dirs <- file.path(dir, apps)
-
-  # install all the packages
-  if (isTRUE(update_pkgs)) {
-    install_exact_shinycoreci_deps(dir)
-  }
 
   old_ops <- options(width = 100)
   on.exit({

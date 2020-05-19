@@ -8,8 +8,6 @@ test_in_external <- function(
   host = "127.0.0.1",
   port = 8080
 ) {
-  req_core_pkgs()
-
 
   # run shiny app in the browser
   if (rstudioapi::isAvailable()) {

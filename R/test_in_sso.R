@@ -22,7 +22,8 @@ test_in_sso <- function(
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 7878, 3838),
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  update_pkgs = TRUE
 ) {
   release <- match.arg(release)
 
@@ -35,8 +36,9 @@ test_in_sso <- function(
     port_background = port_background,
     r_version = match.arg(r_version),
     tag = NULL,
-    host = "127.0.0.1",
-    port = 8080
+    host = host,
+    port = port,
+    update_pkgs = update_pkgs
   )
 }
 #' @export
@@ -50,7 +52,8 @@ test_in_ssp <- function(
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 8989, 4949),
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  update_pkgs = TRUE
 ) {
   release <- match.arg(release)
 
@@ -63,8 +66,9 @@ test_in_ssp <- function(
     port_background = port_background,
     r_version = match.arg(r_version),
     tag = NULL,
-    host = "127.0.0.1",
-    port = 8080
+    host = host,
+    port = port,
+    update_pkgs = update_pkgs
   )
 }
 
@@ -94,9 +98,10 @@ test_in_ssossp <- function(
   r_version = c("4.0", "3.6", "3.5"),
   tag = NULL,
   host = "127.0.0.1",
-  port = 8080
+  port = 8080,
+  update_pkgs = TRUE
 ) {
-  req_core_pkgs()
+  req_core_pkgs(update_pkgs = update_pkgs)
 
   force(dir)
   type <- match.arg(type)
