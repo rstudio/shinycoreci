@@ -5,27 +5,28 @@
 #'
 #' Some extra logic wraps around whether or not a browser is available on the given platform.
 #'
+#' @inheritParams shinyjster::selenium_chrome
 #' @param name browser name to use to determine the browser_func
 #' @param browser_func One of `c("chrome", "firefox", "edge", "ie")`. If an unknown `browser_name` is used, `browser_func` will default to using `chrome`.
 #' @param apps shiny app to be tested using shinyjster
-#' @param ... parameters supplied when creating `browser_fun` using the `name` value
 #' @seealso [test_shinytest_app()] and [test_runtests()]
 #' @export
 test_shinyjster_app <- function(
   name,
   browser_func = switch(
     name,
-    chrome = shinyjster::selenium_chrome(...),
-    firefox = shinyjster::selenium_firefox(...),
-    edge = shinyjster::selenium_edge(...),
-    ie = shinyjster::selenium_ie(...),
+    chrome = shinyjster::selenium_chrome(timeout = timeout, dimensions = dimensions),
+    firefox = shinyjster::selenium_firefox(timeout = timeout, dimensions = dimensions),
+    edge = shinyjster::selenium_edge(timeout = timeout, dimensions = dimensions),
+    ie = shinyjster::selenium_ie(timeout = timeout, dimensions = dimensions),
     {
       message("unknown browser name supplied. Using 'chrome'")
       shinyjster::selenium_chrome()
     }
   ),
   apps = "..",
-  ...
+  timeout = 2 * 60,
+  dimensions = "1200x1200"
 ) {
 
   browser_name_val <- attr(browser_func, "browser")

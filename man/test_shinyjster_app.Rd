@@ -6,13 +6,15 @@
 \usage{
 test_shinyjster_app(
   name,
-  browser_func = switch(name, chrome = shinyjster::selenium_chrome(...), firefox =
-    shinyjster::selenium_firefox(...), edge = shinyjster::selenium_edge(...), ie =
-    shinyjster::selenium_ie(...), {    
-    message("unknown browser name supplied. Using 'chrome'")    
+  browser_func = switch(name, chrome = shinyjster::selenium_chrome(timeout = timeout,
+    dimensions = dimensions), firefox = shinyjster::selenium_firefox(timeout = timeout,
+    dimensions = dimensions), edge = shinyjster::selenium_edge(timeout = timeout,
+    dimensions = dimensions), ie = shinyjster::selenium_ie(timeout = timeout, dimensions
+    = dimensions), {     message("unknown browser name supplied. Using 'chrome'")    
     shinyjster::selenium_chrome() }),
   apps = "..",
-  ...
+  timeout = 2 * 60,
+  dimensions = "1200x1200"
 )
 }
 \arguments{
@@ -22,7 +24,9 @@ test_shinyjster_app(
 
 \item{apps}{shiny app to be tested using shinyjster}
 
-\item{...}{parameters supplied when creating \code{browser_fun} using the \code{name} value}
+\item{timeout}{Number of seconds before selenium closes the browser}
+
+\item{dimensions}{A string in the form of \verb{"WIDTHxHEIGHT"}. Ex: \code{"1800x1200"}}
 }
 \description{
 Method to avoid editing MANY different files to do the same default behavior of \code{shinyjster::test_jster(browsers = selenium_chrome(), type = "lapply")}.
