@@ -19,8 +19,9 @@ deploy_apps <- function(
   retry = 2
 ) {
 
-  req_core_pkgs(update_pkgs)
+  # TODO replace with `exact` install
   update_packages_installed(dir, apps = apps, update_pkgs = update_pkgs)
+  validate_core_pkgs()
 
   is_missing <- list(
     account = missing(account),

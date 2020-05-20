@@ -2,24 +2,10 @@ is_installed <- function(package) {
   nzchar(system.file(package = package))
 }
 
-suggested_pkgs <- local({
-  val <- NULL
+suggested_pkgs <- function() {
+  renv::dependencies(system.file("DESCRIPTION", package = "shinycoreci"), quiet = TRUE)
+}
 
-  function() {
-    # if (!is.null(val)) {
-    #   return(val)
-    # }
-
-    val <<- strsplit(
-      unname(
-        read.dcf(system.file("DESCRIPTION", package = "shinycoreci"), fields = "Suggests")[1, 1]
-      ),
-      ",\\s*"
-    )[[1]]
-
-    val
-  }
-})
 
 
 req_pkg <- local({
@@ -31,25 +17,30 @@ req_pkg <- local({
     )
   }
 
-  function(package) {
+  function(package, suggested_packages = suggested_pkgs()) {
     if (!is_installed(package)) {
       err_stop(package, " is not installed and is required by `shinycoreci`")
     }
 
+
+
     # get the package info line
-    suggested_package <- grep(package, suggested_pkgs(), value = TRUE, fixed = TRUE)
+    suggested_package_info <- as.list(suggested_packages[suggested_packages$Package == package, ])
 
-    # version number match
-    version <-
-      regmatches(
-        suggested_package,
-        regexec(base::.standard_regexps()$valid_numeric_version, suggested_package)
-      )[[1]][1]
+    version <- suggested_package_info$Version
 
-    if (!is.na(version) && nchar(version) > 0) {
-      # required version is greater than installed version
-      if (package_version(version) > utils::packageVersion(package)) {
-        err_stop("Insufficient version found for package: ", package, ". Need `", suggested_package, "`. Have `", utils::packageVersion(package), "`")
+    if (nchar(version) > 0) {
+      require <- suggested_package_info$Require
+      desc_version <- package_version(version)
+      installed_version <- utils::packageVersion(package)
+
+      if (
+        # if required version is greater than installed version
+        (require == ">=" && !(installed_version >= desc_version)) ||
+        # if the required version is greather than or equal to the installed version
+        (require == ">" && !(installed_version > desc_version))
+      ) {
+        err_stop("Insufficient version found for package: ", package, ". Need `", require, " ", desc_version, "`. Have `", installed_version, "`")
       }
     }
 
@@ -59,24 +50,21 @@ req_pkg <- local({
 
 # require all shinyverse packages.
 # If there is an insufficient version, reinstall shinycoreci and it's suggested dependencies
-req_core_pkgs <- function(update_pkgs = TRUE, install_missing = TRUE) {
-  if (!isTRUE(update_pkgs)) {
-    return()
-  }
-
-  tryCatch({
-    pkgs <- suggested_pkgs()
-    pkgs <- vapply(strsplit(pkgs, " "), `[[`, character(1), 1)
-    lapply(pkgs, req_pkg)
-  }, error = function(e) {
-    if (!isTRUE(install_missing)) {
-      stop(e)
-    }
-    message('', e)
-    message("Installing all of shinycoreci")
-    shinycoreci_info <- remotes::package_deps("shinycoreci")
-    remotes__update_package_deps(shinycoreci_info, upgrade = TRUE, dependencies = TRUE)
-  })
+validate_core_pkgs <- function() {
+  suggested_packages <- suggested_pkgs()
+  lapply(suggested_packages$Package, req_pkg, suggested_packages = suggested_packages)
 
   invisible(TRUE)
 }
+
+
+# tryCatch({
+# }, error = function(e) {
+#   if (!isTRUE(install_missing)) {
+#     stop(e)
+#   }
+#   message('', e)
+#   message("Installing all of shinycoreci")
+#   shinycoreci_info <- remotes::package_deps("shinycoreci")
+#   remotes__update_package_deps(shinycoreci_info, upgrade = TRUE, dependencies = TRUE)
+# })

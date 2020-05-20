@@ -1,3 +1,10 @@
+test_runtests_status <- list(
+  default = "unknown",
+  pass = "pass",
+  fail = "fail",
+  no_install = "can_not_install"
+)
+
 #' Test apps using `shiny::runTests()`
 #'
 #' @param dir base folder to look for applications
@@ -15,103 +22,166 @@ test_runtests <- function(
   assert = TRUE,
   timeout = as.difftime(10, units = "mins"),
   retries = 2,
-  update_pkgs = TRUE
+  update_pkgs = TRUE,
+  update_app_pkgs = TRUE
 ) {
-
-  req_core_pkgs(update_pkgs)
-
   force(apps)
   retries <- as.numeric(retries)
+
+  # make sure shinyverse is installed
+  if (isTRUE(update_pkgs)) {
+    # do not include apps here, only make sure shinyverse is intact
+    install_exact_shinycoreci_deps(dir = dir, apps = c())
+    # the only thing to make sure remains is the CRAN packages for each app
+  }
+  validate_core_pkgs()
 
   # Record platform info and package versions
   write_sysinfo(file.path(dir, paste0("sysinfo-", platform_rversion(), ".txt")))
 
-  run_test <- function(app_dir_val, filter_val) {
-    message("Testing ", app_dir_val)
+
+
+  # gather all test files
+  test_files <- list.files(
+    path = file.path(dir, apps, "tests"),
+    pattern = "\\.[Rr]$",
+    include.dirs = FALSE,
+    full.names = TRUE
+  )
+  # if there is a filter, subset the test files
+  if (!is.null(filter)) {
+    test_files <- test_files[grepl(filter, basename(test_files))]
+  }
+
+  test_dt <- tibble::tibble(
+    test_path = test_files,
+    # test_file = basename(test_files),
+    # app_name = basename(dirname(dirname(test_files))),
+    status = test_runtests_status$default,
+    result = replicate(length(test_files), list())
+  )
+
+  run_test <- function(test_path) {
+    app_path <- dirname(dirname(test_path))
+    app_name <- basename(app_path)
+
+    if (isTRUE(update_app_pkgs)) {
+      # (currently) does NOT handle `Remotes:` in the DESCRIPTION file
+      app_packages <- unique(renv::dependencies(app_path, quiet = TRUE)$Package)
+      app_packages <- setdiff(app_packages, packages_to_not_install_from_cran)
+
+      # try installing all cran packages
+      is_available <- vapply(app_packages, cached_require_package, logical(1))
+
+      if (any(!is_available)) {
+        message("Apps: ", dput_arg(app_packages[!is_available]), " could not be installed. Skipping the testing of app: ", app_name)
+        return(list(
+          status = test_runtests_status$no_install,
+          result = c(app_packages[!is_available])
+        ))
+      }
+    }
+
     tryCatch(
       {
-        callr::r(
-          function(app_dir_val_, filter_val_) {
+        test_result <- callr::r(
+          function(app_path_, filter_val_) {
             shiny::runTests(
-              appDir = app_dir_val_,
+              appDir = app_path_,
               filter = filter_val_,
               assert = FALSE,
               envir = new.env(parent = globalenv())
             )
           },
           list(
-            app_dir_val_ = app_dir_val,
-            filter_val_ = filter_val
+            app_path_ = app_path,
+            # only test the particular test file
+            filter_val_ = basename(test_path)
           ),
           show = TRUE,
           timeout = timeout
         )
+        list(
+          status = if (test_result$pass[1]) test_runtests_status$pass else test_runtests_status$fail,
+          result = test_result$result[[1]]
+        )
       },
       error = function(e) {
-        # don't know which test failed, so must provide a failure to all tests
-
-        runners <- list.files(file.path(app_dir_val, "tests"), pattern = "\\.r$", ignore.case = TRUE, full.names = TRUE)
-        if (!is.null(filter_val)) {
-          runners <- runners[grepl(filter_val, runners)]
-        }
-        error_ret <- as.data.frame(tibble::tibble(
-          file = runners,
-          pass = FALSE,
-          result = replicate(length(runners), list(e))
-        ))
-        class(error_ret) <- c("shiny_runtests", class(error_ret))
-        error_ret
+        # return a failed test
+        list(
+          status = test_runtests_status$fail,
+          result = e
+        )
       }
     )
   }
 
-  ret_list <- lapply(
-    file.path(dir, apps),
-    function(app_path) {
-      run_test(app_path, filter)
+  # (break statements at beginning and end of while loop)
+  while (TRUE) {
+
+    # get all positions that should be tested
+    to_test_positions <- which(test_dt$status %in% c(test_runtests_status$fail, test_runtests_status$default))
+    if (length(to_test_positions) == 0) {
+      # no failing or unknown tests remain; exit testing
+      break
     }
-  )
-  ret <- do.call(rbind, ret_list)
 
-  # if any failures exist...
-  while (any(!ret$pass) && retries > 0) {
+    pb <- progress::progress_bar$new(
+      total = length(to_test_positions),
+      format = "[:current/:total;:elapsed;:eta] :app ~ :file\n",
+      show_after = 0,
+      clear = FALSE
+    )
 
-    failure_positions <- which(!ret$pass)
-    # for each failing file position...
-    for (failure_position in failure_positions) {
+
+    # for each file position...
+    for (to_test_position in to_test_positions) {
+
       # get the failure test file
-      failure_file <- ret$file[failure_position]
+      to_test_path <- test_dt$test_path[to_test_position]
+
+      pb$tick(tokens = list(
+        app = basename(dirname(dirname(to_test_path))),
+        file = basename(to_test_path)
+      ))
+
       # test that single file
-      ans <- run_test(
-        dirname(dirname(failure_file)),
-        # use the full name for a single match only
-        basename(failure_file)
-      )
+      ## list(
+      ##   status = VAL,
+      ##   result = VAL
+      ## )
+      ans <- run_test(to_test_path)
+
       # store result
-      if (failure_file != ans$file[1]) {
-        utils::str(list(
-          failed_file = failure_file,
-          new_file = ans$file[1]
-        ))
-        stop("when retrying, the file names do not match")
+      test_dt$status[to_test_position] <- ans$status[1]
+      test_dt$result[to_test_position] <- list(ans$result)
+
+      if (ans$status[1] == test_runtests_status$default) {
+        utils::str(to_test_path)
+        utils::str(ans)
+        stop("An status of ", test_runtests_status$default, " should never be stored")
       }
-      ret$pass[failure_position] <- ans$pass[1]
-      ret$result[failure_position] <- ans$result[1]
     }
 
-    # decrement retry count
+    if (retries <= 0) {
+      # can not retry anymore; stop testing
+      break
+    }
     retries <- retries - 1
   }
 
+
   # Remove NULL result test files
-  is_empty_result <- vapply(ret$result, is.null, logical(1))
-  ret <- ret[!is_empty_result, ]
+  is_empty_result <- vapply(test_dt$result, is.null, logical(1))
+  test_dt <- test_dt[!is_empty_result, ]
+
+  class(test_dt) <- c("shinycoreci_runtests", class(test_dt))
 
   if (isTRUE(assert)) {
-    assert_runtests(ret)
+    assert_runtests(test_dt)
   }
 
-  ret
+  test_dt
 }
 
 
@@ -176,40 +246,137 @@ test_testthat <- function(
 #' @param test_runtests_output value received from [test_runtests()]
 #' @export
 assert_runtests <- function(test_runtests_output) {
-  if (!inherits(test_runtests_output, "shiny_runtests")) {
-    stop("`test_runtests_output` does not have class `'shiny_runtests'`")
+  if (!inherits(test_runtests_output, "shinycoreci_runtests")) {
+    stop("`test_runtests_output` does not have class `'shinycoreci_runtests'`")
   }
-  ret <- test_runtests_output
+  test_dt <- test_runtests_output
 
-  if (all(ret$pass)) {
+  if (all(test_dt$status %in% test_runtests_status$pass)) {
     message("All app tests passed!")
     return()
   }
 
 
-  failure_ret <- ret[!ret$pass, ]
-  failed_files <- failure_ret$file
+  concat_info <- function(title, statuses, include_result = TRUE) {
 
-  failed_test_folders <- dirname(failed_files)
-  failed_app_folders <- dirname(failed_test_folders)
-  pretty_fail_paths <- file.path(basename(failed_app_folders), basename(failed_test_folders), basename(failed_files))
+    sub_rows <- test_dt$status %in% statuses
+    sub_test_dt <- test_dt[sub_rows, ]
+    sub_paths <- sub_test_dt$test_path
+    sub_app_name <- basename(dirname(dirname(sub_paths)))
 
-  message("App test failures:")
-  mapply(
-    pretty_fail_paths,
-    failure_ret$result,
-    FUN = function(pretty_fail_path, result) {
+    content_ret <- mapply(
+      basename(sub_paths),
+      sub_app_name,
+      sub_test_dt$result,
+      FUN = function(test_file, app_name, result) {
 
-      cat("\n")
-      message("* ", pretty_fail_path, ": ")
-      print(result)
-      cat("\n")
-    }
+        result_str <-
+          if (include_result) {
+            paste0(
+              "\n",
+              paste0(
+                capture.output({
+                  print(result)
+                }),
+                collapse = "\n"
+              )
+            )
+          } else {
+            ""
+          }
+
+        paste0(
+          "* ", app_name, " ~ ", test_file,
+          result_str
+        )
+      }
+    )
+
+    paste0(
+      title, "\n",
+      paste0(
+        content_ret,
+        collapse = if (include_result) "\n\n" else "\n"
+      ),
+      "\n"
+    )
+  }
+
+  # message(
+  #   concat_info("App test successes:", c(test_runtests_status$pass), include_result = FALSE)
+  # )
+
+  message(
+    concat_info("App test failures:", c(test_runtests_status$fail), include_result = TRUE)
   )
+
+  if (any(test_dt$status %in% test_runtests_status$no_install)) {
+    message(
+      "\n",
+      concat_info("App which could NOT be tested:", c(test_runtests_status$no_install), include_result = TRUE)
+    )
+  }
 
   stop(
-    "Failures detected in\n",
-    paste0("* ", pretty_fail_paths, collapse = "\n")
+    concat_info("Failures detected in:", c(test_runtests_status$fail), include_result = FALSE)
   )
 
+}
+
+
+#' @include
+cached_require_package <- local({
+  cache <- list()
+
+  function(package, install_if_needed = TRUE) {
+    if (!is.character(package) || length(package) != 1) {
+      utils::str(package)
+      stop("`package` must be a character of length 1")
+    }
+
+    # if this package has already been seen, return it's value
+    cache_val <- cache[[package]]
+    if (!is.null(cache_val)) {
+      return(cache_val)
+    }
+
+    # at this point, this package has not been checked.
+
+    did_install <-
+      tryCatch({
+        remotes::install_cran(package)
+        TRUE
+      }, error = function(e) {
+        message("Error installing package: ", package, "\n", e)
+        FALSE
+      })
+
+    cache[[package]] <<- did_install
+
+    did_install
+  }
+})
+
+
+install_app_cran_deps <- function(app_path, update_app_pkgs = TRUE) {
+  if (!isTRUE(update_app_pkgs)) {
+    return(logical(0))
+  }
+  # gather github installed packages (all other packages should be CRAN packages)
+  packages_to_not_install_from_cran <-
+    unique(c(
+      "shinycoreci",
+      unlist(cached_shinycoreci_remote_deps()),
+      as.data.frame(installed.packages(priority = "base"))$Package
+    ))
+
+  # (currently) does NOT handle `Remotes:` in the DESCRIPTION file
+  app_packages <- unique(renv::dependencies(app_path, quiet = TRUE)$Package)
+  app_packages <- setdiff(app_packages, packages_to_not_install_from_cran)
+
+  # try installing all cran packages
+  setNames(
+    vapply(app_packages, cached_require_package, logical(1)),
+    app_packages
+  )
 }

@@ -21,7 +21,7 @@ test_in_connect <- function(
   host = "127.0.0.1",
   update_pkgs = TRUE
 ) {
-  req_core_pkgs(update_pkgs)
+  validate_core_pkgs()
 
   server <- force(server)
   account <- force(account)

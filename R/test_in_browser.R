@@ -22,7 +22,7 @@ test_in_browser <- function(
   update_pkgs = TRUE,
   verify = TRUE
 ) {
-  req_core_pkgs(update_pkgs)
+  validate_core_pkgs()
 
   # install all the packages
   if (isTRUE(update_pkgs)) {

@@ -91,7 +91,7 @@ test_in_ide <- function(
   verify = TRUE
 ) {
   force(update_pkgs)
-  req_core_pkgs(update_pkgs)
+  validate_core_pkgs()
 
   # install all the packages
   if (isTRUE(update_pkgs)) {

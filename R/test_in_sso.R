@@ -101,7 +101,7 @@ test_in_ssossp <- function(
   port = 8080,
   update_pkgs = TRUE
 ) {
-  req_core_pkgs(update_pkgs = update_pkgs)
+  validate_core_pkgs()
 
   force(dir)
   type <- match.arg(type)
