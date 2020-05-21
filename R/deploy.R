@@ -166,8 +166,8 @@ update_packages_installed <- function(dir, apps = apps_deploy(dir)) {
 
   validate_exact_deps(dir = dir, apps = apps, update_pkgs = TRUE)
 
-  message("Update installed dependencies")
-  remotes::update_packages(packages = TRUE, upgrade = "default")
+  message("Updating installed packages")
+  remotes::update_packages(packages = TRUE, upgrade = TRUE)
 }
 
 
