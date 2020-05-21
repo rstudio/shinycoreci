@@ -14,6 +14,8 @@ test_runtests_status <- list(
 #' @param assert logical value which will determine if [assert_runtests()] will be called on the result
 #' @param timeout Length of time allowed for an application's full test suit can run before determining it is a failure
 #' @param retries number of attempts to retry before declaring the test a failure
+#' @param update_pkgs Logical value which will try to install all required shiny packages used for testing
+#' @param update_app_pkgs Logical value which will try to install all required app packages used for testing
 #' @describeIn runtests Generic method to call all testing files
 #' @export
 test_runtests <- function(
@@ -268,7 +270,7 @@ assert_runtests <- function(test_runtests_output) {
             paste0(
               "\n",
               paste0(
-                capture.output({
+                utils::capture.output({
                   print(result)
                 }),
                 collapse = "\n"
@@ -322,7 +324,6 @@ assert_runtests <- function(test_runtests_output) {
 }
 
 
-#' @include
 cached_install_cran_pkg <- local({
   cache <- list()
 
@@ -377,7 +378,7 @@ install_app_cran_deps <- function(app_path, update_app_pkgs = TRUE) {
     unique(c(
       "shinycoreci",
       unlist(cached_shinycoreci_remote_deps()),
-      as.data.frame(installed.packages(priority = "base"))$Package
+      as.data.frame(utils::installed.packages(priority = "base"))$Package
     ))
 
   # (currently) does NOT handle `Remotes:` in the DESCRIPTION file

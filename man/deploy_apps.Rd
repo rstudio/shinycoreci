@@ -10,7 +10,7 @@ deploy_apps(
   account = "testing-apps",
   server = "shinyapps.io",
   cores = 1,
-  update_pkgs = c("all", "shinycoreci", "installed", "none"),
+  update_pkgs = TRUE,
   retry = 2
 )
 }

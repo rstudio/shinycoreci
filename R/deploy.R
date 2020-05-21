@@ -15,13 +15,11 @@ deploy_apps <- function(
   account = "testing-apps",
   server = "shinyapps.io",
   cores = 1,
-  update_pkgs = c("all", "shinycoreci", "installed", "none"),
+  update_pkgs = TRUE,
   retry = 2
 ) {
 
-  # TODO replace with `exact` install
-  update_packages_installed(dir, apps = apps, update_pkgs = update_pkgs)
-  validate_core_pkgs()
+  validate_exact_deps(dir = dir, apps = apps, update_pkgs = update_pkgs)
 
   is_missing <- list(
     account = missing(account),
@@ -163,37 +161,13 @@ validate_rsconnect_account <- function(account, server) {
 }
 
 
-update_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci", "installed", "none")) {
+# used in docker files!
+update_packages_installed <- function(dir, apps = apps_deploy(dir)) {
 
-  if (identical(update_pkgs, FALSE) || identical(update_pkgs, NULL)) {
-    update_pkgs <- "none"
-  } else if (isTRUE(update_pkgs)) {
-    update_pkgs <- "all"
-  }
-  update_pkgs <- match.arg(update_pkgs, several.ok = TRUE)
-  if ("all" %in% update_pkgs) {
-    update_pkgs <- c("shinycoreci", "installed")
-  } else if ("none" %in% update_pkgs) {
-    update_pkgs <- "none"
-  }
+  validate_exact_deps(dir = dir, apps = apps, update_pkgs = TRUE)
 
-  if ("shinycoreci" %in% update_pkgs) {
-    message("Update shinycoreci and app dependencies")
-    shinycoreci_deps <- app_deps(dir, apps = apps, include_shinycoreci = TRUE)
-
-    needs_update <- as.logical(shinycoreci_deps$diff)
-    if (any(needs_update)) {
-      # make sure these packages are installed!
-      remotes__update_package_deps(shinycoreci_deps, upgrade = "always")
-    }
-  }
-
-  if ("installed" %in% update_pkgs) {
-    # update all packages! (this could involve unnecessary packages being updated)
-    message("Update installed dependencies")
-    remotes::update_packages(packages = TRUE, upgrade = "default")
-  }
-
+  message("Update installed dependencies")
+  remotes::update_packages(packages = TRUE, upgrade = "default")
 }
 
 

@@ -7,7 +7,8 @@
 install_exact_shinycoreci_deps(
   dir = "apps",
   apps = apps_runtests(dir),
-  try_again = TRUE
+  try_again = TRUE,
+  assert = interactive()
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ install_exact_shinycoreci_deps(
 \item{apps}{applications within \verb{dir} to run}
 
 \item{try_again}{Logical to determine if RStudio IDE should try again after a failure}
+
+\item{assert}{Logical to determine if an error should be thrown or RStudio should be restarted}
 }
 \description{
 If something goes wrong, default to installing \code{shinycoreci} from GitHub. Then try installing the dependencies again. See the examples.
