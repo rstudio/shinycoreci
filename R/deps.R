@@ -33,7 +33,12 @@ app_deps <- function(dir = "apps", apps = apps_runtests(dir), include_shinycorec
   desc_deps_list <- Filter(x = desc_deps_list, function(dep_info) nrow(dep_info) != 0)
 
   # Find the dependencies from application code
-  renv_deps <- unique(renv::dependencies(app_dirs, quiet = TRUE)$Package)
+  renv_deps <-
+    if (length(app_dirs) > 0) {
+      unique(renv::dependencies(app_dirs, quiet = TRUE)$Package)
+    } else {
+      c()
+    }
   if (!isTRUE(include_shinycoreci)) {
     renv_deps <- setdiff(renv_deps, "shinycoreci")
   }
