@@ -10,27 +10,28 @@
 #' @rdname test-results
 #' @export
 save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, username) {
-  if (!inherits(results, "shiny_runtests")) {
-    stop("results must be an object returned by test_runtests()", call. = FALSE)
+  if (!inherits(test_runtests_output, "shinycoreci_runtests")) {
+    stop("test_runtests_output must be an object returned by test_runtests()", call. = FALSE)
   }
   # Make the results serializable (result contain conditions, data frames, etc)
-  results$result <- vapply(
-    results$result,
+  test_runtests_output$result <- vapply(
+    test_runtests_output$result,
     function(x) {
       paste0(utils::capture.output({print(x)}), collapse = "\n")
     },
     character(1)
   )
+
   # Get the app names from the test files
-  app_dirs <- dirname(dirname(results$file))
-  results$app_name <- basename(app_dirs)
+  app_dirs <- dirname(dirname(test_runtests_output$test_path))
+  test_runtests_output$app_name <- basename(app_dirs)
 
   # Attach some other meta-data to the test results
   val <- list(
-    results = results,
+    results = test_runtests_output,
     platform = platform(),
     r_version = r_version_short(),
-    session = sessioninfo::platform_info(),
+    session = unclass(sessioninfo::platform_info()),
     branch_name = app_status_app_branch(app_dirs[1]),
     branch_sha = app_status_app_sha(app_dirs[1]),
     pr_number = pr_number,
