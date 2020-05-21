@@ -10,7 +10,7 @@
 #' @rdname test-results
 #' @export
 save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, username) {
-  if (!inherits(test_runtests_output, "shiny_runtests")) {
+  if (!inherits(test_runtests_output, "shinycoreci_runtests")) {
     stop("test_runtests_output must be an object returned by test_runtests()", call. = FALSE)
   }
   # Make the results serializable (result contain conditions, data frames, etc)
@@ -21,8 +21,9 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
     },
     character(1)
   )
+
   # Get the app names from the test files
-  app_dirs <- dirname(dirname(test_runtests_output$file))
+  app_dirs <- dirname(dirname(test_runtests_output$test_path))
   test_runtests_output$app_name <- basename(app_dirs)
 
   # Attach some other meta-data to the test results
