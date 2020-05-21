@@ -28,13 +28,9 @@ test_runtests <- function(
   force(apps)
   retries <- as.numeric(retries)
 
-  # make sure shinyverse is installed
-  if (isTRUE(update_pkgs)) {
-    # do not include apps here, only make sure shinyverse is intact
-    install_exact_shinycoreci_deps(dir = dir, apps = c())
-    # the only thing to make sure remains is the CRAN packages for each app
-  }
-  validate_core_pkgs()
+  # do not include apps here, only make sure shinyverse is intact
+  # the only thing to make sure remains is the CRAN packages for each app
+  validate_exact_deps(dir = dir, apps = c(), update_pkgs = update_pkgs)
 
   # Record platform info and package versions
   write_sysinfo(file.path(dir, paste0("sysinfo-", platform_rversion(), ".txt")))

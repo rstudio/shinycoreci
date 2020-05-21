@@ -22,12 +22,8 @@ test_in_browser <- function(
   update_pkgs = TRUE,
   verify = TRUE
 ) {
-  validate_core_pkgs()
+  validate_exact_deps(dir = dir, apps = apps, update_pkgs = update_pkgs)
 
-  # install all the packages
-  if (isTRUE(update_pkgs)) {
-    install_exact_shinycoreci_deps(dir, apps = apps, include_shinycoreci = TRUE)
-  }
   # make sure the apps are ok to run
   if (isTRUE(verify)) {
     app_status_verify(dir)

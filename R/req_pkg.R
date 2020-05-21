@@ -57,6 +57,14 @@ validate_core_pkgs <- function() {
   invisible(TRUE)
 }
 
+validate_exact_deps <- function(dir = "apps", apps = apps_runtests(dir), update_pkgs = TRUE) {
+  # install all the packages
+  if (isTRUE(update_pkgs)) {
+    install_exact_shinycoreci_deps(dir = dir, apps = apps, assert = FALSE)
+  }
+  validate_core_pkgs()
+}
+
 
 # tryCatch({
 # }, error = function(e) {
