@@ -25,7 +25,7 @@ req_pkg <- local({
 
 
     # get the package info line
-    suggested_package_info <- as.list(suggested_packages[suggested_packages$Package == package, ])
+    suggested_package_info <- as.list(suggested_packages[suggested_packages$Package == package, ][1, ])
 
     version <- suggested_package_info$Version
 
