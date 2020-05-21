@@ -50,3 +50,106 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
   cat(jsonlite::toJSON(val, auto_unbox = TRUE), file = results_file)
   invisible(val)
 }
+
+
+
+
+#' @rdname test-results
+#' @inheritParams test_runtests
+#' @param results which results to look at. The default `"all"` considers all test results
+#' in the `_test_results/` folder on the `_test_results` branch.
+#' @param fetch whether to fetch the latest test results.
+#' @export
+view_test_results <- function(dir = "apps", results = "all", fetch = TRUE) {
+  validate_core_pkgs()
+
+  dir <- normalizePath(dir, mustWork = TRUE)
+  owd <- setwd(file.path(dir, ".."))
+  on.exit(setwd(owd), add = TRUE)
+
+  if (isTRUE(fetch)) run_system_cmd("git fetch")
+  current_branch <- app_status_app_branch(dir)
+  run_system_cmd("git checkout _test_results")
+  on.exit(run_system_cmd(paste("git checkout", current_branch)), add = TRUE)
+
+
+  results_files <- Sys.glob("_test_results/*.json")
+  if (!length(results_files)) stop("Couldn't find any test results", call. = FALSE)
+
+  results_tidy <- dplyr::bind_rows(lapply(results_files, function(x) {
+    json <- jsonlite::fromJSON(x)
+    json$results$gha_branch_name <- json$gha_branch_name
+    json$results
+  }))
+  results_tidy <- tibble::as_tibble(results_tidy)
+  results_tidy <- tidyr::separate(results_tidy, gha_branch_name, c("gha", "sha", "time", "r_version", "platform"), sep = "-")
+  results_tidy <- dplyr::select(results_tidy, -gha)
+  # Order results from newest to oldest
+  results_tidy <- dplyr::mutate(results_tidy, time = as.POSIXct(time, format = "%Y_%m_%d_%H_%M"))
+  results_tidy <- dplyr::arrange(results_tidy, desc(time))
+
+  ui <- fluidPage(
+    selectInput("sha", "Choose a test run", unique(results_tidy$sha), multiple = FALSE),
+    tabsetPanel(
+      tabPanel("overview", gt::gt_output("overview")),
+      tabPanel("shinyjster", verbatimTextOutput("shinyjster")),
+      tabPanel("testthat", verbatimTextOutput("testthat")),
+      tabPanel("shinytest", uiOutput("shinytest"))
+    )
+  )
+
+  server <- function(input, output, session) {
+
+    results_sha <- reactive({
+      req(input$sha)
+      results[which(shas %in% input$sha)]
+    })
+
+    # TODO: Should this just be a list of HTML tables instead?
+    output$overview <- gt::render_gt({
+      sha_results <- dplyr::bind_rows(results_sha())
+      results_summary <- dplyr::count(sha_results, platform, r_version, status)
+      results_summary <- dplyr::group_by(results_summary, platform, r_version)
+      gt::gt(results_summary)
+    })
+
+    # TODO: is it possible to subset to jster tests?
+    output$shinyjster <- renderPrint({
+
+    })
+
+    # TODO: is it possible to subset to testthat tests?
+    output$testthat <- renderPrint({
+
+    })
+
+    output$shinytest <- renderUI({
+      sha_results <- results_sha()
+      platforms <- unique(unlist(lapply(sha_results, `[[`, "platform")))
+      r_versions <- unique(unlist(lapply(sha_results, `[[`, "r_version")))
+
+      tagList(
+        selectInput("platform", "Choose a platform", platforms),
+        selectInput("r_version", "Choose an R version", r_versions),
+        uiOutput("shinytest_diff")
+      )
+    })
+
+    output$shinytest_diff <- renderUI({
+      req(input$sha)
+      req(input$platform)
+      req(input$r_version)
+
+      results_ids <- tools::file_path_sans_ext(basename(results_files))
+      pattern <- sprintf("gha-%s-*-%s-%s", input$sha, input$r_version, input$platform)
+      gha_branch <- grep(pattern, results_ids, value = TRUE)
+
+      run_system_cmd("git fetch")
+      run_system_cmd(paste("git checkout", gha_branch))
+      view_test_diff(suffix = paste0(input$platform, "-", input$r_version), path = dir)
+    })
+
+  }
+
+  shinyApp(ui, server)
+}
