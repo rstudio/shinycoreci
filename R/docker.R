@@ -126,6 +126,8 @@ docker_is_alive <- function() {
   ret == 0
 }
 docker_is_logged_in <- function() {
-  ret <- system("docker system info | grep -E 'Username|Registry'", ignore.stdout = TRUE, ignore.stderr = TRUE)
+  # if already logged in, it will return a 0
+  # if not logged in, it will fail and return a 1
+  ret <- system("docker login", ignore.stdout = TRUE, ignore.stderr = TRUE)
   ret == 0
 }
