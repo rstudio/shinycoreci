@@ -17,7 +17,7 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
   results$result <- vapply(
     results$result,
     function(x) {
-      paste0(capture.output({print(x)}), collapse = "\n")
+      paste0(utils::capture.output({print(x)}), collapse = "\n")
     },
     character(1)
   )
