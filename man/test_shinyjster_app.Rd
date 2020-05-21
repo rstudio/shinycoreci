@@ -6,12 +6,15 @@
 \usage{
 test_shinyjster_app(
   name,
-  browser_func = switch(name, chrome = shinyjster::selenium_chrome(), firefox =
-    shinyjster::selenium_firefox(), edge = shinyjster::selenium_edge(), ie =
-    shinyjster::selenium_ie(), {    
-    message("unknown browser name supplied. Using 'chrome'")    
+  browser_func = switch(name, chrome = shinyjster::selenium_chrome(timeout = timeout,
+    dimensions = dimensions), firefox = shinyjster::selenium_firefox(timeout = timeout,
+    dimensions = dimensions), edge = shinyjster::selenium_edge(timeout = timeout,
+    dimensions = dimensions), ie = shinyjster::selenium_ie(timeout = timeout, dimensions
+    = dimensions), {     message("unknown browser name supplied. Using 'chrome'")    
     shinyjster::selenium_chrome() }),
-  apps = ".."
+  apps = "..",
+  timeout = 2 * 60,
+  dimensions = "1200x1200"
 )
 }
 \arguments{
@@ -20,6 +23,10 @@ test_shinyjster_app(
 \item{browser_func}{One of \code{c("chrome", "firefox", "edge", "ie")}. If an unknown \code{browser_name} is used, \code{browser_func} will default to using \code{chrome}.}
 
 \item{apps}{shiny app to be tested using shinyjster}
+
+\item{timeout}{Number of seconds before selenium closes the browser}
+
+\item{dimensions}{A string in the form of \verb{"WIDTHxHEIGHT"}. Ex: \code{"1800x1200"}}
 }
 \description{
 Method to avoid editing MANY different files to do the same default behavior of \code{shinyjster::test_jster(browsers = selenium_chrome(), type = "lapply")}.

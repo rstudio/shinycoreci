@@ -332,9 +332,8 @@ app_status_validate_app_branch <- function(dir) {
   dir <- normalizePath(dir)
   owd <- setwd(dir)
   on.exit(setwd(owd), add = TRUE)
-  apps_branch <- run_system_cmd(
-    "git rev-parse --abbrev-ref HEAD"
-  )
+  apps_branch <- app_status_app_branch(dir)
+
   if (!identical(apps_branch, "master")) {
     if (
       !ask_yes_no("'apps' branch is currently: '", apps_branch, "'. Is this ok?")
@@ -355,6 +354,14 @@ app_status_validate_app_branch <- function(dir) {
   }
   invisible(TRUE)
 }
+
+app_status_app_branch <- function(dir) {
+  dir <- normalizePath(dir)
+  owd <- setwd(dir)
+  on.exit(setwd(owd), add = TRUE)
+  run_system_cmd("git rev-parse --abbrev-ref HEAD")
+}
+
 app_status_validate_shinycoreci_branch <- function() {
   if (shinycoreci_is_loaded_with_devtools()) {
     return(invisible())
