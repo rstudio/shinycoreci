@@ -6,11 +6,12 @@
 #'
 #' @inheritParams test_shinyjster
 #' @param try_again Logical to determine if RStudio IDE should try again after a failure
+#' @param assert Logical to determine if an error should be thrown or RStudio should be restarted
 #' @export
 #' @examples
 #' \dontrun{remotes::install_github("rstudio/shinycoreci")
 #' shinycoreci::install_exact_shinycoreci_deps("apps")}
-install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(dir), try_again = TRUE) {
+install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(dir), try_again = TRUE, assert =  interactive()) {
 
   missing_dir <- missing(dir)
   missing_apps <- missing(apps)
@@ -54,20 +55,7 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
     message("") # close off line
     message("Installing CRAN pkgs: ", paste0("'", to_install, "'", collapse = ", "))
     # make sure the old package is gone!
-    # if some other packages are loaded already depend upon it, the pkg is not installed from CRAN
-    callr::r(
-      function(to_install_) {
-        lapply(to_install_, function(pkg_to_install) {
-          try({
-            utils::remove.packages(pkg_to_install)
-          }, silent = TRUE)
-        })
-        # force install all the things from CRAN
-        utils::install.packages(to_install_, dependencies = TRUE)
-      },
-      list(to_install_ = to_install),
-      show = TRUE
-    )
+    install_cran_packages_safely(to_install)
   } else {
     message(" OK")
   }
@@ -112,33 +100,39 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
   }
 
   if (installed_something) {
-    if (isTRUE(try_again) && rstudioapi::isAvailable()) {
-      func <- paste0(
-        "shinycoreci::install_exact_shinycoreci_deps(",
-        paste0(collapse = ", ",
-          c(
-            if (!missing_dir) fn_arg("dir", dir),
-            if (!missing_apps) fn_arg("apps", apps),
-            fn_arg("try_again", FALSE)
-          )
-        ),
-        ")"
-      )
-      message("Restarting RStudio to try again in a fresh session")
-      message("Note: This next function call should pass!!")
-      rstudioapi::restartSession(func)
-      return(invisible(FALSE))
-    }
+    if (isTRUE(assert)) {
+      if (isTRUE(try_again) && rstudioapi::isAvailable()) {
+        func <- paste0(
+          "shinycoreci::install_exact_shinycoreci_deps(",
+          paste0(collapse = ", ",
+            c(
+              if (!missing_dir) fn_arg("dir", dir),
+              if (!missing_apps) fn_arg("apps", apps),
+              fn_arg("try_again", FALSE)
+            )
+          ),
+          ")"
+        )
+        message("Restarting RStudio to try again in a fresh session")
+        message("Note: This next function call should pass!!")
+        rstudioapi::restartSession(func)
+        return(invisible(FALSE))
+      }
 
-    func <- paste0("shinycoreci::install_exact_shinycoreci_deps(\"", dir, "\")")
-    stop(
-      "Some packages were overwritten. Please restart your R session and run this function again.",
-      "\n\n\t", func, "\n\n",
-      call. = FALSE
-    )
+      func <- paste0("shinycoreci::install_exact_shinycoreci_deps(\"", dir, "\")")
+      stop(
+        "Some packages were overwritten. Please restart your R session and run this function again.",
+        "\n\n\t", func, "\n\n",
+        call. = FALSE
+      )
+    } else {
+      # assert = FALSE, installed_something = TRUE
+      message("Some packages were overwritten. You may need to restart your R session for them to take effect.")
+    }
+  } else {
+    message("Session is up to date!")
   }
 
-  message("Session is up to date!")
   invisible(TRUE)
 }
 

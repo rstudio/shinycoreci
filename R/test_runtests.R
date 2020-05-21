@@ -2,7 +2,8 @@ test_runtests_status <- list(
   default = "unknown",
   pass = "pass",
   fail = "fail",
-  no_install = "can_not_install"
+  no_install = "can_not_install",
+  did_not_return_result = "did_not_return_result"
 )
 
 #' Test apps using `shiny::runTests()`
@@ -59,21 +60,17 @@ test_runtests <- function(
 
   run_test <- function(test_path) {
     app_path <- dirname(dirname(test_path))
-    app_name <- basename(app_path)
 
     if (isTRUE(update_app_pkgs)) {
       # (currently) does NOT handle `Remotes:` in the DESCRIPTION file
-      app_packages <- unique(renv::dependencies(app_path, quiet = TRUE)$Package)
-      app_packages <- setdiff(app_packages, packages_to_not_install_from_cran)
-
-      # try installing all cran packages
-      is_available <- vapply(app_packages, cached_require_package, logical(1))
+      is_available <- install_app_cran_deps(app_path)
 
       if (any(!is_available)) {
-        message("Apps: ", dput_arg(app_packages[!is_available]), " could not be installed. Skipping the testing of app: ", app_name)
+        failed_to_install <- names(is_available[!is_available])
+        message("Apps: ", dput_arg(failed_to_install), " could not be installed. Skipping the testing of app: ", basename(app_path))
         return(list(
           status = test_runtests_status$no_install,
-          result = c(app_packages[!is_available])
+          result = failed_to_install
         ))
       }
     }
@@ -97,9 +94,20 @@ test_runtests <- function(
           show = TRUE,
           timeout = timeout
         )
+        result <- test_result$result[[1]]
+        status <-
+          if (is.null(result)) {
+            test_runtests_status$did_not_return_result
+          } else {
+            if (isTRUE(test_result$pass[1])) {
+              test_runtests_status$pass
+            } else {
+              test_runtests_status$fail
+            }
+          }
         list(
-          status = if (test_result$pass[1]) test_runtests_status$pass else test_runtests_status$fail,
-          result = test_result$result[[1]]
+          status = status,
+          result = result
         )
       },
       error = function(e) {
@@ -165,11 +173,6 @@ test_runtests <- function(
     }
     retries <- retries - 1
   }
-
-
-  # Remove NULL result test files
-  is_empty_result <- vapply(test_dt$result, is.null, logical(1))
-  test_dt <- test_dt[!is_empty_result, ]
 
   class(test_dt) <- c("shinycoreci_runtests", class(test_dt))
 
@@ -247,12 +250,6 @@ assert_runtests <- function(test_runtests_output) {
   }
   test_dt <- test_runtests_output
 
-  if (all(test_dt$status %in% test_runtests_status$pass)) {
-    message("All app tests passed!")
-    return()
-  }
-
-
   concat_info <- function(title, statuses, include_result = TRUE) {
 
     sub_rows <- test_dt$status %in% statuses
@@ -298,30 +295,35 @@ assert_runtests <- function(test_runtests_output) {
     )
   }
 
-  # message(
-  #   concat_info("App test successes:", c(test_runtests_status$pass), include_result = FALSE)
-  # )
+  has_shown <- FALSE
+  display_message <- function(title, statuses, include_result) {
+    if (any(test_dt$status %in% statuses)) {
+      message(
+        if (has_shown) "\n" else "",
+        concat_info(paste0(title, ":"), statuses, include_result = include_result)
+      )
+      has_shown <<- TRUE
+    }
+  }
+  # display_message("App test successes",                 test_runtests_status$pass,                  include_result = FALSE)
+  display_message("App test failures",                  test_runtests_status$fail,                  include_result = TRUE)
+  display_message("Apps which did not return a result", test_runtests_status$did_not_return_result, include_result = FALSE)
+  display_message("Apps which could NOT be tested",     test_runtests_status$no_install,            include_result = TRUE)
 
-  message(
-    concat_info("App test failures:", c(test_runtests_status$fail), include_result = TRUE)
-  )
-
-  if (any(test_dt$status %in% test_runtests_status$no_install)) {
-    message(
-      "\n",
-      concat_info("App which could NOT be tested:", c(test_runtests_status$no_install), include_result = TRUE)
+  if (any(test_dt$status %in% test_runtests_status$fail)) {
+    stop(
+      concat_info("Failures detected in:", c(test_runtests_status$fail), include_result = FALSE)
     )
+  } else {
+    message("All app tests passed!")
   }
 
-  stop(
-    concat_info("Failures detected in:", c(test_runtests_status$fail), include_result = FALSE)
-  )
-
+  invisible(test_dt)
 }
 
 
 #' @include
-cached_require_package <- local({
+cached_install_cran_pkg <- local({
   cache <- list()
 
   function(package, install_if_needed = TRUE) {
@@ -336,8 +338,20 @@ cached_require_package <- local({
       return(cache_val)
     }
 
-    # at this point, this package has not been checked.
+    # at this point, this package has NOT been checked
 
+    # Make sure it isn't a github package
+    desc_file <- system.file("DESCRIPTION", package = package)
+    # if it is currently installed...
+    if (nzchar(desc_file)) {
+      # if the remote type is "github", force install from CRAN
+      desc_dcf <- as.data.frame(read.dcf(desc_file))
+      if (identical(desc_dcf$RemoteType[1], "github")) {
+        install_cran_packages_safely(package)
+      }
+    }
+
+    # Make sure the package is up to date
     did_install <-
       tryCatch({
         remotes::install_cran(package)
@@ -372,7 +386,26 @@ install_app_cran_deps <- function(app_path, update_app_pkgs = TRUE) {
 
   # try installing all cran packages
   setNames(
-    vapply(app_packages, cached_require_package, logical(1)),
+    vapply(app_packages, cached_install_cran_pkg, logical(1)),
     app_packages
   )
+}
+
+
+install_cran_packages_safely <- function(packages) {
+  # if some other packages are loaded already depend upon it, the pkg is not installed from CRAN
+  callr::r(
+    function(to_install_) {
+      lapply(to_install_, function(pkg_to_install) {
+        try({
+          utils::remove.packages(pkg_to_install)
+        }, silent = TRUE)
+      })
+      # force install all the things from CRAN
+      utils::install.packages(to_install_, dependencies = TRUE)
+    },
+    list(to_install_ = packages),
+    show = TRUE
+  )
+
 }
