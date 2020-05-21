@@ -13,7 +13,9 @@ test_runtests(
   filter = NULL,
   assert = TRUE,
   timeout = as.difftime(10, units = "mins"),
-  retries = 3
+  retries = 2,
+  update_pkgs = TRUE,
+  update_app_pkgs = TRUE
 )
 
 test_shinytest(
@@ -49,6 +51,10 @@ test_testthat(
 \item{timeout}{Length of time allowed for an application's full test suit can run before determining it is a failure}
 
 \item{retries}{number of attempts to retry before declaring the test a failure}
+
+\item{update_pkgs}{Logical value which will try to install all required shiny packages used for testing}
+
+\item{update_app_pkgs}{Logical value which will try to install all required app packages used for testing}
 }
 \description{
 Test apps using \code{shiny::runTests()}

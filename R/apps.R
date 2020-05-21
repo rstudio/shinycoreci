@@ -8,7 +8,7 @@
 #' @describeIn app-folders App folders that are to be manually tested.
 #' @export
 apps_manual <- function(dir) {
-  Filter(x = shiny_app_dirs(dir), function(x) is_manual_app(x))
+  basename(Filter(x = file.path(dir, shiny_app_dirs(dir)), function(x) is_manual_app(x)))
 }
 
 #' @describeIn app-folders App folders that contain a \verb{shinytest.R} file
@@ -69,12 +69,12 @@ apps_deploy <- function(dir) {
 
 shiny_app_dirs <- function(dir) {
   app_folders <- list.dirs(dir, full.names = TRUE, recursive = FALSE)
-  Filter(x = app_folders, function(app_folder) {
+  basename(Filter(x = app_folders, function(app_folder) {
     return(
       has_shiny_app_files(app_folder) ||
       has_rmarkdown_app_files(app_folder)
     )
-  })
+  }))
 }
 shiny_app_files <- function(app_folder) {
   dir(app_folder, pattern = "^(app|ui|server)\\.(r|R)$", full.names = TRUE)

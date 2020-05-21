@@ -7,14 +7,14 @@
 \usage{
 connect_set_public(
   dir = "apps",
-  apps = basename(apps_deploy(dir)),
+  apps = apps_deploy(dir),
   account = "barret",
   server = "beta.rstudioconnect.com"
 )
 
 connect_urls(
   dir = "apps",
-  apps = basename(apps_deploy(dir)),
+  apps = apps_deploy(dir),
   account = "barret",
   server = "beta.rstudioconnect.com"
 )

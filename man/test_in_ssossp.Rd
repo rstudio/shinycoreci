@@ -7,7 +7,7 @@
 \usage{
 test_in_sso(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   release = c("bionic", "xenial", "centos7"),
   r_version = c("4.0", "3.6", "3.5"),
@@ -19,7 +19,7 @@ test_in_sso(
 
 test_in_ssp(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   release = c("bionic", "xenial", "centos7"),
   r_version = c("4.0", "3.6", "3.5"),

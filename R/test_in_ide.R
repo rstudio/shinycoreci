@@ -33,6 +33,7 @@ normalize_app_name <- function(
   app_name,
   increment = FALSE
 ) {
+  app_name_original <- app_name
   if (is.null(app_name) || identical(app_name, 0L)) {
     return(apps[1])
   }
@@ -50,7 +51,7 @@ normalize_app_name <- function(
   }
   app_pos <- which(basename(apps) == basename(app_name))
   if (length(app_pos) == 0) {
-    stop("unknown app: ", app_name)
+    stop("unknown app: ", app_name_original)
   }
   if (increment) {
     app_pos <- app_pos + 1
@@ -80,7 +81,7 @@ normalize_app_name <- function(
 #' \dontrun{test_in_ide(dir = "apps")}
 test_in_ide <- function(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   port = 8000,
   host = "127.0.0.1",
@@ -89,8 +90,10 @@ test_in_ide <- function(
   viewer = NULL,
   verify = TRUE
 ) {
-  sys_call <- match.call()
   force(update_pkgs)
+  validate_exact_deps(dir = dir, apps = apps, update_pkgs = update_pkgs)
+
+  sys_call <- match.call()
 
   if (rstudioapi::isAvailable()) {
     # stop("This function should only be run within the RStudio IDE")
@@ -148,11 +151,6 @@ test_in_ide <- function(
   }
   app_status_init(dir, user_agent = app_status_user_agent_ide())
   app_dirs <- file.path(dir, apps)
-
-  # install all the packages
-  if (isTRUE(update_pkgs)) {
-    install_exact_shinycoreci_deps(dir)
-  }
 
   old_ops <- options(width = 100)
   on.exit({

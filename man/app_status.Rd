@@ -5,11 +5,11 @@
 \alias{app_status_sheet}
 \title{Testing status}
 \usage{
-app_status(dir = "apps", apps = basename(apps_manual(dir)))
+app_status(dir = "apps", apps = apps_manual(dir))
 
 app_status_sheet(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   status = app_status(dir = dir, apps = apps)
 )
 }

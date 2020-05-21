@@ -6,12 +6,12 @@
 \usage{
 deploy_apps(
   dir = "apps",
-  apps = basename(apps_deploy(dir)),
+  apps = apps_deploy(dir),
   account = "testing-apps",
   server = "shinyapps.io",
   cores = 1,
-  update_pkgs = c("all", "shinycoreci", "installed", "none"),
-  retry = 3
+  update_pkgs = TRUE,
+  retry = 2
 )
 }
 \arguments{

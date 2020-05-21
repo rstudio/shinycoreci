@@ -5,12 +5,20 @@
 \alias{app_deps}
 \title{Install app dependencies}
 \usage{
-install_app_deps(dir = "apps")
+install_app_deps(
+  dir = "apps",
+  apps = apps_runtests(dir),
+  include_shinycoreci = TRUE
+)
 
-app_deps(dir = "apps")
+app_deps(dir = "apps", apps = apps_runtests(dir), include_shinycoreci = TRUE)
 }
 \arguments{
 \item{dir}{Directory containing apps}
+
+\item{apps}{apps to find the dependencies of}
+
+\item{include_shinycoreci}{Logical value which determines if shinycoreci should be included}
 }
 \description{
 Install app dependencies

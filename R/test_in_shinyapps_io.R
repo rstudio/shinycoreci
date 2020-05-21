@@ -4,7 +4,7 @@
 #' \dontrun{test_in_test_in_shinyapps_io(dir = "apps")}
 test_in_shinyappsio <- function(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   port = 8080,
   host = "127.0.0.1",

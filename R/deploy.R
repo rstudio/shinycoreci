@@ -11,13 +11,15 @@
 #' @export
 deploy_apps <- function(
   dir = "apps",
-  apps = basename(apps_deploy(dir)),
+  apps = apps_deploy(dir),
   account = "testing-apps",
   server = "shinyapps.io",
   cores = 1,
-  update_pkgs = c("all", "shinycoreci", "installed", "none"),
-  retry = 3
+  update_pkgs = TRUE,
+  retry = 2
 ) {
+
+  validate_exact_deps(dir = dir, apps = apps, update_pkgs = update_pkgs)
 
   is_missing <- list(
     account = missing(account),
@@ -28,7 +30,6 @@ deploy_apps <- function(
 
   cores <- validate_cores(cores)
   validate_rsconnect_account(account, server)
-  update_packages_installed(dir, update_pkgs = update_pkgs)
 
   # Use a new R process just in case there were some packages updated
   # this avoids any odd "currently loaded" namespace issue
@@ -102,18 +103,6 @@ deploy_apps <- function(
   }
 
   # something failed... make a "retry failed apps" func call
-  dput_arg <- function(x) {
-    f <- file()
-    on.exit({
-      close(f)
-    })
-    dput(x, f)
-    ret <- paste0(readLines(f), collapse = "\n")
-    ret
-  }
-  fn_arg <- function(name, val) {
-    paste0(name, " = ", dput_arg(val))
-  }
   error_apps <- original_apps[deploy_res != 0]
   args <- c(
     fn_arg("dir", original_dir),
@@ -154,6 +143,8 @@ deploy_apps <- function(
 
 
 validate_rsconnect_account <- function(account, server) {
+  req_pkg("rsconnect")
+
   accts <- rsconnect::accounts()
   accts_found <- sum(
     (account %in% accts$name) &
@@ -170,36 +161,13 @@ validate_rsconnect_account <- function(account, server) {
 }
 
 
-update_packages_installed <- function(dir, update_pkgs = c("all", "shinycoreci", "installed", "none")) {
-  if (identical(update_pkgs, FALSE) || identical(update_pkgs, NULL)) {
-    update_pkgs <- "none"
-  } else if (isTRUE(update_pkgs)) {
-    update_pkgs <- "all"
-  }
-  update_pkgs <- match.arg(update_pkgs, several.ok = TRUE)
-  if ("all" %in% update_pkgs) {
-    update_pkgs <- c("shinycoreci", "installed")
-  } else if ("none" %in% update_pkgs) {
-    update_pkgs <- "none"
-  }
+# used in docker files!
+update_packages_installed <- function(dir, apps = apps_deploy(dir)) {
 
-  if ("shinycoreci" %in% update_pkgs) {
-    message("Update shinycoreci and app dependencies")
-    shinycoreci_deps <- app_deps(dir)
+  validate_exact_deps(dir = dir, apps = apps, update_pkgs = TRUE)
 
-    needs_update <- as.logical(shinycoreci_deps$diff)
-    if (any(needs_update)) {
-      # make sure these packages are installed!
-      remotes__update_package_deps(shinycoreci_deps, upgrade = "always")
-    }
-  }
-
-  if ("installed" %in% update_pkgs) {
-    # update all packages! (this could involve unnecessary packages being updated)
-    message("Update installed dependencies")
-    remotes::update_packages(packages = TRUE, upgrade = "default")
-  }
-
+  message("Updating installed packages")
+  remotes::update_packages(packages = TRUE, upgrade = TRUE)
 }
 
 

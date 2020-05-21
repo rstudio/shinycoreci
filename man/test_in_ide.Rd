@@ -6,7 +6,7 @@
 \usage{
 test_in_ide(
   dir = "apps",
-  apps = basename(apps_manual(dir)),
+  apps = apps_manual(dir),
   app = apps[1],
   port = 8000,
   host = "127.0.0.1",
@@ -34,7 +34,7 @@ Details.}
 
 \item{delay}{Time to wait between applications. [\code{1}]}
 
-\item{update_pkgs}{Logical that will try to automatically install packages. [\code{TRUE}]}
+\item{update_pkgs}{Logical value which will try to install all required shiny packages used for testing}
 
 \item{viewer}{RStudio IDE viewer to use.  [\code{"pane"}]}
 
