@@ -159,10 +159,10 @@ test_runtests <- function(
       ans <- run_test(to_test_path)
 
       # store result
-      test_dt$status[to_test_position] <- ans$status[1]
+      test_dt$status[to_test_position] <- ans$status
       test_dt$result[to_test_position] <- list(ans$result)
-
-      if (ans$status[1] == test_runtests_status$default) {
+      # ans$status should _always_ be of length 1 (otherwise assignment above would fail)
+      if (ans$status == test_runtests_status$default) {
         utils::str(to_test_path)
         utils::str(ans)
         stop("An status of ", test_runtests_status$default, " should never be stored")
