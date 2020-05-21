@@ -93,7 +93,6 @@ test_in_ide <- function(
   force(update_pkgs)
   validate_exact_deps(dir = dir, apps = apps, update_pkgs = update_pkgs)
 
-
   sys_call <- match.call()
 
   if (rstudioapi::isAvailable()) {

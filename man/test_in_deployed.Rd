@@ -17,8 +17,7 @@ test_in_connect(
   apps = apps_manual(dir),
   app = apps[1],
   port = 8080,
-  host = "127.0.0.1",
-  update_pkgs = TRUE
+  host = "127.0.0.1"
 )
 
 connect_urls_cache_save(
@@ -46,8 +45,7 @@ test_in_shinyappsio(
   port = 8080,
   host = "127.0.0.1",
   account = "testing-apps",
-  server = "shinyapps.io",
-  update_pkgs = TRUE
+  server = "shinyapps.io"
 )
 }
 \arguments{
@@ -69,8 +67,6 @@ use a random port.}
 \item{host}{The IPv4 address that the application should listen on. Defaults
 to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
 Details.}
-
-\item{update_pkgs}{Logical that will try to automatically install packages. [\code{TRUE}]}
 
 \item{save_file}{location to save the file}
 }

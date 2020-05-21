@@ -18,8 +18,7 @@ test_in_connect <- function(
   apps = apps_manual(dir),
   app = apps[1],
   port = 8080,
-  host = "127.0.0.1",
-  update_pkgs = TRUE
+  host = "127.0.0.1"
 ) {
   validate_core_pkgs()
 
