@@ -53,103 +53,155 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
 
 
 
-
 #' @rdname test-results
 #' @inheritParams test_runtests
-#' @param results which results to look at. The default `"all"` considers all test results
-#' in the `_test_results/` folder on the `_test_results` branch.
-#' @param fetch whether to fetch the latest test results.
+#' @param update whether or not to fetch the latest test results
 #' @export
-view_test_results <- function(dir = "apps", results = "all", fetch = TRUE) {
+view_test_results <- function(dir = "apps", update = TRUE) {
   validate_core_pkgs()
 
   dir <- normalizePath(dir, mustWork = TRUE)
   owd <- setwd(file.path(dir, ".."))
   on.exit(setwd(owd), add = TRUE)
 
-  if (isTRUE(fetch)) run_system_cmd("git fetch")
-  current_branch <- app_status_app_branch(dir)
-  run_system_cmd("git checkout _test_results")
-  on.exit(run_system_cmd(paste("git checkout", current_branch)), add = TRUE)
-
+  if (isTRUE(update)) {
+    run_system_cmd("git fetch origin _test_results:_test_results")
+  }
+  try(run_system_cmd("git checkout _test_results -- _test_results/"))
 
   results_files <- Sys.glob("_test_results/*.json")
   if (!length(results_files)) stop("Couldn't find any test results", call. = FALSE)
 
-  results_tidy <- dplyr::bind_rows(lapply(results_files, function(x) {
+  results <- lapply(results_files, function(x) {
     json <- jsonlite::fromJSON(x)
     json$results$gha_branch_name <- json$gha_branch_name
+    json$results$branch_name <- json$branch_name
     json$results
-  }))
-  results_tidy <- tibble::as_tibble(results_tidy)
-  results_tidy <- tidyr::separate(results_tidy, gha_branch_name, c("gha", "sha", "time", "r_version", "platform"), sep = "-")
-  results_tidy <- dplyr::select(results_tidy, -gha)
-  # Order results from newest to oldest
-  results_tidy <- dplyr::mutate(results_tidy, time = as.POSIXct(time, format = "%Y_%m_%d_%H_%M"))
-  results_tidy <- dplyr::arrange(results_tidy, desc(time))
+  })
 
-  ui <- fluidPage(
-    selectInput("sha", "Choose a test run", unique(results_tidy$sha), multiple = FALSE),
-    tabsetPanel(
-      tabPanel("overview", gt::gt_output("overview")),
-      tabPanel("shinyjster", verbatimTextOutput("shinyjster")),
-      tabPanel("testthat", verbatimTextOutput("testthat")),
-      tabPanel("shinytest", uiOutput("shinytest"))
+  results_tidy <- dplyr::bind_rows(results) %>%
+    tibble::as_tibble() %>%
+    tidyr::separate(gha_branch_name, c("gha", "sha", "time", "r_version", "platform"), sep = "-") %>%
+    dplyr::select(-gha) %>%
+    dplyr::mutate(
+      time = as.POSIXct(time, format = "%Y_%m_%d_%H_%M"),
+      sha = paste0(branch_name, "@", sha)
     )
+
+  kept_times <- results_tidy %>%
+    # Take the most recent run with this sha+platform+r_version (scheduling complicates things)
+    dplyr::group_by(sha, r_version, platform) %>%
+    dplyr::arrange(dplyr::desc(time)) %>%
+    dplyr::slice(1)
+
+  results_tidy <- dplyr::semi_join(results_tidy, kept_times, by = c("sha", "r_version", "platform"))
+
+  # Filter out known no result cases
+  results_tidy <- dplyr::filter(
+    results_tidy,
+    !(status %in% "did_not_return_result" &
+      platform %in% c("macOS", "Linux") &
+      basename(test_path) %in% c("shinyjster-edge.R", "shinyjster-ie.R"))
+  )
+
+  gt_table_html <- function(results) {
+    results %>%
+      dplyr::count(status) %>%
+      dplyr::arrange(dplyr::desc(n)) %>%
+      gt::gt() %>%
+      # Possible statuses are listed here
+      # https://github.com/rstudio/shinycoreci/blob/master/R/test_runtests.R#L1-L7
+      gt::tab_style(
+        style = gt::cell_fill(color = "#31A744"),
+        locations = gt::cells_body(rows = status == "pass")
+      ) %>%
+      gt::tab_style(
+        style = gt::cell_fill(color = "#CB2432"),
+        locations = gt::cells_body(rows = status == "fail")
+      ) %>%
+      gt::tab_style(
+        style = gt::cell_fill(color = "#F69245"),
+        locations = gt::cells_body(rows = status == "can_not_install")
+      ) %>%
+      gt::tab_style(
+        style = gt::cell_fill(color = "#CECECE"),
+        locations = gt::cells_body(rows = status == "did_not_return_result")
+      ) %>%
+      gt::tab_options(
+        #table.width = gt::px(500),
+        column_labels.hidden = TRUE
+      ) %>%
+      gt::as_raw_html()
+  }
+
+  failure_summary <- function(results) {
+    failures <- dplyr::filter(results, status %in% "fail")
+    if (!nrow(failures)) return("")
+    # TODO: add test name
+    msgs <- paste0("<b>", failures$app_name, " ~ ", basename(failures$test_path), ":</b>\n", paste(rep("", 20), collapse = "-"), "\n\n", htmltools::htmlEscape(failures$result))
+    summary_html(
+      "Test failures:",
+      paste(msgs, collapse = "\n\n")
+    )
+  }
+
+  cant_install_summary <- function(results) {
+    no_result <- dplyr::filter(results, status %in% "can_not_install")
+    if (!nrow(cant_install)) return("")
+    cant_install(
+      "Can't install",
+      paste(unique(cant_install$app_name), collapse = "\n\n")
+    )
+  }
+
+  no_results_summary <- function(results) {
+    no_result <- dplyr::filter(results, status %in% "did_not_return_result")
+    if (!nrow(no_result)) return("")
+    summary_html(
+      "No results:",
+      # TODO: include full path?
+      paste(sub("^apps/", "", no_result$test_path), collapse = "\n\n")
+    )
+  }
+
+  summary_html <- function(summary, details) {
+    shiny::HTML(
+      sprintf(
+        "<details><summary>%s</summary><pre><code>%s</code></pre></details>",
+        summary, details
+      )
+    )
+  }
+
+  ui <- shiny::fluidPage(
+    shiny::selectInput("sha", "Choose a test run", unique(results_tidy$sha), multiple = FALSE),
+    shiny::tags$div(id = "results")
   )
 
   server <- function(input, output, session) {
 
-    results_sha <- reactive({
+    results_sha <- shiny::reactive({
       req(input$sha)
-      results[which(shas %in% input$sha)]
+      dplyr::filter(results_tidy, sha %in% input$sha)
     })
 
-    # TODO: Should this just be a list of HTML tables instead?
-    output$overview <- gt::render_gt({
-      sha_results <- dplyr::bind_rows(results_sha())
-      results_summary <- dplyr::count(sha_results, platform, r_version, status)
-      results_summary <- dplyr::group_by(results_summary, platform, r_version)
-      gt::gt(results_summary)
-    })
-
-    # TODO: is it possible to subset to jster tests?
-    output$shinyjster <- renderPrint({
-
-    })
-
-    # TODO: is it possible to subset to testthat tests?
-    output$testthat <- renderPrint({
-
-    })
-
-    output$shinytest <- renderUI({
-      sha_results <- results_sha()
-      platforms <- unique(unlist(lapply(sha_results, `[[`, "platform")))
-      r_versions <- unique(unlist(lapply(sha_results, `[[`, "r_version")))
-
-      tagList(
-        selectInput("platform", "Choose a platform", platforms),
-        selectInput("r_version", "Choose an R version", r_versions),
-        uiOutput("shinytest_diff")
-      )
-    })
-
-    output$shinytest_diff <- renderUI({
-      req(input$sha)
-      req(input$platform)
-      req(input$r_version)
-
-      results_ids <- tools::file_path_sans_ext(basename(results_files))
-      pattern <- sprintf("gha-%s-*-%s-%s", input$sha, input$r_version, input$platform)
-      gha_branch <- grep(pattern, results_ids, value = TRUE)
-
-      run_system_cmd("git fetch")
-      run_system_cmd(paste("git checkout", gha_branch))
-      view_test_diff(suffix = paste0(input$platform, "-", input$r_version), path = dir)
+    shiny::observe({
+      results_sha() %>%
+        dplyr::group_by(platform, r_version) %>%
+        dplyr::do(
+          html = shiny::HTML(c(
+            sprintf("<h3>%s - %s (%s)</h3>", unique(.$platform), unique(.$r_version), paste(sub(":00$", "", unique(.$time), "UTC"))),
+            gt_table_html(.),
+            failure_summary(.),
+            no_results_summary(.)
+          ))
+        ) %>%
+        dplyr::pull(html) %>%
+        shiny::tagList() %>%
+        shiny::insertUI("#results", "afterEnd", ui = .)
     })
 
   }
 
-  shinyApp(ui, server)
+  shiny::shinyApp(ui, server)
 }

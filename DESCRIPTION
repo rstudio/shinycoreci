@@ -44,7 +44,10 @@ Suggests:
     flexdashboard,
     pool,
     leaflet,
-    leaflet.providers
+    leaflet.providers,
+    dplyr,
+    tidyr,
+    gt
 Remotes:
   rstudio/rsconnect,
   schloerke/shinyjster,
