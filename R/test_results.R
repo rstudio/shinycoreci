@@ -41,7 +41,7 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
   )
 
   # Root shinycoreci-apps directory
-  root_dir <- dirname(dirname(app_dirs))
+  root_dir <- unique(dirname(dirname(app_dirs)))
   # Where the results will be placed
   results_dir <- file.path(root_dir, "_test_results")
   dir.create(results_dir, showWarnings = FALSE)
