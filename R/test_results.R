@@ -79,9 +79,11 @@ view_test_results <- function(dir = "apps", update = TRUE) {
     json$results
   })
 
+  `%>%` <- dplyr::`%>%`
+
   results_tidy <- dplyr::bind_rows(results) %>%
     tibble::as_tibble() %>%
-    tidyr::separate(gha_branch_name, c("gha", "sha", "time", "r_version", "platform"), sep = "-") %>%
+    tidyr::separate_("gha_branch_name", c("gha", "sha", "time", "r_version", "platform"), sep = "-") %>%
     dplyr::select(-gha) %>%
     dplyr::mutate(
       time = as.POSIXct(time, format = "%Y_%m_%d_%H_%M"),
@@ -181,7 +183,7 @@ view_test_results <- function(dir = "apps", update = TRUE) {
   server <- function(input, output, session) {
 
     results_sha <- shiny::reactive({
-      req(input$sha)
+      shiny::req(input$sha)
       dplyr::filter(results_tidy, sha %in% input$sha)
     })
 
@@ -200,8 +202,10 @@ view_test_results <- function(dir = "apps", update = TRUE) {
         shiny::tagList() %>%
         shiny::insertUI("#results", "afterEnd", ui = .)
     })
-
   }
 
   shiny::shinyApp(ui, server)
 }
+
+
+utils::globalVariables(c("gha", "time", "branch_name", "sha", "r_version", "status", "test_path", "n", "cant_install", ".", "html"))
