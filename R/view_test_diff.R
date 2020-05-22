@@ -44,7 +44,8 @@ view_test_diff <- function(suffix = platform_rversion(), path = "apps", ...) {
   folders <- find_bad_shinytest_files(path)
 
   if (length(folders) == 0) {
-    stop("No app folders to view")
+    message("Didn't detect any differences in shinytest baselines")
+    return(invisible())
   }
 
   if (length(folders) > 1) {
