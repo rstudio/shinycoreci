@@ -39,6 +39,8 @@ jobs:
       - uses: r-lib/actions/pr-fetch@master
         name: Git Pull (PR)
         if: github.event_name == 'pull_request'
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: r-lib/actions/setup-r@master
         with:
