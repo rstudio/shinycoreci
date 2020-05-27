@@ -67,7 +67,10 @@ view_test_results <- function(dir = "apps", update = TRUE) {
   if (isTRUE(update)) {
     run_system_cmd("git fetch origin _test_results:_test_results")
   }
-  try(run_system_cmd("git checkout _test_results -- _test_results/"))
+  try({
+    run_system_cmd("git checkout _test_results -- _test_results/")
+    run_system_cmd("git reset _test_results/")
+  })
 
   results_files <- Sys.glob("_test_results/*.json")
   if (!length(results_files)) stop("Couldn't find any test results", call. = FALSE)
@@ -178,7 +181,7 @@ view_test_results <- function(dir = "apps", update = TRUE) {
 
   ui <- shiny::fluidPage(
     shiny::selectInput("sha", "Choose a test run", unique(results_tidy$sha), multiple = FALSE),
-    shiny::tags$div(id = "results")
+    shiny::uiOutput("results")
   )
 
   server <- function(input, output, session) {
@@ -188,7 +191,7 @@ view_test_results <- function(dir = "apps", update = TRUE) {
       dplyr::filter(results_tidy, sha %in% input$sha)
     })
 
-    shiny::observe({
+    output$results <- renderUI({
       results_sha() %>%
         dplyr::group_by(platform, r_version) %>%
         dplyr::do(
@@ -200,8 +203,8 @@ view_test_results <- function(dir = "apps", update = TRUE) {
           ))
         ) %>%
         dplyr::pull(html) %>%
-        shiny::tagList() %>%
-        shiny::insertUI("#results", "afterEnd", ui = .)
+        shiny::tagList()
+
     })
   }
 
