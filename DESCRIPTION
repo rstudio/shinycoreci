@@ -45,7 +45,7 @@ Suggests:
     pool,
     leaflet,
     leaflet.providers
-Remotes:
+URLRemotes:
   url::https://github.com/rstudio/shinytest/archive/rc-v1.4.0.tar.gz,
   url::https://github.com/schloerke/shinyjster/archive/master.tar.gz,
   url::https://github.com/rstudio/shiny/archive/rc-v1.5.0.tar.gz,
@@ -65,4 +65,24 @@ Remotes:
   url::https://github.com/rstudio/shinymeta/archive/master.tar.gz,
   url::https://github.com/rstudio/pool/archive/master.tar.gz,
   url::https://github.com/rstudio/rsconnect/archive/master.tar.gz
+Remotes:
+  r-lib/later@rc-v1.1.0,
+  r-lib/fastmap,
+  rstudio/promises@rc-v1.1.1,
+  rstudio/httpuv@rc-v1.5.3,
+  rstudio/websocket@rc-v1.2.0,
+  rstudio/htmltools@rc-v0.5.0,
+  rstudio/shiny@rc-v1.5.0,
+  schloerke/shinyjster,
+  rstudio/shinytest@rc-v1.4.0,
+  ramnathv/htmlwidgets,
+  rstudio/reactlog,
+  ropensci/plotly,
+  rstudio/pool,
+  rstudio/leaflet,
+  rstudio/leaflet.providers,
+  rstudio/crosstalk,
+  rstudio/flexdashboard,
+  rstudio/shinymeta,
+  rstudio/rsconnect
 RoxygenNote: 7.1.0
