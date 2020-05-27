@@ -31,6 +31,7 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       CRAN: ${{ matrix.config.cran }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
@@ -38,8 +39,6 @@ jobs:
       - uses: r-lib/actions/pr-fetch@master
         name: Git Pull (PR)
         if: github.event_name == 'pull_request'
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: r-lib/actions/setup-r@master
         with:
