@@ -430,7 +430,8 @@ install_app_cran_deps <- function(app_path, update_app_pkgs = TRUE) {
 install_cran_packages_safely <- function(packages) {
   # if some other packages are loaded already depend upon it, the pkg is not installed from CRAN
   callr::r(
-    function(to_install_) {
+    function(to_install_, options_) {
+      options(options_)
       lapply(to_install_, function(pkg_to_install) {
         try({
           utils::remove.packages(pkg_to_install)
@@ -439,7 +440,12 @@ install_cran_packages_safely <- function(packages) {
       # force install all the things from CRAN
       utils::install.packages(to_install_, dependencies = TRUE)
     },
-    list(to_install_ = packages),
+    list(
+      to_install_ = packages,
+      options_ = list(
+        install.packages.check.source = getOption("install.packages.check.source")
+      )
+    ),
     show = TRUE
   )
 
