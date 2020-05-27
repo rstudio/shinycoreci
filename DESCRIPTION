@@ -45,26 +45,6 @@ Suggests:
     pool,
     leaflet,
     leaflet.providers
-URLRemotes:
-  url::https://github.com/rstudio/shinytest/archive/rc-v1.4.0.tar.gz,
-  url::https://github.com/schloerke/shinyjster/archive/master.tar.gz,
-  url::https://github.com/rstudio/shiny/archive/rc-v1.5.0.tar.gz,
-  url::https://github.com/rstudio/htmltools/archive/rc-v0.5.0.tar.gz,
-  url::https://github.com/rstudio/httpuv/archive/rc-v1.5.3.tar.gz,
-  url::https://github.com/rstudio/promises/archive/rc-v1.1.1.tar.gz,
-  url::https://github.com/r-lib/later/archive/rc-v1.1.0.tar.gz,
-  url::https://github.com/ramnathv/htmlwidgets/archive/master.tar.gz,
-  url::https://github.com/rstudio/reactlog/archive/master.tar.gz,
-  url::https://github.com/r-lib/fastmap/archive/master.tar.gz,
-  url::https://github.com/rstudio/websocket/archive/rc-v1.2.0.tar.gz,
-  url::https://github.com/ropensci/plotly/archive/master.tar.gz,
-  url::https://github.com/rstudio/leaflet/archive/master.tar.gz,
-  url::https://github.com/rstudio/leaflet.providers/archive/master.tar.gz,
-  url::https://github.com/rstudio/crosstalk/archive/master.tar.gz,
-  url::https://github.com/rstudio/flexdashboard/archive/master.tar.gz,
-  url::https://github.com/rstudio/shinymeta/archive/master.tar.gz,
-  url::https://github.com/rstudio/pool/archive/master.tar.gz,
-  url::https://github.com/rstudio/rsconnect/archive/master.tar.gz
 Remotes:
   r-lib/later@rc-v1.1.0,
   r-lib/fastmap,
