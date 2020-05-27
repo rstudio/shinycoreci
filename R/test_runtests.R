@@ -98,6 +98,10 @@ test_runtests <- function(
           stderr = "2>&1"
         )
 
+        # Segfault error shown here: https://github.com/rstudio/shinycoreci-apps/runs/714291364#step:26:507
+        # Belief is that the background session has not started and can not be read from
+        Sys.sleep(2) # wait long enough for R to start
+
         log <- ""
         print_output <- function() {
           output <- pr$read_output_lines()
