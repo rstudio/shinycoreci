@@ -46,23 +46,23 @@ Suggests:
     leaflet,
     leaflet.providers
 Remotes:
-  rstudio/shinytest@rc-v1.4.0,
-  schloerke/shinyjster,
-  rstudio/shiny@rc-v1.5.0,
-  rstudio/htmltools@rc-v0.5.0,
-  rstudio/httpuv@rc-v1.5.3,
-  rstudio/promises@rc-v1.1.1,
   r-lib/later@rc-v1.1.0,
+  r-lib/fastmap,
+  rstudio/promises@rc-v1.1.1,
+  rstudio/httpuv@rc-v1.5.3,
+  rstudio/websocket@rc-v1.2.0,
+  rstudio/htmltools@rc-v0.5.0,
+  rstudio/shiny@rc-v1.5.0,
+  schloerke/shinyjster,
+  rstudio/shinytest@rc-v1.4.0,
   ramnathv/htmlwidgets,
   rstudio/reactlog,
-  r-lib/fastmap,
-  rstudio/websocket@rc-v1.2.0,
   ropensci/plotly,
+  rstudio/pool,
   rstudio/leaflet,
   rstudio/leaflet.providers,
   rstudio/crosstalk,
   rstudio/flexdashboard,
   rstudio/shinymeta,
-  rstudio/pool,
-  rstudio/rsconnect#407
+  rstudio/rsconnect
 RoxygenNote: 7.1.0
