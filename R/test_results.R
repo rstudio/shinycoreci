@@ -88,7 +88,8 @@ view_test_results <- function(dir = "apps", update = TRUE) {
     dplyr::mutate(
       time = as.POSIXct(time, format = "%Y_%m_%d_%H_%M"),
       sha = paste0(branch_name, "@", sha)
-    )
+    ) %>%
+    dplyr::arrange(dplyr::desc(time))
 
   kept_times <- results_tidy %>%
     # Take the most recent run with this sha+platform+r_version (scheduling complicates things)
