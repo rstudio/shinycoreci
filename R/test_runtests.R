@@ -442,9 +442,7 @@ install_cran_packages_safely <- function(packages) {
     },
     list(
       to_install_ = packages,
-      options_ = list(
-        install.packages.check.source = getOption("install.packages.check.source")
-      )
+      options_ = options()
     ),
     show = TRUE
   )
