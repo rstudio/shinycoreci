@@ -276,8 +276,9 @@ validate_remotes_order <- function(update_pkgs = TRUE) {
     pkg_remotes_needed <- info[[pkg_name]]
     for (pkg_needed in pkg_remotes_needed) {
       if (isTRUE(seen[[pkg_needed]])) {
+        info$shinycoreci <- NULL
         utils::str(Filter(function(x) length(x) > 0, info))
-        stop("`", pkg_name, "` needs `", pkg_needed, "`. Move `", pkg_name, "` lower than `", pkg_needed,"` in the `Remotes: ` order in the `shincoreci` `./DESCRIPTION` file")
+        stop("`", pkg_name, "` needs `", pkg_needed, "`. Move `", pkg_needed, "` lower than `", pkg_name,"` in the `Remotes: ` order in the `shincoreci` `./DESCRIPTION` file")
       }
     }
 
