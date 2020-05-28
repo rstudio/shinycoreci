@@ -144,7 +144,6 @@ view_test_results <- function(dir = "apps", update = TRUE) {
   failure_summary <- function(results) {
     failures <- dplyr::filter(results, status %in% "fail")
     if (!nrow(failures)) return("")
-    # TODO: add test name
     msgs <- paste0("<b>", failures$app_name, " ~ ", basename(failures$test_path), ":</b>\n", paste(rep("", 20), collapse = "-"), "\n\n", htmltools::htmlEscape(failures$result))
     summary_html(
       "Test failures:",
@@ -153,11 +152,12 @@ view_test_results <- function(dir = "apps", update = TRUE) {
   }
 
   cant_install_summary <- function(results) {
-    no_result <- dplyr::filter(results, status %in% "can_not_install")
+    cant_install <- dplyr::filter(results, status %in% "can_not_install")
     if (!nrow(cant_install)) return("")
-    cant_install(
+    msgs <- paste0("<b>", cant_install$app_name, " ~ ", basename(cant_install$test_path), ":</b>\n", paste(rep("", 20), collapse = "-"), "\n\n", htmltools::htmlEscape(cant_install$result))
+    summary_html(
       "Can't install",
-      paste(unique(cant_install$app_name), collapse = "\n\n")
+      paste(msgs, collapse = "\n\n")
     )
   }
 
@@ -166,7 +166,6 @@ view_test_results <- function(dir = "apps", update = TRUE) {
     if (!nrow(no_result)) return("")
     summary_html(
       "No results:",
-      # TODO: include full path?
       paste(sub("^apps/", "", no_result$test_path), collapse = "\n\n")
     )
   }
@@ -209,8 +208,8 @@ view_test_results <- function(dir = "apps", update = TRUE) {
               "<code>git checkout %s</code>",
               unique(.$gha_branch)
             ),
-
             failure_summary(.),
+            cant_install_summary(.),
             no_results_summary(.)
           ))
         ) %>%
