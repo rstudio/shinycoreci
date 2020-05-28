@@ -371,7 +371,8 @@ install_app_cran_deps <- function(app_path, update_app_pkgs = TRUE) {
     unique(c(
       "shinycoreci",
       unlist(cached_shinycoreci_remote_deps()),
-      as.data.frame(utils::installed.packages(priority = "base"))$Package
+      as.data.frame(utils::installed.packages(priority = "base"))$Package,
+      "datasets"
     ))
 
   # (currently) does NOT handle `Remotes:` in the DESCRIPTION file
