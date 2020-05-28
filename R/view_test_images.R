@@ -44,10 +44,10 @@ view_test_images <- function(dir = "apps") {
           test_name <- paste(strsplit(test_name, "-")[[1]][-1], collapse = "-")
           img_tag <- shiny::div(
             shiny::tags$p(test_name),
-            shiny::imageOutput(png)
+            shiny::imageOutput(png, height = "auto")
           )
           shiny::column(
-            max(4, round(12 / length(row_pngs))),
+            max(3, round(12 / length(row_pngs))),
             img_tag
           )
         })
