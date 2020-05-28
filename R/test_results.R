@@ -86,6 +86,7 @@ view_test_results <- function(dir = "apps", update = TRUE) {
 
   results_tidy <- dplyr::bind_rows(results) %>%
     tibble::as_tibble() %>%
+    dplyr::mutate(gha_branch = gha_branch_name) %>%
     tidyr::separate_("gha_branch_name", c("gha", "sha", "time", "r_version", "platform"), sep = "-") %>%
     dplyr::select(-gha) %>%
     dplyr::mutate(
@@ -196,8 +197,19 @@ view_test_results <- function(dir = "apps", update = TRUE) {
         dplyr::group_by(platform, r_version) %>%
         dplyr::do(
           html = shiny::HTML(c(
-            sprintf("<h3>%s - %s (%s)</h3>", unique(.$platform), unique(.$r_version), paste(sub(":00$", "", unique(.$time), "UTC"))),
+            sprintf(
+              "<h3><a href='%s'>%s - %s</a> (%s)</h3> ",
+              paste0("https://github.com/rstudio/shinycoreci-apps/compare/", unique(.$gha_branch)),
+              unique(.$platform),
+              unique(.$r_version),
+              paste(sub(":00$", "", unique(.$time), "UTC"))
+            ),
             gt_table_html(.),
+            sprintf(
+              "<code>git checkout %s</code>",
+              unique(.$gha_branch)
+            ),
+
             failure_summary(.),
             no_results_summary(.)
           ))
