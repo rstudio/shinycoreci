@@ -191,7 +191,7 @@ view_test_results <- function(dir = "apps", update = TRUE) {
       dplyr::filter(results_tidy, sha %in% input$sha)
     })
 
-    output$results <- renderUI({
+    output$results <- shiny::renderUI({
       results_sha() %>%
         dplyr::group_by(platform, r_version) %>%
         dplyr::do(
