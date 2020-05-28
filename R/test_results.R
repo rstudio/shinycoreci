@@ -224,4 +224,4 @@ view_test_results <- function(dir = "apps", update = TRUE) {
 }
 
 
-utils::globalVariables(c("gha", "time", "branch_name", "sha", "r_version", "status", "test_path", "n", "cant_install", ".", "html"))
+utils::globalVariables(c("gha", "gha_branch_name", "time", "branch_name", "sha", "r_version", "status", "test_path", "n", "cant_install", ".", "html"))
