@@ -409,19 +409,27 @@ install_cran_packages_safely <- function(packages) {
 }
 
 install_binary_or_source <- function(package) {
-  tryCatch({
-    tryCatch({
-      message("Installing binary package with shinycoreci cache: ", package)
-      remotes::install_cran(package, type = "binary")
-    }, error = function(e) {
-      message("Error installing package with shinycoreci cache: ", package, "\n", e)
-      message("Installing source package with shinycoreci cache: ", package)
-      remotes::install_cran(package, type = "source")
-    })
-    TRUE
-  }, error = function(e) {
-    message("Error installing source package with shinycoreci cache: ", package, "\n", e)
-    FALSE
-  })
 
+  install_cran_ <- function(type) {
+    did_not_install <- function(e) {
+      message("Error installing ", type, " package with shinycoreci: ", package, "\n", e)
+      FALSE
+    }
+    tryCatch(
+      {
+        message("Installing ", type, " package with shinycoreci: ", package)
+        remotes::install_cran(package, type = type)
+        TRUE
+      },
+      warning = did_not_install,
+      error = did_not_install
+    )
+  }
+
+  did_install <- install_cran_("binary")
+  if (did_install) {
+    return(TRUE)
+  }
+
+  install_cran_("source")
 }
