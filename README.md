@@ -20,6 +20,9 @@ Install the development version from [GitHub](https://github.com/) with:
 remotes::install_github("rstudio/shinycoreci")
 ```
 
+TODO-barret document about the order
+TODO-barret make a testthat test to make sure the remotes are installed in the correct order. Use `shinycoreci:::cached_shinycoreci_remote_deps()` for help
+
 These `Remotes` will be installed to make sure the latest package development is working as expected:
 
   - [r-lib/fastmap](http://github.com/r-lib/fastmap)
@@ -35,7 +38,7 @@ These `Remotes` will be installed to make sure the latest package development is
   - [rstudio/pool](http://github.com/rstudio/pool)
   - [rstudio/promises@rc-v1.1.1](http://github.com/rstudio/promises)
   - [rstudio/reactlog](http://github.com/rstudio/reactlog)
-  - [rstudio/rsconnect\#407](http://github.com/rstudio/rsconnect)
+  - [rstudio/rsconnect](http://github.com/rstudio/rsconnect)
   - [rstudio/shiny@rc-v1.5.0](http://github.com/rstudio/shiny)
   - [rstudio/shinymeta](http://github.com/rstudio/shinymeta)
   - [rstudio/shinytest@rc-v1.4.0](http://github.com/rstudio/shinytest)
