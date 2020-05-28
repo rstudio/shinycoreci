@@ -215,13 +215,6 @@ cached_shinycoreci_remote_deps <- local({
 install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes::git_credentials()) {
   # https://github.com/rstudio/shinytest/archive/rc-v1.4.0.tar.gz
 
-  trim_ws <- function (x) {
-    gsub("^[[:space:]]+|[[:space:]]+$", "", x)
-  }
-  split_remotes <- function(x) {
-    trim_ws(unlist(strsplit(x, ",[[:space:]]*")))
-  }
-
   remotes_pkgs <- split_remotes(
     remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotes
   )
@@ -261,4 +254,35 @@ install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes:
   }
 
   invisible()
+}
+
+
+
+validate_remotes_order <- function(update_pkgs = TRUE) {
+  validate_exact_deps(dir = ".", apps = c(), update_pkgs = update_pkgs, assert = TRUE)
+
+  info <- cached_shinycoreci_remote_deps()
+
+  remotes_pkgs <- split_remotes(
+    remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotes
+  )
+
+  seen <- list()
+
+  for (remotes_pkg in remotes_pkgs) {
+    github_remote <- remotes:::github_remote(repo = remotes_pkg)
+    pkg_name <- remotes:::remote_package_name(github_remote)
+
+    pkg_remotes_needed <- info[[pkg_name]]
+    for (pkg_needed in pkg_remotes_needed) {
+      if (isTRUE(seen[[pkg_needed]])) {
+        utils::str(Filter(function(x) length(x) > 0, info))
+        stop("`", pkg_name, "` needs `", pkg_needed, "`. Move `", pkg_name, "` lower than `", pkg_needed,"` in the `Remotes: ` order in the `shincoreci` `./DESCRIPTION` file")
+      }
+    }
+
+    seen[[pkg_name]] <- TRUE
+  }
+
+  invisible(TRUE)
 }

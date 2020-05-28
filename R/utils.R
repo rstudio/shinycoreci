@@ -122,3 +122,10 @@ dput_arg <- function(x) {
 fn_arg <- function(name, val) {
   paste0(name, " = ", dput_arg(val))
 }
+
+trim_ws <- function (x) {
+  gsub("^[[:space:]]+|[[:space:]]+$", "", x)
+}
+split_remotes <- function(x) {
+  trim_ws(unlist(strsplit(x, ",[[:space:]]*")))
+}
