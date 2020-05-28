@@ -2,8 +2,6 @@
 #'
 #' @param dir path pointing to shinycoreci-apps/apps
 #' @export
-#' @import shiny
-#' @importFrom english english
 view_test_images <- function(dir = "apps") {
   dir <- normalizePath(dir, mustWork = TRUE)
   all_files <- dir(dir, recursive = TRUE, full.names = TRUE)
