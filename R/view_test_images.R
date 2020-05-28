@@ -21,11 +21,10 @@ view_test_images <- function(dir = "apps") {
 
   server <- function(input, output, session) {
     app_png_idx <- shiny::reactive({
-      req(input$app_name)
+      shiny::req(input$app_name)
       grep(input$app_name, all_pngs)
     })
     app_pngs <- shiny::reactive(all_pngs[app_png_idx()])
-    app_test_names <- shiny::reactive(all_png_test_names[app_png_idx()])
 
     shiny::observe({
       lapply(app_pngs(), function(x) {
