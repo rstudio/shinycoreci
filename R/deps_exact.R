@@ -212,7 +212,7 @@ cached_shinycoreci_remote_deps <- local({
 
 
 
-install_remotes <- function(upgrade = TRUE, dependencies = NA, credentials = remotes::git_credentials()) {
+install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes::git_credentials()) {
   # https://github.com/rstudio/shinytest/archive/rc-v1.4.0.tar.gz
 
   trim_ws <- function (x) {
@@ -225,8 +225,9 @@ install_remotes <- function(upgrade = TRUE, dependencies = NA, credentials = rem
   remotes_pkgs <- split_remotes(
     remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotes
   )
-  lapply(remotes_pkgs, function(remotes_pkg) {
+  pkgs_installed <- lapply(remotes_pkgs, function(remotes_pkg) {
     repo_spec <- remotes::parse_github_repo_spec(remotes_pkg)
+
     if (nchar(repo_spec$pull) > 0) {
       stop("Can not install a pull request. Use a direct branch name or sha")
     }
@@ -236,8 +237,9 @@ install_remotes <- function(upgrade = TRUE, dependencies = NA, credentials = rem
     if (nchar(repo_spec$ref) == 0) {
       repo_spec$ref <- "master"
     }
+
     # install_git("git://github.com/hadley/stringr.git", ref = "stringr-0.2")
-    cat("Installing:", repo_spec$repo, "\n")
+    cat("Installing git:", repo_spec$username, "/", repo_spec$repo, "@", repo_spec$ref, "\n", sep = "")
     remotes::install_git(
       url = paste0("git://github.com/", repo_spec$username, "/", repo_spec$repo, ".git"),
       ref = repo_spec$ref,
@@ -246,6 +248,17 @@ install_remotes <- function(upgrade = TRUE, dependencies = NA, credentials = rem
       credentials = credentials
     )
   })
+
+  # install remaining suggested packages
+  to_install <- setdiff(suggested_pkgs()$Package, unlist(pkgs_installed))
+  for (pkg in to_install) {
+    if (!is_installed(pkg)) {
+      was_installed <- install_binary_or_source(pkg)
+      if (!was_installed) {
+        stop("Could not install suggested package: ", pkg)
+      }
+    }
+  }
 
   invisible()
 }
