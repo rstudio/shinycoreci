@@ -45,6 +45,8 @@ Suggests:
     pool,
     leaflet,
     leaflet.providers,
+    curl,
+    english,
     dplyr,
     tidyr,
     gt
