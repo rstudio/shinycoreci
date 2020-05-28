@@ -46,7 +46,10 @@ Suggests:
     leaflet,
     leaflet.providers,
     curl,
-    english
+    english,
+    dplyr,
+    tidyr,
+    gt
 Remotes:
   rstudio/rsconnect,
   schloerke/shinyjster,

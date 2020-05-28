@@ -355,10 +355,17 @@ cached_install_cran_pkg <- local({
     # Make sure the package is up to date
     did_install <-
       tryCatch({
-        remotes::install_cran(package)
+        tryCatch({
+          message("Installing binary package with shinycoreci cache: ", package)
+          remotes::install_cran(package, type = "binary")
+        }, error = function(e) {
+          message("Error installing package with shinycoreci cache: ", package, "\n", e)
+          message("Installing source package with shinycoreci cache: ", package)
+          remotes::install_cran(package, type = "source")
+        })
         TRUE
       }, error = function(e) {
-        message("Error installing package: ", package, "\n", e)
+        message("Error installing source package with shinycoreci cache: ", package, "\n", e)
         FALSE
       })
 
