@@ -12,7 +12,7 @@ test_runtests_status <- list(
 #' @param apps applications within \verb{dir} to run
 #' @param filter filter to use on test file within application
 #' @param assert logical value which will determine if [assert_runtests()] will be called on the result
-#' @param timeout Length of time allowed for an application's test file can run before determining it is a failure
+#' @param timeout Length of time allowed for an application's full test suit can run before determining it is a failure
 #' @param retries number of attempts to retry before declaring the test a failure
 #' @param update_pkgs Logical value which will try to install all required shiny packages used for testing
 #' @param update_app_pkgs Logical value which will try to install all required app packages used for testing
@@ -23,7 +23,7 @@ test_runtests <- function(
   apps = apps_runtests(dir, filter = filter),
   filter = NULL,
   assert = TRUE,
-  timeout = as.difftime(6, units = "mins"),
+  timeout = as.difftime(10, units = "mins"),
   retries = 2,
   update_pkgs = TRUE,
   update_app_pkgs = TRUE
@@ -57,8 +57,7 @@ test_runtests <- function(
     # test_file = basename(test_files),
     # app_name = basename(dirname(dirname(test_files))),
     status = test_runtests_status$default,
-    result = replicate(length(test_files), list()),
-    log = ""
+    result = replicate(length(test_files), list())
   )
 
   run_test <- function(test_path) {
@@ -80,7 +79,7 @@ test_runtests <- function(
 
     tryCatch(
       {
-        pr <- callr::r_bg(
+        test_result <- callr::r(
           function(app_path_, filter_val_) {
             shiny::runTests(
               appDir = app_path_,
@@ -94,41 +93,9 @@ test_runtests <- function(
             # only test the particular test file
             filter_val_ = basename(test_path)
           ),
-          stdout = "|",
-          stderr = "2>&1"
+          show = TRUE,
+          timeout = timeout
         )
-
-        # Segfault error shown here: https://github.com/rstudio/shinycoreci-apps/runs/714291364#step:26:507
-        # Belief is that the background session has not started and can not be read from
-        Sys.sleep(2) # wait long enough for R to start
-
-        log <- ""
-        print_output <- function() {
-          output <- pr$read_output_lines()
-          if (length(output) > 0) {
-            out <- paste0(output, "\n", collapse = "")
-            log <<- paste0(log, out)
-            cat(out)
-          }
-        }
-
-        while (pr$is_alive()) {
-          pr$wait(0.5 * 1000)
-          print_output()
-
-          if ((pr$get_start_time() + timeout) < Sys.time()) {
-            return(
-              list(
-                status = test_runtests_status$fail,
-                result = "timeout reached",
-                log = log
-              )
-            )
-          }
-        }
-        print_output()
-
-        test_result <- pr$get_result()
         result <- test_result$result[[1]]
         status <-
           if (is.null(result)) {
@@ -142,17 +109,14 @@ test_runtests <- function(
           }
         list(
           status = status,
-          result = result,
-          log = log
+          result = result
         )
       },
       error = function(e) {
-        message("", e)
         # return a failed test
         list(
           status = test_runtests_status$fail,
-          result = e,
-          log = ""
+          result = e
         )
       }
     )
@@ -190,15 +154,13 @@ test_runtests <- function(
       # test that single file
       ## list(
       ##   status = VAL,
-      ##   result = VAL,
-      ##   log    = TXT
+      ##   result = VAL
       ## )
       ans <- run_test(to_test_path)
 
       # store result
       test_dt$status[to_test_position] <- ans$status
       test_dt$result[to_test_position] <- list(ans$result)
-      test_dt$log[to_test_position] <- ans$log
       # ans$status should _always_ be of length 1 (otherwise assignment above would fail)
       if (ans$status == test_runtests_status$default) {
         utils::str(to_test_path)
