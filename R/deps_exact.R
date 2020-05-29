@@ -258,32 +258,125 @@ install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes:
 
 
 
-validate_remotes_order <- function(update_pkgs = TRUE) {
-  validate_exact_deps(dir = ".", apps = c(), update_pkgs = update_pkgs, assert = TRUE)
+# Used in CI testing
+validate_remotes_order <- function() {
 
-  info <- cached_shinycoreci_remote_deps()
+  remotes__github_remote <- triple_colon("remotes", "github_remote")
+  remotes__github_DESCRIPTION <- triple_colon("remotes", "github_DESCRIPTION")
+  remotes__github_pat <- triple_colon("remotes", "github_pat")
 
-  remotes_pkgs <- split_remotes(
+  ## Map from github ref to package name
+  # USER/REPO@REF: PKG
+  remote_to_pkg <- list()
+
+  # USER/REPO@REF: [USER/REPO@REF]
+  remote_needs_remotes <- list()
+
+  base_remotes <- split_remotes(
     remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotes
   )
 
-  seen <- list()
+  i <- 1
+  # init with 'rstudio/shinycoreci'
+  remotes_to_inspect <- base_remotes
+  while (i <= length(remotes_to_inspect)) {
+    remotes_pkg <- remotes_to_inspect[i]
+    i <- i + 1 # increment early; do not use value in loop
 
-  for (remotes_pkg in remotes_pkgs) {
-    github_remote <- remotes:::github_remote(repo = remotes_pkg)
-    pkg_name <- remotes:::remote_package_name(github_remote)
-
-    pkg_remotes_needed <- info[[pkg_name]]
-    for (pkg_needed in pkg_remotes_needed) {
-      if (isTRUE(seen[[pkg_needed]])) {
-        info$shinycoreci <- NULL
-        utils::str(Filter(function(x) length(x) > 0, info))
-        stop("`", pkg_name, "` needs `", pkg_needed, "`. Move `", pkg_needed, "` lower than `", pkg_name,"` in the `Remotes: ` order in the `shincoreci` `./DESCRIPTION` file")
-      }
+    # don't recurse forever
+    if (!is.null(remote_needs_remotes[[remotes_pkg]])) {
+      next
     }
+    cat("inspecting: ", remotes_pkg, "\n", sep = "")
 
-    seen[[pkg_name]] <- TRUE
+    # get remote info
+    github_remote <- remotes__github_remote(repo = remotes_pkg)
+
+    # get DESCRIPTION file from github
+    desc_content <- remotes__github_DESCRIPTION(username = github_remote$username, repo = github_remote$repo,
+        subdir = github_remote$subdir, host = github_remote$host, ref = github_remote$ref,
+        pat = remotes__github_pat(), use_curl = FALSE)
+
+    # get desc contents
+    desc <- local({
+      tmp <- tempfile()
+      writeChar(desc_content, tmp)
+      on.exit(unlink(tmp))
+      as.list(read.dcf(tmp)[1,])
+    })
+
+    # get package name
+    pkg_name <- desc$Package
+    # save ref to pkg name
+    remote_to_pkg[[remotes_pkg]] <- pkg_name
+
+    # get current pkg's remotes
+    desc_remotes <- if (is.null(desc$Remotes)) character(0) else split_remotes(desc$Remotes)
+
+    # append to end to keep looking at remotes
+    remotes_to_inspect <- c(remotes_to_inspect, desc_remotes)
+    remote_needs_remotes[[remotes_pkg]] <- desc_remotes
   }
 
-  invisible(TRUE)
+  # all remote information has been gathered by this point
+
+  ## map to track what packages have been seen
+  # PKG: TRUE
+  pkgs_seen <- list()
+  remote_needs_all_remotes <- list()
+  remote_needs_all_pkgs <- list()
+
+  # See if `base_remotes` are in a valid order
+  # for each base remote value...
+  for (remote_val in base_remotes) {
+
+    # gather all remotes needed recursively while trying to avoid infinite recursion
+    remotes_needed <- list()
+    remotes_to_look_at <- remote_val
+    jj <- 1
+    while (jj <= length(remotes_to_look_at)) {
+      remote_to_look_at <- remotes_to_look_at[jj]
+      jj <- jj + 1
+      if (!is.null(remotes_needed[[remote_to_look_at]])) {
+        next
+      }
+      needed <- remote_needs_remotes[[remote_to_look_at]]
+      # store needed remotes
+      remotes_needed[[remote_to_look_at]] <- needed
+      # look at more remotes
+      remotes_to_look_at <- c(remotes_to_look_at, needed)
+    }
+    # get vector of all remotes needed for `remote_val`
+    remotes_needed_set <- unname(unlist(remotes_needed))
+    # store all remotes needed for `remote_val`
+    remote_needs_all_remotes[[remote_val]] <- remotes_needed_set
+
+    # get the needed remotes package name
+    pkgs_needed <- vapply(remotes_needed_set, function(rn) remote_to_pkg[[rn]], character(1), USE.NAMES = FALSE)
+    remote_needs_all_pkgs[[remote_val]] <- pkgs_needed
+
+    # if the `base_pkg` has already seen one of these remotes, then report the bad package name
+    if (any(pkgs_needed %in% names(pkgs_seen))) {
+      bad_remotes <- remotes_needed_set[pkgs_needed %in% names(pkgs_seen)]
+      bad_pkgs <- vapply(bad_remotes, function(rn) remote_to_pkg[[rn]], character(1), USE.NAMES = FALSE)
+
+      utils::str(remote_needs_remotes)
+      stop(
+        "`", remote_val, "` needs `", dput_arg(bad_remotes), "`.\n",
+        "Move `", dput_arg(bad_pkgs), "` lower than `", remote_val, "` in the `Remotes: ` order in the `shincoreci` `./DESCRIPTION` file.\n",
+        "This will insure the proper package version installed using `remotes::install_github()`"
+      )
+    }
+
+    # mark pkg as seen
+    pkg_val <- remote_to_pkg[[remote_val]]
+    pkgs_seen[[pkg_val]] <- TRUE
+  }
+
+  list(
+    remote_to_pkg = remote_to_pkg,
+    remote_needs_remotes = remote_needs_remotes,
+    remote_needs_all_remotes = remote_needs_all_remotes,
+    remote_needs_all_pkgs = remote_needs_all_pkgs
+  )
 }
