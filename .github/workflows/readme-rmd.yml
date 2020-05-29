@@ -3,6 +3,7 @@ on:
     paths:
       - README.Rmd
       - DESCRIPTION
+      - .github/workflows/readme-rmd.yml
 
 name: Render README
 
