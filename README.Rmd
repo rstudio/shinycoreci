@@ -37,9 +37,6 @@ Install the development version from [GitHub](https://github.com/) with:
 remotes::install_github("rstudio/shinycoreci")
 ```
 
-TODO-barret document about the order
-TODO-barret make a testthat test to make sure the remotes are installed in the correct order. Use `shinycoreci:::cached_shinycoreci_remote_deps()` for help
-
 These `Remotes` will be installed to make sure the latest package development is working as expected:
 
 ```{r, echo = FALSE, results = "asis"}

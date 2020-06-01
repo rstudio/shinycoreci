@@ -20,9 +20,6 @@ Install the development version from [GitHub](https://github.com/) with:
 remotes::install_github("rstudio/shinycoreci")
 ```
 
-TODO-barret document about the order
-TODO-barret make a testthat test to make sure the remotes are installed in the correct order. Use `shinycoreci:::cached_shinycoreci_remote_deps()` for help
-
 These `Remotes` will be installed to make sure the latest package development is working as expected:
 
   - [r-lib/fastmap](http://github.com/r-lib/fastmap)
@@ -32,7 +29,7 @@ These `Remotes` will be installed to make sure the latest package development is
   - [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
   - [rstudio/flexdashboard](http://github.com/rstudio/flexdashboard)
   - [rstudio/htmltools@rc-v0.5.0](http://github.com/rstudio/htmltools)
-  - [rstudio/httpuv@rc-v1.5.3](http://github.com/rstudio/httpuv)
+  - [rstudio/httpuv](http://github.com/rstudio/httpuv)
   - [rstudio/leaflet](http://github.com/rstudio/leaflet)
   - [rstudio/leaflet.providers](http://github.com/rstudio/leaflet.providers)
   - [rstudio/pool](http://github.com/rstudio/pool)
