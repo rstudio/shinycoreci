@@ -145,10 +145,8 @@ view_test_results <- function(dir = "apps", update = TRUE) {
     failures <- dplyr::filter(results, status %in% "fail")
     if (!nrow(failures)) return("")
     msgs <- paste0("<b>", failures$app_name, " ~ ", basename(failures$test_path), ":</b>\n", paste(rep("", 20), collapse = "-"), "\n\n", htmltools::htmlEscape(failures$result))
-    summary_html(
-      "Test failures:",
-      paste(msgs, collapse = "\n\n")
-    )
+    title <- sprintf("Test failures: (<code>git checkout %s</code>)", unique(failures$gha_branch))
+    summary_html(title, paste(msgs, collapse = "\n\n"))
   }
 
   cant_install_summary <- function(results) {
@@ -204,10 +202,6 @@ view_test_results <- function(dir = "apps", update = TRUE) {
               paste(sub(":00$", "", unique(.$time), "UTC"))
             ),
             gt_table_html(.),
-            sprintf(
-              "<code>git checkout %s</code>",
-              unique(.$gha_branch)
-            ),
             failure_summary(.),
             cant_install_summary(.),
             no_results_summary(.)
