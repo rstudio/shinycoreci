@@ -34,7 +34,7 @@ Suggests:
     shinymeta,
     httpuv,
     promises,
-    later,
+    later (>= 1.1.0.1),
     htmlwidgets,
     reactlog,
     fastmap,
@@ -69,5 +69,5 @@ Remotes:
   rstudio/httpuv,
   rstudio/promises@rc-v1.1.1,
   r-lib/fastmap,
-  r-lib/later@rc-v1.1.0
+  r-lib/later
 RoxygenNote: 7.1.0
