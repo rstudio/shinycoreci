@@ -23,7 +23,7 @@ remotes::install_github("rstudio/shinycoreci")
 These `Remotes` will be installed to make sure the latest package development is working as expected:
 
   - [r-lib/fastmap](http://github.com/r-lib/fastmap)
-  - [r-lib/later@rc-v1.1.0](http://github.com/r-lib/later)
+  - [r-lib/later](http://github.com/r-lib/later)
   - [ramnathv/htmlwidgets](http://github.com/ramnathv/htmlwidgets)
   - [ropensci/plotly](http://github.com/ropensci/plotly)
   - [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
