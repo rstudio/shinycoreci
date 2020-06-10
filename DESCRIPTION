@@ -67,7 +67,7 @@ Remotes:
   rstudio/htmltools@rc-v0.5.0,
   rstudio/websocket@rc-v1.2.0,
   rstudio/httpuv,
-  rstudio/promises@rc-v1.1.1,
+  rstudio/promises,
   r-lib/fastmap,
   r-lib/later
 RoxygenNote: 7.1.0
