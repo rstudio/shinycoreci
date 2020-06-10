@@ -39,5 +39,5 @@ These `Remotes` will be installed to make sure the latest package development is
   - [rstudio/shiny@rc-v1.5.0](http://github.com/rstudio/shiny)
   - [rstudio/shinymeta](http://github.com/rstudio/shinymeta)
   - [rstudio/shinytest@rc-v1.4.0](http://github.com/rstudio/shinytest)
-  - [rstudio/websocket@rc-v1.2.0](http://github.com/rstudio/websocket)
+  - [rstudio/websocket](http://github.com/rstudio/websocket)
   - [schloerke/shinyjster](http://github.com/schloerke/shinyjster)
