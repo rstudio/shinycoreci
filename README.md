@@ -33,7 +33,7 @@ These `Remotes` will be installed to make sure the latest package development is
   - [rstudio/leaflet](http://github.com/rstudio/leaflet)
   - [rstudio/leaflet.providers](http://github.com/rstudio/leaflet.providers)
   - [rstudio/pool](http://github.com/rstudio/pool)
-  - [rstudio/promises@rc-v1.1.1](http://github.com/rstudio/promises)
+  - [rstudio/promises](http://github.com/rstudio/promises)
   - [rstudio/reactlog](http://github.com/rstudio/reactlog)
   - [rstudio/rsconnect](http://github.com/rstudio/rsconnect)
   - [rstudio/shiny@rc-v1.5.0](http://github.com/rstudio/shiny)
