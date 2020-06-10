@@ -65,7 +65,7 @@ Remotes:
   rstudio/shiny@rc-v1.5.0,
   rstudio/shinytest@rc-v1.4.0,
   rstudio/htmltools@rc-v0.5.0,
-  rstudio/websocket@rc-v1.2.0,
+  rstudio/websocket,
   rstudio/httpuv,
   rstudio/promises,
   r-lib/fastmap,
