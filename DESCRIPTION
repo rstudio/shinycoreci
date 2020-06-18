@@ -64,7 +64,7 @@ Remotes:
   ramnathv/htmlwidgets,
   rstudio/shiny@rc-v1.5.0,
   rstudio/shinytest@rc-v1.4.0,
-  rstudio/htmltools@rc-v0.5.0,
+  rstudio/htmltools,
   rstudio/websocket,
   rstudio/httpuv,
   rstudio/promises,
