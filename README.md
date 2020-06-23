@@ -36,7 +36,7 @@ These `Remotes` will be installed to make sure the latest package development is
   - [rstudio/promises](http://github.com/rstudio/promises)
   - [rstudio/reactlog](http://github.com/rstudio/reactlog)
   - [rstudio/rsconnect](http://github.com/rstudio/rsconnect)
-  - [rstudio/shiny@rc-v1.5.0](http://github.com/rstudio/shiny)
+  - [rstudio/shiny](http://github.com/rstudio/shiny)
   - [rstudio/shinymeta](http://github.com/rstudio/shinymeta)
   - [rstudio/shinytest](http://github.com/rstudio/shinytest)
   - [rstudio/websocket](http://github.com/rstudio/websocket)
