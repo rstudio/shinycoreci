@@ -200,7 +200,7 @@ cached_shinycoreci_remote_deps <- local({
         remote_deps_recursive("shinycoreci")
       }, error = function(e) {
         # a shinycoreci dependency could not be found. Reinstall shinycoreci
-        message("Reinstalling shinycoreci. Not all dependencies found")
+        message("Reinstalling shinycoreci. Not all dependencies found. Error: ", e)
         shinycoreci_info <- remotes::package_deps("shinycoreci")
         remotes::install_github(repo_from_remote(shinycoreci_info$remote[[1]]), upgrade = TRUE, force = TRUE, dependencies = TRUE)
         remote_deps_recursive("shinycoreci")
