@@ -149,6 +149,7 @@ remote_deps_recursive <- function(package_name) {
     if (!is.null(ret[[pkg_name]])) {
       return(ret[[pkg_name]])
     }
+    cat("Inspecting remotes for package: ", pkg_name, "\n")
     rem_deps <- remotes__remote_deps(
       remotes__load_pkg_description(system.file(package = pkg_name))
     )
