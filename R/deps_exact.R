@@ -187,7 +187,7 @@ repo_from_remote <- function(remote_obj) {
 
 
 
-
+# get all package names of remotes being installed
 cached_shinycoreci_remote_deps <- local({
   cache_val <- NULL
 
@@ -196,17 +196,7 @@ cached_shinycoreci_remote_deps <- local({
       return(cache_val)
     }
 
-    cache_val <<-
-      tryCatch({
-        remote_deps_recursive("shinycoreci")
-      }, error = function(e) {
-        # a shinycoreci dependency could not be found. Reinstall shinycoreci
-        message("Reinstalling shinycoreci. Not all dependencies found. Error: ", e)
-        shinycoreci_info <- remotes::package_deps("shinycoreci")
-        remotes::install_github(repo_from_remote(shinycoreci_info$remote[[1]]), upgrade = TRUE, force = TRUE, dependencies = TRUE)
-        remote_deps_recursive("shinycoreci")
-      })
-
+    cache_val <<- validate_remotes_order()$remotes_to_install
     cache_val
   }
 })
@@ -378,6 +368,7 @@ validate_remotes_order <- function() {
     remote_to_pkg = remote_to_pkg,
     remote_needs_remotes = remote_needs_remotes,
     remote_needs_all_remotes = remote_needs_all_remotes,
-    remote_needs_all_pkgs = remote_needs_all_pkgs
+    remote_needs_all_pkgs = remote_needs_all_pkgs,
+    remotes_to_install = sort(unique(unname(unlist(remote_to_pkg))))
   )
 }
