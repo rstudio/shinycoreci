@@ -111,7 +111,7 @@ rspm_pkg_reqs <- function(pkg_name, distro_val, release_val) {
 
 rspm_release <- function(distro) {
   switch(distro,
-    "xenial" = "14.04",
+    "xenial" = "16.04",
     "bionic" = "18.04",
     "centos6" = "6",
     "centos7" = "7",
