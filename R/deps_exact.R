@@ -31,7 +31,7 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
 
   # all remotes based from shinycoreci
   message("Gathering recursive remotes...", appendLF = FALSE)
-  scci_remotes_all <- cached_shinycoreci_remote_deps()
+  scci_remotes_all <- cached_shinycoreci_remote_pkgs()
   message(" OK")
   scci_remotes <- unique(unname(unlist(scci_remotes_all)))
 
@@ -137,40 +137,6 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
 }
 
 
-## Gather all names of packages that should be installed by github
-## , given the information already installed
-## If a dependency package remote is not found because a parent is not correct
-## , then the parent will be installed due to a bad remote value (which also installs the dep package)
-remote_deps_recursive <- function(package_name) {
-
-  ret <- list()
-
-  remote_deps_recursive_ <- function(pkg_name) {
-    if (!is.null(ret[[pkg_name]])) {
-      return(ret[[pkg_name]])
-    }
-    cat("Inspecting remotes for package: ", pkg_name, "\n")
-    rem_deps <- remotes__remote_deps(
-      remotes__load_pkg_description(system.file(package = pkg_name))
-    )
-
-    # store
-    ret[[pkg_name]] <<- rem_deps$package
-
-    # call on those remotes
-    unlist(lapply(rem_deps$package, remote_deps_recursive_))
-
-    # return
-    ret[[pkg_name]]
-  }
-
-
-  remote_deps_recursive_(package_name)
-
-  ret
-}
-
-
 repo_from_remote <- function(remote_obj) {
   if (!inherits(remote_obj, "github_remote")) {
     utils::str(remote_obj)
@@ -187,8 +153,8 @@ repo_from_remote <- function(remote_obj) {
 
 
 
-# get all package names of remotes being installed
-cached_shinycoreci_remote_deps <- local({
+# Gather all names of packages that should be installed by github
+cached_shinycoreci_remote_pkgs <- local({
   cache_val <- NULL
 
   function() {
@@ -253,8 +219,6 @@ install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes:
 validate_remotes_order <- function() {
 
   remotes__github_remote <- triple_colon("remotes", "github_remote")
-  remotes__github_DESCRIPTION <- triple_colon("remotes", "github_DESCRIPTION")
-  remotes__github_pat <- triple_colon("remotes", "github_pat")
 
   ## Map from github ref to package name
   # USER/REPO@REF: PKG
@@ -283,11 +247,21 @@ validate_remotes_order <- function() {
     # get remote info
     github_remote <- remotes__github_remote(repo = remotes_pkg)
 
+    # use raw file url to avoid using GitHub API
     # get DESCRIPTION file from github
-    desc_content <- remotes__github_DESCRIPTION(username = github_remote$username, repo = github_remote$repo,
-        subdir = github_remote$subdir, host = github_remote$host, ref = github_remote$ref,
-        pat = remotes__github_pat(), use_curl = FALSE)
-
+    # https://raw.githubusercontent.com/rstudio/shiny/master/DESCRIPTION
+    desc_url <- paste0(
+      "https://raw.githubusercontent.com",
+      "/", github_remote$username,
+      "/", github_remote$repo,
+      "/", github_remote$ref,
+      if (!is.null(github_remote$subdir)) paste0("/", github_remote$subdir),
+      "/DESCRIPTION"
+    )
+    desc_content <- readLines(desc_url)
+    if (length(desc_content) < 10) {
+      stop("DESCRIPTION file not found for ", remotes_pkg)
+    }
     # get desc contents
     desc <- local({
       tmp <- tempfile()
