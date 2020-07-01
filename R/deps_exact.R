@@ -81,6 +81,8 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
         remote <- scci_app_deps$remote[scci_app_deps$package == pkg][[1]]
         # reinstall it to bring in all missing dependencies
         remotes::install_github(repo_from_remote(remote), force = TRUE, upgrade = TRUE)
+
+        NULL # return nothing
       }
     )
   } else {
