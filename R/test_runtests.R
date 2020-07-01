@@ -370,7 +370,7 @@ install_app_cran_deps <- function(app_path, update_app_pkgs = TRUE) {
   packages_to_not_install_from_cran <-
     unique(c(
       "shinycoreci",
-      unlist(cached_shinycoreci_remote_deps()),
+      unlist(cached_shinycoreci_remote_pkgs()),
       as.data.frame(utils::installed.packages(priority = "base"))$Package,
       "datasets"
     ))
