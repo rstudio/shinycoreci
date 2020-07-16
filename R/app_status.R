@@ -294,7 +294,7 @@ app_status_save <- function(
     app = basename(app_dir),
     pass = isTRUE(pass),
     time = Sys.time(),
-    apps_sha = app_status_app_sha(dirname(app_dir)),
+    apps_sha = git_sha(dirname(app_dir)),
     shinycoreci_sha = app_status_shinycoreci_sha(),
     log = log # should go last
   )
@@ -305,17 +305,6 @@ app_status_save <- function(
   invisible(status_folder)
 }
 
-# get the apps short sha
-app_status_app_sha <- function(
-  dir
-) {
-  dir <- normalizePath(dir)
-  owd <- setwd(dir)
-  on.exit(setwd(owd), add = TRUE)
-  run_system_cmd(
-    "git rev-parse --short HEAD"
-  )
-}
 # get the shinycoreci short sha
 app_status_shinycoreci_sha <- function() {
   if (shinycoreci_is_loaded_with_devtools()) {
@@ -329,10 +318,7 @@ app_status_shinycoreci_sha <- function() {
 }
 
 app_status_validate_app_branch <- function(dir) {
-  dir <- normalizePath(dir)
-  owd <- setwd(dir)
-  on.exit(setwd(owd), add = TRUE)
-  apps_branch <- app_status_app_branch(dir)
+  apps_branch <- git_branch(dir)
 
   if (!identical(apps_branch, "master")) {
     if (
@@ -342,9 +328,9 @@ app_status_validate_app_branch <- function(dir) {
     }
   }
 
-  run_system_cmd("git pull")
+  git_cmd(dir, "git pull")
   # make sure there is some character value to test
-  is_up_to_date <- paste0(run_system_cmd("git status -s -u no"), "")
+  is_up_to_date <- paste0(git_cmd(dir, "git status -s -u no"), "")
   if (nchar(is_up_to_date) > 0) {
     if (
       !ask_yes_no("'apps' branch is not in sync with GitHub: '", apps_branch, "'. Is this ok?")
@@ -355,12 +341,6 @@ app_status_validate_app_branch <- function(dir) {
   invisible(TRUE)
 }
 
-app_status_app_branch <- function(dir) {
-  dir <- normalizePath(dir)
-  owd <- setwd(dir)
-  on.exit(setwd(owd), add = TRUE)
-  run_system_cmd("git rev-parse --abbrev-ref HEAD")
-}
 
 app_status_validate_shinycoreci_branch <- function() {
   if (shinycoreci_is_loaded_with_devtools()) {
