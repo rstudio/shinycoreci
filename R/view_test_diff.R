@@ -1,3 +1,11 @@
+
+shinytest_current_folder <- function(app_dir, pattern = "-current$") {
+  dir(app_dir, , pattern = pattern, recursive = TRUE, include.dirs = TRUE)
+}
+shinytest_expected_no_suffix_folder <- function(app_dir) {
+  shinytest_current_folder(app_dir, pattern = "-expected$")
+}
+
 find_bad_shinytest_files <- function(dir = ".") {
 
   folders <- strsplit(
