@@ -100,6 +100,9 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
         git_cmd_("git commit -m 'gha - Accept test changes: ", commit_app_value, "'")
       }
     })
+
+    # make a noise because it helps me know it's a new app
+    utils::alarm()
   })
 
   # at this point, all branches should be updated and ready to be merged
