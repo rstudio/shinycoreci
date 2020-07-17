@@ -168,7 +168,8 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
   git_checkout(original_git_branch)
   lapply(branches, function(branch) {
     branch_message(original_git_branch, "Deleting local ", branch)
-    git_cmd_("git branch -d", branch)
+    git_cmd_("git push origin ", branch)
+    git_cmd_("git branch -d ", branch)
   })
 
 
