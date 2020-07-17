@@ -1,9 +1,11 @@
 
 #' View Shinytest Diff
 #'
-#' @param suffix Test output suffix to compare against
-#' @param dir Root folder path
+#' @param dir Root app folder path
+#' @param sha git sha of base branch to look for
+#' @param ask Logical which allows for particular branches to be inspected
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
+#' @param repo_dir Root repo folder path
 #' @export
 view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interactive(), ..., repo_dir = file.path(dir, "..")) {
   original_sys_call <- sys.call()
