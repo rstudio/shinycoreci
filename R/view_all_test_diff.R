@@ -122,7 +122,7 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
     validate_no_unexpected_shinytest_folders(dir)
   })
 
-  message("\nMerge (and locally delete) all branches into ", original_git_branch)
+  message("\nAttempting to automatically merge (and locally delete) all branches into ", original_git_branch)
   # go to base branch
   git_checkout(original_git_branch)
 
