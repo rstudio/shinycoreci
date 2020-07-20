@@ -71,7 +71,7 @@ view_test_results <- function(dir = "apps", update = TRUE) {
     git_cmd(repo_dir, "git reset _test_results/")
   })
 
-  owd <- setwd(file.path(dir, ".."))
+  owd <- setwd(repo_dir)
   on.exit(setwd(owd), add = TRUE)
 
   results_files <- Sys.glob("_test_results/*.json")
