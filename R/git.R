@@ -25,6 +25,10 @@ git_sha <- function(
   git_cmd(dir, "git rev-parse --short HEAD")
 }
 
+git_fetch <- function(dir) {
+  git_cmd(dir, "git fetch")
+}
+
 
 git_remotes <- function(dir, remote = "origin") {
   sub(
@@ -38,6 +42,10 @@ git_remotes <- function(dir, remote = "origin") {
 
 
 gha_remotes <- function(dir, sha = git_sha(dir)) {
+  # get the latest remotes locally available
+  git_fetch(dir)
+
+  # retrieve remotes names
   remotes <- git_remotes(dir)
   remotes[grepl(paste0("^gha-", sha), remotes)]
 }
