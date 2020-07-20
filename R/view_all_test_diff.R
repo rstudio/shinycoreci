@@ -32,9 +32,8 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
     }
   }
 
-  app_dir <- dir # must rename to avoid param error
-  git_cmd_ <- function(..., dir = app_dir) {
-    git_cmd(dir, paste0(...))
+  git_cmd_ <- function(..., git_dir = dir) {
+    git_cmd(git_dir, paste0(...))
   }
   git_checkout <- function(git_branch_val) {
     message("git checkout: ", git_branch_val)
@@ -141,12 +140,12 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
       if (ans <= 1) {
         # auto delete
         lapply(unmerged_files, function(unmerged_file) {
-          git_cmd_(dir = repo_dir, "git add ", unmerged_file)
+          git_cmd_(git_dir = repo_dir, "git add ", unmerged_file)
         })
       } else if (ans == 2) {
         # auto delete
         lapply(unmerged_files, function(unmerged_file) {
-          git_cmd_(dir = repo_dir, "git rm ", unmerged_file)
+          git_cmd_(git_dir = repo_dir, "git rm ", unmerged_file)
         })
       } else if (ans == 3) {
         # manual
