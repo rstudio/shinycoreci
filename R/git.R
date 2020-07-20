@@ -25,6 +25,10 @@ git_sha <- function(
   git_cmd(dir, "git rev-parse --short HEAD")
 }
 
+git_diff <- function(dir) {
+  git_cmd(dir, "git diff")
+}
+
 git_fetch <- function(dir) {
   git_cmd(dir, "git fetch")
 }

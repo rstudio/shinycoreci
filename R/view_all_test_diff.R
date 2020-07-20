@@ -11,6 +11,12 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
   original_sys_call <- sys.call()
   validate_core_pkgs()
 
+  if (length(git_diff(dir)) > 0) {
+    message("Current git diff: ")
+    message(paste0(git_diff(dir)), collapse = "\n"))
+    stop("Make sure there are no uncommited changes. Please call `git stash` or commit the changes.")
+  }
+
   validate_no_unexpected_shinytest_folders(dir)
 
   branches <- gha_remotes_latest(dir = dir, sha = sha)
