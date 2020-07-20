@@ -116,13 +116,13 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
   # at this point, all branches should be updated and ready to be merged
 
   # verify all outstanding branches have no *-current folders
-  message("\nValidate all branches contain no *-current shinytest folders")
+  message("\nChecking to make sure all git branches contain no *-current shinytest folders")
   lapply(branches, function(branch) {
     git_checkout(branch)
     validate_no_unexpected_shinytest_folders(dir)
   })
 
-  message("\nMerge (and locally delete) all branches into ", original_git_branch)
+  message("\nAttempting to automatically merge (and locally delete) all branches into ", original_git_branch)
   # go to base branch
   git_checkout(original_git_branch)
 
