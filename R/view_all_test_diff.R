@@ -132,40 +132,10 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
     git_cmd_("git merge ", branch)
     had_merge_conflict <- FALSE
 
-    while ({
-      unmerged_files <- git_cmd_("git diff --name-only --diff-filter=U")
-      length(unmerged_files) > 0
-    }) {
-      had_merge_conflict <- TRUE
-      message("\n\n")
-      message(paste0(git_cmd_("git status"), collapse = "\n"))
-      message("\nUnmerged files detected!")
-      message(paste0("* ", unmerged_files, collapse = "\n"))
-
-      ans <- utils::menu(c("Add all files", "Delete all files", "Manually fix the merge conflict", "Abort merge (and quit)"), graphics = FALSE, title = "Would you like to")
-      if (ans <= 1) {
-        # auto delete
-        lapply(unmerged_files, function(unmerged_file) {
-          git_cmd_(git_dir = repo_dir, "git add ", unmerged_file)
-        })
-      } else if (ans == 2) {
-        # auto delete
-        lapply(unmerged_files, function(unmerged_file) {
-          git_cmd_(git_dir = repo_dir, "git rm ", unmerged_file)
-        })
-      } else if (ans == 3) {
-        # manual
-        utils::menu(c("yes"), graphics = FALSE, title = "Merge conflict fixed?")
-      } else if (ans == 3) {
-        message("Aborting the merge")
-        git_cmd_("git merge --abort")
-        stop("Stopping ", original_sys_call)
-      }
+    unmerged_files <- git_cmd_("git diff --name-only --diff-filter=U")
+    if (length(unmerged_files) > 0) {
+      stop("Merge conflict found when merging '", branch, "' into '", original_git_branch, "'.\nPlease fix the merge conflict and call ", original_sys_call)
     }
-    if (had_merge_conflict) {
-      git_cmd_("git commit -m \"gha - Merging ", branch, " into ", original_git_branch, "\"")
-    }
-
   })
 
   git_checkout(original_git_branch)
