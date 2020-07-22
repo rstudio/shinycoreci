@@ -119,7 +119,7 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
         current_folder <- shinytest_current_folder(file.path(dir, app_folder))
         folder_to_rm <- file.path(app_folder, current_folder)
         branch_message(branch, "Committing the deletion of unmerged `*-current` folder: ", folder_to_rm)
-        git_cmd_("git rm ", folder_to_rm)
+        git_cmd_("git rm -r ", folder_to_rm)
         git_cmd_("git commit -m 'gha - Reject test changes: ", commit_app_value, "'")
       } else {
         # accept
