@@ -1,5 +1,20 @@
 
-#' View Shinytest Diff
+#' Fix All Failing Shinytest Diffs and Merge All `gha-` Branches
+#'
+#' Function to walk the user through merging all `gha-` branches.  This function will NOT push to the repository. Users must `git push` themselves.
+#'
+#' This function will NOT fix `shinyjster` failures.
+#'
+#' Outline of steps performed:
+#' 1. Validate there are no git changes or untracked files in the current base branch
+#' 2. Validate there are no unexpected shinytest folders
+#' 3. If `isTRUE(ask)`, ask for which branches to work with
+#' 4. Find all apps to update
+#' 5. For each failing shinytest app, accept / reject shinytest changes in each `gha-` branch. Add an individualized commit message including the app and environment flavor information
+#' 6. For each `gha-` branch, validate there are no unexpected shinytest folders. (Should be no unexpected folders after accepting / rejecting apps.)
+#' 7. For each `gha-` branch, merge into the base branch.
+#' 8. For each `gha-` branch, delete the locally checked out `gha-` branch. (Cleans up the local repo.)
+#' 9. Tell the user to call `git push`.
 #'
 #' @param dir Root app folder path
 #' @param sha git sha of base branch to look for
@@ -7,7 +22,7 @@
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
 #' @param repo_dir Root repo folder path
 #' @export
-view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interactive(), ..., repo_dir = file.path(dir, "..")) {
+fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interactive(), ..., repo_dir = file.path(dir, "..")) {
   original_sys_call <- sys.call()
   validate_core_pkgs()
 
@@ -15,6 +30,11 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
     message("Current git diff: ")
     message(paste0(git_diff(dir), collapse = "\n"))
     stop("Make sure there are no uncommited changes. Please call `git stash` or commit the changes.")
+  }
+  if (length(git_untracked_files(dir)) > 0) {
+    message("Current untracked files and folders: ")
+    message(paste0(git_untracked_files(dir), collapse = "\n"))
+    stop("Make sure there are no untracked files. Please remove the files or commit the changes.")
   }
 
   validate_no_unexpected_shinytest_folders(dir)
@@ -42,7 +62,7 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
     git_cmd(git_dir, paste0(...))
   }
   git_checkout <- function(git_branch_val) {
-    message("git checkout: ", git_branch_val)
+    message("git checkout ", git_branch_val)
     git_cmd_("git checkout ", git_branch_val)
   }
 
@@ -152,6 +172,7 @@ view_all_test_diff <- function(dir = "apps", sha = git_sha(dir), ask = interacti
 
 
   branch_message(original_git_branch, "Ready to push to origin/", original_git_branch)
+
   message("git push")
   invisible(all_apps_to_fix)
 }

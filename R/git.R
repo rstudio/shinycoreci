@@ -22,11 +22,19 @@ git_branch <- function(dir) {
 git_sha <- function(
   dir
 ) {
-  git_cmd(dir, "git rev-parse --short HEAD")
+  # this logic should match `short_sha` in `ci-runtests.yml` workflow
+  substr(
+    git_cmd(dir, "git rev-parse HEAD"),
+    1, 7
+  )
 }
 
 git_diff <- function(dir) {
   git_cmd(dir, "git diff")
+}
+
+git_untracked_files <- function(dir) {
+  git_cmd(dir, "git clean -d --dry-run")
 }
 
 git_fetch <- function(dir) {
