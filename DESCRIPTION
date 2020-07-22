@@ -70,4 +70,4 @@ Remotes:
   rstudio/promises,
   r-lib/fastmap,
   r-lib/later
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

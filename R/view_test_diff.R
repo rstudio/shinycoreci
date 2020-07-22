@@ -1,19 +1,34 @@
-find_bad_shinytest_files <- function(path = ".") {
+
+shinytest_current_folder <- function(app_dir, pattern = "-current$") {
+  dir(app_dir, , pattern = pattern, recursive = TRUE, include.dirs = TRUE)
+}
+shinytest_expected_no_suffix_folder <- function(app_dir) {
+  shinytest_current_folder(app_dir, pattern = "-expected$")
+}
+
+find_bad_shinytest_files <- function(dir = ".") {
 
   folders <- strsplit(
-    dir(path, , pattern = "-current", recursive = TRUE, include.dirs = TRUE),
+    shinytest_current_folder(dir),
     .Platform$file.sep
   )
   folder_names <- unique(vapply(folders, `[[`, character(1), 1))
   folder_names
 }
 
-bad_shinytest_suffix <- function() {
-  branch <- system("git rev-parse --abbrev-ref HEAD", intern = TRUE)
+bad_shinytest_suffix <- function(dir = "apps") {
+  branch <- git_cmd(dir, "git rev-parse --abbrev-ref HEAD")
   if (!grepl("^gha-", branch)) {
     message("Not in an auto-generated git branch. Using local platform")
     return(platform_rversion())
   }
+
+  shinytest_suffix(branch)
+}
+
+shinytest_suffix <- function(
+  branch = git_cmd("apps", "git rev-parse --abbrev-ref HEAD")
+) {
 
   system_val <- strsplit(branch, "-")[[1]]
   platform_val <- switch(
@@ -31,17 +46,17 @@ bad_shinytest_suffix <- function() {
 #' View Shinytest Diff
 #'
 #' @param suffix Test output suffix to compare against
-#' @param path Root folder path
+#' @param dir Root folder path
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
 #' @export
-view_test_diff <- function(suffix = platform_rversion(), path = "apps", ...) {
+view_test_diff <- function(suffix = platform_rversion(), dir = "apps", ...) {
   validate_core_pkgs()
 
   if (missing(suffix)) {
     suffix <- bad_shinytest_suffix()
   }
 
-  folders <- find_bad_shinytest_files(path)
+  folders <- find_bad_shinytest_files(dir)
 
   if (length(folders) == 0) {
     message("Didn't detect any differences in shinytest baselines")
@@ -59,14 +74,18 @@ view_test_diff <- function(suffix = platform_rversion(), path = "apps", ...) {
     }
   }
 
-  lapply(file.path(path, folders), function(folder) {
-    # pause between apps for a second and let later clear out what is executing.
-    # https://github.com/rstudio/shiny/issues/2743
-    for(i in 1:10) {
-      later::run_now()
-    }
-
-    ans <- shinytest::viewTestDiff(appDir = folder, suffix = suffix, interactive = TRUE, ...)
-    ans
+  lapply(file.path(dir, folders), function(folder) {
+    shinytest__view_test_diff(appDir = folder, suffix = suffix, interactive = TRUE, ...)
   })
+}
+
+
+shinytest__view_test_diff <- function(...) {
+  # pause between apps for a second and let later clear out what is executing.
+  # https://github.com/rstudio/shiny/issues/2743
+  for(i in 1:10) {
+    later::run_now()
+  }
+
+  shinytest::viewTestDiff(...)
 }

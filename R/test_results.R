@@ -32,8 +32,8 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
     platform = platform(),
     r_version = r_version_short(),
     session = unclass(sessioninfo::platform_info()),
-    branch_name = app_status_app_branch(app_dirs[1]),
-    branch_sha = app_status_app_sha(app_dirs[1]),
+    branch_name = git_branch(app_dirs[1]),
+    branch_sha = git_sha(app_dirs[1]),
     pr_number = pr_number,
     username = username,
     gha_branch_name = gha_branch_name,
@@ -61,16 +61,18 @@ view_test_results <- function(dir = "apps", update = TRUE) {
   validate_core_pkgs()
 
   dir <- normalizePath(dir, mustWork = TRUE)
-  owd <- setwd(file.path(dir, ".."))
-  on.exit(setwd(owd), add = TRUE)
 
+  repo_dir <- file.path(dir, "..")
   if (isTRUE(update)) {
-    run_system_cmd("git fetch origin _test_results:_test_results")
+    git_cmd(repo_dir, "git fetch origin _test_results:_test_results")
   }
   try({
-    run_system_cmd("git checkout _test_results -- _test_results/")
-    run_system_cmd("git reset _test_results/")
+    git_cmd(repo_dir, "git checkout _test_results -- _test_results/")
+    git_cmd(repo_dir, "git reset _test_results/")
   })
+
+  owd <- setwd(repo_dir)
+  on.exit(setwd(owd), add = TRUE)
 
   results_files <- Sys.glob("_test_results/*.json")
   if (!length(results_files)) stop("Couldn't find any test results", call. = FALSE)

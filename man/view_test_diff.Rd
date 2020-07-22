@@ -4,12 +4,12 @@
 \alias{view_test_diff}
 \title{View Shinytest Diff}
 \usage{
-view_test_diff(suffix = platform_rversion(), path = "apps", ...)
+view_test_diff(suffix = platform_rversion(), dir = "apps", ...)
 }
 \arguments{
 \item{suffix}{Test output suffix to compare against}
 
-\item{path}{Root folder path}
+\item{dir}{Root folder path}
 
 \item{...}{Extra arguments passed to \code{shinytest::viewTestDiff}}
 }

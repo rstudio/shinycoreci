@@ -103,12 +103,6 @@ shinycoreci_is_loaded_with_devtools <- function() {
   ".__DEVTOOLS__" %in% ls(envir = asNamespace("shinycoreci"), all.names = TRUE)
 }
 
-# run a system command and get the response
-run_system_cmd <- function(...) {
-  cmd <- paste0(...)
-  system(cmd, intern = TRUE)
-}
-
 
 dput_arg <- function(x) {
   f <- file()
