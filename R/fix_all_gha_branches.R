@@ -68,6 +68,7 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
 
   original_git_branch <- git_branch(dir)
   on.exit({
+    message("") # add a blank line
     git_checkout(original_git_branch)
   }, add = TRUE)
 
@@ -171,9 +172,12 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
   })
 
 
-  branch_message(original_git_branch, "Ready to push to origin/", original_git_branch)
-
-  message("git push")
+  on.exit({
+    message("\nDone!")
+    message("Ready to push to origin/", original_git_branch)
+    message("")
+    message("git push")
+  }, add = TRUE)
   invisible(all_apps_to_fix)
 }
 
