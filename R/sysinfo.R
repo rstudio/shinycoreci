@@ -48,7 +48,7 @@ write_sysinfo <- function(file = stdout()) {
 
   cat(
     utils::capture.output({
-      cat(osVersion, "\n", sep = "")
+      cat(utils::osVersion, "\n", sep = "")
       cat(rep("-", 80), "\n", sep = "")
       print(sessioninfo::platform_info())
       cat(rep("-", 80), "\n", sep = "")
