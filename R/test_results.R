@@ -32,6 +32,7 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
     platform = platform(),
     r_version = r_version_short(),
     session = unclass(sessioninfo::platform_info()),
+    osVersion = osVersion,
     sys_info = paste0(capture.output({write_sysinfo()}), collapse = "\n"),
     branch_name = git_branch(app_dirs[1]),
     branch_sha = git_sha(app_dirs[1]),
@@ -200,7 +201,7 @@ view_test_results <- function(dir = "apps", update = TRUE) {
             sprintf(
               "<h3><a href='%s'>%s - %s</a> (%s)</h3> ",
               paste0("https://github.com/rstudio/shinycoreci-apps/compare/", unique(.$gha_branch)),
-              unique(.$platform),
+              unique(.$osVersion) %||% unique(.$platform),
               unique(.$r_version),
               paste(sub(":00$", "", unique(.$time), "UTC"))
             ),
