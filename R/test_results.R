@@ -32,6 +32,8 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
     platform = platform(),
     r_version = r_version_short(),
     session = unclass(sessioninfo::platform_info()),
+    gha_image_version = gha_image_version(),
+    sys_info = paste0(utils::capture.output({write_sysinfo()}), collapse = "\n"),
     branch_name = git_branch(app_dirs[1]),
     branch_sha = git_sha(app_dirs[1]),
     pr_number = pr_number,
@@ -197,11 +199,12 @@ view_test_results <- function(dir = "apps", update = TRUE) {
         dplyr::do(
           html = shiny::HTML(c(
             sprintf(
-              "<h3><a href='%s'>%s - %s</a> (%s)</h3> ",
+              "<h3><a href='%s'>%s - %s</a> (%s) (%s)</h3> ",
               paste0("https://github.com/rstudio/shinycoreci-apps/compare/", unique(.$gha_branch)),
               unique(.$platform),
               unique(.$r_version),
-              paste(sub(":00$", "", unique(.$time), "UTC"))
+              paste(sub(":00$", "", unique(.$time), "UTC")),
+              unique(.$gha_image_version)
             ),
             gt_table_html(.),
             failure_summary(.),

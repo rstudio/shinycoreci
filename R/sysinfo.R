@@ -48,6 +48,9 @@ write_sysinfo <- function(file = stdout()) {
 
   cat(
     utils::capture.output({
+      cat("Image Version: ", gha_image_version(), "\n")
+      cat("osVersion: ", utils::osVersion, "\n", sep = "")
+      cat(rep("-", 80), "\n", sep = "")
       print(sessioninfo::platform_info())
       cat(rep("-", 80), "\n", sep = "")
       print(find_deps_installed(), max = 10000)
@@ -66,4 +69,8 @@ write_sysinfo <- function(file = stdout()) {
 base_packages <- function() {
   pkg_df <- as.data.frame(utils::installed.packages(), stringsAsFactors = FALSE)
   pkg_df$Package[pkg_df$Priority %in% c("base", "recommended")]
+}
+
+gha_image_version <- function() {
+  Sys.getenv("ImageVersion", "($ImageVersion not found)")
 }
