@@ -83,7 +83,12 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
   all_apps_to_fix <- sort(unique(unname(unlist(apps_to_fix))))
 
   message("\nInspecting apps:")
-  print(all_apps_to_fix)
+  lapply(names(apps_to_fix), function(branch_name) {
+    branch_apps <- apps_to_fix[[branch_name]]
+    if (length(branch_apps) == 0) return()
+    cat("* ", branch_name, "\n", sep = "")
+    cat(paste0("  - ", branch_apps, collapse = "\n"), "\n")
+  })
 
   branch_message <- function(branch, ...) {
     message(branch, " - ", ...)
@@ -91,7 +96,7 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
 
   # for each branch
   pr <- progress::progress_bar$new(
-    total = length(all_apps_to_fix) * length(branches),
+    total = length(unlist(apps_to_fix)),
     format = paste0("\n[:current/:total, :eta/:elapsed] :app; :branch"),
     show_after = 0,
     clear = FALSE
@@ -100,13 +105,15 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
   lapply(all_apps_to_fix, function(app_folder) {
     # for each branch
     lapply(branches, function(branch) {
-      pr$tick(tokens = list(app = app_folder, branch = branch))
 
       # if this branch doesn't need to fix this app, return early
       branch_apps <- apps_to_fix[[branch]]
       if (! app_folder %in% branch_apps) {
         return()
       }
+
+      # only tick for valid apps
+      pr$tick(tokens = list(app = app_folder, branch = branch))
 
       suffix <- shinytest_suffix(branch)
       git_checkout(branch)
