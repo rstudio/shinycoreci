@@ -20,6 +20,21 @@ jobs:
   #     - name: Always run
   #       run: echo "This job is used to prevent the workflow status from showing as failed when all other jobs are skipped"
 
+  list_envs:
+    runs-on: ${{ matrix.config.os }}
+    name: ENV ${{ matrix.config.os }} (${{ matrix.config.r }})
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { os: macOS-latest}
+        - { os: windows-latest}
+        - { os: ubuntu-18.04}
+    steps:
+      - shell: bash
+        run: |
+          printenv
+
   R-CMD-check:
     # if: false
     runs-on: ${{ matrix.config.os }}
