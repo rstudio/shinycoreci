@@ -115,7 +115,7 @@ use_tests_shinytest <- function(app_dir) {
       'app$snapshotInit("mytest")',
       '',
       'app$snapshot()',
-      collapse = "\n"
+      sep = "\n"
     )
   )
 
@@ -145,7 +145,7 @@ use_tests_testthat <- function(app_dir) {
       '    ',
       '  })',
       '})',
-      collapse = "\n"
+      sep = "\n"
     )
   )
 
