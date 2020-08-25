@@ -164,7 +164,7 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
 
     unmerged_files <- git_cmd_("git diff --name-only --diff-filter=U")
     if (length(unmerged_files) > 0) {
-      stop("Merge conflict found when merging '", branch, "' into '", original_git_branch, "'.\nPlease fix the merge conflict and call ", original_sys_call)
+      stop("Merge conflict found when merging '", branch, "' into '", original_git_branch, "'.\nPlease fix the merge conflict and call ", format(original_sys_call))
     }
   })
 
