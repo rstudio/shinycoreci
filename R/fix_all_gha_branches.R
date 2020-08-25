@@ -47,17 +47,6 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
   }
 
 
-  if (isTRUE(ask)) {
-    ans <- utils::menu(c("(All branches)", branches), graphics = FALSE, title = "Select the Git branches you'd like to use")
-    # ans = 0; all
-    # ans = 1; all
-    if (ans > 1) {
-      # if ans is not 'all', subset the folders
-      ans_pos <- ans - 1
-      branches <- branches[ans_pos]
-    }
-  }
-
   git_cmd_ <- function(..., git_dir = dir) {
     git_cmd(git_dir, paste0(...))
   }
@@ -80,8 +69,6 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
     })
   names(apps_to_fix) <- branches
 
-  all_apps_to_fix <- sort(unique(unname(unlist(apps_to_fix))))
-
   message("\nInspecting apps:")
   lapply(names(apps_to_fix), function(branch_name) {
     branch_apps <- apps_to_fix[[branch_name]]
@@ -89,6 +76,21 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
     cat("* ", branch_name, "\n", sep = "")
     cat(paste0("  - ", branch_apps, collapse = "\n"), "\n")
   })
+
+  if (isTRUE(ask)) {
+    message("")
+    ans <- utils::menu(c("(All branches)", branches), graphics = FALSE, title = "Select the Git branches you'd like to use")
+    # ans = 0; all
+    # ans = 1; all
+    if (ans > 1) {
+      # if ans is not 'all', subset the folders
+      ans_pos <- ans - 1
+      branches <- branches[ans_pos]
+      apps_to_fix <- apps_to_fix[branches]
+    }
+  }
+
+  all_apps_to_fix <- sort(unique(unname(unlist(apps_to_fix))))
 
   branch_message <- function(branch, ...) {
     message(branch, " - ", ...)
