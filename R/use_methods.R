@@ -110,7 +110,7 @@ use_tests_shinytest <- function(app_dir) {
 
   save_use_file(
     file.path(app_dir, "tests", "shinytest", "mytest.R"),
-    paste0(
+    paste(
       'app <- ShinyDriver$new("../../", seed = 100, shinyOptions = list(display.mode = "normal"))',
       'app$snapshotInit("mytest")',
       '',
