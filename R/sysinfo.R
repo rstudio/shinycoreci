@@ -49,7 +49,7 @@ write_sysinfo <- function(file = stdout()) {
   cat(
     utils::capture.output({
       cat("Image Version: ", gha_image_version(), "\n")
-      cat("osVersion: ", utils::osVersion, "\n", sep = "")
+      cat("osVersion: ", sessionInfo()$running, "\n", sep = "")
       cat(rep("-", 80), "\n", sep = "")
       print(sessioninfo::platform_info())
       cat(rep("-", 80), "\n", sep = "")
