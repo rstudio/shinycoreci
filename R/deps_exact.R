@@ -267,8 +267,8 @@ validate_remotes_order <- function() {
     # get desc contents
     desc <- local({
       tmp <- tempfile()
-      writeChar(desc_content, tmp)
       on.exit(unlink(tmp))
+      writeLines(desc_content, tmp)
       as.list(read.dcf(tmp)[1,])
     })
 
