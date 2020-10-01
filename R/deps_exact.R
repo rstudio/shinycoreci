@@ -31,7 +31,7 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
 
   # all remotes based from shinycoreci
   message("Gathering recursive remotes...", appendLF = FALSE)
-  scci_remotes_all <- cached_shinycoreci_remote_pkgs()
+  scci_remotes_all <- cached_remotes_order()$remotes_to_install
   message(" OK")
   scci_remotes <- unique(unname(unlist(scci_remotes_all)))
 
@@ -70,15 +70,20 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
     print(tibble::as_tibble(remotes_info[remotes_info$is_cran, ]))
 
     currently_cran_needs_github_pkgs <- remotes_info$package[remotes_info$is_cran]
+
+    remote_to_pkgs <- cached_remotes_order()$remote_needs_all_pkgs
+    # for every remote that shinycoreci needs installed...
     mapply(
-      names(scci_remotes_all),
-      scci_remotes_all,
-      FUN = function(pkg, github_deps) {
-        if (!any(currently_cran_needs_github_pkgs %in% github_deps)) {
+      names(remote_to_pkgs),
+      unname(remote_to_pkgs),
+      FUN = function(remote_chr, remote_pkg_names) {
+        # return early if it's direct remote dependencies do not need to be converted from a CRAN to GitHub package
+        if (!any(currently_cran_needs_github_pkgs %in% remote_pkg_names)) {
           return()
         }
+        pkg_name <- cached_remotes_order()$remote_to_pkg[[remote_chr]]
         # get the remote of the currently installed github package
-        remote <- scci_app_deps$remote[scci_app_deps$package == pkg][[1]]
+        remote <- scci_app_deps$remote[scci_app_deps$package == pkg_name][[1]]
         # reinstall it to bring in all missing dependencies
         remotes::install_github(repo_from_remote(remote), force = TRUE, upgrade = TRUE)
 
@@ -156,7 +161,7 @@ repo_from_remote <- function(remote_obj) {
 
 
 # Gather all names of packages that should be installed by github
-cached_shinycoreci_remote_pkgs <- local({
+cached_remotes_order <- local({
   cache_val <- NULL
 
   function() {
@@ -164,7 +169,7 @@ cached_shinycoreci_remote_pkgs <- local({
       return(cache_val)
     }
 
-    cache_val <<- validate_remotes_order()$remotes_to_install
+    cache_val <<- validate_remotes_order()
     cache_val
   }
 })
