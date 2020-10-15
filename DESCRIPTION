@@ -16,12 +16,12 @@ Imports:
     jsonlite,
     remotes,
     progress,
+    callr,
     renv,
     rstudioapi (>= 0.11)
 Suggests:
     Rcpp (>= 1.0.4.6),
     httr,
-    callr,
     tibble,
     sessioninfo,
     testthat,
