@@ -24,7 +24,11 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
   if (shinycoreci_info$diff < 0) {
     installed_something <- TRUE
     message("") # closs off line
-    remotes__update_package_deps(shinycoreci_info, upgrade = TRUE, dependencies = TRUE)
+    # update package
+    remotes__update_package_deps(shinycoreci_info, upgrade = TRUE)
+    # Make sure Suggest'ed dependencies are installed
+    remotes::install_deps(system.file(package = "shinycoreci"), dependencies = TRUE, upgrade = TRUE)
+
   } else {
     message(" OK")
   }
@@ -101,7 +105,7 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
     installed_something <- TRUE
     message("Updating GitHub packages:")
     print(tibble::as_tibble(remotes_info[should_update_github, ]))
-    remotes__update_package_deps(remotes_info[should_update_github, ], upgrade = TRUE, dependencies = TRUE)
+    remotes__update_package_deps(remotes_info[should_update_github, ], upgrade = TRUE)
   } else {
     message(" OK")
   }
