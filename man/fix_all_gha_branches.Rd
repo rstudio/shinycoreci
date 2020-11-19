@@ -7,8 +7,10 @@
 fix_all_gha_branches(
   dir = "apps",
   sha = git_sha(dir),
-  ask = interactive(),
   ...,
+  merge = FALSE,
+  commit = merge,
+  ask = interactive(),
   repo_dir = file.path(dir, "..")
 )
 }
@@ -17,9 +19,13 @@ fix_all_gha_branches(
 
 \item{sha}{git sha of base branch to look for}
 
-\item{ask}{Logical which allows for particular branches to be inspected}
-
 \item{...}{Extra arguments passed to \code{shinytest::viewTestDiff}}
+
+\item{merge}{Logical which merges all branches after viewing test results}
+
+\item{commit}{Logical which determines if shinytest results should be committed}
+
+\item{ask}{Logical which allows for particular branches to be inspected}
 
 \item{repo_dir}{Root repo folder path}
 }

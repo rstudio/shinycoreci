@@ -18,11 +18,21 @@
 #'
 #' @param dir Root app folder path
 #' @param sha git sha of base branch to look for
-#' @param ask Logical which allows for particular branches to be inspected
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
+#' @param ask Logical which allows for particular branches to be inspected
+#' @param merge Logical which merges all branches after viewing test results
+#' @param commit Logical which determines if shinytest results should be committed
 #' @param repo_dir Root repo folder path
 #' @export
-fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interactive(), ..., repo_dir = file.path(dir, "..")) {
+fix_all_gha_branches <- function(
+  dir = "apps",
+  sha = git_sha(dir),
+  ...,
+  merge = FALSE,
+  commit = merge,
+  ask = interactive(),
+  repo_dir = file.path(dir, "..")
+) {
   original_sys_call <- sys.call()
   validate_core_pkgs()
 
@@ -35,6 +45,10 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
     message("Current untracked files and folders: ")
     message(paste0(git_untracked_files(dir), collapse = "\n"))
     stop("Make sure there are no untracked files. Please remove the files or commit the changes.")
+  }
+
+  if (isTRUE(merge) && !isTRUE(commit)) {
+    stop("You can't `merge` if you do not enable `commit`")
   }
 
   validate_no_unexpected_shinytest_folders(dir)
@@ -122,21 +136,25 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
 
       test_diff <- shinytest__view_test_diff(appDir = file.path(dir, app_folder), suffix = suffix, interactive = TRUE, ...)
 
-      commit_app_value <- paste0(basename(app_folder), " ", suffix)
+      if (isTRUE(commit)) {
 
-      if (test_diff[[1]] == "reject") {
-        current_folder <- shinytest_current_folder(file.path(dir, app_folder))
-        folder_to_rm <- file.path(app_folder, current_folder)
-        branch_message(branch, "Committing the deletion of unmerged `*-current` folder: ", folder_to_rm)
-        git_cmd_("git rm -r ", folder_to_rm)
-        git_cmd_("git commit -m 'gha - Reject test changes: ", commit_app_value, "'")
-      } else {
-        # accept
-        branch_message(branch, "Committing the updated tests of folder: ", app_folder)
-        # adds new and deleted files in the `app_folder`
-        git_cmd_("git add -u ", app_folder)
-        git_cmd_("git commit -m 'gha - Accept test changes: ", commit_app_value, "'")
+        commit_app_value <- paste0(basename(app_folder), " ", suffix)
+
+        if (test_diff[[1]] == "reject") {
+          current_folder <- shinytest_current_folder(file.path(dir, app_folder))
+          folder_to_rm <- file.path(app_folder, current_folder)
+          branch_message(branch, "Committing the deletion of unmerged `*-current` folder: ", folder_to_rm)
+          git_cmd_("git rm -r ", folder_to_rm)
+          git_cmd_("git commit -m 'gha - Reject test changes: ", commit_app_value, "'")
+        } else {
+          # accept
+          branch_message(branch, "Committing the updated tests of folder: ", app_folder)
+          # adds new and deleted files in the `app_folder`
+          git_cmd_("git add -u ", app_folder)
+          git_cmd_("git commit -m 'gha - Accept test changes: ", commit_app_value, "'")
+        }
       }
+
     })
 
     # make a noise because it helps me know it's a new app
@@ -152,41 +170,47 @@ fix_all_gha_branches <- function(dir = "apps", sha = git_sha(dir), ask = interac
     validate_no_unexpected_shinytest_folders(dir)
   })
 
-  message("\nAttempting to automatically merge (and locally delete) all branches into ", original_git_branch)
   # go to base branch
   git_checkout(original_git_branch)
 
-  # merge all outstanding branches
-  lapply(branches, function(branch) {
-    branch_message(original_git_branch, "Merging ", branch, " into ", original_git_branch)
-    git_cmd_("git merge ", branch)
-    had_merge_conflict <- FALSE
+  if (isTRUE(merge)) {
+    message("\nAttempting to automatically merge (and locally delete) all branches into ", original_git_branch)
 
-    unmerged_files <- git_cmd_("git diff --name-only --diff-filter=U")
-    if (length(unmerged_files) > 0) {
-      stop("Merge conflict found when merging '", branch, "' into '", original_git_branch, "'.\nPlease fix the merge conflict and call ", format(original_sys_call))
-    }
-  })
+    # merge all outstanding branches
+    lapply(branches, function(branch) {
+      branch_message(original_git_branch, "Merging ", branch, " into ", original_git_branch)
+      git_cmd_("git merge ", branch)
+      had_merge_conflict <- FALSE
 
-  git_checkout(original_git_branch)
-  validate_no_unexpected_shinytest_folders()
+      unmerged_files <- git_cmd_("git diff --name-only --diff-filter=U")
+      if (length(unmerged_files) > 0) {
+        stop("Merge conflict found when merging '", branch, "' into '", original_git_branch, "'.\nPlease fix the merge conflict and call ", format(original_sys_call))
+      }
+    })
 
-  # git branch --merged
-  message("\nDeleting all merged branches")
-  git_checkout(original_git_branch)
-  lapply(branches, function(branch) {
-    branch_message(original_git_branch, "Deleting local ", branch)
-    git_cmd_("git push origin ", branch)
-    git_cmd_("git branch -d ", branch)
-  })
+    git_checkout(original_git_branch)
+    validate_no_unexpected_shinytest_folders()
 
+    # git branch --merged
+    message("\nDeleting all merged branches")
+    git_checkout(original_git_branch)
+    lapply(branches, function(branch) {
+      branch_message(original_git_branch, "Deleting local ", branch)
+      git_cmd_("git push origin ", branch)
+      git_cmd_("git branch -d ", branch)
+    })
 
-  on.exit({
-    message("\nDone!")
-    message("Ready to push to origin/", original_git_branch)
-    message("")
-    message("git push")
-  }, add = TRUE)
+  }
+
+  if (isTRUE(commit) || isTRUE(merge)) {
+    on.exit({
+      message("\nDone!")
+      message("Ready to push to origin/", original_git_branch)
+      message("")
+      message("git push")
+    }, add = TRUE)
+  }
+
   invisible(all_apps_to_fix)
 }
 
