@@ -57,6 +57,9 @@ gha_remotes <- function(dir, sha = git_sha(dir)) {
   # get the latest remotes locally available
   git_fetch(dir)
 
+  sha <- substr(sha, 1, 7)
+  stopifnot(nchar(sha) == 7)
+
   # retrieve remotes names
   remotes <- git_remotes(dir)
   remotes[grepl(paste0("^gha-", sha), remotes)]
