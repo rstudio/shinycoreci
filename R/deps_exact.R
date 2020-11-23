@@ -180,6 +180,7 @@ cached_remotes_order <- local({
 
 
 
+# used in shinycoreci-apps
 install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes::git_credentials()) {
   # https://github.com/rstudio/shinytest/archive/rc-v1.4.0.tar.gz
 
