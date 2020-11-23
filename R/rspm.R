@@ -95,7 +95,8 @@ rspm_pkg_reqs <- function(pkg_name, distro_val, release_val) {
     paste0(
       "https://packagemanager.rstudio.com/__api__/repos/1/packages/", pkg_name, "/sysreqs",
       "?distribution=", distro_val,
-      "&release=", release_val
+      "&release=", release_val,
+      "&suggests=true"
     ),
     simplifyDataFrame = FALSE
   )
