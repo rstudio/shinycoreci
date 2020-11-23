@@ -46,12 +46,9 @@ deploy_apps <- function(
       server = server
     ),
     function(apps_dirs, cores, account, server) {
-      pb <- progress::progress_bar$new(
+      pb <- progress_bar(
         total = ceiling(length(apps_dirs) / cores),
-        format = "\n\n:name [:bar] :current/:total eta::eta elapsed::elapsed\n",
-        show_after = 0,
-        clear = FALSE,
-        force = TRUE
+        format = "\n\n:name [:bar] :current/:total eta::eta elapsed::elapsed\n"
       )
       deploy_apps_ <- function(app_dir) {
         pb$tick(tokens = list(name = basename(app_dir)))

@@ -111,11 +111,9 @@ fix_all_gha_branches <- function(
   }
 
   # for each branch
-  pr <- progress::progress_bar$new(
+  pr <- progress_bar(
     total = length(unlist(apps_to_fix)),
-    format = paste0("\n[:current/:total, :eta/:elapsed] :app; :branch"),
-    show_after = 0,
-    clear = FALSE
+    format = paste0("\n[:current/:total, :eta/:elapsed] :app; :branch")
   )
   # for each app
   lapply(all_apps_to_fix, function(app_folder) {

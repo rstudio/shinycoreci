@@ -123,3 +123,13 @@ trim_ws <- function (x) {
 split_remotes <- function(x) {
   trim_ws(unlist(strsplit(x, ",[[:space:]]*")))
 }
+
+
+progress_bar <- function(..., show_after = 0, clear = FALSE, force = TRUE) {
+  progress::progress_bar$new(
+    ...,
+    show_after = show_after,
+    clear = clear,
+    force = force
+  )
+}

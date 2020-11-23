@@ -132,11 +132,9 @@ test_runtests <- function(
       break
     }
 
-    pb <- progress::progress_bar$new(
+    pb <- progress_bar(
       total = length(to_test_positions),
-      format = "[:current/:total;:elapsed;:eta] :app ~ :file\n",
-      show_after = 0,
-      clear = FALSE
+      format = "[:current/:total;:elapsed;:eta] :app ~ :file\n"
     )
 
 

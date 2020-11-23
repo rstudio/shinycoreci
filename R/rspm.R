@@ -62,11 +62,9 @@ rspm_sys_reqs <- function(
   deps <- app_deps(dir)$package
 
   message("Query RSPM...")
-  pr <- progress::progress_bar$new(
+  pr <- progress_bar(
     total = length(deps),
-    format = paste0("[:current/:total, :eta/:elapsed] RSPM ", distro_val, "-", release_val, " deps: :name"),
-    show_after = 0,
-    clear = FALSE
+    format = paste0("[:current/:total, :eta/:elapsed] RSPM ", distro_val, "-", release_val, " deps: :name")
   )
   reqs <- lapply(deps, function(dep) {
     pr$tick(tokens = list(name = dep))

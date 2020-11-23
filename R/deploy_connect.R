@@ -34,11 +34,9 @@ connect_set_public <- function(
   apps_info <- api_get(paste0("/applications?count=1000&filter=account_id:", acct_info$accountId))
   apps <- subset_and_order_apps(apps_info$applications, apps_dir_names)
 
-  pb <- progress::progress_bar$new(
+  pb <- progress_bar(
     total = length(apps),
-    format = "[:bar] :current/:total eta::eta :app\n",
-    show_after = 0,
-    clear = FALSE
+    format = "[:bar] :current/:total eta::eta :app\n"
   )
   lapply(
     apps,
