@@ -75,5 +75,5 @@ validate_exact_deps <- function(dir = "apps", apps = apps_runtests(dir), update_
 #   message('', e)
 #   message("Installing all of shinycoreci")
 #   shinycoreci_info <- remotes::package_deps("shinycoreci")
-#   remotes__update_package_deps(shinycoreci_info, upgrade = TRUE, dependencies = TRUE)
+#   remotes__update_package_deps(shinycoreci_info, upgrade = TRUE, dependencies = FALSE)
 # })

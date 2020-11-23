@@ -396,7 +396,7 @@ install_cran_packages_safely <- function(packages) {
         }, silent = TRUE)
       })
       # force install all the things from CRAN
-      utils::install.packages(to_install_, dependencies = TRUE)
+      utils::install.packages(to_install_, dependencies = FALSE)
     },
     list(
       to_install_ = packages,
