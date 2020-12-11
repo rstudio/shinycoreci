@@ -62,14 +62,16 @@ test_shinyjster_app <- function(
 #' @export
 test_shinytest_app <- function(
   appDir = "..",
-  suffix = platform_rversion()
+  suffix = platform_rversion(),
+  ...
 ) {
   base__library("shinytest", character.only = TRUE)
 
   shinytest::expect_pass(
     shinytest::testApp(
       appDir,
-      suffix = suffix
+      suffix = suffix,
+      ...
     )
   )
 }
