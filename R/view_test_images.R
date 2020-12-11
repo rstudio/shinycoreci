@@ -41,7 +41,7 @@ view_test_images <- function(dir = "apps") {
         row_images <- lapply(row_pngs, function(png) {
           test_name <- basename(dirname(png))
           # Remove the shinytest test name as it's not very informative
-          test_name <- paste(strsplit(test_name, "-")[[1]][-1], collapse = "-")
+          #test_name <- sub("-expected", "", test_name)
           img_tag <- shiny::div(
             shiny::tags$p(test_name),
             shiny::imageOutput(png, height = "auto")
