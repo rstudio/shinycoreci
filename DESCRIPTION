@@ -63,6 +63,8 @@ Remotes:
   rstudio/reactlog,
   ramnathv/htmlwidgets,
   rstudio/shiny,
+  rstudio/bslib,
+  rstudio/thematic,
   rstudio/shinytest,
   rstudio/htmltools,
   rstudio/websocket,
