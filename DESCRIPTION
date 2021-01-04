@@ -15,6 +15,7 @@ Roxygen: list(markdown = TRUE)
 Imports:
     jsonlite,
     remotes,
+    pak,
     progress,
     callr,
     renv,

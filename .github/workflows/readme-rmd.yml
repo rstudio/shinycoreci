@@ -24,32 +24,44 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@master
+        id: install-r
         with:
           r-version: ${{ matrix.config.r }}
-      - uses: r-lib/actions/setup-pandoc@v1
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - name: Install pak and query dependencies
+        shell: Rscript {0}
+        run: |
+          install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+          saveRDS(pak::pkg_deps_tree("local::.", dependencies = TRUE), ".github/r-depends.rds")
       - name: Cache R packages
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ github.ref }}
+          key: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles('.github/r-depends.rds') }}
           restore-keys: |
-            ${{ runner.os }}-r-${{ matrix.config.r }}-
-            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rcmdcheck-
-      - name: Install remotes
-        run: >
-          Rscript
-          -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
+            ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
+
+      - name: Install system dependencies
+        if: runner.os == 'Linux'
+        shell: Rscript {0}
+        run: |
+          pak::local_system_requirements(execute = TRUE)
+
       - name: Install dependencies
-        run: >
-          Rscript
-          -e "remotes::install_deps(dependencies = TRUE)"
-          -e "remotes::install_cran('rmarkdown')"
-          -e "remotes::install_cran('devtools')"
+        shell: Rscript {0}
+        run: |
+          pak::local_install_deps(upgrade = TRUE)
+          pak::pkg_install("rmarkdown")
+          pak::pkg_install("devtools")
+
       - name: Render README
-        run: >
-          Rscript
-          -e 'devtools::build_readme(quiet = FALSE)'
+        shell: Rscript {0}
+        run: |
+          devtools::build_readme(quiet = FALSE)
+
       - name: Commit results
         run: |
           git config user.name "${GITHUB_ACTOR}"

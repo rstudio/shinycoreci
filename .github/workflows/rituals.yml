@@ -43,6 +43,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: r-lib/actions/setup-r@master
+        id: install-r
         with:
           r-version: ${{ matrix.config.r }}
 
@@ -53,41 +54,34 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-      - name: Create cache ID from time
-        id: cache_id
+      - name: Install pak and query dependencies
+        shell: Rscript {0}
         run: |
-          echo "::set-output name=value::$(Rscript -e 'cat(as.numeric(Sys.time()))')"
+          install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+          saveRDS(pak::pkg_deps_tree("local::.", dependencies = TRUE), ".github/r-depends.rds")
       - name: Cache R packages
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rituals-${{ steps.cache_id.outputs.value }}
+          key: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles('.github/r-depends.rds') }}
           restore-keys: |
-            ${{ runner.os }}-r-${{ matrix.config.r }}-libs-rituals-
-
-      - name: Install remotes
-        run: >
-          Rscript
-          -e "if (system.file(package = 'remotes') == '') install.packages('remotes')"
+            ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
-        env:
-          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+        shell: Rscript {0}
         run: |
-          Rscript -e "remotes::install_github('r-hub/sysreqs')"
-          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
-          sudo -s eval "$sysreqs"
+          pak::local_system_requirements(execute = TRUE)
 
       - name: Install dependencies
-        run: >
-          Rscript
-          -e "update.packages(ask = FALSE, lib.loc = .libPaths()[1])"
-          -e "remotes::install_deps(dependencies = TRUE)"
+        shell: Rscript {0}
+        run: |
+          # only install imports, not suggests
+          pak::local_install_deps(upgrade = TRUE)
 
       - name: Document
         run: |
-          Rscript -e 'remotes::install_cran("roxygen2")'
+          Rscript -e 'pak::pkg_install("roxygen2")'
           Rscript -e 'roxygen2::roxygenise()'
           git add man/\* NAMESPACE
           git commit -m 'Document (GitHub Actions)' || echo "No documentation changes to commit"
@@ -104,7 +98,7 @@ jobs:
 
       # - name: Code Coverage
       #   run: |
-      #     Rscript -e 'remotes::install_cran("covr")'
+      #     Rscript -e 'pak::pkg_install("covr")'
       #     Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
 
       - name: Git Push (PR)
