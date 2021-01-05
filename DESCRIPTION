@@ -59,7 +59,6 @@ Remotes:
   rstudio/rsconnect,
   schloerke/shinyjster,
   rstudio/shinymeta,
-  rstudio/flexdashboard,
   rstudio/crosstalk,
   rstudio/leaflet.providers,
   rstudio/leaflet,
