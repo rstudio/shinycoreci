@@ -34,12 +34,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        name: Git Pull (master)
+        if: github.event_name != 'pull_request'
 
-      - uses: r-lib/actions/pr-fetch@master
+      - uses: actions/checkout@v2
         name: Git Pull (PR)
         if: github.event_name == 'pull_request'
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Git Config
         run: |
