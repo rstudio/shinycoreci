@@ -58,7 +58,7 @@ test_shinyjster_app <- function(
 #' Test shinytest app
 #'
 #' @inheritParams shinytest::testApp
-#' @param ... passed to [shinytest:testApp()]
+#' @param ... passed to [shinytest::testApp()]
 #' @seealso [test_shinyjster_app()], [test_runtests()], and [platform_rversion()]
 #' @export
 test_shinytest_app <- function(

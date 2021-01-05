@@ -14,7 +14,7 @@ single interactive \code{.Rmd}.}
 example, if the suffix is \code{"mac"}, the expected directory would be
 \code{mytest-expected-mac}.}
 
-\item{...}{passed to \code{\link[=shinytest:testApp]{shinytest:testApp()}}}
+\item{...}{passed to \code{\link[shinytest:testApp]{shinytest::testApp()}}}
 }
 \description{
 Test shinytest app
