@@ -36,7 +36,6 @@ rm_files <- function(filenames) {
   shinymeta::formatCode
   pool::Pool
   Rcpp::cppFunction
-  plotly::ggplotly
 }
 
 # Is this a SHA-1 hash? (vectorized)
