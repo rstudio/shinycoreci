@@ -4,15 +4,7 @@
 \alias{test_shinytest_app}
 \title{Test shinytest app}
 \usage{
-test_shinytest_app(appDir = "..", suffix = platform_rversion())
-}
-\arguments{
-\item{appDir}{Path to directory containing a Shiny app (e.g. \code{app.R}) or
-single interactive \code{.Rmd}.}
-
-\item{suffix}{An optional suffix for the expected results directory. For
-example, if the suffix is \code{"mac"}, the expected directory would be
-\code{mytest-expected-mac}.}
+test_shinytest_app(appDir = "..", suffix = platform_rversion(), ...)
 }
 \description{
 Test shinytest app
