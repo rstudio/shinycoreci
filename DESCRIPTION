@@ -31,6 +31,7 @@ Suggests:
     shinyjster (>= 0.0.0.9008),
     shiny (>= 1.5.0),
     bslib,
+    sass,
     cachem,
     thematic,
     webdriver,
