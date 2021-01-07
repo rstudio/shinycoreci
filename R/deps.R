@@ -50,6 +50,6 @@
 
 
 required_app_pkgs <- function(dir = "apps", apps = apps_runtests(dir), include_shinycoreci = TRUE) {
-  pkgs <- renv::dependencies(file.path(dir, apps), quiet = TRUE)$Packages
+  pkgs <- renv::dependencies(file.path(dir, apps), quiet = TRUE)$Package
   unique(pkgs)
 }
