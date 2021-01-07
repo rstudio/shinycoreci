@@ -59,7 +59,7 @@ rspm_sys_reqs <- function(
   release_val <- rspm_release(release)
 
   message("Retrieving dependencies...")
-  deps <- app_deps(dir)$package
+  deps <- required_app_pkgs(dir)
 
   message("Query RSPM...")
   pr <- progress_bar(

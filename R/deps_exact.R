@@ -41,11 +41,11 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
 
   message("Gathering dependency information...", appendLF = FALSE)
   # include shinycoreci to get shinycoreci deps installed
-  scci_app_deps <- app_deps(dir, apps = apps, include_shinycoreci = TRUE)
+  required_pkgs <- required_app_pkgs(dir = dir, apps = apps)
   message(" OK")
 
   # determine apps to check
-  should_be_cran_only <- setdiff(scci_app_deps$package, c("shinycoreci", scci_remotes))
+  should_be_cran_only <- setdiff(required_pkgs, c("shinycoreci", scci_remotes))
   should_be_github_only <- scci_remotes
 
   pak::pkg_install(
@@ -54,6 +54,7 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
       # "shinycoreci",
 
       # shinycoreci remotes
+      ## provide fully defined remotes
       shinycoreci_remotes_to_install(),
 
       # cran packages
