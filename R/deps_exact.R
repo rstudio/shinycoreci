@@ -26,18 +26,18 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
     message("") # closs off line
     # update package
     remotes__update_package_deps(shinycoreci_info, upgrade = TRUE)
-    # Make sure Suggest'ed dependencies are installed
-    remotes::install_deps(system.file(package = "shinycoreci"), dependencies = TRUE, upgrade = TRUE)
-
+    # # Make sure Suggest'ed dependencies are installed
+    # remotes::install_deps(system.file(package = "shinycoreci"), dependencies = TRUE, upgrade = TRUE)
   } else {
     message(" OK")
   }
 
+  # shinycoreci is up to date
+
   # all remotes based from shinycoreci
   message("Gathering recursive remotes...", appendLF = FALSE)
-  scci_remotes_all <- cached_remotes_order()$remotes_to_install
+  scci_remotes <- cached_remotes_order()$remotes_to_install
   message(" OK")
-  scci_remotes <- unique(unname(unlist(scci_remotes_all)))
 
   message("Gathering dependency information...", appendLF = FALSE)
   # include shinycoreci to get shinycoreci deps installed
@@ -48,67 +48,83 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
   should_be_cran_only <- setdiff(scci_app_deps$package, c("shinycoreci", scci_remotes))
   should_be_github_only <- scci_remotes
 
-  # check cran pkgs
-  message("Checking all non-Remote packages are CRAN packages...", appendLF = FALSE)
-  cran_info <- scci_app_deps[scci_app_deps$package %in% should_be_cran_only, ]
-  # get packages that are currently not cran sources or are behind in version
-  should_install_cran <- (!cran_info$is_cran) | (cran_info$diff < 0)
-  if (any(should_install_cran)) {
-    installed_something <- TRUE
-    to_install <- cran_info$package[should_install_cran]
-    message("") # close off line
-    message("Installing CRAN pkgs: ", paste0("'", to_install, "'", collapse = ", "))
-    # make sure the old package is gone!
-    install_cran_packages_safely(to_install)
-  } else {
-    message(" OK")
-  }
+  pak::pkg_install(
+    c(
+      # # do not install shinycoreci as it is up to date
+      # "shinycoreci",
 
-  message("Checking all Remotes are installed from GitHub...", appendLF = FALSE)
-  remotes_info <- scci_app_deps[scci_app_deps$package %in% should_be_github_only, ]
-  # check if packages are installed from github or are behind
-  if (any(remotes_info$is_cran)) {
-    message("") # close off line
-    installed_something <- TRUE
-    message("Re-installing some packages as these Remotes were not installed from GitHub")
-    print(tibble::as_tibble(remotes_info[remotes_info$is_cran, ]))
+      # shinycoreci remotes
+      shinycoreci_remotes_to_install(),
 
-    currently_cran_needs_github_pkgs <- remotes_info$package[remotes_info$is_cran]
+      # cran packages
+      paste0("cran::", should_be_cran_only)
+    ),
+    # get the latest of everything
+    upgrade = TRUE,
+    ask = FALSE
+  )
 
-    remote_to_pkgs <- cached_remotes_order()$remote_needs_all_pkgs
-    # for every remote that shinycoreci needs installed...
-    mapply(
-      names(remote_to_pkgs),
-      unname(remote_to_pkgs),
-      FUN = function(remote_chr, remote_pkg_names) {
-        # return early if it's direct remote dependencies do not need to be converted from a CRAN to GitHub package
-        if (!any(currently_cran_needs_github_pkgs %in% remote_pkg_names)) {
-          return()
-        }
-        pkg_name <- cached_remotes_order()$remote_to_pkg[[remote_chr]]
-        # get the remote of the currently installed github package
-        remote <- scci_app_deps$remote[scci_app_deps$package == pkg_name][[1]]
-        # reinstall it to bring in all missing dependencies
-        remotes::install_github(repo_from_remote(remote), force = TRUE, upgrade = TRUE)
+  # # check cran pkgs
+  # message("Checking all non-Remote packages are CRAN packages...", appendLF = FALSE)
+  # cran_info <- scci_app_deps[scci_app_deps$package %in% should_be_cran_only, ]
+  # # get packages that are currently not cran sources or are behind in version
+  # should_install_cran <- (!cran_info$is_cran) | (cran_info$diff < 0)
+  # if (any(should_install_cran)) {
+  #   installed_something <- TRUE
+  #   to_install <- cran_info$package[should_install_cran]
+  #   message("") # close off line
+  #   message("Installing CRAN pkgs: ", paste0("'", to_install, "'", collapse = ", "))
+  #   # make sure the old package is gone!
+  #   install_cran_packages_safely(to_install)
+  # } else {
+  #   message(" OK")
+  # }
 
-        NULL # return nothing
-      }
-    )
-  } else {
-    message(" OK")
-  }
+  # message("Checking all Remotes are installed from GitHub...", appendLF = FALSE)
+  # remotes_info <- scci_app_deps[scci_app_deps$package %in% should_be_github_only, ]
+  # # check if packages are installed from github or are behind
+  # if (any(remotes_info$is_cran)) {
+  #   message("") # close off line
+  #   installed_something <- TRUE
+  #   message("Re-installing some packages as these Remotes were not installed from GitHub")
+  #   print(tibble::as_tibble(remotes_info[remotes_info$is_cran, ]))
 
-  message("Checking GitHub packages are up to date...", appendLF = FALSE)
-  should_update_github <- (remotes_info$diff < 0) & (!remotes_info$is_cran)
-  if (any(should_update_github)) {
-    message("") # close off line
-    installed_something <- TRUE
-    message("Updating GitHub packages:")
-    print(tibble::as_tibble(remotes_info[should_update_github, ]))
-    remotes__update_package_deps(remotes_info[should_update_github, ], upgrade = TRUE)
-  } else {
-    message(" OK")
-  }
+  #   currently_cran_needs_github_pkgs <- remotes_info$package[remotes_info$is_cran]
+
+  #   remote_to_pkgs <- cached_remotes_order()$remote_needs_all_pkgs
+  #   # for every remote that shinycoreci needs installed...
+  #   mapply(
+  #     names(remote_to_pkgs),
+  #     unname(remote_to_pkgs),
+  #     FUN = function(remote_chr, remote_pkg_names) {
+  #       # return early if it's direct remote dependencies do not need to be converted from a CRAN to GitHub package
+  #       if (!any(currently_cran_needs_github_pkgs %in% remote_pkg_names)) {
+  #         return()
+  #       }
+  #       pkg_name <- cached_remotes_order()$remote_to_pkg[[remote_chr]]
+  #       # get the remote of the currently installed github package
+  #       remote <- scci_app_deps$remote[scci_app_deps$package == pkg_name][[1]]
+  #       # reinstall it to bring in all missing dependencies
+  #       remotes::install_github(repo_from_remote(remote), force = TRUE, upgrade = TRUE)
+
+  #       NULL # return nothing
+  #     }
+  #   )
+  # } else {
+  #   message(" OK")
+  # }
+
+  # message("Checking GitHub packages are up to date...", appendLF = FALSE)
+  # should_update_github <- (remotes_info$diff < 0) & (!remotes_info$is_cran)
+  # if (any(should_update_github)) {
+  #   message("") # close off line
+  #   installed_something <- TRUE
+  #   message("Updating GitHub packages:")
+  #   print(tibble::as_tibble(remotes_info[should_update_github, ]))
+  #   remotes__update_package_deps(remotes_info[should_update_github, ], upgrade = TRUE)
+  # } else {
+  #   message(" OK")
+  # }
 
   if (installed_something) {
     if (isTRUE(assert)) {
@@ -226,6 +242,12 @@ install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes:
 }
 
 
+shinycoreci_remotes_to_install <- function() {
+  split_remotes(
+    remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotes
+  )
+}
+
 
 # Used in CI testing
 validate_remotes_order <- function() {
@@ -239,9 +261,7 @@ validate_remotes_order <- function() {
   # USER/REPO@REF: [USER/REPO@REF]
   remote_needs_remotes <- list()
 
-  base_remotes <- split_remotes(
-    remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotes
-  )
+  base_remotes <- shinycoreci_remotes_to_install()
 
   i <- 1
   # init with 'rstudio/shinycoreci'

@@ -7,12 +7,13 @@ Authors@R: c(
     person("Barret", "Schloerke", role = "aut", email = "barret@rstudio.com"),
     person("Alan", "Dipert", role = "aut", email = "alan@rstudio.com"),
     person("RStudio", role = c("cph", "fnd")))
-Description: What the package does (one paragraph).
+Description: Install 'pak' using 'install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 Imports:
+    pak (>= 0.1.2.9001),
     jsonlite,
     remotes,
     progress,
