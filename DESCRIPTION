@@ -66,8 +66,6 @@ Remotes:
   rstudio/rsconnect,
   schloerke/shinyjster,
   rstudio/crosstalk,
-  rstudio/leaflet.providers,
-  rstudio/leaflet@rc-v2.0.4,
   rstudio/htmltools@rc-v0.5.1,
   rstudio/thematic@rc-v0.1.1,
   rstudio/sass@rc-v0.3.0,
