@@ -48,18 +48,22 @@ install_exact_shinycoreci_deps <- function(dir = "apps", apps = apps_runtests(di
   should_be_cran_only <- setdiff(required_pkgs, c("shinycoreci", scci_remotes))
   should_be_github_only <- scci_remotes
 
+  message("Attempting to install:")
+  pkgs <- c(
+    # # do not install shinycoreci as it is up to date
+    # "shinycoreci",
+
+    # shinycoreci remotes
+    ## provide fully defined remotes
+    shinycoreci_remotes_to_install(),
+
+    # cran packages
+    paste0("cran::", should_be_cran_only)
+  )
+  print(pkgs)
+
   pak::pkg_install(
-    c(
-      # # do not install shinycoreci as it is up to date
-      # "shinycoreci",
-
-      # shinycoreci remotes
-      ## provide fully defined remotes
-      shinycoreci_remotes_to_install(),
-
-      # cran packages
-      paste0("cran::", should_be_cran_only)
-    ),
+    pkgs,
     # get the latest of everything
     upgrade = TRUE,
     ask = FALSE
