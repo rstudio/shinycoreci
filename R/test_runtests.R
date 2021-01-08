@@ -360,6 +360,22 @@ cached_install_cran_pkg <- local({
 })
 
 
+# Make a list of all packages that should be installed when installing shinyverse.
+# This will help prevent rlang (and friends) from being attempted to be updated
+cached_directly_installed_deps <- local({
+  value <- NULL
+  function() {
+    if (!is.null(value)) return(value)
+
+    # will only get direct dependencies, not indirect dependencies
+    inst <- pkgdepends::pkg_deps$new("rstudio/shinycoreci", config = list(dependencies = TRUE))
+    inst$solve()
+    deps <- inst$get_resolution()
+    value <<- unique(deps$package)
+    value
+  }
+})
+
 install_app_cran_deps <- function(app_path, update_app_pkgs = TRUE) {
   if (!isTRUE(update_app_pkgs)) {
     return(logical(0))
@@ -368,7 +384,7 @@ install_app_cran_deps <- function(app_path, update_app_pkgs = TRUE) {
   packages_to_not_install_from_cran <-
     unique(c(
       "shinycoreci",
-      unlist(cached_remotes_order()$remotes_to_install),
+      cached_directly_installed_deps(),
       as.data.frame(utils::installed.packages(priority = "base"))$Package,
       "datasets"
     ))
