@@ -25,6 +25,7 @@ These `Remotes` will be installed to make sure the latest package development is
   - [r-lib/cachem](http://github.com/r-lib/cachem)
   - [r-lib/fastmap](http://github.com/r-lib/fastmap)
   - [r-lib/later](http://github.com/r-lib/later)
+  - [r-lib/pkgdepends](http://github.com/r-lib/pkgdepends)
   - [rstudio/bslib@rc-v0.2.4](http://github.com/rstudio/bslib)
   - [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
   - [rstudio/flexdashboard](http://github.com/rstudio/flexdashboard)
