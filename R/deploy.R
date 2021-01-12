@@ -43,9 +43,10 @@ deploy_apps <- function(
       apps_dirs = apps_dirs,
       cores = cores,
       account = account,
-      server = server
+      server = server,
+      progress_bar = progress_bar
     ),
-    function(apps_dirs, cores, account, server) {
+    function(apps_dirs, cores, account, server, progress_bar) {
       pb <- progress_bar(
         total = ceiling(length(apps_dirs) / cores),
         format = "\n\n:name [:bar] :current/:total eta::eta elapsed::elapsed\n"
