@@ -68,7 +68,7 @@ Remotes:
   rstudio/rsconnect,
   schloerke/shinyjster,
   rstudio/crosstalk,
-  rstudio/htmltools@rc-v0.5.1,
+  rstudio/htmltools,
   rstudio/thematic@rc-v0.1.1,
   rstudio/sass@rc-v0.3.0,
   rstudio/bslib@rc-v0.2.4,
