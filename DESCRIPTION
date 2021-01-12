@@ -64,7 +64,6 @@ Remotes:
   rstudio/httpuv,
   rstudio/promises,
   rstudio/websocket,
-  rstudio/webdriver,
   rstudio/rsconnect,
   schloerke/shinyjster,
   rstudio/crosstalk,
