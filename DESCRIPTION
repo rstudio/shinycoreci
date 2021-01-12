@@ -73,6 +73,7 @@ Remotes:
   rstudio/bslib@rc-v0.2.4,
   rstudio/shiny@rc-v1.6.0,
   rstudio/shinytest@rc-v1.4.1,
+  rstudio/shinythemes,
   rstudio/flexdashboard,
   rstudio/pool,
   rstudio/reactlog,
