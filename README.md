@@ -29,7 +29,7 @@ These `Remotes` will be installed to make sure the latest package development is
   - [rstudio/bslib@rc-v0.2.4](http://github.com/rstudio/bslib)
   - [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
   - [rstudio/flexdashboard](http://github.com/rstudio/flexdashboard)
-  - [rstudio/htmltools@rc-v0.5.1](http://github.com/rstudio/htmltools)
+  - [rstudio/htmltools](http://github.com/rstudio/htmltools)
   - [rstudio/httpuv](http://github.com/rstudio/httpuv)
   - [rstudio/pool](http://github.com/rstudio/pool)
   - [rstudio/promises](http://github.com/rstudio/promises)
