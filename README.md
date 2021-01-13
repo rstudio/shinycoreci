@@ -38,7 +38,6 @@ These `Remotes` will be installed to make sure the latest package development is
   - [rstudio/sass@rc-v0.3.0](http://github.com/rstudio/sass)
   - [rstudio/shiny@rc-v1.6.0](http://github.com/rstudio/shiny)
   - [rstudio/shinymeta](http://github.com/rstudio/shinymeta)
-  - [rstudio/shinytest@rc-v1.4.1](http://github.com/rstudio/shinytest)
   - [rstudio/shinythemes](http://github.com/rstudio/shinythemes)
   - [rstudio/thematic@rc-v0.1.1](http://github.com/rstudio/thematic)
   - [rstudio/websocket](http://github.com/rstudio/websocket)
