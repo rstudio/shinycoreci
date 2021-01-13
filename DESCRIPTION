@@ -64,7 +64,6 @@ Remotes:
   r-lib/cachem,
   rstudio/httpuv,
   rstudio/promises,
-  rstudio/websocket,
   rstudio/rsconnect,
   schloerke/shinyjster,
   rstudio/crosstalk,
