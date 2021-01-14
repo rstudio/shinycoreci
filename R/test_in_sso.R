@@ -9,6 +9,7 @@
 #' @inheritParams docker_run_sso
 #' @param port Port for shiny application
 #' @param port_background Port to connect to the Docker container
+#' @param iframe_host Base-url of apps viewed in iframes. Defaults to `host` value but may need to be changed if viewing app not on the same machine hosting.
 #' @export
 #' @describeIn test_in_ssossp Test SSO Shiny applications
 #' @examples
@@ -22,7 +23,8 @@ test_in_sso <- function(
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 7878, 3838),
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  iframe_host = host
 ) {
   release <- match.arg(release)
 
@@ -36,10 +38,12 @@ test_in_sso <- function(
     r_version = match.arg(r_version),
     tag = NULL,
     host = host,
+    iframe_host = iframe_host,
     port = port
   )
 }
 #' @export
+#' @inheritParams test_in_sso
 #' @describeIn test_in_ssossp Test SSP Shiny applications
 test_in_ssp <- function(
   dir = "apps",
@@ -50,7 +54,8 @@ test_in_ssp <- function(
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 8989, 4949),
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  iframe_host = host
 ) {
   release <- match.arg(release)
 
@@ -64,6 +69,7 @@ test_in_ssp <- function(
     r_version = match.arg(r_version),
     tag = NULL,
     host = host,
+    iframe_host = iframe_host,
     port = port
   )
 }
@@ -94,6 +100,7 @@ test_in_ssossp <- function(
   r_version = c("4.0", "3.6", "3.5"),
   tag = NULL,
   host = "127.0.0.1",
+  iframe_host = host,
   port = 8080
 ) {
   validate_core_pkgs()
@@ -240,7 +247,7 @@ test_in_ssossp <- function(
         output_lines
       },
       app_url = function() {
-        paste0("http://", host, ":", port_background, "/", app_name)
+        paste0("http://", iframe_host, ":", port_background, "/", app_name)
       },
       user_agent = function(user_agent) {
         app_status_user_agent_browser(user_agent, paste0(type, "_", r_version, "_", release))

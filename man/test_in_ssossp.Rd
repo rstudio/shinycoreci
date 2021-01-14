@@ -14,7 +14,8 @@ test_in_sso(
   tag = NULL,
   port = 8080,
   port_background = switch(release, centos7 = 7878, 3838),
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  iframe_host = host
 )
 
 test_in_ssp(
@@ -26,7 +27,8 @@ test_in_ssp(
   tag = NULL,
   port = 8080,
   port_background = switch(release, centos7 = 8989, 4949),
-  host = "127.0.0.1"
+  host = "127.0.0.1",
+  iframe_host = host
 )
 }
 \arguments{
@@ -49,6 +51,8 @@ test_in_ssp(
 \item{host}{The IPv4 address that the application should listen on. Defaults
 to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
 Details.}
+
+\item{iframe_host}{Base-url of apps viewed in iframes. Defaults to \code{host} value but may need to be changed if viewing app not on the same machine hosting.}
 }
 \description{
 Automatically launches docker in a background process.  Once the docker is ready, a shiny application will be launched to help move through the applications.
