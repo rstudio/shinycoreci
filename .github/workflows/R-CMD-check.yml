@@ -49,6 +49,7 @@ jobs:
         shell: Rscript {0}
         run: |
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+          pak::pkg_install("remotes")
           saveRDS(pak::pkg_deps_tree("local::.", dependencies = TRUE), ".github/r-depends.rds")
       - name: Cache R packages
         uses: actions/cache@v2
@@ -81,6 +82,7 @@ jobs:
       - name: Install dependencies
         shell: Rscript {0}
         run: |
+          remotes::install_github("rstudio/flexdashboard")
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("rcmdcheck")
           pak::pkg_install("sessioninfo")
