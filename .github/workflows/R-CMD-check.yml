@@ -77,7 +77,12 @@ jobs:
         run: |
           New-Item -Path "C:\" -Name "tmp" -ItemType Directory
           echo "TMPDIR=c:\tmp" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-      # Remove once github flexdashboard can be installed on windows with pak
+
+      # Remove steps once github flexdashboard can be installed on windows with pak
+      - name: Prep Install before Flexdashboard installation
+        shell: Rscript {0}
+        run: |
+          pak::local_install_deps(upgrade = TRUE)
       - name: Windows flexdashboard installation
         if: runner.os == 'Windows'
         shell: Rscript {0}
