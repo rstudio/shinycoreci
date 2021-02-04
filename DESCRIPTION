@@ -37,6 +37,7 @@ Suggests:
     thematic,
     webdriver,
     htmltools,
+    shinythemes,
     shinymeta,
     httpuv,
     promises,
