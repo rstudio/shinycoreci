@@ -74,6 +74,7 @@ Remotes:
   rstudio/thematic,
   rstudio/shiny,
   rstudio/shinythemes,
+  rstudio/shinytest,
   rstudio/flexdashboard,
   rstudio/pool,
   rstudio/reactlog,
