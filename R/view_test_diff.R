@@ -12,8 +12,19 @@ find_bad_shinytest_files <- function(dir = ".") {
     shinytest_current_folder(dir),
     .Platform$file.sep
   )
-  folder_names <- unique(vapply(folders, `[[`, character(1), 1))
-  folder_names
+  # get all app folders and test names
+  folders_info <- lapply(folders, function(folder) {
+    c(
+      folder[1],
+      sub(x = folder[4], "-current$", "")
+    )
+  })
+  folders_info
+}
+shinytest_current_names <- function(folders_info) {
+  vapply(folders_info, function(folder_info) {
+    paste0(folder_info[1], " : ", folder_info[2])
+  }, character(1))
 }
 
 bad_shinytest_suffix <- function(dir = "apps") {
@@ -56,26 +67,29 @@ view_test_diff <- function(suffix = platform_rversion(), dir = "apps", ...) {
     suffix <- bad_shinytest_suffix()
   }
 
-  folders <- find_bad_shinytest_files(dir)
+  folders_info <- find_bad_shinytest_files(dir)
 
-  if (length(folders) == 0) {
+  if (length(folders_info) == 0) {
     message("Didn't detect any differences in shinytest baselines")
     return(invisible())
   }
 
-  if (length(folders) > 1) {
-    ans <- utils::menu(c("(All apps)", folders), graphics = FALSE, title = "Select the app folder to view shinytest diff")
+  if (length(folders_info) > 1) {
+    folder_names <-
+    ans <- utils::menu(c("(All apps)", shinytest_current_names(folders_info)), graphics = FALSE, title = "Select the app folder to view shinytest diff")
     # ans = 0; all
     # ans = 1; all
     if (ans > 1) {
       # if ans is not 'all', subset the folders
       ans_pos <- ans - 1
-      folders <- folders[ans_pos]
+      folders_info <- folders_info[ans_pos]
     }
   }
 
-  lapply(file.path(dir, folders), function(folder) {
-    shinytest__view_test_diff(appDir = folder, suffix = suffix, interactive = TRUE, ...)
+  lapply(file.path(dir, folders_info), function(folder_info) {
+    folder <- folders_info[1]
+    testname <- folders_info[2]
+    shinytest__view_test_diff(appDir = folder, suffix = suffix, interactive = TRUE, testnames = testname, ...)
   })
 }
 
