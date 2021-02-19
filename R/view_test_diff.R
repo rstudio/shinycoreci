@@ -15,15 +15,16 @@ find_bad_shinytest_files <- function(dir = ".") {
   # get all app folders and test names
   folders_info <- lapply(folders, function(folder) {
     c(
-      folder[1],
-      sub(x = folder[4], "-current$", "")
+      app = folder[1],
+      testname = sub(x = folder[4], "-current$", ""),
+      path = paste0(folder, collapse = .Platform$file.sep)
     )
   })
   folders_info
 }
 shinytest_current_names <- function(folders_info) {
   vapply(folders_info, function(folder_info) {
-    paste0(folder_info[1], " : ", folder_info[2])
+    paste0(folder_info$app, " : ", folder_info$testname)
   }, character(1))
 }
 

@@ -120,8 +120,9 @@ fix_all_gha_branches <- function(
   )
   # for each app
   lapply(all_apps_to_fix, function(app_folder_info) {
-    app_folder <- app_folder_info[1]
-    app_testname <- app_folder_info[2]
+    app_folder <- app_folder_info$app
+    app_testname <- app_folder_info$testname
+    app_test_path <- app_folder_info$path
     # for each branch
     lapply(branches, function(branch) {
 
@@ -154,10 +155,8 @@ fix_all_gha_branches <- function(
         commit_app_value <- paste0(basename(app_folder), " ", suffix)
 
         if (test_diff[[1]] == "reject") {
-          current_folder <- shinytest_current_folder(file.path(dir, app_folder))
-          folder_to_rm <- file.path(app_folder, current_folder)
-          branch_message(branch, "Committing the deletion of unmerged `*-current` folder: ", folder_to_rm)
-          git_cmd_("git rm -r ", folder_to_rm)
+          branch_message(branch, "Committing the deletion of unmerged `*-current` folder: ", app_test_path)
+          git_cmd_("git rm -r ", app_test_path)
           git_cmd_("git commit -m 'gha - Reject test changes: ", commit_app_value, "'")
         } else {
           # accept
