@@ -104,11 +104,10 @@ fix_all_gha_branches <- function(
     }
   }
 
-  all_apps_to_fix <- unlist(
+  all_apps_to_fix <- unique(unlist(
       unname(apps_to_fix),
       recursive = FALSE
-    ) %>%
-      unique()
+    ))
 
   branch_message <- function(branch, ...) {
     message(branch, " - ", ...)
