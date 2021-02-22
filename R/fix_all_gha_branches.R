@@ -88,7 +88,7 @@ fix_all_gha_branches <- function(
     branch_apps <- apps_to_fix[[branch_name]]
     if (length(branch_apps) == 0) return()
     cat("* ", branch_name, "\n", sep = "")
-    cat(paste0("  - ", branch_apps, collapse = "\n"), "\n")
+    cat(paste0("  - ", shinytest_current_names(branch_apps), collapse = "\n"), "\n")
   })
 
   if (isTRUE(ask)) {
@@ -104,7 +104,10 @@ fix_all_gha_branches <- function(
     }
   }
 
-  all_apps_to_fix <- sort(unique(unname(unlist(apps_to_fix))))
+  all_apps_to_fix <- unique(unlist(
+      unname(apps_to_fix),
+      recursive = FALSE
+    ))
 
   branch_message <- function(branch, ...) {
     message(branch, " - ", ...)
@@ -112,37 +115,48 @@ fix_all_gha_branches <- function(
 
   # for each branch
   pr <- progress_bar(
-    total = length(unlist(apps_to_fix)),
-    format = paste0("\n[:current/:total, :eta/:elapsed] :app; :branch")
+    total = length(unlist(apps_to_fix, recursive = FALSE)),
+    format = paste0("\n[:current/:total, :eta/:elapsed] :app : :testname; :branch")
   )
   # for each app
-  lapply(all_apps_to_fix, function(app_folder) {
+  lapply(all_apps_to_fix, function(app_folder_info) {
+    app_folder <- app_folder_info$app
+    app_testname <- app_folder_info$testname
+    app_test_path <- app_folder_info$path
     # for each branch
     lapply(branches, function(branch) {
 
       # if this branch doesn't need to fix this app, return early
-      branch_apps <- apps_to_fix[[branch]]
+      branch_apps <- unlist(lapply(apps_to_fix[[branch]], `[[`, 1)) #inefficient, but ok
       if (! app_folder %in% branch_apps) {
         return()
       }
 
       # only tick for valid apps
-      pr$tick(tokens = list(app = app_folder, branch = branch))
+      pr$tick(tokens = list(
+        app = app_folder,
+        testname = app_testname,
+        branch = branch
+      ))
 
       suffix <- shinytest_suffix(branch)
       git_checkout(branch)
 
-      test_diff <- shinytest__view_test_diff(appDir = file.path(dir, app_folder), suffix = suffix, interactive = TRUE, ...)
+      test_diff <- shinytest__view_test_diff(
+        appDir = file.path(dir, app_folder),
+        suffix = suffix,
+        interactive = TRUE,
+        testnames = app_testname,
+        ...
+      )
 
       if (isTRUE(commit)) {
 
         commit_app_value <- paste0(basename(app_folder), " ", suffix)
 
         if (test_diff[[1]] == "reject") {
-          current_folder <- shinytest_current_folder(file.path(dir, app_folder))
-          folder_to_rm <- file.path(app_folder, current_folder)
-          branch_message(branch, "Committing the deletion of unmerged `*-current` folder: ", folder_to_rm)
-          git_cmd_("git rm -r ", folder_to_rm)
+          branch_message(branch, "Committing the deletion of unmerged `*-current` folder: ", app_test_path)
+          git_cmd_("git rm -r ", app_test_path)
           git_cmd_("git commit -m 'gha - Reject test changes: ", commit_app_value, "'")
         } else {
           # accept
