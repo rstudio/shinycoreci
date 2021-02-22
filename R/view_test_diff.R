@@ -76,8 +76,12 @@ view_test_diff <- function(suffix = platform_rversion(), dir = "apps", ...) {
   }
 
   if (length(folders_info) > 1) {
-    folder_names <-
-    ans <- utils::menu(c("(All apps)", shinytest_current_names(folders_info)), graphics = FALSE, title = "Select the app folder to view shinytest diff")
+    ans <- utils::menu(
+      c("(All apps)",
+      shinytest_current_names(folders_info)),
+      graphics = FALSE,
+      title = "Select the app folder to view shinytest diff"
+    )
     # ans = 0; all
     # ans = 1; all
     if (ans > 1) {
@@ -87,9 +91,9 @@ view_test_diff <- function(suffix = platform_rversion(), dir = "apps", ...) {
     }
   }
 
-  lapply(file.path(dir, folders_info), function(folder_info) {
-    folder <- folders_info[1]
-    testname <- folders_info[2]
+  lapply(folders_info, function(folder_info) {
+    folder <- file.path(dir, folders_info$app)
+    testname <- folders_info$testname
     shinytest__view_test_diff(appDir = folder, suffix = suffix, interactive = TRUE, testnames = testname, ...)
   })
 }
