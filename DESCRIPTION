@@ -62,6 +62,7 @@ Remotes:
   r-lib/fastmap,
   r-lib/cachem,
   r-lib/later,
+  rstudio/flexdashboard,
   rstudio/sass,
   rstudio/bslib,
   rstudio/httpuv,
@@ -75,7 +76,6 @@ Remotes:
   rstudio/shiny,
   rstudio/shinythemes,
   rstudio/shinytest,
-  rstudio/flexdashboard,
   rstudio/pool,
   rstudio/reactlog,
   rstudio/shinymeta
