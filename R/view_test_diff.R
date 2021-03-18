@@ -14,7 +14,7 @@ find_bad_shinytest_files <- function(dir = ".") {
   )
   # get all app folders and test names
   folders_info <- lapply(folders, function(folder) {
-    c(
+    list(
       app = folder[1],
       testname = sub(x = folder[4], "-current$", ""),
       path = paste0(folder, collapse = .Platform$file.sep)
