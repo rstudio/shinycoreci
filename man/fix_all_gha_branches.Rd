@@ -8,9 +8,10 @@ fix_all_gha_branches(
   dir = "apps",
   sha = git_sha(dir),
   ...,
-  merge = FALSE,
-  commit = merge,
-  ask = interactive(),
+  save_results = NULL,
+  ask_apps = TRUE,
+  ask_branches = FALSE,
+  ask_if_not_master = TRUE,
   repo_dir = file.path(dir, "..")
 )
 }
@@ -21,11 +22,11 @@ fix_all_gha_branches(
 
 \item{...}{Extra arguments passed to \code{shinytest::viewTestDiff}}
 
-\item{merge}{Logical which merges all branches after viewing test results}
+\item{save_results}{Logical which commits and merges all branches after viewing test results}
 
-\item{commit}{Logical which determines if shinytest results should be committed}
+\item{ask_apps, ask_branches}{Logical which allows for particular apps branches to be inspected}
 
-\item{ask}{Logical which allows for particular branches to be inspected}
+\item{ask_if_not_master}{Logical which will check if \code{master} is the base branch}
 
 \item{repo_dir}{Root repo folder path}
 }
