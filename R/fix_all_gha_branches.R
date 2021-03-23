@@ -29,8 +29,8 @@ fix_all_gha_branches <- function(
   sha = git_sha(dir),
   ...,
   save_results = NULL,
-  ask_apps = TRUE,
-  ask_branches = FALSE,
+  ask_apps = FALSE,
+  ask_branches = TRUE,
   ask_if_not_master = TRUE,
   repo_dir = file.path(dir, "..")
 ) {
