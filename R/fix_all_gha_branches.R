@@ -143,7 +143,7 @@ fix_all_gha_branches <- function(
           app_info_dt_for_combo$os, "-", app_info_dt_for_combo$r_version,
           collapse = ", "
         )
-        cat("* ", app_testname, " : ", app_testname, " ; ", os_r_version, "\n", sep = "")
+        cat("* ", app_testname, " ; ", os_r_version, "\n", sep = "")
       }
     )
   }
