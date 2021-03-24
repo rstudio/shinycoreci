@@ -56,6 +56,7 @@ Suggests:
     english,
     dplyr,
     tidyr,
+    shinyvalidate,
     gt
 Remotes:
   r-lib/pkgdepends,
@@ -76,6 +77,7 @@ Remotes:
   rstudio/shiny,
   rstudio/shinythemes,
   rstudio/shinytest,
+  rstudio/shinyvalidate,
   rstudio/pool,
   rstudio/reactlog,
   rstudio/shinymeta
