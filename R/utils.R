@@ -31,6 +31,7 @@ rm_files <- function(filenames) {
   plotly::plot_ly
   leaflet::leaflet
   leaflet.providers::get_providers
+  shinyvalidate::compose_rules
   crosstalk::crosstalkLibs
   flexdashboard::flex_dashboard
   shinymeta::formatCode
