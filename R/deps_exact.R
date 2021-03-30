@@ -180,7 +180,13 @@ cached_remotes_order <- local({
 
 
 shinycoreci_description_info <- function() {
-  remotes__load_pkg_description(dirname(attr(packageDescription("shinycoreci"), "file")))
+  direct <- system.file(package = "shinycoreci")
+  # if bug from pkgload
+  if (basename(direct) == "inst") {
+    # get root folder from package description file
+    direct <- dirname(attr(packageDescription("shinycoreci"), "file"))
+  }
+  remotes__load_pkg_description(direct)
 }
 
 
