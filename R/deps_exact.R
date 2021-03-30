@@ -179,14 +179,23 @@ cached_remotes_order <- local({
 })
 
 
+shinycoreci_description_info <- function() {
+  direct <- system.file(package = "shinycoreci")
+  # if bug from pkgload
+  if (basename(direct) == "inst") {
+    # get root folder from package description file
+    direct <- dirname(attr(packageDescription("shinycoreci"), "file"))
+  }
+  remotes__load_pkg_description(direct)
+}
+
+
 
 # used in shinycoreci-apps
 install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes::git_credentials()) {
   # https://github.com/rstudio/shinytest/archive/rc-v1.4.0.tar.gz
 
-  remotes_pkgs <- split_remotes(
-    remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotes
-  )
+  remotes_pkgs <- split_remotes(shinycoreci_description_info()$remotes)
   pkgs_installed <- lapply(remotes_pkgs, function(remotes_pkg) {
     repo_spec <- remotes::parse_github_repo_spec(remotes_pkg)
 
@@ -240,7 +249,7 @@ validate_remotes_order <- function() {
   remote_needs_remotes <- list()
 
   base_remotes <- split_remotes(
-    remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotes
+    shinycoreci_description_info()$remotes
   )
 
   i <- 1

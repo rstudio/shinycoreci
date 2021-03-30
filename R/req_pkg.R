@@ -3,7 +3,9 @@ is_installed <- function(package) {
 }
 
 suggested_pkgs <- function() {
-  renv::dependencies(system.file("DESCRIPTION", package = "shinycoreci"), quiet = TRUE)
+  desc_info <- packageDescription("shinycoreci")
+  desc_file <- attr(desc_info, "file")
+  renv::dependencies(desc_file, quiet = TRUE)
 }
 
 

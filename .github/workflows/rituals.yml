@@ -94,7 +94,14 @@ jobs:
       - name: Install dependencies
         shell: Rscript {0}
         run: |
-          pak::local_install_dev_deps(upgrade = TRUE)
+          pak::local_install(upgrade = TRUE, dependencies = TRUE)
+
+      - name: Validate remotes order
+        shell: Rscript {0}
+        run: |
+          testthat::expect_error({
+            shinycoreci:::validate_remotes_order()
+          }, NA)
 
       - name: Document
         run: |

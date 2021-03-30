@@ -311,10 +311,7 @@ app_status_shinycoreci_sha <- function() {
     return("(local)")
   }
 
-  substr(
-    remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotesha,
-    0, 7
-  )
+  substr(shinycoreci_description_info()$remotesha, 0, 7)
 }
 
 app_status_validate_app_branch <- function(dir) {
@@ -347,7 +344,7 @@ app_status_validate_shinycoreci_branch <- function() {
     return(invisible())
   }
 
-  ref <- remotes__load_pkg_description(system.file(package = "shinycoreci"))$remoteref
+  ref <- shinycoreci_description_info()$remoteref
   if (!identical(ref, "master")) {
     if (
       !ask_yes_no("'shinycoreci' branch is currently: '", ref, "'. Is this ok?")
