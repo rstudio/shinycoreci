@@ -96,6 +96,13 @@ jobs:
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
 
+      - name: Validate remotes order
+        shell: Rscript {0}
+        run: |
+          testthat::expect_error({
+            shinycoreci:::validate_remotes_order()
+          }, NA)
+
       - name: Document
         run: |
           Rscript -e 'pak::pkg_install("roxygen2")'
