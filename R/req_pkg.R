@@ -31,7 +31,7 @@ req_pkg <- local({
 
     version <- suggested_package_info$Version
 
-    if (nchar(version) > 0) {
+    if (isTRUE(nchar(version) > 0)) {
       require <- suggested_package_info$Require
       desc_version <- package_version(version)
       installed_version <- utils::packageVersion(package)
