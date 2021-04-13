@@ -127,6 +127,69 @@ fix_all_gha_branches <- function(
     }),
     recursive = FALSE
   )))
+
+  branch_message <- function(branch, ...) {
+    message(branch, " - ", ...)
+  }
+
+  merge_results <- function(branches_to_merge) {
+    if (!isTRUE(save_results)) {
+      message("\nMerging of results was disabled. Skipping merging of GHA branches.")
+      return()
+    }
+
+    # verify all outstanding branches have no *-current folders
+    message("\nChecking to make sure all git branches contain no *-current shinytest folders")
+
+    branches <- lapply(unique(branches_to_merge), function(branch) {
+      git_checkout(branch)
+      validate_no_unexpected_shinytest_folders(dir)
+      branch
+    })
+
+    # go to base branch
+    git_checkout(original_git_branch)
+
+    message("\nAttempting to automatically merge (and locally delete) all branches into ", original_git_branch)
+
+    # merge all outstanding branches
+    lapply(branches, function(branch) {
+      branch_message(original_git_branch, "Merging ", branch, " into ", original_git_branch)
+      git_cmd_("git merge ", branch)
+      had_merge_conflict <- FALSE
+
+      unmerged_files <- git_cmd_("git diff --name-only --diff-filter=U")
+      if (length(unmerged_files) > 0) {
+        stop("Merge conflict found when merging '", branch, "' into '", original_git_branch, "'.\nPlease fix the merge conflict and call ", format(original_sys_call))
+      }
+    })
+
+    git_checkout(original_git_branch)
+    validate_no_unexpected_shinytest_folders()
+
+    # git branch --merged
+    message("\nDeleting all merged branches")
+    git_checkout(original_git_branch)
+    lapply(branches, function(branch) {
+      branch_message(original_git_branch, "Deleting local ", branch)
+      git_cmd_("git push origin ", branch)
+      git_cmd_("git branch -d ", branch)
+    })
+
+    on.exit({
+      message("\nDone!")
+      message("Ready to push to origin/", original_git_branch)
+      message("")
+      message("git push")
+    }, add = TRUE)
+  }
+
+  if (is.null(app_info_dt)) {
+    message("\nNo Apps needed to be manually fixed. Merging all branches")
+    merge_results(names(apps_to_fix))
+    return(NULL)
+  }
+
   app_info_dt$app_testname <- paste0(format(app_info_dt$app), ": ", format(app_info_dt$testname))
   # reorder apps
   app_info_dt <- app_info_dt[order(app_info_dt$app, app_info_dt$testname, app_info_dt$os, app_info_dt$r_version), ]
@@ -191,9 +254,6 @@ fix_all_gha_branches <- function(
   message("\nTesting Apps:")
   print_apps()
 
-  branch_message <- function(branch, ...) {
-    message(branch, " - ", ...)
-  }
 
   # for each branch
   pr <- progress_bar(
@@ -250,51 +310,7 @@ fix_all_gha_branches <- function(
 
 
   # at this point, all branches should be updated and ready to be merged
-  if (isTRUE(save_results)) {
-    # verify all outstanding branches have no *-current folders
-    message("\nChecking to make sure all git branches contain no *-current shinytest folders")
-
-    lapply(unique(app_info_dt$branch), function(branch) {
-      git_checkout(branch)
-      validate_no_unexpected_shinytest_folders(dir)
-    })
-
-    # go to base branch
-    git_checkout(original_git_branch)
-
-    message("\nAttempting to automatically merge (and locally delete) all branches into ", original_git_branch)
-
-    # merge all outstanding branches
-    lapply(branches, function(branch) {
-      branch_message(original_git_branch, "Merging ", branch, " into ", original_git_branch)
-      git_cmd_("git merge ", branch)
-      had_merge_conflict <- FALSE
-
-      unmerged_files <- git_cmd_("git diff --name-only --diff-filter=U")
-      if (length(unmerged_files) > 0) {
-        stop("Merge conflict found when merging '", branch, "' into '", original_git_branch, "'.\nPlease fix the merge conflict and call ", format(original_sys_call))
-      }
-    })
-
-    git_checkout(original_git_branch)
-    validate_no_unexpected_shinytest_folders()
-
-    # git branch --merged
-    message("\nDeleting all merged branches")
-    git_checkout(original_git_branch)
-    lapply(branches, function(branch) {
-      branch_message(original_git_branch, "Deleting local ", branch)
-      git_cmd_("git push origin ", branch)
-      git_cmd_("git branch -d ", branch)
-    })
-
-    on.exit({
-      message("\nDone!")
-      message("Ready to push to origin/", original_git_branch)
-      message("")
-      message("git push")
-    }, add = TRUE)
-  }
+  merge_results(app_info_dt$branch)
 
   invisible(app_info_dt)
 }
