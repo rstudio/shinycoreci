@@ -297,7 +297,7 @@ fix_all_gha_branches <- function(
           # accept
           branch_message(branch, "Committing the updated tests of folder: ", app_folder)
           # adds new and deleted files in the `app_folder`
-          git_cmd_("git add -u ", app_folder)
+          git_cmd_("git add ", app_folder)
           git_cmd_("git commit -m 'gha - Accept test changes: ", commit_app_value, "'")
         }
       } else {
