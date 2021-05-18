@@ -7,12 +7,7 @@
 \usage{
 save_test_results(test_runtests_output, gha_branch_name, pr_number, username)
 
-view_test_results(
-  dir = "apps",
-  update = TRUE,
-  from = Sys.Date() - 5,
-  to = Sys.Date()
-)
+view_test_results(dir = ".")
 }
 \arguments{
 \item{test_runtests_output}{output from \code{test_runtests()}.}

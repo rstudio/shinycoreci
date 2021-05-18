@@ -60,7 +60,6 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
 #' @param update whether or not to fetch the latest test results
 #' @param from start date.
 #' @param to end date.
-#' @import htmltools
 #' @export
 view_test_results <- function(dir = ".") {
   validate_core_pkgs()
@@ -70,8 +69,8 @@ view_test_results <- function(dir = ".") {
     stop("This function must be called from the shinycoreci-apps repo")
   }
 
-  withr::with_namespace(
-    "shiny", {
+  withr::with_namespace("shiny", {
+    withr::with_namespace("htmltools", {
 
       banner <- div(
         style = "display:flex; justify-content:center; gap:1rem; margin-top: 1rem",
@@ -318,8 +317,9 @@ view_test_results <- function(dir = ".") {
       }
 
       shinyApp(ui, server)
-    }
-  )
+
+    })
+  })
 }
 
 test_results <- function(files) {
