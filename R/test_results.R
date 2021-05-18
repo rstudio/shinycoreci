@@ -58,168 +58,291 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
 #' @rdname test-results
 #' @inheritParams test_runtests
 #' @param update whether or not to fetch the latest test results
+#' @param from start date.
+#' @param to end date.
+#' @import htmltools
 #' @export
-view_test_results <- function(dir = "apps", update = TRUE) {
+view_test_results <- function(dir = ".") {
   validate_core_pkgs()
 
-  dir <- normalizePath(dir, mustWork = TRUE)
-
-  repo_dir <- file.path(dir, "..")
-  if (isTRUE(update)) {
-    git_cmd(repo_dir, "git fetch origin _test_results:_test_results")
+  repo_dir <- normalizePath(dir, mustWork = TRUE)
+  if ("shinycoreci-apps" != basename(repo_dir)) {
+    stop("This function must be called from the shinycoreci-apps repo")
   }
-  try({
-    git_cmd(repo_dir, "git checkout _test_results -- _test_results/")
-    git_cmd(repo_dir, "git reset _test_results/")
-  })
 
-  owd <- setwd(repo_dir)
-  on.exit(setwd(owd), add = TRUE)
+  withr::with_namespace(
+    "shiny", {
 
-  results_files <- Sys.glob("_test_results/*.json")
-  if (!length(results_files)) stop("Couldn't find any test results", call. = FALSE)
+      banner <- div(
+        style = "display:flex; justify-content:center; gap:1rem; margin-top: 1rem",
+        div("Showing", class = "lead text-large"),
+        tagAppendAttributes(uiOutput("platform"), style = "width:200px"),
+        div("results between ", class = "lead text-large"),
+        tagAppendAttributes(uiOutput("date_start"), style = "width:150px"),
+        div(" and ", class = "lead text-large"),
+        tagAppendAttributes(uiOutput("date_end"), style = "width:150px"),
+        actionButton(
+          "fetch_results", "Fetch results",
+          icon = icon("cloud-download-alt"),
+          class = "btn-primary btn-sm",
+          style = "height:2.5rem"
+        )
+      )
 
-  results <- lapply(results_files, function(x) {
-    json <- jsonlite::fromJSON(x)
-    json$results$gha_branch_name <- json$gha_branch_name
-    json$results$branch_name <- json$branch_name
-    json$results
-  })
+      ui <- fluidPage(
+        theme = bslib::bs_theme(base_font = bslib::font_google("Prompt")),
+        tags$head(tags$style(".dataTables_filter {display: none}")),
+        div(
+          style = "display:flex; flex-direction: column; align-items: center",
+          banner,
+          div(
+            style = "width: 60%",
+            DT::dataTableOutput("app_status_table")
+          )
+        )
+      )
 
-  `%>%` <- dplyr::`%>%`
+      server <- function(input, output, session) {
 
-  results_tidy <- dplyr::bind_rows(results) %>%
+        log_files <- reactive({
+          if (isTRUE(input$fetch_results > 1)) {
+            git_cmd(repo_dir, "git fetch origin _test_results:_test_results")
+            try({
+              git_cmd(repo_dir, "git checkout _test_results -- _test_results/")
+              git_cmd(repo_dir, "git reset _test_results/")
+            })
+          }
+          withr::with_dir(repo_dir, normalizePath(Sys.glob("_test_results/*.json"), mustWork = TRUE))
+        })
+
+        log_dates <- reactive({
+          as.Date(
+            strextract(basename(log_files()), "[0-9]{4}_[0-9]{2}_[0-9]{2}"),
+            format = "%Y_%m_%d"
+          )
+        })
+
+        logs <- reactive({
+          req(rng <- c(input$date_start, input$date_end))
+          rng <- as.Date(rng)
+          idx <- dplyr::between(
+            log_dates(),
+            left = min(rng),
+            right = max(rng)
+          )
+          test_results(log_files()[idx])
+        })
+
+        output$platform <- renderUI({
+          choices <- c("All platforms" = "all", unique(logs()$platform))
+          selectInput("platform", NULL, choices = choices)
+        })
+
+        output$date_start <- renderUI({
+          rng <- range(log_dates())
+          dateInput(
+            "date_start", NULL, min = rng[1], max = rng[2],
+            value = Sys.Date() - 14
+          )
+        })
+
+        output$date_end <- renderUI({
+          rng <- range(log_dates())
+          dateInput(
+            "date_end", NULL, min = rng[1], max = rng[2],
+            value = min(Sys.Date(), rng[2])
+          )
+        })
+
+        logs_summary <- reactive({
+          req(input$platform)
+
+          d <- logs()
+          if (!identical(input$platform, "all")) {
+            d <- dplyr::filter(d, platform %in% input$platform)
+          }
+          d %>%
+            dplyr::count(app_name, status, name = "n") %>%
+            tidyr::spread(status, n, fill = 0) %>%
+            dplyr::arrange(desc(fail)) %>%
+            dplyr::select(
+              App = app_name, Failures = fail, Pass = pass,
+              `Can't install` = can_not_install,
+              `No Results` = did_not_return_result
+            )
+        })
+
+        output$app_status_table <- DT::renderDataTable({
+          DT::datatable(
+            logs_summary(),
+            rownames = FALSE,
+            selection = "single",
+            filter = "top",
+            fillContainer = TRUE,
+            options = list(
+              paging = FALSE, #searching = FALSE,
+              scrollY = "85vh"
+            )
+          )
+        })
+
+        selected_app <- reactive({
+          cell <- input$app_status_table_cell_clicked
+          if (length(cell) > 0) {
+            logs_summary()[cell$row, "App", drop = TRUE]
+          }
+        })
+
+        app_logs <- reactive({
+          req(selected_app())
+
+          dplyr::filter(
+            logs(),
+            app_name %in% selected_app(),
+            status %in% c("fail", "can_not_install")
+          )
+        })
+
+        selected_app_logs <- reactive({
+          req(input$logs_date)
+          dplyr::filter(app_logs(), date == as.Date(input$logs_date))
+        })
+
+        observeEvent(input$app_status_table_cell_clicked, {
+
+          logs <- app_logs()
+          log_dates <- sort(unique(logs$date), decreasing = TRUE)
+
+          # TODO: save GHA job id and create a hyperlink to
+          # https://github.com/rstudio/shinycoreci-apps/runs/{job_id}
+          # Better yet, can we link to either the build log or test source code?
+          modal <- modalDialog(
+            title = paste(selected_app(), "failure details"),
+            size = "l",
+            easyClose = TRUE,
+            tabsetPanel(
+              tabPanel("Timeline", uiOutput("timeline")),
+              tabPanel(
+                "Daily details",
+                div(
+                  style = "display:flex; justify-content:center; gap:1rem",
+                  "Failure logs from:",
+                  selectInput(
+                    "logs_date", NULL, choices = log_dates
+                  )
+                ),
+                uiOutput("logs_report")
+              ),
+              type = "pills",
+              header = br()
+            )
+          )
+
+          showModal(modal)
+        })
+
+        output$timeline <- renderUI({
+          validate(need(
+            nrow(app_logs()) > 1,
+            "No failures to show for this app"
+          ))
+
+          withr::with_namespace(
+            "plotly", {
+
+              panel <- . %>%
+                plot_ly(height = 700) %>%
+                add_bars(
+                  x = ~date, y = ~n, color = ~paste("R", r_version),
+                  legendgroup = ~r_version,
+                  showlegend = ~identical(unique(os), "Linux")
+                ) %>%
+                add_annotations(
+                  text = ~unique(os), showarrow = FALSE,
+                  x = 0.5, y = 1, yref = "paper", xref = "paper",
+                  yanchor = "bottom", font = list(size = 15),
+                  yshift = -3
+                ) %>%
+                layout(
+                  showlegend = FALSE,
+                  barmode = "stack",
+                  shapes = list(
+                    type = "rect",
+                    x0 = 0, x1 = 1, xref = "paper",
+                    y0 = 0, y1 = 16, yref = "paper",
+                    yanchor = 1, ysizemode = "pixel",
+                    fillcolor = toRGB("gray80"),
+                    line = list(color = "transparent")
+                  )
+                )
+
+              app_logs() %>%
+                dplyr::count(date, platform) %>%
+                tidyr::separate(platform, c("os", "r_version"), sep = "-") %>%
+                dplyr::group_by(os) %>%
+                dplyr::do(p = panel(.)) %>%
+                subplot(nrows = NROW(.), shareX = TRUE) %>%
+                layout(
+                  font = list(family = "Prompt", size = 14),
+                  showlegend = TRUE, hovermode = "x",
+                  yaxis2 = list(title = "Number of failures"),
+                  xaxis = list(title = ""),
+                  legend = list(orientation = "h", x = 1, xanchor = "right")
+                ) %>%
+                config(displayModeBar = FALSE)
+            }
+          )
+        })
+
+        output$logs_report <- renderUI({
+          req(input$logs_date)
+
+          logs <- selected_app_logs()
+          logs <- split(logs, logs$platform)
+
+          tagList(
+            !!!Map(
+              logs, names(logs),
+              f = function(x, y) {
+                res <- paste(x$result, collapse = "\n")
+                tags$details(
+                  open = NA,
+                  tags$summary(y),
+                  tags$code(tags$pre(res))
+                )
+              }
+            )
+          )
+        })
+
+      }
+
+      shinyApp(ui, server)
+    }
+  )
+}
+
+test_results <- function(files) {
+  results <- lapply(files, test_results_import)
+  dplyr::bind_rows(results) %>%
     tibble::as_tibble() %>%
     dplyr::mutate(gha_branch = gha_branch_name) %>%
     tidyr::separate_("gha_branch_name", c("gha", "sha", "time", "r_version", "platform"), sep = "-") %>%
     dplyr::select(-gha) %>%
     dplyr::mutate(
+      platform = paste(platform, r_version, sep = "-"),
       time = as.POSIXct(time, format = "%Y_%m_%d_%H_%M"),
+      date = as.Date(time),
       sha = paste0(branch_name, "@", sha)
     ) %>%
     dplyr::arrange(dplyr::desc(time))
-
-  kept_times <- results_tidy %>%
-    # Take the most recent run with this sha+platform+r_version (scheduling complicates things)
-    dplyr::group_by(sha, r_version, platform) %>%
-    dplyr::arrange(dplyr::desc(time)) %>%
-    dplyr::slice(1)
-
-  results_tidy <- dplyr::semi_join(results_tidy, kept_times, by = c("sha", "r_version", "platform"))
-
-  # Filter out known no result cases
-  results_tidy <- dplyr::filter(
-    results_tidy,
-    !(status %in% "did_not_return_result" &
-      platform %in% c("macOS", "Linux") &
-      basename(test_path) %in% c("shinyjster-edge.R", "shinyjster-ie.R"))
-  )
-
-  gt_table_html <- function(results) {
-    results %>%
-      dplyr::count(status) %>%
-      dplyr::arrange(dplyr::desc(n)) %>%
-      gt::gt() %>%
-      # Possible statuses are listed here
-      # https://github.com/rstudio/shinycoreci/blob/master/R/test_runtests.R#L1-L7
-      gt::tab_style(
-        style = gt::cell_fill(color = "#31A744"),
-        locations = gt::cells_body(rows = status == "pass")
-      ) %>%
-      gt::tab_style(
-        style = gt::cell_fill(color = "#CB2432"),
-        locations = gt::cells_body(rows = status == "fail")
-      ) %>%
-      gt::tab_style(
-        style = gt::cell_fill(color = "#F69245"),
-        locations = gt::cells_body(rows = status == "can_not_install")
-      ) %>%
-      gt::tab_style(
-        style = gt::cell_fill(color = "#CECECE"),
-        locations = gt::cells_body(rows = status == "did_not_return_result")
-      ) %>%
-      gt::tab_options(
-        #table.width = gt::px(500),
-        column_labels.hidden = TRUE
-      ) %>%
-      gt::as_raw_html()
-  }
-
-  failure_summary <- function(results) {
-    failures <- dplyr::filter(results, status %in% "fail")
-    if (!nrow(failures)) return("")
-    msgs <- paste0("<b>", failures$app_name, " ~ ", basename(failures$test_path), ":</b>\n", paste(rep("", 20), collapse = "-"), "\n\n", htmltools::htmlEscape(failures$result))
-    title <- sprintf("Test failures: (<code>git checkout %s</code>)", unique(failures$gha_branch))
-    summary_html(title, paste(msgs, collapse = "\n\n"))
-  }
-
-  cant_install_summary <- function(results) {
-    cant_install <- dplyr::filter(results, status %in% "can_not_install")
-    if (!nrow(cant_install)) return("")
-    msgs <- paste0("<b>", cant_install$app_name, " ~ ", basename(cant_install$test_path), ":</b>\n", paste(rep("", 20), collapse = "-"), "\n\n", htmltools::htmlEscape(cant_install$result))
-    summary_html(
-      "Can't install",
-      paste(msgs, collapse = "\n\n")
-    )
-  }
-
-  no_results_summary <- function(results) {
-    no_result <- dplyr::filter(results, status %in% "did_not_return_result")
-    if (!nrow(no_result)) return("")
-    summary_html(
-      "No results:",
-      paste(sub("^apps/", "", no_result$test_path), collapse = "\n\n")
-    )
-  }
-
-  summary_html <- function(summary, details) {
-    shiny::HTML(
-      sprintf(
-        "<details><summary>%s</summary><pre><code>%s</code></pre></details>",
-        summary, details
-      )
-    )
-  }
-
-  ui <- shiny::fluidPage(
-    shiny::selectInput("sha", "Choose a test run", unique(results_tidy$sha), multiple = FALSE),
-    shiny::uiOutput("results")
-  )
-
-  server <- function(input, output, session) {
-
-    results_sha <- shiny::reactive({
-      shiny::req(input$sha)
-      dplyr::filter(results_tidy, sha %in% input$sha)
-    })
-
-    output$results <- shiny::renderUI({
-      results_sha() %>%
-        dplyr::group_by(platform, r_version) %>%
-        dplyr::do(
-          html = shiny::HTML(c(
-            sprintf(
-              "<h3><a href='%s'>%s - %s</a> (%s) (%s)</h3> ",
-              paste0("https://github.com/rstudio/shinycoreci-apps/compare/", unique(.$gha_branch)),
-              unique(.$platform),
-              unique(.$r_version),
-              paste(sub(":00$", "", unique(.$time), "UTC")),
-              unique(.$gha_image_version)
-            ),
-            gt_table_html(.),
-            failure_summary(.),
-            cant_install_summary(.),
-            no_results_summary(.)
-          ))
-        ) %>%
-        dplyr::pull(html) %>%
-        shiny::tagList()
-
-    })
-  }
-
-  shiny::shinyApp(ui, server)
 }
 
+test_results_import <- function(f) {
+  json <- jsonlite::fromJSON(f)
+  json$results$gha_branch_name <- json$gha_branch_name
+  json$results$branch_name <- json$branch_name
+  json$results
+}
 
 utils::globalVariables(c("gha", "gha_branch_name", "time", "branch_name", "sha", "r_version", "status", "test_path", "n", "cant_install", ".", "html"))

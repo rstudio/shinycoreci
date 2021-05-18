@@ -125,6 +125,10 @@ split_remotes <- function(x) {
   trim_ws(unlist(strsplit(x, ",[[:space:]]*")))
 }
 
+strextract <- function(str, pattern) {
+  regmatches(str, regexpr(pattern, str))
+}
+
 
 progress_bar <- function(..., show_after = 0, clear = FALSE, force = TRUE) {
   progress::progress_bar$new(
