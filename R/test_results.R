@@ -63,7 +63,7 @@ view_test_results <- function(dir = ".") {
 
   repo_dir <- normalizePath(dir, mustWork = TRUE)
   if ("shinycoreci-apps" != basename(repo_dir)) {
-    stop("This function must be called from the shinycoreci-apps repo")
+    warning("This function should be called from the shinycoreci-apps repo")
   }
 
   withr::with_namespace("shiny", {
