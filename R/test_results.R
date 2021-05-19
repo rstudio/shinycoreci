@@ -57,9 +57,6 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
 
 #' @rdname test-results
 #' @inheritParams test_runtests
-#' @param update whether or not to fetch the latest test results
-#' @param from start date.
-#' @param to end date.
 #' @export
 view_test_results <- function(dir = ".") {
   validate_core_pkgs()
@@ -88,8 +85,9 @@ view_test_results <- function(dir = ".") {
         )
       )
 
+      theme <- bslib::bs_theme(base_font = bslib::font_google("Prompt"))
       ui <- fluidPage(
-        theme = bslib::bs_theme(base_font = bslib::font_google("Prompt")),
+        theme = bslib::bs_add_rules(theme, ".nav-pills { @extend .justify-content-center; }"),
         tags$head(tags$style(".dataTables_filter {display: none}")),
         div(
           style = "display:flex; flex-direction: column; align-items: center",
@@ -140,16 +138,14 @@ view_test_results <- function(dir = ".") {
         output$date_start <- renderUI({
           rng <- range(log_dates())
           dateInput(
-            "date_start", NULL, min = rng[1], max = rng[2],
-            value = Sys.Date() - 14
+            "date_start", NULL, value = rng[2], min = rng[1], max = rng[2]
           )
         })
 
         output$date_end <- renderUI({
           rng <- range(log_dates())
           dateInput(
-            "date_end", NULL, min = rng[1], max = rng[2],
-            value = min(Sys.Date(), rng[2])
+            "date_end", NULL, value = rng[2], min = rng[1], max = rng[2]
           )
         })
 
@@ -220,7 +216,6 @@ view_test_results <- function(dir = ".") {
             size = "l",
             easyClose = TRUE,
             tabsetPanel(
-              tabPanel("Timeline", uiOutput("timeline")),
               tabPanel(
                 "Daily details",
                 div(
@@ -232,6 +227,7 @@ view_test_results <- function(dir = ".") {
                 ),
                 uiOutput("logs_report")
               ),
+              tabPanel("Timeline", uiOutput("timeline")),
               type = "pills",
               header = br()
             )
