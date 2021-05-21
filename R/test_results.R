@@ -156,15 +156,21 @@ view_test_results <- function(dir = ".") {
           if (!identical(input$platform, "all")) {
             d <- dplyr::filter(d, platform %in% input$platform)
           }
-          d %>%
+          d <- d %>%
             dplyr::count(app_name, status, name = "n") %>%
-            tidyr::spread(status, n, fill = 0) %>%
-            dplyr::arrange(desc(fail)) %>%
-            dplyr::select(
-              App = app_name, Failures = fail, Pass = pass,
-              `Can't install` = can_not_install,
-              `No Results` = did_not_return_result
-            )
+            tidyr::spread(status, n, fill = 0)
+
+          if ("fail" %in% names(d)) {
+            d <- dplyr::arrange(d, desc(fail))
+          }
+
+          nms <- c(
+            App = "app_name", Failures = "fail", Pass = "pass",
+            `Can't install` = "can_not_install",
+            `No Results` = "did_not_return_result"
+          )
+          nms <- nms[nms %in% names(d)]
+          dplyr::select(d, !!!nms)
         })
 
         output$app_status_table <- DT::renderDataTable({
