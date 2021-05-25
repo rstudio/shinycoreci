@@ -79,6 +79,7 @@ Remotes:
   rstudio/htmltools,
   rstudio/shinythemes,
   rstudio/shinytest,
+  rstudio/webdriver,
   rstudio/shinyvalidate,
   rstudio/pool,
   rstudio/reactlog,
