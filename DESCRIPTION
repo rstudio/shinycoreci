@@ -57,7 +57,9 @@ Suggests:
     dplyr,
     tidyr,
     shinyvalidate,
-    gt
+    gt,
+    DT,
+    dygraphs
 Remotes:
   r-lib/pkgdepends,
   r-lib/fastmap,
@@ -80,5 +82,7 @@ Remotes:
   rstudio/shinyvalidate,
   rstudio/pool,
   rstudio/reactlog,
-  rstudio/shinymeta
+  rstudio/shinymeta,
+  rstudio/DT,
+  rstudio/dygraphs
 RoxygenNote: 7.1.1
