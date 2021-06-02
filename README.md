@@ -36,6 +36,7 @@ These `Remotes` will be installed to make sure the latest package development is
   - [rstudio/pool](http://github.com/rstudio/pool)
   - [rstudio/promises](http://github.com/rstudio/promises)
   - [rstudio/reactlog](http://github.com/rstudio/reactlog)
+  - [rstudio/rmarkdown](http://github.com/rstudio/rmarkdown)
   - [rstudio/rsconnect](http://github.com/rstudio/rsconnect)
   - [rstudio/sass](http://github.com/rstudio/sass)
   - [rstudio/shiny](http://github.com/rstudio/shiny)
