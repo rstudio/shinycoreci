@@ -85,6 +85,6 @@ Remotes:
   rstudio/reactlog,
   rstudio/shinymeta,
   rstudio/DT,
-  rstudio/dygraphs
+  rstudio/dygraphs,
   rstudio/rmarkdown
 RoxygenNote: 7.1.1
