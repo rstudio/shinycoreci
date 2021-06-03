@@ -216,18 +216,17 @@ fix_all_gha_branches <- function(
     print_apps()
     app_branches <- sort(unique(app_info_dt$branch))
     cat("\n")
-    ans <- utils::menu(
-      c("(All branches); `ask_branches = FALSE`", app_branches),
+    first_choice <- "(All branches); `ask_branches = FALSE`"
+    ans <- utils::select.list(
+      c(first_choice, app_branches),
+      multiple = TRUE,
       graphics = FALSE,
       title = "Select the Git branches you'd like to use"
     )
-    # ans = 0; all
-    # ans = 1; all
-    if (ans > 1) {
-      # if ans is not 'all', subset the `app_info_dt`
-      ans_pos <- ans - 1
-      branches <- app_branches[ans_pos]
-      app_info_dt <- app_info_dt[app_info_dt$branch %in% branches, ]
+    if ((length(ans) == 0) || (first_choice %in% ans)) {
+      # Do not subset data
+    } else {
+      app_info_dt <- app_info_dt[app_info_dt$branch %in% ans, ]
     }
   }
 
@@ -236,18 +235,17 @@ fix_all_gha_branches <- function(
     print_apps()
     app_testnames <- sort(unique(app_info_dt$app_testname))
     cat("\n")
-    ans <- utils::menu(
-      c("(All apps); `ask_apps = FALSE`", app_testnames),
+    first_choice <- "(All apps); `ask_apps = FALSE`"
+    ans <- utils::select.list(
+      c(first_choice, app_testnames),
+      multiple = TRUE,
       graphics = FALSE,
       title = "Select the App / Test you'd like to use"
     )
-    # ans = 0; all
-    # ans = 1; all
-    if (ans > 1) {
-      # if ans is not 'all', subset the folders
-      ans_pos <- ans - 1
-      app_testnames <- app_testnames[ans_pos]
-      app_info_dt <- app_info_dt[app_info_dt$app_testname %in% app_testnames, ]
+    if ((length(ans) == 0) || (first_choice %in% ans)) {
+      # Do not subset data
+    } else {
+      app_info_dt <- app_info_dt[app_info_dt$app_testname %in% ans, ]
     }
   }
 
