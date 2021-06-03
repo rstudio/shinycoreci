@@ -184,7 +184,7 @@ shinycoreci_description_info <- function() {
   # if bug from pkgload
   if (basename(direct) == "inst") {
     # get root folder from package description file
-    direct <- dirname(attr(packageDescription("shinycoreci"), "file"))
+    direct <- dirname(attr(utils::packageDescription("shinycoreci"), "file"))
   }
   remotes__load_pkg_description(direct)
 }
