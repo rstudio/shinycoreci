@@ -31,6 +31,7 @@ These `Remotes` will be installed to make sure the latest package development is
   - [rstudio/DT](http://github.com/rstudio/DT)
   - [rstudio/dygraphs](http://github.com/rstudio/dygraphs)
   - [rstudio/flexdashboard](http://github.com/rstudio/flexdashboard)
+  - [rstudio/fontawesome](http://github.com/rstudio/fontawesome)
   - [rstudio/htmltools](http://github.com/rstudio/htmltools)
   - [rstudio/httpuv](http://github.com/rstudio/httpuv)
   - [rstudio/pool](http://github.com/rstudio/pool)
