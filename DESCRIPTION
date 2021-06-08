@@ -48,6 +48,7 @@ Suggests:
     websocket,
     plotly,
     crosstalk,
+    fontawesome,
     flexdashboard,
     pool,
     leaflet,
@@ -85,5 +86,6 @@ Remotes:
   rstudio/reactlog,
   rstudio/shinymeta,
   rstudio/DT,
-  rstudio/dygraphs
+  rstudio/dygraphs,
+  rstudio/fontawesome
 RoxygenNote: 7.1.1
