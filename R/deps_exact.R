@@ -314,7 +314,8 @@ validate_remotes_order <- function() {
 
   # See if `base_remotes` are in a valid order
   # for each base remote value...
-  for (remote_val in base_remotes) {
+  for (remote_val_i in seq_along(base_remotes)) {
+    remote_val <- base_remotes[[remote_val_i]]
 
     # gather all remotes needed recursively while trying to avoid infinite recursion
     remotes_needed <- list()
@@ -326,7 +327,9 @@ validate_remotes_order <- function() {
       if (!is.null(remotes_needed[[remote_to_look_at]])) {
         next
       }
-      needed <- remote_needs_remotes[[remote_to_look_at]]
+      # If the remotes matches eactly, only add new remote names.
+      # So `rstudio/shiny` will be removed (b/c it is previously seen), but `rstudio/shiny@feature` will be kept (as it has not been seen)
+      needed <- setdiff(remote_needs_remotes[[remote_to_look_at]], base_remotes[1:remote_val_i])
       # store needed remotes
       remotes_needed[[remote_to_look_at]] <- needed
       # look at more remotes
@@ -361,8 +364,11 @@ validate_remotes_order <- function() {
 
   list(
     remote_to_pkg = remote_to_pkg,
+    # Does not contain exact copies of earlier remotes
     remote_needs_remotes = remote_needs_remotes,
+    # Does not contain exact copies of earlier remotes
     remote_needs_all_remotes = remote_needs_all_remotes,
+    # Does not contain exact copies of earlier packages that match the exact remote name
     remote_needs_all_pkgs = remote_needs_all_pkgs,
     remotes_to_install = sort(unique(unname(unlist(remote_to_pkg))))
   )
