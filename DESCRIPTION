@@ -48,6 +48,7 @@ Suggests:
     websocket,
     plotly,
     crosstalk,
+    fontawesome,
     flexdashboard,
     pool,
     leaflet,
@@ -57,13 +58,14 @@ Suggests:
     dplyr,
     tidyr,
     shinyvalidate,
-    gt
+    gt,
+    DT,
+    dygraphs
 Remotes:
   r-lib/pkgdepends,
   r-lib/fastmap,
   r-lib/cachem,
   rstudio/flexdashboard,
-  rstudio/bslib,
   rstudio/sass,
   rstudio/httpuv,
   rstudio/promises,
@@ -72,13 +74,18 @@ Remotes:
   rstudio/rsconnect,
   schloerke/shinyjster,
   rstudio/crosstalk,
-  rstudio/htmltools,
   rstudio/thematic,
   rstudio/shiny,
+  rstudio/bslib,
+  rstudio/htmltools,
   rstudio/shinythemes,
   rstudio/shinytest,
+  rstudio/webdriver,
   rstudio/shinyvalidate,
   rstudio/pool,
   rstudio/reactlog,
-  rstudio/shinymeta
+  rstudio/shinymeta,
+  rstudio/DT,
+  rstudio/dygraphs,
+  rstudio/fontawesome
 RoxygenNote: 7.1.1
