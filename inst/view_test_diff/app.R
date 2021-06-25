@@ -19,8 +19,6 @@ curDir <- getwd()
 on.exit(setwd(curDir), add = TRUE)
 setwd(repo_dir)
 
-
-
 test_results <- function(files) {
   results <- lapply(files, test_results_import)
   bind_rows(results) %>%
@@ -192,7 +190,7 @@ server <- function(input, output, session) {
     select(d, !!!nms)
   })
 
-  logs_details2 <- reactive({
+  logs_details <- reactive({
     d <-
       logs_spread() %>%
       mutate(
@@ -280,128 +278,11 @@ server <- function(input, output, session) {
     d_table
   })
 
-  logs_details <- reactive({
-    logs_n <-
-      logs() %>%
-      count(app_name, status, date, os, r_version) %>%
-      filter(status != "did_not_return_result") %>%
-      mutate(
-        bar_val = case_when(
-          status == "fail" ~ -1.0 * n,
-          TRUE ~ 1.0 * n
-        )
-      ) %>%
-      pivot_wider(names_from = status, values_from = bar_val, values_fill = 0) %>%
-      complete(app_name, date, os, r_version) %>%
-      arrange(date, app_name, os, r_version)
-
-    max_val <- max(logs_n$pass, na.rm = TRUE)
-    min_val <- min(logs_n$fail, na.rm = TRUE)
-    sparkline_chart <- function(pass, fail, id, title) {
-      id <- gsub("[^a-zA-Z0-9_]", "_", id)
-      pass_is_na <- all(is.na(pass))
-      fail_is_na <- all(is.na(fail))
-      sl1 <-
-        if (pass_is_na) {
-          "-"
-        } else {
-          sparkline::sparkline(
-            pass,
-            type='bar',
-            barColor="#4b9058",
-            tooltipChartTitle = title,
-            chartRangeMin=min_val,
-            chartRangeMax=max_val,
-            elementId = id
-          )
-        }
-      if (fail_is_na) {
-        "-"
-      } else {
-        sl2 <- sparkline::sparkline(
-          fail,
-          type='bar',
-          barColor="#af423c",
-          chartRangeMin=min_val,
-          chartRangeMax=max_val
-          # ,
-          # elementId = paste0(id, "_fail")
-        )
-      }
-
-      HTML(as.character(htmltools::as.tags(
-        # add sparkline as a composite
-        switch(
-          (pass_is_na * 2) + fail_is_na + 1,
-          # both are real
-          sparkline::spk_composite(sl1, sl2),
-          # fail is na & pass is real
-          sl1,
-          # fail is real & pass is na
-          sl2,
-          # both are na
-          "(none)"
-        )
-      )))
-    }
-
-    dt_charts <- logs_n %>% group_by(app_name, os, r_version)
-    n_groups <- dt_charts %>% group_keys() %>% nrow()
-    withProgress(message = 'App', value = 0, {
-      dt_charts <-
-        dt_charts %>%
-        summarise(
-          chart = {
-            incProgress(1/n_groups, detail = app_name[1])
-            list(sparkline_chart(pass, fail, paste("sparkline", app_name[1], os[1], r_version[1], sep = "_"), title = paste0(os[1], " ", r_version[1])))
-          }
-        )
-    })
-
-    dt_sparkline <-
-      dt_charts %>%
-      group_by(app_name, os) %>%
-      arrange(r_version) %>%
-      summarise(
-        rows = {
-          list(
-            withTags(
-              do.call(tr, lapply(chart, function(chartVal) {
-                tagAppendAttributes(
-                  td(chartVal),
-                  class = "sparkCell"
-                )
-              }))
-            )
-          )
-        }
-      ) %>%
-      group_by(app_name) %>%
-      arrange(os) %>%
-      summarise(
-        html = {
-          list(
-            withTags(
-              tagAppendAttributes(
-                do.call(table, rows),
-                class = "sparkTable"
-              )
-            )
-          )
-        }
-      ) %>%
-      mutate(
-        html =  lapply(html, function(html_) { HTML(as.character(html_))})
-      )
-
-    dt_sparkline
-  })
-
   logs_combined <-
     reactive({
       left_join(
         logs_summary(),
-        logs_details2(),
+        logs_details(),
         by = c("App" = "app_name")
       ) %>%
       rename(Performance = per_app) %>%
@@ -430,8 +311,7 @@ server <- function(input, output, session) {
         scrollY = "80vh",
         order = list(list(2, 'desc')),
 
-        #### add the drawCallback to static render the sparklines
-        ####   staticRender will not redraw what has already been rendered
+        # Init the tooltips
         drawCallback =  htmlwidgets::JS("
           function() {
             $('td[data-toggle=\"tooltip\"]').tooltip({
@@ -440,11 +320,9 @@ server <- function(input, output, session) {
           }
         ")
       ),
-
-      # sparklines
+      # Be able to use raw html
       escape = FALSE
-    ) %>%
-      sparkline::spk_add_deps()
+    )
   })
 
   selected_app <- reactive({
