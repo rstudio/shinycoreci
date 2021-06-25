@@ -19,6 +19,11 @@ curDir <- getwd()
 on.exit(setwd(curDir), add = TRUE)
 setwd(repo_dir)
 
+strextract <- function(str, pattern) {
+  regmatches(str, regexpr(pattern, str))
+}
+
+
 test_results <- function(files) {
   results <- lapply(files, test_results_import)
   bind_rows(results) %>%
@@ -76,6 +81,7 @@ ui <- fluidPage(
   .result_did_not_execute {background-color: #323232 !important;}
   .result_day td {border: 1px dotted grey;}
   .result_app > tbody > tr > td { padding: 0px !important; padding-right: 2px !important;}
+  .result_day td { padding: 0.5rem !important;}
 "))),
   div(
     style = "display:flex; flex-direction: column; align-items: flex-start",
@@ -91,10 +97,10 @@ server <- function(input, output, session) {
 
   log_files <- reactive({
     if (isTRUE(input$fetch_results > 1) || TRUE) {
-      git_cmd(repo_dir, "git fetch origin _test_results:_test_results")
+      shinycoreci:::git_cmd(repo_dir, "git fetch origin _test_results:_test_results")
       try({
-        git_cmd(repo_dir, "git checkout _test_results -- _test_results/")
-        git_cmd(repo_dir, "git reset _test_results/")
+        shinycoreci:::git_cmd(repo_dir, "git checkout _test_results -- _test_results/")
+        shinycoreci:::git_cmd(repo_dir, "git reset _test_results/")
       })
     }
     withr::with_dir(repo_dir, normalizePath(Sys.glob("_test_results/*.json"), mustWork = TRUE))
@@ -127,7 +133,7 @@ server <- function(input, output, session) {
   output$date_start <- renderUI({
     rng <- range(log_dates())
     dateInput(
-      "date_start", NULL, value = max(c(rng[2] - 7 + 1, rng[1])), min = rng[1], max = rng[2]
+      "date_start", NULL, value = max(c(rng[2] - 10 + 1, rng[1])), min = rng[1], max = rng[2]
     )
   })
 
@@ -295,8 +301,6 @@ server <- function(input, output, session) {
 
 
   output$app_status_table <- DT::renderDataTable({
-    tibble::glimpse(logs_combined())
-
     DT::datatable(
       logs_combined(),
       rownames = FALSE,
