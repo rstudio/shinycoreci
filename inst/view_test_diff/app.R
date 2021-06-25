@@ -1,4 +1,6 @@
 library(shiny)
+enableBookmarking(store = "url")
+
 library(htmltools)
 library(dplyr)
 library(tidyr)
@@ -94,6 +96,15 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
+  # URL Bookmarking
+  observe({
+    # Trigger this observer every time an input changes
+    reactiveValuesToList(input)
+    session$doBookmark()
+  })
+  onBookmarked(function(url) {
+    updateQueryString(url)
+  })
 
   log_files <- reactive({
     if (isTRUE(input$fetch_results > 1) || TRUE) {
