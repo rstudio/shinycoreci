@@ -57,169 +57,18 @@ save_test_results <- function(test_runtests_output, gha_branch_name, pr_number, 
 
 #' @rdname test-results
 #' @inheritParams test_runtests
-#' @param update whether or not to fetch the latest test results
 #' @export
-view_test_results <- function(dir = "apps", update = TRUE) {
+view_test_results <- function(dir = ".") {
   validate_core_pkgs()
 
-  dir <- normalizePath(dir, mustWork = TRUE)
-
-  repo_dir <- file.path(dir, "..")
-  if (isTRUE(update)) {
-    git_cmd(repo_dir, "git fetch origin _test_results:_test_results")
+  repo_dir <- normalizePath(dir, mustWork = TRUE)
+  if ("shinycoreci-apps" != basename(repo_dir)) {
+    warning("This function should be called from the shinycoreci-apps repo")
   }
-  try({
-    git_cmd(repo_dir, "git checkout _test_results -- _test_results/")
-    git_cmd(repo_dir, "git reset _test_results/")
+
+  Sys.setenv("SHINYCORECI_VIEW_TEST_RESULTS" = repo_dir)
+  on.exit({
+    Sys.unsetenv("SHINYCORECI_VIEW_TEST_RESULTS")
   })
-
-  owd <- setwd(repo_dir)
-  on.exit(setwd(owd), add = TRUE)
-
-  results_files <- Sys.glob("_test_results/*.json")
-  if (!length(results_files)) stop("Couldn't find any test results", call. = FALSE)
-
-  results <- lapply(results_files, function(x) {
-    json <- jsonlite::fromJSON(x)
-    json$results$gha_branch_name <- json$gha_branch_name
-    json$results$branch_name <- json$branch_name
-    json$results
-  })
-
-  `%>%` <- dplyr::`%>%`
-
-  results_tidy <- dplyr::bind_rows(results) %>%
-    tibble::as_tibble() %>%
-    dplyr::mutate(gha_branch = gha_branch_name) %>%
-    tidyr::separate_("gha_branch_name", c("gha", "sha", "time", "r_version", "platform"), sep = "-") %>%
-    dplyr::select(-gha) %>%
-    dplyr::mutate(
-      time = as.POSIXct(time, format = "%Y_%m_%d_%H_%M"),
-      sha = paste0(branch_name, "@", sha)
-    ) %>%
-    dplyr::arrange(dplyr::desc(time))
-
-  kept_times <- results_tidy %>%
-    # Take the most recent run with this sha+platform+r_version (scheduling complicates things)
-    dplyr::group_by(sha, r_version, platform) %>%
-    dplyr::arrange(dplyr::desc(time)) %>%
-    dplyr::slice(1)
-
-  results_tidy <- dplyr::semi_join(results_tidy, kept_times, by = c("sha", "r_version", "platform"))
-
-  # Filter out known no result cases
-  results_tidy <- dplyr::filter(
-    results_tidy,
-    !(status %in% "did_not_return_result" &
-      platform %in% c("macOS", "Linux") &
-      basename(test_path) %in% c("shinyjster-edge.R", "shinyjster-ie.R"))
-  )
-
-  gt_table_html <- function(results) {
-    results %>%
-      dplyr::count(status) %>%
-      dplyr::arrange(dplyr::desc(n)) %>%
-      gt::gt() %>%
-      # Possible statuses are listed here
-      # https://github.com/rstudio/shinycoreci/blob/master/R/test_runtests.R#L1-L7
-      gt::tab_style(
-        style = gt::cell_fill(color = "#31A744"),
-        locations = gt::cells_body(rows = status == "pass")
-      ) %>%
-      gt::tab_style(
-        style = gt::cell_fill(color = "#CB2432"),
-        locations = gt::cells_body(rows = status == "fail")
-      ) %>%
-      gt::tab_style(
-        style = gt::cell_fill(color = "#F69245"),
-        locations = gt::cells_body(rows = status == "can_not_install")
-      ) %>%
-      gt::tab_style(
-        style = gt::cell_fill(color = "#CECECE"),
-        locations = gt::cells_body(rows = status == "did_not_return_result")
-      ) %>%
-      gt::tab_options(
-        #table.width = gt::px(500),
-        column_labels.hidden = TRUE
-      ) %>%
-      gt::as_raw_html()
-  }
-
-  failure_summary <- function(results) {
-    failures <- dplyr::filter(results, status %in% "fail")
-    if (!nrow(failures)) return("")
-    msgs <- paste0("<b>", failures$app_name, " ~ ", basename(failures$test_path), ":</b>\n", paste(rep("", 20), collapse = "-"), "\n\n", htmltools::htmlEscape(failures$result))
-    title <- sprintf("Test failures: (<code>git checkout %s</code>)", unique(failures$gha_branch))
-    summary_html(title, paste(msgs, collapse = "\n\n"))
-  }
-
-  cant_install_summary <- function(results) {
-    cant_install <- dplyr::filter(results, status %in% "can_not_install")
-    if (!nrow(cant_install)) return("")
-    msgs <- paste0("<b>", cant_install$app_name, " ~ ", basename(cant_install$test_path), ":</b>\n", paste(rep("", 20), collapse = "-"), "\n\n", htmltools::htmlEscape(cant_install$result))
-    summary_html(
-      "Can't install",
-      paste(msgs, collapse = "\n\n")
-    )
-  }
-
-  no_results_summary <- function(results) {
-    no_result <- dplyr::filter(results, status %in% "did_not_return_result")
-    if (!nrow(no_result)) return("")
-    summary_html(
-      "No results:",
-      paste(sub("^apps/", "", no_result$test_path), collapse = "\n\n")
-    )
-  }
-
-  summary_html <- function(summary, details) {
-    shiny::HTML(
-      sprintf(
-        "<details><summary>%s</summary><pre><code>%s</code></pre></details>",
-        summary, details
-      )
-    )
-  }
-
-  ui <- shiny::fluidPage(
-    shiny::selectInput("sha", "Choose a test run", unique(results_tidy$sha), multiple = FALSE),
-    shiny::uiOutput("results")
-  )
-
-  server <- function(input, output, session) {
-
-    results_sha <- shiny::reactive({
-      shiny::req(input$sha)
-      dplyr::filter(results_tidy, sha %in% input$sha)
-    })
-
-    output$results <- shiny::renderUI({
-      results_sha() %>%
-        dplyr::group_by(platform, r_version) %>%
-        dplyr::do(
-          html = shiny::HTML(c(
-            sprintf(
-              "<h3><a href='%s'>%s - %s</a> (%s) (%s)</h3> ",
-              paste0("https://github.com/rstudio/shinycoreci-apps/compare/", unique(.$gha_branch)),
-              unique(.$platform),
-              unique(.$r_version),
-              paste(sub(":00$", "", unique(.$time), "UTC")),
-              unique(.$gha_image_version)
-            ),
-            gt_table_html(.),
-            failure_summary(.),
-            cant_install_summary(.),
-            no_results_summary(.)
-          ))
-        ) %>%
-        dplyr::pull(html) %>%
-        shiny::tagList()
-
-    })
-  }
-
-  shiny::shinyApp(ui, server)
+  shiny::runApp(system.file("view_test_diff", package = "shinycoreci"))
 }
-
-
-utils::globalVariables(c("gha", "gha_branch_name", "time", "branch_name", "sha", "r_version", "status", "test_path", "n", "cant_install", ".", "html"))
