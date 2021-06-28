@@ -243,7 +243,7 @@ server <- function(input, output, session) {
       d %>%
       # platform is horizontal
       group_by(app_name, date, r_version) %>%
-      arrange(os, r_version) %>%
+      arrange(os, desc(r_version)) %>%
       summarise(
         .groups = "keep",
         rows = {
@@ -267,7 +267,7 @@ server <- function(input, output, session) {
         }
       ) %>%
       group_by(app_name, date) %>%
-      arrange(r_version) %>%
+      arrange(desc(r_version)) %>%
       summarise(
         per_date = {
           list(
