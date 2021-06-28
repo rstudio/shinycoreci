@@ -26,7 +26,7 @@ strextract <- function(str, pattern) {
 }
 
 
-test_results <- function(files) {
+test_results <- memoise::memoise(function(files) {
   results <- lapply(files, test_results_import)
   bind_rows(results) %>%
     tibble::as_tibble() %>%
@@ -41,7 +41,7 @@ test_results <- function(files) {
       sha = paste0(branch_name, "@", sha)
     ) %>%
     arrange(desc(time))
-}
+})
 
 test_results_import <- function(f) {
   json <- jsonlite::fromJSON(f)
@@ -56,7 +56,7 @@ test_results_import <- function(f) {
 banner <- div(
   style = "display:flex; justify-content:center; gap:1rem; margin-top: 1rem",
   div("Showing", class = "lead text-large"),
-  tagAppendAttributes(uiOutput("platform"), style = "width:200px"),
+  selectInput("platform", NULL, c("All platforms" = ""), multiple = TRUE),
   div("results between ", class = "lead text-large"),
   tagAppendAttributes(uiOutput("date_start"), style = "width:150px"),
   div(" and ", class = "lead text-large"),
@@ -76,14 +76,34 @@ ui <- fluidPage(
   tags$head(tags$style(HTML("
   .dataTables_filter {display: none};
   .result_app {padding: 0.5em; border-collapse: collapse;}
-  .result_pass {background-color: #4b9058 !important;}
-  .result_fail {background-color: #af423c !important;}
-  .result_can_not_install {background-color: #4b6090 !important;}
-  .result_did_not_return {background-color: #a3a3a3 !important;}
-  .result_did_not_execute {background-color: #323232 !important;}
+  .result_pass {background-color: #009469 !important;} /* green */
+  .result_fail {background-color: #d95515 !important;} /* red */
+  .result_can_not_install {background-color: #0066a7 !important;} /* blue */
+  .result_did_not_return {background-color: #a3a3a3 !important;} /* white */
+  .result_did_not_execute {background-color: #323232 !important;} /* black */
   .result_day td {border: 1px dotted grey;}
-  .result_app > tbody > tr > td { padding: 0px !important; padding-right: 2px !important;}
-  .result_day td { padding: 0.5rem !important;}
+  .result_app > tbody > tr > td { }
+  .result_day td {
+    padding: 0.5rem !important;
+    border-radius: 50%;
+    /* No border */
+  }
+  .result_day {
+    border-spacing: 1px;
+    border-collapse: separate;
+  }
+  .result_app > tbody > tr > td {
+      padding: 0px !important;
+      padding-right: 6px !important;
+  }
+
+  /* Reduce title height */
+  .form-group {
+    margin-bottom: 0 !important;
+  }
+  .selectize-control {
+    margin-bottom: 0 !important;
+  }
 "))),
   div(
     style = "display:flex; flex-direction: column; align-items: flex-start",
@@ -136,9 +156,14 @@ server <- function(input, output, session) {
       filter(branch_name == "master")
   })
 
-  output$platform <- renderUI({
-    choices <- c("All platforms" = "all", unique(logs()$platform))
-    selectInput("platform", NULL, choices = choices)
+  platforms <- reactiveVal(c("All platforms" = ""), label = "platforms")
+  observeEvent(logs(), {
+    platforms_ <- platforms()
+    platforms_ <- c(platforms_[1], sort(unique(c(platforms_[-1], unique(logs()$platform)))))
+    platforms(platforms_)
+  })
+  observeEvent(platforms(), {
+    updateSelectInput(session, "platform", choices = platforms())
   })
 
   output$date_start <- renderUI({
@@ -156,10 +181,8 @@ server <- function(input, output, session) {
   })
 
   logs_spread <- reactive({
-    req(input$platform)
-
     d <- logs()
-    if (!identical(input$platform, "all")) {
+    if (!is.null(input$platform)) {
       d <- filter(d, platform %in% input$platform)
     }
     d <- d %>%
@@ -167,6 +190,12 @@ server <- function(input, output, session) {
       spread(status, n, fill = 0)
     if ("fail" %in% names(d)) {
       d <- arrange(d, desc(fail))
+    }
+
+    for (nme in c("can_not_install", "did_not_return_result", "fail", "pass")) {
+      if (!rlang::has_name(d, nme)) {
+        d[[nme]] <- 0
+      }
     }
 
     d <- d %>%
@@ -322,7 +351,7 @@ server <- function(input, output, session) {
         autoWidth = TRUE,
         columnDefs = list(list(width = '30px', targets = c(2,3,4,5,6))),
 
-        paging = FALSE, #searching = FALSE,
+        info = FALSE, paging = FALSE, #searching = FALSE,
         scrollY = "80vh",
         order = list(list(2, 'desc')),
 
