@@ -96,6 +96,14 @@ ui <- fluidPage(
       padding: 0px !important;
       padding-right: 6px !important;
   }
+
+  /* Reduce title height */
+  .form-group {
+    margin-bottom: 0 !important;
+  }
+  .selectize-control {
+    margin-bottom: 0 !important;
+  }
 "))),
   div(
     style = "display:flex; flex-direction: column; align-items: flex-start",
@@ -344,7 +352,7 @@ server <- function(input, output, session) {
         autoWidth = TRUE,
         columnDefs = list(list(width = '30px', targets = c(2,3,4,5,6))),
 
-        paging = FALSE, #searching = FALSE,
+        info = FALSE, paging = FALSE, #searching = FALSE,
         scrollY = "80vh",
         order = list(list(2, 'desc')),
 
