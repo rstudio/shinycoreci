@@ -34,7 +34,7 @@ docker_clean <- function(stopped_containers = TRUE, untagged_images = TRUE) {
 docker_run_sso <- function(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, "centos7" = 7878, 3838),
-  r_version = c("4.0", "3.6", "3.5"),
+  r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   launch_browser = TRUE
 ) {
@@ -58,7 +58,7 @@ docker_run_sso <- function(
 docker_run_ssp <- function(
   release = c("bionic", "xenial", "centos7"),
   port = switch(release, "centos7" = 8989, 4949),
-  r_version = c("4.0", "3.6", "3.5"),
+  r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   launch_browser = TRUE
 ) {
@@ -85,7 +85,7 @@ docker_run_server <- function(
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
-  r_version = c("4.0", "3.6", "3.5"),
+  r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   launch_browser = launch_browser
 ) {
