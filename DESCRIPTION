@@ -26,7 +26,7 @@ Suggests:
     tibble,
     sessioninfo,
     testthat,
-    rmarkdown (>= 2.1),
+    rmarkdown (>= 2.9),
     rsconnect (>= 0.8.16-9001),
     shinytest (>= 1.4.0),
     shinyjster (>= 0.0.0.9008),
