@@ -56,7 +56,7 @@ test_results_import <- function(f) {
 banner <- div(
   style = "display:flex; justify-content:center; gap:1rem; margin-top: 1rem",
   div("Showing", class = "lead text-large"),
-  tagAppendAttributes(uiOutput("platform"), style = "width:200px"),
+  selectInput("platform", NULL, c("All platforms" = ""), multiple = TRUE),
   div("results between ", class = "lead text-large"),
   tagAppendAttributes(uiOutput("date_start"), style = "width:150px"),
   div(" and ", class = "lead text-large"),
@@ -148,9 +148,15 @@ server <- function(input, output, session) {
       filter(branch_name == "master")
   })
 
-  output$platform <- renderUI({
-    choices <- c("All platforms" = "all", unique(logs()$platform))
-    selectInput("platform", NULL, choices = choices)
+  platforms <- reactiveVal(c("All platforms" = ""), label = "platforms")
+  observeEvent(logs(), {
+    platforms_ <- platforms()
+    platforms_ <- c(platforms_[1], sort(unique(c(platforms_[-1], unique(logs()$platform)))))
+    platforms(platforms_)
+  })
+  observeEvent(platforms(), {
+    str(platforms())
+    updateSelectInput(session, "platform", choices = platforms())
   })
 
   output$date_start <- renderUI({
@@ -168,10 +174,8 @@ server <- function(input, output, session) {
   })
 
   logs_spread <- reactive({
-    req(input$platform)
-
     d <- logs()
-    if (!identical(input$platform, "all")) {
+    if (!is.null(input$platform)) {
       d <- filter(d, platform %in% input$platform)
     }
     d <- d %>%
