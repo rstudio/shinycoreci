@@ -26,7 +26,7 @@ strextract <- function(str, pattern) {
 }
 
 
-test_results <- function(files) {
+test_results <- memoise::memoise(function(files) {
   results <- lapply(files, test_results_import)
   bind_rows(results) %>%
     tibble::as_tibble() %>%
@@ -41,7 +41,7 @@ test_results <- function(files) {
       sha = paste0(branch_name, "@", sha)
     ) %>%
     arrange(desc(time))
-}
+})
 
 test_results_import <- function(f) {
   json <- jsonlite::fromJSON(f)
