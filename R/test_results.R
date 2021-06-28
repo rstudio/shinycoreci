@@ -70,5 +70,5 @@ view_test_results <- function(dir = ".") {
   on.exit({
     Sys.unsetenv("SHINYCORECI_VIEW_TEST_RESULTS")
   })
-  shiny::runApp(system.file("view_test_diff", package = "shinycoreci"))
+  shiny::shinyAppDir(system.file("view_test_diff", package = "shinycoreci"))
 }
