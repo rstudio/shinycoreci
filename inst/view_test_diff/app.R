@@ -76,11 +76,11 @@ ui <- fluidPage(
   tags$head(tags$style(HTML("
   .dataTables_filter {display: none};
   .result_app {padding: 0.5em; border-collapse: collapse;}
-  .result_pass {background-color: #4b9058 !important;}
-  .result_fail {background-color: #af423c !important;}
-  .result_can_not_install {background-color: #4b6090 !important;}
-  .result_did_not_return {background-color: #a3a3a3 !important;}
-  .result_did_not_execute {background-color: #323232 !important;}
+  .result_pass {background-color: #009469 !important;} /* green */
+  .result_fail {background-color: #d95515 !important;} /* red */
+  .result_can_not_install {background-color: #0066a7 !important;} /* blue */
+  .result_did_not_return {background-color: #a3a3a3 !important;} /* white */
+  .result_did_not_execute {background-color: #323232 !important;} /* black */
   .result_day td {border: 1px dotted grey;}
   .result_app > tbody > tr > td { }
   .result_day td {
