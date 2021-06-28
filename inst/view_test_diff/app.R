@@ -163,7 +163,6 @@ server <- function(input, output, session) {
     platforms(platforms_)
   })
   observeEvent(platforms(), {
-    str(platforms())
     updateSelectInput(session, "platform", choices = platforms())
   })
 
