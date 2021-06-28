@@ -82,8 +82,20 @@ ui <- fluidPage(
   .result_did_not_return {background-color: #a3a3a3 !important;}
   .result_did_not_execute {background-color: #323232 !important;}
   .result_day td {border: 1px dotted grey;}
-  .result_app > tbody > tr > td { padding: 0px !important; padding-right: 2px !important;}
-  .result_day td { padding: 0.5rem !important;}
+  .result_app > tbody > tr > td { }
+  .result_day td {
+    padding: 0.5rem !important;
+    border-radius: 50%;
+    /* No border */
+  }
+  .result_day {
+    border-spacing: 1px;
+    border-collapse: separate;
+  }
+  .result_app > tbody > tr > td {
+      padding: 0px !important;
+      padding-right: 6px !important;
+  }
 "))),
   div(
     style = "display:flex; flex-direction: column; align-items: flex-start",
