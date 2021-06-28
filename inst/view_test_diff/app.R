@@ -185,6 +185,12 @@ server <- function(input, output, session) {
       d <- arrange(d, desc(fail))
     }
 
+    for (nme in c("can_not_install", "did_not_return_result", "fail", "pass")) {
+      if (!rlang::has_name(d, nme)) {
+        d[[nme]] <- 0
+      }
+    }
+
     d <- d %>%
       complete(
         app_name, os, r_version, date,
