@@ -23,13 +23,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: macOS-latest, r: '4.0'}
-        # - { os: macOS-latest, r: 'devel'}
-        - { os: windows-latest, r: '4.0'}
-        # - { os: ubuntu-18.04, r: '3.4', rspm: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"}
-        # - { os: ubuntu-18.04, r: '3.5', rspm: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"}
-        # - { os: ubuntu-18.04, r: '3.6', rspm: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"}
-        - { os: ubuntu-18.04, r: '4.0', rspm: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"}
+        - { os: macOS-latest, r: 'release'}
+        - { os: windows-latest, r: 'release'}
+        - { os: ubuntu-18.04, r: 'release', rspm: "https://packagemanager.rstudio.com/all/__linux__/bionic/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -39,11 +35,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Install pak and query dependencies
         shell: Rscript {0}
@@ -54,8 +50,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles('.github/r-depends.rds') }}
-          restore-keys: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-
+          key: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-2-${{ hashFiles('.github/r-depends.rds') }}
+          restore-keys: ${{ matrix.config.os }}-${{ steps.install-r.outputs.installed-r-version }}-2-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
@@ -73,7 +69,7 @@ jobs:
       # Use a shorter temp directory for pak installations, due to filename
       # length issues on Windows. https://github.com/r-lib/pak/issues/252
       - name: Windows temp dir
-        if: runner.os == 'Windows'
+        if: false
         run: |
           New-Item -Path "C:\" -Name "tmp" -ItemType Directory
           echo "TMPDIR=c:\tmp" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
@@ -84,11 +80,10 @@ jobs:
         run: |
           pak::local_install_deps(upgrade = TRUE)
       - name: Windows flexdashboard installation
-        if: runner.os == 'Windows'
+        if: false
         shell: Rscript {0}
         run: |
-          pak::pkg_install("remotes")
-          remotes::install_github("rstudio/flexdashboard")
+          pak::pkg_install("rstudio/flexdashboard")
 
       - name: Install dependencies
         shell: Rscript {0}
@@ -122,12 +117,3 @@ jobs:
         with:
           name: ${{ matrix.config.os }}-r${{ matrix.config.r }}-results
           path: check
-
-      - name: Fix path for Windows caching
-        if: runner.os == 'Windows'
-        # This is needed because if you use the default tar at this stage,
-        # C:/Rtools/bin/tar.exe, it will say that it can't find gzip.exe. So
-        # we'll just set the path so that the original tar that would be
-        # found, will be found.
-        shell: bash
-        run: echo "C:/Program Files/Git/usr/bin" >> $GITHUB_PATH

@@ -116,21 +116,6 @@ jobs:
           Rscript -e 'devtools::build_readme(quiet = FALSE)'
           git commit README.md -m 'Re-build README.Rmd' || echo "No readme changes to commit"
 
-      # - uses: actions/setup-node@v1
-      #   with:
-      #     node-version: '12.x'
-      # - name: Build JS
-      #   run: |
-      #     yarn install --frozen-lockfile
-      #     yarn build
-      #     git add inst/assets
-      #     git commit -m 'yarn build (GitHub Actions)' || echo "No yarn changes to commit"
-
-      # - name: Code Coverage
-      #   run: |
-      #     Rscript -e 'pak::pkg_install("covr")'
-      #     Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
-
       - name: Git Push (PR)
         uses: r-lib/actions/pr-push@master
         if: github.event_name == 'pull_request'
@@ -140,11 +125,3 @@ jobs:
         if: github.event_name == 'push'
         run: |
           git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to push"
-
-      - name: Fix path for Windows caching
-        if: runner.os == 'Windows'
-        # This is needed because if you use the default tar at this stage,
-        # C:/Rtools/bin/tar.exe, it will say that it can't find gzip.exe. So
-        # we'll just set the path so that the original tar that would be
-        # found, will be found.
-        run: echo "::add-path::C:/Program Files/Git/usr/bin"

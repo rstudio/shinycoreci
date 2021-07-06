@@ -25,14 +25,14 @@ docker_clean <- function(stopped_containers = TRUE, untagged_images = TRUE) {
 #' Docker Testing
 #'
 #' @param r_version R version to use. Ex: \code{"3.6"}
-#' @param release Distro release name, such as "bionic" for ubuntu or "7" for centos
+#' @param release Distro release name, such as "focal" for ubuntu or "7" for centos
 #' @param port port to have server function locally
 #' @param tag Extra tag information for the docker image. This will prepend a \verb{-} if a value is given.
 #' @param launch_browser Logical variable that determines if the browser should open to the specified port location
 #' @describeIn docker Run SSO in a docker container
 #' @export
 docker_run_sso <- function(
-  release = c("bionic", "xenial", "centos7"),
+  release = c("focal", "bionic", "xenial", "centos7"),
   port = switch(release, "centos7" = 7878, 3838),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
@@ -56,7 +56,7 @@ docker_run_sso <- function(
 #' @describeIn docker Run SSP in a docker container
 #' @export
 docker_run_ssp <- function(
-  release = c("bionic", "xenial", "centos7"),
+  release = c("focal", "bionic", "xenial", "centos7"),
   port = switch(release, "centos7" = 8989, 4949),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
@@ -80,7 +80,7 @@ docker_run_ssp <- function(
 
 docker_run_server <- function(
   type = c("sso", "ssp"),
-  release = c("bionic", "xenial", "centos7"),
+  release = c("focal", "bionic", "xenial", "centos7"),
   port = switch(type,
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
