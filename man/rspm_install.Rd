@@ -6,22 +6,25 @@
 \alias{rspm_all_install_scripts}
 \title{RStudio Package Manager System Install Scripts}
 \usage{
-rspm_install_scripts(dir = "apps", release = c("bionic", "xenial", "centos7"))
+rspm_install_scripts(
+  dir = "apps",
+  release = c("focal", "bionic", "xenial", "centos7")
+)
 
 rspm_pre_install_scripts(
   dir = "apps",
-  release = c("bionic", "xenial", "centos7")
+  release = c("focal", "bionic", "xenial", "centos7")
 )
 
 rspm_all_install_scripts(
   dir = "apps",
-  release = c("bionic", "xenial", "centos7")
+  release = c("focal", "bionic", "xenial", "centos7")
 )
 }
 \arguments{
 \item{dir}{base directory to look for shiny applications}
 
-\item{release}{Docker release to use. Such as \verb{'bionic'} or \verb{'centos7'}}
+\item{release}{Docker release to use. Such as \verb{'focal'} or \verb{'centos7'}}
 }
 \description{
 RStudio Package Manager System Install Scripts

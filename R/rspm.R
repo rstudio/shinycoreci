@@ -11,12 +11,12 @@
 #' RStudio Package Manager System Install Scripts
 #'
 #' @inheritParams apps_runtests
-#' @param release Docker release to use. Such as \verb{'bionic'} or \verb{'centos7'}
+#' @param release Docker release to use. Such as \verb{'focal'} or \verb{'centos7'}
 #' @describeIn rspm_install Install script needed for R packages to run
 #' @export
 rspm_install_scripts <- function(
   dir = "apps",
-  release = c("bionic", "xenial", "centos7")
+  release = c("focal", "bionic", "xenial", "centos7")
 ) {
   ret <- rspm_sys_reqs(
     dir = dir,
@@ -28,7 +28,7 @@ rspm_install_scripts <- function(
 #' @export
 rspm_pre_install_scripts <- function(
   dir = "apps",
-  release = c("bionic", "xenial", "centos7")
+  release = c("focal", "bionic", "xenial", "centos7")
 ) {
   ret <- rspm_sys_reqs(
     dir = dir,
@@ -40,7 +40,7 @@ rspm_pre_install_scripts <- function(
 #' @export
 rspm_all_install_scripts <- function(
   dir = "apps",
-  release = c("bionic", "xenial", "centos7")
+  release = c("focal", "bionic", "xenial", "centos7")
 ) {
   ret <- rspm_sys_reqs(
     dir = dir,
@@ -51,7 +51,7 @@ rspm_all_install_scripts <- function(
 
 rspm_sys_reqs <- function(
   dir = "apps",
-  release = c("bionic", "xenial", "centos7")
+  release = c("focal", "bionic", "xenial", "centos7")
 ) {
 
   release <- match.arg(release)
@@ -112,6 +112,7 @@ rspm_release <- function(distro) {
   switch(distro,
     "xenial" = "16.04",
     "bionic" = "18.04",
+    "focal" = "20.04",
     "centos6" = "6",
     "centos7" = "7",
     "centos8" = "8",
@@ -121,7 +122,8 @@ rspm_release <- function(distro) {
 rspm_distro <- function(distro) {
   switch(distro,
     "xenial" = ,
-    "bionic" = "ubuntu",
+    "bionic" = ,
+    "focal" = "ubuntu",
     "centos6" = ,
     "centos7" = ,
     "centos8" = "centos",
