@@ -14,9 +14,9 @@ rm_files <- function(filenames) {
   file.remove(filenames)
 }
 
-# This function is never called; it exists only to make R CMD check happy that
-# these packages are used.
-`_dummy_` <- function() {
+#' Load all suggested packages for session information
+#' @export
+load_suggested_pkgs <- function() {
   fontawesome::fa
   shiny::runApp
   renv::snapshot
@@ -38,6 +38,8 @@ rm_files <- function(filenames) {
   shinymeta::formatCode
   pool::Pool
   Rcpp::cppFunction
+
+  invisible()
 }
 
 # Is this a SHA-1 hash? (vectorized)
