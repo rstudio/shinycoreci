@@ -12,7 +12,7 @@
 #' \dontrun{test_in_connect(dir = "apps")}
 test_in_connect <- function(
   dir = "apps",
-  urls = connect_urls_cache(dir = dir, apps = apps, account = rsconnect::accounts()[1, "name"], server = rsconnect::accounts()[1, "server"]),
+  urls = connect_urls_cache(dir = dir, apps = apps, account = "barret", server = "beta.rstudioconnect.com"),
   server = attr(urls, "server"),
   account = attr(urls, "account"),
   apps = apps_manual(dir),
