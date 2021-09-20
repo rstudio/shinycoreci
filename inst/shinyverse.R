@@ -1,65 +1,4 @@
-# Script to produce shinyverse dependency dot graph
-# Keeping file as a script to avoid adding unnecessary pkg dependencies
-
-if (FALSE) {
-
-  if (system.file(package = "pak") == "") {
-    install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
-    pak::pkg_install(c(
-      "DiagrammeR",
-      "DiagrammeRsvg",
-      "purrr",
-      "rsvg",
-      "ellipsis"
-    ))
-  }
-
-  # Shiny 1.6.0 usage:
-  source(system.file("shinyverse.R", package = "shinycoreci"))
-  shinyverse(
-    need_to_submit = c(
-      "shiny",
-      "shinythemes"
-    ),
-    on_cran = c(
-      "bslib",
-      "cachem",
-      "thematic",
-      "shinytest",
-      "httpuv",
-      "crosstalk",
-      "sass",
-      "htmlwidgets",
-      "htmltools",
-      "webdriver",
-      "flexdashboard"
-    ),
-    submit_when_possible = c(
-      "promises",
-      "later",
-      "memoise",
-      "fastmap",
-      "plumber"
-    ),
-    pkgs_to_ignore = c(
-      "leaflet",
-      "leaflet.providers",
-      "gt",
-      "shinyjster",
-      "shinymeta",
-      "reactlog",
-      "websocket",
-      "plotly",
-      "pool"
-    ),
-    extra_txt = "memoise -> cachem; plumber -> httpuv; plumber -> promises"
-  )
-}
-
-
-
-
-library(DiagrammeR)
+# source(system.file("shinyverse.R", package = "shinycoreci"))
 
 shinyverse <- function(
   ...,
@@ -68,6 +7,7 @@ shinyverse <- function(
   on_cran = NULL,
   submit_when_possible = NULL,
   pkgs_to_ignore = NULL,
+  pkgs_to_display = NULL,
   extra_txt = NULL,
   legend_pkg = "shinytest",
   save_name = "shinyverse.png"
@@ -87,7 +27,7 @@ shinyverse <- function(
       c(
         "jsonlite", "remotes", "progress", "callr", "renv", "rstudioapi", "Rcpp",
         "httr", "tibble", "sessioninfo", "testthat", "rsconnect", "curl", "english",
-        "dplyr", "tidyr", "rmarkdown", "pkgdepends",
+        "dplyr", "tidyr", "rmarkdown", "pkgdepends", "pool", "DT", "dygraphs",
         pkgs_to_ignore
       )
     )
@@ -112,7 +52,7 @@ shinyverse <- function(
 
   unaccounted_for <- setdiff(
     shinycoreci_pkg_deps,
-    c(need_to_submit, submitted, on_cran, submit_when_possible)
+    c(need_to_submit, submitted, on_cran, submit_when_possible, pkgs_to_display)
   )
   if (length(unaccounted_for) > 0) {
     stop("Pkgs with no state:\n", paste0("* ", unaccounted_for, "\n"))
@@ -214,9 +154,76 @@ need_to_submit -> \"", legend_pkg, "\" [style=invis]
 
   graph_txt %T>%
     cat() %>%
-    grViz() %>%
+    DiagrammeR::grViz() %>%
     DiagrammeRsvg::export_svg() %>%
     charToRaw() %>%
     rsvg::rsvg() %>%
     png::writePNG(save_name)
+}
+
+
+# Script to produce shinyverse dependency dot graph
+# Keeping file as a script to avoid adding unnecessary pkg dependencies
+
+if (TRUE) {
+
+  if (system.file(package = "pak") == "") {
+    install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+    pak::pkg_install(c(
+      "DiagrammeR",
+      "DiagrammeRsvg",
+      "purrr",
+      "rsvg",
+      "ellipsis"
+    ))
+  }
+
+  # Shiny 1.7.0 usage:
+  shinyverse(
+    need_to_submit = c(
+      "shiny",
+      "shinytest",
+      "plotly",
+      NULL
+    ),
+    on_cran = c(
+      "htmltools",
+      "bslib",
+      "cachem",
+      "later",
+      "websocket",
+      "httpuv",
+      NULL
+    ),
+    submit_when_possible = c(
+      "htmlwidgets",
+      "crosstalk",
+      "flexdashboard",
+      "plumber",
+      NULL
+    ),
+    pkgs_to_display = c(
+      "sass",
+      "reactlog",
+      "thematic",
+      "webdriver",
+      "promises",
+      "fastmap",
+      "shinythemes",
+      "shinyvalidate",
+      "fontawesome",
+      "leaflet",
+      "leaflet.providers",
+      "gt",
+      "shinymeta",
+      NULL
+    ),
+    pkgs_to_ignore = c(
+      "memoise",
+      "shinyjster",
+      NULL
+    ),
+    # extra_txt = "memoise -> cachem; plumber -> httpuv; plumber -> promises"
+    extra_txt = "plumber -> httpuv; plumber -> promises"
+  )
 }
