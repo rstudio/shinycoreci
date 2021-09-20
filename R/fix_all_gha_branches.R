@@ -22,6 +22,7 @@
 #' @param save_results Logical which commits and merges all branches after viewing test results
 #' @param ask_apps,ask_branches Logical which allows for particular apps branches to be inspected
 #' @param ask_if_not_master Logical which will check if `master` is the base branch
+#' @param accept_all Logical which will accept all changes for the apps selected when `ask_apps = TRUE`. This parameter is only recommended for use when the shinytest differences are known and can not be displayed using the shiny application.
 #' @param repo_dir Root repo folder path
 #' @export
 fix_all_gha_branches <- function(
@@ -32,6 +33,7 @@ fix_all_gha_branches <- function(
   ask_apps = FALSE,
   ask_branches = TRUE,
   ask_if_not_master = TRUE,
+  accept_all = FALSE,
   repo_dir = file.path(dir, "..")
 ) {
   original_sys_call <- sys.call()
@@ -230,6 +232,7 @@ fix_all_gha_branches <- function(
     }
   }
 
+  did_select_apps <- FALSE
   if (isTRUE(ask_apps)) {
     message("\nApps:")
     print_apps()
@@ -245,6 +248,7 @@ fix_all_gha_branches <- function(
     if ((length(ans) == 0) || (first_choice %in% ans)) {
       # Do not subset data
     } else {
+      did_select_apps <- TRUE
       app_info_dt <- app_info_dt[app_info_dt$app_testname %in% ans, ]
     }
   }
@@ -252,6 +256,25 @@ fix_all_gha_branches <- function(
   message("\nTesting Apps:")
   print_apps()
 
+  if (isTRUE(accept_all)) {
+    if (!isTRUE(ask_apps)) {
+      stop("`accept_all` can not be `TRUE` if `ask_apps = FALSE`")
+    }
+    if (!isTRUE(did_select_apps)) {
+      stop("`accept_all` can not be `TRUE` when no apps were manually selected")
+    }
+    cat("\n")
+    yes <- "Yes"
+    ans <- utils::select.list(
+      c(yes, "No"),
+      multiple = FALSE,
+      graphics = FALSE,
+      title = "Are you **sure** you want to accept all changes?"
+    )
+    if (ans != yes) {
+      stop("Please set `accept_all = FALSE` and try again")
+    }
+  }
 
   # for each branch
   pr <- progress_bar(
@@ -275,13 +298,27 @@ fix_all_gha_branches <- function(
       suffix <- shinytest_suffix(branch)
       git_checkout(branch)
 
-      test_diff <- shinytest__view_test_diff(
-        appDir = file.path(dir, app_folder),
-        suffix = suffix,
-        interactive = TRUE,
-        testnames = app_testname,
-        ...
-      )
+      test_diff <-
+        if (isTRUE(accept_all)) {
+          shinytest::snapshotUpdate(
+            appDir = file.path(dir, app_folder),
+            suffix = suffix,
+            testnames = app_testname,
+            quiet = FALSE
+          )
+          list("accept")
+        } else {
+          # Common case...
+
+          shinytest__view_test_diff(
+            appDir = file.path(dir, app_folder),
+            suffix = suffix,
+            interactive = TRUE,
+            testnames = app_testname,
+            ...
+          )
+        }
+
 
       if (isTRUE(save_results)) {
 

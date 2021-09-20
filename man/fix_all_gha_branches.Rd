@@ -12,6 +12,7 @@ fix_all_gha_branches(
   ask_apps = FALSE,
   ask_branches = TRUE,
   ask_if_not_master = TRUE,
+  accept_all = FALSE,
   repo_dir = file.path(dir, "..")
 )
 }
@@ -27,6 +28,8 @@ fix_all_gha_branches(
 \item{ask_apps, ask_branches}{Logical which allows for particular apps branches to be inspected}
 
 \item{ask_if_not_master}{Logical which will check if \code{master} is the base branch}
+
+\item{accept_all}{Logical which will accept all changes for the apps selected when \code{ask_apps = TRUE}. This parameter is only recommended for use when the shinytest differences are known and can not be displayed using the shiny application.}
 
 \item{repo_dir}{Root repo folder path}
 }
