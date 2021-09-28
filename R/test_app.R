@@ -51,7 +51,7 @@ test_shinyjster_app <- function(
   
   # Temp workaround while mac firefox apps don't complete in time
   if (browser_name_val %in% "firefox") {
-    if (platform() == "mac")) {
+    if (platform() == "mac") {
       # return NULL to signify that no test was done
       return(NULL)
     }
