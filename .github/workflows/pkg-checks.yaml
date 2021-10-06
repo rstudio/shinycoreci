@@ -21,7 +21,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package.yaml@gha_call_workflows
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package@gha_call_workflows
       - name: Validate remotes order
         shell: Rscript {0}
         run: |

@@ -33,10 +33,6 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: rstudio/shinycoreci/.github/composite/workflow-prep.yaml@gha_call_workflows
-        with:
-          install-macOS-deps: ${{ inputs.install-macOS-deps }}
-
       - name: Git Pull (main)
         if: github.event_name != 'pull_request'
         uses: actions/checkout@v2
@@ -52,7 +48,7 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package.yaml@gha_call_workflows
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package@gha_call_workflows
         with:
           pandoc-version: ${{ inputs.pandoc-version }}
           r-version: ${{ matrix.config.r }}

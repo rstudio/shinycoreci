@@ -34,7 +34,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package.yaml@gha_call_workflows
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package@gha_call_workflows
         with:
           pandoc-version: ${{ inputs.pandoc-version }}
           cache-version: "document-1"

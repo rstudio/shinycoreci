@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package.yaml@gha_call_workflows
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package@gha_call_workflows
         with:
           pandoc-version: ${{ inputs.pandoc-version }}
           cache-version: ${{ inputs.cache-version }}

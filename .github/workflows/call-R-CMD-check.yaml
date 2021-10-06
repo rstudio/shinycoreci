@@ -149,13 +149,27 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: rstudio/shinycoreci/.github/composite/workflow-prep.yaml@gha_call_workflows
-        with:
-          install-macOS-deps: ${{ inputs.install-macOS-deps }}
+      # https://github.com/actions/checkout/issues/135
+      - name: Set git to use LF
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          git config --system core.autocrlf false
+          git config --system core.eol lf
+
+      # xquartz and cairo are needed for Cairo package.
+      # harfbuzz and fribidi are needed for textshaping package.
+      - name: Mac systemdeps
+        if: ${{ inputs.install-macOS-deps }} && runner.os == 'macOS'
+        shell: bash
+        run: |
+          brew install --cask xquartz
+          brew install cairo
+          brew install harfbuzz fribidi
 
       - uses: actions/checkout@v2
 
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package.yaml@gha_call_workflows
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package@gha_call_workflows
         with:
           pandoc-version: ${{ inputs.pandoc-version }}
           r-version: ${{ matrix.config.r }}
