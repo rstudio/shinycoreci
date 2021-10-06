@@ -113,7 +113,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ fromJSON(needs.setup.outputs.config) }}
+        config: ${{ needs.setup.outputs.config }}
 
     env:
       GITHUB_PAT: ${{ github.token }}
