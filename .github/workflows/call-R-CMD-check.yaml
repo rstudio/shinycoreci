@@ -45,7 +45,7 @@ name: R-CMD-check
 
 jobs:
   setup:
-    name: Setup
+    name: R Versions
     runs-on: ubuntu-latest
     outputs:
       config: ${{ steps.config.outputs.config }}
@@ -139,7 +139,7 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package@gha_call_workflows
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package@master
         with:
           pandoc-version: ${{ inputs.pandoc-version }}
           r-version: ${{ matrix.config.r }}

@@ -7,12 +7,12 @@ on:
 name: Package Checks
 
 jobs:
-  pkgdown:
-    uses: rstudio/shinycoreci/.github/workflows/call-pkgdown.yaml@gha_call_workflows
+  # pkgdown:
+  #   uses: rstudio/shinycoreci/.github/workflows/call-pkgdown.yaml@master
   Rituals:
-    uses: rstudio/shinycoreci/.github/workflows/call-rituals.yaml@gha_call_workflows
+    uses: rstudio/shinycoreci/.github/workflows/call-rituals.yaml@master
   R-CMD-check:
-    uses: rstudio/shinycoreci/.github/workflows/call-R-CMD-check.yaml@gha_call_workflows
+    uses: rstudio/shinycoreci/.github/workflows/call-R-CMD-check.yaml@master
     with:
       release-only: true
 
@@ -23,7 +23,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package@gha_call_workflows
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package@master
       - name: Validate remotes order
         shell: Rscript {0}
         run: |
