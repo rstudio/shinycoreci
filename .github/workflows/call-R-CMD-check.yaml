@@ -114,7 +114,7 @@ jobs:
         config: ${{ fromJSON(needs.setup.outputs.config) }}
 
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT: ${{ github.token }}
 
     steps:
       # https://github.com/actions/checkout/issues/135

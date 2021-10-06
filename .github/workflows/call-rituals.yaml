@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT: ${{ github.token }}
 
     steps:
       - name: Git Pull (main)
@@ -41,7 +41,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: r-lib/actions/pr-fetch@v1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ github.token }}
 
       - name: Git Config
         run: |
@@ -119,11 +119,11 @@ jobs:
         uses: r-lib/actions/pr-push@v1
         if: github.event_name == 'pull_request'
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ github.token }}
       # - name: Git Push (main)
       #   if: github.event_name == 'push'
       #   run: |
-      #     git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to push"
+      #     git push https://${{github.actor}}:${{github.token}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to push"
       - name: Verify no un-pushed commits (main)
         if: github.event_name == 'push'
         run: |
