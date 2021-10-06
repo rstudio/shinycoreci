@@ -98,7 +98,8 @@ jobs:
           fi
         done
         CONFIG="$CONFIG]"
-        echo "'config': '${{ toJSON(steps.config.outputs.config) }}'"
+        echo "'config':"
+        jq <<< "$CONFIG"
         echo "::set-output name=config::$CONFIG"
 
 
