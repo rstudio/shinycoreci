@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [master, main, gha_call_workflows, rc-**]
+    branches: [master, main, rc-**]
   pull_request:
     branches: [master, main]
 
