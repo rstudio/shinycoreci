@@ -48,15 +48,7 @@ jobs:
     name: Setup
     runs-on: ubuntu-latest
     outputs:
-      r-devel:    ${{ steps.devel.outputs.installed-r-version }}
-      r-release:  ${{ steps.release.outputs.installed-r-version }}
-      r-oldrel-1: ${{ steps.oldrel-1.outputs.installed-r-version }}
-      r-oldrel-2: ${{ steps.oldrel-2.outputs.installed-r-version }}
-      r-oldrel-3: ${{ steps.oldrel-3.outputs.installed-r-version }}
-      r-oldrel-4: ${{ steps.oldrel-4.outputs.installed-r-version }}
-      exclude-ubuntu20: ${{ steps.parameters.outputs.exclude-ubuntu20 }}
-      exclude-ubuntu18: ${{ steps.parameters.outputs.exclude-ubuntu18 }}
-      exclude-ubuntu18-devel: ${{ steps.parameters.outputs.exclude-ubuntu18-devel }}
+      config: ${{ toJSON(steps.config.outputs.config) }}
     steps:
     - { name: devel,    id: devel,    uses: r-lib/actions/setup-r@v1, with: { r-version: devel,    install-r: false } }
     - { name: release,  id: release,  uses: r-lib/actions/setup-r@v1, with: { r-version: release,  install-r: false } }
@@ -64,40 +56,13 @@ jobs:
     - { name: oldrel-2, id: oldrel-2, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-2, install-r: false } }
     - { name: oldrel-3, id: oldrel-3, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-3, install-r: false } }
     - { name: oldrel-4, id: oldrel-4, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-4, install-r: false } }
-    - name: Parameters
-      id: parameters
-      shell: bash
-      run: |
-        UBUNTU20="do-not-exclude"
-        UBUNTU18="do-not-exclude"
-        UBUNTU18DEVEL="do-not-exclude"
-        echo "inputs.ubuntu20: ${{ inputs.ubuntu20 }}"
-        echo "inputs.ubuntu18: ${{ inputs.ubuntu18 }}"
-        if [ "${{ inputs.ubuntu20 }}" == "false" ]; then
-          # Remove all ubuntu20; Match the name by using a 0
-          UBUNTU20="ubuntu-20.04"
-        fi
-        if [ "${{ inputs.ubuntu18 }}" == "true" ]; then
-          # Keep all ubuntu18
-          if [ "${{ inputs.ubuntu20 }}" == "true" ]; then
-            # ubuntu20 is present; Remove ubuntu18 devel
-            UBUNTU18DEVEL="ubuntu-18.04"
-          fi
-        else
-          # Remove all ubuntu20; Match the name by using a 0
-          UBUNTU18="ubuntu-18.04"
-          UBUNTU18DEVEL="ubuntu-18.04"
-        fi
-        echo "::set-output name=exclude-ubuntu20::$UBUNTU20"
-        echo "::set-output name=exclude-ubuntu18::$UBUNTU18"
-        echo "::set-output name=exclude-ubuntu18-devel::$UBUNTU18DEVEL"
     - name: Config
       id: config
       shell: bash
       run: |
         CONFIG="[";
-        CONFIG="$CONFIG  {os: \"${{ inputs.macOS }}\", r: \"${{ steps.r-versions.outputs.release }}\"}";
-        CONFIG="$CONFIG, {os: \"${{ inputs.windows }}\", r: \"${{ steps.r-versions.outputs.release }}\"}";
+        CONFIG="$CONFIG  {os: \"${{ inputs.macOS }}\", r: \"${{ steps.release.outputs.installed-r-version }}\"}";
+        CONFIG="$CONFIG, {os: \"${{ inputs.windows }}\", r: \"${{ steps.release.outputs.installed-r-version }}\"}";
         if [ "${{ inputs.release-only }}" != "true" ]; then
           CONFIG="$CONFIG, {os: \"${{ inputs.windows }}\", r: \"3.6\"}";
         fi
@@ -118,36 +83,23 @@ jobs:
         for (( i=0; i<${arrlength}; i++ ));
         do
           UBUNTU_FLAVOR=${UBUNTU_FLAVORS[$i]}
+          # Only allow the first ubuntu flavor to have devel
           if [ "$i" == "0" ]; then
             if [ "${{ inputs.release-only }}" != "true" ]; then
-              CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.devel }}\", http-user-agent: \"release\" }";
+              CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.devel.outputs.installed-r-version }}\", http-user-agent: \"release\" }";
             fi
           fi
-          CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.release }}\"}"
+          CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.release.outputs.installed-r-version }}\"}"
           if [ "${{ inputs.release-only }}" != "true" ]; then
-            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.oldrel-1 }}\"}"
-            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.oldrel-2 }}\"}"
-            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.oldrel-3 }}\"}"
-            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.oldrel-4 }}\"}"
+            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.oldrel-1.outputs.installed-r-version }}\"}"
+            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.oldrel-2.outputs.installed-r-version }}\"}"
+            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.oldrel-3.outputs.installed-r-version }}\"}"
+            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.oldrel-4.outputs.installed-r-version }}\"}"
           fi
         done
         CONFIG="$CONFIG]"
-        echo "CONFIG:"
-        echo "$CONFIG"
-        echo "::set-output name=config::$CONFIG"
-    - name: Outputs
-      shell: bash
-      run: |
-        echo "'r-devel': '${{ steps.devel.outputs.installed-r-version }}'"
-        echo "'r-release': '${{ steps.release.outputs.installed-r-version }}'"
-        echo "'r-oldrel-1': '${{ steps.oldrel-1.outputs.installed-r-version }}'"
-        echo "'r-oldrel-2': '${{ steps.oldrel-2.outputs.installed-r-version }}'"
-        echo "'r-oldrel-3': '${{ steps.oldrel-3.outputs.installed-r-version }}'"
-        echo "'r-oldrel-4': '${{ steps.oldrel-4.outputs.installed-r-version }}'"
-        echo "'exclude-ubuntu20': '${{ steps.parameters.outputs.exclude-ubuntu20 }}'"
-        echo "'exclude-ubuntu18': '${{ steps.parameters.outputs.exclude-ubuntu18 }}'"
-        echo "'exclude-ubuntu20-devel': '${{ steps.parameters.outputs.exclude-ubuntu18-devel }}'"
         echo "'config': '${{ toJSON(steps.config.outputs.config) }}'"
+        echo "::set-output name=config::$CONFIG"
 
 
   R-CMD-check:
@@ -159,40 +111,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config:
-          - {os: "${{ inputs.macOS }}",   r: '${{ needs.setup.outputs.r-release }}'}
-          - {os: "${{ inputs.windows }}", r: '${{ needs.setup.outputs.r-release }}'}
-          - {os: "${{ inputs.windows }}", r: '3.6'}
-
-          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-devel }}', http-user-agent: "release"}
-          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-release }}'}
-          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-oldrel-1 }}'}
-          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-oldrel-2 }}'}
-          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-oldrel-3 }}'}
-          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-oldrel-4 }}'}
-
-          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-devel }}', http-user-agent: "release"}
-          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-release }}'}
-          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-oldrel-1 }}'}
-          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-oldrel-2 }}'}
-          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-oldrel-3 }}'}
-          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-oldrel-4 }}'}
-
-        exclude:
-          # To exclude a run, it much match the FULL combination
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-devel }}', http-user-agent: "release" }
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-release }}'}
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-oldrel-1 }}'}
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-oldrel-2 }}'}
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-oldrel-3 }}'}
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-oldrel-4 }}'}
-          # Only testing ubuntu18 devel if not testing on ubuntu20
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18-devel }}",   r: '${{ needs.setup.outputs.r-devel }}', http-user-agent: "release" }
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18 }}",   r: '${{ needs.setup.outputs.r-release }}'}
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18 }}",   r: '${{ needs.setup.outputs.r-oldrel-1 }}'}
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18 }}",   r: '${{ needs.setup.outputs.r-oldrel-2 }}'}
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18 }}",   r: '${{ needs.setup.outputs.r-oldrel-3 }}'}
-          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18 }}",   r: '${{ needs.setup.outputs.r-oldrel-4 }}'}
+        config: ${{ fromJSON(needs.setup.outputs.config) }}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -231,7 +150,7 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v1
         with:
-          check-dir: "check" # matches below
+          check-dir: '"check"' # matches directory below
 
       - name: Upload check results
         if: failure()
