@@ -86,7 +86,7 @@ jobs:
           # Only allow the first ubuntu flavor to have devel
           if [ "$i" == "0" ]; then
             if [ "${{ inputs.release-only }}" != "true" ]; then
-              CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.devel.outputs.installed-r-version }}\", http-user-agent: \"release\" }";
+              CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.devel.outputs.installed-r-version }}\", \"http-user-agent\": \"release\" }";
             fi
           fi
           CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.release.outputs.installed-r-version }}\"}"

@@ -33,10 +33,10 @@ jobs:
       GITHUB_PAT: ${{ github.token }}
 
     steps:
-      - name: Git Pull (main)
-        if: github.event_name != 'pull_request'
+      - name: Git Pull
         uses: actions/checkout@v2
 
+      # Needs the repo to already be checked out
       - name: Git Pull (PR)
         if: github.event_name == 'pull_request'
         uses: r-lib/actions/pr-fetch@v1
