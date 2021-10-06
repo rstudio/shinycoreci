@@ -1,0 +1,54 @@
+on:
+  workflow_call:
+    inputs:
+      extra-packages:
+        type: string
+        default: ""
+        required: false
+      cache-version:
+        type: string
+        default: ""
+        required: false
+      pandoc-version:
+        type: string
+        default: ""
+        required: false
+
+name: pkgdown
+
+jobs:
+  pkgdown:
+
+    runs-on: ubuntu-20.04
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package.yaml@gha_call_workflows
+        with:
+          pandoc-version: ${{ inputs.pandoc-version }}
+          cache-version: ${{ inputs.cache-version }}
+          needs: website
+          extra-packages: |
+            pkgdown
+            ${{ inputs.extra-packages }}
+
+      - name: Verify reference (PR)
+        if: github.event_name != 'push'
+        shell: Rscript {0}
+        run: |
+          pkgdown::build_site(new_process = FALSE)
+          if (!require("testthat")) pak::pkg_install("testthat")
+          testthat::expect_warning(
+            pkgdown::build_reference_index(),
+            NA
+          )
+
+      - name: Build and deploy pkgdown site (push)
+        if: github.event_name == 'push'
+        run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'

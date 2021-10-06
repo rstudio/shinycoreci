@@ -1,0 +1,146 @@
+on:
+  workflow_call:
+    inputs:
+      extra-packages:
+        type: string
+        default: ""
+        required: false
+      cache-version:
+        type: string
+        default: ""
+        required: false
+      pandoc-version:
+        type: string
+        default: ""
+        required: false
+      install-macOS-deps:
+        type: boolean
+        default: false
+        required: false
+    # secrets:
+    #   token:
+    #     required: true
+
+name: Rituals
+
+jobs:
+
+  Rituals:
+    name: Rituals
+    runs-on: ubuntu-20.04
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: rstudio/shinycoreci/.github/composite/workflow-prep.yaml@gha_call_workflows
+        with:
+          install-macOS-deps: ${{ inputs.install-macOS-deps }}
+
+      - name: Git Pull (main)
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@v2
+
+      - name: Git Pull (PR)
+        if: github.event_name == 'pull_request'
+        uses: r-lib/actions/pr-fetch@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Git Config
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package.yaml@gha_call_workflows
+        with:
+          pandoc-version: ${{ inputs.pandoc-version }}
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          cache-version: rituals-${{ inputs.cache-version }}
+          needs: rituals
+          extra-packages: |
+            devtools
+            rmarkdown
+            ${{ inputs.extra-packages }}
+
+      - name: Url redirects
+        # only perform if in an RC branch (`rc-vX.Y.Z`)
+        if: ${{ github.event_name == 'push' && contains(github.ref, '/rc-v') }}
+        run: |
+          Rscript -e 'pak::pkg_install("r-lib/urlchecker"); urlchecker::url_update()'
+          git add . && git commit -m 'Update links (GitHub Actions)' || echo "No link changes to commit"
+
+      - name: Document
+        run: |
+          Rscript -e 'roxygen2::roxygenise()'
+          git add man/\* NAMESPACE && git commit -m 'Document (GitHub Actions)' || echo "No documentation changes to commit"
+
+      - name: Find README.Rmd
+        id: readme
+        shell: Rscript {0}
+        run: |
+          if (file.exists("README.Rmd")) cat("::set-output name=exists::true")
+      - name: Build Readme
+        if: steps.readme.outputs.exists
+        run: |
+          Rscript -e 'devtools::build_readme(quiet = FALSE)'
+          git commit README.md -m 'Re-build README.Rmd (GitHub Actions)' || echo "No readme changes to commit"
+
+
+      - name: Find package.json
+        id: package-json
+        shell: Rscript {0}
+        run: |
+          if (file.exists("package.json")) {
+            cat("::set-output name=exists::true")
+            if (!require("jsonlite")) pak::pkg_install("jsonlite")
+            pkg_scripts <- jsonlite::read_json("package.json")$scripts
+            if ("build" %in% names(pkg_scripts)) cat("::set-output name=build::true")
+            if ("test" %in% names(pkg_scripts)) cat("::set-output name=test::true")
+          }
+      - name: Sync DESCRIPTION and package.json versions
+        if: steps.package-json.outputs.exists
+        run: |
+          Rscript -e 'pak::pkg_install("jsonlite")'
+          Rscript -e 'pkg <- jsonlite::read_json("package.json", simplifyVector = TRUE)' \
+          -e 'version <- as.list(read.dcf("DESCRIPTION")[1,])$Version' \
+          -e 'pkg$version <- gsub("^(\\d+).(\\d+).(\\d+).(.+)$", "\\1.\\2.\\3-alpha.\\4", version)' \
+          -e 'pkg$files <- as.list(pkg$files)' \
+          -e 'jsonlite::write_json(pkg, path = "package.json", pretty = TRUE, auto_unbox = TRUE)'
+          git add package.json && git commit -m 'sync package version (GitHub Actions)' || echo "No pkg version to commit"
+      - name: Build TS
+        if: steps.package-json.outputs.build
+        run: |
+          if [ -d "srcts/types" ]; then
+            rm -r srcts/types
+          fi
+          yarn install --immutable && yarn build
+          git add ./inst ./srcts && git commit -m 'yarn build (GitHub Actions)' || echo "No yarn build changes to commit"
+
+
+      - name: Git Push (PR)
+        uses: r-lib/actions/pr-push@v1
+        if: github.event_name == 'pull_request'
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Git Push (main)
+      #   if: github.event_name == 'push'
+      #   run: |
+      #     git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to push"
+      - name: Verify no un-pushed commits (main)
+        if: github.event_name == 'push'
+        run: |
+          # Do not push to main branch
+          if [ -n "`git cherry origin/HEAD`" ]; then
+            echo "Un-pushed commits:"
+            git cherry -v origin/HEAD
+            echo "\nShould not push to HEAD branch. Please make a PR to have changes be collected. Exiting"
+            exit 1
+          fi
+
+      # Execute after pushing, as no updated files will be produced
+      - name: "`yarn test`"
+        if: steps.package-json.outputs.test
+        run: |
+          yarn test

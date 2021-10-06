@@ -1,0 +1,30 @@
+on:
+  push:
+    branches: [master, main, gha_call_workflows, rc-**]
+  pull_request:
+    branches: [master, main]
+
+name: Package Checks
+
+jobs:
+  pkgdown:
+    uses: rstudio/shinycoreci/.github/call/pkgdown.yaml@gha_call_workflows
+  Rituals:
+    uses: rstudio/shinycoreci/.github/call/rituals.yaml@gha_call_workflows
+  R-CMD-check:
+    uses: rstudio/shinycoreci/.github/call/r-cmd-check.yaml@gha_call_workflows
+
+  # shinycoreci specific testing
+  validate-remotes:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package.yaml@gha_call_workflows
+      - name: Validate remotes order
+        shell: Rscript {0}
+        run: |
+          testthat::expect_error({
+            shinycoreci:::validate_remotes_order()
+          }, NA)

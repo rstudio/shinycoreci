@@ -1,0 +1,178 @@
+on:
+  workflow_call:
+    inputs:
+      extra-packages:
+        type: string
+        default: ""
+        required: false
+      cache-version:
+        type: string
+        default: ""
+        required: false
+      pandoc-version:
+        type: string
+        default: ""
+        required: false
+      install-macOS-deps:
+        type: boolean
+        default: false
+        required: false
+      macOS:
+        type: string
+        default: "macOS-latest"
+        required: false
+      windows:
+        type: string
+        default: "windows-latest"
+        required: false
+      ubuntu20:
+        type: boolean
+        default: true
+        required: false
+      ubuntu18:
+        type: boolean
+        default: false
+        required: false
+    # secrets:
+    #   token:
+    #     required: true
+
+name: R-CMD-check
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    outputs:
+      r-devel:    ${{ steps.devel.outputs.installed-r-version }}
+      r-release:  ${{ steps.release.outputs.installed-r-version }}
+      r-oldrel-1: ${{ steps.oldrel-1.outputs.installed-r-version }}
+      r-oldrel-2: ${{ steps.oldrel-2.outputs.installed-r-version }}
+      r-oldrel-3: ${{ steps.oldrel-3.outputs.installed-r-version }}
+      r-oldrel-4: ${{ steps.oldrel-4.outputs.installed-r-version }}
+      exclude-ubuntu20: ${{ steps.parameters.outputs.exclude-ubuntu20 }}
+      exclude-ubuntu18: ${{ steps.parameters.outputs.exclude-ubuntu18 }}
+      exclude-ubuntu18-devel: ${{ steps.parameters.outputs.exclude-ubuntu18-devel }}
+    steps:
+    - { name: devel,    id: devel,    uses: r-lib/actions/setup-r@v1, with: { r-version: devel,    install-r: false } }
+    - { name: release,  id: release,  uses: r-lib/actions/setup-r@v1, with: { r-version: release,  install-r: false } }
+    - { name: oldrel-1, id: oldrel-1, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-1, install-r: false } }
+    - { name: oldrel-2, id: oldrel-2, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-2, install-r: false } }
+    - { name: oldrel-3, id: oldrel-3, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-3, install-r: false } }
+    - { name: oldrel-4, id: oldrel-4, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-4, install-r: false } }
+    - name: Parameters
+      id: parameters
+      shell: bash
+      run: |
+        UBUNTU20="do-not-exclude"
+        UBUNTU18="do-not-exclude"
+        UBUNTU18DEVEL="do-not-exclude"
+        echo "inputs.ubuntu20: ${{ inputs.ubuntu20 }}"
+        echo "inputs.ubuntu18: ${{ inputs.ubuntu18 }}"
+        if [ "${{ inputs.ubuntu20 }}" == "false" ]; then
+          # Remove all ubuntu20; Match the name by using a 0
+          UBUNTU20="ubuntu-20.04"
+        fi
+        if [ "${{ inputs.ubuntu18 }}" == "true" ]; then
+          # Keep all ubuntu18
+          if [ "${{ inputs.ubuntu20 }}" == "true" ]; then
+            # ubuntu20 is present; Remove ubuntu18 devel
+            UBUNTU18DEVEL="ubuntu-18.04"
+          fi
+        else
+          # Remove all ubuntu20; Match the name by using a 0
+          UBUNTU18="ubuntu-18.04"
+          UBUNTU18DEVEL="ubuntu-18.04"
+        fi
+        echo "::set-output name=exclude-ubuntu20::$UBUNTU20"
+        echo "::set-output name=exclude-ubuntu18::$UBUNTU18"
+        echo "::set-output name=exclude-ubuntu18-devel::$UBUNTU18DEVEL"
+    - name: Outputs
+      shell: bash
+      run: |
+        echo "'r-devel': '${{ steps.devel.outputs.installed-r-version }}'"
+        echo "'r-release': '${{ steps.release.outputs.installed-r-version }}'"
+        echo "'r-oldrel-1': '${{ steps.oldrel-1.outputs.installed-r-version }}'"
+        echo "'r-oldrel-2': '${{ steps.oldrel-2.outputs.installed-r-version }}'"
+        echo "'r-oldrel-3': '${{ steps.oldrel-3.outputs.installed-r-version }}'"
+        echo "'r-oldrel-4': '${{ steps.oldrel-4.outputs.installed-r-version }}'"
+        echo "'exclude-ubuntu20': '${{ steps.parameters.outputs.exclude-ubuntu20 }}'"
+        echo "'exclude-ubuntu18': '${{ steps.parameters.outputs.exclude-ubuntu18 }}'"
+        echo "'exclude-ubuntu20-devel': '${{ steps.parameters.outputs.exclude-ubuntu18-devel }}'"
+
+
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    needs: [setup]
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: "${{ inputs.macOS }}",   r: '${{ needs.setup.outputs.r-release }}'}
+          - {os: "${{ inputs.windows }}", r: '${{ needs.setup.outputs.r-release }}'}
+          - {os: "${{ inputs.windows }}", r: '3.6'}
+
+          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-devel }}', http-user-agent: "release"}
+          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-release }}'}
+          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-oldrel-1 }}'}
+          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-oldrel-2 }}'}
+          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-oldrel-3 }}'}
+          - {os: ubuntu-20.04,   r: '${{ needs.setup.outputs.r-oldrel-4 }}'}
+
+          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-devel }}', http-user-agent: "release"}
+          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-release }}'}
+          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-oldrel-1 }}'}
+          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-oldrel-2 }}'}
+          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-oldrel-3 }}'}
+          - {os: ubuntu-18.04,   r: '${{ needs.setup.outputs.r-oldrel-4 }}'}
+
+        exclude:
+          # To exclude a run, it much match the FULL combination
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-devel }}', http-user-agent: "release" }
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-release }}'}
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-oldrel-1 }}'}
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-oldrel-2 }}'}
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-oldrel-3 }}'}
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu20 }}",   r: '${{ needs.setup.outputs.r-oldrel-4 }}'}
+          # Only testing ubuntu18 devel if not testing on ubuntu20
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18-devel }}",   r: '${{ needs.setup.outputs.r-devel }}', http-user-agent: "release" }
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18 }}",   r: '${{ needs.setup.outputs.r-release }}'}
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18 }}",   r: '${{ needs.setup.outputs.r-oldrel-1 }}'}
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18 }}",   r: '${{ needs.setup.outputs.r-oldrel-2 }}'}
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18 }}",   r: '${{ needs.setup.outputs.r-oldrel-3 }}'}
+          - config: {os: "${{ needs.setup.outputs.exclude-ubuntu18 }}",   r: '${{ needs.setup.outputs.r-oldrel-4 }}'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: rstudio/shinycoreci/.github/composite/workflow-prep.yaml@gha_call_workflows
+        with:
+          install-macOS-deps: ${{ inputs.install-macOS-deps }}
+
+      - uses: actions/checkout@v2
+
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package.yaml@gha_call_workflows
+        with:
+          pandoc-version: ${{ inputs.pandoc-version }}
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          cache-version: ${{ inputs.cache-version }}
+          needs: check
+          extra-packages: |
+            rcmdcheck
+            ${{ inputs.extra-packages }}
+
+      - uses: r-lib/actions/check-r-package@v1
+        with:
+          check-dir: "check" # matches below
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@main
+        with:
+          name: ${{ matrix.config.os }}-r${{ matrix.config.r }}-results
+          path: "check"
