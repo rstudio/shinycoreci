@@ -33,10 +33,10 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
       - uses: actions/checkout@v1
-      - uses: r-lib/actions/pr-fetch@master
+      - uses: r-lib/actions/pr-fetch@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
       - name: Cache R packages
@@ -68,6 +68,6 @@ jobs:
         run: |
           git add man/\* NAMESPACE
           git commit -m 'Document' || echo "No documentation changes to commit"
-      - uses: r-lib/actions/pr-push@master
+      - uses: r-lib/actions/pr-push@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

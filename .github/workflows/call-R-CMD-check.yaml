@@ -1,0 +1,162 @@
+on:
+  workflow_call:
+    inputs:
+      extra-packages:
+        type: string
+        default: ""
+        required: false
+      cache-version:
+        type: string
+        default: ""
+        required: false
+      pandoc-version:
+        type: string
+        default: ""
+        required: false
+      install-macOS-deps:
+        type: boolean
+        default: false
+        required: false
+      macOS:
+        type: string
+        default: "macOS-latest"
+        required: false
+      windows:
+        type: string
+        default: "windows-latest"
+        required: false
+      ubuntu20:
+        type: boolean
+        default: true
+        required: false
+      ubuntu18:
+        type: boolean
+        default: false
+        required: false
+      release-only:
+        type: boolean
+        default: false
+        required: false
+    # secrets:
+    #   token:
+    #     required: true
+
+name: R-CMD-check
+
+jobs:
+  setup:
+    name: R Versions
+    runs-on: ubuntu-latest
+    outputs:
+      config: ${{ steps.config.outputs.config }}
+    steps:
+    - { name: devel,    id: devel,    uses: r-lib/actions/setup-r@v1, with: { r-version: devel,    install-r: false } }
+    - { name: release,  id: release,  uses: r-lib/actions/setup-r@v1, with: { r-version: release,  install-r: false } }
+    - { name: oldrel-1, id: oldrel-1, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-1, install-r: false } }
+    - { name: oldrel-2, id: oldrel-2, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-2, install-r: false } }
+    - { name: oldrel-3, id: oldrel-3, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-3, install-r: false } }
+    - { name: oldrel-4, id: oldrel-4, uses: r-lib/actions/setup-r@v1, with: { r-version: oldrel-4, install-r: false } }
+    - name: Config
+      id: config
+      shell: bash
+      run: |
+        CONFIG="[";
+        CONFIG="$CONFIG  {\"os\": \"${{ inputs.macOS }}\", \"r\": \"${{ steps.release.outputs.installed-r-version }}\"}";
+        CONFIG="$CONFIG, {\"os\": \"${{ inputs.windows }}\", \"r\": \"${{ steps.release.outputs.installed-r-version }}\"}";
+        if [ "${{ inputs.release-only }}" != "true" ]; then
+          CONFIG="$CONFIG, {\"os\": \"${{ inputs.windows }}\", \"r\": \"3.6\"}";
+        fi
+
+        # Array variable
+        UBUNTU_FLAVORS=();
+        if [ "${{ inputs.ubuntu20 }}" == "true" ]; then
+          UBUNTU_FLAVORS+=('ubuntu-20.04');
+        fi
+        if [ "${{ inputs.ubuntu18 }}" == "true" ]; then
+          UBUNTU_FLAVORS+=('ubuntu-18.04');
+        fi
+
+        # Get length of an array to a variable
+        arrlength=${#UBUNTU_FLAVORS[@]}
+
+        # for loop to read all values and indexes
+        for (( i=0; i<${arrlength}; i++ ));
+        do
+          UBUNTU_FLAVOR=${UBUNTU_FLAVORS[$i]}
+          # Only allow the first ubuntu flavor to have devel
+          if [ "$i" == "0" ]; then
+            if [ "${{ inputs.release-only }}" != "true" ]; then
+              CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.devel.outputs.installed-r-version }}\", http-user-agent: \"release\" }";
+            fi
+          fi
+          CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.release.outputs.installed-r-version }}\"}"
+          if [ "${{ inputs.release-only }}" != "true" ]; then
+            CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-1.outputs.installed-r-version }}\"}"
+            CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-2.outputs.installed-r-version }}\"}"
+            CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-3.outputs.installed-r-version }}\"}"
+            CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-4.outputs.installed-r-version }}\"}"
+          fi
+        done
+        CONFIG="$CONFIG]"
+        echo "$CONFIG"
+        echo "'config':"
+        jq <<< "$CONFIG"
+        echo "::set-output name=config::$CONFIG"
+
+
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    needs: [setup]
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(needs.setup.outputs.config) }}
+
+    env:
+      GITHUB_PAT: ${{ github.token }}
+
+    steps:
+      # https://github.com/actions/checkout/issues/135
+      - name: Set git to use LF
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          git config --system core.autocrlf false
+          git config --system core.eol lf
+
+      # xquartz and cairo are needed for Cairo package.
+      # harfbuzz and fribidi are needed for textshaping package.
+      - name: Mac systemdeps
+        if: inputs.install-macOS-deps && runner.os == 'macOS'
+        shell: bash
+        run: |
+          brew install --cask xquartz
+          brew install cairo
+          brew install harfbuzz fribidi
+
+      - uses: actions/checkout@v2
+
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package@master
+        with:
+          pandoc-version: ${{ inputs.pandoc-version }}
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          cache-version: ${{ inputs.cache-version }}
+          needs: check
+          extra-packages: |
+            rcmdcheck
+            ${{ inputs.extra-packages }}
+
+      - uses: r-lib/actions/check-r-package@v1
+        with:
+          check-dir: '"check"' # matches directory below
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@main
+        with:
+          name: ${{ matrix.config.os }}-r${{ matrix.config.r }}-results
+          path: "check"
