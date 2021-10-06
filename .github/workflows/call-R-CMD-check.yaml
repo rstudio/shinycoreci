@@ -48,7 +48,7 @@ jobs:
     name: Setup
     runs-on: ubuntu-latest
     outputs:
-      config: ${{ toJSON(steps.config.outputs.config) }}
+      config: ${{ steps.config.outputs.config }}
     steps:
     - { name: devel,    id: devel,    uses: r-lib/actions/setup-r@v1, with: { r-version: devel,    install-r: false } }
     - { name: release,  id: release,  uses: r-lib/actions/setup-r@v1, with: { r-version: release,  install-r: false } }
@@ -113,7 +113,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: ${{ needs.setup.outputs.config }}
+        config: ${{ fromJSON(needs.setup.outputs.config) }}
 
     env:
       GITHUB_PAT: ${{ github.token }}
