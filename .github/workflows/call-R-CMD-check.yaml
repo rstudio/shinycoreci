@@ -61,10 +61,10 @@ jobs:
       shell: bash
       run: |
         CONFIG="[";
-        CONFIG="$CONFIG  {os: \"${{ inputs.macOS }}\", r: \"${{ steps.release.outputs.installed-r-version }}\"}";
-        CONFIG="$CONFIG, {os: \"${{ inputs.windows }}\", r: \"${{ steps.release.outputs.installed-r-version }}\"}";
+        CONFIG="$CONFIG  {\"os\": \"${{ inputs.macOS }}\", \"r\": \"${{ steps.release.outputs.installed-r-version }}\"}";
+        CONFIG="$CONFIG, {\"os\": \"${{ inputs.windows }}\", \"r\": \"${{ steps.release.outputs.installed-r-version }}\"}";
         if [ "${{ inputs.release-only }}" != "true" ]; then
-          CONFIG="$CONFIG, {os: \"${{ inputs.windows }}\", r: \"3.6\"}";
+          CONFIG="$CONFIG, {\"os\": \"${{ inputs.windows }}\", \"r\": \"3.6\"}";
         fi
 
         # Array variable
@@ -86,15 +86,15 @@ jobs:
           # Only allow the first ubuntu flavor to have devel
           if [ "$i" == "0" ]; then
             if [ "${{ inputs.release-only }}" != "true" ]; then
-              CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.devel.outputs.installed-r-version }}\", http-user-agent: \"release\" }";
+              CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.devel.outputs.installed-r-version }}\", http-user-agent: \"release\" }";
             fi
           fi
-          CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.release.outputs.installed-r-version }}\"}"
+          CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.release.outputs.installed-r-version }}\"}"
           if [ "${{ inputs.release-only }}" != "true" ]; then
-            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.oldrel-1.outputs.installed-r-version }}\"}"
-            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.oldrel-2.outputs.installed-r-version }}\"}"
-            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.oldrel-3.outputs.installed-r-version }}\"}"
-            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.oldrel-4.outputs.installed-r-version }}\"}"
+            CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-1.outputs.installed-r-version }}\"}"
+            CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-2.outputs.installed-r-version }}\"}"
+            CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-3.outputs.installed-r-version }}\"}"
+            CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-4.outputs.installed-r-version }}\"}"
           fi
         done
         CONFIG="$CONFIG]"
