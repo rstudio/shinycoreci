@@ -13,6 +13,8 @@ jobs:
     uses: rstudio/shinycoreci/.github/workflows/call-rituals.yaml@gha_call_workflows
   R-CMD-check:
     uses: rstudio/shinycoreci/.github/workflows/call-R-CMD-check.yaml@gha_call_workflows
+    with:
+      release-only: true
 
   # shinycoreci specific testing
   validate-remotes:

@@ -33,6 +33,10 @@ on:
         type: boolean
         default: false
         required: false
+      release-only:
+        type: boolean
+        default: false
+        required: false
     # secrets:
     #   token:
     #     required: true
@@ -87,6 +91,50 @@ jobs:
         echo "::set-output name=exclude-ubuntu20::$UBUNTU20"
         echo "::set-output name=exclude-ubuntu18::$UBUNTU18"
         echo "::set-output name=exclude-ubuntu18-devel::$UBUNTU18DEVEL"
+    - name: Config
+      id: config
+      shell: bash
+      run: |
+        CONFIG="[";
+        CONFIG="$CONFIG  {os: \"${{ inputs.macOS }}\", r: \"${{ steps.r-versions.outputs.release }}\"}";
+        CONFIG="$CONFIG, {os: \"${{ inputs.windows }}\", r: \"${{ steps.r-versions.outputs.release }}\"}";
+        if [ "${{ inputs.release-only }}" != "true" ]; then
+          CONFIG="$CONFIG, {os: \"${{ inputs.windows }}\", r: \"3.6\"}";
+        fi
+
+        # Array variable
+        UBUNTU_FLAVORS=();
+        if [ "${{ inputs.ubuntu20 }}" == "true" ]; then
+          UBUNTU_FLAVORS+=('ubuntu-20.04');
+        fi
+        if [ "${{ inputs.ubuntu18 }}" == "true" ]; then
+          UBUNTU_FLAVORS+=('ubuntu-18.04');
+        fi
+
+        # Get length of an array to a variable
+        arrlength=${#UBUNTU_FLAVORS[@]}
+
+        # for loop to read all values and indexes
+        for (( i=0; i<${arrlength}; i++ ));
+        do
+          UBUNTU_FLAVOR=${UBUNTU_FLAVORS[$i]}
+          if [ "$i" == "0" ]; then
+            if [ "${{ inputs.release-only }}" != "true" ]; then
+              CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.devel }}\", http-user-agent: \"release\" }";
+            fi
+          fi
+          CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.release }}\"}"
+          if [ "${{ inputs.release-only }}" != "true" ]; then
+            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.oldrel-1 }}\"}"
+            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.oldrel-2 }}\"}"
+            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.oldrel-3 }}\"}"
+            CONFIG="$CONFIG, {os: \"$UBUNTU_FLAVOR\", r: \"${{ steps.r-versions.outputs.oldrel-4 }}\"}"
+          fi
+        done
+        CONFIG="$CONFIG]"
+        echo "CONFIG:"
+        echo "$CONFIG"
+        echo "::set-output name=config::$CONFIG"
     - name: Outputs
       shell: bash
       run: |
@@ -99,6 +147,7 @@ jobs:
         echo "'exclude-ubuntu20': '${{ steps.parameters.outputs.exclude-ubuntu20 }}'"
         echo "'exclude-ubuntu18': '${{ steps.parameters.outputs.exclude-ubuntu18 }}'"
         echo "'exclude-ubuntu20-devel': '${{ steps.parameters.outputs.exclude-ubuntu18-devel }}'"
+        echo "'config': '${{ toJSON(steps.config.outputs.config) }}'"
 
 
   R-CMD-check:
@@ -160,7 +209,7 @@ jobs:
       # xquartz and cairo are needed for Cairo package.
       # harfbuzz and fribidi are needed for textshaping package.
       - name: Mac systemdeps
-        if: ${{ inputs.install-macOS-deps }} && runner.os == 'macOS'
+        if: inputs.install-macOS-deps && runner.os == 'macOS'
         shell: bash
         run: |
           brew install --cask xquartz
