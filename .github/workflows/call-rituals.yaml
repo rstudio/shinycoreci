@@ -135,7 +135,17 @@ jobs:
             exit 1
           fi
 
-      # Execute after pushing, as no updated files will be produced
+      # Execute these steps after pushing, as no updated files will be produced
+
+      - name: "`devtools::lint()`"
+        if: hashFiles('.lintr') != ''
+        shell: Rscript {0}
+        run: |
+          Sys.setlocale(locale = "C")
+          package_lints <- devtools::lint(cache = FALSE)
+          if (length(package_lints) > 0) print(package_lints)
+          testthat::expect_length(package_lints, 0)
+
       - name: "`yarn test`"
         if: steps.package-json.outputs.test
         run: |
