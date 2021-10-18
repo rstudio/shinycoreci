@@ -73,7 +73,7 @@ jobs:
           Rscript -e 'roxygen2::roxygenise()'
           git add man/\* NAMESPACE && git commit -m 'Document (GitHub Actions)' || echo "No documentation changes to commit"
 
-      - name: Find README.Rmd
+      - name: Find `./README.Rmd`
         id: readme
         shell: Rscript {0}
         run: |
@@ -85,7 +85,7 @@ jobs:
           git commit README.md -m 'Re-build README.Rmd (GitHub Actions)' || echo "No readme changes to commit"
 
 
-      - name: Find package.json
+      - name: Find `./package.json`
         id: package-json
         shell: Rscript {0}
         run: |
@@ -138,17 +138,19 @@ jobs:
 
       # Execute these steps after pushing, as no updated files will be produced
 
-      - name: "`devtools::lint()`"
+      - name: Find `./.lintr`
+        id: lintr
         shell: Rscript {0}
         run: |
-          if (file.exists(".lintr")) {
-            Sys.setlocale(locale = "C")
-            package_lints <- devtools::lint(cache = FALSE)
-            if (length(package_lints) > 0) print(package_lints)
-            testthat::expect_length(package_lints, 0)
-          } else {
-            message("No `.lintr` file exists")
-          }
+          if (file.exists(".lintr")) cat("::set-output name=exists::true")
+      - name: "`devtools::lint()`"
+        if: steps.lintr.outputs.exists
+        shell: Rscript {0}
+        run: |
+          Sys.setlocale(locale = "C")
+          package_lints <- devtools::lint(cache = FALSE)
+          if (length(package_lints) > 0) print(package_lints)
+          testthat::expect_length(package_lints, 0)
 
       - name: "`yarn test`"
         if: steps.package-json.outputs.test
