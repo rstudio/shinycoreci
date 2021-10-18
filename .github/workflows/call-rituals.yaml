@@ -58,6 +58,7 @@ jobs:
           extra-packages: |
             devtools
             rmarkdown
+            lintr
             ${{ inputs.extra-packages }}
 
       - name: Url redirects
