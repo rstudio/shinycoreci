@@ -149,7 +149,7 @@ jobs:
         run: |
           Sys.setlocale(locale = "C")
           package_lints <- devtools::lint(cache = FALSE)
-          if (length(package_lints) > 0) print(package_lints)
+          if (length(package_lints) > 0) str(package_lints)
           testthat::expect_length(package_lints, 0)
 
       - name: "`yarn test`"
