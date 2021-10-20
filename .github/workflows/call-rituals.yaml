@@ -132,7 +132,7 @@ jobs:
           if [ -n "`git cherry origin/HEAD`" ]; then
             echo "Un-pushed commits:"
             git cherry -v origin/HEAD
-            echo "\nShould not push to HEAD branch. Please make a PR to have changes be collected. Exiting"
+            echo "::error:: Should not push to HEAD branch. Please make a PR to have changes be collected. Exiting"
             exit 1
           fi
 
