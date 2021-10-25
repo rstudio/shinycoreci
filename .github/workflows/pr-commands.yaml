@@ -5,4 +5,4 @@ name: Commands
 
 jobs:
   Commands:
-    uses: rstudio/shinycoreci/.github/workflows/call-pr-commands.yaml@master
+    uses: rstudio/shinycoreci/.github/workflows/call-pr-commands.yaml@v1

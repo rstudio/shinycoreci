@@ -21,12 +21,11 @@ on:
     #   token:
     #     required: true
 
-name: Rituals
+name: rituals
 
 jobs:
 
-  Rituals:
-    name: Rituals
+  rituals:
     runs-on: ubuntu-20.04
 
     env:
@@ -48,7 +47,7 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package@master
+      - uses: rstudio/shinycoreci/.github/composite/install-r-package@v1
         with:
           pandoc-version: ${{ inputs.pandoc-version }}
           r-version: ${{ matrix.config.r }}
