@@ -15,18 +15,3 @@ jobs:
     uses: rstudio/shinycoreci/.github/workflows/call-R-CMD-check.yaml@v1
     with:
       release-only: true
-
-  # shinycoreci specific testing
-  validate-remotes:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package@v1
-      - name: Validate remotes order
-        shell: Rscript {0}
-        run: |
-          testthat::expect_error({
-            shinycoreci:::validate_remotes_order()
-          }, NA)
