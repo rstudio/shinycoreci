@@ -45,7 +45,7 @@ name: R-CMD-check
 
 jobs:
   setup:
-    name: R Versions
+    name: config
     runs-on: ubuntu-latest
     outputs:
       config: ${{ steps.config.outputs.config }}
