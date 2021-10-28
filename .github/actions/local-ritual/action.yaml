@@ -1,0 +1,12 @@
+name: 'Local rituals'
+description: 'Validate remotes are in a valid order'
+author: 'Barret Schloerke'
+runs:
+  using: "composite"
+  steps:
+    - name: Validate remotes order
+      shell: Rscript {0}
+      run: |
+        testthat::expect_error({
+          shinycoreci:::validate_remotes_order()
+        }, NA)
