@@ -39,6 +39,15 @@ jobs:
             pkgdown
             ${{ inputs.extra-packages }}
 
+      - name: Find local pkgdown
+        id: local-pkgdown
+        shell: Rscript {0}
+        run: |
+          if (file.exists(".github/actions/local-pkgdown/action.yaml")) cat("::set-output name=exists::true")
+      - name: Run local pkgdown
+        if: steps.local-pkgdown.outputs.exists
+        uses: ./.github/actions/local-pkgdown/action.yaml
+
       - name: Verify reference (PR)
         if: github.event_name != 'push'
         shell: Rscript {0}

@@ -154,6 +154,15 @@ jobs:
             rcmdcheck
             ${{ inputs.extra-packages }}
 
+      - name: Find local pre-check
+        id: local-pre-check
+        shell: Rscript {0}
+        run: |
+          if (file.exists(".github/actions/local-pre-check/action.yaml")) cat("::set-output name=exists::true")
+      - name: Run local pre-check
+        if: steps.local-pre-check.outputs.exists
+        uses: ./.github/actions/local-pre-check/action.yaml
+
       - uses: r-lib/actions/check-r-package@v1
         with:
           check-dir: '"check"' # matches directory below
