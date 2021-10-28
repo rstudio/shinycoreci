@@ -8,7 +8,7 @@ on:
     inputs:
       pandoc-version:
         type: string
-        default: ""
+        default: "2.7.3"
         required: false
 
 name: Commands

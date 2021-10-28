@@ -7,11 +7,11 @@ on:
         required: false
       cache-version:
         type: string
-        default: ""
+        default: "1"
         required: false
       pandoc-version:
         type: string
-        default: ""
+        default: "2.7.3"
         required: false
       install-macOS-deps:
         type: boolean
