@@ -55,7 +55,7 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package@v1
+      - uses: rstudio/shinycoreci/.github/actions/install-r-package@v1
         with:
           pandoc-version: ${{ inputs.pandoc-version }}
           r-version: ${{ matrix.config.r }}
@@ -129,6 +129,14 @@ jobs:
           yarn install --immutable && yarn build
           git add ./inst ./srcts && git commit -m 'yarn build (GitHub Actions)' || echo "No yarn build changes to commit"
 
+      - name: Find local ritual
+        id: local-ritual
+        shell: Rscript {0}
+        run: |
+          if (file.exists(".github/actions/local-ritual/action.yaml")) cat("::set-output name=exists::true")
+      - name: Run local ritual
+        if: steps.local-ritual.outputs.exists
+        uses: ./.github/actions/local-ritual/action.yaml
 
       - name: Git Push (PR)
         uses: r-lib/actions/pr-push@v1

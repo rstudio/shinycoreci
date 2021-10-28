@@ -1,0 +1,17 @@
+on:
+  push:
+    branches: [main, rc-**]
+  pull_request:
+    branches: [main]
+
+name: Package Checks
+
+jobs:
+  pkgdown:
+    uses: rstudio/shinycoreci/.github/workflows/call-pkgdown.yaml@v1
+  rituals:
+    uses: rstudio/shinycoreci/.github/workflows/call-rituals.yaml@v1
+  R-CMD-check:
+    uses: rstudio/shinycoreci/.github/workflows/call-R-CMD-check.yaml@v1
+    with:
+      release-only: true
