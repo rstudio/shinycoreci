@@ -17,6 +17,14 @@ on:
         type: boolean
         default: false
         required: false
+      node-version:
+        type: string
+        default: "16.x"
+        required: false
+      covr:
+        type: boolean
+        default: false
+        required: false
     # secrets:
     #   token:
     #     required: true
@@ -105,6 +113,11 @@ jobs:
           -e 'pkg$files <- as.list(pkg$files)' \
           -e 'jsonlite::write_json(pkg, path = "package.json", pretty = TRUE, auto_unbox = TRUE)'
           git add package.json && git commit -m 'sync package version (GitHub Actions)' || echo "No pkg version to commit"
+      - name: Install node.js
+        if: steps.package-json.outputs.exists
+        uses: actions/setup-node@v1
+        with:
+          node-version: "${{ inputs.node-version }}"
       - name: Build TS
         if: steps.package-json.outputs.build
         run: |
@@ -136,6 +149,13 @@ jobs:
           fi
 
       # Execute these steps after pushing, as no updated files will be produced
+
+      - name: Code Coverage
+        if: inputs.covr
+        shell: Rscript {0}
+        run: |
+          pak::pkg_install("covr")
+          covr::codecov()
 
       - name: Find `./.lintr`
         id: lintr
