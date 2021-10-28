@@ -8,7 +8,7 @@
 #' @param port_background `port` for the background app process
 #' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
 #' @param update_pkgs Logical that will try to automatically install packages. \[`TRUE`\]
-#' @param verify Logical that will try to confirm shinycoreci-apps directory is the master branch
+#' @param verify Logical that will try to confirm shinycoreci-apps directory is the main branch
 #' @export
 #' @examples
 #' \dontrun{test_in_browser(dir = "apps")}

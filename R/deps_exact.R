@@ -158,7 +158,7 @@ repo_from_remote <- function(remote_obj) {
     "/",
     remote_obj$repo,
     "@",
-    remote_obj$branch %||% "master"
+    remote_obj$branch %||% "main"
   )
 }
 
@@ -206,7 +206,7 @@ install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes:
       stop("Can not install a release. Use a direct branch time or sha")
     }
     if (nchar(repo_spec$ref) == 0) {
-      repo_spec$ref <- "master"
+      repo_spec$ref <- "main"
     }
 
     # install_git("git://github.com/hadley/stringr.git", ref = "stringr-0.2")
@@ -270,7 +270,7 @@ validate_remotes_order <- function() {
 
     # use raw file url to avoid using GitHub API
     # get DESCRIPTION file from github
-    # https://raw.githubusercontent.com/rstudio/shiny/master/DESCRIPTION
+    # https://raw.githubusercontent.com/rstudio/shiny/main/DESCRIPTION
     desc_url <- paste0(
       "https://raw.githubusercontent.com",
       "/", github_remote$username,

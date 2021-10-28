@@ -21,7 +21,7 @@
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
 #' @param save_results Logical which commits and merges all branches after viewing test results
 #' @param ask_apps,ask_branches Logical which allows for particular apps branches to be inspected
-#' @param ask_if_not_master Logical which will check if `master` is the base branch
+#' @param ask_if_not_main Logical which will check if `main` is the base branch
 #' @param accept_all Logical which will accept all changes for the apps selected when `ask_apps = TRUE`. This parameter is only recommended for use when the shinytest differences are known and can not be displayed using the shiny application.
 #' @param repo_dir Root repo folder path
 #' @export
@@ -32,7 +32,7 @@ fix_all_gha_branches <- function(
   save_results = NULL,
   ask_apps = FALSE,
   ask_branches = TRUE,
-  ask_if_not_master = TRUE,
+  ask_if_not_main = TRUE,
   accept_all = FALSE,
   repo_dir = file.path(dir, "..")
 ) {
@@ -46,11 +46,11 @@ fix_all_gha_branches <- function(
     stop("`commit` is deprecated. Use `save_results` instead")
   }
 
-  if (isTRUE(ask_if_not_master)) {
-    if (git_branch(dir) != "master") {
+  if (isTRUE(ask_if_not_main)) {
+    if (git_branch(dir) != "main") {
       ans <- utils::menu(
         c(
-          "Yes; `ask_if_not_master = FALSE`",
+          "Yes; `ask_if_not_main = FALSE`",
           "No"
         ),
         graphics = FALSE,

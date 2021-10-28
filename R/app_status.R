@@ -8,7 +8,7 @@
 # * folder api version
 # * all identifiying string in parent folder
 # (check if apps repo is up to date)
-# (check if apps repo is on master)
+# (check if apps repo is on main)
 
 # ./APPNAME/_latest.json
 # ./APPNAME/TIME.json
@@ -317,11 +317,11 @@ app_status_shinycoreci_sha <- function() {
 app_status_validate_app_branch <- function(dir) {
   apps_branch <- git_branch(dir)
 
-  if (!identical(apps_branch, "master")) {
+  if (!identical(apps_branch, "main")) {
     if (
       !ask_yes_no("'apps' branch is currently: '", apps_branch, "'. Is this ok?")
     ) {
-      stop("Change 'apps' branch to `master`")
+      stop("Change 'apps' branch to `main`")
     }
   }
 
@@ -345,11 +345,11 @@ app_status_validate_shinycoreci_branch <- function() {
   }
 
   ref <- shinycoreci_description_info()$remoteref
-  if (!identical(ref, "master")) {
+  if (!identical(ref, "main")) {
     if (
       !ask_yes_no("'shinycoreci' branch is currently: '", ref, "'. Is this ok?")
     ) {
-      stop("Change 'shinycoreci' branch to `master`. `remotes::install_github(\"rstudio/shinycoreci\")`")
+      stop("Change 'shinycoreci' branch to `main`. `remotes::install_github(\"rstudio/shinycoreci\")`")
     }
   }
   invisible(TRUE)
