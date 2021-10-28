@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [master, main, rc-**]
+    branches: [main, rc-**]
   pull_request:
-    branches: [master, main]
+    branches: [main]
 
 name: Package Checks
 

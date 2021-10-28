@@ -35,7 +35,7 @@ Details.}
 
 \item{update_pkgs}{Logical that will try to automatically install packages. [\code{TRUE}]}
 
-\item{verify}{Logical that will try to confirm shinycoreci-apps directory is the master branch}
+\item{verify}{Logical that will try to confirm shinycoreci-apps directory is the main branch}
 }
 \description{
 Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.

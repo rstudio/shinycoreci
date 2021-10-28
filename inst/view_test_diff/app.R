@@ -153,7 +153,7 @@ server <- function(input, output, session) {
       right = max(rng)
     )
     test_results(log_files()[idx]) %>%
-      filter(branch_name == "master")
+      filter(branch_name == "main")
   })
 
   platforms <- reactiveVal(c("All platforms" = ""), label = "platforms")
