@@ -55,7 +55,7 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package@v1
+      - uses: rstudio/shinycoreci/.github/actions/install-r-package@v1
         with:
           pandoc-version: ${{ inputs.pandoc-version }}
           r-version: ${{ matrix.config.r }}

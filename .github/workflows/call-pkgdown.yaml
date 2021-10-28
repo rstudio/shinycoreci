@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: rstudio/shinycoreci/.github/composite/install-r-package@v1
+      - uses: rstudio/shinycoreci/.github/actions/install-r-package@v1
         with:
           pandoc-version: ${{ inputs.pandoc-version }}
           cache-version: ${{ inputs.cache-version }}
