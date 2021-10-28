@@ -37,6 +37,10 @@ on:
         type: boolean
         default: false
         required: false
+      run-dont-test:
+        type: boolean
+        default: false
+        required: false
     # secrets:
     #   token:
     #     required: true
@@ -153,10 +157,30 @@ jobs:
       - uses: r-lib/actions/check-r-package@v1
         with:
           check-dir: '"check"' # matches directory below
-
+      - name: Show testthat output
+        if: always()
+        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@main
         with:
           name: ${{ matrix.config.os }}-r${{ matrix.config.r }}-results
           path: "check"
+
+      - name: Check with `--run-donttest`
+        if: inputs.run-dont-test
+        uses: r-lib/actions/check-r-package@v1
+        with:
+          check-dir: '"check_dont_test"' # matches directory below
+          args: '"--run-donttest", "--no-manual", "--as-cran"'
+      - name: Show `--run-donttest` testthat output
+        if: inputs.run-dont-test && always()
+        run: find check_dont_test -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+      - name: Upload check `--run-donttest` results
+        if: inputs.run-dont-test && failure()
+        uses: actions/upload-artifact@main
+        with:
+          name: ${{ matrix.config.os }}-r${{ matrix.config.r }}-results
+          path: "check_dont_test"
