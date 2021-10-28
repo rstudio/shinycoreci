@@ -7,8 +7,8 @@ on:
 name: Package Checks
 
 jobs:
-  # pkgdown:
-  #   uses: rstudio/shinycoreci/.github/workflows/call-pkgdown.yaml@v1
+  pkgdown:
+    uses: rstudio/shinycoreci/.github/workflows/call-pkgdown.yaml@v1
   rituals:
     uses: rstudio/shinycoreci/.github/workflows/call-rituals.yaml@v1
   R-CMD-check:
