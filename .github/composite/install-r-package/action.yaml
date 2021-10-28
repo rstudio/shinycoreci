@@ -3,7 +3,7 @@ description: 'Install pandoc, system dependencies, and the R package dependencie
 author: 'Barret Schloerke'
 inputs:
   r-version:
-    default: ""
+    default: "release"
     description: R version to be installed
     required: false
   http-user-agent:
@@ -19,11 +19,11 @@ inputs:
     description: Extra packages to be installed
     required: false
   cache-version:
-    default: ""
+    default: "1"
     description: Value to be inserted into the cache key
     required: false
   pandoc-version:
-    default: ""
+    default: "2.7.3"
     description: Pandoc version to be installed
     required: false
 # outputs:
