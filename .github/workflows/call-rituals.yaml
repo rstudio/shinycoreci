@@ -33,9 +33,28 @@ name: rituals
 
 jobs:
 
+  pre-rituals:
+    runs-on: ubuntu-20.04
+    outputs:
+      local-pre-check: ${{ steps.local-pre-check.outputs.to-run }}
+    steps:
+      - name: Git Pull
+        uses: actions/checkout@v2
+      - name: Find local-pre-check action
+        id: local-pre-check
+        shell: Rscript {0}
+        run: |
+          FILE=".github/actions/local-pre-check/action.yaml"
+          if [ -f "$FILE" ]; then
+            echo "::set-output name=to-run::$FILE"
+          else
+            echo "::set-output name=to-run::rstudio/shinycoreci/.github/actions-internal/no-op@v1"
+          fi
+
   rituals:
     runs-on: ubuntu-20.04
 
+    needs: [pre-rituals]
     env:
       GITHUB_PAT: ${{ github.token }}
 
@@ -129,10 +148,8 @@ jobs:
           yarn install --immutable && yarn build
           git add ./inst ./srcts && git commit -m 'yarn build (GitHub Actions)' || echo "No yarn build changes to commit"
 
-      - name: Run local-pkgdown action
-        uses: rstudio/shinycoreci/.github/actions-internal/run-local-action@v1
-        with:
-          name: local-ritual
+      - name: Run local-pre-check action
+        uses: ${{ needs.pre-rituals.outputs.local-pre-check }}
 
       - name: Git Push (PR)
         uses: r-lib/actions/pr-push@v1
