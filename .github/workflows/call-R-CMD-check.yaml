@@ -135,6 +135,8 @@ jobs:
       # harfbuzz and fribidi are needed for textshaping package.
       - name: Mac systemdeps
         if: inputs.install-macOS-deps && runner.os == 'macOS'
+        env:
+          step_runner_os: runner.os
         shell: bash
         run: |
           brew install --cask xquartz
@@ -154,10 +156,10 @@ jobs:
             rcmdcheck
             ${{ inputs.extra-packages }}
 
-      - name: Run local-pkgdown action
-        uses: rstudio/shinycoreci/.github/actions-internal/run-local-action@v1
+      - name: Run local before-check step
+        uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
         with:
-          name: local-pre-check
+          name: before-check
 
       - uses: r-lib/actions/check-r-package@v1
         with:
@@ -189,3 +191,8 @@ jobs:
         with:
           name: ${{ matrix.config.os }}-r${{ matrix.config.r }}-results
           path: "check_dont_test"
+
+      - name: Run local after-check step
+        uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
+        with:
+          name: after-check

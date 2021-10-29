@@ -39,10 +39,10 @@ jobs:
             pkgdown
             ${{ inputs.extra-packages }}
 
-      - name: Run local-pkgdown action
-        uses: rstudio/shinycoreci/.github/actions-internal/run-local-action@v1
+      - name: Run local before-build-site step
+        uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
         with:
-          name: local-pkgdown
+          name: before-build-site
 
       - name: Verify reference (PR)
         if: github.event_name != 'push'

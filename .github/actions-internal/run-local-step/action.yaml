@@ -1,0 +1,16 @@
+name: 'Run a locally defined R script'
+description: 'Runs a locally defined script if it exists. Ex: ./.github/shinycoreci-steps/NAME.R'
+author: 'Barret Schloerke'
+inputs:
+  name:
+    description: Name of script to use
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: Run script
+      shell: Rscript {0}
+      run: |
+        if (file.exists(".github/shinycoreci-steps/${{ inputs.name }}.R")) {
+          source(".github/shinycoreci-steps/${{ inputs.name }}.R", echo = TRUE)
+        }

@@ -13,6 +13,7 @@ on:
         type: string
         default: "2.7.3"
         required: false
+      # TODO-barret remove!
       install-macOS-deps:
         type: boolean
         default: false
@@ -138,7 +139,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "${{ inputs.node-version }}"
-      - name: Build TS
+      - name: "`yarn build`"
         if: steps.package-json.outputs.build
         run: |
           if [ -d "srcts/types" ]; then
@@ -147,8 +148,10 @@ jobs:
           yarn install --immutable && yarn build
           git add ./inst ./srcts && git commit -m 'yarn build (GitHub Actions)' || echo "No yarn build changes to commit"
 
-      - name: Run local-pre-check action
-        uses: ${{ needs.pre-rituals.outputs.local-pre-check }}
+      - name: Run local before-ritual-push step
+        uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
+        with:
+          name: before-ritual-push
 
       - name: Git Push (PR)
         uses: r-lib/actions/pr-push@v1
@@ -171,6 +174,11 @@ jobs:
           fi
 
       # Execute these steps after pushing, as no updated files will be produced
+
+      - name: Run local after-ritual-push step
+        uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
+        with:
+          name: after-ritual-push
 
       - name: Code Coverage
         if: inputs.covr

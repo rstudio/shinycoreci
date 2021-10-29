@@ -43,6 +43,11 @@ runs:
         http-user-agent: ${{ inputs.http-user-agent }}
         use-public-rspm: true
 
+    - name: Run local before-install step
+      uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
+      with:
+        name: before-install
+
     - uses: r-lib/actions/setup-r-dependencies@v1
       with:
         cache-version: ${{ inputs.cache-version }}
