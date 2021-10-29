@@ -1,5 +1,5 @@
-name: 'Does nothing'
-description: 'Performs a no-op'
+name: 'Runs a local action file'
+description: 'Runs a local action file. If no action file is found, then a no-op is performed'
 author: 'Barret Schloerke'
 inputs:
   name:
@@ -18,5 +18,7 @@ runs:
         else
           echo "::set-output name=to-run::rstudio/shinycoreci/.github/actions-internal/no-op@v1"
         fi
-    - name: Run local-pkgdown action
-      uses: ${{ steps.local-action.outputs.to-run }}
+    - name: Run local action
+      uses: rstudio/shinycoreci/.github/actions-internal/run-step@v1
+      with:
+        uses: ${{ steps.local-action.outputs.to-run }}

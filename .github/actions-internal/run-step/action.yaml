@@ -1,0 +1,12 @@
+name: 'Runs a step'
+description: 'Runs a step from a parameter, since steps can not be defined by parameters'
+author: 'Barret Schloerke'
+inputs:
+  uses:
+    description: Name of a regular `uses` value to use
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Run step
+      uses: ${{ inputs.uses }}
