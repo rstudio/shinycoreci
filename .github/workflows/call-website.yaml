@@ -15,7 +15,7 @@ on:
         required: false
       check-title:
         type: boolean
-        default: true
+        default: "true"
         required: false
 
 name: pkgdown

@@ -44,6 +44,12 @@ runs:
         http-user-agent: ${{ inputs.http-user-agent }}
         use-public-rspm: true
 
+
+    - name: Install mac deps
+      uses: rstudio/shinycoreci/.github/actions/install-mac-deps@v1
+      with:
+        extra-packages: ${{ inputs.extra-packages }}
+
     - name: Run local before-install step
       uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
       with:

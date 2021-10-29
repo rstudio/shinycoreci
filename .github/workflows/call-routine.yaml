@@ -13,11 +13,6 @@ on:
         type: string
         default: "2.7.3"
         required: false
-      # TODO-barret remove!
-      install-macOS-deps:
-        type: boolean
-        default: false
-        required: false
       node-version:
         type: string
         default: "16.x"

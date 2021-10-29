@@ -127,18 +127,6 @@ jobs:
           git config --system core.autocrlf false
           git config --system core.eol lf
 
-      # xquartz and cairo are needed for Cairo package.
-      # harfbuzz and fribidi are needed for textshaping package.
-      - name: Mac systemdeps
-        if: inputs.install-macOS-deps && runner.os == 'macOS'
-        env:
-          step_runner_os: runner.os
-        shell: bash
-        run: |
-          brew install --cask xquartz
-          brew install cairo
-          brew install harfbuzz fribidi
-
       - uses: actions/checkout@v2
 
       - uses: rstudio/shinycoreci/.github/actions/install-r-package@v1
