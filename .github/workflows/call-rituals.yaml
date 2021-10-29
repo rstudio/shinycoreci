@@ -149,7 +149,7 @@ jobs:
           git add ./inst ./srcts && git commit -m 'yarn build (GitHub Actions)' || echo "No yarn build changes to commit"
 
       - name: Run local-pre-check action
-        uses: ${{ needs.pre-rituals.outputs.local-pre-check }}
+        run: echo ${{ needs.pre-rituals.outputs.local-pre-check }}
 
       - name: Git Push (PR)
         uses: r-lib/actions/pr-push@v1
