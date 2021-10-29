@@ -99,3 +99,13 @@ if [ "$RUNNER_OS" == "macOS" ]; then
   brew install cairo
 fi
 ```
+
+
+## Updates
+
+Once updates are made to the workflows, the `v1` tag must be (forcefully) moved forward to the latest value. To do this, run:
+
+``` bash
+git tag -f v1
+git push origin --tags -f
+```
