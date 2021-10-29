@@ -42,7 +42,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Find local-pre-check action
         id: local-pre-check
-        shell: Rscript {0}
         run: |
           FILE=".github/actions/local-pre-check/action.yaml"
           if [ -f "$FILE" ]; then
