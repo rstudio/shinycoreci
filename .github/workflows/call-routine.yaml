@@ -22,10 +22,6 @@ on:
         type: string
         default: "16.x"
         required: false
-      covr:
-        type: boolean
-        default: false
-        required: false
     # secrets:
     #   token:
     #     required: true
@@ -162,10 +158,16 @@ jobs:
         with:
           name: after-ritual-push
 
-      - name: Code Coverage
-        if: inputs.covr
+      - name: Find `./codecov.yml`
+        id: covr
         shell: Rscript {0}
         run: |
+          if (file.exists("codecov.yml")) cat("::set-output name=exists::true")
+      - name: Code Coverage
+        if: steps.covr.outputs.exists
+        shell: Rscript {0}
+        run: |
+          # might need to move up above / install system deps
           pak::pkg_install("covr")
           covr::codecov()
 

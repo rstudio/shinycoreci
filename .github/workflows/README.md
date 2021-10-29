@@ -58,7 +58,6 @@ There are three main reusable workflows to be used by packages in the shiny-vers
   * Parameters:
     * `extra-packages`, `cache-version`, `pandoc-version`: Same as in `call-pkgdown.yaml`
     * `node-version`: Version of `node.js` to install
-    * `covr`: Runs code coverage
 * `call-R-CMD-check.yaml`
   * Performs `R CMD check .` on your package
   * Parameters:
