@@ -9,8 +9,12 @@ runs:
   using: "composite"
   steps:
     - name: Run script
-      shell: Rscript {0}
+      shell: bash
       run: |
-        if (file.exists(".github/shinycoreci-steps/${{ inputs.name }}.R")) {
-          source(".github/shinycoreci-steps/${{ inputs.name }}.R", echo = TRUE)
-        }
+        if [ -f ".github/shinycoreci-steps/${{ inputs.name }}.sh" ]; then
+          . ".github/shinycoreci-steps/${{ inputs.name }}.sh"
+        fi
+        before-install.R
+        if [ -f ".github/shinycoreci-steps/${{ inputs.name }}.R" ]; then
+          Rscript -e 'source(".github/shinycoreci-steps/${{ inputs.name }}.R", echo = TRUE)'
+        fi

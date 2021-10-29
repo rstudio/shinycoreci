@@ -76,19 +76,27 @@ There are a set of known files that can be run. The file just needs to exist to 
 
 The files must exist in the `./.github/shinycoreci-step/` folder. Such as `./.github/shinycoreci-step/before-ritual-push.R`.
 
-
 Files:
-* `before-build-site.R`
+* `before-build-site.R` / `before-build-site.sh`
   * Run in `call-pkgdown.yaml` before the site is built
-* `before-ritual-push.R`
-  * Run in `call-rituals.R`. Runs before the local commits are pushed back to the repo
-* `after-ritual-push.R`
-  * Run in `call-rituals.R`. Runs after the local commits are pushed back to the repo. Useful to execute code that does not produce files that should be commited back to the repo
-* `before-check.R`
-  * Run in `call-R-CMD-check.R` before any `R CMD check .` are called
-* `after-check.R`
-  * Run in `call-R-CMD-check.R` after all `R CMD check .` are called
+* `before-ritual-push.R` / `before-ritual-push.sh`
+  * Run in `call-rituals.yaml`. Runs before the local commits are pushed back to the repo
+* `after-ritual-push.R` / `after-ritual-push.sh`
+  * Run in `call-rituals.yaml`. Runs after the local commits are pushed back to the repo. Useful to execute code that does not produce files that should be commited back to the repo
+* `before-check.R` / `before-check.sh`
+  * Run in `call-R-CMD-check.yaml` before any `R CMD check .` are called
+* `after-check.R` / `after-check.sh`
+  * Run in `call-R-CMD-check.yaml` after all `R CMD check .` are called
+* `before-install.R` / `before-install.sh`
+  * Run in `./.github/actions/install-r-package` after R is installed, but before the local package dependencies are installed.
 
-The R scripts should be done for their side effects, such as copying files or installing dependencies.
+These scripts should be done for their side effects, such as copying files or installing dependencies.
 
-> Note: The scripts are run with full access to all standard GitHub system environment variables, such as `RUNNER_OS`. Link: https://docs.github.com/en/actions/learn-github-actions/environment-variables
+For example, a common use case for using a shell script over an R script would be to install system dependencies. Since installation is usually **O**perating**S**ystem specific, you'll likely want to make use of System environment variables, such as `$RUNNER_OS`. Link: https://docs.github.com/en/actions/learn-github-actions/environment-variables
+
+Example usage of `before-install.sh`:
+``` bash
+if [ "$RUNNER_OS" == "macOS" ]; then
+  brew install cairo
+fi
+```
