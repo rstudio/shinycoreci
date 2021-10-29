@@ -25,14 +25,11 @@ on:
         type: string
         default: "windows-latest"
         required: false
-      ubuntu20:
-        type: boolean
-        default: true
+      ubuntu:
+        type: string
         required: false
-      ubuntu18:
-        type: boolean
-        default: false
-        required: false
+        # To test more versions, they must be separated by a space. Ex: `"ubuntu-18.04 ubuntu-20.04`
+        default: "ubuntu-18.04"
       release-only:
         type: boolean
         default: false
@@ -49,7 +46,7 @@ name: R-CMD-check
 
 jobs:
   setup:
-    name: config
+    name: setup
     runs-on: ubuntu-latest
     outputs:
       config: ${{ steps.config.outputs.config }}
@@ -73,12 +70,11 @@ jobs:
 
         # Array variable
         UBUNTU_FLAVORS=();
-        if [ "${{ inputs.ubuntu20 }}" == "true" ]; then
-          UBUNTU_FLAVORS+=('ubuntu-20.04');
-        fi
-        if [ "${{ inputs.ubuntu18 }}" == "true" ]; then
-          UBUNTU_FLAVORS+=('ubuntu-18.04');
-        fi
+        # Add each ubuntu flavor as a value
+        for FLAVOR in ${{ inputs.ubuntu }}
+        do
+          UBUNTU_FLAVORS+=("$FLAVOR");
+        done
 
         # Get length of an array to a variable
         arrlength=${#UBUNTU_FLAVORS[@]}

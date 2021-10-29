@@ -16,13 +16,13 @@ on:
   schedule:
     - cron:  '0 8 * * 0' # every sunday
 
-name: Package Checks
+name: Package checks
 
 jobs:
-  pkgdown:
-    uses: rstudio/shinycoreci/.github/workflows/call-pkgdown.yaml@v1
-  rituals:
-    uses: rstudio/shinycoreci/.github/workflows/call-rituals.yaml@v1
+  website:
+    uses: rstudio/shinycoreci/.github/workflows/call-website.yaml@v1
+  routine:
+    uses: rstudio/shinycoreci/.github/workflows/call-routine.yaml@v1
   R-CMD-check:
     uses: rstudio/shinycoreci/.github/workflows/call-R-CMD-check.yaml@v1
 ```
@@ -41,7 +41,7 @@ There are three main reusable workflows to be used by packages in the shiny-vers
     * `cache-version`: The cache key to be used. Link: https://github.com/r-lib/actions/tree/v1/setup-r-dependencies
     * `pandoc-version`: Sets the pandoc version to be installed. Link: https://github.com/r-lib/actions/tree/master/setup-pandoc
     * `check-title`: If set, will disable `rmarkdown`'s check for having the vignette title and the document title match
-* `call-rituals.yaml`
+* `call-routine.yaml`
   * Performs many common tasks for packages in the shiny-verse
     * Check for url redirects in `rc-v**` branches
     * Making sure the documentation is up to date
@@ -54,7 +54,7 @@ There are three main reusable workflows to be used by packages in the shiny-vers
     * Checks code coverage with `covr`
     * Checks for broken lints
     * Calls `yarn test`
-  * Packages included in the `./DESCRIPTION` field `Config/Needs/rituals` will also be installed
+  * Packages included in the `./DESCRIPTION` field `Config/Needs/routine` will also be installed
   * Parameters:
     * `extra-packages`, `cache-version`, `pandoc-version`: Same as in `call-pkgdown.yaml`
     * `node-version`: Version of `node.js` to install
@@ -80,9 +80,9 @@ Files:
 * `before-build-site.R` / `before-build-site.sh`
   * Run in `call-pkgdown.yaml` before the site is built
 * `before-ritual-push.R` / `before-ritual-push.sh`
-  * Run in `call-rituals.yaml`. Runs before the local commits are pushed back to the repo
+  * Run in `call-routine.yaml`. Runs before the local commits are pushed back to the repo
 * `after-ritual-push.R` / `after-ritual-push.sh`
-  * Run in `call-rituals.yaml`. Runs after the local commits are pushed back to the repo. Useful to execute code that does not produce files that should be commited back to the repo
+  * Run in `call-routine.yaml`. Runs after the local commits are pushed back to the repo. Useful to execute code that does not produce files that should be commited back to the repo
 * `before-check.R` / `before-check.sh`
   * Run in `call-R-CMD-check.yaml` before any `R CMD check .` are called
 * `after-check.R` / `after-check.sh`

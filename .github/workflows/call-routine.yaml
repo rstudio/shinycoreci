@@ -30,11 +30,11 @@ on:
     #   token:
     #     required: true
 
-name: rituals
+name: routine
 
 jobs:
 
-  rituals:
+  routine:
     runs-on: ubuntu-20.04
 
     env:
@@ -61,8 +61,8 @@ jobs:
           pandoc-version: ${{ inputs.pandoc-version }}
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
-          cache-version: rituals-${{ inputs.cache-version }}
-          needs: rituals
+          cache-version: routine-${{ inputs.cache-version }}
+          needs: routine
           extra-packages: |
             devtools
             rmarkdown
