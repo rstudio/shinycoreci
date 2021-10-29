@@ -1,4 +1,4 @@
-# Shiny Core CI reusable workflows
+# `shinycoreci` reusable workflows
 
 ## Usage:
 
