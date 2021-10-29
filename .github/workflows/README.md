@@ -63,10 +63,9 @@ There are three main reusable workflows to be used by packages in the shiny-vers
   * Performs `R CMD check .` on your package
   * Parameters:
     * `extra-packages`, `cache-version`, `pandoc-version`: Same as in `call-pkgdown.yaml`
-    * `macOS`: `macOS` flavor to use
-    * `windows`: `windows` flavor to use
-    * `ubuntu20`: Logical that determines if `ubuntu-20.04` should be tested on
-    * `ubuntu18`: Logical that determines if `ubuntu-18.04` should be tested on
+    * `macOS`: `macOS` runtime to use
+    * `windows`: `windows` runtime to use
+    * `ubuntu`: `ubuntu` runtime to use. To use more than one ubuntu value, send in a value separated by a space. For example, to test on ubuntu 18 and 20, use `"ubuntu-18.04 ubuntu20.04"`. The first ubuntu value will be tested using the `"devel"` R version.
     * `release-only`: Logical that determines if only the `"release"` R versions should be tested
     * `run-dont-test`: Runs `R CMD check .` with the extra `--run-donttest` argument
 
