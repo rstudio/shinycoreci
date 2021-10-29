@@ -154,14 +154,10 @@ jobs:
             rcmdcheck
             ${{ inputs.extra-packages }}
 
-      - name: Find local-pre-check action
-        id: local-pre-check
-        shell: Rscript {0}
-        run: |
-          if (file.exists(".github/actions/local-pre-check/action.yaml")) cat("::set-output name=exists::true")
-      - name: Run local-pre-check action
-        if: steps.local-pre-check.outputs.exists
-        uses: ./.github/actions/local-pre-check/action.yaml
+      - name: Run local-pkgdown action
+        uses: rstudio/shinycoreci/.github/actions-internal/run-local-action@v1
+        with:
+          name: local-pre-check
 
       - uses: r-lib/actions/check-r-package@v1
         with:

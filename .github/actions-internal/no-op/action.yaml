@@ -1,0 +1,10 @@
+name: 'Does nothing'
+description: 'Performs a no-op'
+author: 'Barret Schloerke'
+runs:
+  using: "composite"
+  steps:
+    - name: No op
+      shell: bash
+      run: |
+        true
