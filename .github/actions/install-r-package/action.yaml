@@ -98,7 +98,7 @@ runs:
         # Install phantom only if 'shinytest' is found in DESCRIPTION file
         if (require("shinytest") && file.exists("DESCRIPTION")) {
           desc_lines <- paste0(readLines("DESCRIPTION"), collapse = "\n")
-          if (grepl("\\wshinytest\\w")) {
+          if (grepl("\\wshinytest\\w", desc_lines)) {
             if (!shinytest::dependenciesInstalled()) {
               shinytest::installDependencies()
             }
