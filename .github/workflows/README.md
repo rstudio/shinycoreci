@@ -14,7 +14,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron:  '0 8 * * 0' # every sunday
+    - cron:  '0 8 * * 1' # every monday
 
 name: Package checks
 
