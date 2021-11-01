@@ -14,7 +14,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron:  '0 8 * * 1' # every monday
+    - cron: '0 8 * * 1' # every monday
 
 name: Package checks
 
@@ -48,9 +48,9 @@ There are three main reusable workflows to be used by packages in the shiny-vers
     * Make sure the `README.md` is the latest version
     * Set the `./package.json` `version` field to match the `./DESCRIPTION` `Version` field
     * Calls `yarn build` and commits any changes in `./inst` and `./srcts`
-    * Runs `before-ritual-push.R` (see below)
+    * Runs `before-routine-push.R` (see below)
     * Pushes any new git commits to the repo
-    * Runs `after-ritual-push.R` (see below)
+    * Runs `after-routine-push.R` (see below)
     * Checks code coverage with `covr`
     * Checks for broken lints
     * Calls `yarn test`
@@ -72,14 +72,14 @@ There are three main reusable workflows to be used by packages in the shiny-vers
 
 There are a set of known files that can be run. The file just needs to exist to be run. No extra configuration necessary.
 
-The files must exist in the `./.github/shinycoreci-step/` folder. Such as `./.github/shinycoreci-step/before-ritual-push.R`.
+The files must exist in the `./.github/shinycoreci-step/` folder. Such as `./.github/shinycoreci-step/before-routine-push.R`.
 
 Files:
 * `before-build-site.R` / `before-build-site.sh`
   * Run in `call-pkgdown.yaml` before the site is built
-* `before-ritual-push.R` / `before-ritual-push.sh`
+* `before-routine-push.R` / `before-routine-push.sh`
   * Run in `call-routine.yaml`. Runs before the local commits are pushed back to the repo
-* `after-ritual-push.R` / `after-ritual-push.sh`
+* `after-routine-push.R` / `after-routine-push.sh`
   * Run in `call-routine.yaml`. Runs after the local commits are pushed back to the repo. Useful to execute code that does not produce files that should be commited back to the repo
 * `before-check.R` / `before-check.sh`
   * Run in `call-R-CMD-check.yaml` before any `R CMD check .` are called

@@ -121,10 +121,10 @@ jobs:
           yarn install --immutable && yarn build
           git add ./inst ./srcts && git commit -m 'yarn build (GitHub Actions)' || echo "No yarn build changes to commit"
 
-      - name: Run local before-ritual-push step
+      - name: Run local before-routine-push step
         uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
         with:
-          name: before-ritual-push
+          name: before-routine-push
 
       - name: Git Push (PR)
         uses: r-lib/actions/pr-push@v1
@@ -148,10 +148,10 @@ jobs:
 
       # Execute these steps after pushing, as no updated files will be produced
 
-      - name: Run local after-ritual-push step
+      - name: Run local after-routine-push step
         uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
         with:
-          name: after-ritual-push
+          name: after-routine-push
 
       - name: Find `./codecov.yml`
         id: covr
