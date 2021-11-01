@@ -61,12 +61,16 @@ jobs:
           )
 
       - name: Setup git (GitHub - push)
-        if: github.event_name == 'push' && secrets.NETLIFY_SITE_ID == ''
+        if: github.event_name == 'push' && env.NETLIFY_SITE_ID == ''
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
       - name: Build and deploy pkgdown site (GitHub - push)
-        if: github.event_name == 'push' && secrets.NETLIFY_SITE_ID == ''
+        if: github.event_name == 'push' && env.NETLIFY_SITE_ID == ''
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         shell: Rscript {0}
         run: |
           if ("${{inputs.check-title}}" == "false") options(rmarkdown.html_vignette.check_title = FALSE)
@@ -74,14 +78,15 @@ jobs:
 
 
       - name: Build pkgdown site (Netlify - push)
-        if: github.event_name == 'push' && secrets.NETLIFY_SITE_ID != ''
+        if: github.event_name == 'push' && env.NETLIFY_SITE_ID != ''
         run: pkgdown::build_site(new_process = FALSE)
         shell: Rscript {0}
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       - name: Deploy to Netlify (Netlify - push)
-        if: github.event_name == 'push' && secrets.NETLIFY_SITE_ID != ''
+        if: github.event_name == 'push' && env.NETLIFY_SITE_ID != ''
         id: netlify-deploy
         uses: nwtgck/actions-netlify@v1.1
-        # NETLIFY_AUTH_TOKEN added in the repo's secrets
         with:
           publish-dir: 'reference'
           production-branch: main
