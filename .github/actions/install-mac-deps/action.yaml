@@ -13,11 +13,13 @@ runs:
       shell: Rscript {0}
       run: |
         if (identical(Sys.getenv("RUNNER_OS", "NOT MAC"), "macOS")) {
-          pkg_deps <- pak::local_dev_deps(dependencies = TRUE)$packages
+          pkg_deps <- pak::local_dev_deps(dependencies = TRUE)$package
+          desc_lines <- tryCatch(paste0(readLines("DESCRIPTION"), collapse = "\n"), error = function(e) "")
           has <- function(pkgs) {
             if (any(pkgs %in% pkg_deps)) return(TRUE)
             for (pkg in pkgs) {
               if (grepl(pkg, "${{ inputs.extra-packages }}", fixed = TRUE)) return(TRUE)
+              if (grepl(pkg, desc_lines, fixed = TRUE)) return(TRUE)
             }
             FALSE
           }
