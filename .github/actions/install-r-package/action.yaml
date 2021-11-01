@@ -62,6 +62,10 @@ runs:
         extra-packages: ${{ inputs.extra-packages }}
 
     # Would be nice to use this for caching phantomjs installation
+    - name: Install PhantomJS group
+      shell: Rscript {0}
+      run: |
+        cat("::group::Install PhantomJS\n")
     - name: Find PhantomJS path
       id: phantomjs
       shell: Rscript {0}
