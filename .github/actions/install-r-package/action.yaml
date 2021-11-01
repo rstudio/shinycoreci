@@ -60,3 +60,47 @@ runs:
         cache-version: ${{ inputs.cache-version }}
         needs: ${{ inputs.needs }}
         extra-packages: ${{ inputs.extra-packages }}
+
+    # Would be nice to use this for caching phantomjs installation
+    - name: Find PhantomJS path
+      id: phantomjs
+      shell: Rscript {0}
+      run: |
+        found <- FALSE
+        if (file.exists("DESCRIPTION")) {
+          desc_lines <- paste0(readLines("DESCRIPTION"), collapse = "\n")
+          if (grepl("\\wshinytest\\w")) {
+            # Only install if there is a direct dependency to shinytest
+            pkg_name <- as.list(read.dcf("DESCRIPTION")[1,])$Package
+            if (identical(pkg_name, "shinytest")) {
+              pak::local_install(".")
+            } else {
+              # will already be installed
+            }
+            if (require("shinytest")) {
+              phantom_path <- shinytest:::phantom_paths()[[1]]
+              cat("::set-output name=path::", phantom_path, "\n", sep = "")
+              found <- TRUE
+            }
+          }
+        }
+        if (!found) {
+          cat("::set-output name=path::/tmp/phantomjs-not-found\n", sep = "")
+        }
+    - name: Cache PhantomJS
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.phantomjs.outputs.path }}
+        key: ${{ inputs.cache-version }}-phantomjs-
+    - name: Install PhantomJS
+      shell: Rscript {0}
+      run: |
+        # Install phantom only if 'shinytest' is found in DESCRIPTION file
+        if (require("shinytest") && file.exists("DESCRIPTION")) {
+          desc_lines <- paste0(readLines("DESCRIPTION"), collapse = "\n")
+          if (grepl("\\wshinytest\\w")) {
+            if (!shinytest::dependenciesInstalled()) {
+              shinytest::installDependencies()
+            }
+          }
+        }
