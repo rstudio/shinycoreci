@@ -17,7 +17,11 @@ on:
         type: boolean
         default: true
         required: false
-
+    secrets:
+      NETLIFY_AUTH_TOKEN:
+        required: false
+      NETLIFY_SITE_ID:
+        required: false
 name: pkgdown
 
 jobs:
@@ -56,14 +60,38 @@ jobs:
             NA
           )
 
-      - name: Setup git (push)
-        if: github.event_name == 'push'
+      - name: Setup git (GitHub - push)
+        if: github.event_name == 'push' && secrets.NETLIFY_SITE_ID == ''
         run: |
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-      - name: Build and deploy pkgdown site (push)
-        if: github.event_name == 'push'
+      - name: Build and deploy pkgdown site (GitHub - push)
+        if: github.event_name == 'push' && secrets.NETLIFY_SITE_ID == ''
         shell: Rscript {0}
         run: |
           if ("${{inputs.check-title}}" == "false") options(rmarkdown.html_vignette.check_title = FALSE)
           pkgdown::deploy_to_branch(new_process = FALSE)
+
+
+      - name: Build pkgdown site (Netlify - push)
+        if: github.event_name == 'push' && secrets.NETLIFY_SITE_ID != ''
+        run: pkgdown::build_site(new_process = FALSE)
+        shell: Rscript {0}
+      - name: Deploy to Netlify (Netlify - push)
+        if: github.event_name == 'push' && secrets.NETLIFY_SITE_ID != ''
+        id: netlify-deploy
+        uses: nwtgck/actions-netlify@v1.1
+        # NETLIFY_AUTH_TOKEN added in the repo's secrets
+        with:
+          publish-dir: 'reference'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message:
+            'Deploy from GHA: ${{ github.event.head_commit.message }} (${{ github.sha }})'
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+          enable-commit-status: true
+          alias: deploy-preview-${{ github.event.number }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
