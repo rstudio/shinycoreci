@@ -73,7 +73,7 @@ runs:
         found <- FALSE
         if (file.exists("DESCRIPTION")) {
           desc_lines <- paste0(readLines("DESCRIPTION"), collapse = "\n")
-          if (grepl("\\wshinytest\\w")) {
+          if (grepl("\\wshinytest\\w", desc_lines)) {
             # Only install if there is a direct dependency to shinytest
             pkg_name <- as.list(read.dcf("DESCRIPTION")[1,])$Package
             if (identical(pkg_name, "shinytest")) {
