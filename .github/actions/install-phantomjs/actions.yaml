@@ -1,0 +1,58 @@
+name: 'Install PhantomJS if shinytest is a direct dependency'
+description: 'Installs PhantomJS if shinytest is found in the `./DESCRIPTION` file. If `shinytest` is not directly used, then PhantomJS is not installed'
+author: 'Barret Schloerke'
+inputs:
+  cache-version:
+    default: "1"
+    description: Value to be inserted into the cache key
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: Install PhantomJS group
+      shell: Rscript {0}
+      run: |
+        cat("::group::Install PhantomJS\n")
+    - name: Find PhantomJS path
+      id: phantomjs
+      shell: Rscript {0}
+      # `if` statements are not allowed in composite actions. So use a dummy location if shinytest can not be directly found in the `./DESCRIPTION` file
+      run: |
+        found <- FALSE
+        if (file.exists("DESCRIPTION")) {
+          desc_lines <- paste0(readLines("DESCRIPTION"), collapse = "\n")
+          if (grepl("\\wshinytest\\w", desc_lines)) {
+            # Only install if there is a direct dependency to shinytest
+            pkg_name <- as.list(read.dcf("DESCRIPTION")[1,])$Package
+            if (identical(pkg_name, "shinytest")) {
+              pak::local_install(".")
+            } else {
+              # will already be installed
+            }
+            if (require("shinytest")) {
+              phantom_path <- shinytest:::phantom_paths()[[1]]
+              cat("::set-output name=path::", phantom_path, "\n", sep = "")
+              found <- TRUE
+            }
+          }
+        }
+        if (!found) {
+          cat("::set-output name=path::/tmp/phantomjs-not-found\n", sep = "")
+        }
+    - name: Cache PhantomJS
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.phantomjs.outputs.path }}
+        key: ${{ runner.os }}-phantomjs-${{ inputs.cache-version }}
+    - name: Install PhantomJS
+      shell: Rscript {0}
+      run: |
+        # Install phantom only if 'shinytest' is found in DESCRIPTION file
+        if (require("shinytest") && file.exists("DESCRIPTION")) {
+          desc_lines <- paste0(readLines("DESCRIPTION"), collapse = "\n")
+          if (grepl("\\wshinytest\\w", desc_lines)) {
+            if (!shinytest::dependenciesInstalled()) {
+              shinytest::installDependencies()
+            }
+          }
+        }

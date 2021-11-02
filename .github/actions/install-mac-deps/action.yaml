@@ -12,7 +12,14 @@ runs:
     - name: Brew dependencies
       shell: Rscript {0}
       run: |
+        # Install macOS system dependencies
         if (identical(Sys.getenv("RUNNER_OS", "NOT MAC"), "macOS")) {
+          cat("::group::Install macOS system dependencies\n")
+          # TODO-future; Find a way to not use `pak`? Hopefully RSPM will handle this in the future
+          if (!require("pak")) {
+            options(pak.no_extra_messages = TRUE)
+            install.packages("pak", repos = "https://r-lib.github.io/p/pak/stable/")
+          }
           pkg_deps <- pak::local_dev_deps(dependencies = TRUE)$package
           desc_lines <- tryCatch(paste0(readLines("DESCRIPTION"), collapse = "\n"), error = function(e) "")
           has <- function(pkgs) {
@@ -23,10 +30,14 @@ runs:
             }
             FALSE
           }
+          run_cmd <- function(cmd) {
+            stopifnot(system(cmd) == 0)
+          }
           if (has("Cairo")) {
-            system("brew install --cask xquartz && brew install cairo")
+            run_cmd("brew install --cask xquartz")
+            run_cmd("brew install cairo")
           }
           if (has("textshaping")) {
-            system("brew install harfbuzz fribidi")
+            run_cmd("brew install harfbuzz fribidi")
           }
         }
