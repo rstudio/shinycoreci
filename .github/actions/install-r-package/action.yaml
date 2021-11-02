@@ -61,4 +61,4 @@ runs:
 
     - uses: rstudio/shinycoreci/.github/actions/install-phantomjs@v1
       with:
-        extra-packages: ${{ inputs.extra-packages }}
+        cache-version: ${{ inputs.cache-version }}
