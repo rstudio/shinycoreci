@@ -1,5 +1,5 @@
 name: 'Install PhantomJS if shinytest is a direct dependency'
-description: 'Installs PhantomJS if shinytest is found in the `./DESCRIPTION` file. If `shinytest` is not directly used, then PhantomJS is not installed'
+description: 'Installs PhantomJS if shinytest (or webdriver) is found in the `./DESCRIPTION` file. If `shinytest` is not directly used, then PhantomJS is not installed'
 author: 'Barret Schloerke'
 inputs:
   cache-version:
@@ -16,21 +16,28 @@ runs:
     - name: Find PhantomJS path
       id: phantomjs
       shell: Rscript {0}
-      # `if` statements are not allowed in composite actions. So use a dummy location if shinytest can not be directly found in the `./DESCRIPTION` file
+      # `if` statements are not allowed in composite actions. So use a dummy location if shinytest (or webdriver) can not be directly found in the `./DESCRIPTION` file
       run: |
         found <- FALSE
         if (file.exists("DESCRIPTION")) {
           desc_lines <- paste0(readLines("DESCRIPTION"), collapse = "\n")
-          if (grepl("\\wshinytest\\w", desc_lines)) {
+          if (grepl("\\wshinytest\\w", desc_lines) || grepl("\\wwebdriver\\w", desc_lines)) {
             # Only install if there is a direct dependency to shinytest
             pkg_name <- as.list(read.dcf("DESCRIPTION")[1,])$Package
-            if (identical(pkg_name, "shinytest")) {
+            if (identical(pkg_name, "shinytest") || identical(pkg_name, "webdriver")) {
               pak::local_install(".")
             } else {
               # will already be installed
             }
-            if (require("shinytest")) {
-              phantom_path <- shinytest:::phantom_paths()[[1]]
+            phantom_path <-
+              if (require("shinytest")) {
+                phantom_path <- shinytest:::phantom_paths()[[1]]
+              } else if (require("webdriver")) {
+                phantom_path <- webdriver:::find_phantom()
+              } else {
+                NULL
+              }
+            if (!is.null(phantom_path)) {
               cat("::set-output name=path::", phantom_path, "\n", sep = "")
               found <- TRUE
             }
@@ -47,12 +54,16 @@ runs:
     - name: Install PhantomJS
       shell: Rscript {0}
       run: |
-        # Install phantom only if 'shinytest' is found in DESCRIPTION file
-        if (require("shinytest") && file.exists("DESCRIPTION")) {
+        if (file.exists("DESCRIPTION")) {
           desc_lines <- paste0(readLines("DESCRIPTION"), collapse = "\n")
-          if (grepl("\\wshinytest\\w", desc_lines)) {
+          # Install phantom only if 'shinytest' is found in DESCRIPTION file
+          if (require("shinytest") && grepl("\\wshinytest\\w", desc_lines)) {
             if (!shinytest::dependenciesInstalled()) {
               shinytest::installDependencies()
+            }
+          } else if (require("webdriver") && grepl("\\wwebdriver\\w", desc_lines)) {
+            if (is.null(webdriver:::find_phantom())) {
+              webdriver::install_phantomjs()
             }
           }
         }
