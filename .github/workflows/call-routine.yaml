@@ -72,7 +72,7 @@ jobs:
       - name: Document
         run: |
           Rscript -e 'roxygen2::roxygenise()'
-          git add man/\* NAMESPACE && git commit -m 'Document (GitHub Actions)' || echo "No documentation changes to commit"
+          git add DESCRIPTION man/\* NAMESPACE && git commit -m 'Document (GitHub Actions)' || echo "No documentation changes to commit"
 
       - name: Find `./README.Rmd`
         id: readme
