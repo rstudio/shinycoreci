@@ -81,7 +81,7 @@ Remotes:
   rstudio/shinythemes,
   rstudio/shinytest,
   rstudio/webdriver,
-  rstudio/shinyvalidate@main,
+  rstudio/shinyvalidate,
   rstudio/pool,
   rstudio/reactlog,
   rstudio/shinymeta,
