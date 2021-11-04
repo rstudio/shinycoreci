@@ -21,13 +21,19 @@ runs:
         found <- FALSE
         if (file.exists("DESCRIPTION")) {
           desc_lines <- paste0(readLines("DESCRIPTION"), collapse = "\n")
-          if (grepl("\\wshinytest\\w", desc_lines) || grepl("\\wwebdriver\\w", desc_lines)) {
+          shinytest_in_desc <- grepl("\\wshinytest\\w", desc_lines)
+          webdriver_in_desc <- grepl("\\wwebdriver\\w", desc_lines)
+          if (shinytest_in_desc || webdriver_in_desc) {
             # Only install if there is a direct dependency to shinytest
             pkg_name <- as.list(read.dcf("DESCRIPTION")[1,])$Package
             if (identical(pkg_name, "shinytest") || identical(pkg_name, "webdriver")) {
+              # Install the package to install phantom
+              # The dependencies should have already been installed by now. This should be _fast_
               pak::local_install(".")
-            } else {
-              # will already be installed
+            } else if (shinytest_in_desc) {
+              # Install the package to be able to run shinytests in background R session
+              # The dependencies should have already been installed by now. This should be _fast_
+              pak::local_install(".")
             }
             phantom_path <-
               if (require("shinytest")) {
