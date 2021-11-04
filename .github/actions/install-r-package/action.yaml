@@ -56,8 +56,20 @@ runs:
     - uses: r-lib/actions/setup-r-dependencies@v1
       with:
         cache-version: ${{ inputs.cache-version }}
-        needs: ${{ inputs.needs }}
+        # needs: ${{ inputs.needs }}
         extra-packages: ${{ inputs.extra-packages }}
+
+    # TODO-future: remove this when https://github.com/r-lib/actions/issues/386 is fixed (and uncomment `needs` above)
+    - name: Install needs dependencies
+      shell: Rscript {0}
+      run: |
+        if (nzchar("${{ inputs.needs }}")) {
+          needs <- pak::local_dev_deps(dependencies = "Config/Needs/${{ inputs.needs }}")[["ref"]]
+          for (dep in needs) {
+            pak::pkg_system_requirements(dep, execute = TRUE)
+          }
+          pak::pkg_install(needs)
+        }
 
     - uses: rstudio/shinycoreci/.github/actions/install-phantomjs@v1
       with:
