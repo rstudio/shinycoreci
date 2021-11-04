@@ -55,7 +55,7 @@ runs:
 
     - uses: r-lib/actions/setup-r-dependencies@v1
       with:
-        cache-version: ${{ inputs.cache-version }}
+        cache-version: ${{ inputs.needs }}-${{ inputs.cache-version }}
         # needs: ${{ inputs.needs }}
         extra-packages: ${{ inputs.extra-packages }}
 

@@ -52,7 +52,7 @@ jobs:
           pandoc-version: ${{ inputs.pandoc-version }}
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
-          cache-version: routine-${{ inputs.cache-version }}
+          cache-version: ${{ inputs.cache-version }}
           needs: routine
           extra-packages: |
             devtools
