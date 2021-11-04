@@ -142,35 +142,49 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"rstudio/shinycoreci"</span><span class='op'>)</span>
-<span class='fu'>shinycoreci</span><span class='fu'>::</span><span class='fu'>install_exact_shinycoreci_deps</span><span class='op'>(</span><span class='st'>"apps"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Update shinycoreci...</span></div><div class='output co'>#&gt; <span class='message'> OK</span></div><div class='output co'>#&gt; <span class='message'>Gathering recursive remotes...</span></div><div class='output co'>#&gt; inspecting: r-lib/pkgdepends
-#&gt; inspecting: r-lib/fastmap
-#&gt; inspecting: r-lib/cachem
-#&gt; inspecting: rstudio/flexdashboard
-#&gt; inspecting: rstudio/sass
-#&gt; inspecting: rstudio/httpuv
-#&gt; inspecting: rstudio/promises
-#&gt; inspecting: rstudio/websocket
-#&gt; inspecting: r-lib/later
-#&gt; inspecting: rstudio/rsconnect
-#&gt; inspecting: schloerke/shinyjster
-#&gt; inspecting: rstudio/crosstalk
-#&gt; inspecting: rstudio/thematic
-#&gt; inspecting: rstudio/shiny
-#&gt; inspecting: rstudio/bslib
-#&gt; inspecting: rstudio/htmltools
-#&gt; inspecting: rstudio/shinythemes
-#&gt; inspecting: rstudio/shinytest
-#&gt; inspecting: rstudio/webdriver
-#&gt; inspecting: rstudio/shinyvalidate
-#&gt; inspecting: rstudio/pool
-#&gt; inspecting: rstudio/reactlog
-#&gt; inspecting: rstudio/shinymeta
-#&gt; inspecting: rstudio/DT
-#&gt; inspecting: rstudio/dygraphs
-#&gt; inspecting: rstudio/fontawesome
-#&gt; inspecting: r-lib/pkgcache</div><div class='output co'>#&gt; <span class='message'> OK</span></div><div class='output co'>#&gt; <span class='message'>Gathering dependency information...</span></div><div class='output co'>#&gt; <span class='message'> OK</span></div><div class='output co'>#&gt; <span class='message'>Checking all non-Remote packages are CRAN packages...</span></div><div class='output co'>#&gt; <span class='message'> OK</span></div><div class='output co'>#&gt; <span class='message'>Checking all Remotes are installed from GitHub...</span></div><div class='output co'>#&gt; <span class='message'> OK</span></div><div class='output co'>#&gt; <span class='message'>Checking GitHub packages are up to date...</span></div><div class='output co'>#&gt; <span class='message'> OK</span></div><div class='output co'>#&gt; <span class='message'>Session is up to date!</span></div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"rstudio/shinycoreci"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>shinycoreci</span><span class='fu'>::</span><span class='fu'>install_exact_shinycoreci_deps</span><span class='op'>(</span><span class='st'>"apps"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Update shinycoreci...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>  OK</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Gathering recursive remotes...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: r-lib/pkgdepends</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: r-lib/fastmap</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: r-lib/cachem</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/flexdashboard</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/sass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/httpuv</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/promises</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/websocket</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: r-lib/later</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/rsconnect</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: schloerke/shinyjster</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/crosstalk</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/thematic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/shiny</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/bslib</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/htmltools</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/shinythemes</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/shinytest</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/webdriver</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/shinyvalidate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/pool</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/reactlog</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/shinymeta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/DT</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/dygraphs</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: rstudio/fontawesome</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> inspecting: r-lib/pkgcache</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>  OK</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Gathering dependency information...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>  OK</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking all non-Remote packages are CRAN packages...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>  OK</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking all Remotes are installed from GitHub...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>  OK</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking GitHub packages are up to date...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>  OK</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Session is up to date!</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

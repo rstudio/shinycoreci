@@ -167,7 +167,7 @@
 <p>Outline of steps performed:</p><ol>
 <li><p>Validate there are no git changes or untracked files in the current base branch</p></li>
 <li><p>Validate there are no unexpected shinytest folders</p></li>
-<li><p>If <code><a href='https://rdrr.io/r/base/Logic.html'>isTRUE(ask)</a></code>, ask for which branches to work with</p></li>
+<li><p>If <code>isTRUE(ask)</code>, ask for which branches to work with</p></li>
 <li><p>Find all apps to update</p></li>
 <li><p>For each failing shinytest app, accept / reject shinytest changes in each <code>gha-</code> branch. Add an individualized commit message including the app and environment flavor information</p></li>
 <li><p>For each <code>gha-</code> branch, validate there are no unexpected shinytest folders. (Should be no unexpected folders after accepting / rejecting apps.)</p></li>

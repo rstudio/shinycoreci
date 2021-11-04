@@ -129,12 +129,12 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>with_options</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>warn <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>, <span class='op'>{</span>
-  <span class='kw'><a href='https://rdrr.io/r/base/warning.html'>warning</a></span><span class='op'>(</span><span class='st'>'just a warning'</span><span class='op'>)</span>
-  <span class='fu'>with_options</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>warn <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>, <span class='op'>{</span> <span class='kw'><a href='https://rdrr.io/r/base/warning.html'>warning</a></span><span class='op'>(</span><span class='st'>'made into error'</span><span class='op'>)</span> <span class='op'>}</span><span class='op'>)</span>
-  <span class='kw'><a href='https://rdrr.io/r/base/warning.html'>warning</a></span><span class='op'>(</span><span class='st'>'just a warning'</span><span class='op'>)</span>
-<span class='op'>}</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>with_options</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>warn <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>, <span class='op'>{</span></span>
+<span class='r-in'>  <span class='kw'><a href='https://rdrr.io/r/base/warning.html'>warning</a></span><span class='op'>(</span><span class='st'>'just a warning'</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'>with_options</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>warn <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>, <span class='op'>{</span> <span class='kw'><a href='https://rdrr.io/r/base/warning.html'>warning</a></span><span class='op'>(</span><span class='st'>'made into error'</span><span class='op'>)</span> <span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='kw'><a href='https://rdrr.io/r/base/warning.html'>warning</a></span><span class='op'>(</span><span class='st'>'just a warning'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
