@@ -21,8 +21,8 @@ runs:
         found <- FALSE
         if (file.exists("DESCRIPTION")) {
           desc_lines <- paste0(readLines("DESCRIPTION"), collapse = "\n")
-          shinytest_in_desc <- grepl("\\wshinytest\\w", desc_lines)
-          webdriver_in_desc <- grepl("\\wwebdriver\\w", desc_lines)
+          shinytest_in_desc <- grepl("\\bshinytest\\b", desc_lines)
+          webdriver_in_desc <- grepl("\\bwebdriver\\b", desc_lines)
           if (shinytest_in_desc || webdriver_in_desc) {
             # Only install if there is a direct dependency to shinytest
             pkg_name <- as.list(read.dcf("DESCRIPTION")[1,])$Package
@@ -67,9 +67,11 @@ runs:
             if (!shinytest::dependenciesInstalled()) {
               shinytest::installDependencies()
             }
+            stopifnot(shinytest::dependenciesInstalled())
           } else if (require("webdriver") && grepl("\\wwebdriver\\w", desc_lines)) {
             if (is.null(webdriver:::find_phantom())) {
               webdriver::install_phantomjs()
             }
+            stopifnot(is.null(webdriver:::find_phantom()))
           }
         }
