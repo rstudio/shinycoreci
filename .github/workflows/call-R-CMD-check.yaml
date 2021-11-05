@@ -127,7 +127,20 @@ jobs:
           git config --system core.autocrlf false
           git config --system core.eol lf
 
+      - name: Find LFS usage
+        shell: bash
+        id: lfs
+        run: |
+          FILE=.gitattributes
+          if [ -f "$FILE" ]; then
+            if grep -q "=lfs" "$FILE"; then
+              echo "::set-output name=exists::true"
+            fi
+          fi
       - uses: actions/checkout@v2
+        with:
+          # Checkout with LFS support
+          lfs: ${{ steps.lfs.output.exists == "true" }}
 
       - uses: rstudio/shinycoreci/.github/actions/install-r-package@v1
         with:
