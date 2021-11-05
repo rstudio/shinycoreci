@@ -176,7 +176,13 @@ jobs:
           name: ${{ matrix.config.os }}-r${{ matrix.config.r }}-results
           path: "check_dont_test"
 
-      - name: Run local after-check step
+      - name: Run local after-check-success step
+        if: ${{ success() }}
         uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
         with:
-          name: after-check
+          name: after-check-success
+      - name: Run local after-check-failure step
+        if: ${{ failure() }}
+        uses: rstudio/shinycoreci/.github/actions-internal/run-local-step@v1
+        with:
+          name: after-check-failure

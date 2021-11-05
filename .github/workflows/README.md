@@ -83,8 +83,10 @@ Files:
   * Run in `call-routine.yaml`. Runs after the local commits are pushed back to the repo. Useful to execute code that does not produce files that should be commited back to the repo
 * `before-check.R` / `before-check.sh`
   * Run in `call-R-CMD-check.yaml` before any `R CMD check .` are called
-* `after-check.R` / `after-check.sh`
-  * Run in `call-R-CMD-check.yaml` after all `R CMD check .` are called
+* `after-check-success.R` / `after-check-success.sh`
+  * Run in `call-R-CMD-check.yaml` after all `R CMD check .` have not failed
+* `after-check-failure.R` / `after-check-failure.sh`
+  * Run in `call-R-CMD-check.yaml` on any failure
 * `before-install.R` / `before-install.sh`
   * Run in `./.github/actions/install-r-package` after R is installed, but before the local package dependencies are installed.
 
