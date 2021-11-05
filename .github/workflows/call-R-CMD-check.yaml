@@ -140,7 +140,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           # Checkout with LFS support
-          lfs: ${{ steps.lfs.output.exists == "true" }}
+          lfs: ${{ steps.lfs.output.exists == 'true' }}
 
       - uses: rstudio/shinycoreci/.github/actions/install-r-package@v1
         with:
