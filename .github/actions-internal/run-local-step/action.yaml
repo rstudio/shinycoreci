@@ -15,5 +15,5 @@ runs:
           . ".github/shinycoreci-steps/${{ inputs.name }}.sh"
         fi
         if [ -f ".github/shinycoreci-steps/${{ inputs.name }}.R" ]; then
-          Rscript -e "source('.github/shinycoreci-steps/${{ inputs.name }}.R', echo = TRUE)""
+          Rscript -e "source('.github/shinycoreci-steps/${{ inputs.name }}.R', echo = TRUE)"
         fi
