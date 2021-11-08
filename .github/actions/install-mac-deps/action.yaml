@@ -41,7 +41,7 @@ runs:
             textshaping = "harfbuzz fribidi",
             rgeos = "geos",
             rgdal = "gdal"
-          }
+          )
           # If the package exists, run the brew install commands
           Map(names(infos), infos, f = function(pkg, brew_cmds) {
             if (has_dep(pkg)) {
