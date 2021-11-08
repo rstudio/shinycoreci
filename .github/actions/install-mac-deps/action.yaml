@@ -45,7 +45,7 @@ runs:
           # If the package exists, run the brew install commands
           Map(names(infos), infos, f = function(pkg, brew_cmds) {
             if (has_dep(pkg)) {
-              run_cmd("brew install ", brew_cmds)
+              run_cmds("brew install ", brew_cmds)
             }
           })
         }
