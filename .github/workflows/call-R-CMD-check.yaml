@@ -7,7 +7,7 @@ on:
         required: false
       cache-version:
         type: string
-        default: "1"
+        default: "3"
         required: false
       pandoc-version:
         type: string
@@ -91,6 +91,7 @@ jobs:
           fi
           CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.release.outputs.installed-r-version }}\"}"
           if [ "${{ inputs.release-only }}" != "true" ]; then
+
             CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-1.outputs.installed-r-version }}\"}"
             CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-2.outputs.installed-r-version }}\"}"
             CONFIG="$CONFIG, {\"os\": \"$UBUNTU_FLAVOR\", \"r\": \"${{ steps.oldrel-3.outputs.installed-r-version }}\"}"

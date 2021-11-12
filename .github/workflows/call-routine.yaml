@@ -7,7 +7,7 @@ on:
         required: false
       cache-version:
         type: string
-        default: "1"
+        default: "3"
         required: false
       pandoc-version:
         type: string
