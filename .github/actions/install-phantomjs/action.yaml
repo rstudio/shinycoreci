@@ -72,6 +72,8 @@ runs:
             if (is.null(webdriver:::find_phantom())) {
               webdriver::install_phantomjs()
             }
-            stopifnot(is.null(webdriver:::find_phantom()))
+            if (is.null(webdriver:::find_phantom())) {
+              stop("Can not find webdriver phantomJS installation")
+            }
           }
         }
