@@ -63,6 +63,7 @@ runs:
     - name: Install needs dependencies
       shell: Rscript {0}
       run: |
+        message("Install `needs`")
         if (nzchar("${{ inputs.needs }}")) {
           needs <- pak::local_dev_deps(dependencies = "Config/Needs/${{ inputs.needs }}")[["ref"]]
           for (dep in needs) {
@@ -73,8 +74,9 @@ runs:
     - name: Install extra packages
       shell: Rscript {0}
       run: |
+        message("Install `extra-packages`")
         if (nzchar("${{ inputs.extra-packages }}")) {
-          extra <- strsplit("${{ inputs.extra-packages }}", "[[:space:],]+")[[1]])
+          extra <- strsplit("${{ inputs.extra-packages }}", "[[:space:],]+")[[1]]
           for (dep in extra) {
             pak::pkg_system_requirements(dep, execute = TRUE)
           }
