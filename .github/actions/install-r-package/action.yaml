@@ -57,7 +57,7 @@ runs:
       with:
         cache-version: ${{ inputs.needs }}-${{ inputs.cache-version }}
         # needs: ${{ inputs.needs }}
-        extra-packages: ${{ inputs.extra-packages }}
+        # extra-packages: ${{ inputs.extra-packages }}
 
     # TODO-future: remove this when https://github.com/r-lib/actions/issues/386 is fixed (and uncomment `needs` above)
     - name: Install needs dependencies
@@ -69,6 +69,16 @@ runs:
             pak::pkg_system_requirements(dep, execute = TRUE)
           }
           pak::pkg_install(needs)
+        }
+    - name: Install extra packages
+      shell: Rscript {0}
+      run: |
+        if (nzchar("${{ inputs.extra-packages }}")) {
+          extra <- strsplit("${{ inputs.extra-packages }}", "[[:space:],]+")[[1]])
+          for (dep in extra) {
+            pak::pkg_system_requirements(dep, execute = TRUE)
+          }
+          pak::pkg_install(extra)
         }
 
     - uses: rstudio/shinycoreci/.github/actions/install-phantomjs@v1
