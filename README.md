@@ -4,7 +4,7 @@
 
 <!-- badges: start -->
 
-[![R CMD check](https://github.com/rstudio/shinycoreci/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/shinycoreci/actions?query=workflow%3AR-CMD-check)
+[![R CMD check](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/shinycoreci/actions)
 [![Lifecycle Experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
