@@ -17,8 +17,8 @@ test_in_sso <- function(
   dir = "apps",
   apps = apps_manual(dir),
   app = apps[1],
-  release = c("bionic", "xenial", "centos7"),
-  r_version = c("4.0", "3.6", "3.5"),
+  release = c("focal", "bionic", "xenial", "centos7"),
+  r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 7878, 3838),
@@ -45,8 +45,8 @@ test_in_ssp <- function(
   dir = "apps",
   apps = apps_manual(dir),
   app = apps[1],
-  release = c("bionic", "xenial", "centos7"),
-  r_version = c("4.0", "3.6", "3.5"),
+  release = c("focal", "bionic", "xenial", "centos7"),
+  r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 8989, 4949),
@@ -71,7 +71,7 @@ test_in_ssp <- function(
 
 
   # type = c("sso", "ssp"),
-  # release = c("bionic", "xenial", "centos7"),
+  # release = c("focal", "bionic", "xenial", "centos7"),
   # port = switch(type,
   #               sso = switch(release, "centos7" = 7878, 3838),
   #               ssp = switch(release, "centos7" = 8989, 4949)
@@ -86,12 +86,12 @@ test_in_ssossp <- function(
   apps = apps_manual(dir),
   app = apps[1],
   type = c("sso", "ssp"),
-  release = c("bionic", "xenial", "centos7"),
+  release = c("focal", "bionic", "xenial", "centos7"),
   port_background = switch(type,
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
-  r_version = c("4.0", "3.6", "3.5"),
+  r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   host = "127.0.0.1",
   port = 8080

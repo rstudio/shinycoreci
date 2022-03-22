@@ -38,7 +38,7 @@ Details.}
 
 \item{viewer}{RStudio IDE viewer to use.  [\code{"pane"}]}
 
-\item{verify}{Logical that will try to confirm shinycoreci-apps directory is the master branch}
+\item{verify}{Logical that will try to confirm shinycoreci-apps directory is the main branch}
 }
 \description{
 Automatically runs the next app in a fresh RStudio session after closing the current app. To stop,  send an interrupt signal (\verb{esc} or \verb{ctrl+c}) to the app twice in rapid succession.

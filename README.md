@@ -4,7 +4,7 @@
 
 <!-- badges: start -->
 
-[![R CMD check](https://github.com/rstudio/shinycoreci/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/shinycoreci/actions?query=workflow%3AR-CMD-check)
+[![R CMD check](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/shinycoreci/actions)
 [![Lifecycle Experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
@@ -22,22 +22,29 @@ pak::pkg_install("rstudio/shinycoreci")
 
 These `Remotes` will be installed to make sure the latest package development is working as expected:
 
+  - [r-lib/cachem](http://github.com/r-lib/cachem)
   - [r-lib/fastmap](http://github.com/r-lib/fastmap)
   - [r-lib/later](http://github.com/r-lib/later)
-  - [ramnathv/htmlwidgets](http://github.com/ramnathv/htmlwidgets)
-  - [ropensci/plotly](http://github.com/ropensci/plotly)
+  - [r-lib/pkgdepends](http://github.com/r-lib/pkgdepends)
+  - [rstudio/bslib](http://github.com/rstudio/bslib)
   - [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
+  - [rstudio/DT](http://github.com/rstudio/DT)
+  - [rstudio/dygraphs](http://github.com/rstudio/dygraphs)
   - [rstudio/flexdashboard](http://github.com/rstudio/flexdashboard)
+  - [rstudio/fontawesome](http://github.com/rstudio/fontawesome)
   - [rstudio/htmltools](http://github.com/rstudio/htmltools)
   - [rstudio/httpuv](http://github.com/rstudio/httpuv)
-  - [rstudio/leaflet](http://github.com/rstudio/leaflet)
-  - [rstudio/leaflet.providers](http://github.com/rstudio/leaflet.providers)
   - [rstudio/pool](http://github.com/rstudio/pool)
   - [rstudio/promises](http://github.com/rstudio/promises)
   - [rstudio/reactlog](http://github.com/rstudio/reactlog)
   - [rstudio/rsconnect](http://github.com/rstudio/rsconnect)
+  - [rstudio/sass](http://github.com/rstudio/sass)
   - [rstudio/shiny](http://github.com/rstudio/shiny)
   - [rstudio/shinymeta](http://github.com/rstudio/shinymeta)
   - [rstudio/shinytest](http://github.com/rstudio/shinytest)
+  - [rstudio/shinythemes](http://github.com/rstudio/shinythemes)
+  - [rstudio/shinyvalidate@main](http://github.com/rstudio/shinyvalidate)
+  - [rstudio/thematic](http://github.com/rstudio/thematic)
+  - [rstudio/webdriver](http://github.com/rstudio/webdriver)
   - [rstudio/websocket](http://github.com/rstudio/websocket)
   - [schloerke/shinyjster](http://github.com/schloerke/shinyjster)

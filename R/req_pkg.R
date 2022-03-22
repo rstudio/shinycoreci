@@ -3,7 +3,9 @@ is_installed <- function(package) {
 }
 
 suggested_pkgs <- function() {
-  renv::dependencies(system.file("DESCRIPTION", package = "shinycoreci"), quiet = TRUE)
+  desc_info <- utils::packageDescription("shinycoreci")
+  desc_file <- attr(desc_info, "file")
+  renv::dependencies(desc_file, quiet = TRUE)
 }
 
 
@@ -29,7 +31,7 @@ req_pkg <- local({
 
     version <- suggested_package_info$Version
 
-    if (nchar(version) > 0) {
+    if (isTRUE(nchar(version) > 0)) {
       require <- suggested_package_info$Require
       desc_version <- package_version(version)
       installed_version <- utils::packageVersion(package)

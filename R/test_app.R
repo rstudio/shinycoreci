@@ -48,6 +48,14 @@ test_shinyjster_app <- function(
       return(NULL)
     }
   }
+  
+  # Temp workaround while mac firefox apps don't complete in time
+  if (browser_name_val %in% "firefox") {
+    if (platform() == "mac") {
+      # return NULL to signify that no test was done
+      return(NULL)
+    }
+  }
 
   shinyjster::test_jster(apps = apps, browsers = browser_func, type = "lapply")
 }
@@ -58,18 +66,21 @@ test_shinyjster_app <- function(
 #' Test shinytest app
 #'
 #' @inheritParams shinytest::testApp
+#' @param ... passed to [shinytest::testApp()]
 #' @seealso [test_shinyjster_app()], [test_runtests()], and [platform_rversion()]
 #' @export
 test_shinytest_app <- function(
   appDir = "..",
-  suffix = platform_rversion()
+  suffix = platform_rversion(),
+  ...
 ) {
   base__library("shinytest", character.only = TRUE)
 
   shinytest::expect_pass(
     shinytest::testApp(
       appDir,
-      suffix = suffix
+      suffix = suffix,
+      ...
     )
   )
 }

@@ -14,9 +14,10 @@ rm_files <- function(filenames) {
   file.remove(filenames)
 }
 
-# This function is never called; it exists only to make R CMD check happy that
-# these packages are used.
-`_dummy_` <- function() {
+#' Load all suggested packages for session information
+#' @export
+load_suggested_pkgs <- function() {
+  fontawesome::fa
   shiny::runApp
   renv::snapshot
   remotes::available_packages
@@ -31,11 +32,14 @@ rm_files <- function(filenames) {
   plotly::plot_ly
   leaflet::leaflet
   leaflet.providers::get_providers
+  shinyvalidate::compose_rules
   crosstalk::crosstalkLibs
   flexdashboard::flex_dashboard
   shinymeta::formatCode
   pool::Pool
   Rcpp::cppFunction
+
+  invisible()
 }
 
 # Is this a SHA-1 hash? (vectorized)

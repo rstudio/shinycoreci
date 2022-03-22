@@ -8,3 +8,4 @@
 \.sublime-project$
 ^.*\.Rproj$
 ^README\.Rmd$
+^shinyverse.png$

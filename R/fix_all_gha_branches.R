@@ -19,22 +19,48 @@
 #' @param dir Root app folder path
 #' @param sha git sha of base branch to look for
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
-#' @param ask Logical which allows for particular branches to be inspected
-#' @param merge Logical which merges all branches after viewing test results
-#' @param commit Logical which determines if shinytest results should be committed
+#' @param save_results Logical which commits and merges all branches after viewing test results
+#' @param ask_apps,ask_branches Logical which allows for particular apps branches to be inspected
+#' @param ask_if_not_main Logical which will check if `main` is the base branch
+#' @param accept_all Logical which will accept all changes for the apps selected when `ask_apps = TRUE`. This parameter is only recommended for use when the shinytest differences are known and can not be displayed using the shiny application.
 #' @param repo_dir Root repo folder path
 #' @export
 fix_all_gha_branches <- function(
   dir = "apps",
   sha = git_sha(dir),
   ...,
-  merge = FALSE,
-  commit = merge,
-  ask = interactive(),
+  save_results = NULL,
+  ask_apps = FALSE,
+  ask_branches = TRUE,
+  ask_if_not_main = TRUE,
+  accept_all = FALSE,
   repo_dir = file.path(dir, "..")
 ) {
   original_sys_call <- sys.call()
   validate_core_pkgs()
+
+  if (!is.null(list(...)$merge)) {
+    stop("`merge` is deprecated. Use `save_results` instead")
+  }
+  if (!is.null(list(...)$commit)) {
+    stop("`commit` is deprecated. Use `save_results` instead")
+  }
+
+  if (isTRUE(ask_if_not_main)) {
+    if (git_branch(dir) != "main") {
+      ans <- utils::menu(
+        c(
+          "Yes; `ask_if_not_main = FALSE`",
+          "No"
+        ),
+        graphics = FALSE,
+        title = paste0("Is the base branch of `", git_branch(dir), "` correct?")
+      )
+      if (ans != 1) {
+        stop("The base git branch is not correct. Fix the base branch and try again.")
+      }
+    }
+  }
 
   if (length(git_diff(dir)) > 0) {
     message("Current git diff: ")
@@ -47,8 +73,13 @@ fix_all_gha_branches <- function(
     stop("Make sure there are no untracked files. Please remove the files or commit the changes.")
   }
 
-  if (isTRUE(merge) && !isTRUE(commit)) {
-    stop("You can't `merge` if you do not enable `commit`")
+  if (!(identical(save_results, TRUE) || identical(save_results, FALSE))) {
+    ans <- utils::menu(
+      c("Yes; `save_results = TRUE`", "No; `save_results = FALSE`"),
+      graphics = FALSE,
+      title = "Would you like to git commit and merge these test approvals / rejections?"
+    )
+    save_results <- (ans == 1)
   }
 
   validate_no_unexpected_shinytest_folders(dir)
@@ -56,10 +87,9 @@ fix_all_gha_branches <- function(
   branches <- gha_remotes_latest(dir = dir, sha = sha)
   if (length(branches) == 0) {
     message("Did not find any branches for sha: ", sha)
-    message("Be sure to run this function in your base branch. Current branch: ", git_branch(dir))
+    message("Be sure to run this function in your base branch or after GHA has finished.\nCurrent branch: ", git_branch(dir))
     return()
   }
-
 
   git_cmd_ <- function(..., git_dir = dir) {
     git_cmd(git_dir, paste0(...))
@@ -82,96 +112,46 @@ fix_all_gha_branches <- function(
       find_bad_shinytest_files(dir)
     })
   names(apps_to_fix) <- branches
-
-  message("\nInspecting apps:")
-  lapply(names(apps_to_fix), function(branch_name) {
-    branch_apps <- apps_to_fix[[branch_name]]
-    if (length(branch_apps) == 0) return()
-    cat("* ", branch_name, "\n", sep = "")
-    cat(paste0("  - ", branch_apps, collapse = "\n"), "\n")
-  })
-
-  if (isTRUE(ask)) {
-    message("")
-    ans <- utils::menu(c("(All branches)", branches), graphics = FALSE, title = "Select the Git branches you'd like to use")
-    # ans = 0; all
-    # ans = 1; all
-    if (ans > 1) {
-      # if ans is not 'all', subset the folders
-      ans_pos <- ans - 1
-      branches <- branches[ans_pos]
-      apps_to_fix <- apps_to_fix[branches]
-    }
-  }
-
-  all_apps_to_fix <- sort(unique(unname(unlist(apps_to_fix))))
+  # get all app info into a data.frame for easy subsetting
+  app_info_dt <- do.call(rbind, unname(unlist(
+    Map(names(apps_to_fix), apps_to_fix, f = function(branch_name, branch_apps) {
+      Map(branch_apps, f = function(branch_app_info) {
+        branch_parts <- strsplit(branch_name, "-")[[1]]
+        as.data.frame(append(
+          branch_app_info,
+          list(
+            branch = branch_name,
+            os = branch_parts[[length(branch_parts)]],
+            r_version = branch_parts[[length(branch_parts) - 1]]
+          )
+        ))
+      })
+    }),
+    recursive = FALSE
+  )))
 
   branch_message <- function(branch, ...) {
     message(branch, " - ", ...)
   }
 
-  # for each branch
-  pr <- progress_bar(
-    total = length(unlist(apps_to_fix)),
-    format = paste0("\n[:current/:total, :eta/:elapsed] :app; :branch")
-  )
-  # for each app
-  lapply(all_apps_to_fix, function(app_folder) {
-    # for each branch
-    lapply(branches, function(branch) {
+  merge_results <- function(branches_to_merge) {
+    if (!isTRUE(save_results)) {
+      message("\nMerging of results was disabled. Skipping merging of GHA branches.")
+      return()
+    }
 
-      # if this branch doesn't need to fix this app, return early
-      branch_apps <- apps_to_fix[[branch]]
-      if (! app_folder %in% branch_apps) {
-        return()
-      }
+    # verify all outstanding branches have no *-current folders
+    message("\nChecking to make sure all git branches contain no *-current shinytest folders")
 
-      # only tick for valid apps
-      pr$tick(tokens = list(app = app_folder, branch = branch))
-
-      suffix <- shinytest_suffix(branch)
+    branches <- lapply(unique(branches_to_merge), function(branch) {
       git_checkout(branch)
-
-      test_diff <- shinytest__view_test_diff(appDir = file.path(dir, app_folder), suffix = suffix, interactive = TRUE, ...)
-
-      if (isTRUE(commit)) {
-
-        commit_app_value <- paste0(basename(app_folder), " ", suffix)
-
-        if (test_diff[[1]] == "reject") {
-          current_folder <- shinytest_current_folder(file.path(dir, app_folder))
-          folder_to_rm <- file.path(app_folder, current_folder)
-          branch_message(branch, "Committing the deletion of unmerged `*-current` folder: ", folder_to_rm)
-          git_cmd_("git rm -r ", folder_to_rm)
-          git_cmd_("git commit -m 'gha - Reject test changes: ", commit_app_value, "'")
-        } else {
-          # accept
-          branch_message(branch, "Committing the updated tests of folder: ", app_folder)
-          # adds new and deleted files in the `app_folder`
-          git_cmd_("git add -u ", app_folder)
-          git_cmd_("git commit -m 'gha - Accept test changes: ", commit_app_value, "'")
-        }
-      }
-
+      validate_no_unexpected_shinytest_folders(dir)
+      branch
     })
 
-    # make a noise because it helps me know it's a new app
-    utils::alarm()
-  })
+    # go to base branch
+    git_checkout(original_git_branch)
 
-  # at this point, all branches should be updated and ready to be merged
-
-  # verify all outstanding branches have no *-current folders
-  message("\nChecking to make sure all git branches contain no *-current shinytest folders")
-  lapply(branches, function(branch) {
-    git_checkout(branch)
-    validate_no_unexpected_shinytest_folders(dir)
-  })
-
-  # go to base branch
-  git_checkout(original_git_branch)
-
-  if (isTRUE(merge)) {
     message("\nAttempting to automatically merge (and locally delete) all branches into ", original_git_branch)
 
     # merge all outstanding branches
@@ -198,9 +178,6 @@ fix_all_gha_branches <- function(
       git_cmd_("git branch -d ", branch)
     })
 
-  }
-
-  if (isTRUE(commit) || isTRUE(merge)) {
     on.exit({
       message("\nDone!")
       message("Ready to push to origin/", original_git_branch)
@@ -209,7 +186,168 @@ fix_all_gha_branches <- function(
     }, add = TRUE)
   }
 
-  invisible(all_apps_to_fix)
+  if (is.null(app_info_dt)) {
+    message("\nNo Apps needed to be manually fixed. Merging all branches")
+    merge_results(names(apps_to_fix))
+    return(NULL)
+  }
+
+  app_info_dt$app_testname <- paste0(format(app_info_dt$app), ": ", format(app_info_dt$testname))
+  # reorder apps
+  app_info_dt <- app_info_dt[order(app_info_dt$app, app_info_dt$testname, app_info_dt$os, app_info_dt$r_version), ]
+
+
+  print_apps <- function() {
+    app_info_dt_fmt <- app_info_dt
+    app_info_dt_fmt$os <- ifelse(app_info_dt_fmt$os == "Windows", "Wndws", app_info_dt_fmt$os)
+    ignore <- lapply(
+      split(app_info_dt_fmt, app_info_dt$app_testname),
+      function(app_info_dt_for_combo) {
+        app_testname <- app_info_dt_for_combo$app_testname[[1]]
+        os_r_version <- paste0(
+          app_info_dt_for_combo$os, "-", app_info_dt_for_combo$r_version,
+          collapse = ", "
+        )
+        cat("* ", app_testname, " ; ", os_r_version, "\n", sep = "")
+      }
+    )
+  }
+
+  if (isTRUE(ask_branches)) {
+    message("\nApps:")
+    print_apps()
+    app_branches <- sort(unique(app_info_dt$branch))
+    cat("\n")
+    first_choice <- "(All branches); `ask_branches = FALSE`"
+    ans <- utils::select.list(
+      c(first_choice, app_branches),
+      multiple = TRUE,
+      graphics = FALSE,
+      title = "Select the Git branches you'd like to use"
+    )
+    if ((length(ans) == 0) || (first_choice %in% ans)) {
+      # Do not subset data
+    } else {
+      app_info_dt <- app_info_dt[app_info_dt$branch %in% ans, ]
+    }
+  }
+
+  did_select_apps <- FALSE
+  if (isTRUE(ask_apps)) {
+    message("\nApps:")
+    print_apps()
+    app_testnames <- sort(unique(app_info_dt$app_testname))
+    cat("\n")
+    first_choice <- "(All apps); `ask_apps = FALSE`"
+    ans <- utils::select.list(
+      c(first_choice, app_testnames),
+      multiple = TRUE,
+      graphics = FALSE,
+      title = "Select the App / Test you'd like to use"
+    )
+    if ((length(ans) == 0) || (first_choice %in% ans)) {
+      # Do not subset data
+    } else {
+      did_select_apps <- TRUE
+      app_info_dt <- app_info_dt[app_info_dt$app_testname %in% ans, ]
+    }
+  }
+
+  message("\nTesting Apps:")
+  print_apps()
+
+  if (isTRUE(accept_all)) {
+    if (!isTRUE(ask_apps)) {
+      stop("`accept_all` can not be `TRUE` if `ask_apps = FALSE`")
+    }
+    if (!isTRUE(did_select_apps)) {
+      stop("`accept_all` can not be `TRUE` when no apps were manually selected")
+    }
+    cat("\n")
+    yes <- "Yes"
+    ans <- utils::select.list(
+      c(yes, "No"),
+      multiple = FALSE,
+      graphics = FALSE,
+      title = "Are you **sure** you want to accept all changes?"
+    )
+    if (ans != yes) {
+      stop("Please set `accept_all = FALSE` and try again")
+    }
+  }
+
+  # for each branch
+  pr <- progress_bar(
+    total = nrow(app_info_dt),
+    format = paste0("\n[:current/:total, :eta/:elapsed] :app : :testname; :branch")
+  )
+  # for each combo
+  Map(
+    app_info_dt$app,
+    app_info_dt$testname,
+    app_info_dt$path,
+    app_info_dt$branch,
+    f = function(app_folder, app_testname, app_test_path, branch) {
+      # only tick for valid apps
+      pr$tick(tokens = list(
+        app = app_folder,
+        testname = app_testname,
+        branch = branch
+      ))
+
+      suffix <- shinytest_suffix(branch)
+      git_checkout(branch)
+
+      test_diff <-
+        if (isTRUE(accept_all)) {
+          shinytest::snapshotUpdate(
+            appDir = file.path(dir, app_folder),
+            suffix = suffix,
+            testnames = app_testname,
+            quiet = FALSE
+          )
+          list("accept")
+        } else {
+          # Common case...
+
+          shinytest__view_test_diff(
+            appDir = file.path(dir, app_folder),
+            suffix = suffix,
+            interactive = TRUE,
+            testnames = app_testname,
+            ...
+          )
+        }
+
+
+      if (isTRUE(save_results)) {
+
+        commit_app_value <- paste0(basename(app_folder), " ", suffix)
+
+        if (test_diff[[1]] == "reject") {
+          branch_message(branch, "Committing the deletion of unmerged `*-current` folder: ", app_test_path)
+          git_cmd_("git rm -r ", app_test_path)
+          git_cmd_("git commit -m 'gha - Reject test changes: ", commit_app_value, "'")
+        } else {
+          # accept
+          branch_message(branch, "Committing the updated tests of folder: ", app_folder)
+          # adds new and deleted files in the `app_folder`
+          git_cmd_("git add ", app_folder)
+          git_cmd_("git commit -m 'gha - Accept test changes: ", commit_app_value, "'")
+        }
+      } else {
+        branch_message(branch, "Resetting all changes in ", app_folder)
+        # undo all the things! Am not commiting, so we need to remove any changes
+        git_cmd_("git checkout -- ", app_folder)
+      }
+    }
+  )
+
+
+  # at this point, all branches should be updated and ready to be merged
+  merge_results(app_info_dt$branch)
+
+  invisible(app_info_dt)
 }
 
 

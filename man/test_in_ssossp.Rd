@@ -9,8 +9,8 @@ test_in_sso(
   dir = "apps",
   apps = apps_manual(dir),
   app = apps[1],
-  release = c("bionic", "xenial", "centos7"),
-  r_version = c("4.0", "3.6", "3.5"),
+  release = c("focal", "bionic", "xenial", "centos7"),
+  r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, centos7 = 7878, 3838),
@@ -21,8 +21,8 @@ test_in_ssp(
   dir = "apps",
   apps = apps_manual(dir),
   app = apps[1],
-  release = c("bionic", "xenial", "centos7"),
-  r_version = c("4.0", "3.6", "3.5"),
+  release = c("focal", "bionic", "xenial", "centos7"),
+  r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, centos7 = 8989, 4949),
@@ -36,7 +36,7 @@ test_in_ssp(
 
 \item{app}{app number or name to start with. If numeric, it will match the leading number in the testing application}
 
-\item{release}{Distro release name, such as "bionic" for ubuntu or "7" for centos}
+\item{release}{Distro release name, such as "focal" for ubuntu or "7" for centos}
 
 \item{r_version}{R version to use. Ex: \code{"3.6"}}
 

@@ -158,7 +158,7 @@ repo_from_remote <- function(remote_obj) {
     "/",
     remote_obj$repo,
     "@",
-    remote_obj$branch %||% "master"
+    remote_obj$branch %||% "main"
   )
 }
 
@@ -179,14 +179,23 @@ cached_remotes_order <- local({
 })
 
 
+shinycoreci_description_info <- function() {
+  direct <- system.file(package = "shinycoreci")
+  # if bug from pkgload
+  if (basename(direct) == "inst") {
+    # get root folder from package description file
+    direct <- dirname(attr(utils::packageDescription("shinycoreci"), "file"))
+  }
+  remotes__load_pkg_description(direct)
+}
+
+
 
 # used in shinycoreci-apps
 install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes::git_credentials()) {
   # https://github.com/rstudio/shinytest/archive/rc-v1.4.0.tar.gz
 
-  remotes_pkgs <- split_remotes(
-    remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotes
-  )
+  remotes_pkgs <- split_remotes(shinycoreci_description_info()$remotes)
   pkgs_installed <- lapply(remotes_pkgs, function(remotes_pkg) {
     repo_spec <- remotes::parse_github_repo_spec(remotes_pkg)
 
@@ -197,7 +206,7 @@ install_ci <- function(upgrade = TRUE, dependencies = NA, credentials = remotes:
       stop("Can not install a release. Use a direct branch time or sha")
     }
     if (nchar(repo_spec$ref) == 0) {
-      repo_spec$ref <- "master"
+      repo_spec$ref <- "main"
     }
 
     # install_git("git://github.com/hadley/stringr.git", ref = "stringr-0.2")
@@ -240,7 +249,7 @@ validate_remotes_order <- function() {
   remote_needs_remotes <- list()
 
   base_remotes <- split_remotes(
-    remotes__load_pkg_description(system.file(package = "shinycoreci"))$remotes
+    shinycoreci_description_info()$remotes
   )
 
   i <- 1
@@ -261,7 +270,7 @@ validate_remotes_order <- function() {
 
     # use raw file url to avoid using GitHub API
     # get DESCRIPTION file from github
-    # https://raw.githubusercontent.com/rstudio/shiny/master/DESCRIPTION
+    # https://raw.githubusercontent.com/rstudio/shiny/main/DESCRIPTION
     desc_url <- paste0(
       "https://raw.githubusercontent.com",
       "/", github_remote$username,
@@ -305,7 +314,8 @@ validate_remotes_order <- function() {
 
   # See if `base_remotes` are in a valid order
   # for each base remote value...
-  for (remote_val in base_remotes) {
+  for (remote_val_i in seq_along(base_remotes)) {
+    remote_val <- base_remotes[[remote_val_i]]
 
     # gather all remotes needed recursively while trying to avoid infinite recursion
     remotes_needed <- list()
@@ -317,7 +327,9 @@ validate_remotes_order <- function() {
       if (!is.null(remotes_needed[[remote_to_look_at]])) {
         next
       }
-      needed <- remote_needs_remotes[[remote_to_look_at]]
+      # If the remotes matches eactly, only add new remote names.
+      # So `rstudio/shiny` will be removed (b/c it is previously seen), but `rstudio/shiny@feature` will be kept (as it has not been seen)
+      needed <- setdiff(remote_needs_remotes[[remote_to_look_at]], base_remotes[1:remote_val_i])
       # store needed remotes
       remotes_needed[[remote_to_look_at]] <- needed
       # look at more remotes
@@ -352,8 +364,11 @@ validate_remotes_order <- function() {
 
   list(
     remote_to_pkg = remote_to_pkg,
+    # Does not contain exact copies of earlier remotes
     remote_needs_remotes = remote_needs_remotes,
+    # Does not contain exact copies of earlier remotes
     remote_needs_all_remotes = remote_needs_all_remotes,
+    # Does not contain exact copies of earlier packages that match the exact remote name
     remote_needs_all_pkgs = remote_needs_all_pkgs,
     remotes_to_install = sort(unique(unname(unlist(remote_to_pkg))))
   )
