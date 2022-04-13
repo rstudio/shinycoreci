@@ -166,6 +166,7 @@ jobs:
         shell: Rscript {0}
         run: |
           source("inst/gha/data-renv-pkgs-update.R")
+          update_renv_pkgs()
 
       - name: Save renv pkgs to Repo
         run: |
