@@ -1,6 +1,11 @@
-update_connect_urls <- function() {
+# Used in GHA
+update_connect_urls <- function(
+  apps = TRUE,
+  account = "barret",
+  server = "beta.rstudioconnect.com"
+) {
 
-  urls <- connect_urls()
+  urls <- connect_urls(apps = apps, account = account, server = server)
 
   urls_txt <- capture.output(dput(urls))
 
