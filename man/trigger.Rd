@@ -8,18 +8,18 @@
 \usage{
 trigger(
   event_type,
-  repo = "rstudio/shinycoreci-apps",
+  repo = "rstudio/shinycoreci",
   client_payload = list(),
   auth_token = Sys.getenv("GITHUB_PAT")
 )
 
 trigger_deploy(
-  repo = "rstudio/shinycoreci-apps",
+  repo = "rstudio/shinycoreci",
   auth_token = Sys.getenv("GITHUB_PAT")
 )
 
 trigger_docker(
-  repo = "rstudio/shinycoreci-apps",
+  repo = "rstudio/shinycoreci",
   auth_token = Sys.getenv("GITHUB_PAT")
 )
 }
@@ -27,17 +27,15 @@ trigger_docker(
 \item{event_type}{The name of the event to create on the repository}
 
 \item{repo}{The GitHub repo to create the event on; defaults to
-rstudio/shinycoreci-apps}
+rstudio/shinycoreci}
 
 \item{client_payload}{The JSON object to make available in the workflow as
 the \code{github.event.client_payload} object}
 
-\item{auth_token}{Your GitHub OAuth2 token; defaults to
+\item{auth_token}{Your GitHub \strong{P}ersonal \strong{A}ccess \strong{T}oken; defaults to
 \code{Sys.getenv("GITHUB_PAT")}}
 }
 \description{
 This function uses the GitHub API to create a \href{https://developer.github.com/v3/repos/#create-a-repository-dispatch-event}{repository dispatch event}
-that can trigger workflows. Currently, the \code{testthat.yml} workflow
-registers itself for the \code{shinytest-apps} event, and so can be initiated by
-running this function with an \code{event_type} of "shinytest-apps".
+that can trigger workflows.
 }
