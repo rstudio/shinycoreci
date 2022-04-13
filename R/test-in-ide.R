@@ -29,7 +29,7 @@ test_in_ide <- function(
 
   local_libpath <- if (isTRUE(refresh_)) {
     if (isTRUE(local_pkgs)) {
-      .libPaths()[1]
+      install_shinyverse(install = FALSE)
     } else {
       shinyverse_libpath()
     }

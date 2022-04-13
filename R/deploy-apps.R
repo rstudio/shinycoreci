@@ -28,14 +28,26 @@ deploy_apps <- function(
 
   apps <- resolve_app_name(apps)
 
+  on_ci <- isTRUE(as.logical(Sys.getenv("CI")))
+
   shinyverse_lib_path <-
+    if (on_ci) {
+      if (retrying_) {
+        # Use standard libpath location
+        install_shinyverse_ci(install = FALSE)
+      } else {
+        # Install on first pass
+        # Install everything. No need to validated if pkgs are loaded as deploying in background process
+        install_shinyverse_ci(install = TRUE, validate_loaded = FALSE, extra_packages = extra_packages)
+      }
+    }
     if (retrying_) {
       # Get lib path only as still same pkgs as before
       shinyverse_libpath()
     } else {
-      # Instally on first pass
+      # Install on first pass
       # Install everything. No need to validated if pkgs are loaded as deploying in background process
-      shinyverse_lib_path <- install_shinyverse(install = TRUE, validate_loaded = FALSE, extra_packages = extra_packages)
+      install_shinyverse(install = TRUE, validate_loaded = FALSE, extra_packages = extra_packages)
     }
 
 

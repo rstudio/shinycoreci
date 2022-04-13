@@ -25,11 +25,7 @@ test_in_ci <- function(
   apps <- resolve_app_name(apps)
   repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
 
-  libpath <- install_shinyverse(
-    install = TRUE, validate_loaded = TRUE,
-    # Install into normal libpath so caching is automatically handled
-    libpath = .libPaths()[1]
-  )
+  libpath <- install_shinyverse_ci()
 
   # # Do not include apps here, only make sure shinyverse is intact
   # # the only thing to make sure remains is the CRAN packages for each app
