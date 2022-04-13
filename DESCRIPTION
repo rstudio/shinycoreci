@@ -13,7 +13,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports:
-    pak (>= 0.2.0.9000),
+    pak (>= 0.3.0),
     jsonlite,
     remotes,
     progress,
