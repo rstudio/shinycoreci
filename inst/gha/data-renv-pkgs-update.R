@@ -1,6 +1,5 @@
-if (!requireNamespace("renv")) {
-  install.packages("renv")
-}
+if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+if (!requireNamespace("yaml", quietly = TRUE)) install.packages("yaml")
 
 update_renv_pkgs <- function(repo_dir = ".") {
   renv_pkgs <- sort(unique(renv::dependencies(
