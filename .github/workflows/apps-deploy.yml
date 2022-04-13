@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - deploy**
-      - ghactions
+      - pak
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   schedule:
     - cron:  '0 6 * * 1-5' # every work night (delayed 0 hrs)
