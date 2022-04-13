@@ -16,26 +16,21 @@ on:
 jobs:
 
   config:
-    uses: ./.github/workflows/ci-config.yml
+    uses: ./.github/workflows/apps-config.yml
 
   deploy:
     runs-on: ${{ matrix.config.os }}
 
     name: "${{ matrix.config.type }} (${{ matrix.config.r }})"
+    needs: config
 
     strategy:
       fail-fast: false
 
       matrix:
         config:
-        - { os: macOS-latest, r: 'release', type: "shinyappsio", account: "testing-apps", server_name: "shinyapps.io", cores: 5, retry: 3 }
-        # beta.rstudioconnect does not support R v4.0 yet
-        # - { os: macOS-latest, r: '3.6', type: "connect", account: "barret", server_name: "beta.rstudioconnect.com", server_url: "https://beta.rstudioconnect.com/__api__", cores: 1, retry: 3 }
-        - { os: ubuntu-18.04, r: 'release', release: "bionic", type: "connect", account: "barret", server_name: "beta.rstudioconnect.com", server_url: "https://beta.rstudioconnect.com/__api__", cores: 1, retry: 3 }
-
-        # - { os: macOS-latest, r: '4.0', type: "shinyappsio", account: "testing-apps", server_name: "shinyapps.io", cores: 1, retry: 3, extra_app_text: ", apps = c('001-hello', '002-text')" }
-        # beta.rstudioconnect does not support v4 yet
-        # - { os: macOS-latest, r: '3.6', type: "connect", account: "barret", server_name: "beta.rstudioconnect.com", server_url: "https://beta.rstudioconnect.com/__api__", cores: 1, retry: 3, extra_app_text: ", apps = c('001-hello', '002-text')" }
+        - { os: ubuntu-18.04, r: 'release', type: "shinyappsio", account: "testing-apps", server_name: "shinyapps.io", cores: 5, retry: 3, extra_app_text: ", apps = c(1,2)" }
+        - { os: ubuntu-18.04, r: 'release', type: "connect", account: "barret", server_name: "beta.rstudioconnect.com", server_url: "https://beta.rstudioconnect.com/__api__", cores: 1, retry: 3, extra_app_text: ", apps = c(1,2)" }
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -50,27 +45,15 @@ jobs:
         run: |
           echo 'MAKEFLAGS=-j2' >> .Renviron
 
-      - name: Install shinycoreciapps
+      - name: Install shinycoreci
         uses: rstudio/shiny-workflows/setup-r-package@v1
         with:
-          needs: install
           r-version: ${{ matrix.config.r }}
           # add suffix so that prefix matching works but key is diff than ci-runtests-os.yml cache key
           cache-version: ${{ needs.config.outputs.cache-version }}-deploy
           extra-packages:
-            rstudio/shinycoreci,
+            local::.,
             any::rsconnect
-
-      - name: Install app deps
-        run: >
-          Rscript
-          -e "shinycoreci::install_exact_shinycoreci_deps(dir = 'apps', apps = shinycoreci::apps_deploy('apps'))"
-      # -e "if (system.file(package = 'rsconnect') == '') remotes::install_cran('rsconnect')"
-      # -e "if (system.file(package = 'plogr') == '') remotes::install_cran('plogr')"
-      # -e "## 141-radiant"
-      # -e "if (system.file(package = 'RcppEigen') == '') remotes::install_cran('RcppEigen')"
-      # -e "## 141-radiant"
-      # -e "if (system.file(package = 'radiant') == '') remotes::install_cran('radiant', dependencies = TRUE)"
 
       - name: Deploy Apps to Shinyapps.io
         if: matrix.config.type == 'shinyappsio'
@@ -78,7 +61,7 @@ jobs:
           Rscript
           -e "## options(pkgType = 'binary')"
           -e "rsconnect::setAccountInfo(name='${{ matrix.config.account }}', token='${{ secrets.shinyapps_io_testing_apps_token }}', secret='${{ secrets.shinyapps_io_testing_apps_secret }}')"
-          -e "shinycoreci::deploy_apps(dir = 'apps', retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
+          -e "shinycoreci::deploy_apps(retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
 
       - name: Deploy Apps to Connect
         if: matrix.config.type == 'connect'
@@ -89,16 +72,16 @@ jobs:
           -e "## add user info"
           -e "rsconnect::connectApiUser('${{ matrix.config.account }}', '${{ matrix.config.server_name }}', apiKey = '${{ secrets.barret_beta_rstudioconnect_com_API_key }}')"
           -e "## deploy"
-          -e "shinycoreci::deploy_apps(dir = 'apps', retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
+          -e "shinycoreci::deploy_apps(retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
           -e "## make public"
-          -e "shinycoreci::connect_set_public(dir = 'apps', account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
+          -e "shinycoreci::connect_set_public(account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
           -e "## save ALL urls"
-          -e "shinycoreci::connect_urls_cache_save(dir = 'apps', account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_connect_app_text }})"
+          -e "shinycoreci::update_connect_urls(account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
       - name: Save Connect Urls to Repo
         if: matrix.config.type == 'connect'
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git add ./zzz_shinycoreci
+          git add ./R
           git commit -m 'Generate Connect URLs (GitHub Actions)' || echo "No Connect URL changes to commit"
           git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No Connect URLs to push"
