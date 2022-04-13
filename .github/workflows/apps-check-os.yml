@@ -200,7 +200,7 @@ jobs:
             git config --local --unset http.https://github.com/.extraheader && \
             git config --local --list
 
-      - name: Push test files to rstudio/shinycoreci@_test_results
+      - name: Push test files to rstudio/shinycoreci `gha-` branch
         if: always()
         shell: bash
         # git checkout -B -- Creates the branch <new_branch> and start it at <start_point>; if it already exists, then reset it to <start_point>.
@@ -208,17 +208,14 @@ jobs:
         run: |
           git checkout -B ${{ steps.gha_branch.outputs.name }}
 
-          git add zzz_shinycoreci && \
-            git commit -m '`test_runtests()` output - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}' || \
-            echo "No test_runtests() changes to commit"
-
           git add inst/apps/sysinfo-* && \
             git commit -m '`sysinfo` Changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}' || \
             echo "No apps/sysinfo-* changes to commit"
 
+          echo "TODO-barret; Perform this in many many commits, not a single massive commit"
           git add inst/apps && \
-            git commit -m '`shinytest` Changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}'|| \
-            echo "No shinytest changes to commit"
+            git commit -m 'App changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}'|| \
+            echo "No app changes to commit"
 
           git log -n 4 --pretty=oneline --simplify-by-decoration
 
@@ -226,10 +223,10 @@ jobs:
           echo "`git rev-list --count HEAD ^${{ steps.short.outputs.sha }}`"
           if (( `git rev-list --count HEAD ^${{ steps.short.outputs.sha }}` > 0 )); then
             # This branch should never exist. Force push
-            git push --force "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci-apps.git" "HEAD:${{ steps.gha_branch.outputs.name }}"
+            git push --force "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" "HEAD:${{ steps.gha_branch.outputs.name }}"
           fi
 
-      - name: Push test results to rstudio/shinycoreci-apps
+      - name: Push test results to rstudio/shinycoreci
         if: always()
         shell: bash
         # Add saved test results (in _test_results/) to _test_results branch
@@ -247,7 +244,7 @@ jobs:
           # attempt to push until success. Allow for 15 attempts
           counter=0
           git pull origin _test_results
-          until git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci-apps.git" _test_results
+          until git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" _test_results
           do
             # wait 5-15 seconds to avoid deadlock
             sleep $[ ($RANDOM % 10) + 5 ]s
