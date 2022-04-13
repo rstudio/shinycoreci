@@ -60,7 +60,7 @@ jobs:
         run: >
           Rscript
           -e "## options(pkgType = 'binary')"
-          -e "rsconnect::setAccountInfo(name='${{ matrix.config.account }}', token='${{ secrets.SHINYAPPS_IO_TESING_APPS_TOKEN }}', secret='${{ secrets.SHINYAPPS_IO_TESING_APPS_SECRET }}')"
+          -e "rsconnect::setAccountInfo(name='${{ matrix.config.account }}', token='${{ secrets.SHINYAPPS_IO_TESTING_APPS_TOKEN }}', secret='${{ secrets.SHINYAPPS_IO_TESTING_APPS_SECRET }}')"
           -e "shinycoreci::deploy_apps(retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
 
       - name: Deploy Apps to Connect
