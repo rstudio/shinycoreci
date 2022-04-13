@@ -1,39 +1,26 @@
-
 #' Test apps within the terminal
 #'
 #' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
 #'
-#' @inheritParams test_shinyjster
-#' @inheritParams shinyjster::run_jster_apps
 #' @param port_background `port` for the background app process
 #' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
-#' @param update_pkgs Logical that will try to automatically install packages. \[`TRUE`\]
-#' @param verify Logical that will try to confirm shinycoreci-apps directory is the main branch
+#' @param local_pkgs If `TRUE`, local packages will be used instead of the isolated shinyverse installation.
 #' @export
 #' @examples
-#' \dontrun{test_in_browser(dir = "apps")}
+#' \dontrun{test_in_browser()}
 test_in_browser <- function(
-  dir = "apps",
-  apps = apps_manual(dir),
-  app = apps[1],
+  app_name = apps[1],
+  apps = apps_manual,
   port = 8080,
   port_background = NULL,
   host = "127.0.0.1",
-  update_pkgs = TRUE,
-  verify = TRUE
+  local_pkgs = FALSE
 ) {
-  validate_exact_deps(dir = dir, apps = apps, update_pkgs = update_pkgs)
+  # libpath <- install_shinyverse(install = !isTRUE(local_pkgs))
+  libpath <- shinyverse_libpath()
 
-  # make sure the apps are ok to run
-  if (isTRUE(verify)) {
-    app_status_verify(dir)
-  }
-
-  app_dirs <- file.path(dir, apps)
-  app_infos <- lapply(app_dirs, function(app_dir) {
+  app_infos <- lapply(apps, function(app_name) {
     app_proc <- NULL
-
-    app_name <- basename(app_dir)
 
     port_background_val <- port_background
 
@@ -116,25 +103,28 @@ test_in_browser <- function(
         # start new app
         message("Launching background app process...", appendLF = FALSE)
         app_proc <<- callr::r_bg(
-          function(app_dir_, port_, host_, run_app_) {
+          function(app_name_, port_, host_, run_app_, apps_folder_) {
             run_app_(
-              app_dir_,
+              app_name_,
               port = port_,
-              host = host_
+              host = host_,
+              apps_folder = apps_folder_
             )
           },
           list(
-            app_dir_ = app_dir,
+            app_name_ = app_name,
             port_ = port_background_val,
             host_ = host,
-            run_app_ = run_app
+            run_app_ = run_app,
+            apps_folder_ = apps_folder
           ),
+          libpath = libpath,
           supervise = TRUE,
           stdout = "|",
           stderr = "2>&1",
           cmdargs = c(
             "--slave", # tell the session that it's being controlled by something else
-            # "-–interactive", # (UNIX only) # tell the session that it's interactive.... but it's not
+            # "--interactive", # (UNIX only) # tell the session that it's interactive.... but it's not
             "--quiet", # no printing
             "--no-save", # don't save when done
             "--no-restore" # don't restore from .RData or .Rhistory
@@ -146,6 +136,7 @@ test_in_browser <- function(
         message("Making sure background app is alive...", appendLF = FALSE)
         total_wait <- 10
         interval <- 0.25
+
         httr::RETRY(
           "GET",
           paste0("http://", host, ":", port_background_val),
@@ -159,7 +150,7 @@ test_in_browser <- function(
         TRUE
       },
       header = function() {
-        shiny::tagList(shiny::tags$strong("App directory: "), shiny::tags$code(dir))
+        shiny::tagList(shiny::tags$strong("App directory: "), shiny::tags$code(apps_folder))
       },
       on_session_ended = stop_app,
       output_lines = output_lines_fn,
@@ -170,10 +161,10 @@ test_in_browser <- function(
   })
 
   test_in_external(
-    dir = dir,
     app_infos = app_infos,
-    app = normalize_app_name(apps, app, increment = FALSE),
+    default_app_name = resolve_app_name(app_name),
     host = host,
     port = port
   )
+
 }

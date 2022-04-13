@@ -12,12 +12,12 @@
 #' @export
 #' @describeIn test_in_ssossp Test SSO Shiny applications
 #' @examples
-#' \dontrun{test_in_connect(dir = "apps")}
+#' \dontrun{test_in_sso()}
+#' \dontrun{test_in_ssp()}
 test_in_sso <- function(
-  dir = "apps",
-  apps = apps_manual(dir),
   app = apps[1],
-  release = c("focal", "bionic", "xenial", "centos7"),
+  apps = apps_manual,
+  release = c("focal", "bionic", "centos7"),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
@@ -27,9 +27,8 @@ test_in_sso <- function(
   release <- match.arg(release)
 
   test_in_ssossp(
-    dir = dir,
-    apps = apps,
     app = app,
+    apps = apps,
     type = "sso",
     release = release,
     port_background = port_background,
@@ -42,10 +41,9 @@ test_in_sso <- function(
 #' @export
 #' @describeIn test_in_ssossp Test SSP Shiny applications
 test_in_ssp <- function(
-  dir = "apps",
-  apps = apps_manual(dir),
   app = apps[1],
-  release = c("focal", "bionic", "xenial", "centos7"),
+  apps = apps_manual,
+  release = c("focal", "bionic", "centos7"),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
@@ -55,9 +53,8 @@ test_in_ssp <- function(
   release <- match.arg(release)
 
   test_in_ssossp(
-    dir = dir,
-    apps = apps,
     app = app,
+    apps = apps,
     type = "ssp",
     release = release,
     port_background = port_background,
@@ -71,7 +68,7 @@ test_in_ssp <- function(
 
 
   # type = c("sso", "ssp"),
-  # release = c("focal", "bionic", "xenial", "centos7"),
+  # release = c("focal", "bionic", "centos7"),
   # port = switch(type,
   #               sso = switch(release, "centos7" = 7878, 3838),
   #               ssp = switch(release, "centos7" = 8989, 4949)
@@ -82,11 +79,10 @@ test_in_ssp <- function(
 
 
 test_in_ssossp <- function(
-  dir = "apps",
-  apps = apps_manual(dir),
   app = apps[1],
+  apps = apps_manual,
   type = c("sso", "ssp"),
-  release = c("focal", "bionic", "xenial", "centos7"),
+  release = c("focal", "bionic", "centos7"),
   port_background = switch(type,
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
@@ -98,7 +94,6 @@ test_in_ssossp <- function(
 ) {
   validate_core_pkgs()
 
-  force(dir)
   type <- match.arg(type)
   release <- match.arg(release)
   force(port_background)
@@ -242,9 +237,9 @@ test_in_ssossp <- function(
       app_url = function() {
         paste0("http://", host, ":", port_background, "/", app_name)
       },
-      user_agent = function(user_agent) {
-        app_status_user_agent_browser(user_agent, paste0(type, "_", r_version, "_", release))
-      },
+      # user_agent = function(user_agent) {
+      #   app_status_user_agent_browser(user_agent, paste0(type, "_", r_version, "_", release))
+      # },
       header = function() {
         shiny::tagList(shiny::tags$strong(type, ": "), shiny::tags$code(release), ", ", shiny::tags$code(paste0("r", r_version)))
       }
@@ -252,9 +247,8 @@ test_in_ssossp <- function(
   })
 
   test_in_external(
-    dir = dir,
     app_infos = app_infos,
-    app = normalize_app_name(app_names, app, increment = FALSE),
+    app = resolve_app_name(app),
     host = host,
     port = port
   )
