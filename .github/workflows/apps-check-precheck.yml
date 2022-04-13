@@ -14,7 +14,7 @@ jobs:
       - name: Validate that there are tests for each non-manual app
         shell: bash
         run: |
-          for FOLDER in apps/*; do
+          for FOLDER in inst/apps/*; do
             # If it is a folder...
             if [ -d "$FOLDER" ]; then
               if [ -d "$FOLDER/tests" ] ; then
@@ -45,13 +45,13 @@ jobs:
       #   shell: bash
       #   run: |
       #     # find all files that don't contain a test function
-      #     grep -L "shinytest2::test_app" ./apps/*/tests/*.R | \
+      #     grep -L "shinytest2::test_app" ./inst/apps/*/tests/*.R | \
       #       while read FIL; do
       #         if [[ "$FIL" =~ .*/169-.* ]]; then
       #           echo "skipping 169" > /dev/null
       #         else
       #           echo "Testing file '$FIL' does not contain 'shinytest2::test_app()'"
-      #           echo "See './apps/001-hello/tests' for an example"
+      #           echo "See './inst/apps/001-hello/tests' for an example"
       #           exit 1
       #         fi
       #       done
@@ -61,7 +61,7 @@ jobs:
         shell: bash
         run: |
           # find all app files that don't contain shinyjster parts
-          find ./apps -name "shinyjster-*.R" |
+          find ./inst/apps -name "test-shinyjster.R" |
             while read FIL; do
               if [[ "$FIL" =~ .*/169-.* ]]; then
                 echo "skipping 169" > /dev/null
@@ -121,7 +121,7 @@ jobs:
           for FIL in ${FILES_CHANGED[@]}; do
             echo "Inspecting file: '$FIL'"
             # check if path is in apps
-            if [[ "$FIL" =~ ^"apps" ]]; then
+            if [[ "$FIL" =~ ^"inst/apps" ]]; then
               SUBFIL=$(echo "$FIL" | cut -d/ -f 1-2)
               echo "first two folders of file: '$SUBFIL'"
               if [ -d "$SUBFIL" ]; then
