@@ -1,0 +1,132 @@
+# Cache warming is possible now that cache works for all events using actinos/cache@v2
+# https://github.com/actions/cache/issues/63#issuecomment-629422053
+
+name: Warm library cache
+
+on:
+  push:
+    branches:
+      - deploy_issue_202
+  # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
+  # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
+  schedule:
+    - cron:  '0 2 * * 1-5' # every work night before
+  repository_dispatch:
+    types:
+      - all
+      - warm
+
+jobs:
+  config:
+    uses: ./.github/workflows/ci-config.yml
+
+
+  macos-release:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.release }}
+      os: ${{ needs.config.outputs.macos }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  macos-oldrel-1:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel1 }}
+      os: ${{ needs.config.outputs.macos }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  macos-oldrel-2:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel2 }}
+      os: ${{ needs.config.outputs.macos }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  macos-oldrel-3:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel3 }}
+      os: ${{ needs.config.outputs.macos }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  macos-oldrel-4:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel4 }}
+      os: ${{ needs.config.outputs.macos }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+
+
+  ubuntu-release:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.release }}
+      os: ${{ needs.config.outputs.ubuntu }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  ubuntu-oldrel-1:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel1 }}
+      os: ${{ needs.config.outputs.ubuntu }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  ubuntu-oldrel-2:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel2 }}
+      os: ${{ needs.config.outputs.ubuntu }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  ubuntu-oldrel-3:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel3 }}
+      os: ${{ needs.config.outputs.ubuntu }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  ubuntu-oldrel-4:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel4 }}
+      os: ${{ needs.config.outputs.ubuntu }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+
+
+  windows-release:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.release }}
+      os: ${{ needs.config.outputs.windows }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  windows-oldrel-1:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel1 }}
+      os: ${{ needs.config.outputs.windows }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  windows-oldrel-2:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel2 }}
+      os: ${{ needs.config.outputs.windows }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  windows-oldrel-3:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel3 }}
+      os: ${{ needs.config.outputs.windows }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+  windows-oldrel-4:
+    needs: config
+    uses: ./.github/workflows/ci-warm-cache-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.oldrel4 }}
+      os: ${{ needs.config.outputs.windows }}
+      cache-version: ${{ needs.config.outputs.cache-version }}

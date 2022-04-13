@@ -1,0 +1,134 @@
+on:
+  workflow_call:
+
+name: Pre runtests checks
+
+jobs:
+  config:
+    name: Pre runtests checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: GitHub Pull
+        uses: actions/checkout@v2
+
+      - name: Validate that there are tests for each non-manual app
+        shell: bash
+        run: |
+          for FOLDER in apps/*; do
+            # If it is a folder...
+            if [ -d "$FOLDER" ]; then
+              if [ -d "$FOLDER/tests" ] ; then
+                # Found a tests folder.
+                # Make sure there is an R file
+                if [ -z "$(find $FOLDER/tests/*.R -type f 2>/dev/null)" ]; then
+                  echo "No ./$FOLDER/tests/*.R files found"
+                  echo "Either add tests by calling \`shinycoreci::use_tests_*('$FOLDER')\`"
+                  echo "Or set to manual by calling \`shinycoreci::use_manual_app('$FOLDER')\`"
+                  exit 1;
+                fi
+              else
+                # Test for manual app
+                grep -q "shinycoreci::::is_manual_app" `find $FOLDER -type f -maxdepth 1`
+                # If no matches were found...
+                if [ $? == 1 ]; then
+                  echo "No ./$FOLDER/tests folder found for non-manual app."
+                  echo "Either add tests by calling \`shinycoreci::use_tests_*('$FOLDER')\`"
+                  echo "Or set to manual by calling \`shinycoreci::use_manual_app('$FOLDER')\`"
+                  exit 1;
+                fi
+              fi
+            fi
+          done
+
+      ## TODO-barret; undo when shinyjster is converted to use testthat in followup PR
+      # - name: Validate all test files contain 'shinytest2::test_app()'
+      #   shell: bash
+      #   run: |
+      #     # find all files that don't contain a test function
+      #     grep -L "shinytest2::test_app" ./apps/*/tests/*.R | \
+      #       while read FIL; do
+      #         if [[ "$FIL" =~ .*/169-.* ]]; then
+      #           echo "skipping 169" > /dev/null
+      #         else
+      #           echo "Testing file '$FIL' does not contain 'shinytest2::test_app()'"
+      #           echo "See './apps/001-hello/tests' for an example"
+      #           exit 1
+      #         fi
+      #       done
+      #     echo 'Validated that test files contain shinytest2::test_app()'
+
+      - name: Validate all shinyjster based apps are integrated
+        shell: bash
+        run: |
+          # find all app files that don't contain shinyjster parts
+          find ./apps -name "shinyjster-*.R" |
+            while read FIL; do
+              if [[ "$FIL" =~ .*/169-.* ]]; then
+                echo "skipping 169" > /dev/null
+              else
+                folder_up=`dirname $FIL`
+                if [[ "`basename $folder_up`" -eq "tests" ]]; then
+                  app_folder=`dirname $folder_up`
+
+                  if grep -q -r $app_folder/*.R* -e "shinyjster_server("; then
+                    echo "found regex" > /dev/null
+                  else
+                    echo "Testing app '$app_folder' did not contain 'shinyjster_server(' but contains a shinyjster test file"
+                    exit 1
+                  fi
+
+                  if grep -q -r $app_folder/*.R* -e "shinyjster_js("; then
+                    echo "found regex" > /dev/null
+                  else
+                    echo "Testing app '$app_folder' did not contain 'shinyjster_js(' but contains a shinyjster test file"
+                    exit 1
+                  fi
+                fi
+              fi
+            done
+          echo 'Validated that test files contain all shinyjster requirements'
+
+      # - name: Validate no shinytest `*-current` or `*-expected` folders exist
+      #   shell: bash
+      #   run: |
+      #     for FOLDER in '*-current' '*-expected'; do
+      #       find . -name "$FOLDER" > _folders_found.txt
+      #       if [ -s _folders_found.txt ]
+      #       then
+      #         echo "Found shinytest folder with regex: '$FOLDER'"
+      #         cat _folders_found.txt
+      #         exit 1;
+      #       fi
+      #       echo "Validated that no shinytest $FOLDER folders exist"
+      #     done
+
+      - name: Collect changed file names
+        if: github.event_name == 'pull_request'
+        id: files_changed
+        uses: Ana06/get-changed-files@v2.0.0
+        with:
+          format: 'json'
+          filter: '*'
+
+      - name: Validate >= 1 Shiny app file is altered
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          # It is possible that a file contains a space, use json to parse the array
+          readarray -t FILES_CHANGED <<<"$(jq -r '.[]' <<<'${{ steps.files_changed.outputs.added_modified }}')"
+          # maintain that the file names are quoted by using [@]
+          echo Files modified or changed: $FILES_CHANGED
+          for FIL in ${FILES_CHANGED[@]}; do
+            echo "Inspecting file: '$FIL'"
+            # check if path is in apps
+            if [[ "$FIL" =~ ^"apps" ]]; then
+              SUBFIL=$(echo "$FIL" | cut -d/ -f 1-2)
+              echo "first two folders of file: '$SUBFIL'"
+              if [ -d "$SUBFIL" ]; then
+                echo 'At least 1 Shiny app folder was altered. Returning early'
+                exit 0
+              fi
+            fi
+          done
+          echo 'No apps folders added or modified'
+          exit 1
