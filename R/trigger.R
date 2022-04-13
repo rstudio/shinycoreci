@@ -3,23 +3,21 @@
 #' @description This function uses the GitHub API to create a [repository
 #'   dispatch
 #'   event](https://developer.github.com/v3/repos/#create-a-repository-dispatch-event)
-#'    that can trigger workflows. Currently, the `testthat.yml` workflow
-#'   registers itself for the `shinytest-apps` event, and so can be initiated by
-#'   running this function with an `event_type` of "shinytest-apps".
+#'    that can trigger workflows.
 #'
 #' @param event_type The name of the event to create on the repository
 #' @param repo The GitHub repo to create the event on; defaults to
-#'   rstudio/shinycoreci-apps
+#'   rstudio/shinycoreci
 #' @param client_payload The JSON object to make available in the workflow as
 #'   the `github.event.client_payload` object
-#' @param auth_token Your GitHub OAuth2 token; defaults to
+#' @param auth_token Your GitHub **P**ersonal **A**ccess **T**oken; defaults to
 #'   `Sys.getenv("GITHUB_PAT")`
 #'
 #' @export
 #' @rdname trigger
 trigger <- function(
   event_type,
-  repo = "rstudio/shinycoreci-apps",
+  repo = "rstudio/shinycoreci",
   client_payload = list(),
   auth_token = Sys.getenv("GITHUB_PAT")
 ) {
@@ -43,7 +41,7 @@ trigger <- function(
 #' @export
 #' @rdname trigger
 trigger_deploy <- function(
-  repo = "rstudio/shinycoreci-apps",
+  repo = "rstudio/shinycoreci",
   auth_token = Sys.getenv("GITHUB_PAT")
 ) {
   trigger("deploy", repo = repo, auth_token = auth_token)
@@ -52,7 +50,7 @@ trigger_deploy <- function(
 #' @export
 #' @rdname trigger
 trigger_docker <- function(
-  repo = "rstudio/shinycoreci-apps",
+  repo = "rstudio/shinycoreci",
   auth_token = Sys.getenv("GITHUB_PAT")
 ) {
   trigger("docker", repo = repo, auth_token = auth_token)
