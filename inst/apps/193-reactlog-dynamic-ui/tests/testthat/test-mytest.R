@@ -1,6 +1,25 @@
 library(shinytest2)
 
+# What is being tested is if shiny is capturing all of the dynamic inputs/outputs
+# 191-reactlog-pythagoras tests on all platforms and r versions, so that functionality is covered
+
+# Only run these tests on mac + r-release
+# (To reduce the amount of screenshot diffing noise)
+release <- rversions::r_release()$version
+release <- paste0(
+  strsplit(release, ".", fixed = TRUE)[[1]][1:2],
+  collapse = "."
+)
+if (!identical(paste0("mac-", release), shinytest2::platform_variant())) {
+  skip("Not mac + r-release")
+}
+if (length(dir("_snaps")) > 1) {
+  stop("More than 1 _snaps folder found!")
+}
+
+
 test_that("Migrated shinytest test: mytest.R", {
+
   app <- AppDriver$new(variant = shinytest2::platform_variant(),
     seed = 100, shiny_args = list(display.mode = "normal"))
 

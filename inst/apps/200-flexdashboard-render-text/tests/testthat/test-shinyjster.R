@@ -1,3 +1,3 @@
-skip_if(shinycoreci::platform() != "win")
+skip_if(.Platform$OS.type != "windows")
 
 shinyjster::testthat_shinyjster()

@@ -8,7 +8,7 @@ striped_code <- reactive({
   if (striped() != FALSE) {
     code <- paste0(",&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   &nbsp;&nbsp;&nbsp;&nbsp;striped = ", 
+                   &nbsp;&nbsp;&nbsp;&nbsp;striped = ",
                    striped())
   }
   return(code)
@@ -20,7 +20,7 @@ bordered_code <- reactive({
     if (striped_code() == "") {
       code <- paste0(",&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     &nbsp;&nbsp;&nbsp;&nbsp;bordered = ", 
+                     &nbsp;&nbsp;&nbsp;&nbsp;bordered = ",
                      bordered())
     } else code <- paste0(", bordered = ", bordered())
   }
@@ -32,7 +32,7 @@ hover_code <- reactive({
   if (hover() != FALSE) {
     code <- paste0(",&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   &nbsp;&nbsp;&nbsp;&nbsp;hover = ", 
+                   &nbsp;&nbsp;&nbsp;&nbsp;hover = ",
                    hover())
   }
   return(code)
@@ -44,7 +44,7 @@ spacing_code <- reactive({
     if (hover_code() == "") {
       code <- paste0(",&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     &nbsp;&nbsp;&nbsp;&nbsp;spacing = '", 
+                     &nbsp;&nbsp;&nbsp;&nbsp;spacing = '",
                      spacing(), "'")
     } else code <- paste0(", spacing = '", spacing(), "'")
   }
@@ -56,7 +56,7 @@ width_code <- reactive({
   if (width() != "auto") {
     code <- paste0(",&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   &nbsp;&nbsp;&nbsp;&nbsp;width = '", 
+                   &nbsp;&nbsp;&nbsp;&nbsp;width = '",
                    width(), "'")
   }
   return(code)
@@ -80,7 +80,7 @@ rownames_code <- reactive({
   if (rownames() != FALSE) {
     code <- paste0(",&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   &nbsp;&nbsp;&nbsp;&nbsp;rownames = ", 
+                   &nbsp;&nbsp;&nbsp;&nbsp;rownames = ",
                    rownames())
   }
   return(code)
@@ -92,7 +92,7 @@ colnames_code <- reactive({
     if (rownames_code() == "") {
       code <- paste0(",&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     &nbsp;&nbsp;&nbsp;&nbsp;colnames = ", 
+                     &nbsp;&nbsp;&nbsp;&nbsp;colnames = ",
                      colnames())
     } else code <- paste0(", colnames = ", colnames())
   }
@@ -104,7 +104,7 @@ digits_code <- reactive({
   if (deparse(digits()) != "NULL") {
     code <- paste0(",&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   &nbsp;&nbsp;&nbsp;&nbsp;digits = ", 
+                   &nbsp;&nbsp;&nbsp;&nbsp;digits = ",
                    digits())
   }
   return(code)
@@ -116,7 +116,7 @@ na_code <- reactive({
     if (digits_code() == "") {
       code <- paste0(",&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     &nbsp;&nbsp;&nbsp;&nbsp;na = '", 
+                     &nbsp;&nbsp;&nbsp;&nbsp;na = '",
                      na(), "'")
     } else code <- paste0(", na = '", na(), "'")
   }

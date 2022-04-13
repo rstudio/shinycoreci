@@ -2,7 +2,7 @@
 
 library(shiny)
 
-if (shinycoreci::platform() == "win") {
+if (.Platform$OS.type == "windows") {
   # Windows does not like UTF-8
   items <- c("aa", "bb", "AA", "BB", "a_", "b_", "_A", "_B")
   items_expected <- c("AA", "BB", "_A", "_B", "a_", "aa", "b_", "bb")
