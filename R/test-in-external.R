@@ -2,9 +2,8 @@
 
 
 test_in_external <- function(
-  dir,
   app_infos,
-  app,
+  default_app_name = 1,
   host = "127.0.0.1",
   port = 8080
 ) {
@@ -31,19 +30,19 @@ test_in_external <- function(
     }
   }
 
-  app_names <- vapply(app_infos, `[[`, character(1), "app_name")
-  if (any(duplicated(app_names))) {
-    utils::str(app_names[duplicated(app_names)])
+  external_app_names <- vapply(app_infos, `[[`, character(1), "app_name")
+  if (any(duplicated(external_app_names))) {
+    utils::str(external_app_names[duplicated(external_app_names)])
     stop("Not all app names are unique!")
   }
-  names(app_infos) <- app_names
+  names(app_infos) <- external_app_names
 
   # double check that the remaining values exist as functions
   lapply(app_infos, function(app_info) {
     app_info_names <- names(app_info)
     for (
       name_val in c(
-        "user_agent",
+        # "user_agent",
         "start",
         "on_session_ended",
         "output_lines",
@@ -70,28 +69,29 @@ test_in_external <- function(
         class = "apps_dir",
         shiny::uiOutput("header")
       ),
-      shiny::selectizeInput("app_name", NULL, app_names, selected = basename(app)),
+      shiny::selectizeInput("app_name", NULL, external_app_names, selected = resolve_app_name(default_app_name)),
       shiny::tags$div(
         class = "button_container",
         shiny::uiOutput("jster_button"),
         shiny::uiOutput("solo"),
         shiny::actionButton("refresh", "Refresh", class = "refresh_button"),
-        shiny::actionButton("reject", "Reject", class = "reject_button"),
-        shiny::actionButton("accept", "Accept!", class = "accept_button"),
+        shiny::actionButton("next", "Next", class = "next_button"),
+        # shiny::actionButton("reject", "Reject", class = "reject_button"),
+        # shiny::actionButton("accept", "Accept!", class = "accept_button"),
       ),
       shiny::verbatimTextOutput("server_output"),
-      shiny::tags$script("
-        $(function() {
-          var wait = function() {
-            if (Shiny.setInputValue) {
-              Shiny.setInputValue('user_agent', window.navigator.userAgent);
-              return;
-            }
-            setTimeout(wait, 10);
-          }
-          wait();
-        })
-      ")
+      # shiny::tags$script("
+      #   $(function() {
+      #     var wait = function() {
+      #       if (Shiny.setInputValue) {
+      #         Shiny.setInputValue('user_agent', window.navigator.userAgent);
+      #         return;
+      #       }
+      #       setTimeout(wait, 10);
+      #     }
+      #     wait();
+      #   })
+      # ")
     ),
 
     shiny::fixedPanel(
@@ -185,7 +185,7 @@ test_in_external <- function(
       if (identical(input$app_name, "")) {
         shiny::req(FALSE)
       }
-      if (! input$app_name %in% app_names) {
+      if (! input$app_name %in% external_app_names) {
         message("incorrect app name: '", input$app_name, "'")
         shiny::req(FALSE)
       }
@@ -203,44 +203,55 @@ test_in_external <- function(
 
     output_lines <- shiny::reactiveVal()
 
-    user_agent <- shiny::reactive({
-      shiny::req(input$user_agent)
-      app_info()$user_agent(input$user_agent)
-    })
-    # observe right here to save the value once user_agent is valid.
-    shiny::observe({
-      app_status_init(dir, user_agent())
-    })
+    # user_agent <- shiny::reactive({
+    #   shiny::req(input$user_agent)
+    #   app_info()$user_agent(input$user_agent)
+    # })
+    # # observe right here to save the value once user_agent is valid.
+    # shiny::observe({
+    #   app_status_init(dir, user_agent())
+    # })
 
     go_to_next_app <- function() {
       # get next app
-      app_pos <- which(app_names == app_name()) + 1
+      app_pos <- which(external_app_names == app_name()) + 1
       shiny::updateSelectizeInput(
         session,
         "app_name",
-        selected = app_names[app_pos]
+        selected = external_app_names[app_pos]
       )
     }
 
     shiny::observeEvent({input$accept}, {
       message("PASS ", app_name())
-      app_status_save(
-        app_dir = file.path(dir, app_name()),
-        pass = TRUE,
-        log = output_lines(),
-        user_agent = user_agent()
-      )
+      # app_status_save(
+      #   app_dir = file.path(dir, app_name()),
+      #   pass = TRUE,
+      #   log = output_lines(),
+      #   user_agent = user_agent()
+      # )
       go_to_next_app()
     })
 
     shiny::observeEvent({input$reject}, {
       message("FAIL ", app_name())
-      app_status_save(
-        app_dir = file.path(dir, app_name()),
-        pass = FALSE,
-        log = output_lines(),
-        user_agent = user_agent()
-      )
+      # app_status_save(
+      #   app_dir = file.path(dir, app_name()),
+      #   pass = FALSE,
+      #   log = output_lines(),
+      #   user_agent = user_agent()
+      # )
+      go_to_next_app()
+    })
+
+    shiny::observeEvent({input[["next"]]}, {
+      message("DONE WITH APP: ", app_name())
+      # app_status_save(
+      #   app_dir = file.path(dir, app_name()),
+      #   pass = FALSE,
+      #   log = output_lines(),
+      #   user_agent = user_agent()
+      # )
       go_to_next_app()
     })
 
@@ -294,6 +305,8 @@ test_in_external <- function(
     })
 
     output$solo <- shiny::renderUI({
+      app_has_started()
+
       shiny::tags$a(
         class = "btn btn-default solo_button",
         href = app_info()$app_url(),
@@ -313,7 +326,7 @@ test_in_external <- function(
 
     output$jster_button <- shiny::renderUI({
       # try to find all shinyjster apps. Use `browser = 'external'` to not match any jster flags and return all possible apps
-      if (app_info()$app_name %in% apps_shinyjster(dir)) {
+      if (app_has_shinyjster(app_info()$app_name)) {
         shiny::tags$a(
           class = "btn btn-default jster_button",
           href = paste0(app_info()$app_url(), "?shinyjster=1"),
