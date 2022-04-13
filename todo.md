@@ -47,6 +47,8 @@
   - [ ] 301-bs-themes
   - [ ] 302-bootswatch-themes
 
+- [ ] Reduce app name size to have files be under 100bytes
+
 # Done
 - [x] `deploy_apps()`
 - [x] `view_test_images()`
