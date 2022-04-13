@@ -1,0 +1,112 @@
+---
+### Keep this line to manually test this shiny application. Do not edit this line; shinycoreci::::is_manual_app
+### Keep this line to NOT test this shiny application with shinycoreci::test_shinyjster with IE. Do not edit this line; shinycoreci::::not_jster_app_ie
+title: "Subapp test"
+output: html_document
+runtime: shiny
+---
+
+Check the 3 items below. Also, verify that the page survives three reloads.
+
+(1 of 3) Verify that a selectize input and summary output appear below.
+
+```{r echo=FALSE}
+ui <- fluidPage(
+  selectInput("select", "Select dataset", ls("package:datasets")),
+  verbatimTextOutput("summary")
+)
+
+server <- function(input, output, session) {
+  output$summary <- renderPrint({
+    summary(get(input$select, pos = "package:datasets", inherits = FALSE))
+  })
+}
+
+shinyApp(ui, server)
+```
+
+(2 of 3) Verify that "Hello World" appears on a pink background.
+
+```{r}
+shinyAppDir("app2")
+```
+
+(3 of 3) Verify that you see a leaflet map with markers (and no tiles).
+
+```{r}
+shinyAppDir("app3")
+```
+
+```{r, echo = FALSE}
+shinyjster::shinyjster_js("
+  var jst = jster();
+  jst.add(Jster.shiny.waitUntilStable);
+
+  jst.add(function(done) {
+    var wait = function() {
+      var app1 = $($('iframe').get(0)).contents();
+      var summary = app1.find('#summary').text().trim();
+      if (summary.length == 0) {
+        setTimeout(wait, 100);
+      } else {
+        done();
+      }
+    };
+    wait();
+  })
+  jst.add(function() {
+    var app1 = $($('iframe').get(0)).contents();
+    var summary = app1.find('#summary').text().trim();
+    Jster.assert.isEqual(
+      summary.replace(/\\n/g, '-'),
+      'Length Class  Mode   -cov    36     -none- numeric-center  6     -none- numeric-n.obs   1     -none- numeric');
+  });
+
+
+  jst.add(function(done) {
+    var wait = function() {
+      var app2 = $($('iframe').get(1)).contents();
+      var summary = app2.text().trim();
+      if (summary.length == 0) {
+        setTimeout(wait, 100);
+      } else {
+        done();
+      }
+    };
+    wait();
+  })
+  jst.add(function() {
+    var app2 = $($('iframe').get(1)).contents();
+    var summary = app2.text().trim();
+    Jster.assert.isEqual(
+      summary,
+      'Hello, world!');
+  });
+
+
+  jst.add(function(done) {
+    var wait = function() {
+      var app3 = $($('iframe').get(2)).contents();
+      var map = app3.find('.leaflet-map-pane');
+      if (map.length == 0) {
+        setTimeout(wait, 100);
+      } else {
+        done();
+      }
+    };
+    wait();
+  })
+  jst.add(function() {
+    var app3 = $($('iframe').get(2)).contents();
+    var zoombutton = app3.find('.leaflet-control-zoom-in');
+    Jster.assert.isTrue(
+      zoombutton.length == 1,
+      {length: zoombutton.length});
+  });
+
+
+  jst.test();
+")
+shinyjster::shinyjster_server(input, output)
+
+```

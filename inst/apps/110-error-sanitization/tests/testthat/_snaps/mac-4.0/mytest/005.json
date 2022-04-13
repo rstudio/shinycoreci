@@ -1,0 +1,37 @@
+{
+  "input": {
+    "dataset": "rock",
+    "nTab1": null,
+    "nTab2": null,
+    "safe": "FALSE",
+    "sanitize": "TRUE",
+    "show": 0,
+    "tabset": "Using safeError()"
+  },
+  "output": {
+    "accidentalError": {
+      "message": "An error has occurred. Check your logs or contact the app author for clarification.",
+      "call": "NULL",
+      "type": null
+    },
+    "code": "<code>options(shiny.sanitize.errors = TRUE)<\/code>",
+    "intentionalError": {
+      "message": "An error has occurred. Check your logs or contact the app author for clarification.",
+      "call": "NULL",
+      "type": null
+    },
+    "safeErrorAccidentalError": {
+      "message": "non-numeric argument to binary operator",
+      "call": "as.character(n) * 100",
+      "type": "shiny.custom.error"
+    },
+    "safeErrorIntentionalError": {
+      "message": "the user should see this no matter what",
+      "call": "NULL",
+      "type": "shiny.custom.error"
+    }
+  },
+  "export": {
+
+  }
+}

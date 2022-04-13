@@ -1,0 +1,97 @@
+{
+  "input": {
+    "a_annual_inf_std_dev": 1.5,
+    "a_annual_inflation": 2.5,
+    "a_annual_mean_return": 5,
+    "a_annual_ret_std_dev": 7,
+    "a_monthly_withdrawals": 10000,
+    "a_n_obs": 20,
+    "a_n_sim": 200,
+    "a_recalc": 0,
+    "a_start_capital": 2000000,
+    "b_annual_inf_std_dev": 1.5,
+    "b_annual_inflation": 2.5,
+    "b_annual_mean_return": 5,
+    "b_annual_ret_std_dev": 7,
+    "b_monthly_withdrawals": 10000,
+    "b_n_obs": 20,
+    "b_n_sim": 200,
+    "b_recalc": 0,
+    "b_start_capital": 2000000
+  },
+  "output": {
+    "a_distPlot": {
+      "src": "[image data sha1: 56f4ae9ebacda2ee2e479d92a55111c12d8d8374]",
+      "width": 466,
+      "height": 600,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -0.0967488914035232,
+              "right": 2.5154711764916,
+              "bottom": -0.0304267210039684,
+              "top": 0.978837095494417
+            },
+            "range": {
+              "left": 282.00321051571,
+              "right": 440.900794613904,
+              "bottom": 538.044789840798,
+              "top": 348.003208167201
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 466,
+          "height": 600
+        }
+      }
+    },
+    "b_distPlot": {
+      "src": "[image data sha1: 6d28de1a231279e0b01130b51fc38160f58448f9]",
+      "width": 466,
+      "height": 600,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -0.105993691319606,
+              "right": 2.75583597430976,
+              "bottom": -0.011873474643108,
+              "top": 0.874161510304461
+            },
+            "range": {
+              "left": 282.00321051571,
+              "right": 440.900794613904,
+              "bottom": 538.044789840798,
+              "top": 348.003208167201
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 466,
+          "height": 600
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "input": {
+    "n": 20,
+    "text": "hello world"
+  },
+  "output": {
+    "plot1": {
+      "src": "[image data sha1: f7d9bd049f3c06761525e40ca7c607326ca5f980]",
+      "width": 400,
+      "height": 300,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -4.24,
+              "right": 2.24,
+              "bottom": -0.24,
+              "top": 6.24
+            },
+            "range": {
+              "left": 59.0400147600036,
+              "right": 369.759992439998,
+              "bottom": 225.559975519992,
+              "top": 58.0400196800065
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 400,
+          "height": 300
+        }
+      }
+    },
+    "textout": "Input text is: hello world"
+  },
+  "export": {
+
+  }
+}

@@ -1,0 +1,272 @@
+---
+title: "Shiny Location Kitchen Sink"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    resize_reload: false
+runtime: shiny
+---
+
+```{r}
+library(flexdashboard)
+library(shiny)
+```
+
+# Inputs: `r renderText({getmonth()})` {.sidebar}
+
+```{r}
+selectInput(
+  "month",
+  label = "Pick a Month",
+  choices = month.abb,
+  selected = month.abb[2]
+)
+getmonth <- reactive({
+  input$month
+})
+```
+
+<div id="sidebarContent">
+
+Sidebar Content: `r renderText(getmonth())`
+
+</div>
+
+```{r}
+shinyjster::shinyjster_server(input, output, session)
+shinyjster::shinyjster_js("
+  var jst = jster(1);
+  function assert_equal(id, txt) {
+    assert_equal_qs('#section-' + id, txt);
+  }
+  function assert_equal_qs(qs, txt) {
+    jst.add(function() {
+      var el = $(qs);
+      Jster.assert.isEqual(
+        el.text().trim(),
+        txt,
+        {query_string: qs, element: el}
+      );
+    })
+  }
+
+  function assert_page(idx, month) {
+    jst.add(Jster.shiny.waitUntilStable);
+
+    jst.add(function() {
+      // make sure on first page
+      $('a[href=\"#section-p1\"]').click();
+    });
+    jst.add(function() {
+      // make sure first tab is displayed
+      $('a[href=\"#section-tab1\"]').click();
+    });
+    jst.add(Jster.shiny.waitUntilStable);
+
+    jst.add(function() {
+      Jster.selectize.click('month');
+    });
+    jst.add(Jster.shiny.waitUntilStable);
+    jst.add(function() {
+      Jster.selectize.clickOption('month', idx);
+    });
+
+    // Can not use wait until idle for 1000 with flexdashboard
+    jst.add(Jster.shiny.waitUntilStable);
+    jst.add(Jster.shiny.waitUntilStable);
+    jst.add(Jster.shiny.waitUntilStable);
+    jst.add(Jster.shiny.waitUntilStable);
+    jst.add(Jster.shiny.waitUntilStable);
+    jst.add(Jster.shiny.waitUntilStable);
+
+    assert_equal_qs('a[href=\"#section-p1\"]', 'Page 1: ' + month);
+    assert_equal_qs('a[href=\"#section-p2\"]', 'Page 2: ' + month);
+    assert_equal('sidebarContent', 'Sidebar Content: ' + month);
+
+    assert_equal_qs('#section-hidden1 .value-output', 'VB1: ' + month);
+    assert_equal_qs('#section-hidden2 .value-output', 'VB2: ' + month);
+    assert_equal_qs('#section-hidden3 .value-output', 'VB3: ' + month);
+
+    assert_equal_qs('#section-row2_plotly .chart-title', 'Row 2 Plotly Title: ' + month);
+    assert_equal_qs('#section-row2_plotly p', 'Row 2 Plotly Content: ' + month);
+    assert_equal_qs('#section-row2_plotly .chart-notes', 'Plotly Caption: ' + month);
+    assert_equal_qs('#section-row2_plotly svg .gtitle', month);
+
+    assert_equal_qs('#section-row2_shiny .chart-title', 'Row 2 Shiny Title: ' + month);
+    assert_equal_qs('#section-row2_shiny p', 'Row 2 Shiny Content: ' + month);
+    assert_equal_qs('#section-row2_shiny .chart-notes', 'Shiny Caption: ' + month);
+    jst.add(function() {
+      Jster.assert.isEqual(
+        $('#section-row2_shiny img').attr('alt'),
+        'Shiny plot alt text: ' + month,
+        {query_string: \"$('#section-row2_shiny img').attr('alt')\", element: $('#section-row2_shiny img')}
+      );
+    })
+
+    assert_equal_qs('a[href=\"#section-tab1\"]', 'Tab 1 Title: ' + month);
+    assert_equal_qs('#section-tab1 p', 'Tab 1 Content: ' + month);
+
+    jst.add(function() {
+      $('a[href=\"#section-tab2\"]').click();
+    });
+    jst.add(Jster.shiny.waitUntilStable);
+
+    assert_equal_qs('a[href=\"#section-tab2\"]', 'Tab 2 Title: ' + month);
+    assert_equal_qs('#section-tab2 p', 'Tab 2 Content: ' + month);
+
+    // test second page
+    jst.add(function() {
+      $('a[href=\"#section-p2\"]').click();
+    });
+    jst.add(function() {
+      $('a[href=\"#section-p2t1\"]').click();
+    });
+    jst.add(Jster.shiny.waitUntilStable);
+
+    assert_equal_qs('#section-p2r1 .chart-title', 'P2R1 Title: ' + month);
+    assert_equal_qs('#section-p2r1 p', 'P2R1 Content: ' + month);
+
+    assert_equal_qs('#section-p2r1_plot .chart-title', 'P2R1 plot Title: ' + month);
+    assert_equal_qs('#section-p2r1_plot p', 'P2R1 plot Content: ' + month);
+    assert_equal_qs('#section-p2r1_plot .chart-notes', 'Plot Caption: ' + month);
+
+    assert_equal_qs('a[href=\"#section-p2t1\"]', 'P2T1 Title: ' + month);
+    assert_equal_qs('#section-p2t1 p', 'P2T1 Content: ' + month);
+
+    jst.add(function() {
+      $('a[href=\"#section-p2t2\"]').click();
+    });
+    jst.add(Jster.shiny.waitUntilStable);
+    assert_equal_qs('a[href=\"#section-p2t2\"]', 'P2T2 Title: ' + month);
+    assert_equal_qs('#section-p2t2 p', 'P2T2 Content: ' + month);
+  }
+
+  assert_page(1, 'Feb');
+  assert_page(5, 'Jun');
+
+  jst.test();
+")
+```
+
+
+# Page 1: `r renderText({getmonth()})` {id=p1}
+
+
+Row
+-------------------------------------
+
+### Hidden title 1 {id=hidden1}
+
+```{r}
+renderValueBox({
+  valueBox({paste0("VB1: ", getmonth())}, "Value Box 1")
+})
+```
+
+### Hidden title 2 {id=hidden2}
+
+```{r}
+renderValueBox({
+  valueBox({paste0("VB2: ", getmonth())}, "Value Box 2")
+})
+```
+
+### Hidden title 3 {id=hidden3}
+
+```{r}
+renderValueBox({
+  valueBox({paste0("VB3: ", getmonth())}, "Value Box 3")
+})
+```
+
+Row
+-------------------------------------
+
+### Row 2 Plotly Title:  `r renderText(getmonth())` {id=row2_plotly}
+
+Row 2 Plotly Content: `r renderText(getmonth())`
+
+```{r}
+library(plotly)
+renderPlotly({
+  cars %>%
+    plot_ly(x = ~ speed, y = ~ dist) %>%
+    add_markers() %>%
+    layout(title = getmonth())
+})
+```
+
+> Plotly Caption: `r renderText(getmonth())`
+
+### Row 2 Shiny Title:  `r renderText(getmonth())` {id=row2_shiny}
+
+Row 2 Shiny Content: `r renderText(getmonth())`
+
+```{r}
+renderPlot({
+  plot(cars, main = getmonth())
+}, alt = reactive({ paste0("Shiny plot alt text: ", getmonth()) }) )
+
+```
+
+> Shiny Caption: `r renderText(getmonth())`
+
+
+
+Row {.tabset}
+-------------------------------------
+
+### Tab 1 Title:  `r renderText(getmonth())` {id=tab1}
+
+Tab 1 Content: `r renderText(getmonth())`
+
+```{r}
+knitr::kable(mtcars)
+```
+
+### Tab 2 Title:  `r renderText(getmonth())` {id=tab2}
+
+Tab 2 Content: `r renderText(getmonth())`
+
+```{r}
+renderTable({
+  head(mtcars, n = 12)
+})
+```
+
+
+# Page 2: `r renderText({getmonth()})` {id=p2}
+
+
+Row
+-------------------------------------
+
+### P2R1 Title:  `r renderText(getmonth())` {id=p2r1}
+
+P2R1 Content: `r textOutput("p2r1content", inline = TRUE)`
+
+```{r}
+output$p2r1content <- renderText(getmonth())
+```
+
+### P2R1 plot Title:  `r renderText(getmonth())` {id=p2r1_plot}
+
+P2R1 plot Content: `r renderText(getmonth())`
+
+```{r, fig.width=10, fig.height=7}
+plot(ldeaths, main = "Static title")
+```
+
+> Plot Caption: `r renderText(getmonth())`
+
+
+Row {.tabset}
+-------------------------------------
+
+### P2T1 Title:  `r renderText(getmonth())` {id=p2t1}
+
+P2T1 Content: `r renderText(getmonth())`
+
+### P2T2 Title:  `r renderText(getmonth())` {id=p2t2}
+
+P2T2 Content: `r renderText(getmonth())`

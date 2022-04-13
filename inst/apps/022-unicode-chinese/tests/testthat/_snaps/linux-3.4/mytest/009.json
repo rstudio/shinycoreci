@@ -1,0 +1,51 @@
+{
+  "input": {
+    "dataset": "cars",
+    "obs": 8,
+    "summary": false,
+    "vars": "渗透性"
+  },
+  "output": {
+    "rockplot": {
+      "src": "[image data sha1: 5d95bd50e61c0be91441bda5e230c5410c64574d]",
+      "width": 631,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -45.448,
+              "right": 1351.748,
+              "bottom": 568.16,
+              "top": 12659.84
+            },
+            "range": {
+              "left": 57.6,
+              "right": 629.56,
+              "bottom": 341.4,
+              "top": 0.440000000000019
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 631,
+          "height": 400
+        }
+      }
+    },
+    "rockvars": null,
+    "summary这里也可以用中文": "数据概要信息被隐藏了！",
+    "view": "<table  class = 'table shiny-table table- spacing-s' style = 'width:auto;'>\n<thead> <tr> <th style='text-align: right;'> speed <\/th> <th style='text-align: right;'> dist <\/th> <th style='text-align: left;'> random <\/th>  <\/tr> <\/thead> <tbody>\n  <tr> <td align=\"right\"> 4.00 <\/td> <td align=\"right\"> 2.00 <\/td> <td> 放 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 4.00 <\/td> <td align=\"right\"> 10.00 <\/td> <td> 放 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 7.00 <\/td> <td align=\"right\"> 4.00 <\/td> <td> 些 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 7.00 <\/td> <td align=\"right\"> 22.00 <\/td> <td> 随 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 8.00 <\/td> <td align=\"right\"> 16.00 <\/td> <td> 些 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 9.00 <\/td> <td align=\"right\"> 10.00 <\/td> <td> 些 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 10.00 <\/td> <td align=\"right\"> 18.00 <\/td> <td> 字 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 10.00 <\/td> <td align=\"right\"> 26.00 <\/td> <td> 一 <\/td> <\/tr>\n   <\/tbody> <\/table>"
+  },
+  "export": {
+
+  }
+}

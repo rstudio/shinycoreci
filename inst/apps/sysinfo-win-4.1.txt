@@ -1,0 +1,171 @@
+Image Version:  20211219.1 
+osVersion: Windows Server x64 (build 17763)
+--------------------------------------------------------------------------------
+ setting  value
+ version  R version 4.1.2 (2021-11-01)
+ os       Windows Server x64 (build 17763)
+ system   x86_64, mingw32
+ ui       RTerm
+ language (EN)
+ collate  English_United States.1252
+ ctype    English_United States.1252
+ tz       UTC
+ date     2022-01-10
+ pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
+--------------------------------------------------------------------------------
+              Package    Version Source     SHA          Ref
+1         AsioHeaders   1.16.1-1   CRAN                     
+2             askpass        1.1   CRAN                     
+3          assertthat      0.2.1   CRAN                     
+4           backports      1.4.1   CRAN                     
+5           base64enc      0.1-3   CRAN                     
+6              bitops      1.0-7   CRAN                     
+7                brio      1.1.3   CRAN                     
+8               bslib 0.3.1.9000    Git 888fbe0        /main
+9              cachem 1.0.6.9000    Git f5ea146        /main
+10              callr      3.7.0   CRAN                     
+11          checkmate      2.0.0   CRAN                     
+12                cli      3.1.0   CRAN                     
+13         colorspace      2.0-2   CRAN                     
+14         commonmark        1.7   CRAN                     
+15              cpp11      0.4.2   CRAN                     
+16             crayon      1.4.2   CRAN                     
+17          crosstalk 1.2.0.9000    Git 8128ef3        /main
+18               curl      4.3.2   CRAN                     
+19         data.table     1.14.2   CRAN                     
+20                DBI      1.1.2   CRAN                     
+21            debugme      1.1.0   CRAN                     
+22               desc      1.4.0   CRAN                     
+23            diffobj      0.3.5   CRAN                     
+24             digest     0.6.29   CRAN                     
+25              dplyr      1.0.7   CRAN                     
+26                 DT     0.20.1    Git 24565b5        /main
+27           ellipsis      0.3.2   CRAN                     
+28            english      1.2-6   CRAN                     
+29           evaluate       0.14   CRAN                     
+30              fansi      1.0.0   CRAN                     
+31             farver      2.1.0   CRAN                     
+32            fastmap 1.1.0.9000    Git d2722e7        /main
+33           filelock      1.0.2   CRAN                     
+34      flexdashboard 0.5.2.9000    Git 33458ea        /main
+35        fontawesome 0.2.2.9000    Git a442d71        /main
+36                 fs      1.5.2   CRAN                     
+37           generics      0.1.1   CRAN                     
+38            ggplot2      3.3.5   CRAN                     
+39               glue      1.6.0   CRAN                     
+40          gridExtra        2.3   CRAN                     
+41                 gt      0.3.1   CRAN                     
+42             gtable      0.3.0   CRAN                     
+43              highr        0.9   CRAN                     
+44                hms      1.1.1   CRAN                     
+45          htmltools 0.5.2.9000    Git 9490b62        /main
+46        htmlwidgets      1.5.4   CRAN                     
+47             httpuv      1.6.5   CRAN                     
+48               httr      1.4.2   CRAN                     
+49            isoband      0.2.5   CRAN                     
+50          jquerylib      0.1.4   CRAN                     
+51           jsonlite      1.7.2   CRAN                     
+52              knitr       1.37   CRAN                     
+53           labeling      0.4.2   CRAN                     
+54              later 1.3.0.9000    Git 1d1b6a6        /main
+55           lazyeval      0.2.2   CRAN                     
+56            leaflet    2.0.4.1   CRAN                     
+57  leaflet.providers      1.9.0   CRAN                     
+58          lifecycle      1.0.1   CRAN                     
+59            lpSolve     5.6.15   CRAN                     
+60           magrittr      2.0.1   CRAN                     
+61           markdown        1.1   CRAN                     
+62            memoise      2.0.1   CRAN                     
+63               mime       0.12   CRAN                     
+64            munsell      0.5.0   CRAN                     
+65            openssl      1.4.6   CRAN                     
+66            packrat      0.7.0   CRAN                     
+67          parsedate      1.2.1   CRAN                     
+68             pillar      1.6.4   CRAN                     
+69              pingr      2.0.1   CRAN                     
+70           pkgbuild      1.3.1   CRAN                     
+71           pkgcache      1.3.0   CRAN                     
+72          pkgconfig      2.0.3   CRAN                     
+73         pkgdepends 0.2.0.9000    Git 2e84d23        /main
+74            pkgload      1.2.4   CRAN                     
+75             plotly     4.10.0   CRAN                     
+76                png      0.1-7   CRAN                     
+77               pool 0.1.6.9000    Git 203bb12        /main
+78             praise      1.0.0   CRAN                     
+79        prettyunits      1.1.1   CRAN                     
+80           processx      3.5.2   CRAN                     
+81           progress      1.2.2   CRAN                     
+82           promises 1.2.0.9000    Git 448a3d8        /main
+83                 ps      1.6.0   CRAN                     
+84              purrr      0.3.4   CRAN                     
+85            R.cache     0.15.0   CRAN                     
+86        R.methodsS3      1.8.1   CRAN                     
+87               R.oo     1.24.0   CRAN                     
+88            R.utils     2.11.0   CRAN                     
+89                 R6      2.5.1   CRAN                     
+90           rappdirs      0.3.3   CRAN                     
+91             raster     3.5-11   CRAN                     
+92       RColorBrewer      1.1-2   CRAN                     
+93               Rcpp      1.0.7   CRAN                     
+94           reactlog      1.1.0    Git e8f0548        /main
+95            rematch      1.0.1   CRAN                     
+96           rematch2      2.1.2   CRAN                     
+97            remotes      2.4.2   CRAN                     
+98               renv     0.15.0   CRAN                     
+99              rlang     0.4.12   CRAN                     
+100         rmarkdown       2.11   CRAN                     
+101         rprojroot      2.0.2   CRAN                     
+102         rsconnect     0.8.26    Git 0d973c4        /main
+103        rstudioapi       0.13   CRAN                     
+104              sass 0.4.0.9000    Git f7a9540        /main
+105            scales      1.1.1   CRAN                     
+106       sessioninfo      1.2.2   CRAN                     
+107             shiny 1.7.1.9002    Git 9389160        /main
+108       shinycoreci 0.0.0.9005 GitHub fa63471 rstudio/main
+109        shinyjster 0.0.0.9009    Git 72ac7e4        /main
+110         shinymeta    0.2.0.3    Git 5af8086        /main
+111         shinytest 1.5.1.9000    Git 650661d        /main
+112       shinythemes      1.2.0    Git 804c06e        /main
+113     shinyvalidate 0.1.1.9000    Git 5549a54        /main
+114         showimage      1.0.0   CRAN                     
+115       sourcetools      0.1.7   CRAN                     
+116                sp      1.4-6   CRAN                     
+117           stringi      1.7.6   CRAN                     
+118           stringr      1.4.0   CRAN                     
+119            styler      1.6.2   CRAN                     
+120               sys        3.4   CRAN                     
+121             terra     1.4-22   CRAN                     
+122          testthat      3.1.1   CRAN                     
+123          thematic 0.1.2.9000    Git dc79f6d        /main
+124            tibble      3.1.6   CRAN                     
+125             tidyr      1.1.4   CRAN                     
+126        tidyselect      1.1.1   CRAN                     
+127           tinytex       0.36   CRAN                     
+128              utf8      1.2.2   CRAN                     
+129              uuid      1.0-3   CRAN                     
+130             vctrs      0.3.8   CRAN                     
+131           viridis      0.6.2   CRAN                     
+132       viridisLite      0.4.0   CRAN                     
+133             waldo      0.3.1   CRAN                     
+134         webdriver 1.0.6.9001    Git 6fd7344        /main
+135         websocket 1.4.1.9000    Git 2161ee7        /main
+136             withr      2.4.3   CRAN                     
+137              xfun       0.29   CRAN                     
+138            xtable      1.8-4   CRAN                     
+139              yaml      2.2.1   CRAN                     
+140               zip      2.2.0   CRAN                     
+141              boot     1.3-28   CRAN                     
+142             class     7.3-19   CRAN                     
+143           cluster      2.1.2   CRAN                     
+144         codetools     0.2-18   CRAN                     
+145           foreign     0.8-81   CRAN                     
+146        KernSmooth    2.23-20   CRAN                     
+147           lattice    0.20-45   CRAN                     
+148              MASS     7.3-54   CRAN                     
+149            Matrix      1.3-4   CRAN                     
+150              mgcv     1.8-38   CRAN                     
+151              nlme    3.1-153   CRAN                     
+152              nnet     7.3-16   CRAN                     
+153             rpart     4.1-15   CRAN                     
+154           spatial     7.3-14   CRAN                     
+155          survival     3.2-13   CRAN                     

@@ -1,0 +1,24 @@
+---
+title: "Test passed, move along!"
+output: html_document
+runtime: shiny_prerendered
+---
+
+```{r, echo = FALSE}
+tags$script(src = "js/log-rmd.js")
+```
+
+
+```{r shinyjster, context = "render", echo = FALSE}
+shinyjster::shinyjster_js("
+  var jst = jster(750);
+  jst.add(Jster.shiny.waitUntilStable);
+  jst.add(Jster.shiny.waitUntilStable);
+
+  jst.test();
+")
+```
+
+```{r, context = "server"}
+shinyjster::shinyjster_server(input, output, session)
+```

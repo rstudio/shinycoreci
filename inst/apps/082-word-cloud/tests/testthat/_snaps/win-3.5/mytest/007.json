@@ -1,0 +1,48 @@
+{
+  "input": {
+    "freq": 10,
+    "max": 250,
+    "selection": "romeo",
+    "update": 1
+  },
+  "output": {
+    "plot": {
+      "src": "[image data sha1: 8ebf75a363d99b992cfd51e45471d2215609f794]",
+      "width": 631,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -0.35185,
+              "right": 1.35185,
+              "bottom": -0.04,
+              "top": 1.04
+            },
+            "range": {
+              "left": 0,
+              "right": 631,
+              "bottom": 399,
+              "top": -1
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 631,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}

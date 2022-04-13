@@ -1,0 +1,46 @@
+{
+  "input": {
+    "format": "PDF",
+    "x": "cyl"
+  },
+  "output": {
+    "regPlot": {
+      "src": "[image data sha1: 75997fe14f4f1f819efd9ecc0b1dad5dbf76b5ae]",
+      "width": 631,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 3.84,
+              "right": 8.16,
+              "bottom": 9.46,
+              "top": 34.84
+            },
+            "range": {
+              "left": 57.6000091283691,
+              "right": 629.559999771791,
+              "bottom": 341.399985599996,
+              "top": 0.440000360000049
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 631,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}

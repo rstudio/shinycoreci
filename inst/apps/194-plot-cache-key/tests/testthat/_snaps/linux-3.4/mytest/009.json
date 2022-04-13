@@ -1,0 +1,52 @@
+{
+  "input": {
+    "n": 300,
+    "newdata": 1,
+    "reactlog_module-refresh": 5
+  },
+  "output": {
+    "plot": {
+      "src": "[image data sha1: 5319baae4bf5b1da15284280ab6fd94a4e497226]",
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -3.23980371691125,
+              "right": 3.33579037469539,
+              "bottom": -2.73592099752419,
+              "top": 2.89417409441279
+            },
+            "range": {
+              "left": 59.04,
+              "right": 661.76,
+              "bottom": 325.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 692,
+          "height": 400
+        }
+      },
+      "class": "shiny-scalable"
+    },
+    "reactlog_module-iframe": {
+      "html": "<iframe id=\"reactlog_module-reactlog_iframe_185ba1e\" width=\"100%\" height=\"600\"><\/iframe>\n<script>\n            (function() {\n              var src =\n                'reactlog?w=' + window.escape(window.Shiny.shinyapp.config.workerId) +\n                '&s=' + window.escape(window.Shiny.shinyapp.config.sessionId) + '&test=1';\n              $('#reactlog_module-reactlog_iframe_185ba1e').attr('src', src);\n            })()\n          <\/script>",
+      "deps": [
+
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
