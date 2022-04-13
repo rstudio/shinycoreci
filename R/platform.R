@@ -19,3 +19,13 @@ platform <- function() {
 r_version_short <- function() {
   paste0(R.Version()$major,".",strsplit(R.Version()$minor, ".", fixed = TRUE)[[1]][1])
 }
+
+
+#' Platform and R Version
+#'
+#' @param platform_val See [platform()]
+#' @param r_version See [r_version_short()]
+#' @export
+platform_rversion <- function(platform_val = platform(), r_version = r_version_short()) {
+  paste0(platform_val, "-", r_version)
+}
