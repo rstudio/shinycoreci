@@ -1,15 +1,22 @@
 #' View Shinytest Images
 #'
-#' @param dir path pointing to shinycoreci-apps/apps
+#' @param repo_dir directory to the shinycoreci repo
 #' @export
-view_test_images <- function(dir = "apps") {
-  dir <- normalizePath(dir, mustWork = TRUE)
-  all_files <- dir(dir, recursive = TRUE, full.names = TRUE)
-  all_pngs <- grep(
-    paste0("^", file.path(dir, ".*", "tests", "shinytest", ".*", ".*\\.png"), "$"),
-    all_files, value = TRUE
-  )
-  m <- regexec(file.path(dir, "(.*)", "tests"), all_pngs)
+view_test_images <- function(repo_dir = ".") {
+  repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
+  apps_folder <- file.path(repo_dir, "inst/apps")
+
+  all_files <- dir(apps_folder, recursive = TRUE, full.names = TRUE)
+
+  # Only keep snapshot files
+  all_files <- all_files[grepl("tests/testthat/_snaps/", all_files)]
+  # Only png files
+  # No debug snapshots
+  all_pngs <- all_files[grepl("[^_]\\.png", all_files)]
+  # Not new png files
+  all_pngs <- all_pngs[!grepl("\\.new\\.png", all_pngs)]
+
+  m <- regexec(file.path(apps_folder, "(.*)", "tests"), all_pngs)
   all_png_app_names <- vapply(regmatches(all_pngs, m), function(x) x[2], character(1))
 
   ui <- shiny::fluidPage(
@@ -60,6 +67,3 @@ view_test_images <- function(dir = "apps") {
 
   shiny::shinyApp(ui, server)
 }
-
-
-
