@@ -1,4 +1,3 @@
-library(shinytest)
 library(bslib)
 
 themes <- list(

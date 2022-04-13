@@ -1,7 +1,6 @@
 library(shinytest2)
 
 test_that("Migrated shinytest test: mytest.R", {
-  library(shinytest)
   app <- AppDriver$new(variant = shinytest2::platform_variant())
 
   # date picker snapshots

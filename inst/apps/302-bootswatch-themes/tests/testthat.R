@@ -1,4 +1,3 @@
-library(shinytest)
 library(bslib)
 
 # Only run these tests on mac + r-release
