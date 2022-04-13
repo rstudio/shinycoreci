@@ -1,68 +1,3 @@
-
-
-pad_left <- function(x, y, n) {
-  x <- as.character(x)
-  vapply(x, function(xi) {
-    while (nchar(xi) < n) {
-      xi <- paste0(y, xi)
-    }
-    xi
-  }, character(1))
-}
-app_num <- function(x) {
-  pad_left(x, "0", 3)
-}
-
-
-# has_multiple_apps <- function(dir, apps, app_name) {
-#   get_app_num <- function(x) {
-#     sub("^(\\d+)-.*$", "\\1", basename(x))
-#   }
-#   app_name <- normalize_app_name(dir, apps, app_name, increment = FALSE)
-
-#   app_nums <- get_app_num(file.path(dir, apps))
-#   duplicated_app_nums <- unique(app_nums[duplicated(app_nums)])
-
-#   duplicated_app_nums <- setdiff(duplicated_app_nums, "015")
-
-#   get_app_num(app_name) %in% duplicated_app_nums
-# }
-
-normalize_app_name <- function(
-  apps,
-  app_name,
-  increment = FALSE
-) {
-  app_name_original <- app_name
-  if (is.null(app_name) || identical(app_name, 0L)) {
-    return(apps[1])
-  }
-
-  if (is.numeric(app_name)) {
-    app_name <- app_num(app_name)
-  }
-  if (!(app_name %in% apps)) {
-    matches <- grepl(app_name, apps)
-    app_name <- apps[matches]
-    if (length(app_name) > 1) {
-      message("Found multiple apps.\n\tUsing the first app: ", app_name[1], ".\n\tFrom set: ", paste0(app_name, collapse = ", "))
-      app_name <- app_name[1]
-    }
-  }
-  app_pos <- which(basename(apps) == basename(app_name))
-  if (length(app_pos) == 0) {
-    stop("unknown app: ", app_name_original)
-  }
-  if (increment) {
-    app_pos <- app_pos + 1
-  }
-  if (app_pos > length(apps)) {
-    return(NULL)
-  }
-  apps[app_pos]
-}
-
-
 #' Test apps within RStudio IDE
 #'
 #' Automatically runs the next app in a fresh RStudio session after closing the current app. To stop,  send an interrupt signal (\verb{esc} or \verb{ctrl+c}) to the app twice in rapid succession.
@@ -71,7 +6,6 @@ normalize_app_name <- function(
 #'
 #' If \code{options()} need to be set, set them in your \preformatted{.Rprofile} file.  See \code{usethis::edit_r_profile()}
 #'
-#' @inheritParams test_shinyjster
 #' @inheritParams test_in_browser
 #' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
 #' @param delay Time to wait between applications. \[`1`\]
@@ -80,20 +14,31 @@ normalize_app_name <- function(
 #' @examples
 #' \dontrun{test_in_ide(dir = "apps")}
 test_in_ide <- function(
-  dir = "apps",
-  apps = apps_manual(dir),
-  app = apps[1],
+  app_name = apps[1],
+  apps = apps_manual,
+  ...,
   port = 8000,
   host = "127.0.0.1",
   delay = 1,
-  update_pkgs = TRUE,
+  local_pkgs = FALSE,
   viewer = NULL,
-  verify = TRUE
+  refresh_ = FALSE
 ) {
-  force(update_pkgs)
-  validate_exact_deps(dir = dir, apps = apps, update_pkgs = update_pkgs)
-
   sys_call <- match.call()
+  apps <- resolve_app_name(apps)
+
+  local_libpath <- if (isTRUE(refresh_)) {
+    if (isTRUE(local_pkgs)) {
+      .libPaths()[1]
+    } else {
+      shinyverse_libpath()
+    }
+  } else {
+    # First time though
+    install_shinyverse(install = !isTRUE(local_pkgs), validate_loaded = TRUE)
+  }
+
+  app_name <- resolve_app_name(app_name)
 
   if (rstudioapi::isAvailable()) {
     # stop("This function should only be run within the RStudio IDE")
@@ -145,24 +90,22 @@ test_in_ide <- function(
     }
   }
 
-  # make sure the apps are ok to run
-  if (isTRUE(verify)) {
-    app_status_verify(dir)
-  }
-  app_status_init(dir, user_agent = app_status_user_agent_ide())
-  app_dirs <- file.path(dir, apps)
+  # # make sure the apps are ok to run
+  # if (isTRUE(verify)) {
+  #   app_status_verify(dir)
+  # }
+  # app_status_init(dir, user_agent = app_status_user_agent_ide())
 
   old_ops <- options(width = 100)
   on.exit({
     options(old_ops)
   }, add = TRUE)
 
-  app <- normalize_app_name(apps, app, increment = FALSE)
   increment_app_and_wait <- function() {
 
-    next_app <- normalize_app_name(apps, app, increment = TRUE)
+    next_app_name <- next_app_name(app_name)
 
-    if (is.null(next_app)) {
+    if (is.null(next_app_name)) {
       message("All done testing!")
       return(invisible(NULL))
     }
@@ -170,23 +113,22 @@ test_in_ide <- function(
     # do not try to update apps again. Set the next app. Keep all existing arguments.
     next_sys_call_list <- as.list(sys_call)
     next_sys_call_list[[1]] <- substitute(shinycoreci::test_in_ide)
-    next_sys_call_list$app <- next_app
-    next_sys_call_list$update_pkgs <- FALSE
+    next_sys_call_list$app_name <- next_app_name
+    next_sys_call_list$refresh_ <- TRUE
     next_sys_call <- as.call(next_sys_call_list)
 
     message("Restarting RStudio and launching next app in ", delay, " second... (interrupt again to stop)")
     Sys.sleep(delay)
 
-    # if this section of code is reached, it is considered a pass!
-    app_status_save(
-      app_dir = file.path(dir, app),
-      pass = TRUE,
-      log = "(unknown; can not capture)",
-      user_agent = app_status_user_agent_ide()
-    )
+    # # if this section of code is reached, it is considered a pass!
+    # app_status_save(
+    #   app_dir = file.path(dir, app),
+    #   pass = TRUE,
+    #   log = "(unknown; can not capture)",
+    #   user_agent = app_status_user_agent_ide()
+    # )
     next_sys_call_txt <- format(next_sys_call)
-    is_loaded_with_devtools <- shinycoreci_is_loaded_with_devtools()
-    if (is_loaded_with_devtools) {
+    if (shinycoreci_is_loaded_with_devtools()) {
       # dev mode
       next_sys_call_txt <- sub("shinycoreci::test_in_ide", "pkgload::load_all(); test_in_ide", next_sys_call_txt)
     }
@@ -197,22 +139,22 @@ test_in_ide <- function(
     } else {
       # if not in RStudio, run in the next tick...
       later::later(function() {
-        eval(parse(text = next_sys_call))
+        eval(parse(text = next_sys_call_txt))
       })
     }
-    return(invisible(next_app))
+    return(invisible(next_app_name))
   }
 
 
-  message("Running ", app, " in ", dir)
+  message("Running ", app_name)
   tryCatch(
     {
-      run_app(file.path(dir, app), port = port, host = host)
+      run_app(app_name, port = port, host = host)
     },
     error = function(e) {
       utils::alarm()
       message("")
-      message("!! Error launching ", app, " !! Error: \n", e)
+      message("!! Error launching ", app_name, " !! Error: \n", e)
       message("")
 
       ans <- utils::menu(
