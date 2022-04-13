@@ -14,7 +14,7 @@ deploy_apps <- function(
   account = "testing-apps",
   server = "shinyapps.io",
   ...,
-  extra_packages = "rstudio/shinycoreci",
+  extra_packages = NULL,
   cores = 1,
   retry = 2,
   retrying_ = FALSE
