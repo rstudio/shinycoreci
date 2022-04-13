@@ -25,8 +25,10 @@ test_in_ci <- function(
   apps <- resolve_app_name(apps)
   repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
 
-  libpath <- install_shinyverse(install = TRUE, validate_loaded = TRUE
-    # , extra_packages = "local::."
+  libpath <- install_shinyverse(
+    install = TRUE, validate_loaded = TRUE,
+    # Install into normal libpath so caching is automatically handled
+    libpath = .libPaths()[1]
   )
 
   # # Do not include apps here, only make sure shinyverse is intact
