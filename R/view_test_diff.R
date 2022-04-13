@@ -62,6 +62,7 @@ shinytest_suffix <- function(
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
 #' @export
 view_test_diff <- function(suffix = platform_rversion(), dir = "apps", ...) {
+  stop("TODO-barret;")
   validate_core_pkgs()
 
   if (missing(suffix)) {

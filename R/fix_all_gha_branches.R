@@ -36,6 +36,7 @@ fix_all_gha_branches <- function(
   accept_all = FALSE,
   repo_dir = file.path(dir, "..")
 ) {
+  stop("TODO-barret;")
   original_sys_call <- sys.call()
   validate_core_pkgs()
 
