@@ -9,7 +9,7 @@ update_renv_pkgs <- function() {
     base_packages()
   )
 
-  renv_pkgs_txt <- capture.output(dput(renv_pkgs))
+  renv_pkgs_txt <- utils::capture.output(dput(renv_pkgs))
 
   cat(
     file = system.file(package = "shinycoreci", "R/data-renv-pkgs.R"),

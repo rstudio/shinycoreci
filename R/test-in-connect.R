@@ -6,6 +6,7 @@
 #' @inheritParams test_in_browser
 #' @param urls Named vector of urls to visit. This should be the output of `[connect_urls]`. By default this will set `server`, `account`, `dir`, and `apps`
 #' @param server,account Parameters that could be supplied to `[rsconnect::deployApp]`
+#' @param host `host` for the foreground app processes
 #' @export
 #' @describeIn test_in_deployed Test connect applications given the server and account
 #' @examples
@@ -13,6 +14,7 @@
 test_in_connect <- function(
   app_name = apps[1],
   apps = apps_manual,
+  ...,
   urls = default_connect_urls,
   server = attr(urls, "server"),
   account = attr(urls, "account"),

@@ -12,6 +12,7 @@ ci_status <- list(
 #' @param assert logical value which will determine if [assert_ci_output()] will be called on the result
 #' @param timeout Length of time allowed for an application's full test suit can run before determining it is a failure
 #' @param retries number of attempts to retry before declaring the test a failure
+#' @param repo_dir Location of local shinycoreci repo
 #' @describeIn runtests Generic method to call all testing files
 #' @export
 test_in_ci <- function(
@@ -125,7 +126,7 @@ test_in_ci <- function(
       test_dt$result[to_test_position] <- list(ans$result)
       # ans$status should _always_ be of length 1 (otherwise assignment above would fail)
       if (ans$status == ci_status$default) {
-        utils::str(to_test_path)
+        utils::str(app_name)
         utils::str(ans)
         stop("An status of ", ci_status$default, " should never be stored")
       }

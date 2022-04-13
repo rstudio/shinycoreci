@@ -59,7 +59,7 @@ use_manual_app <- function(app_dir) {
 
 #' Create Shinyjster test file
 #'
-#' This creates a testing file to be used with [test_runtests()].  It will create a file for each browser.
+#' This creates a testing file that will test shinyjster on each applicable browser.
 #'
 #' @param app_dir Location of shiny application to test
 #' @export

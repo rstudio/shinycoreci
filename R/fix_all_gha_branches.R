@@ -38,7 +38,7 @@ fix_all_gha_branches <- function(
 ) {
   stop("TODO-barret;")
   original_sys_call <- sys.call()
-  validate_core_pkgs()
+  # validate_core_pkgs()
 
   if (!is.null(list(...)$merge)) {
     stop("`merge` is deprecated. Use `save_results` instead")

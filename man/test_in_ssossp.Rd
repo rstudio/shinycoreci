@@ -6,8 +6,9 @@
 \title{Test Apps in SSO/SSP}
 \usage{
 test_in_sso(
-  app = apps[1],
+  app_name = apps[1],
   apps = apps_manual,
+  ...,
   release = c("focal", "bionic", "centos7"),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
@@ -17,7 +18,7 @@ test_in_sso(
 )
 
 test_in_ssp(
-  app = apps[1],
+  app_name = apps[1],
   apps = apps_manual,
   release = c("focal", "bionic", "centos7"),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
@@ -28,7 +29,11 @@ test_in_ssp(
 )
 }
 \arguments{
-\item{app}{app number or name to start with. If numeric, it will match the leading number in the testing application}
+\item{app_name}{app number or name to start with. If numeric, it will match the leading number in the testing application}
+
+\item{apps}{List of apps to test}
+
+\item{...}{ignored}
 
 \item{release}{Distro release name, such as "focal" for ubuntu or "7" for centos}
 
@@ -39,6 +44,8 @@ test_in_ssp(
 \item{port}{Port for shiny application}
 
 \item{port_background}{Port to connect to the Docker container}
+
+\item{host}{\code{host} for the foreground and background app processes}
 }
 \description{
 Automatically launches docker in a background process.  Once the docker is ready, a shiny application will be launched to help move through the applications.

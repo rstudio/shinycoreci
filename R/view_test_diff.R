@@ -63,7 +63,7 @@ shinytest_suffix <- function(
 #' @export
 view_test_diff <- function(suffix = platform_rversion(), dir = "apps", ...) {
   stop("TODO-barret;")
-  validate_core_pkgs()
+  # validate_core_pkgs()
 
   if (missing(suffix)) {
     suffix <- bad_shinytest_suffix()

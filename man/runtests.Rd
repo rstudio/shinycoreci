@@ -20,6 +20,8 @@ test_in_ci(
 \item{timeout}{Length of time allowed for an application's full test suit can run before determining it is a failure}
 
 \item{retries}{number of attempts to retry before declaring the test a failure}
+
+\item{repo_dir}{Location of local shinycoreci repo}
 }
 \description{
 Test apps using \code{shiny::runTests()}

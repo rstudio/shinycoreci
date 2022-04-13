@@ -10,5 +10,5 @@ use_shinyjster(app_dir)
 \item{app_dir}{Location of shiny application to test}
 }
 \description{
-This creates a testing file to be used with \code{\link[=test_runtests]{test_runtests()}}.  It will create a file for each browser.
+This creates a testing file that will test shinyjster on each applicable browser.
 }

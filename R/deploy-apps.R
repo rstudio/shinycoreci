@@ -2,12 +2,13 @@
 #'
 #' Run this in the terminal (not RStudio IDE) as it has issues when installing some packages.
 #'
-#' @param dir A base folder containing all applications to be deployed
 #' @param apps A character vector of fully defined shiny application folders
 #' @param account,server args supplied to `[rsconnect::deployApp]`
+#' @param ... ignored
+#' @param extra_packages A character vector of extra packages to install
 #' @param cores number of cores to use when deploying
-#' @param update_pkgs A logical value indicating if a check should be made to update all installed packages
 #' @param retry If \code{TRUE}, try failure apps again. (Only happens once.)
+#' @param retrying_ For internal use only
 #' @export
 deploy_apps <- function(
   apps = apps_shiny,

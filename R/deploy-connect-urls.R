@@ -54,7 +54,7 @@ connect_set_public <- function(
 
   app_names <- vapply(apps, `[[`, character(1), "name")
   # ask for applications using the deployed app name
-  app_urls <- connect_urls(dir = "", apps = app_names, account = account, server = server)
+  app_urls <- connect_urls(apps = app_names, account = account, server = server)
 
   returns <- rep("\n", length(app_urls))
   if (length(app_urls) > 10) {

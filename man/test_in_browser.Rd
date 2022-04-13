@@ -7,6 +7,7 @@
 test_in_browser(
   app_name = apps[1],
   apps = apps_manual,
+  ...,
   port = 8080,
   port_background = NULL,
   host = "127.0.0.1",
@@ -14,11 +15,19 @@ test_in_browser(
 )
 }
 \arguments{
+\item{app_name}{app number or name to start with. If numeric, it will match the leading number in the testing application}
+
+\item{apps}{List of apps to test}
+
+\item{...}{ignored}
+
+\item{port}{\code{port} for the foreground app process}
+
 \item{port_background}{\code{port} for the background app process}
 
-\item{local_pkgs}{If \code{TRUE}, local packages will be used instead of the isolated shinyverse installation.}
+\item{host}{\code{host} for the foreground and background app processes}
 
-\item{app}{app number or name to start with. If numeric, it will match the leading number in the testing application}
+\item{local_pkgs}{If \code{TRUE}, local packages will be used instead of the isolated shinyverse installation.}
 }
 \description{
 Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.

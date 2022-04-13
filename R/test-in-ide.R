@@ -7,9 +7,9 @@
 #' If \code{options()} need to be set, set them in your \preformatted{.Rprofile} file.  See \code{usethis::edit_r_profile()}
 #'
 #' @inheritParams test_in_browser
-#' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
 #' @param delay Time to wait between applications. \[`1`\]
 #' @param viewer RStudio IDE viewer to use.  \[`"pane"`\]
+#' @param refresh_ For internal use. If TRUE, packages will not be reinstalled.
 #' @export
 #' @examples
 #' \dontrun{test_in_ide(dir = "apps")}

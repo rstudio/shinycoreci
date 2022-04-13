@@ -17,13 +17,23 @@ test_in_ide(
 )
 }
 \arguments{
+\item{app_name}{app number or name to start with. If numeric, it will match the leading number in the testing application}
+
+\item{apps}{List of apps to test}
+
+\item{...}{ignored}
+
+\item{port}{\code{port} for the foreground app process}
+
+\item{host}{\code{host} for the foreground and background app processes}
+
 \item{delay}{Time to wait between applications. [\code{1}]}
 
 \item{local_pkgs}{If \code{TRUE}, local packages will be used instead of the isolated shinyverse installation.}
 
 \item{viewer}{RStudio IDE viewer to use.  [\code{"pane"}]}
 
-\item{app}{app number or name to start with. If numeric, it will match the leading number in the testing application}
+\item{refresh_}{For internal use. If TRUE, packages will not be reinstalled.}
 }
 \description{
 Automatically runs the next app in a fresh RStudio session after closing the current app. To stop,  send an interrupt signal (\verb{esc} or \verb{ctrl+c}) to the app twice in rapid succession.

@@ -15,8 +15,9 @@
 #' \dontrun{test_in_sso()}
 #' \dontrun{test_in_ssp()}
 test_in_sso <- function(
-  app = apps[1],
+  app_name = apps[1],
   apps = apps_manual,
+  ...,
   release = c("focal", "bionic", "centos7"),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
@@ -27,7 +28,7 @@ test_in_sso <- function(
   release <- match.arg(release)
 
   test_in_ssossp(
-    app = app,
+    app_name = app_name,
     apps = apps,
     type = "sso",
     release = release,
@@ -41,7 +42,7 @@ test_in_sso <- function(
 #' @export
 #' @describeIn test_in_ssossp Test SSP Shiny applications
 test_in_ssp <- function(
-  app = apps[1],
+  app_name = apps[1],
   apps = apps_manual,
   release = c("focal", "bionic", "centos7"),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
@@ -53,7 +54,7 @@ test_in_ssp <- function(
   release <- match.arg(release)
 
   test_in_ssossp(
-    app = app,
+    app_name = app_name,
     apps = apps,
     type = "ssp",
     release = release,
@@ -79,7 +80,7 @@ test_in_ssp <- function(
 
 
 test_in_ssossp <- function(
-  app = apps[1],
+  app_name = apps[1],
   apps = apps_manual,
   type = c("sso", "ssp"),
   release = c("focal", "bionic", "centos7"),
@@ -92,7 +93,9 @@ test_in_ssossp <- function(
   host = "127.0.0.1",
   port = 8080
 ) {
-  validate_core_pkgs()
+  # validate_core_pkgs()
+
+  apps <- resolve_app_name(apps)
 
   type <- match.arg(type)
   release <- match.arg(release)
@@ -156,7 +159,7 @@ test_in_ssossp <- function(
     stderr = "2>&1",
     cmdargs = c(
       "--slave", # tell the session that it's being controlled by something else
-      # "-–interactive", # (UNIX only) # tell the session that it's interactive.... but it's not
+      # "--interactive", # (UNIX only) # tell the session that it's interactive.... but it's not
       "--quiet", # no printing
       "--no-save", # don't save when done
       "--no-restore" # don't restore from .RData or .Rhistory
@@ -248,7 +251,7 @@ test_in_ssossp <- function(
 
   test_in_external(
     app_infos = app_infos,
-    app = resolve_app_name(app),
+    default_app_name = resolve_app_name(app_name),
     host = host,
     port = port
   )

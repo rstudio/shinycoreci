@@ -8,6 +8,7 @@
 test_in_connect(
   app_name = apps[1],
   apps = apps_manual,
+  ...,
   urls = default_connect_urls,
   server = attr(urls, "server"),
   account = attr(urls, "account"),
@@ -25,9 +26,19 @@ test_in_shinyappsio(
 )
 }
 \arguments{
+\item{app_name}{app number or name to start with. If numeric, it will match the leading number in the testing application}
+
+\item{apps}{List of apps to test}
+
+\item{...}{ignored}
+
 \item{urls}{Named vector of urls to visit. This should be the output of \verb{[connect_urls]}. By default this will set \code{server}, \code{account}, \code{dir}, and \code{apps}}
 
 \item{server, account}{Parameters that could be supplied to \verb{[rsconnect::deployApp]}}
+
+\item{port}{\code{port} for the foreground app process}
+
+\item{host}{\code{host} for the foreground app processes}
 }
 \description{
 Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.

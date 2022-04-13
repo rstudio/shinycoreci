@@ -2,15 +2,20 @@
 #'
 #' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
 #'
+#' @param app_name app number or name to start with. If numeric, it will match the leading number in the testing application
+#' @param apps List of apps to test
+#' @param port `port` for the foreground app process
 #' @param port_background `port` for the background app process
-#' @param app app number or name to start with. If numeric, it will match the leading number in the testing application
+#' @param host `host` for the foreground and background app processes
 #' @param local_pkgs If `TRUE`, local packages will be used instead of the isolated shinyverse installation.
+#' @param ... ignored
 #' @export
 #' @examples
 #' \dontrun{test_in_browser()}
 test_in_browser <- function(
   app_name = apps[1],
   apps = apps_manual,
+  ...,
   port = 8080,
   port_background = NULL,
   host = "127.0.0.1",
@@ -60,9 +65,9 @@ test_in_browser <- function(
 
     list(
       app_name = app_name,
-      user_agent = function(user_agent) {
-        app_status_user_agent_browser(user_agent, "localhost")
-      },
+      # user_agent = function(user_agent) {
+      #   app_status_user_agent_browser(user_agent, "localhost")
+      # },
       start = function() {
         message("")
         message("Starting app: ", app_name)

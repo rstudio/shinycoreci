@@ -20,13 +20,15 @@ deploy_apps(
 
 \item{account, server}{args supplied to \verb{[rsconnect::deployApp]}}
 
+\item{...}{ignored}
+
+\item{extra_packages}{A character vector of extra packages to install}
+
 \item{cores}{number of cores to use when deploying}
 
 \item{retry}{If \code{TRUE}, try failure apps again. (Only happens once.)}
 
-\item{dir}{A base folder containing all applications to be deployed}
-
-\item{update_pkgs}{A logical value indicating if a check should be made to update all installed packages}
+\item{retrying_}{For internal use only}
 }
 \description{
 Run this in the terminal (not RStudio IDE) as it has issues when installing some packages.

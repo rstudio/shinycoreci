@@ -7,7 +7,7 @@ update_connect_urls <- function(
 
   urls <- connect_urls(apps = apps, account = account, server = server)
 
-  urls_txt <- capture.output(dput(urls))
+  urls_txt <- utils::capture.output(dput(urls))
 
   cat(
     file = system.file(package = "shinycoreci", "R/data-connect-urls.R"),
