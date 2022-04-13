@@ -53,10 +53,13 @@ shinycoreci_is_local <- function() {
 
 #' @noRd
 #' @return lib path being used
-install_shinyverse <- function(install = TRUE, validate_loaded = TRUE, extra_packages = NULL) {
+install_shinyverse <- function(
+  install = TRUE,
+  validate_loaded = TRUE,
+  extra_packages = NULL,
+  libpath = shinyverse_libpath()
+) {
   if (!isTRUE(install)) return(.libPaths()[1])
-
-  install_lib <- shinyverse_libpath()
 
   # Make sure none of the shinyverse is loaded into namespace
   if (isTRUE(validate_loaded)) {
@@ -83,7 +86,7 @@ install_shinyverse <- function(install = TRUE, validate_loaded = TRUE, extra_pac
 
   # Load pak into current namespace
   pkgs <- c(pak_shinyverse_urls, pak_renv_pkgs, extra_packages)
-  message("Installing shinyverse and app deps: ", install_lib)
+  message("Installing shinyverse and app deps: ", libpath)
   if (!is.null(extra_packages)) {
     message("Extra packages:\n", paste0("* ", extra_packages, collapse = "\n"))
   }
@@ -99,13 +102,11 @@ install_shinyverse <- function(install = TRUE, validate_loaded = TRUE, extra_pac
     },
     list(
       pkgs = pkgs,
-      lib = install_lib
+      lib = libpath
     ),
     show = TRUE,
     spinner = TRUE # helps with CI from timing out
   )
 
-  # withr::with_libpaths(install_lib, sessioninfo::session_info("installed"))
-
-  return(install_lib)
+  return(libpath)
 }
