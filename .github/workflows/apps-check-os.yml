@@ -155,7 +155,7 @@ jobs:
         shell: Rscript {0}
         run: |
           options(install.packages.check.source = 'no')
-          apps <- shinycoreci:::apps_test
+          apps <- shinycoreci:::apps_tests
           is_pull_request <- isTRUE(jsonlite::parse_json("${{ github.event_name == 'pull_request' }}"))
           if (is_pull_request) {
             # reduce apps to only changed apps
