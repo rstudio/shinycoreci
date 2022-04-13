@@ -101,4 +101,4 @@ jobs:
       - name: Install shinyverse
         shell: Rscript {0}
         run: |
-          shinycoreci::install_shinyverse_ci()
+          shinycoreci:::install_shinyverse_ci()

@@ -60,7 +60,7 @@ jobs:
         run: >
           Rscript
           -e "## options(pkgType = 'binary')"
-          -e "rsconnect::setAccountInfo(name='${{ matrix.config.account }}', token='${{ secrets.shinyapps_io_testing_apps_token }}', secret='${{ secrets.shinyapps_io_testing_apps_secret }}')"
+          -e "rsconnect::setAccountInfo(name='${{ matrix.config.account }}', token='${{ secrets.SHINYAPPS_IO_TESING_APPS_TOKEN }}', secret='${{ secrets.SHINYAPPS_IO_TESING_APPS_SECRET }}')"
           -e "shinycoreci::deploy_apps(retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
 
       - name: Deploy Apps to Connect
@@ -70,7 +70,7 @@ jobs:
           -e "## add server info"
           -e "rsconnect::addConnectServer(url = '${{ matrix.config.server_url }}', name = '${{ matrix.config.server_name }}')"
           -e "## add user info"
-          -e "rsconnect::connectApiUser('${{ matrix.config.account }}', '${{ matrix.config.server_name }}', apiKey = '${{ secrets.barret_beta_rstudioconnect_com_API_key }}')"
+          -e "rsconnect::connectApiUser('${{ matrix.config.account }}', '${{ matrix.config.server_name }}', apiKey = '${{ secrets.BARRET_BETA_RSTUDIOCONNECT_COM_API_KEY }}')"
           -e "## deploy"
           -e "shinycoreci::deploy_apps(retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
           -e "## make public"
