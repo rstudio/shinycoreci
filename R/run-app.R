@@ -1,5 +1,3 @@
-#' @include apps.R
-
 resolve_app_name <- function(app) {
   if (is.null(app)) return(NULL)
   if (length(app) > 1) {
