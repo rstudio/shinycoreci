@@ -3,7 +3,7 @@ name: Trim Old Branches
 on:
   push:
     branches:
-      - ghactions
+      - trim**
   repository_dispatch:
     types:
       - all

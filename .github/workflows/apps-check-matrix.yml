@@ -3,8 +3,7 @@ name: runTests Matrix
 on:
   push:
     branches:
-      - main
-      - ghactions
+      - apps**
   pull_request:
     branches:
       - main
@@ -15,8 +14,7 @@ on:
   repository_dispatch:
     types:
       - all
-      - shinytest
-      - ci
+      - apps
 
 jobs:
   precheck:
