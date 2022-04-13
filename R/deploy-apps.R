@@ -10,17 +10,15 @@
 #' @param retry If \code{TRUE}, try failure apps again. (Only happens once.)
 #' @export
 deploy_apps <- function(
-  dir = "apps",
-  apps = apps_deploy(dir),
+  apps = apps_shiny,
   account = "testing-apps",
   server = "shinyapps.io",
+  ...,
+  extra_packages = "rstudio/shinycoreci",
   cores = 1,
-  update_pkgs = TRUE,
-  retry = 2
+  retry = 2,
+  retrying_ = FALSE
 ) {
-
-  validate_exact_deps(dir = dir, apps = apps, update_pkgs = update_pkgs)
-
   is_missing <- list(
     account = missing(account),
     server = missing(server),
@@ -28,19 +26,33 @@ deploy_apps <- function(
     cores = missing(cores)
   )
 
+  apps <- resolve_app_name(apps)
+
+  shinyverse_lib_path <-
+    if (retrying_) {
+      # Get lib path only as still same pkgs as before
+      shinyverse_libpath()
+    } else {
+      # Instally on first pass
+      # Install everything. No need to validated if pkgs are loaded as deploying in background process
+      shinyverse_lib_path <- install_shinyverse(install = TRUE, validate_loaded = FALSE, extra_packages = extra_packages)
+    }
+
+
   cores <- validate_cores(cores)
   validate_rsconnect_account(account, server)
 
+  message("\nDeploying apps!\n")
+
   # Use a new R process just in case there were some packages updated
   # this avoids any odd "currently loaded" namespace issue
-  original_dir <- dir
-  original_apps <- apps
-  apps_dirs <- if (identical(dir, "")) apps else file.path(dir, apps)
+  app_dirs <- vapply(apps, app_path, character(1))
   deploy_res <- callr::r(
     show = TRUE,
     spinner = TRUE, # helps with CI from timing out
+    libpath = shinyverse_lib_path, # use shinyverse library path
     args = list(
-      apps_dirs = apps_dirs,
+      apps_dirs = app_dirs,
       cores = cores,
       account = account,
       server = server,
@@ -53,6 +65,13 @@ deploy_apps <- function(
       )
       deploy_apps_ <- function(app_dir) {
         pb$tick(tokens = list(name = basename(app_dir)))
+
+        # Do not deploy `./tests/` files.
+        # Prevents unnecessary images bloating size of deploy
+        # Prevents need for `shinycoreci` in most apps
+        app_files <- dir(app_dir, recursive = TRUE)
+        app_files <- app_files[!grepl("^tests/", app_files)]
+
         deployment_worked <- try({
           rsconnect::deployApp(
             appDir = app_dir,
@@ -65,7 +84,8 @@ deploy_apps <- function(
             # force the app to update
             forceUpdate = TRUE,
             # do not lint the app (ex: 171 has "relative" file path)
-            lint = FALSE
+            lint = FALSE,
+            appFiles = app_files
           )
         })
         if (inherits(deployment_worked, 'try-error')) {
@@ -101,14 +121,13 @@ deploy_apps <- function(
   }
 
   # something failed... make a "retry failed apps" func call
-  error_apps <- original_apps[deploy_res != 0]
+  error_apps <- apps[deploy_res != 0]
   args <- c(
-    fn_arg("dir", original_dir),
     fn_arg("apps", error_apps),
     if (!is_missing$account) fn_arg("account", account),
     if (!is_missing$server) fn_arg("server", server),
     fn_arg("cores", 1),
-    fn_arg("update_pkgs", "none"),
+    fn_arg("retrying_", TRUE),
     fn_arg("retry", retry - 1)
   )
   fn <- paste0(
@@ -119,12 +138,11 @@ deploy_apps <- function(
     message("Retrying to deploy problem apps.  Calling:\n", fn)
     return(
       deploy_apps(
-        dir = original_dir,
         apps = error_apps,
         account = account,
         server = server,
         cores = 1,            # simplify it
-        update_pkgs = "none", # no need to update again, still in the original function exec
+        fn_arg("retrying_", TRUE), # no need to update again, still in the original function exec
         retry = retry - 1     # do not allow for infinite retries
       )
     )
@@ -141,7 +159,7 @@ deploy_apps <- function(
 
 
 validate_rsconnect_account <- function(account, server) {
-  req_pkg("rsconnect")
+  check_installed("rsconnect")
 
   accts <- rsconnect::accounts()
   accts_found <- sum(
@@ -156,16 +174,6 @@ validate_rsconnect_account <- function(account, server) {
     stop("more than one account matches `rsconnect::accounts()`. Fix it?")
   }
   invisible(rsconnect::accountInfo(account, server))
-}
-
-
-# used in docker files!
-update_packages_installed <- function(dir, apps = apps_deploy(dir)) {
-
-  validate_exact_deps(dir = dir, apps = apps, update_pkgs = TRUE)
-
-  message("Updating installed packages")
-  remotes::update_packages(packages = TRUE, upgrade = TRUE)
 }
 
 

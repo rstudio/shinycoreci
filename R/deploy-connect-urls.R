@@ -6,25 +6,25 @@
 #' The corresponding \code{rsconnect} account should already exist before calling \code{connect_set_public}.  This can be done by calling \code{rsconnect::connectApiUser} to add the appropriate account information.
 #'
 #' @inheritParams deploy_apps
-#' @describeIn connect Set all the Shiny apps to be public on a Connect server using the Shiny applications provided in \verb{dir}
+#' @describeIn connect Set all the Shiny apps to be public on a Connect server
 #' @export
 #' @examples
 #' \dontrun{
 #'   rsconnect::addConnectServer(url = 'https://SERVER.com/API', name = 'CustomName')"
 #'   rsconnect::connectApiUser('barret', 'CustomName', apiKey = 'SuperSecretKey')"
-#'   deploy_apps(dir = 'apps', account = 'barret', server = 'CustomName')"
-#'   connect_set_public(dir = 'apps', account = 'barret', server = 'CustomName')"
-#'   urls <- connect_urls(dir = 'apps', account = 'barret', server = 'CustomName')
+#'   deploy_apps(account = 'barret', server = 'CustomName')"
+#'   connect_set_public(account = 'barret', server = 'CustomName')"
+#'   urls <- connect_urls(account = 'barret', server = 'CustomName')
 #' }
 connect_set_public <- function(
-  dir = "apps",
-  apps = apps_deploy(dir),
+  apps = TRUE,
   account = "barret",
   server = "beta.rstudioconnect.com"
 ) {
 
-  # apps_dirs <- file.path(dir, apps)
-  apps_dir_names <- basename(apps)
+  if (isTRUE(apps)) apps <- app_names
+  stopifnot(is.character(apps))
+  app_names <- vapply(apps, resolve_app_name, character(1))
 
   acct_info <- validate_rsconnect_account(account, server)
   api_key <- acct_info$apiKey
@@ -32,7 +32,7 @@ connect_set_public <- function(
   api_post <- api_post_(server, api_key)
 
   apps_info <- api_get(paste0("/applications?count=1000&filter=account_id:", acct_info$accountId))
-  apps <- subset_and_order_apps(apps_info$applications, apps_dir_names)
+  apps <- subset_and_order_apps(apps_info$applications, app_names)
 
   pb <- progress_bar(
     total = length(apps),
@@ -74,15 +74,16 @@ connect_set_public <- function(
 #' @describeIn connect Retrieve the urls from a Connect server using the Shiny applications provided in \verb{dir}
 #' @export
 connect_urls <- function(
-  dir = "apps",
-  apps = apps_deploy(dir),
+  apps = TRUE,
   account = "barret",
   server = "beta.rstudioconnect.com"
 ) {
-  req_pkg("rsconnect")
+  check_installed("rsconnect")
 
   # apps_dirs <- file.path(dir, apps)
-  apps_dir_names <- basename(apps)
+  if (isTRUE(apps)) apps <- app_names
+  stopifnot(is.character(apps))
+  app_names <- vapply(apps, resolve_app_name, character(1))
 
   acct_info <- rsconnect::accountInfo(account, server)
   api_get <- api_get_(server, acct_info$apiKey)
@@ -90,7 +91,7 @@ connect_urls <- function(
 
   apps_info <- api_get(paste0("/applications?count=1000&filter=account_id:", acct_info$accountId))
 
-  apps <- subset_and_order_apps(apps_info$applications, apps_dir_names)
+  apps <- subset_and_order_apps(apps_info$applications, app_names)
 
   app_urls <- vapply(apps, `[[`, character(1), "url")
   names(app_urls) <- vapply(apps, `[[`, character(1), "name")
@@ -103,7 +104,7 @@ connect_urls <- function(
 
 
 api_get_ <- function(server, api_key) {
-  req_pkg("rsconnect")
+  check_installed("rsconnect")
 
   server_url <- rsconnect::serverInfo(server)$url
   function(route) {
@@ -118,7 +119,7 @@ api_get_ <- function(server, api_key) {
   }
 }
 api_post_ <- function(server, api_key) {
-  req_pkg("rsconnect")
+  check_installed("rsconnect")
 
   server_url <- rsconnect::serverInfo(server)$url
   function(route, body) {
@@ -135,16 +136,16 @@ api_post_ <- function(server, api_key) {
 }
 
 #' @importFrom stats setNames
-subset_and_order_apps <- function(appInfos, final_names) {
+subset_and_order_apps <- function(app_infos, final_names) {
 
   # order the urls
-  apps_names <- vapply(appInfos, `[[`, character(1), "name")
+  apps_names <- vapply(app_infos, `[[`, character(1), "name")
   # get only final_names that exist in app set
   final_names_that_exist <- final_names[final_names %in% apps_names]
   # created a named vector to leverage R's named vector subsetting
-  positions <- setNames(seq(length(appInfos)), apps_names)
+  positions <- setNames(seq(length(app_infos)), apps_names)
   # use the final names to get the order
   final_pos <- positions[final_names_that_exist]
 
-  appInfos[final_pos]
+  app_infos[final_pos]
 }
