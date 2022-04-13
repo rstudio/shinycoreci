@@ -24,7 +24,6 @@ Suggests:
     renv,
     httpuv,
     rappdirs,
-    Rcpp (>= 1.0.4.6),
     rmarkdown (>= 2.9),
     rsconnect (>= 0.8.16-9001),
     testthat,
@@ -33,7 +32,10 @@ Suggests:
     shiny,
     english,
     dplyr,
-    tidyr
+    tidyr,
+    later,
+    shinytest,
+    withr
 Remotes:
   r-lib/pkgdepends
 RoxygenNote: 7.1.2
