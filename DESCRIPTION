@@ -33,8 +33,7 @@ Suggests:
     shiny,
     english,
     dplyr,
-    tidyr,
-    DTdygraphs
+    tidyr
 Remotes:
   r-lib/pkgdepends
 RoxygenNote: 7.1.2
