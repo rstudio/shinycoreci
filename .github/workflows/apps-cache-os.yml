@@ -90,8 +90,7 @@ jobs:
         uses: rstudio/shiny-workflows/setup-r-package@v1
         with:
           r-version: ${{ inputs.r-version }}
-          # add suffix so that prefix matching works but key is diff than ci-runtests-os.yml cache key
-          cache-version: ${{ inputs.cache-version }}-warm
+          cache-version: ${{ inputs.cache-version }}
           http-user-agent: ${{ inputs.http-user-agent }}
           pandoc-version: ${{ inputs.pandoc-version }}
           extra-packages:

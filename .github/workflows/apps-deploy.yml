@@ -49,8 +49,7 @@ jobs:
         uses: rstudio/shiny-workflows/setup-r-package@v1
         with:
           r-version: ${{ matrix.config.r }}
-          # add suffix so that prefix matching works but key is diff than ci-runtests-os.yml cache key
-          cache-version: ${{ needs.config.outputs.cache-version }}-deploy
+          cache-version: ${{ needs.config.outputs.cache-version }}
           extra-packages:
             local::.,
             any::rsconnect
