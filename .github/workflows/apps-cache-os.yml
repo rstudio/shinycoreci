@@ -85,7 +85,7 @@ jobs:
         run: |
           echo 'MAKEFLAGS=-j2' >> .Renviron
 
-      - name: Install shinycoreci
+      - name: Install R and shinycoreci
         timeout-minutes: 45
         uses: rstudio/shiny-workflows/setup-r-package@v1
         with:

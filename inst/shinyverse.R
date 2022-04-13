@@ -27,7 +27,7 @@ shinyverse <- function(
       c(
         "jsonlite", "remotes", "progress", "callr", "renv", "rstudioapi", "Rcpp",
         "httr", "tibble", "sessioninfo", "testthat", "rsconnect", "curl", "english",
-        "dplyr", "tidyr", "rmarkdown", "pkgdepends", "pool", "DT", "dygraphs",
+        "dplyr", "tidyr", "rmarkdown", "pool", "DT", "dygraphs",
         pkgs_to_ignore
       )
     )
