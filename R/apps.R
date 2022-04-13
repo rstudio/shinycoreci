@@ -132,18 +132,22 @@ is_manual_app <- function(app_dir) {
 
 
 
+apps_folder <- app_names <- app_nums <- app_name_map <- app_num_map <- NULL
+app_paths <- app_paths_map <- NULL
+apps_manual <- apps_shiny <- apps_tests <- NULL
 
+apps_on_load <- function() {
+  apps_folder <<- system.file(package = "shinycoreci", "apps")
+  app_names <<- dir(apps_folder)
+  app_names <<- grep("^\\d\\d\\d-", app_names, value = TRUE)
+  app_nums <<- as.numeric(vapply(strsplit(app_names, "-"), `[[`, character(1), 1))
+  app_name_map <<- setNames(as.list(app_names), app_names)
+  app_num_map <<- setNames(as.list(app_names), as.character(app_nums))
 
-apps_folder <- system.file(package = "shinycoreci", "apps")
-app_names <- dir(apps_folder)
-app_names <- grep("^\\d\\d\\d-", app_names, value = TRUE)
-app_nums <- as.numeric(vapply(strsplit(app_names, "-"), `[[`, character(1), 1))
-app_name_map <- setNames(as.list(app_names), app_names)
-app_num_map <- setNames(as.list(app_names), as.character(app_nums))
+  app_paths <<- file.path(apps_folder, app_names)
+  app_path_map <<- setNames(as.list(app_paths), app_names)
 
-app_paths <- file.path(apps_folder, app_names)
-app_path_map <- setNames(as.list(app_paths), app_names)
-
-apps_manual <- basename(Filter(x = app_paths, is_manual_app))
-apps_shiny  <- basename(Filter(x = app_paths, has_shinyish_files))
-apps_tests  <- basename(Filter(x = app_paths, has_tests_folder))
+  apps_manual <<- basename(Filter(x = app_paths, is_manual_app))
+  apps_shiny  <<- basename(Filter(x = app_paths, has_shinyish_files))
+  apps_tests  <<- basename(Filter(x = app_paths, has_tests_folder))
+}
