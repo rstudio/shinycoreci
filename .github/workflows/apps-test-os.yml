@@ -182,22 +182,18 @@ jobs:
           if (is_pull_request) {
             # reduce apps to only changed apps
             files_changed <- jsonlite::parse_json('${{ steps.files_changed.outputs.added_modified }}', simplifyVector = TRUE)
-            str(files_changed)
             changed_app_folders <-
               Filter(strsplit(files_changed, "/"), f = function(item) {
                 length(item) >= 3 &&
                 identical(item[[2]], "apps") &&
                 dir.exists(file.path(item[[1]], item[[2]], item[[3]]))
               })
-            str(changed_app_folders)
             unique_changed_apps <- unique(unlist(lapply(changed_app_folders, `[[`, 3)))
-            str(unique_changed_apps)
             apps <- apps[apps %in% unique_changed_apps]
-            str(apps)
             cat("Only checking changed apps:\n", paste0("* ", apps, "\n"))
             if (length(apps) == 0) stop("No apps to check")
           }
-          ci_output <- shinycoreci::test_in_ci(
+          ci_output <- shinycoreci::test_in_local(
             apps = apps,
             retries = 1,
             assert = FALSE
@@ -208,7 +204,7 @@ jobs:
             pr_number = '${{github.event.pull_request.number}}',
             username = '${GITHUB_ACTOR}'
           )
-          shinycoreci::assert_ci_output(run_tests_output)
+          shinycoreci::assert_test_output(run_tests_output)
 
       - name: Remove R options file
         if: always()

@@ -9,6 +9,7 @@
 ^README\.Rmd$
 ^shinyverse\.png$
 ^todo\.md$
-^inst/apps/.*/tests$
+
+^inst/apps/.*/tests/testthat$
 \.jshintrc$
 www/nvd3/deprecated
