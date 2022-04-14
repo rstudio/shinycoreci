@@ -140,7 +140,9 @@ jobs:
           http-user-agent: ${{ inputs.http-user-agent }}
           pandoc-version: ${{ inputs.pandoc-version }}
           cache-version: ${{ inputs.cache-version }}
-          extra-packages: ${{ inputs.extra-packages }}
+          extra-packages:
+            local::.
+            ${{ inputs.extra-packages }}
 
       - name: Notify slack TEST
         uses: voxmedia/github-action-slack-notify-build@v1
@@ -165,6 +167,7 @@ jobs:
         shell: Rscript {0}
         run: |
           apps <- shinycoreci:::apps_tests
+          str(apps)
           is_pull_request <- isTRUE(jsonlite::parse_json("${{ github.event_name == 'pull_request' }}"))
           if (is_pull_request) {
             # reduce apps to only changed apps
