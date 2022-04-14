@@ -21,7 +21,7 @@ test_in_local(
 
 \item{install}{If \code{TRUE}, installs shinyverse in the default libpath before running tests}
 
-\item{assert}{logical value which will determine if \code{\link[=assert_ci_output]{assert_ci_output()}} will be called on the result}
+\item{assert}{logical value which will determine if \code{\link[=assert_test_output]{assert_test_output()}} will be called on the result}
 
 \item{timeout}{Length of time allowed for an application's full test suit can run before determining it is a failure}
 

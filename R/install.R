@@ -103,7 +103,7 @@ install_shinyverse <- function(
     function(pkgs, lib) {
       # Performing a leap of faith that pak is installed.
       # Avoids weird installs when using pak to install shinycoreci
-      stopifnot(packageVersion("pak") >= "0.3.0")
+      stopifnot(utils::packageVersion("pak") >= "0.3.0")
       pak::pkg_install(
         pkgs,
         lib = lib,

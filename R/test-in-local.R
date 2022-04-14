@@ -9,7 +9,7 @@ ci_status <- list(
 #' Test apps using `shiny::runTests()` using local libpath
 #'
 #' @param apps applications within \verb{dir} to run
-#' @param assert logical value which will determine if [assert_ci_output()] will be called on the result
+#' @param assert logical value which will determine if [assert_test_output()] will be called on the result
 #' @param timeout Length of time allowed for an application's full test suit can run before determining it is a failure
 #' @param retries number of attempts to retry before declaring the test a failure
 #' @param repo_dir Location of local shinycoreci repo
