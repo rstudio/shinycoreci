@@ -136,7 +136,6 @@ jobs:
       - name: Install R and shinycoreci
         uses: rstudio/shiny-workflows/setup-r-package@v1
         with:
-          needs: install
           r-version: ${{ inputs.r-version }}
           http-user-agent: ${{ inputs.http-user-agent }}
           pandoc-version: ${{ inputs.pandoc-version }}
@@ -165,20 +164,23 @@ jobs:
           WDM_GITHUBTOKENSECRET: ${{ secrets.GITHUB_TOKEN }}
         shell: Rscript {0}
         run: |
-          options(install.packages.check.source = 'no')
           apps <- shinycoreci:::apps_tests
           is_pull_request <- isTRUE(jsonlite::parse_json("${{ github.event_name == 'pull_request' }}"))
           if (is_pull_request) {
             # reduce apps to only changed apps
             files_changed <- jsonlite::parse_json('${{ steps.files_changed.outputs.added_modified }}', simplifyVector = TRUE)
+            str(files_changed)
             changed_app_folders <-
               Filter(strsplit(files_changed, "/"), f = function(item) {
                 length(item) >= 3 &&
                 identical(item[[2]], "apps") &&
                 dir.exists(file.path(item[[1]], item[[2]], item[[3]]))
               })
+            str(changed_app_folders)
             unique_changed_apps <- unique(unlist(lapply(changed_app_folders, `[[`, 3)))
+            str(unique_changed_apps)
             apps <- apps[apps %in% unique_changed_apps]
+            str(apps)
             cat("Only checking changed apps:\n", paste0("* ", apps, "\n"))
             if (length(apps) == 0) stop("No apps to check")
           }
@@ -187,7 +189,12 @@ jobs:
             retries = 1,
             assert = FALSE
           )
-          shinycoreci::save_test_results(ci_output, gha_branch_name = '${{steps.gha_branch.outputs.name}}', pr_number = '${{github.event.pull_request.number}}', username = '${GITHUB_ACTOR}')
+          shinycoreci::save_test_results(
+            ci_output,
+            gha_branch_name = '${{steps.gha_branch.outputs.name}}',
+            pr_number = '${{github.event.pull_request.number}}',
+            username = '${GITHUB_ACTOR}'
+          )
           shinycoreci::assert_ci_output(run_tests_output)
 
       - name: Remove R options file
