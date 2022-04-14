@@ -143,17 +143,6 @@ jobs:
           pandoc-version: ${{ inputs.pandoc-version }}
           extra-packages: ${{ inputs.extra-packages }}
 
-      - name: Install R and shinycoreci
-        uses: rstudio/shiny-workflows/setup-r-package@v1
-        with:
-          r-version: ${{ inputs.r-version }}
-          http-user-agent: ${{ inputs.http-user-agent }}
-          pandoc-version: ${{ inputs.pandoc-version }}
-          cache-version: ${{ inputs.cache-version }}
-          extra-packages:
-            local::.
-            ${{ inputs.extra-packages }}
-
       - name: Notify slack TEST
         uses: voxmedia/github-action-slack-notify-build@v1
         env:
