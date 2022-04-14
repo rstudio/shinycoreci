@@ -25,16 +25,16 @@ jobs:
 
 
 
-  # macos-release:
-  #   needs: config
-  #   uses: ./.github/workflows/apps-test-os.yml
-  #   with:
-  #     r-version: ${{ needs.config.outputs.release }}
-  #     os: ${{ needs.config.outputs.macos }}
-  #     cache-version: ${{ needs.config.outputs.cache-version }}
-  #   secrets:
-  #     SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
-  #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  macos-release:
+    needs: config
+    uses: ./.github/workflows/apps-test-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.release }}
+      os: ${{ needs.config.outputs.macos }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+    secrets:
+      SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # macos-oldrel-1:
   #   needs: config
   #   uses: ./.github/workflows/apps-test-os.yml
@@ -129,16 +129,16 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
 
-  # windows-release:
-  #   needs: config
-  #   uses: ./.github/workflows/apps-test-os.yml
-  #   with:
-  #     r-version: ${{ needs.config.outputs.release }}
-  #     os: ${{ needs.config.outputs.windows }}
-  #     cache-version: ${{ needs.config.outputs.cache-version }}
-  #   secrets:
-  #     SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
-  #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  windows-release:
+    needs: config
+    uses: ./.github/workflows/apps-test-os.yml
+    with:
+      r-version: ${{ needs.config.outputs.release }}
+      os: ${{ needs.config.outputs.windows }}
+      cache-version: ${{ needs.config.outputs.cache-version }}
+    secrets:
+      SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # windows-oldrel-1:
   #   needs: config
   #   uses: ./.github/workflows/apps-test-os.yml
