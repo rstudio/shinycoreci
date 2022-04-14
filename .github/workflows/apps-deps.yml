@@ -50,12 +50,12 @@ jobs:
       - name: Update app pkg deps
         shell: Rscript {0}
         run: |
-          source("inst/gha/data-renv-pkgs-update.R")
+          source("inst/gha/data-app-deps-update.R")
           update_apps_deps()
 
       - name: Display file contents
         run: |
-          cat ./R/data-renv-pkgs.R
+          cat ./R/data-app-deps.R
 
       - name: Save renv pkgs to Repo
         run: |
