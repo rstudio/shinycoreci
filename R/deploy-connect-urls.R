@@ -17,14 +17,12 @@
 #'   urls <- connect_urls(account = 'barret', server = 'CustomName')
 #' }
 connect_set_public <- function(
-  apps = TRUE,
+  apps = apps_shiny,
   account = "barret",
   server = "beta.rstudioconnect.com"
 ) {
-
-  if (isTRUE(apps)) apps <- app_names
+  apps <- vapply(apps, resolve_app_name, character(1))
   stopifnot(is.character(apps))
-  app_names <- vapply(apps, resolve_app_name, character(1))
 
   acct_info <- validate_rsconnect_account(account, server)
   api_key <- acct_info$apiKey
@@ -32,7 +30,7 @@ connect_set_public <- function(
   api_post <- api_post_(server, api_key)
 
   apps_info <- api_get(paste0("/applications?count=1000&filter=account_id:", acct_info$accountId))
-  apps <- subset_and_order_apps(apps_info$applications, app_names)
+  apps <- subset_and_order_apps(apps_info$applications, apps)
 
   pb <- progress_bar(
     total = length(apps),
@@ -74,14 +72,13 @@ connect_set_public <- function(
 #' @describeIn connect Retrieve the urls from a Connect server using the Shiny applications provided in \verb{dir}
 #' @export
 connect_urls <- function(
-  apps = TRUE,
+  apps = apps_shiny,
   account = "barret",
   server = "beta.rstudioconnect.com"
 ) {
   check_installed("rsconnect")
 
   # apps_dirs <- file.path(dir, apps)
-  if (isTRUE(apps)) apps <- app_names
   stopifnot(is.character(apps))
   app_names <- vapply(apps, resolve_app_name, character(1))
 

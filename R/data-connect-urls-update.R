@@ -1,6 +1,6 @@
 # Used in GHA
 update_connect_urls <- function(
-  apps = TRUE,
+  apps = apps_shiny,
   account = "barret",
   server = "beta.rstudioconnect.com"
 ) {

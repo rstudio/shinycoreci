@@ -6,13 +6,13 @@
 \title{Make Connect Shiny applications publically available}
 \usage{
 connect_set_public(
-  apps = TRUE,
+  apps = apps_shiny,
   account = "barret",
   server = "beta.rstudioconnect.com"
 )
 
 connect_urls(
-  apps = TRUE,
+  apps = apps_shiny,
   account = "barret",
   server = "beta.rstudioconnect.com"
 )
