@@ -14,33 +14,6 @@ rm_files <- function(filenames) {
   file.remove(filenames)
 }
 
-# #' Load all suggested packages for session information
-# #' @export
-# load_suggested_pkgs <- function() {
-#   fontawesome::fa
-#   shiny::runApp
-#   renv::snapshot
-#   remotes::available_packages
-#   htmltools::a
-#   httpuv::decodeURI
-#   promises::promise
-#   later::later
-#   htmlwidgets::JS
-#   reactlog::reactlog_render
-#   fastmap::fastmap
-#   websocket::WebSocket
-#   plotly::plot_ly
-#   leaflet::leaflet
-#   leaflet.providers::get_providers
-#   shinyvalidate::compose_rules
-#   crosstalk::crosstalkLibs
-#   flexdashboard::flex_dashboard
-#   shinymeta::formatCode
-#   pool::Pool
-#   Rcpp::cppFunction
-
-#   invisible()
-# }
 
 # Is this a SHA-1 hash? (vectorized)
 is_sha <- function(x) {

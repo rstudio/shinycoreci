@@ -1,9 +1,9 @@
 library(shiny)
 if (!require("bslib")) {
-  remotes::install_github("rstudio/bslib")
+  stop("bslib not installed")
 }
 if (!require("thematic")) {
-  remotes::install_github("rstudio/thematic")
+  stop("thematic not installed")
 }
 library(ggplot2)
 library(sf)

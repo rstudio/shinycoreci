@@ -2,9 +2,8 @@ Package: shinycoreci
 Title: CI Testing for shiny
 Version: 0.0.0.9005
 Authors@R: c(
-    person("Winston", "Chang", role = c("aut", "cre"),
-           email = "winston@rstudio.com"),
-    person("Barret", "Schloerke", role = "aut", email = "barret@rstudio.com"),
+    person("Barret", "Schloerke", role = c("aut", "cre"), email = "barret@rstudio.com"),
+    person("Winston", "Chang", role = "aut", email = "winston@rstudio.com"),
     person("Alan", "Dipert", role = "aut", email = "alan@rstudio.com"),
     person("RStudio", role = c("cph", "fnd")))
 Description: What the package does (one paragraph).
@@ -13,9 +12,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports:
-    pak (>= 0.3.0),
     jsonlite,
-    remotes,
     progress,
     callr,
     sessioninfo,
@@ -33,5 +30,5 @@ Suggests:
     dplyr,
     tidyr,
     later,
-    shinytest,
-    withr
+    withr,
+    shinytest
