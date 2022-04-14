@@ -75,7 +75,7 @@ jobs:
           -e "## make public"
           -e "shinycoreci::connect_set_public(account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
           -e "## save ALL urls"
-          -e "shinycoreci::update_connect_urls(account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
+          -e "shinycoreci:::update_connect_urls(account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
       - name: Save Connect Urls to Repo
         if: matrix.config.type == 'connect'
         run: |
