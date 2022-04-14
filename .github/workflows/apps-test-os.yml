@@ -248,8 +248,8 @@ jobs:
       - name: Push test results to rstudio/shinycoreci
         if: always()
         shell: bash
-        # Add saved test results (in _test_results/) to _test_results branch
-        # (this assumes the _test_results branch already exists, which was setup manually like this
+        # Add saved test results (in __test_results/) to _test_results branch
+        # (this assumes the __test_results branch already exists, which was setup manually like this
         # https://stackoverflow.com/questions/34100048/github-create-empty-branch)
         run: |
           CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -257,7 +257,7 @@ jobs:
           git checkout _test_results --
 
           git status
-          git add _test_results/
+          git add __test_results/
           git commit -m "Add test results for ${{steps.gha_branch.outputs.name}}"
 
           # attempt to push until success. Allow for 15 attempts

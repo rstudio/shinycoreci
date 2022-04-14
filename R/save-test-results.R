@@ -43,7 +43,7 @@ save_test_results <- function(output, gha_branch_name, pr_number, username, repo
   )
 
   # Where the results will be placed
-  results_dir <- file.path(repo_dir, "_test_results")
+  results_dir <- file.path(repo_dir, "__test_results")
   dir.create(results_dir, showWarnings = FALSE)
   results_file <- file.path(results_dir, paste0(gha_branch_name, ".json"))
 
