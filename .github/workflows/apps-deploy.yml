@@ -56,27 +56,65 @@ jobs:
 
       - name: Deploy Apps to Shinyapps.io
         if: matrix.config.type == 'shinyappsio'
-        run: >
-          Rscript
-          -e "## options(pkgType = 'binary')"
-          -e "rsconnect::setAccountInfo(name='${{ matrix.config.account }}', token='${{ secrets.SHINYAPPS_IO_TESTING_APPS_TOKEN }}', secret='${{ secrets.SHINYAPPS_IO_TESTING_APPS_SECRET }}')"
-          -e "shinycoreci::deploy_apps(retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
+        shell: Rscript {0}
+        run: |
+          rsconnect::setAccountInfo(
+            name = '${{ matrix.config.account }}',
+            token = '${{ secrets.SHINYAPPS_IO_TESTING_APPS_TOKEN }}',
+            secret = '${{ secrets.SHINYAPPS_IO_TESTING_APPS_SECRET }}'
+          )
+          shinycoreci::deploy_apps(
+            retry = ${{ matrix.config.retry }},
+            cores = ${{ matrix.config.cores }},
+            account = '${{ matrix.config.account }}',
+            server = '${{ matrix.config.server_name }}'
+            ${{ matrix.config.extra_app_text }}
+          )
+
 
       - name: Deploy Apps to Connect
         if: matrix.config.type == 'connect'
-        run: >
-          Rscript
-          -e "## add server info"
-          -e "rsconnect::addConnectServer(url = '${{ matrix.config.server_url }}', name = '${{ matrix.config.server_name }}')"
-          -e "## add user info"
-          -e "rsconnect::connectApiUser('${{ matrix.config.account }}', '${{ matrix.config.server_name }}', apiKey = '${{ secrets.BARRET_BETA_RSTUDIOCONNECT_COM_API_KEY }}')"
-          -e "## deploy"
-          -e "# shinycoreci::deploy_apps(retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
-          -e "## make public"
-          -e "shinycoreci::connect_set_public(account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
-          -e "## save ALL urls"
-          -e "shinycoreci:::update_connect_urls(account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
-      - name: Save Connect Urls to Repo
+        shell: Rscript {0}
+        run: |
+          # Add server info
+          rsconnect::addConnectServer(
+            url = '${{ matrix.config.server_url }}',
+            name = '${{ matrix.config.server_name }}'
+          )
+          # Add user info
+          rsconnect::connectApiUser(
+            '${{ matrix.config.account }}',
+            '${{ matrix.config.server_name }}',
+            apiKey = '${{ secrets.BARRET_BETA_RSTUDIOCONNECT_COM_API_KEY }}'
+          )
+
+          # Deploy
+          shinycoreci::deploy_apps(
+            retry = ${{ matrix.config.retry }},
+            cores = ${{ matrix.config.cores }},
+            account = '${{ matrix.config.account }}',
+            server = '${{ matrix.config.server_name }}'
+            ${{ matrix.config.extra_app_text }}
+          )
+
+          # Make URLs public
+          shinycoreci::connect_set_public(
+            account = '${{ matrix.config.account }}',
+            server = '${{ matrix.config.server_name }}'
+            ${{ matrix.config.extra_app_text }}
+          )
+
+      - name: Save Connect Urls to Disk
+        if: matrix.config.type == 'connect'
+        shell: Rscript {0}
+        run: |
+          source("inst/gha/data-connect-urls-update.R")
+          update_connect_urls(
+            account = '${{ matrix.config.account }}',
+            server = '${{ matrix.config.server_name }}'
+          )
+
+      - name: Push Connect Urls to Repo
         if: matrix.config.type == 'connect'
         run: |
           git config user.name "${GITHUB_ACTOR}"
