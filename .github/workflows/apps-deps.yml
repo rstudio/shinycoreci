@@ -6,9 +6,9 @@ name: Update app deps
 on:
   push:
     paths:
-      - inst/apps/**
-      - inst/gha/gha-apps-deps-update.R
-      - .github/workflows/apps-deps.yml
+      - 'inst/apps/**'
+      - 'inst/gha/gha-apps-deps-update.R'
+      - '.github/workflows/apps-deps.yml'
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
   schedule:
