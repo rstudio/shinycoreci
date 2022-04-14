@@ -8,8 +8,10 @@ on:
     branches:
       - cache**
     paths:
-      - .github/workflows/apps-cache**
-      - .github/workflows/apps-test**
+      - .github/workflows/apps-cache-matrix.yml
+      - .github/workflows/apps-cache-os.yml
+      - .github/workflows/apps-test-matrix.yml
+      - .github/workflows/apps-test-os.yml
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
   schedule:
