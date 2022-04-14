@@ -1,0 +1,302 @@
+on:
+  workflow_call:
+    inputs:
+      r-version:
+        type: string
+        default: release
+        required: false
+      os:
+        type: string
+        default: ubuntu-latest
+        required: false
+      extra-key:
+        type: string
+        default: ""
+        required: false
+      extra-packages:
+        type: string
+        default: ""
+        required: false
+      cache-version:
+        type: string
+        default: "2"
+        required: false
+      http-user-agent:
+        type: string
+        default: ""
+        required: false
+      pandoc-version:
+        type: string
+        default: "2.7.3"
+        required: false
+      # rtools-35:
+      #   type: boolean
+      #   default: true
+      #   required: false
+    secrets:
+      SLACK_CHANNEL_ID:
+        required: true
+      SLACK_BOT_TOKEN:
+        required: true
+
+name: Test apps - single
+
+jobs:
+
+  test:
+    runs-on: ${{ inputs.os }}
+
+    name: Test - R ${{ inputs.r-version }}${{ inputs.extra-key }}
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+
+      - name: Short R version, SHA, and OS
+        id: short
+        shell: bash
+        run: |
+          # keep only the major.minor values
+          RVERSION=`echo '${{ inputs.r-version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
+          echo "r-version: $RVERSION"
+          echo "::set-output name=r-version::$RVERSION"
+
+          SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
+          if [[ -z "$SHA" ]]; then
+            SHA="${{ github.sha }}"
+          fi
+          SHORT_SHA="${SHA:0:7}"
+          echo "sha: $SHORT_SHA"
+          echo "::set-output name=sha::$SHORT_SHA"
+
+          OS=`Rscript -e 'cat(sessionInfo()$running, "\n", sep = "")'`
+          echo "::set-output name=os-version::$OS"
+
+      # The `github.sha` value is the commit sha as if the PR was merged. :-(
+      # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows#pull-request-event-pull_request
+      # Checking for the pull request sha and then pasting it to the possibly 'merged' sha.  If main branch, only the `.sha` exists. If a PR, the PR sha exists.
+      #  Either way, take the first 7 characters.
+      # Found `github.event.pull_request.head.sha` example here: https://github.com/actions/checkout/commit/cab31617d857bf9e70dc35fd9e4dafe350794082#diff-04c6e90faac2675aa89e2176d2eec7d8R92
+      # The webhook payload example (equivalent to `github.event.pull_request`) shows the keys `head > sha` : https://developer.github.com/v3/activity/events/types/#pullrequestevent
+      - name: Create failure branch name
+        id: failed_branch
+        shell: Rscript {0}
+        run: |
+          cat('::set-output name=name::', '${{ steps.short.outputs.sha }}', '${{ inputs.extra-key }}', '-', format(Sys.time(), '%Y_%m_%d_%H_%M'), sep = '')
+      - name: Create GHA branch name (i.e., test run identifier)
+        id: gha_branch
+        shell: Rscript {0}
+        run: |
+          cat('::set-output name=name::gha-', '${{ steps.failed_branch.outputs.name }}', '-', '${{ steps.short.outputs.r-version }}',  '-', '${{ runner.os }}', sep = '')
+
+      - name: Windows git setup
+        if: runner.os == 'Windows'
+        run:
+          git config --global core.autocrlf false
+
+      - name: GitHub Pull (PR)
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          # check out the commit sha, not the merged sha. Avoids the "Merge SHA_A into SHA_B" into commits
+          ref: ${{ github.event.pull_request.head.sha }}      # # Ref: https://github.com/actions/checkout/pull/115/files#diff-04c6e90faac2675aa89e2176d2eec7d8R203-R209
+          fetch-depth: 0
+      - name: GitHub Pull (Branch)
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed file names
+        if: github.event_name == 'pull_request'
+        id: files_changed
+        uses: Ana06/get-changed-files@v2.0.0
+        with:
+          format: 'json'
+          filter: '*'
+
+      - name: R Options
+        shell: bash
+        run: |
+          echo 'MAKEFLAGS=-j2' >> .Renviron
+
+      - name: Notify slack INSTALL
+        uses: voxmedia/github-action-slack-notify-build@v1
+        if: success()
+        id: slack
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          status: INSTALL (${{ steps.short.outputs.sha }} ${{ matrix.config.os }} - ${{ steps.short.outputs.r-version }})
+          color: warning
+
+      - name: Install R, shinycoreci, and shinyverse
+        timeout-minutes: 45
+        uses: ./.github/internal/install-shinyverse
+        with:
+          r-version: ${{ inputs.r-version }}
+          cache-version: ${{ inputs.cache-version }}
+          http-user-agent: ${{ inputs.http-user-agent }}
+          pandoc-version: ${{ inputs.pandoc-version }}
+          extra-packages: ${{ inputs.extra-packages }}
+
+      - name: Notify slack TEST
+        uses: voxmedia/github-action-slack-notify-build@v1
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          message_id: ${{ steps.slack.outputs.message_id }}
+          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          status: TEST (${{ steps.short.outputs.sha }} ${{ inputs.os }} - ${{ steps.short.outputs.r-version }})
+          color: warning
+
+      # do not update pkgs, as they were installed above
+      # do update app pkgs, as they have NOT been installed
+      - name: Run tests
+        timeout-minutes: 240
+        env:
+          # firefox needs creds to download drivers?
+          # https://github.com/bonigarcia/webdrivermanager#http-response-code-403
+          # https://github.com/schloerke/shinyjster/pull/42
+          WDM_GITHUBTOKENNAME: ${{ github.actor }}
+          WDM_GITHUBTOKENSECRET: ${{ secrets.GITHUB_TOKEN }}
+        shell: Rscript {0}
+        run: |
+          apps <- shinycoreci:::apps_with_tests()
+          str(apps)
+          is_pull_request <- isTRUE(jsonlite::parse_json("${{ github.event_name == 'pull_request' }}"))
+          if (is_pull_request) {
+            # reduce apps to only changed apps
+            files_changed <- jsonlite::parse_json('${{ steps.files_changed.outputs.added_modified }}', simplifyVector = TRUE)
+            changed_app_folders <-
+              Filter(strsplit(files_changed, "/"), f = function(item) {
+                length(item) >= 3 &&
+                identical(item[[2]], "apps") &&
+                dir.exists(file.path(item[[1]], item[[2]], item[[3]]))
+              })
+            unique_changed_apps <- unique(unlist(lapply(changed_app_folders, `[[`, 3)))
+            cat("Known apps:\n", paste0("* ", apps, "\n"))
+            cat("Changed apps:\n", paste0("* ", unique_changed_apps, "\n"))
+            apps <- apps[apps %in% unique_changed_apps]
+            cat("Testing apps:\n", paste0("* ", apps, "\n"))
+            if (length(apps) == 0) stop("No apps to check")
+          }
+          test_output <- shinycoreci::test_in_local(
+            apps = apps,
+            retries = 1,
+            assert = FALSE,
+            install = FALSE
+          )
+          shinycoreci::save_test_results(
+            test_output,
+            gha_branch_name = '${{steps.gha_branch.outputs.name}}',
+            pr_number = '${{github.event.pull_request.number}}',
+            username = '${GITHUB_ACTOR}'
+          )
+          shinycoreci::assert_test_output(test_output)
+
+      - name: Remove R options file
+        if: always()
+        shell: bash
+        run: |
+          rm .Renviron || echo "No .Renviron file to remove"
+
+      - name: Git config
+        if: always()
+        shell: bash
+        # set local email to actor
+        # set local name to actor
+        # set to merge when pulling (used for test results)
+        # need to unset the extra header to allow for regular https push
+        # display config
+        run: |
+          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
+            git config --local user.name "${GITHUB_ACTOR}" && \
+            git config --local pull.rebase false && \
+            git config --local --unset http.https://github.com/.extraheader && \
+            git config --local --list
+
+      - name: Push test files to rstudio/shinycoreci `gha-` branch
+        if: always()
+        shell: bash
+        # git checkout -B -- Creates the branch <new_branch> and start it at <start_point>; if it already exists, then reset it to <start_point>.
+        # git push --force -- JUST in case the prior branch existed
+        run: |
+          git checkout -B ${{ steps.gha_branch.outputs.name }}
+
+          git add inst/apps/sysinfo-* && \
+            git commit -m '`sysinfo` Changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}' || \
+            echo "No apps/sysinfo-* changes to commit"
+
+          echo "TODO-barret; Perform this in many many commits, not a single massive commit"
+          git add inst/apps && \
+            git commit -m 'App changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}'|| \
+            echo "No app changes to commit"
+
+          git log -n 4 --pretty=oneline --simplify-by-decoration
+
+          # if any commits occured, then push to repo (compare to sha of current execution)
+          echo "`git rev-list --count HEAD ^${{ steps.short.outputs.sha }}`"
+          if (( `git rev-list --count HEAD ^${{ steps.short.outputs.sha }}` > 0 )); then
+            # This branch should never exist. Force push
+            git push --force "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" "HEAD:${{ steps.gha_branch.outputs.name }}"
+          fi
+
+      - name: Push test results to rstudio/shinycoreci
+        if: always()
+        shell: bash
+        # Add saved test results (in __test_results/) to _test_results branch
+        # (this assumes the __test_results branch already exists, which was setup manually like this
+        # https://stackoverflow.com/questions/34100048/github-create-empty-branch)
+        run: |
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          git fetch origin _test_results
+          git checkout _test_results --
+
+          git status
+          git add __test_results/
+          git commit -m "Add test results for ${{steps.gha_branch.outputs.name}}"
+
+          # attempt to push until success. Allow for 15 attempts
+          counter=0
+          git pull origin _test_results
+          until git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" _test_results
+          do
+            # wait 5-15 seconds to avoid deadlock
+            sleep $[ ($RANDOM % 10) + 5 ]s
+
+            [[ counter -gt 15 ]] && echo "Too many attempts!" && exit 1
+            ((counter++))
+            echo "Push failed. Trying again. Try #$counter"
+
+            # pull again to have the latest
+            git pull origin _test_results
+          done
+
+          git checkout $CURRENT_BRANCH
+
+
+      - name: Notify slack SUCCESS
+        if: success()
+        uses: voxmedia/github-action-slack-notify-build@v1
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          message_id: ${{ steps.slack.outputs.message_id }}
+          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          status: SUCCESS (${{ steps.short.outputs.sha }} ${{ inputs.os }} - ${{ steps.short.outputs.r-version }})
+          color: good
+
+      - name: Notify slack FAILED
+        if: failure()
+        uses: voxmedia/github-action-slack-notify-build@v1
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          message_id: ${{ steps.slack.outputs.message_id }}
+          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          status: FAILED (${{ steps.short.outputs.sha }} ${{ inputs.os }} - ${{ steps.short.outputs.r-version }})
+          color: danger

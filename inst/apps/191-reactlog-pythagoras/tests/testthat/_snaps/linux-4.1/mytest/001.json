@@ -1,0 +1,19 @@
+{
+  "input": {
+    "a": 3,
+    "b": 4,
+    "reactlog_module-refresh": 1
+  },
+  "output": {
+    "c": "5",
+    "reactlog_module-iframe": {
+      "html": "<iframe id=\"reactlog_module-reactlog_iframe_d1873e1\" width=\"100%\" height=\"600\"><\/iframe>\n<script>\n            (function() {\n              var src =\n                'reactlog?w=' + window.escape(window.Shiny.shinyapp.config.workerId) +\n                '&s=' + window.escape(window.Shiny.shinyapp.config.sessionId) + '&test=1';\n              $('#reactlog_module-reactlog_iframe_d1873e1').attr('src', src);\n            })()\n          <\/script>",
+      "deps": [
+
+      ]
+    }
+  },
+  "export": {
+
+  }
+}

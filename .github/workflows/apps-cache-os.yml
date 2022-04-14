@@ -1,0 +1,96 @@
+on:
+  workflow_call:
+    inputs:
+      r-version:
+        type: string
+        default: release
+        required: false
+      os:
+        type: string
+        default: ubuntu-latest
+        required: false
+      extra-key:
+        type: string
+        default: ""
+        required: false
+      extra-packages:
+        type: string
+        default: ""
+        required: false
+      cache-version:
+        type: string
+        default: "2"
+        required: false
+      http-user-agent:
+        type: string
+        default: ""
+        required: false
+      pandoc-version:
+        type: string
+        default: "2.7.3"
+        required: false
+      # rtools-35:
+      #   type: boolean
+      #   default: true
+      #   required: false
+name: Warm library cache - single
+
+jobs:
+
+  warm-cache:
+    runs-on: ${{ inputs.os }}
+
+    name: Warm cache - R ${{ inputs.r-version }}${{ inputs.extra-key }}
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Short R version, SHA, and OS
+        id: short
+        shell: bash
+        run: |
+          # keep only the major.minor values
+          RVERSION=`echo '${{ inputs.r-version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
+          echo "r-version: $RVERSION"
+          echo "::set-output name=r-version::$RVERSION"
+
+          SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
+          if [[ -z "$SHA" ]]; then
+            SHA="${{ github.sha }}"
+          fi
+          SHORT_SHA="${SHA:0:7}"
+          echo "sha: $SHORT_SHA"
+          echo "::set-output name=sha::$SHORT_SHA"
+
+          OS=`Rscript -e 'cat(sessionInfo()$running, "\n", sep = "")'`
+          echo "::set-output name=os-version::$OS"
+
+      - name: GitHub Pull (PR)
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          # check out the commit sha, not the merged sha. Avoids the "Merge SHA_A into SHA_B" into commits
+          ref: ${{ github.event.pull_request.head.sha }}      # # Ref: https://github.com/actions/checkout/pull/115/files#diff-04c6e90faac2675aa89e2176d2eec7d8R203-R209
+          fetch-depth: 0
+      - name: GitHub Pull (Branch)
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: R Options
+        shell: bash
+        run: |
+          echo 'MAKEFLAGS=-j2' >> .Renviron
+
+      - name: Install R, shinycoreci, and shinyverse
+        timeout-minutes: 45
+        uses: ./.github/internal/install-shinyverse
+        with:
+          r-version: ${{ inputs.r-version }}
+          cache-version: ${{ inputs.cache-version }}
+          http-user-agent: ${{ inputs.http-user-agent }}
+          pandoc-version: ${{ inputs.pandoc-version }}
+          extra-packages: ${{ inputs.extra-packages }}

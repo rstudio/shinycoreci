@@ -1,0 +1,45 @@
+{
+  "input": {
+    "n": 50
+  },
+  "output": {
+    "scatterPlot": {
+      "src": "[image data sha1: 6b559d05692899c0a2d9730efb02ae23fb5f7f0b]",
+      "width": 371,
+      "height": 300,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -2.0462139901976,
+              "right": 2.47785493097047,
+              "bottom": -2.46608086256904,
+              "top": 2.77611430427408
+            },
+            "range": {
+              "left": 59.04,
+              "right": 340.76,
+              "bottom": 225.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 371,
+          "height": 300
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}

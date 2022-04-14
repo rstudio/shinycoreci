@@ -36,8 +36,9 @@ fix_all_gha_branches <- function(
   accept_all = FALSE,
   repo_dir = file.path(dir, "..")
 ) {
+  stop("TODO-barret;")
   original_sys_call <- sys.call()
-  validate_core_pkgs()
+  # validate_core_pkgs()
 
   if (!is.null(list(...)$merge)) {
     stop("`merge` is deprecated. Use `save_results` instead")
@@ -353,7 +354,7 @@ fix_all_gha_branches <- function(
 
 
 
-# Note: Logic should be duplicated in ci-runtests.yml pre-check job
+# Note: Logic should be duplicated in pre-check GHA workflow
 validate_no_unexpected_shinytest_folders <- function(dir = "apps") {
   existing_current_folders <- shinytest_current_folder(dir)
   if (length(existing_current_folders) > 0) {

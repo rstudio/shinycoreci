@@ -1,5 +1,4 @@
 ^LICENSE\.md$
-^apps
 ^renv$
 ^renv\.lock$
 ^shinycoreci.Rproj$
@@ -8,4 +7,9 @@
 \.sublime-project$
 ^.*\.Rproj$
 ^README\.Rmd$
-^shinyverse.png$
+^shinyverse\.png$
+^todo\.md$
+
+^inst/apps/.*/tests/.*
+\.jshintrc$
+www/nvd3/deprecated

@@ -1,0 +1,172 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - docker**
+  # # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
+  # schedule:
+  #   - cron:  '0 7 * * 1-5' # every work night (delayed 1 hr)
+  repository_dispatch:
+    types:
+      - all
+      - docker
+
+
+jobs:
+  rversions:
+    name: R Versions
+    runs-on: ubuntu-latest
+    outputs:
+      devel: ${{ steps.devel.outputs.installed-r-version }}
+      release: ${{ steps.release.outputs.installed-r-version }}
+      oldrel1: ${{ steps.oldrel-1.outputs.installed-r-version }}
+      oldrel2: ${{ steps.oldrel-2.outputs.installed-r-version }}
+      oldrel3: ${{ steps.oldrel-3.outputs.installed-r-version }}
+      oldrel4: ${{ steps.oldrel-4.outputs.installed-r-version }}
+    steps:
+    - { name: devel,    id: devel,    uses: r-lib/actions/setup-r@v2, with: { r-version: devel,    install-r: false } }
+    - { name: release,  id: release,  uses: r-lib/actions/setup-r@v2, with: { r-version: release,  install-r: false } }
+    - { name: oldrel-1, id: oldrel-1, uses: r-lib/actions/setup-r@v2, with: { r-version: oldrel-1, install-r: false } }
+    - { name: oldrel-2, id: oldrel-2, uses: r-lib/actions/setup-r@v2, with: { r-version: oldrel-2, install-r: false } }
+    - { name: oldrel-3, id: oldrel-3, uses: r-lib/actions/setup-r@v2, with: { r-version: oldrel-3, install-r: false } }
+    - { name: oldrel-4, id: oldrel-4, uses: r-lib/actions/setup-r@v2, with: { r-version: oldrel-4, install-r: false } }
+    - name: Display Outputs
+      id: set_versions
+      run: |
+        echo "devel: ${{ steps.devel.outputs.installed-r-version }}"
+        echo "release: ${{ steps.release.outputs.installed-r-version }}"
+        echo "oldrel1: ${{ steps.oldrel-1.outputs.installed-r-version }}"
+        echo "oldrel2: ${{ steps.oldrel-2.outputs.installed-r-version }}"
+        echo "oldrel3: ${{ steps.oldrel-3.outputs.installed-r-version }}"
+        echo "oldrel4: ${{ steps.oldrel-4.outputs.installed-r-version }}"
+
+  docker:
+    needs: rversions
+    name: ${{ matrix.docker.type }}-${{ matrix.r_version }}${{ matrix.flavor.extra_base_tag }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+
+        flavor:
+          - shinycoreci_sha: main
+            extra_base_tag: ""
+          # - shinycoreci_sha: shiny-1.4.0.1
+          #   extra_base_tag: "-rc_v1.4.0.1"
+
+        r_version:
+          # - ${{ needs.rversions.outputs.devel }}
+          - ${{ needs.rversions.outputs.release }}
+          - ${{ needs.rversions.outputs.oldrel1 }}
+          - ${{ needs.rversions.outputs.oldrel2 }}
+          - ${{ needs.rversions.outputs.oldrel3 }}
+          - ${{ needs.rversions.outputs.oldrel4 }}
+
+        docker:
+          - name: Centos7
+            workdir: Docker/centos
+            type: centos7
+          # Focal has trouble installing R 3.4, 3.5
+          - name: Focal
+            workdir: Docker/ubuntu
+            type: focal
+          - name: Bionic
+            workdir: Docker/ubuntu
+            type: bionic
+          # Xenial has trouble installing R 3.5
+          - name: Xenial
+            workdir: Docker/ubuntu
+            type: xenial
+
+    steps:
+
+    - name: Stop boom
+      run: |
+        echo "Need to find a way around the PAT storage issue"
+        exit 1
+
+    - name: Get R version
+      uses: r-lib/actions/setup-r@v1
+      id: install-r
+      with:
+        r-version: ${{ matrix.r_version }}
+        install-r: false # No need to install. Just need version
+    - name: Short R version and SHA
+      id: short
+      run: |
+        # keep only the major.minor values
+        RVERSION=`echo '${{ steps.install-r.outputs.installed-r-version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
+        echo "r-version: $RVERSION"
+        echo "::set-output name=r-version::$RVERSION"
+
+        SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
+        if [[ -z "$SHA" ]]; then
+          SHA=${{ github.sha }}
+        fi
+        SHORT_SHA=${SHA:0:7}
+        echo "sha: $SHORT_SHA"
+        echo "::set-output name=sha::$SHORT_SHA"
+    - name: Should install
+      id: can-build
+      if: ${{ !( ( steps.short.outputs.r-version == '3.5' && matrix.docker.type == 'bionic' ) || ( matrix.docker.type == 'focal' && ( steps.short.outputs.r-version == '3.4' || steps.short.outputs.r-version == '3.5' ) ) ) }}
+      run: |
+        echo "If this step did not run, then we're knowingly unable to install this version of R on this Linux distro"
+
+    - uses: actions/checkout@v2
+      if: steps.can-build.conclusion != 'skipped'
+
+    # https://github.com/marketplace/actions/publish-docker
+    - name: Build Base
+      if: steps.can-build.conclusion != 'skipped'
+      uses: elgohr/Publish-Docker-Github-Action@2.12
+      with:
+        name: rstudio/shinycoreci
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        cache: ${{ github.event_name == 'push' }}
+        workdir: ${{ matrix.docker.workdir }}
+        buildargs: "R_VERSION=${{ steps.short.outputs.r-version }},RELEASE=${{ matrix.docker.type }},APPS_SHA=${{ steps.short.outputs.sha }},SHINYCORECI_SHA=${{ matrix.flavor.shinycoreci_sha }},GITHUB_PAT=${{ secrets.GITHUB_TOKEN }}"
+        tags: "base-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}"
+
+
+    # https://github.com/marketplace/actions/publish-docker
+    - name: Build SSO
+      if: steps.can-build.conclusion != 'skipped'
+      uses: elgohr/Publish-Docker-Github-Action@2.12
+      with:
+        name: rstudio/shinycoreci
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        cache: ${{ github.event_name == 'push' }}
+        workdir: ${{ matrix.docker.workdir }}_sso
+        buildargs: "R_VERSION=${{ steps.short.outputs.r-version }},RELEASE=${{ matrix.docker.type }},EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}"
+        tags: "sso-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}"
+
+
+        # Note: Store the license as a single line string with new lines as visible '\n' characters.
+    - name: Store SSP License
+      if: steps.can-build.conclusion != 'skipped'
+      shell: bash
+      run: |
+        printf "%b" "${{ secrets.SSP_LICENSE_FILE }}" > ${{ matrix.docker.workdir }}_ssp/ssp.lic 2>/dev/null
+        wc -l ${{ matrix.docker.workdir }}_ssp/ssp.lic
+    # https://github.com/marketplace/actions/publish-docker
+    - name: Build SSP
+      if: steps.can-build.conclusion != 'skipped'
+      uses: elgohr/Publish-Docker-Github-Action@2.12
+      with:
+        name: rstudio/shinycoreci
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        cache: ${{ github.event_name == 'push' }}
+        workdir: ${{ matrix.docker.workdir }}_ssp
+        # ignoring build arg *_AWS_BUILD_MACHINE as it's consistent within file
+        buildargs: "R_VERSION=${{ steps.short.outputs.r-version }},RELEASE=${{ matrix.docker.type }},SSP_LICENSE_FILE=ssp.lic,EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}"
+        tags: "ssp-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}"
+    - name: Remove SSP License
+      if: ${{ always() && steps.can-build.conclusion != 'skipped' }}
+      run: |
+        rm ${{ matrix.docker.workdir }}_ssp/ssp.lic

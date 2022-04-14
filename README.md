@@ -17,7 +17,7 @@ For more direct usage examples, see [`rstudio/shinycoreci-apps`](https://github.
 Install the development version from [GitHub](https://github.com/) with:
 
 ``` r
-remotes::install_github("rstudio/shinycoreci")
+pak::pkg_install("rstudio/shinycoreci")
 ```
 
 These `Remotes` will be installed to make sure the latest package development is working as expected:

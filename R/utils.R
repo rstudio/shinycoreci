@@ -14,33 +14,6 @@ rm_files <- function(filenames) {
   file.remove(filenames)
 }
 
-#' Load all suggested packages for session information
-#' @export
-load_suggested_pkgs <- function() {
-  fontawesome::fa
-  shiny::runApp
-  renv::snapshot
-  remotes::available_packages
-  htmltools::a
-  httpuv::decodeURI
-  promises::promise
-  later::later
-  htmlwidgets::JS
-  reactlog::reactlog_render
-  fastmap::fastmap
-  websocket::WebSocket
-  plotly::plot_ly
-  leaflet::leaflet
-  leaflet.providers::get_providers
-  shinyvalidate::compose_rules
-  crosstalk::crosstalkLibs
-  flexdashboard::flex_dashboard
-  shinymeta::formatCode
-  pool::Pool
-  Rcpp::cppFunction
-
-  invisible()
-}
 
 # Is this a SHA-1 hash? (vectorized)
 is_sha <- function(x) {
@@ -68,30 +41,6 @@ d3_to_df <- function(x, colnames) {
   res <- lapply(colnames, function(colname) extract_vector(x, colname))
   as.data.frame(res, stringsAsFactors = FALSE)
 }
-
-set_options <- function(new_options) {
-  do.call(options, as.list(new_options))
-}
-#' Eval with Options
-#'
-#' @export
-#' @param new_options list of options to be supplied to `options()`
-#' @param code code to evaluate, given the new options
-#' @examples
-#' \dontrun{with_options(list(warn = 0), {
-#'   warning('just a warning')
-#'   with_options(list(warn = 2), { warning('made into error') })
-#'   warning('just a warning')
-#' })}
-with_options <- function(new_options, code) {
-  old_options <- set_options(new_options)
-  on.exit({
-    set_options(old_options)
-  })
-
-  force(code)
-}
-
 
 
 # Ask a yes no question defaulting to 'no'

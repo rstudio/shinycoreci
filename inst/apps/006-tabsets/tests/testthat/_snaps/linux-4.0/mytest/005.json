@@ -1,0 +1,46 @@
+{
+  "input": {
+    "dist": "lnorm",
+    "n": 500
+  },
+  "output": {
+    "plot": {
+      "src": "[image data sha1: 8e782e7ff04829372f7c2c7a3eb77b7295a24578]",
+      "width": 631,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -0.96,
+              "right": 24.96,
+              "bottom": -14.56,
+              "top": 378.56
+            },
+            "range": {
+              "left": 59.04,
+              "right": 600.76,
+              "bottom": 325.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 631,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}

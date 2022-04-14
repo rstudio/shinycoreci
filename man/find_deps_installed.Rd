@@ -2,13 +2,10 @@
 % Please edit documentation in R/sysinfo.R
 \name{find_deps_installed}
 \alias{find_deps_installed}
-\title{Find package dependencies used in a directory}
+\title{Find package dependencies installed}
 \usage{
-find_deps_installed(dir = ".")
-}
-\arguments{
-\item{dir}{The directory to look in.}
+find_deps_installed()
 }
 \description{
-Find package dependencies used in a directory
+Find package dependencies installed
 }

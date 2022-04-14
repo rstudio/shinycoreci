@@ -1,0 +1,124 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - deploy**
+  # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
+  schedule:
+    - cron:  '0 6 * * 1-5' # every work night (delayed 0 hrs)
+  repository_dispatch:
+    types:
+      - all
+      - deploy
+
+jobs:
+
+  config:
+    uses: ./.github/workflows/apps-config.yml
+
+  deploy:
+    runs-on: ${{ matrix.config.os }}
+
+    name: "${{ matrix.config.type }} (${{ matrix.config.r }})"
+    needs: config
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        config:
+        - { os: "${{ needs.config.outputs.ubuntu }}", r: 'release', type: "shinyappsio", account: "testing-apps", server_name: "shinyapps.io", cores: 5, retry: 3, extra_app_text: ", apps = c(1,2)" }
+        - { os: "${{ needs.config.outputs.ubuntu }}", r: 'release', type: "connect", account: "barret", server_name: "beta.rstudioconnect.com", server_url: "https://beta.rstudioconnect.com/__api__", cores: 1, retry: 3 , extra_app_text: ", apps = c(1,2)" }
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+        name: GitHub Pull
+
+      - name: R Options
+        shell: bash
+        run: |
+          echo 'MAKEFLAGS=-j2' >> .Renviron
+
+      - name: Install R, shinycoreci, and shinyverse
+        timeout-minutes: 45
+        uses: ./.github/internal/install-shinyverse
+        with:
+          r-version: ${{ matrix.config.r }}
+          cache-version: ${{ needs.config.outputs.cache-version }}
+          extra-packages: any::rsconnect
+
+      - name: Deploy Apps to Shinyapps.io
+        if: matrix.config.type == 'shinyappsio'
+        shell: Rscript {0}
+        run: |
+          rsconnect::setAccountInfo(
+            name = '${{ matrix.config.account }}',
+            token = '${{ secrets.SHINYAPPS_IO_TESTING_APPS_TOKEN }}',
+            secret = '${{ secrets.SHINYAPPS_IO_TESTING_APPS_SECRET }}'
+          )
+          shinycoreci::deploy_apps(
+            install = FALSE,
+            retry = ${{ matrix.config.retry }},
+            cores = ${{ matrix.config.cores }},
+            account = '${{ matrix.config.account }}',
+            server = '${{ matrix.config.server_name }}'
+            ${{ matrix.config.extra_app_text }}
+          )
+
+
+      - name: Deploy Apps to Connect
+        if: matrix.config.type == 'connect'
+        shell: Rscript {0}
+        run: |
+          # Add server info
+          rsconnect::addConnectServer(
+            url = '${{ matrix.config.server_url }}',
+            name = '${{ matrix.config.server_name }}'
+          )
+          # Add user info
+          rsconnect::connectApiUser(
+            '${{ matrix.config.account }}',
+            '${{ matrix.config.server_name }}',
+            apiKey = '${{ secrets.BARRET_BETA_RSTUDIOCONNECT_COM_API_KEY }}'
+          )
+
+          # Deploy
+          shinycoreci::deploy_apps(
+            install = FALSE,
+            retry = ${{ matrix.config.retry }},
+            cores = ${{ matrix.config.cores }},
+            account = '${{ matrix.config.account }}',
+            server = '${{ matrix.config.server_name }}'
+            ${{ matrix.config.extra_app_text }}
+          )
+
+          # Make URLs public
+          shinycoreci::connect_set_public(
+            account = '${{ matrix.config.account }}',
+            server = '${{ matrix.config.server_name }}'
+            ${{ matrix.config.extra_app_text }}
+          )
+
+      - name: Save Connect Urls to Disk
+        if: matrix.config.type == 'connect'
+        shell: Rscript {0}
+        run: |
+          source("inst/gha/data-connect-urls-update.R")
+          update_connect_urls(
+            account = '${{ matrix.config.account }}',
+            server = '${{ matrix.config.server_name }}'
+          )
+
+      - name: Push Connect Urls to Repo
+        if: matrix.config.type == 'connect'
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add ./R
+          git commit -m 'Generate Connect URLs (GitHub Actions)' || echo "No Connect URL changes to commit"
+          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No Connect URLs to push"

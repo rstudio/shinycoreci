@@ -6,7 +6,7 @@
 \title{Docker Testing}
 \usage{
 docker_run_sso(
-  release = c("focal", "bionic", "xenial", "centos7"),
+  release = c("focal", "bionic", "centos7"),
   port = switch(release, centos7 = 7878, 3838),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
@@ -14,7 +14,7 @@ docker_run_sso(
 )
 
 docker_run_ssp(
-  release = c("focal", "bionic", "xenial", "centos7"),
+  release = c("focal", "bionic", "centos7"),
   port = switch(release, centos7 = 8989, 4949),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,

@@ -4,24 +4,6 @@ manual_app_info <- list(
   flag = "shinycoreci::::is_manual_app"
 )
 
-is_manual_app <- function(app_dir) {
-    app_or_ui_files <- c(shiny_app_files(app_dir), rmarkdown_app_files(app_dir))
-
-    flag <- manual_app_info$flag
-    for (app_file in app_or_ui_files) {
-      if (
-        any(grepl(
-          # if the flag appears in the file... success!
-          flag,
-          readLines(app_file, n = 100)
-        ))
-      ) {
-        return(TRUE)
-      }
-    }
-    FALSE
-}
-
 #' Flag an app to be manually tested
 #'
 #' All \code{apps_*} methods inspect each application to determine if if testing is possible.
@@ -77,78 +59,16 @@ use_manual_app <- function(app_dir) {
 
 #' Create Shinyjster test file
 #'
-#' This creates a testing file to be used with [test_runtests()].  It will create a file for each browser.
+#' This creates a testing file that will test shinyjster on each applicable browser.
 #'
 #' @param app_dir Location of shiny application to test
-#' @seealso [test_shinyjster()]
 #' @export
-use_tests_shinyjster <- function(app_dir) {
-
-  for (browser_name in c("chrome", "firefox", "edge", "ie")) {
-    save_use_file(
-      file.path(app_dir, "tests", paste0("shinyjster-", browser_name, ".R")),
-      paste0(
-        "shinycoreci::test_shinyjster_app(\"", browser_name, "\")"
-      )
-    )
-  }
-
-  invisible(app_dir)
-}
-
-#' Create Shinyjster test file
-#'
-#' @param app_dir Location of shiny application to test
-#' @seealso [test_shinytest()]
-#' @export
-use_tests_shinytest <- function(app_dir) {
+use_shinyjster <- function(app_dir) {
 
   save_use_file(
-    file.path(app_dir, "tests", "shinytest.R"),
-    "shinycoreci::test_shinytest_app()"
+    file.path(app_dir, "tests", "test-shinyjster.R"),
+    "shinyjster::testthat_shinyjster()"
   )
-
-  save_use_file(
-    file.path(app_dir, "tests", "shinytest", "mytest.R"),
-    paste(
-      'app <- ShinyDriver$new("../../", seed = 100, shinyOptions = list(display.mode = "normal"))',
-      'app$snapshotInit("mytest")',
-      '',
-      'app$snapshot()',
-      sep = "\n"
-    )
-  )
-
-  invisible(app_dir)
-}
-
-
-#' Create an app testthat test file
-#'
-#' @param app_dir Location of shiny application to test
-#' @seealso [test_testthat()]
-#' @export
-use_tests_testthat <- function(app_dir) {
-
-  save_use_file(
-    file.path(app_dir, "tests", "testthat.R"),
-    "shinycoreci::test_testthat_app()"
-  )
-
-  save_use_file(
-    file.path(app_dir, "tests", "testthat", "tests.R"),
-    paste0(
-      'context("server")',
-      '',
-      'test_that("server works", {',
-      '  testServer(expr = {',
-      '    ',
-      '  })',
-      '})',
-      sep = "\n"
-    )
-  )
-
   invisible(app_dir)
 }
 

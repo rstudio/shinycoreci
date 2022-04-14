@@ -128,13 +128,13 @@ server <- function(input, output, session) {
 
   log_files <- reactive({
     if (isTRUE(input$fetch_results > 1) || TRUE) {
-      shinycoreci:::git_cmd(repo_dir, "git fetch origin _test_results:_test_results")
+      shinycoreci:::git_cmd(repo_dir, "git fetch origin _test_results")
       try({
-        shinycoreci:::git_cmd(repo_dir, "git checkout _test_results -- _test_results/")
-        shinycoreci:::git_cmd(repo_dir, "git reset _test_results/")
+        shinycoreci:::git_cmd(repo_dir, "git checkout _test_results -- __test_results/")
+        shinycoreci:::git_cmd(repo_dir, "git reset __test_results/")
       })
     }
-    withr::with_dir(repo_dir, normalizePath(Sys.glob("_test_results/*.json"), mustWork = TRUE))
+    withr::with_dir(repo_dir, normalizePath(Sys.glob("__test_results/*.json"), mustWork = TRUE))
   })
 
   log_dates <- reactive({

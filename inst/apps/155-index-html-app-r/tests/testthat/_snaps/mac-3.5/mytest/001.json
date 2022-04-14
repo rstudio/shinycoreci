@@ -1,0 +1,29 @@
+{
+  "input": {
+
+  },
+  "output": {
+    "jster_ui": {
+      "html": "<div id=\"shinyjster_progress\" style=\"display: none; position: absolute; left: 0px; bottom: 0px; padding: 5px;\">\n  shinyjster - \n  <span id=\"shinyjster_progress_val\"><\/span>\n<\/div>\n<script>$(function() {\n\n        if (Jster.getParameterByName('shinyjster') !== '1') {\n          return;\n        }\n        // tell shiny to listen for jster\n        Jster.initShiny();\n\n        setTimeout(\n          function(){\n\n      var jst = jster();\n\n      jst.add(function(done) {\n        var wait = function() {\n          if (\n            $(document.documentElement).hasClass('shiny-busy')\n          ) {\n            setTimeout(wait, 100);\n            return;\n          }\n          done();\n        }\n        wait();\n      });\n      jst.add(function() {\n        Jster.assert.isEqual(\n          $('#status').text().trim(),\n          'pass'\n        );\n      });\n\n      jst.test();\n    \n   },\n          250\n        )\n      });<\/script>",
+      "deps": [
+        {
+          "name": "shinyjster-assets",
+          "version": "0.0.0.9009",
+          "src": {
+            "href": "shinyjster-assets-0.0.0.9009"
+          },
+          "meta": null,
+          "script": "js/shinyjster.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    },
+    "status": "<b style=\"color: green;\">pass<\/b>"
+  },
+  "export": {
+
+  }
+}

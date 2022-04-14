@@ -1,0 +1,85 @@
+---
+title: "getCurrentOutputInfo() test"
+output: 
+  html_document:
+    theme: null
+runtime: shiny
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+library(shiny)
+library(htmltools)
+source("global.R")
+info2css(info1)
+info2css(info2, "#info2")
+```
+
+#### This test makes sure `getCurrentOutputInfo()` returns `bg`+`fg`+`accent`+`font` information. You should see CSS styles displayed as JSON below
+
+```{r}
+tagAppendAttributes(
+  class = "shiny-report-theme",
+  textOutput("info1")
+)
+```
+
+
+```{r}
+output$info1 <- renderText({
+  info <- getCurrentOutputInfo()
+  to_json(list(
+    bg = info$bg(),
+    fg = info$fg(),
+    accent = info$accent(),
+    font = info$font()
+  ))
+})
+```
+
+```{r}
+tagAppendAttributes(
+  class = "shiny-report-theme",
+  textOutput("info2")
+)
+```
+
+```{r}
+output$info2 <- renderText({
+  info <- getCurrentOutputInfo()
+  to_json(list(
+    bg = info$bg(),
+    fg = info$fg(),
+    accent = info$accent(),
+    font = info$font()
+  ))
+})
+```
+
+
+```{r}
+shinyjster::shinyjster_js(
+  sprintf(
+    "
+    var jst = jster();
+    jst.add(Jster.shiny.waitUntilStable);
+    jst.add(function() {
+      Jster.assert.isEqual(
+        JSON.parse($('#info1').text()), JSON.parse('%s')
+      );
+      Jster.assert.isEqual(
+        JSON.parse($('#info2').text()), JSON.parse('%s')
+      );
+    });
+    
+    jst.test();
+    ", to_json(info1), to_json(info2)
+  )
+)
+
+shinyjster::shinyjster_server(input, output)
+```

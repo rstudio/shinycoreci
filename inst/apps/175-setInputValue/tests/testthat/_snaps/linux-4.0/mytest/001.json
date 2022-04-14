@@ -1,0 +1,17 @@
+{
+  "input": {
+    "test_evt": 1,
+    "test_val": 1
+  },
+  "output": {
+    "result": {
+      "html": "<h1 class=\"alert alert-success\">Pass<\/h1>",
+      "deps": [
+
+      ]
+    }
+  },
+  "export": {
+
+  }
+}

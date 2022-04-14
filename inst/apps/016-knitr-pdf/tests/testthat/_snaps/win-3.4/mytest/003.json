@@ -1,0 +1,46 @@
+{
+  "input": {
+    "format": "HTML",
+    "x": "disp"
+  },
+  "output": {
+    "regPlot": {
+      "src": "[image data sha1: 6b146091a633a8123bb5e597c2d1855b2f126d97]",
+      "width": 631,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 55.064,
+              "right": 488.036,
+              "bottom": 9.46,
+              "top": 34.84
+            },
+            "range": {
+              "left": 57.6000091283691,
+              "right": 629.559999771791,
+              "bottom": 341.399985599996,
+              "top": 0.440000360000049
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 631,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}

@@ -24,9 +24,9 @@ knitr::opts_chunk$set(
 [![Lifecycle Experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-This is an R package to install all dependencies to test the bleeding edge of all relevant packages to the Shiny team.
+<!-- This is an R package to install all dependencies to test the bleeding edge of all relevant packages to the Shiny team. -->
 
-For more direct usage examples, see [`rstudio/shinycoreci-apps`](https://github.com/rstudio/shinycoreci-apps).
+<!-- For more direct usage examples, see [`rstudio/shinycoreci-apps`](https://github.com/rstudio/shinycoreci-apps). -->
 
 
 ## Installation
@@ -34,7 +34,8 @@ For more direct usage examples, see [`rstudio/shinycoreci-apps`](https://github.
 Install the development version from [GitHub](https://github.com/) with:
 
 ``` r
-remotes::install_github("rstudio/shinycoreci")
+# install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+pak::pkg_install("rstudio/shinycoreci")
 ```
 
 These `Remotes` will be installed to make sure the latest package development is working as expected:
@@ -60,3 +61,9 @@ cat(
   )
 )
 ```
+
+
+## FAQ:
+
+If you run into an odd `{pak}` installation issue:
+  * Run `pak::cache_clean()` to clear the cache and try your original command again

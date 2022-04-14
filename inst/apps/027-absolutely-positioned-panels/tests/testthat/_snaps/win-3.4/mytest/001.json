@@ -1,0 +1,80 @@
+{
+  "input": {
+    "n": 15
+  },
+  "output": {
+    "plot": {
+      "src": "[image data sha1: 26ca4554eec4a0de09c66435bdc0b1a73171f419]",
+      "width": 962,
+      "height": 800,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -0.04,
+              "right": 1.04,
+              "bottom": -0.04,
+              "top": 1.04
+            },
+            "range": {
+              "left": 59.0400061372148,
+              "right": 931.759996856548,
+              "bottom": 725.559990819999,
+              "top": 58.040007380001
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 962,
+          "height": 800
+        }
+      }
+    },
+    "plot2": {
+      "src": "[image data sha1: b26000779aa3957cf6c54c50435c854e30bbe407]",
+      "width": 260,
+      "height": 200,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 3.68,
+              "right": 12.32,
+              "bottom": 0.72,
+              "top": 35.28
+            },
+            "range": {
+              "left": 59.040022707701,
+              "right": 229.759988369226,
+              "bottom": 125.559963279982,
+              "top": 58.0400295200147
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 260,
+          "height": 200
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}

@@ -1,10 +1,8 @@
-#' Find package dependencies used in a directory
+#' Find package dependencies installed
 #'
-#' @param dir The directory to look in.
-#'
-#' @export
-find_deps_installed <- function(dir = ".") {
-  deps <- renv__renv_snapshot_r_packages(.libPaths(), normalizePath(dir))
+# ' @export
+find_deps_installed <- function() {
+  deps <- renv__renv_snapshot_r_packages(c(shinyverse_libpath(), .libPaths()))
   cols <- c(
     "Package",
     "Version",
@@ -40,7 +38,7 @@ find_deps_installed <- function(dir = ".") {
 #' @param file Name of file, or file object to write to (defaults to stdout).
 #' @export
 write_sysinfo <- function(file = stdout()) {
-  req_pkg("sessioninfo")
+  check_installed("sessioninfo")
 
   opts <- options()
   on.exit(options(opts))
@@ -60,16 +58,6 @@ write_sysinfo <- function(file = stdout()) {
   )
 }
 
-#' Return names of packages included with R
-#'
-#' Some installed packages have a Priority of "base" or "recommended".
-#' Shouldn't try to upgrade these packages with \code{remotes::install_cran}
-#' because it will fail.
-#' @export
-base_packages <- function() {
-  pkg_df <- as.data.frame(utils::installed.packages(), stringsAsFactors = FALSE)
-  pkg_df$Package[pkg_df$Priority %in% c("base", "recommended")]
-}
 
 gha_image_version <- function() {
   Sys.getenv("ImageVersion", "($ImageVersion not found)")

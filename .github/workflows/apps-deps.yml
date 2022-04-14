@@ -1,0 +1,66 @@
+# Cache warming is possible now that cache works for all events using actions/cache@v2
+# https://github.com/actions/cache/issues/63#issuecomment-629422053
+
+name: Update app deps
+
+on:
+  push:
+    paths:
+      - 'inst/apps/**'
+      - 'inst/gha/gha-apps-deps-update.R'
+      - '.github/workflows/apps-deps.yml'
+  # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
+  # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
+  schedule:
+    - cron:  '0 2 * * 1-5' # every work night before
+  repository_dispatch:
+    types:
+      - all
+      - deps
+
+jobs:
+  config:
+    uses: ./.github/workflows/apps-config.yml
+
+  app-deps:
+    runs-on: ${{ needs.config.outputs.ubuntu }}
+
+    name: Update app deps
+    needs: config
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: GitHub Pull (PR)
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          # check out the commit sha, not the merged sha. Avoids the "Merge SHA_A into SHA_B" into commits
+          ref: ${{ github.event.pull_request.head.sha }}      # # Ref: https://github.com/actions/checkout/pull/115/files#diff-04c6e90faac2675aa89e2176d2eec7d8R203-R209
+          fetch-depth: 0
+      - name: GitHub Pull (Branch)
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+      - name: Update apps' package deps
+        shell: Rscript {0}
+        run: |
+          source("inst/gha/data-apps-deps-update.R")
+          update_apps_deps()
+
+      - name: Display file contents
+        run: |
+          cat ./R/data-apps-deps.R
+
+      - name: Save apps deps to Repo
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add ./R
+          git commit -m 'Generate apps deps (GitHub Actions)' || echo "No apps deps changes to commit"
+          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No apps deps to push"
