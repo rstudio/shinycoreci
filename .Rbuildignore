@@ -10,6 +10,6 @@
 ^shinyverse\.png$
 ^todo\.md$
 
-^inst/apps/.*/tests/testthat$
+^inst/apps/.*/tests/.*
 \.jshintrc$
 www/nvd3/deprecated
