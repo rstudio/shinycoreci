@@ -1,4 +1,4 @@
-name: runTests Matrix
+name: Test in CI
 
 on:
   push:

@@ -39,7 +39,7 @@ on:
       SLACK_BOT_TOKEN:
         required: true
 
-name: runTests Single
+name: Test in CI - single
 
 jobs:
 

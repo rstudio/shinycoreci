@@ -6,14 +6,13 @@ ci_status <- list(
   did_not_return_result = "did_not_return_result"
 )
 
-#' Test apps using `shiny::runTests()`
+#' Test apps using `shiny::runTests()` in CI
 #'
 #' @param apps applications within \verb{dir} to run
 #' @param assert logical value which will determine if [assert_ci_output()] will be called on the result
 #' @param timeout Length of time allowed for an application's full test suit can run before determining it is a failure
 #' @param retries number of attempts to retry before declaring the test a failure
 #' @param repo_dir Location of local shinycoreci repo
-#' @describeIn runtests Generic method to call all testing files
 #' @export
 test_in_ci <- function(
   apps = apps_tests,

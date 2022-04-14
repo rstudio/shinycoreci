@@ -1,11 +1,11 @@
 on:
   workflow_call:
 
-name: Pre runtests checks
+name: Pre checks
 
 jobs:
   config:
-    name: Pre runtests checks
+    name: Pre checks
     runs-on: ubuntu-latest
     steps:
       - name: GitHub Pull

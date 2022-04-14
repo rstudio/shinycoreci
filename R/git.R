@@ -22,7 +22,7 @@ git_branch <- function(dir) {
 git_sha <- function(
   dir
 ) {
-  # this logic should match `short_sha` in `ci-runtests.yml` workflow
+  # this logic should match `short_sha` in all GHA workflows
   substr(
     git_cmd(dir, "git rev-parse HEAD"),
     1, 7

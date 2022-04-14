@@ -2,7 +2,7 @@
 % Please edit documentation in R/test-in-ci.R
 \name{test_in_ci}
 \alias{test_in_ci}
-\title{Test apps using \code{shiny::runTests()}}
+\title{Test apps using \code{shiny::runTests()} in CI}
 \usage{
 test_in_ci(
   apps = apps_tests,
@@ -24,10 +24,5 @@ test_in_ci(
 \item{repo_dir}{Location of local shinycoreci repo}
 }
 \description{
-Test apps using \code{shiny::runTests()}
+Test apps using \code{shiny::runTests()} in CI
 }
-\section{Functions}{
-\itemize{
-\item \code{test_in_ci}: Generic method to call all testing files
-}}
-
