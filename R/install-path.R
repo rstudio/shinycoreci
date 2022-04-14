@@ -14,10 +14,11 @@ shinyverse_libpath <- function() {
     paste0("R-", version$major, "_", sub(".", "_", version$minor, fixed = TRUE))
   )
   # Provide a fully defined path. Things don't like to work without a fully defined path in pak
-  dir <- normalizePath(dir)
   if (!dir.exists(dir)) {
     dir.create(dir, recursive = TRUE)
   }
+  # Must normalize after creating the directory to avoid warning
+  dir <- normalizePath(dir)
   dir
 }
 #' @export
