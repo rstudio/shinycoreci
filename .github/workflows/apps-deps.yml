@@ -54,6 +54,10 @@ jobs:
           source("inst/gha/data-renv-pkgs-update.R")
           update_renv_pkgs()
 
+      - name: Display file contents
+        run: |
+          cat ./R/data-renv-pkgs.R
+
       - name: Save renv pkgs to Repo
         run: |
           git config user.name "${GITHUB_ACTOR}"
