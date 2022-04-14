@@ -48,7 +48,19 @@ is_manual_app <- function(app_dir) {
 
 apps_folder <- app_names <- app_nums <- app_name_map <- app_num_map <- NULL
 app_paths <- app_paths_map <- NULL
-apps_manual <- apps_shiny <- apps_tests <- NULL
+apps_manual <- apps_shiny <- NULL
+
+# Used in GHA
+apps_with_tests <- function(repo_dir = ".") {
+  apps <- dir(repo_apps_path(repo_dir), pattern = "^\\d\\d\\d-", full.names = TRUE)
+  basename(Filter(x = apps, has_tests_folder))
+}
+repo_apps_path <- function(repo_dir = ".") {
+  file.path(repo_dir, "inst", "apps")
+}
+repo_app_path <- function(app_name, repo_dir = ".") {
+  file.path(repo_apps_path(repo_dir), app_name)
+}
 
 apps_on_load <- function() {
   apps_folder <<- system.file(package = "shinycoreci", "apps")
@@ -63,5 +75,4 @@ apps_on_load <- function() {
 
   apps_manual <<- basename(Filter(x = app_paths, is_manual_app))
   apps_shiny  <<- basename(Filter(x = app_paths, has_shinyish_files))
-  apps_tests  <<- basename(Filter(x = app_paths, has_tests_folder))
 }

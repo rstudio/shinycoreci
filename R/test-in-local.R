@@ -17,7 +17,7 @@ ci_status <- list(
 #' @param install If \code{TRUE}, installs shinyverse in the default libpath before running tests
 #' @export
 test_in_local <- function(
-  apps = apps_tests,
+  apps = apps_with_tests(repo_dir),
   ...,
   install = TRUE,
   assert = TRUE,

@@ -5,7 +5,7 @@
 \title{Test apps using \code{shiny::runTests()} using local libpath}
 \usage{
 test_in_local(
-  apps = apps_tests,
+  apps = apps_with_tests(repo_dir),
   ...,
   install = TRUE,
   assert = TRUE,
