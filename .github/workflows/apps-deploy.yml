@@ -71,7 +71,7 @@ jobs:
           -e "## add user info"
           -e "rsconnect::connectApiUser('${{ matrix.config.account }}', '${{ matrix.config.server_name }}', apiKey = '${{ secrets.BARRET_BETA_RSTUDIOCONNECT_COM_API_KEY }}')"
           -e "## deploy"
-          -e "shinycoreci::deploy_apps(retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
+          -e "# shinycoreci::deploy_apps(retry = ${{ matrix.config.retry }}, cores = ${{ matrix.config.cores }}, account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
           -e "## make public"
           -e "shinycoreci::connect_set_public(account = '${{ matrix.config.account }}', server = '${{ matrix.config.server_name }}'${{ matrix.config.extra_app_text }})"
           -e "## save ALL urls"
