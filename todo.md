@@ -15,14 +15,14 @@
     - [x] double check known namespaces so that they are not carried over from public library
     - [x] store the library in the package location given the R version that persists over installations
 
-- [ ] Remove `dir` parameter as it should be internally handled
+- [x] Remove `dir` parameter as it should be internally handled
 
-- [ ] Remove outdated test methods as only testthat is used
+- [x] Remove outdated test methods as only testthat is used
   * test shinyjster app
   * test testthat app
   * test shinytest app
 
-- [ ] Remove app-status stuff. No one uses it
+- [x] Remove app-status stuff. No one uses it
 
 
 # Actions
@@ -30,25 +30,26 @@
   - [x] Run on any update to `inst/internal/apps`
 - [x] Deploying to Connect should push back connect urls
 - [x] Port actions from `rstudio/shinycoreci-apps`
-- [ ] Add validation that there is no usage of `shinycoreci::[^:]` in `./inst/internal/apps`
+- [x] Add validation that there is no usage of `shinycoreci::[^:]` in `./inst/internal/apps`
 
 # Apps
-- [ ] App 217 needs to use
+- [x] App 217 needs to use
   `.Platform$OS.type == "windows" for determining windows support`
-- [ ] Replace all usage of `shinycoreci::platform_rversion()` with `shinytest2::platform_variant()`
-- [ ] Replace `shinycoreciapps::testthat_shinyjster()` with `shinyjster::testthat_shinyjster()`
+- [x] Replace all usage of `shinycoreci::platform_rversion()` with `shinytest2::platform_variant()`
+- [x] Replace `shinycoreciapps::testthat_shinyjster()` with `shinyjster::testthat_shinyjster()`
 - [ ] Convert logic for 169 to use testthat
 
-- [ ] Move skip logic to inside tests
-  - [ ] 181-report-image
-  - [ ] 182-report-png
-  - [ ] 183-report-cairo
-  - [ ] 184-report-ragg
-  - [ ] 193-reactlog-dynamic-ui
-  - [ ] 301-bs-themes
-  - [ ] 302-bootswatch-themes
+- [x] Move skip logic to inside tests
+  - [x] 181-report-image
+  - [x] 182-report-png
+  - [x] 183-report-cairo
+  - [x] 184-report-ragg
+  - [x] 193-reactlog-dynamic-ui
+  - [x] 301-bs-themes
+  - [x] 302-bootswatch-themes
 
-- [ ] Reduce app name size to have files be under 100bytes
+- [x] Reduce app name size to have files be under 100bytes
+  - Fixed by not building test folders. ;-)
 
 # Done
 - [x] `deploy_apps()`
@@ -56,24 +57,23 @@
 - [x] `test_in_browser()`
 - [x] `test_in_connect()`
 - [x] `test_in_shinyappsio()`
-- [ ] `test_in_sso()` / `test_in_ssp()`
 - [x] `test_in_ide()`
   - [x] Test in terminal
-  - [ ] Test in IDE
 
-- [ ] `test_in_ci()`
+- [x] `test_in_ci()`
   - [x] formerly `test_run_tests()`
-  - [ ] test results should be printed to log
   - [x] Changed data structure. Add version
-  - [ ] Remove `test_path` from data structure; Use version to parse old files
 
 - [x] Move `testthat_shinyjster()` to `{shinyjster}` to avoid bad installs
 
 
 - [x] `./docker.R`
-- [ ] Trim triple colon methods
 
 ## After merge
 - [ ] `fix_all_gha_branches()`
+- [ ] `test_in_sso()` / `test_in_ssp()`
 - [ ] `view_test_diff()`
 - [ ] `view_test_results()`
+- [ ] test results should be printed to log
+- [ ] Remove `test_path` from data structure; Use version to parse old files
+- [ ] Test `test_in_ide()` in the IDE
