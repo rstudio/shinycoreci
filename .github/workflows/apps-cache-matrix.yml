@@ -77,7 +77,7 @@ jobs:
       os: ${{ needs.config.outputs.ubuntu }}
       cache-version: ${{ needs.config.outputs.cache-version }}
   ubuntu-oldrel-2:
-    needs: [config, ubuntu-oldrel-2]
+    needs: [config, ubuntu-oldrel-1]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel2 }}
