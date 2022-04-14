@@ -133,6 +133,16 @@ jobs:
           status: INSTALL (${{ steps.short.outputs.sha }} ${{ matrix.config.os }} - ${{ steps.short.outputs.r-version }})
           color: warning
 
+      - name: Install R, shinycoreci, and shinyverse
+        timeout-minutes: 45
+        uses: ./.github/internal/install-shinyverse
+        with:
+          r-version: ${{ inputs.r-version }}
+          cache-version: ${{ inputs.cache-version }}
+          http-user-agent: ${{ inputs.http-user-agent }}
+          pandoc-version: ${{ inputs.pandoc-version }}
+          extra-packages: ${{ inputs.extra-packages }}
+
       - name: Install R and shinycoreci
         uses: rstudio/shiny-workflows/setup-r-package@v1
         with:

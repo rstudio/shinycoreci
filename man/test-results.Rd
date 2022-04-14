@@ -3,20 +3,14 @@
 \name{save_test_results}
 \alias{save_test_results}
 \alias{view_test_results}
-\title{View (and save) \code{test_in_ci()} output}
+\title{View (and save) \code{test_in_local()} output}
 \usage{
-save_test_results(
-  ci_output,
-  gha_branch_name,
-  pr_number,
-  username,
-  repo_dir = "."
-)
+save_test_results(output, gha_branch_name, pr_number, username, repo_dir = ".")
 
 view_test_results(repo_dir = ".")
 }
 \arguments{
-\item{ci_output}{output from \code{test_in_ci()}.}
+\item{output}{output from \code{test_in_local()}.}
 
 \item{gha_branch_name}{an identifier determined by the GHA workflow}
 

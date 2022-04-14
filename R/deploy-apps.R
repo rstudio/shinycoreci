@@ -2,6 +2,8 @@
 #'
 #' Run this in the terminal (not RStudio IDE) as it has issues when installing some packages.
 #'
+#' Installation will use default libpaths.
+#'
 #' @param apps A character vector of fully defined shiny application folders
 #' @param account,server args supplied to `[rsconnect::deployApp]`
 #' @param ... ignored
@@ -35,11 +37,11 @@ deploy_apps <- function(
     if (on_ci) {
       if (retrying_) {
         # Use standard libpath location
-        install_shinyverse_ci(install = FALSE)
+        install_shinyverse_local(install = FALSE)
       } else {
         # Install on first pass
         # Install everything. No need to validated if pkgs are loaded as deploying in background process
-        install_shinyverse_ci(install = TRUE, validate_loaded = FALSE, extra_packages = extra_packages)
+        install_shinyverse_local(install = TRUE, validate_loaded = FALSE, extra_packages = extra_packages)
       }
     }
     if (retrying_) {

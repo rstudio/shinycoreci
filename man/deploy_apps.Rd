@@ -33,3 +33,6 @@ deploy_apps(
 \description{
 Run this in the terminal (not RStudio IDE) as it has issues when installing some packages.
 }
+\details{
+Installation will use default libpaths.
+}

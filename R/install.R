@@ -52,7 +52,7 @@ shinycoreci_is_local <- function() {
 
 
 # Used in GHA workflow
-install_shinyverse_ci <- function(
+install_shinyverse_local <- function(
   ...,
   # Install into normal libpath so caching is automatically handled
   libpath = .libPaths()[1]

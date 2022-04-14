@@ -1,0 +1,44 @@
+name: 'Install shinyverse packages'
+description: 'Installs everything in a single pak installation step. Meant to work cross platform and R version'
+author: 'Barret Schloerke'
+inputs:
+  r-version:
+    description: R version to install
+    default: release
+    required: false
+  extra-packages:
+    description: Extra packages to install
+    default: ""
+    required: false
+  cache-version:
+    description: Cache version key to pass through
+    default: "2"
+    required: false
+  http-user-agent:
+    description: User agent to pass through
+    default: ""
+    required: false
+  pandoc-version:
+    description: Pandoc version to pass through
+    default: "2.7.3"
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: Gather remotes
+      id: shinyverse
+      shell: Rscript {0}
+      run: |
+        source("inst/gha/gha-shinyverse-remotes.R")
+
+    - name: Install R, shinycoreci, and shinyverse
+      uses: rstudio/shiny-workflows/setup-r-package@v1
+      with:
+        r-version: ${{ inputs.r-version }}
+        cache-version: ${{ inputs.cache-version }}
+        http-user-agent: ${{ inputs.http-user-agent }}
+        pandoc-version: ${{ inputs.pandoc-version }}
+        extra-packages:
+          local::.
+          ${{ steps.shinyverse.outputs.remotes }}
+          ${{ inputs.extra-packages }}

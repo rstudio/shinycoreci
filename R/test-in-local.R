@@ -6,16 +6,20 @@ ci_status <- list(
   did_not_return_result = "did_not_return_result"
 )
 
-#' Test apps using `shiny::runTests()` in CI
+#' Test apps using `shiny::runTests()` using local libpath
 #'
 #' @param apps applications within \verb{dir} to run
 #' @param assert logical value which will determine if [assert_ci_output()] will be called on the result
 #' @param timeout Length of time allowed for an application's full test suit can run before determining it is a failure
 #' @param retries number of attempts to retry before declaring the test a failure
 #' @param repo_dir Location of local shinycoreci repo
+#' @param ... ignored
+#' @param install If \code{TRUE}, installs shinyverse in the default libpath before running tests
 #' @export
-test_in_ci <- function(
+test_in_local <- function(
   apps = apps_tests,
+  ...,
+  install = TRUE,
   assert = TRUE,
   timeout = 10 * 60,
   retries = 2,
@@ -25,7 +29,7 @@ test_in_ci <- function(
   apps <- resolve_app_name(apps)
   repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
 
-  libpath <- install_shinyverse_ci()
+  libpath <- install_shinyverse_local(install = install)
 
   # # Do not include apps here, only make sure shinyverse is intact
   # # the only thing to make sure remains is the CRAN packages for each app
@@ -138,27 +142,27 @@ test_in_ci <- function(
     retries <- retries - 1
   }
 
-  class(test_dt) <- c("shinycoreci_ci_output", class(test_dt))
+  class(test_dt) <- c("shinycoreci_test_output", class(test_dt))
 
   if (isTRUE(assert)) {
-    assert_ci_output(test_dt)
+    assert_test_output(test_dt)
   }
 
   test_dt
 }
 
 
-#' Assert [test_in_ci()] output
+#' Assert [test_in_local()] output
 #'
-#' Method called when [test_in_ci()] is called with `assert = TRUE`.
+#' Method called when [test_in_local()] is called with `assert = TRUE`.
 #'
-#' @param ci_output value received from [test_in_ci()]
+#' @param output value received from [test_in_local()]
 #' @export
-assert_ci_output <- function(ci_output) {
-  if (!inherits(ci_output, "shinycoreci_ci_output")) {
-    stop("`ci_output` does not have class `'shinycoreci_ci_output'`")
+assert_test_output <- function(output) {
+  if (!inherits(output, "shinycoreci_test_output")) {
+    stop("`output` does not have class `'shinycoreci_test_output'`")
   }
-  test_dt <- ci_output
+  test_dt <- output
 
   concat_info <- function(title, statuses, include_result = TRUE) {
 
