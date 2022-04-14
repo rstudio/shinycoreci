@@ -20,6 +20,3 @@ jobs:
   # Only check on macOS; There are too many remotes to check on all OS flavors
   R-CMD-check:
     uses: rstudio/shiny-workflows/.github/workflows/R-CMD-check.yaml@v1
-    with:
-      windows: false
-      ubuntu: false
