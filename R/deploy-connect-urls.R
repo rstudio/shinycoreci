@@ -22,7 +22,6 @@ connect_set_public <- function(
   server = "beta.rstudioconnect.com"
 ) {
   apps <- vapply(apps, resolve_app_name, character(1))
-  stopifnot(is.character(apps))
 
   acct_info <- validate_rsconnect_account(account, server)
   api_key <- acct_info$apiKey
@@ -79,8 +78,7 @@ connect_urls <- function(
   check_installed("rsconnect")
 
   # apps_dirs <- file.path(dir, apps)
-  stopifnot(is.character(apps))
-  app_names <- vapply(apps, resolve_app_name, character(1))
+  apps <- vapply(apps, resolve_app_name, character(1))
 
   acct_info <- rsconnect::accountInfo(account, server)
   api_get <- api_get_(server, acct_info$apiKey)
@@ -88,7 +86,7 @@ connect_urls <- function(
 
   apps_info <- api_get(paste0("/applications?count=1000&filter=account_id:", acct_info$accountId))
 
-  apps <- subset_and_order_apps(apps_info$applications, app_names)
+  apps <- subset_and_order_apps(apps_info$applications, apps)
 
   app_urls <- vapply(apps, `[[`, character(1), "url")
   names(app_urls) <- vapply(apps, `[[`, character(1), "name")
