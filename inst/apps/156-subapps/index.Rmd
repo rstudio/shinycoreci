@@ -1,5 +1,6 @@
 ---
 ### Keep this line to manually test this shiny application. Do not edit this line; shinycoreci::::is_manual_app
+### Keep this line to NOT test this shiny application with shinycoreci::test_shinyjster with IE. Do not edit this line; shinycoreci::::not_jster_app_ie
 title: "Subapp test"
 output: html_document
 runtime: shiny
