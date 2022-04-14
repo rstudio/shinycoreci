@@ -115,7 +115,7 @@ jobs:
         uses: Ana06/get-changed-files@v2.0.0
         with:
           format: 'json'
-          filter: 'inst/apps/*'
+          filter: '*'
 
       - name: R Options
         shell: bash
