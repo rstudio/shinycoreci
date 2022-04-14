@@ -26,11 +26,11 @@
 
 
 # Actions
-- [ ] Make action to update renv pkgs with `shinycoreci:::update_renv_pkgs()`
-  - [ ] Run on any update to `inst/internal/apps`
-- [ ] Deploying to Connect should push back connect urls
+- [x] Make action to update renv pkgs with `shinycoreci:::update_apps_deps()`
+  - [x] Run on any update to `inst/internal/apps`
+- [x] Deploying to Connect should push back connect urls
+- [x] Port actions from `rstudio/shinycoreci-apps`
 - [ ] Add validation that there is no usage of `shinycoreci::[^:]` in `./inst/internal/apps`
-- [ ] Port actions from `rstudio/shinycoreci-apps`
 
 # Apps
 - [ ] App 217 needs to use

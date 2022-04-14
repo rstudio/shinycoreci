@@ -84,17 +84,11 @@ install_shinyverse <- function(
   }
 
   # Remove shinyverse
-  renv_pkgs <- renv_pkgs[!(renv_pkgs %in% c(shinyverse_pkgs, "shinycoreci", "shinycoreciapps"))]
-  pak_renv_pkgs <- paste0("any::", renv_pkgs)
-
-  pak_shinyverse_urls <- paste0(
-    # url::https://github.com/tidyverse/stringr/archive/HEAD.zip
-    # "url::https://github.com/", shinyverse_remotes, "/archive/HEAD.zip"
-    shinyverse_remotes
-  )
+  apps_deps <- apps_deps[!(apps_deps %in% c(shinyverse_pkgs, "shinycoreci", "shinycoreciapps"))]
+  pak_apps_deps <- paste0("any::", apps_deps)
 
   # Load pak into current namespace
-  pkgs <- c(pak_shinyverse_urls, pak_renv_pkgs, extra_packages)
+  pkgs <- c(shinyverse_remotes, pak_apps_deps, extra_packages)
   message("Installing shinyverse and app deps: ", libpath)
   if (!is.null(extra_packages)) {
     message("Extra packages:\n", paste0("* ", extra_packages, collapse = "\n"))

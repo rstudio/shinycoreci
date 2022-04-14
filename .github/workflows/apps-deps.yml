@@ -7,6 +7,7 @@ on:
   push:
     paths:
       - inst/apps/**
+      - inst/gha/gha-apps-deps-update.R
       - .github/workflows/apps-deps.yml
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
@@ -50,7 +51,7 @@ jobs:
         shell: Rscript {0}
         run: |
           source("inst/gha/data-renv-pkgs-update.R")
-          update_renv_pkgs()
+          update_apps_deps()
 
       - name: Display file contents
         run: |
