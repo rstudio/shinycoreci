@@ -1,9 +1,14 @@
-resolve_app_name <- function(app) {
+resolve_app_name <- function(app, known_apps = NULL) {
   if (is.null(app)) return(NULL)
   if (length(app) > 1) {
     return(
       vapply(app, resolve_app_name, character(1))
     )
+  }
+  if (!is.null(known_apps)) {
+    app_names <- known_apps
+    app_num_map <- get_app_num_map(app_names)
+    app_name_map <- get_app_name_map(app_names)
   }
   resolved_app <-
     if (is.numeric(app)) {
@@ -18,7 +23,7 @@ resolve_app_name <- function(app) {
       stop("`app` must be a character or numeric")
     }
 
-  if (! (resolved_app %in% app_names)) {
+  if (! isTRUE(resolved_app %in% app_names)) {
     stop("`app` must be a valid app name. Received: ", app)
   }
 

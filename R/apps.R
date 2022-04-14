@@ -45,30 +45,47 @@ is_manual_app <- function(app_dir) {
 }
 
 
-
-apps_folder <- app_names <- app_nums <- app_name_map <- app_num_map <- NULL
-app_paths <- app_paths_map <- NULL
-apps_manual <- apps_shiny <- NULL
-
-# Used in GHA
+### Start GHA
 apps_with_tests <- function(repo_dir = ".") {
-  apps <- dir(repo_apps_path(repo_dir), pattern = "^\\d\\d\\d-", full.names = TRUE)
-  basename(Filter(x = apps, has_tests_folder))
+  basename(Filter(x = repo_apps_paths(repo_dir), has_tests_folder))
 }
 repo_apps_path <- function(repo_dir = ".") {
   file.path(repo_dir, "inst", "apps")
 }
+repo_apps_paths <- function(repo_dir = ".") {
+  dir(repo_apps_path(repo_dir), pattern = "^\\d\\d\\d-", full.names = TRUE)
+}
 repo_app_path <- function(app_name, repo_dir = ".") {
   file.path(repo_apps_path(repo_dir), app_name)
+}
+
+### End GHA
+
+
+
+## _Package Globals_
+apps_folder <- app_names <- app_nums <- app_name_map <- app_num_map <- NULL
+app_paths <- app_paths_map <- NULL
+apps_manual <- apps_shiny <- NULL
+
+
+get_app_nums <- function(app_names) {
+  as.numeric(vapply(strsplit(app_names, "-"), `[[`, character(1), 1))
+}
+get_app_name_map <- function(app_names) {
+  setNames(as.list(app_names), app_names)
+}
+get_app_num_map <- function(app_names) {
+  setNames(as.list(app_names), as.character(get_app_nums(app_names)))
 }
 
 apps_on_load <- function() {
   apps_folder <<- system.file(package = "shinycoreci", "apps")
   app_names <<- dir(apps_folder)
   app_names <<- grep("^\\d\\d\\d-", app_names, value = TRUE)
-  app_nums <<- as.numeric(vapply(strsplit(app_names, "-"), `[[`, character(1), 1))
-  app_name_map <<- setNames(as.list(app_names), app_names)
-  app_num_map <<- setNames(as.list(app_names), as.character(app_nums))
+  app_nums <<- get_app_nums(app_names)
+  app_name_map <<- get_app_name_map(app_names)
+  app_num_map <<- get_app_num_map(app_names)
 
   app_paths <<- file.path(apps_folder, app_names)
   app_path_map <<- setNames(as.list(app_paths), app_names)

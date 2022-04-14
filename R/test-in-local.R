@@ -26,8 +26,10 @@ test_in_local <- function(
   repo_dir = "."
 ) {
   retries <- as.numeric(retries)
-  apps <- resolve_app_name(apps)
   repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
+
+  stopifnot(length(apps_with_tests(repo_dir)) > 0)
+  apps <- resolve_app_name(apps, known_apps = apps_with_tests(repo_dir))
 
   libpath <- install_shinyverse_local(install = install)
 
@@ -36,7 +38,7 @@ test_in_local <- function(
   # validate_exact_deps(dir = dir, apps = c(), update_pkgs = update_pkgs)
 
   # Record platform info and package versions
-  write_sysinfo(file.path(repo_dir, "inst/apps", paste0("sysinfo-", platform_rversion(), ".txt")))
+  write_sysinfo(file.path(repo_apps_path(repo_dir), paste0("sysinfo-", platform_rversion(), ".txt")))
 
   test_dt <- tibble::tibble(
     app_name = apps,
@@ -61,7 +63,7 @@ test_in_local <- function(
             )
           },
           list(
-            app_path_ = app_path(app_name)
+            app_path_ = repo_app_path(app_name, repo_dir = repo_dir)
           ),
           libpath = libpath,
           timeout = timeout,
