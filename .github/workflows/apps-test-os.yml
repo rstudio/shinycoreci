@@ -184,19 +184,19 @@ jobs:
             cat("Testing apps:\n", paste0("* ", apps, "\n"))
             if (length(apps) == 0) stop("No apps to check")
           }
-          ci_output <- shinycoreci::test_in_local(
+          test_output <- shinycoreci::test_in_local(
             apps = apps,
             retries = 1,
             assert = FALSE,
             install = FALSE
           )
           shinycoreci::save_test_results(
-            ci_output,
+            test_output,
             gha_branch_name = '${{steps.gha_branch.outputs.name}}',
             pr_number = '${{github.event.pull_request.number}}',
             username = '${GITHUB_ACTOR}'
           )
-          shinycoreci::assert_test_output(run_tests_output)
+          shinycoreci::assert_test_output(test_output)
 
       - name: Remove R options file
         if: always()
