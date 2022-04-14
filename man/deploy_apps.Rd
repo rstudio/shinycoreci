@@ -9,6 +9,7 @@ deploy_apps(
   account = "testing-apps",
   server = "shinyapps.io",
   ...,
+  install = TRUE,
   extra_packages = NULL,
   cores = 1,
   retry = 2,
@@ -21,6 +22,8 @@ deploy_apps(
 \item{account, server}{args supplied to \verb{[rsconnect::deployApp]}}
 
 \item{...}{ignored}
+
+\item{install}{If TRUE, will install all of shinyverse into the default libpath}
 
 \item{extra_packages}{A character vector of extra packages to install}
 

@@ -44,14 +44,13 @@ jobs:
         run: |
           echo 'MAKEFLAGS=-j2' >> .Renviron
 
-      - name: Install R and shinycoreci
-        uses: rstudio/shiny-workflows/setup-r-package@v1
+      - name: Install R, shinycoreci, and shinyverse
+        timeout-minutes: 45
+        uses: ./.github/internal/install-shinyverse
         with:
           r-version: ${{ matrix.config.r }}
           cache-version: ${{ needs.config.outputs.cache-version }}
-          extra-packages:
-            local::.,
-            any::rsconnect
+          extra-packages: any::rsconnect
 
       - name: Deploy Apps to Shinyapps.io
         if: matrix.config.type == 'shinyappsio'
@@ -63,6 +62,7 @@ jobs:
             secret = '${{ secrets.SHINYAPPS_IO_TESTING_APPS_SECRET }}'
           )
           shinycoreci::deploy_apps(
+            install = FALSE,
             retry = ${{ matrix.config.retry }},
             cores = ${{ matrix.config.cores }},
             account = '${{ matrix.config.account }}',
@@ -89,6 +89,7 @@ jobs:
 
           # Deploy
           shinycoreci::deploy_apps(
+            install = FALSE,
             retry = ${{ matrix.config.retry }},
             cores = ${{ matrix.config.cores }},
             account = '${{ matrix.config.account }}',
