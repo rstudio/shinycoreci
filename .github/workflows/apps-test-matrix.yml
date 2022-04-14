@@ -18,7 +18,7 @@ on:
 
 jobs:
   precheck:
-    uses: ./.github/workflows/apps-check-precheck.yml
+    uses: ./.github/workflows/apps-test-precheck.yml
   config:
     uses: ./.github/workflows/apps-config.yml
     needs: precheck
@@ -27,7 +27,7 @@ jobs:
 
   # macos-release:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.release }}
   #     os: ${{ needs.config.outputs.macos }}
@@ -37,7 +37,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # macos-oldrel-1:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel1 }}
   #     os: ${{ needs.config.outputs.macos }}
@@ -47,7 +47,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # macos-oldrel-2:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel2 }}
   #     os: ${{ needs.config.outputs.macos }}
@@ -57,7 +57,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # macos-oldrel-3:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel3 }}
   #     os: ${{ needs.config.outputs.macos }}
@@ -67,7 +67,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # macos-oldrel-4:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel4 }}
   #     os: ${{ needs.config.outputs.macos }}
@@ -79,7 +79,7 @@ jobs:
 
   ubuntu-release:
     needs: config
-    uses: ./.github/workflows/apps-check-os.yml
+    uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.release }}
       os: ${{ needs.config.outputs.ubuntu }}
@@ -89,7 +89,7 @@ jobs:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # ubuntu-oldrel-1:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel1 }}
   #     os: ${{ needs.config.outputs.ubuntu }}
@@ -99,7 +99,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # ubuntu-oldrel-2:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel2 }}
   #     os: ${{ needs.config.outputs.ubuntu }}
@@ -109,7 +109,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # ubuntu-oldrel-3:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel3 }}
   #     os: ${{ needs.config.outputs.ubuntu }}
@@ -119,7 +119,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # ubuntu-oldrel-4:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel4 }}
   #     os: ${{ needs.config.outputs.ubuntu }}
@@ -131,7 +131,7 @@ jobs:
 
   # windows-release:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.release }}
   #     os: ${{ needs.config.outputs.windows }}
@@ -141,7 +141,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # windows-oldrel-1:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel1 }}
   #     os: ${{ needs.config.outputs.windows }}
@@ -151,7 +151,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # windows-oldrel-2:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel2 }}
   #     os: ${{ needs.config.outputs.windows }}
@@ -161,7 +161,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # windows-oldrel-3:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel3 }}
   #     os: ${{ needs.config.outputs.windows }}
@@ -171,7 +171,7 @@ jobs:
   #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   # windows-oldrel-4:
   #   needs: config
-  #   uses: ./.github/workflows/apps-check-os.yml
+  #   uses: ./.github/workflows/apps-test-os.yml
   #   with:
   #     r-version: ${{ needs.config.outputs.oldrel4 }}
   #     os: ${{ needs.config.outputs.windows }}
