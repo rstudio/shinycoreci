@@ -11,7 +11,7 @@
 #' @rdname test-results
 #' @export
 save_test_results <- function(output, gha_branch_name, pr_number, username, repo_dir = ".") {
-  if (!inherits(output, "shinycoreci_output")) {
+  if (!inherits(output, "shinycoreci_test_output")) {
     stop("`output` must be an object returned by test_in_local()", call. = FALSE)
   }
   repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
