@@ -1,5 +1,5 @@
 update_connect_urls <- function(
-  apps = apps_shiny,
+  apps = shinycoreci:::apps_shiny,
   account = "barret",
   server = "beta.rstudioconnect.com",
   repo_dir = "."
