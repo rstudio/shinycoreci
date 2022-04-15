@@ -166,7 +166,6 @@ jobs:
         shell: Rscript {0}
         run: |
           apps <- shinycoreci:::apps_with_tests()
-          str(apps)
           is_pull_request <- isTRUE(jsonlite::parse_json("${{ github.event_name == 'pull_request' }}"))
           if (is_pull_request) {
             # reduce apps to only changed apps
@@ -178,11 +177,9 @@ jobs:
                 dir.exists(file.path(item[[1]], item[[2]], item[[3]]))
               })
             unique_changed_apps <- unique(unlist(lapply(changed_app_folders, `[[`, 3)))
-            cat("Known apps:\n", paste0("* ", apps, "\n"))
-            cat("Changed apps:\n", paste0("* ", unique_changed_apps, "\n"))
             apps <- apps[apps %in% unique_changed_apps]
-            cat("Testing apps:\n", paste0("* ", apps, "\n"))
             if (length(apps) == 0) stop("No apps to check")
+            cat("Testing apps:\n", paste0("* ", apps, "\n"))
           }
           test_output <- shinycoreci::test_in_local(
             apps = apps,
