@@ -3,8 +3,6 @@
 errors_found <- list()
 for (app_path in list.dirs("inst/apps", recursive = FALSE)) {
   tryCatch({
-    # Ignore app 169
-    if (grepl("^169", basename(app_path))) next
 
     app_files <- dir(app_path, pattern = "\\.(R|Rmd)$", full.names = TRUE)
     tests_path <- file.path(app_path, "tests")

@@ -1,8 +1,7 @@
-library(shinyjster)
-
-test_jster_169 <- function(browser_func) {
-
-  app <- "../"
+# This is testing an R behavior
+# Testing this over multiple browsers has no advantage
+test_that("169 clears registered paths between apps", {
+  app <- "../../"
 
   # delete cache file
   cache_file <- file.path(app, "169-prerender-a", "index.html")
@@ -21,6 +20,6 @@ test_jster_169 <- function(browser_func) {
       file.path(app, "169-prerender-b")
     ),
     type = "lapply",
-    browsers = browser_func
+    browsers = shinyjster::selenium_chrome()
   )
-}
+})
