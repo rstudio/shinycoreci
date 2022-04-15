@@ -8,7 +8,7 @@ apps_deps <- c("base64enc", "bslib", "Cairo", "clipr", "curl", "dbplyr", "Diagra
 "progress", "promises", "pryr", "radiant", "ragg", "RColorBrewer", 
 "reactable", "reactlog", "reactR", "readr", "rlang", "rmarkdown", 
 "rprojroot", "rsconnect", "RSQLite", "rversions", "scales", "sf", 
-"shiny", "shinyAce", "shinycoreci", "shinydashboard", "shinyjs", 
-"shinyjster", "shinymeta", "shinytest2", "shinythemes", "shinyvalidate", 
-"showtext", "sysfonts", "systemfonts", "testthat", "thematic", 
-"tidyr", "tm", "websocket", "withr", "wordcloud")
+"shiny", "shinyAce", "shinydashboard", "shinyjs", "shinyjster", 
+"shinymeta", "shinytest2", "shinythemes", "shinyvalidate", "showtext", 
+"sysfonts", "systemfonts", "testthat", "thematic", "tidyr", "tm", 
+"websocket", "withr", "wordcloud")
