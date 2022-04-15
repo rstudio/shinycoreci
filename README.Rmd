@@ -20,8 +20,13 @@ knitr::opts_chunk$set(
 # shinycoreci
 
 <!-- badges: start -->
-[![R CMD check](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/shinycoreci/actions)
 [![Lifecycle Experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R CMD check](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml)
+[![Warm library cache](https://github.com/rstudio/shinycoreci/actions/workflows/apps-cache-matrix.yml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/apps-cache-matrix.yml)
+[![Test](https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml)
+[![Deploy](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml)
+[![Docker](https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml)
+[![Dependencies](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deps.yml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deps.yml)
 <!-- badges: end -->
 
 <!-- This is an R package to install all dependencies to test the bleeding edge of all relevant packages to the Shiny team. -->
@@ -34,24 +39,17 @@ knitr::opts_chunk$set(
 Install the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+# install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))
 pak::pkg_install("rstudio/shinycoreci")
 ```
 
-These `Remotes` will be installed to make sure the latest package development is working as expected:
+These GitHub packages will be installed to make sure the latest package development is working as expected:
 
 ```{r, echo = FALSE, results = "asis"}
-pkgs <-
-  sort(
-    strsplit(
-      unname(read.dcf("DESCRIPTION")[1, "Remotes"]),
-      "\\n\\s*"
-    )[[1]]
-  )
+pkgs <- shinycoreci:::shinyverse_remotes
 
 # remove branches, sha, and commas
 github_pkgs <- sub("[, (@#].*$", "", pkgs)
-pkgs <- sub(",", "", pkgs)
 
 # print as links to repos
 cat(
@@ -66,4 +64,5 @@ cat(
 ## FAQ:
 
 If you run into an odd `{pak}` installation issue:
-  * Run `pak::cache_clean()` to clear the cache and try your original command again
+
+* Run `pak::cache_clean()` to clear the cache and try your original command again

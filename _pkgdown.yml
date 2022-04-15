@@ -1,0 +1,10 @@
+url: https://rstudio.github.io/shinycoreci/
+
+template:
+  package: tidytemplate
+  bootstrap: 5
+
+  bslib:
+    primary: "#2380c2"
+    navbar-background: "#e7f3fb"
+  trailing_slash_redirect: true

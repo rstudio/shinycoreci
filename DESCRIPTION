@@ -33,3 +33,6 @@ Suggests:
     later,
     withr,
     shinytest
+Config/Needs/website: tidyverse/tidytemplate
+URL: https://github.com/rstudio/shinycoreci
+BugReports: https://github.com/rstudio/shinycoreci/issues
