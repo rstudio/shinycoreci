@@ -10,10 +10,10 @@
 #' @export
 #' @examples
 #' \dontrun{
-#'   rsconnect::addConnectServer(url = 'https://SERVER.com/API', name = 'CustomName')"
-#'   rsconnect::connectApiUser('barret', 'CustomName', apiKey = 'SuperSecretKey')"
-#'   deploy_apps(account = 'barret', server = 'CustomName')"
-#'   connect_set_public(account = 'barret', server = 'CustomName')"
+#'   rsconnect::addConnectServer(url = 'https://SERVER.com/API', name = 'CustomName')
+#'   rsconnect::connectApiUser('barret', 'CustomName', apiKey = 'SuperSecretKey')
+#'   deploy_apps(account = 'barret', server = 'CustomName')
+#'   connect_set_public(account = 'barret', server = 'CustomName')
 #'   urls <- connect_urls(account = 'barret', server = 'CustomName')
 #' }
 connect_set_public <- function(
