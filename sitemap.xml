@@ -1,96 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/index.html</loc>
   </url>
   <url>
-    <loc>/reference/assert_test_output.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/assert_test_output.html</loc>
   </url>
   <url>
-    <loc>/reference/clear_cache.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/clear_cache.html</loc>
   </url>
   <url>
-    <loc>/reference/connect.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/connect.html</loc>
   </url>
   <url>
-    <loc>/reference/deploy_apps.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/deploy_apps.html</loc>
   </url>
   <url>
-    <loc>/reference/docker.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/docker.html</loc>
   </url>
   <url>
-    <loc>/reference/docker_clean.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/docker_clean.html</loc>
   </url>
   <url>
-    <loc>/reference/find_deps_installed.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/find_deps_installed.html</loc>
   </url>
   <url>
-    <loc>/reference/fix_all_gha_branches.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/fix_all_gha_branches.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/platform.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/platform.html</loc>
   </url>
   <url>
-    <loc>/reference/platform_rversion.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/platform_rversion.html</loc>
   </url>
   <url>
-    <loc>/reference/r_version_short.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/r_version_short.html</loc>
   </url>
   <url>
-    <loc>/reference/shinyverse_libpath.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/shinyverse_libpath.html</loc>
   </url>
   <url>
-    <loc>/reference/test-results.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/test-results.html</loc>
   </url>
   <url>
-    <loc>/reference/test_in_browser.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/test_in_browser.html</loc>
   </url>
   <url>
-    <loc>/reference/test_in_deployed.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/test_in_deployed.html</loc>
   </url>
   <url>
-    <loc>/reference/test_in_ide.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/test_in_ide.html</loc>
   </url>
   <url>
-    <loc>/reference/test_in_local.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/test_in_local.html</loc>
   </url>
   <url>
-    <loc>/reference/test_in_ssossp.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/test_in_ssossp.html</loc>
   </url>
   <url>
-    <loc>/reference/trigger.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/trigger.html</loc>
   </url>
   <url>
-    <loc>/reference/use_manual_app.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/use_manual_app.html</loc>
   </url>
   <url>
-    <loc>/reference/use_shinyjster.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/use_shinyjster.html</loc>
   </url>
   <url>
-    <loc>/reference/view_test_diff.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/view_test_diff.html</loc>
   </url>
   <url>
-    <loc>/reference/view_test_images.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/view_test_images.html</loc>
   </url>
   <url>
-    <loc>/reference/write_sysinfo.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/write_sysinfo.html</loc>
   </url>
   <url>
-    <loc>/todo.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/todo.html</loc>
   </url>
 </urlset>
