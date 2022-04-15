@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shinycoreci</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9005</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -59,47 +55,47 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="shinycoreci" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#shinycoreci" class="anchor"></a>shinycoreci</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="shinycoreci">shinycoreci<a class="anchor" aria-label="anchor" href="#shinycoreci"></a>
+</h1></div>
 <!-- badges: start -->
 
 <p>This is an R package to install all dependencies to test the bleeding edge of all relevant packages to the Shiny team.</p>
-<p>For more direct usage examples, see <a href="https://github.com/rstudio/shinycoreci-apps"><code>rstudio/shinycoreci-apps</code></a>.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>Install the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<p>For more direct usage examples, see <a href="https://github.com/rstudio/shinycoreci-apps" class="external-link"><code>rstudio/shinycoreci-apps</code></a>.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>Install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"rstudio/shinycoreci"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="http://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"rstudio/shinycoreci"</span><span class="op">)</span></code></pre></div>
 <p>These <code>Remotes</code> will be installed to make sure the latest package development is working as expected:</p>
 <ul>
-<li><a href="http://github.com/r-lib/cachem">r-lib/cachem</a></li>
-<li><a href="http://github.com/r-lib/fastmap">r-lib/fastmap</a></li>
-<li><a href="http://github.com/r-lib/later">r-lib/later</a></li>
-<li><a href="http://github.com/r-lib/pkgdepends">r-lib/pkgdepends</a></li>
-<li><a href="http://github.com/rstudio/bslib">rstudio/bslib</a></li>
-<li><a href="http://github.com/rstudio/crosstalk">rstudio/crosstalk</a></li>
-<li><a href="http://github.com/rstudio/DT">rstudio/DT</a></li>
-<li><a href="http://github.com/rstudio/dygraphs">rstudio/dygraphs</a></li>
-<li><a href="http://github.com/rstudio/flexdashboard">rstudio/flexdashboard</a></li>
-<li><a href="http://github.com/rstudio/fontawesome">rstudio/fontawesome</a></li>
-<li><a href="http://github.com/rstudio/htmltools">rstudio/htmltools</a></li>
-<li><a href="http://github.com/rstudio/httpuv">rstudio/httpuv</a></li>
-<li><a href="http://github.com/rstudio/pool">rstudio/pool</a></li>
-<li><a href="http://github.com/rstudio/promises">rstudio/promises</a></li>
-<li><a href="http://github.com/rstudio/reactlog">rstudio/reactlog</a></li>
-<li><a href="http://github.com/rstudio/rsconnect">rstudio/rsconnect</a></li>
-<li><a href="http://github.com/rstudio/sass">rstudio/sass</a></li>
-<li><a href="http://github.com/rstudio/shiny">rstudio/shiny</a></li>
-<li><a href="http://github.com/rstudio/shinymeta">rstudio/shinymeta</a></li>
-<li><a href="http://github.com/rstudio/shinytest">rstudio/shinytest</a></li>
-<li><a href="http://github.com/rstudio/shinythemes">rstudio/shinythemes</a></li>
-<li><a href="http://github.com/rstudio/shinyvalidate">rstudio/shinyvalidate@main</a></li>
-<li><a href="http://github.com/rstudio/thematic">rstudio/thematic</a></li>
-<li><a href="http://github.com/rstudio/webdriver">rstudio/webdriver</a></li>
-<li><a href="http://github.com/rstudio/websocket">rstudio/websocket</a></li>
-<li><a href="http://github.com/schloerke/shinyjster">schloerke/shinyjster</a></li>
+<li><a href="http://github.com/r-lib/cachem" class="external-link">r-lib/cachem</a></li>
+<li><a href="http://github.com/r-lib/fastmap" class="external-link">r-lib/fastmap</a></li>
+<li><a href="http://github.com/r-lib/later" class="external-link">r-lib/later</a></li>
+<li><a href="http://github.com/r-lib/pkgdepends" class="external-link">r-lib/pkgdepends</a></li>
+<li><a href="http://github.com/rstudio/bslib" class="external-link">rstudio/bslib</a></li>
+<li><a href="http://github.com/rstudio/crosstalk" class="external-link">rstudio/crosstalk</a></li>
+<li><a href="http://github.com/rstudio/DT" class="external-link">rstudio/DT</a></li>
+<li><a href="http://github.com/rstudio/dygraphs" class="external-link">rstudio/dygraphs</a></li>
+<li><a href="http://github.com/rstudio/flexdashboard" class="external-link">rstudio/flexdashboard</a></li>
+<li><a href="http://github.com/rstudio/fontawesome" class="external-link">rstudio/fontawesome</a></li>
+<li><a href="http://github.com/rstudio/htmltools" class="external-link">rstudio/htmltools</a></li>
+<li><a href="http://github.com/rstudio/httpuv" class="external-link">rstudio/httpuv</a></li>
+<li><a href="http://github.com/rstudio/pool" class="external-link">rstudio/pool</a></li>
+<li><a href="http://github.com/rstudio/promises" class="external-link">rstudio/promises</a></li>
+<li><a href="http://github.com/rstudio/reactlog" class="external-link">rstudio/reactlog</a></li>
+<li><a href="http://github.com/rstudio/rsconnect" class="external-link">rstudio/rsconnect</a></li>
+<li><a href="http://github.com/rstudio/sass" class="external-link">rstudio/sass</a></li>
+<li><a href="http://github.com/rstudio/shiny" class="external-link">rstudio/shiny</a></li>
+<li><a href="http://github.com/rstudio/shinymeta" class="external-link">rstudio/shinymeta</a></li>
+<li><a href="http://github.com/rstudio/shinytest" class="external-link">rstudio/shinytest</a></li>
+<li><a href="http://github.com/rstudio/shinythemes" class="external-link">rstudio/shinythemes</a></li>
+<li><a href="http://github.com/rstudio/shinyvalidate" class="external-link">rstudio/shinyvalidate@main</a></li>
+<li><a href="http://github.com/rstudio/thematic" class="external-link">rstudio/thematic</a></li>
+<li><a href="http://github.com/rstudio/webdriver" class="external-link">rstudio/webdriver</a></li>
+<li><a href="http://github.com/rstudio/websocket" class="external-link">rstudio/websocket</a></li>
+<li><a href="http://github.com/schloerke/shinyjster" class="external-link">schloerke/shinyjster</a></li>
 </ul>
 </div>
 </div>
@@ -107,40 +103,51 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Winston Chang <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Barret Schloerke <br><small class="roles"> Author </small>  </li>
-<li>Alan Dipert <br><small class="roles"> Author </small>  </li>
-<li>
-<a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/rstudio/shinycoreci/actions"><img src="https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R CMD check"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle Experimental"></a></li>
+<li><a href="authors.html#citation">Citing shinycoreci</a></li>
 </ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Barret Schloerke <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Winston Chang <br><small class="roles"> Author </small>  </li>
+<li>Alan Dipert <br><small class="roles"> Author </small>  </li>
+<li>RStudio <br><small class="roles"> Copyright holder, funder </small>  </li>
+</ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/rstudio/shinycoreci/actions" class="external-link"><img src="https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R CMD check"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle Experimental"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Winston Chang, Barret Schloerke, Alan Dipert, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p></p>
+<p>Developed by Barret Schloerke, Winston Chang, Alan Dipert, RStudio.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -148,6 +155,8 @@
 
   
 
+
+  
 
   </body>
 </html>
