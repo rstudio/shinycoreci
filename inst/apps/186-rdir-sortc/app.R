@@ -7,7 +7,7 @@ shinyApp(
       jst.add(function() {
         Jster.assert.isEqual(
           $('#text').text().trim(),
-          'File load order: C, b, á'
+          'File load order: B_, C, b'
         );
       });
 
@@ -17,7 +17,10 @@ shinyApp(
       "The purpose of this app is to make sure files loaded by loadSupport() are sorted using the C locale. ",
       a("PR 2872", href = "https://github.com/rstudio/shiny/pull/2872")
     ),
-    p('The order of the letters below should be, "C, b, á"'),
+    p(
+      " Not using utf-8 file names as", tags$code("R CMD check"), "does not like these file names."
+    ),
+    p('The order of the letters below should be, "B_, C, b"'),
     verbatimTextOutput("text")
   ),
   server = function(input, output, session) {
