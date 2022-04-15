@@ -13,3 +13,6 @@
 ^inst/apps/.*/tests/.*
 \.jshintrc$
 www/nvd3/deprecated
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
