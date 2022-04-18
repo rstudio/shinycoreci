@@ -88,7 +88,7 @@ fix_snaps <- function(
       # Go back to original branch
         git_checkout(original_git_branch, quiet = TRUE)
         # Remove local copy of `gha-` branch. No need for it to exist locally anymore
-        git_cmd_("git branch -d '", branch, "' --quiet")
+        git_cmd_("git branch -D '", branch, "' --quiet")
       })
       # Go to branch
       git_checkout(branch, quiet = TRUE)
