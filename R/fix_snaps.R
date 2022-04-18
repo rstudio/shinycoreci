@@ -72,7 +72,7 @@ fix_snaps <- function(
 
   # Create patch files
   patch_folder <- "patches"
-  if (dir.exists(patch_folder)) unlink(patch_folder)
+  if (dir.exists(patch_folder)) unlink(patch_folder, recursive = TRUE)
   dir.create(patch_folder, showWarnings = FALSE)
 
   pb <- progress_bar(
