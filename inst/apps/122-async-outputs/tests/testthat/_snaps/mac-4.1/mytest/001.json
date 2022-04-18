@@ -26,13 +26,13 @@
       "escape": true
     },
     "image": {
-      "src": "[image data sha1: fd852df5478eb7eb9410ee9101bb364adf487fb0]"
+      "src": "[image data hash: cb41acc0ed5f59cc28103f8b83ee4404]"
     },
     "imagea": {
-      "src": "[image data sha1: fd852df5478eb7eb9410ee9101bb364adf487fb0]"
+      "src": "[image data hash: cb41acc0ed5f59cc28103f8b83ee4404]"
     },
     "plot": {
-      "src": "[image data sha1: 90badbf6b54e46812cab14d9dcf134d0600453c4]",
+      "src": "[image data hash: 79e49d2efd54fd0654bcdeb451b57aa7]",
       "width": 383,
       "height": 400,
       "alt": "Plot object",
@@ -67,7 +67,7 @@
       }
     },
     "plota": {
-      "src": "[image data sha1: 90badbf6b54e46812cab14d9dcf134d0600453c4]",
+      "src": "[image data hash: 79e49d2efd54fd0654bcdeb451b57aa7]",
       "width": 383,
       "height": 400,
       "alt": "Plot object",

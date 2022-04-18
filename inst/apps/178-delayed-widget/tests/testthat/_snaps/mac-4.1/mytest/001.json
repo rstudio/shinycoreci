@@ -2210,9 +2210,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.1.0",
+          "version": "2.1.1",
           "src": {
-            "href": "leaflet-binding-2.1.0"
+            "href": "leaflet-binding-2.1.1"
           },
           "meta": null,
           "script": "leaflet.js",

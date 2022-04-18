@@ -15,7 +15,7 @@ accept_snaps <- function(
     format = ":name [:bar] :current/:total"
   )
 
-  for (app_path in head(app_paths)) {
+  for (app_path in app_paths) {
     pb$tick(tokens = list(name = basename(app_path)))
     withr::with_dir(app_path, {
       if (!dir.exists(file.path("tests/testthat/_snaps"))) next

@@ -22,13 +22,13 @@
     "radioButtons": "A",
     "secondary": 1,
     "select": "AL",
+    "selectMulti": null,
     "selectize": "AK",
     "selectizeMulti": [
       "AK",
       "AR",
       "CO"
     ],
-    "selectMulti": null,
     "showDefault": 0,
     "showError": 0,
     "showMessage": 0,

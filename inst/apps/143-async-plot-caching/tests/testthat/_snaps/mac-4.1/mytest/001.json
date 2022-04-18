@@ -4,7 +4,7 @@
   },
   "output": {
     "ggplotNN": {
-      "src": "[image data sha1: 9c974d97fccfa71ac301060d83aa6342aaefc568]",
+      "src": "[image data hash: fa34174ec0b6a837072e080678e84dda]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -45,7 +45,7 @@
       "class": "shiny-scalable"
     },
     "ggplotNY": {
-      "src": "[image data sha1: 9c974d97fccfa71ac301060d83aa6342aaefc568]",
+      "src": "[image data hash: fa34174ec0b6a837072e080678e84dda]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -86,7 +86,7 @@
       "class": "shiny-scalable"
     },
     "ggplotYN": {
-      "src": "[image data sha1: 9c974d97fccfa71ac301060d83aa6342aaefc568]",
+      "src": "[image data hash: fa34174ec0b6a837072e080678e84dda]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -127,7 +127,7 @@
       "class": "shiny-scalable"
     },
     "ggplotYY": {
-      "src": "[image data sha1: 9c974d97fccfa71ac301060d83aa6342aaefc568]",
+      "src": "[image data hash: fa34174ec0b6a837072e080678e84dda]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -168,7 +168,7 @@
       "class": "shiny-scalable"
     },
     "plotNN": {
-      "src": "[image data sha1: 580261156012416c058247f6920b9844dcef6357]",
+      "src": "[image data hash: 536969169a79eb72bee71d55ee12044b]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -202,7 +202,7 @@
       "class": "shiny-scalable"
     },
     "plotNY": {
-      "src": "[image data sha1: 580261156012416c058247f6920b9844dcef6357]",
+      "src": "[image data hash: 536969169a79eb72bee71d55ee12044b]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -236,7 +236,7 @@
       "class": "shiny-scalable"
     },
     "plotYN": {
-      "src": "[image data sha1: 580261156012416c058247f6920b9844dcef6357]",
+      "src": "[image data hash: 536969169a79eb72bee71d55ee12044b]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -270,7 +270,7 @@
       "class": "shiny-scalable"
     },
     "plotYY": {
-      "src": "[image data sha1: 580261156012416c058247f6920b9844dcef6357]",
+      "src": "[image data hash: 536969169a79eb72bee71d55ee12044b]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
