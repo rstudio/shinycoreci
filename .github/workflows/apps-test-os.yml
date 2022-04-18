@@ -177,7 +177,7 @@ jobs:
                 dir.exists(file.path(item[[1]], item[[2]], item[[3]]))
               })
             unique_changed_apps <- unique(unlist(lapply(changed_app_folders, `[[`, 3)))
-            if (length(files_changed) <= 500) {
+            if (length(files_changed) > 125) {
               message("Too many files altered. Testing all apps!")
             } else {
               apps <- apps[apps %in% unique_changed_apps]
