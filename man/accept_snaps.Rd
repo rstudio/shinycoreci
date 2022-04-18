@@ -6,9 +6,6 @@
 \usage{
 accept_snaps(repo_dir = ".")
 }
-\arguments{
-\item{repo_dir}{Root repo folder path}
-}
 \description{
 Accepts \strong{all} snapshot changes for every shiny application in \code{inst/apps}.
 }
