@@ -19,10 +19,9 @@
 #' 8. For each `gha-` branch, delete the locally checked out `gha-` branch. (Cleans up the local repo.)
 #' 9. Tell the user to call `git push`.
 #'
-#' @param dir Root app folder path
 #' @param sha git sha of base branch to look for
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
-#' @param ask_apps,ask_branches Logical which allows for particular apps branches to be inspected
+#' @param ask_apps,ask_branches Logical which allows for particular apps or branches are to be inspected
 #' @param ask_if_not_main Logical which will check if `main` is the base branch
 #' @param repo_dir Root repo folder path
 #' @export

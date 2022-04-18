@@ -18,13 +18,11 @@ fix_snaps(
 
 \item{...}{Extra arguments passed to \code{shinytest::viewTestDiff}}
 
-\item{ask_apps, ask_branches}{Logical which allows for particular apps branches to be inspected}
+\item{ask_apps, ask_branches}{Logical which allows for particular apps or branches are to be inspected}
 
 \item{ask_if_not_main}{Logical which will check if \code{main} is the base branch}
 
 \item{repo_dir}{Root repo folder path}
-
-\item{dir}{Root app folder path}
 }
 \description{
 This method will apply patches from corresponding GitHub branches for each R and Operating System combination. Changes will not be committed or pushed back to GitHub. The user will need to perform this action manually.
