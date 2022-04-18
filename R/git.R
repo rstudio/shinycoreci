@@ -29,12 +29,12 @@ git_sha <- function(
   )
 }
 
-git_diff <- function(dir) {
-  git_cmd(dir, "git diff")
+git_diff <- function(dir, folder = "") {
+  git_cmd(dir, paste0("git diff ", folder))
 }
 
-git_untracked_files <- function(dir) {
-  git_cmd(dir, "git clean -d --dry-run")
+git_untracked_files <- function(dir, folder = "") {
+  git_cmd(dir, paste0("git clean -d --dry-run ", folder))
 }
 
 git_fetch <- function(dir) {
