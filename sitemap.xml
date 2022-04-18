@@ -16,6 +16,9 @@
     <loc>https://rstudio.github.io/shinycoreci/index.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/shinycoreci/reference/accept_snaps.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/shinycoreci/reference/assert_test_output.html</loc>
   </url>
   <url>
@@ -37,7 +40,7 @@
     <loc>https://rstudio.github.io/shinycoreci/reference/find_deps_installed.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/shinycoreci/reference/fix_all_gha_branches.html</loc>
+    <loc>https://rstudio.github.io/shinycoreci/reference/fix_snaps.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/shinycoreci/reference/index.html</loc>

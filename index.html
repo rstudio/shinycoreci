@@ -32,7 +32,7 @@
     
     <a class="navbar-brand me-2" href="index.html">shinycoreci</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9006</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,6 +106,138 @@
 <li><a href="http://github.com/rstudio/websocket" class="external-link">rstudio/websocket</a></li>
 <li><a href="http://github.com/schloerke/shinyjster" class="external-link">schloerke/shinyjster</a></li>
 </ul>
+<p>Tools for manual and automated testing of shiny apps.</p>
+</div>
+<div class="section level2">
+<h2 id="running-manual-tests">Running manual tests<a class="anchor" aria-label="anchor" href="#running-manual-tests"></a>
+</h2>
+<p>First, clone the shinycoreci-apps repo. Next, install <a href="https://github.com/rstudio/shinycoreci" class="external-link"><code>remotes::install_github("rstudio/shinycoreci")</code></a>. You may need to add your <code>GITHUB_PAT</code> to your R Environ file (See <code>?usethis::edit_r_environ</code> and <code>?usethis::browse_github_pat</code>)</p>
+<ul>
+<li>
+<a href="https://rstudio.com/products/rstudio/download/#download" class="external-link">RStudio IDE</a> - <code><a href="reference/test_in_ide.html">shinycoreci::test_in_ide()</a></code>
+</li>
+<li>
+<a href="http://rstudio.cloud" class="external-link">RStudio Cloud</a> - <code><a href="reference/test_in_ide.html">shinycoreci::test_in_ide()</a></code>
+</li>
+<li>
+<a href="https://colorado.rstudio.com" class="external-link">RStudio Server Pro</a> - <code><a href="reference/test_in_ide.html">shinycoreci::test_in_ide()</a></code>
+</li>
+<li>R Terminal / R GUI - <code><a href="reference/test_in_browser.html">shinycoreci::test_in_browser()</a></code>
+</li>
+<li>(Any) Web Browser - <code><a href="reference/test_in_browser.html">shinycoreci::test_in_browser()</a></code>
+</li>
+<li>
+<a href="http://shinyapps.io" class="external-link">shinyapps.io</a> - <code><a href="reference/test_in_deployed.html">shinycoreci::test_in_shinyappsio()</a></code>
+</li>
+<li>
+<a href="http://beta.rstudioconnect.com" class="external-link">RStudio Connect</a> - <code><a href="reference/test_in_deployed.html">shinycoreci::test_in_connect()</a></code>
+</li>
+<li>SSO - <code>shinycoreci::test_in_sso(release = "focal")</code> &gt; will require docker login. Run <code>docker login</code> in the terminal</li>
+<li>SSP - <code>shinycoreci::test_in_ssp(release = "centos7")</code> &gt; will require docker login. Run <code>docker login</code> in the terminal</li>
+</ul>
+<p>All testing functions may be run from within the IDE (except for R Terminal / R GUI).</p>
+<div class="section level4">
+<h4 id="ide-example">IDE Example<a class="anchor" aria-label="anchor" href="#ide-example"></a>
+</h4>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))</span>
+
+<span class="co"># Install the latest from pak</span>
+<span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="http://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"rstudio/shinycoreci"</span><span class="op">)</span>
+<span class="co"># Install shinyverse</span>
+<span class="co"># Run all manual tests</span>
+<span class="fu">shinycoreci</span><span class="fu">::</span><span class="fu"><a href="reference/test_in_ide.html">test_in_ide</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<!--
+## View and manage automated test results
+
+To view and manage test results, first make sure your working directory is the `shinycoreci-apps` repo.
+
+Use `shinycoreci::view_test_results()` to obtain an overview of the most recent test runs (it should prompt a **shiny** app that looks similar to this):
+
+<div align="center">
+  <img src="README_files/view-test-results.png" />
+</div>
+
+If you see failures that indicate a difference in **shinytest2** baselines (as above), you may need to just view and approve the differences.
+
+To obtain and correct the shinytest differences, use `shinycoreci::fix_all_gha_branches()`. This function will walk you through the steps needed to update all `shinytest` failures and merge in the latest information from each `gha-` branch.  To approve the differences, click on the "Update & click" button. To reject the differences, click on "Quit" button.
+
+If you receive the error `No information found for sha: ABC1234 . Do you have a valid sha?`, you may have to provide the git sha value directly: `shinycoreci::fix_all_gha_branches(sha = "XYZ5678")`.
+
+In the event that all testing failures can not be addressed by updating shinytest baselines, have a look at the [GHA actions](https://github.com/rstudio/shinycoreci-apps/actions) build log and keep the following troubleshooting tips in mind:
+-->
+</div>
+<div class="section level3">
+<h3 id="troubleshooting-test-failures">Troubleshooting test failures<a class="anchor" aria-label="anchor" href="#troubleshooting-test-failures"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li>Failures on old versions of R</li>
+</ol>
+<p>If a testing app passes on recent version(s) of R, but fails in a suprising way on old R version(s), it may be due to an old R package version. In that case, modify the tests to run only if a sufficient version of the relevant package is available (<a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/145-dt-replacedata/tests/shinytest.R" class="external-link">for example</a>).</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Other failures that can’t replicated locally</li>
+</ol>
+<p>Other surprising failures are often the result of timing issues (which can be difficult, if not impossible, to replicate locally). If your testing app uses dynamic UI and/or doesn’t have proper input/output bindings, <strong>shinytest</strong> probably needs to know how long to wait for value(s) to update (in this case, use <code>waitForValue()</code>, <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/021-selectize-plot/tests/shinytest/mytest.R#L10-L11" class="external-link">for example</a>). Somewhat similarly, when checking DOM values with <strong>shinyjster</strong>, you may need to wait for an update to DOM element(s) before checking value(s), in which case you can write a recursive function that keeps calling itself until the DOM is ready (<a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/187-navbar-collapse/app.R#L24-L34" class="external-link">for example</a>).</p>
+<ol start="3" style="list-style-type: decimal">
+<li>All of the windows shinytest plots have failed</li>
+</ol>
+<p>When Windows virtual images update on GitHub Actions, the graphics device may behave exactly as the prior graphics device. Check to see if your windows <code>Image Version</code> has updated. (To view this, inspect the top lines in <code>./apps/sys-info-win-XX.txt</code> for a change.) You should accept the updated shinytest output for the build with the higher <code>Image Version</code>.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="contribute-a-testing-app">Contribute a testing app<a class="anchor" aria-label="anchor" href="#contribute-a-testing-app"></a>
+</h2>
+<p>When contributing a testing app, try to do the following:</p>
+<ul>
+<li>Capture all the functionality with automated tests.
+<ul>
+<li>Also, where possible, write “light-weight” tests (that is, try and avoid <strong>shinytest2</strong> <code>$expect_screenshot()</code> where possible since they are prone to false positive differences and thus have a maintenance cost).</li>
+<li>If the app does need manual testing, flag the testing app for manual testing with <code><a href="reference/use_manual_app.html">shinycoreci::use_manual_app()</a></code>.</li>
+</ul>
+</li>
+<li>Add a description to the app’s UI that makes it clear what the app is testing for.</li>
+</ul>
+<p>Note that <strong>shinycoreci</strong> only supports <a href="https://testthat.r-lib.org" class="external-link">testthat</a> testing framework. Call <code>shinytest2::use_shinytest2(APP_DIR)</code> to use <code>{shinytest2}</code> and <a href="https://testthat.r-lib.org" class="external-link">testthat</a></p>
+<ol style="list-style-type: decimal">
+<li><p><strong>shinytest</strong>: primarily useful for taking screenshots of shiny output binding(s) (before or after interacting with <strong>shiny</strong> input bindings). <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f/apps/001-hello/tests/shinytest/mytest.R" class="external-link">See here</a> for an example (note that <code><a href="https://rdrr.io/pkg/shinytest/man/recordTest.html" class="external-link">shinytest::recordTest()</a></code> can be used to generate shinytest testing scripts).</p></li>
+<li><p><strong>shinyjster</strong>: primarily useful for asserting certain expectations about the DOM (in JavaScript). <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f/apps/001-hello/app.R#L37-L61" class="external-link">See here</a> for an example (note that <code>shinyjster::shinyjster_js()</code> needs to be placed in the UI and <code>shinyjster::shinyjster_server(input, output)</code> needs to be placed in the server).</p></li>
+<li><p><strong>testthat</strong>: primarily useful in combination with <code><a href="https://rdrr.io/pkg/shiny/man/testServer.html" class="external-link">shiny::testServer()</a></code> to test server-side reactive logic of the application.</p></li>
+</ol>
+<!-- end list --><ul>
+<li>
+<a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/001-hello/tests/testthat/tests.R#L4" class="external-link">See here</a> for an example.</li>
+<li>Call <code>shinycoreci::use_tests_testthat(app_dir)</code> to provide the file scaffolding necessary to run the <strong>testthat</strong> tests</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="pruning-old-git-branches">Pruning old git branches<a class="anchor" aria-label="anchor" href="#pruning-old-git-branches"></a>
+</h2>
+<p>To help us store and manage the test results, git branches are automatically created for each test run. These branches are automatically removed on GitHub after 1 week of no activity, but you may want to periodically remove them on your local machine as well:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">git</span> fetch --prune</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="what-workflows-are-available">What workflows are available?<a class="anchor" aria-label="anchor" href="#what-workflows-are-available"></a>
+</h2>
+<p>This repo contains several <a href="https://github.com/features/actions" class="external-link">GitHub Actions</a> workflows:</p>
+<ul>
+<li>
+<a href="https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3ArunTests" class="external-link"><strong>runTests:</strong></a> Run the automated tests (via <code><a href="https://rdrr.io/pkg/shiny/man/runTests.html" class="external-link">shiny::runTests()</a></code>).</li>
+<li>
+<a href="https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3ADocker" class="external-link"><strong>Docker:</strong></a> Create all SSO and SSP docker images</li>
+<li>
+<a href="https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3ADeploy" class="external-link"><strong>Deploy</strong></a>: Deploy all testing apps to <a href="shinyapps.io">shinyapps.io</a> and <a href="https://beta.rstudioconnect.com" class="external-link">beta.rstudioconnect.com</a>
+</li>
+</ul>
+<p>The <strong>runTests</strong> workflow runs automatically on every code change to <code>shinycoreci-apps</code> as well as every night (around midnight UTC). The other workflows may be triggered via <code><a href="reference/trigger.html">shinycoreci::trigger_docker()</a></code> and <code><a href="reference/trigger.html">shinycoreci::trigger_deploy()</a></code></p>
+<!--
+### Managing R package dependencies
+
+"Core" `shinycoreci-apps` R package dependencies come from **shinycoreci**'s [DESCRIPTION file](https://github.com/rstudio/shinycoreci/blob/master/DESCRIPTION); and so, that file may be modified to test different versions of different packages in the shinyverse.
+
+Application-specific R package dependencies are automatically inferred (and installed at run-time) using `renv::dependencies()`.
+
+> Note: `renv::dependencies()` are taken from CRAN, not GitHub Remotes.
+ -->
 </div>
 <div class="section level2">
 <h2 id="faq">FAQ:<a class="anchor" aria-label="anchor" href="#faq"></a>
