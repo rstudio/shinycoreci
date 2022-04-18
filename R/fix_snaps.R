@@ -1,38 +1,37 @@
 
 #' Fix all `_snaps` files and merge all `gha-` branches
 #'
-#' Function to walk the user through merging all `gha-` branches.  This function will NOT push to the repository. Users must `git push` themselves.
+#' This method will apply patches from corresponding GitHub branches for each R and Operating System combination. Changes will not be committed or pushed back to GitHub. The user will need to perform this action manually.
 #'
 #' This function will NOT fix `shinyjster` failures.
 #'
 #' Outline of steps performed:
+#' 1. Validate the current git branch is `main`
 #' 1. Validate there are no git changes or untracked files in the current base branch
-#' 2. Validate there are no unexpected shinytest folders
-#' 3. If `isTRUE(ask)`, ask for which branches to work with
-#' 4. Find all apps to update
-#' 5. For each failing shinytest app, accept / reject shinytest changes in each `gha-` branch. Add an individualized commit message including the app and environment flavor information
-#' 6. For each `gha-` branch, validate there are no unexpected shinytest folders. (Should be no unexpected folders after accepting / rejecting apps.)
-#' 7. For each `gha-` branch, merge into the base branch.
+#' 2. Validate there are `.new` _snaps files
+#' 3. Create patch files for each corresponding `gha-` branch in `./patches`
+#' 4. Ask which branches should be applied. Filter patch files accordingly
+#' 4. Ask which app changes should be kept
+#' 5. Apply patches
+#' 6. Undo changes to app that were not selected
+#' 7. Call [`accept_snaps()`] on all app folders
+#' 8. Prompt user to commit and push changes back to GitHub
 #' 8. For each `gha-` branch, delete the locally checked out `gha-` branch. (Cleans up the local repo.)
 #' 9. Tell the user to call `git push`.
 #'
 #' @param dir Root app folder path
 #' @param sha git sha of base branch to look for
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
-#' @param save_results Logical which commits and merges all branches after viewing test results
 #' @param ask_apps,ask_branches Logical which allows for particular apps branches to be inspected
 #' @param ask_if_not_main Logical which will check if `main` is the base branch
-# ' @param accept_all Logical which will accept all changes for the apps selected when `ask_apps = TRUE`. This parameter is only recommended for use when the shinytest differences are known and can not be displayed using the shiny application.
 #' @param repo_dir Root repo folder path
 #' @export
 fix_snaps <- function(
   sha = git_sha(repo_dir),
   ...,
-  save_results = NULL,
   ask_apps = FALSE,
   ask_branches = TRUE,
   ask_if_not_main = TRUE,
-  # accept_all = FALSE,
   repo_dir = "."
 ) {
   original_sys_call <- sys.call()
@@ -44,8 +43,6 @@ fix_snaps <- function(
   verify_no_git_changes(repo_dir = repo_dir, apps_folder = apps_folder)
   verify_no_untracked_files(repo_dir = repo_dir, apps_folder = apps_folder)
 
-  save_results <- resolve_save_results(save_results)
-
   verify_no_new_snaps(repo_dir, apps_folder)
 
   branches <- gha_remotes_latest(repo_dir, sha = sha)
@@ -56,7 +53,10 @@ fix_snaps <- function(
   }
 
   git_cmd_ <- function(..., git_dir = repo_dir) {
-    git_cmd(git_dir, paste0(...))
+    # Turn warnings into immediate errors
+    withr::with_options(list(warn = 2), {
+      git_cmd(git_dir, paste0(...))
+    })
   }
   git_checkout <- function(git_branch_val, quiet = FALSE) {
     if (!quiet) message("git checkout ", git_branch_val)
@@ -71,11 +71,7 @@ fix_snaps <- function(
   })
 
   # Create patch files
-
-  # tmpdir <- tempfile("st2-snaps-")
-  # dir.create(tmpdir)
   patch_folder <- "patches"
-  message("TODO-barret - unlink previous folder")
   if (dir.exists(patch_folder)) unlink(patch_folder)
   dir.create(patch_folder, showWarnings = FALSE)
 
@@ -88,9 +84,16 @@ fix_snaps <- function(
     if(grepl("(/|\\.\\.)", branch)) stop("Non-safe branch name: ", branch)
     patch_file <- file.path(patch_folder, paste0(branch, ".patch"))
     if (!file.exists(patch_file)) {
+      # Go to branch
       git_checkout(branch, quiet = TRUE)
+      # Make patch file
       git_cmd_(paste0("git format-patch '", original_git_branch, "' --stdout > ", patch_file))
+      # Go back to original branch
+      git_checkout(original_git_branch, quiet = TRUE)
+      # Remove local copy of `gha-` branch. No need for it to exist locally anymore
+      git_cmd_("git branch -d '", branch, "' --quiet")
     }
+
     patch_file
   })
   names(patch_files) <- branches
@@ -116,8 +119,6 @@ fix_snaps <- function(
   })
   names(files_changed) <- names(patch_files)
   files_changed <- files_changed[!vapply(files_changed, is.null, logical(1))]
-  str(files_changed)
-  # apps_changed_unique <- unique(unlist(apps_changed))
 
   apps_changed <- lapply(files_changed, function(patch_files_changed) {
     valid_files <- Filter(patch_files_changed, f = function(patch_file_changed) {
@@ -138,9 +139,7 @@ fix_snaps <- function(
     unique(unlist(app_names))
   })
 
-  str(apps_changed)
-
-  # get all app info into a data.frame for easy subsetting
+  # Get all app info into a data.frame for easy subsetting
   app_info_dt <- do.call(rbind, unname(unlist(
     Map(names(apps_changed), apps_changed, f = function(branch_name, apps_changed_names) {
       branch_parts <- strsplit(branch_name, "-")[[1]]
@@ -227,6 +226,7 @@ fix_snaps <- function(
   message("\nFinal Apps:")
   print_apps()
 
+  # Apply patch files
   patch_files_sub <- patch_files[names(patch_files) %in% app_info_dt$branch]
   pb <- progress_bar(total = length(patch_files_sub), format = "Apply patches - :name [:bar] :current/:total")
   Map(
@@ -316,17 +316,5 @@ verify_no_untracked_files <- function(repo_dir, apps_folder) {
     message("Code to remove these files / folders:\n", unlink_code)
 
     stop("Make sure there are no untracked files. Please remove the files or commit the changes.")
-  }
-}
-
-
-resolve_save_results <- function(save_results) {
-  if (!(identical(save_results, TRUE) || identical(save_results, FALSE))) {
-    ans <- utils::menu(
-      c("Yes; `save_results = TRUE`", "No; `save_results = FALSE`"),
-      graphics = FALSE,
-      title = "Would you like to git commit and merge these test approvals / rejections?"
-    )
-    save_results <- (ans == 1)
   }
 }
