@@ -307,6 +307,9 @@ verify_no_git_changes <- function(repo_dir, apps_folder) {
 
 
 verify_no_untracked_files <- function(repo_dir, apps_folder) {
+  withr::with_options(list(warn = 2), {
+    system(paste0("find ", file.path(repo_dir, apps_folder), " -empty -type d -delete"))
+  })
   untracked_files <- git_untracked_files(repo_dir, apps_folder)
   if (length(untracked_files) > 0) {
     message("Current untracked files and folders: ")
