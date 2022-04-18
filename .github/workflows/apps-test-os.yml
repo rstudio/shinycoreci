@@ -156,7 +156,7 @@ jobs:
       # do not update pkgs, as they were installed above
       # do update app pkgs, as they have NOT been installed
       - name: Run tests
-        timeout-minutes: 120
+        timeout-minutes: 180 # 3 hrs
         env:
           # firefox needs creds to download drivers?
           # https://github.com/bonigarcia/webdrivermanager#http-response-code-403
