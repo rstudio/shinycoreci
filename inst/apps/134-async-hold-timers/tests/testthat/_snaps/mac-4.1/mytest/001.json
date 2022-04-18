@@ -3,12 +3,7 @@
 
   },
   "output": {
-    "status": {
-      "html": "<h4>\n  <span style=\"background-color: #dddddd;\">Waiting...<\/span>\n<\/h4>",
-      "deps": [
 
-      ]
-    }
   },
   "export": {
 

@@ -3,14 +3,14 @@
     "cities": null,
     "color": "college",
     "map_bounds": {
-      "north": 57.8914973527103,
+      "north": 69.0685631869603,
       "east": -50.2734375,
-      "south": 9.53574899813361,
+      "south": -15.7076627695835,
       "west": -137.4609375
     },
     "map_center": {
-      "lng": -93.85,
-      "lat": 37.45
+      "lng": -93.8671875,
+      "lat": 37.4399740522706
     },
     "map_zoom": 4,
     "maxScore": 100,
@@ -31891,7 +31891,7 @@
   },
   "output": {
     "histCentile": {
-      "src": "[image data sha1: b78d18973c3048c9237ed7c9726fadd1b895545c]",
+      "src": "[image data hash: 1bc6dda7df24745ddb6aafdaa8856579]",
       "width": 288,
       "height": 200,
       "alt": "Plot object",
@@ -31901,8 +31901,8 @@
             "domain": {
               "left": -3.999931064,
               "right": 103.999986964,
-              "bottom": -42.6,
-              "top": 1107.6
+              "bottom": -42.64,
+              "top": 1108.64
             },
             "range": {
               "left": 59.04,
@@ -31960,7 +31960,7 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data sha1: cef65a08c2a5f98b2dfa1a35391871a181fe2c19]",
+      "src": "[image data hash: d3a670b93bb97e03fbf416e0f2b26a0a]",
       "width": 288,
       "height": 250,
       "alt": "Plot object",
@@ -32077,9 +32077,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0.9000",
+          "version": "1.2.0",
           "src": {
-            "href": "crosstalk-1.2.0.9000"
+            "href": "crosstalk-1.2.0"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",

@@ -4,3 +4,7 @@ shinyverse.png
 
 *.lic
 docs
+patches
+
+# Ignore all debug snapshots
+*_.png

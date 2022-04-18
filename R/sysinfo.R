@@ -51,7 +51,7 @@ write_sysinfo <- function(file = stdout()) {
       cat(rep("-", 80), "\n", sep = "")
       print(sessioninfo::platform_info())
       cat(rep("-", 80), "\n", sep = "")
-      print(find_deps_installed(), max = 10000)
+      print(find_deps_installed(), max = 10000, row.names = FALSE)
     }),
     sep = "\n",
     file = file

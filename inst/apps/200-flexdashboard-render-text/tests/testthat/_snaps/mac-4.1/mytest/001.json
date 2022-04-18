@@ -15,13 +15,26 @@
       ]
     },
     "month": "Feb",
-    "plotly_afterplot-A": "\"outb037b936e10a1db3\"",
-    "plotly_relayout-A": "{\"width\":356,\"height\":199}"
+    "plotly_afterplot-A": "\"outb936e10a1db3ec37\""
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 6b4ac1e46825e078d683cb40e24aeab725294aab]",
+      "html": "[html data sha1: b7a9a2a315ae64d57013de4ea84dd1ce54db7230]",
       "deps": [
+        {
+          "name": "header-attrs",
+          "version": "2.13",
+          "src": {
+            "href": "header-attrs-2.13"
+          },
+          "meta": null,
+          "script": "header-attrs.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
         {
           "name": "jquery",
           "version": "3.6.0",
@@ -67,35 +80,6 @@
           "head": null,
           "attachment": null,
           "package": null,
-          "all_files": true
-        },
-        {
-          "name": "value-box-accent-static",
-          "version": "0.5.2.9000",
-          "src": {
-            "href": "value-box-accent-static-0.5.2.9000"
-          },
-          "meta": null,
-          "script": null,
-          "stylesheet": "theme-cosmo-value-box.css",
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        },
-        {
-          "name": "flexdashboard-css",
-          "version": "0.5.2.9000",
-          "src": {
-            "href": "flexdashboard-css-0.5.2.9000"
-          },
-          "meta": null,
-          "script": null,
-          "stylesheet": [
-            "flexdashboard.min.css",
-            "theme-cosmo.css"
-          ],
-          "head": null,
-          "attachment": null,
           "all_files": true
         },
         {
@@ -169,103 +153,26 @@
         }
       ]
     },
-    "out035a8edd82f48c00": "Feb",
-    "out036980023b23cf30": {
-      "html": "<span class=\"value-output\" data-caption=\"Value Box 2\" data-color-accent=\"primary\">VB2: Feb<\/span>",
+    "out0976d7eabf77a190": "Feb",
+    "out0b0a8e5e335db037": "Feb",
+    "out1049c5a0fec90369": {
+      "html": "<span class=\"value-output\" data-caption=\"Value Box 1\">VB1: Feb<\/span>",
       "deps": [
-        {
-          "name": "value-box-core",
-          "version": "0.5.2.9000",
-          "src": {
-            "href": "value-box-core-0.5.2.9000"
-          },
-          "meta": null,
-          "script": null,
-          "stylesheet": "value-box.css",
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        }
-      ]
-    },
-    "out0c4ed20cca892f03": "Feb",
-    "out372dd6df6a227499": {
-      "html": "<span class=\"value-output\" data-caption=\"Value Box 3\" data-color-accent=\"primary\">VB3: Feb<\/span>",
-      "deps": [
-        {
-          "name": "value-box-core",
-          "version": "0.5.2.9000",
-          "src": {
-            "href": "value-box-core-0.5.2.9000"
-          },
-          "meta": null,
-          "script": null,
-          "stylesheet": "value-box.css",
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        }
-      ]
-    },
-    "out44a0bc45b351fb42": "Feb",
-    "out653cee2a3d1d7c1c": "Feb",
-    "out7dd30976d7eabf77": "Feb",
-    "out91b7f72ac16f31e0": {
-      "src": "[image data sha1: 9f8af1e272cc2e6c30e041a04114d29d6b4c9725]",
-      "width": 356,
-      "height": 199,
-      "alt": "Shiny plot alt text: Feb",
-      "coordmap": {
-        "panels": [
-          {
-            "domain": {
-              "left": 3.16,
-              "right": 25.84,
-              "bottom": -2.72,
-              "top": 124.72
-            },
-            "range": {
-              "left": 59.04,
-              "right": 325.76,
-              "bottom": 124.56,
-              "top": 58.04
-            },
-            "log": {
-              "x": null,
-              "y": null
-            },
-            "mapping": {
 
-            }
-          }
-        ],
-        "dims": {
-          "width": 356,
-          "height": 199
-        }
-      },
-      "error": null
-    },
-    "out9ac41049c5a0fec9": {
-      "html": "<span class=\"value-output\" data-caption=\"Value Box 1\" data-color-accent=\"primary\">VB1: Feb<\/span>",
-      "deps": [
-        {
-          "name": "value-box-core",
-          "version": "0.5.2.9000",
-          "src": {
-            "href": "value-box-core-0.5.2.9000"
-          },
-          "meta": null,
-          "script": null,
-          "stylesheet": "value-box.css",
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        }
       ]
     },
-    "outa1909d37acf95c56": "Feb",
-    "outb037b936e10a1db3": {
+    "out567dc228422df920": "Feb",
+    "out80023b23cf30372d": {
+      "html": "<span class=\"value-output\" data-caption=\"Value Box 2\">VB2: Feb<\/span>",
+      "deps": [
+
+      ]
+    },
+    "out8edd82f48c00f3e3": "Feb",
+    "out9d37acf95c5691b7": "Feb",
+    "outa244da8241d70c74": "Feb",
+    "outa252caab469b653c": "Feb",
+    "outb936e10a1db3ec37": {
       "x": {
         "layout": {
           "margin": {
@@ -504,9 +411,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0.9000",
+          "version": "1.2.0",
           "src": {
-            "href": "crosstalk-1.2.0.9000"
+            "href": "crosstalk-1.2.0"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
@@ -543,12 +450,52 @@
         }
       ]
     },
-    "outbc4ca252caab469b": "Feb",
-    "outc6bba244da8241d7": "Feb",
-    "outc9d1e58b62f86530": "Feb",
-    "outdc20567dc228422d": "Feb",
-    "outec37d35207a0a103": "Feb",
-    "outf9200b0a8e5e335d": "Feb"
+    "outbc45b351fb42c9d1": "Feb",
+    "outd20cca892f03c6bb": "Feb",
+    "outd35207a0a1037dd3": "Feb",
+    "outd6df6a227499dc20": {
+      "html": "<span class=\"value-output\" data-caption=\"Value Box 3\">VB3: Feb<\/span>",
+      "deps": [
+
+      ]
+    },
+    "oute58b62f865309ac4": "Feb",
+    "outee2a3d1d7c1c0c4e": "Feb",
+    "outf72ac16f31e0bc4c": {
+      "src": "[image data hash: b78bba2556698ed255d0df10bbb83c44]",
+      "width": 356,
+      "height": 508,
+      "alt": "Shiny plot alt text: Feb",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 3.16,
+              "right": 25.84,
+              "bottom": -2.72,
+              "top": 124.72
+            },
+            "range": {
+              "left": 59.04,
+              "right": 325.76,
+              "bottom": 433.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 356,
+          "height": 508
+        }
+      }
+    }
   },
   "export": {
 

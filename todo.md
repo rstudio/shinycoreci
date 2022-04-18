@@ -77,3 +77,9 @@
 - [ ] test results should be printed to log
 - [ ] Remove `test_path` from data structure; Use version to parse old files
 - [ ] Test `test_in_ide()` in the IDE
+
+
+## Bad Images
+063-superzip
+114-modal-dialog
+215-bslib-nav

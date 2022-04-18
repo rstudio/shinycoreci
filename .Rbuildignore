@@ -16,3 +16,4 @@ www/nvd3/deprecated
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^patches$

@@ -21,8 +21,7 @@ test_in_browser <- function(
   host = "127.0.0.1",
   local_pkgs = FALSE
 ) {
-  # libpath <- install_shinyverse(install = !isTRUE(local_pkgs))
-  libpath <- shinyverse_libpath()
+  libpath <- install_shinyverse(install = !isTRUE(local_pkgs))
 
   app_infos <- lapply(apps, function(app_name) {
     app_proc <- NULL
