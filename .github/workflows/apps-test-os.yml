@@ -177,9 +177,13 @@ jobs:
                 dir.exists(file.path(item[[1]], item[[2]], item[[3]]))
               })
             unique_changed_apps <- unique(unlist(lapply(changed_app_folders, `[[`, 3)))
-            apps <- apps[apps %in% unique_changed_apps]
-            if (length(apps) == 0) stop("No apps to check")
-            cat("Testing apps:\n", paste0("* ", apps, "\n"))
+            if (length(files_changed) <= 500) {
+              message("Too many files altered. Testing all apps!")
+            } else {
+              apps <- apps[apps %in% unique_changed_apps]
+              if (length(apps) == 0) stop("No apps to check")
+              cat("Testing apps:\n", paste0("* ", apps, "\n"))
+            }
           }
           test_output <- shinycoreci::test_in_local(
             apps = apps,
