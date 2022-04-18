@@ -239,6 +239,8 @@ fix_snaps <- function(
     }
   )
 
+  accept_snaps(repo_dir)
+
   if (length(apps_rejected) > 0) {
     message("Removing changes from rejected apps")
     pb <- progress_bar(total = length(apps_rejected), format = "Removing changes - :name [:bar] :current/:total")
@@ -246,12 +248,13 @@ fix_snaps <- function(
       apps_rejected,
       f = function(app_name) {
         pb$tick(tokens = list(name = app_name))
-        git_cmd_("git checkout -- ", repo_app_path(repo_dir = repo_dir, app_name = app_name))
+        # Use `.` as `git_cmd_` runs within `repo_dir`
+        app_path <- repo_app_path(repo_dir = ".", app_name = app_name)
+        git_cmd_("git checkout -- ", app_path)
+        git_cmd_("git clean -df -- ", app_path)
       }
     )
   }
-
-  accept_snaps(repo_dir)
 
   message("\nUse `GitHub Desktop` to commit / push changes")
 
