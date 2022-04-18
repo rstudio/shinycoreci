@@ -28,7 +28,7 @@ fix_snaps(
 This method will apply patches from corresponding GitHub branches for each R and Operating System combination. Changes will not be committed or pushed back to GitHub. The user will need to perform this action manually.
 }
 \details{
-This function will NOT fix \code{shinyjster} failures.
+Note: This function will NOT fix \code{shinyjster} failures.
 
 Outline of steps performed:
 \enumerate{
@@ -38,11 +38,9 @@ Outline of steps performed:
 \item Create patch files for each corresponding \verb{gha-} branch in \code{./patches}
 \item Ask which branches should be applied. Filter patch files accordingly
 \item Ask which app changes should be kept
-\item Apply patches
-\item Undo changes to app that were not selected
+\item Apply patch files
 \item Call \code{\link[=accept_snaps]{accept_snaps()}} on all app folders
+\item Undo changes to app that were not selected
 \item Prompt user to commit and push changes back to GitHub
-\item For each \verb{gha-} branch, delete the locally checked out \verb{gha-} branch. (Cleans up the local repo.)
-\item Tell the user to call \verb{git push}.
 }
 }

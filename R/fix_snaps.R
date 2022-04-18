@@ -3,21 +3,19 @@
 #'
 #' This method will apply patches from corresponding GitHub branches for each R and Operating System combination. Changes will not be committed or pushed back to GitHub. The user will need to perform this action manually.
 #'
-#' This function will NOT fix `shinyjster` failures.
+#' Note: This function will NOT fix `shinyjster` failures.
 #'
 #' Outline of steps performed:
 #' 1. Validate the current git branch is `main`
 #' 1. Validate there are no git changes or untracked files in the current base branch
-#' 2. Validate there are `.new` _snaps files
-#' 3. Create patch files for each corresponding `gha-` branch in `./patches`
-#' 4. Ask which branches should be applied. Filter patch files accordingly
-#' 4. Ask which app changes should be kept
-#' 5. Apply patches
-#' 6. Undo changes to app that were not selected
-#' 7. Call [`accept_snaps()`] on all app folders
-#' 8. Prompt user to commit and push changes back to GitHub
-#' 8. For each `gha-` branch, delete the locally checked out `gha-` branch. (Cleans up the local repo.)
-#' 9. Tell the user to call `git push`.
+#' 1. Validate there are `.new` _snaps files
+#' 1. Create patch files for each corresponding `gha-` branch in `./patches`
+#' 1. Ask which branches should be applied. Filter patch files accordingly
+#' 1. Ask which app changes should be kept
+#' 1. Apply patch files
+#' 1. Call [`accept_snaps()`] on all app folders
+#' 1. Undo changes to app that were not selected
+#' 1. Prompt user to commit and push changes back to GitHub
 #'
 #' @param sha git sha of base branch to look for
 #' @param ... Extra arguments passed to `shinytest::viewTestDiff`
