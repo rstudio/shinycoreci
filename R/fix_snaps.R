@@ -84,14 +84,16 @@ fix_snaps <- function(
     if(grepl("(/|\\.\\.)", branch)) stop("Non-safe branch name: ", branch)
     patch_file <- file.path(patch_folder, paste0(branch, ".patch"))
     if (!file.exists(patch_file)) {
+      withr::defer({
+      # Go back to original branch
+        git_checkout(original_git_branch, quiet = TRUE)
+        # Remove local copy of `gha-` branch. No need for it to exist locally anymore
+        git_cmd_("git branch -d '", branch, "' --quiet")
+      })
       # Go to branch
       git_checkout(branch, quiet = TRUE)
       # Make patch file
       git_cmd_(paste0("git format-patch '", original_git_branch, "' --stdout > ", patch_file))
-      # Go back to original branch
-      git_checkout(original_git_branch, quiet = TRUE)
-      # Remove local copy of `gha-` branch. No need for it to exist locally anymore
-      git_cmd_("git branch -d '", branch, "' --quiet")
     }
 
     patch_file
