@@ -21,3 +21,7 @@ renv__renv_snapshot_r_packages <- function(...) {
 base__library <- function(...) {
   triple_colon("base", "library")(...)
 }
+
+testthat__snapshot_meta <- function(...) {
+  triple_colon("testthat", "snapshot_meta")(...)
+}
