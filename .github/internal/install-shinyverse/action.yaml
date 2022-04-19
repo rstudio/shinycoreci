@@ -29,6 +29,7 @@ runs:
       id: shinyverse
       shell: Rscript {0}
       run: |
+        # Sets output value to be used later
         source("inst/gha/gha-shinyverse-remotes.R")
 
     - name: Install R, shinycoreci, and shinyverse
