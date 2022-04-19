@@ -72,7 +72,7 @@
 ## After merge
 - [x] `fix_all_gha_branches()`
 - [x] Remove radiant from deployment
-- [x] `view_test_diff()`
+- [x] `view_test_diff()`; Removed
 - [ ] `view_test_results()`
 - [ ] `test_in_sso()` / `test_in_ssp()`
 - [ ] Test results should be printed to log on retry only
