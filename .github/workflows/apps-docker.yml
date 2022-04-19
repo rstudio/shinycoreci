@@ -14,35 +14,12 @@ on:
 
 
 jobs:
-  rversions:
-    name: R Versions
-    runs-on: ubuntu-latest
-    outputs:
-      devel: ${{ steps.devel.outputs.installed-r-version }}
-      release: ${{ steps.release.outputs.installed-r-version }}
-      oldrel1: ${{ steps.oldrel-1.outputs.installed-r-version }}
-      oldrel2: ${{ steps.oldrel-2.outputs.installed-r-version }}
-      oldrel3: ${{ steps.oldrel-3.outputs.installed-r-version }}
-      oldrel4: ${{ steps.oldrel-4.outputs.installed-r-version }}
-    steps:
-    - { name: devel,    id: devel,    uses: r-lib/actions/setup-r@v2, with: { r-version: devel,    install-r: false } }
-    - { name: release,  id: release,  uses: r-lib/actions/setup-r@v2, with: { r-version: release,  install-r: false } }
-    - { name: oldrel-1, id: oldrel-1, uses: r-lib/actions/setup-r@v2, with: { r-version: oldrel-1, install-r: false } }
-    - { name: oldrel-2, id: oldrel-2, uses: r-lib/actions/setup-r@v2, with: { r-version: oldrel-2, install-r: false } }
-    - { name: oldrel-3, id: oldrel-3, uses: r-lib/actions/setup-r@v2, with: { r-version: oldrel-3, install-r: false } }
-    - { name: oldrel-4, id: oldrel-4, uses: r-lib/actions/setup-r@v2, with: { r-version: oldrel-4, install-r: false } }
-    - name: Display Outputs
-      id: set_versions
-      run: |
-        echo "devel: ${{ steps.devel.outputs.installed-r-version }}"
-        echo "release: ${{ steps.release.outputs.installed-r-version }}"
-        echo "oldrel1: ${{ steps.oldrel-1.outputs.installed-r-version }}"
-        echo "oldrel2: ${{ steps.oldrel-2.outputs.installed-r-version }}"
-        echo "oldrel3: ${{ steps.oldrel-3.outputs.installed-r-version }}"
-        echo "oldrel4: ${{ steps.oldrel-4.outputs.installed-r-version }}"
+
+  config:
+    uses: ./.github/workflows/apps-config.yml
 
   docker:
-    needs: rversions
+    needs: config
     name: ${{ matrix.docker.type }}-${{ matrix.r_version }}${{ matrix.flavor.extra_base_tag }}
     runs-on: ubuntu-latest
 
@@ -58,12 +35,11 @@ jobs:
           #   extra_base_tag: "-rc_v1.4.0.1"
 
         r_version:
-          # - ${{ needs.rversions.outputs.devel }}
-          - ${{ needs.rversions.outputs.release }}
-          - ${{ needs.rversions.outputs.oldrel1 }}
-          - ${{ needs.rversions.outputs.oldrel2 }}
-          - ${{ needs.rversions.outputs.oldrel3 }}
-          - ${{ needs.rversions.outputs.oldrel4 }}
+          - ${{ needs.config.outputs.release }}
+          # - ${{ needs.config.outputs.oldrel1 }}
+          # - ${{ needs.config.outputs.oldrel2 }}
+          # - ${{ needs.config.outputs.oldrel3 }}
+          # - ${{ needs.config.outputs.oldrel4 }}
 
         docker:
           - name: Centos7
