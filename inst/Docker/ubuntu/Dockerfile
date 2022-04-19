@@ -110,7 +110,7 @@ ARG SHINYCORECI_SHA=HEAD
 
 # Do not persist GITHUB_PAT. Supply it at run time as well
 ARG GITHUB_PAT=NOTSUPPLIED
-# make sure the variable persists
+# # make sure the variable persists
 # ENV GITHUB_PAT=$GITHUB_PAT
 
 # Make sure pak is the latest version
@@ -121,7 +121,7 @@ RUN R --quiet \
   -e " \
     withr::with_envvar(list(GITHUB_PAT = '${GITHUB_PAT}'), { \
       pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}'); \
-      shinycoreci::install_shinyverse() \
+      shinycoreci:::install_shinyverse_local(upgrade = FALSE) \
     }) \
     "
 
@@ -132,10 +132,16 @@ RUN R --quiet \
 # # remove radiant as it has a lot of trouble being installed
 # RUN rm -r ~/apps/141-radiant
 
+###
+# Logs
+###
 COPY retail.c _retail.c
-RUN gcc _retail.c -o /usr/bin/retail
-RUN chmod +x /usr/bin/retail
+RUN gcc _retail.c -o /usr/bin/retail && chmod +x /usr/bin/retail
 
+
+###
+# Docker
+###
 EXPOSE 3838
 
 COPY shiny-server.sh /usr/bin/shiny-server.sh
