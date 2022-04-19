@@ -42,10 +42,10 @@ jobs:
           # - ${{ needs.config.outputs.oldrel4 }}
 
         docker:
-          - name: Centos7
-            workdir: Docker/centos
-            type: centos7
-          # Focal has trouble installing R 3.4, 3.5
+          # - name: Centos7
+          #   workdir: Docker/centos
+          #   type: centos7
+          # # Focal has trouble installing R 3.4, 3.5
           - name: Focal
             workdir: Docker/ubuntu
             type: focal
