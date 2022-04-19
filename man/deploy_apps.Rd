@@ -5,7 +5,7 @@
 \title{Deploy apps to a server}
 \usage{
 deploy_apps(
-  apps = apps_shiny,
+  apps = apps_deploy,
   account = "testing-apps",
   server = "shinyapps.io",
   ...,

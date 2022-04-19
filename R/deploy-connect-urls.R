@@ -71,7 +71,7 @@ connect_set_public <- function(
 #' @describeIn connect Retrieve the urls from a Connect server using the Shiny applications provided in \verb{dir}
 #' @export
 connect_urls <- function(
-  apps = apps_shiny,
+  apps = apps_deploy,
   account = "barret",
   server = "beta.rstudioconnect.com"
 ) {

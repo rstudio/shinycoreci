@@ -12,7 +12,7 @@ connect_set_public(
 )
 
 connect_urls(
-  apps = apps_shiny,
+  apps = apps_deploy,
   account = "barret",
   server = "beta.rstudioconnect.com"
 )

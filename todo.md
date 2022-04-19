@@ -71,6 +71,7 @@
 
 ## After merge
 - [x] `fix_all_gha_branches()`
+- [x] Remove radiant from deployment
 - [x] `view_test_diff()`
 - [ ] `view_test_results()`
 - [ ] `test_in_sso()` / `test_in_ssp()`
@@ -84,7 +85,3 @@ Prolly fix with min body height
   * 063-superzip
   * 114-modal-dialog
   * 215-bslib-nav
-
-
-## Deploy
-Remove radiant from deployment
