@@ -52,10 +52,10 @@ jobs:
           - name: Bionic
             workdir: Docker/ubuntu
             type: bionic
-          # Xenial has trouble installing R 3.5
-          - name: Xenial
-            workdir: Docker/ubuntu
-            type: xenial
+          # # Xenial has trouble installing R 3.5
+          # - name: Xenial
+          #   workdir: Docker/ubuntu
+          #   type: xenial
 
     steps:
 
