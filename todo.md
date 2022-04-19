@@ -37,7 +37,7 @@
   `.Platform$OS.type == "windows" for determining windows support`
 - [x] Replace all usage of `shinycoreci::platform_rversion()` with `shinytest2::platform_variant()`
 - [x] Replace `shinycoreciapps::testthat_shinyjster()` with `shinyjster::testthat_shinyjster()`
-- [ ] Convert logic for 169 to use testthat
+- [x] Convert logic for 169 to use testthat
 
 - [x] Move skip logic to inside tests
   - [x] 181-report-image
@@ -70,19 +70,20 @@
 - [x] `./docker.R`
 
 ## After merge
-- [ ] `fix_all_gha_branches()`
-- [ ] `test_in_sso()` / `test_in_ssp()`
-- [ ] `view_test_diff()`
+- [x] `fix_all_gha_branches()`
+- [x] `view_test_diff()`
 - [ ] `view_test_results()`
-- [ ] test results should be printed to log
-- [ ] Remove `test_path` from data structure; Use version to parse old files
+- [ ] `test_in_sso()` / `test_in_ssp()`
+- [ ] Test results should be printed to log on retry only
+- [x] Remove `test_path` from data structure; Use object class to parse old files
 - [ ] Test `test_in_ide()` in the IDE
 
 
 ## Bad Images
-063-superzip
-114-modal-dialog
-215-bslib-nav
+Prolly fix with min body height
+  * 063-superzip
+  * 114-modal-dialog
+  * 215-bslib-nav
 
 
 ## Deploy
