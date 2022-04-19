@@ -59,22 +59,11 @@ jobs:
 
     steps:
 
-    - name: Stop boom
-      run: |
-        echo "Need to find a way around the PAT storage issue"
-        exit 1
-
-    - name: Get R version
-      uses: r-lib/actions/setup-r@v1
-      id: install-r
-      with:
-        r-version: ${{ matrix.r_version }}
-        install-r: false # No need to install. Just need version
     - name: Short R version and SHA
       id: short
       run: |
         # keep only the major.minor values
-        RVERSION=`echo '${{ steps.install-r.outputs.installed-r-version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
+        RVERSION=`echo '${{ matrix.r_version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
         echo "r-version: $RVERSION"
         echo "::set-output name=r-version::$RVERSION"
 
