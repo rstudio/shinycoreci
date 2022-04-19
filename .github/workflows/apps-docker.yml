@@ -74,11 +74,17 @@ jobs:
         SHORT_SHA=${SHA:0:7}
         echo "sha: $SHORT_SHA"
         echo "::set-output name=sha::$SHORT_SHA"
-    - name: Should install
-      id: can-build
-      if: ${{ !( ( steps.short.outputs.r-version == '3.5' && matrix.docker.type == 'bionic' ) || ( matrix.docker.type == 'focal' && ( steps.short.outputs.r-version == '3.4' || steps.short.outputs.r-version == '3.5' ) ) ) }}
-      run: |
-        echo "If this step did not run, then we're knowingly unable to install this version of R on this Linux distro"
+    # - name: Should install
+    #   id: can-build
+    #   if: |
+    #     !(
+    #       ( steps.short.outputs.r-version == '3.5' && matrix.docker.type == 'bionic' ) ||
+    #       ( matrix.docker.type == 'focal' &&
+    #         ( steps.short.outputs.r-version == '3.4' || steps.short.outputs.r-version == '3.5' )
+    #       )
+    #     )
+    #   run: |
+    #     echo "If this step did not run, then we are unable to install this version of R on this Linux distro"
 
     - uses: actions/checkout@v2
       if: steps.can-build.conclusion != 'skipped'
