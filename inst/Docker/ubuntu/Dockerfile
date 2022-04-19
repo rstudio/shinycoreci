@@ -1,18 +1,17 @@
 # To build, cd to this directory, then:
-#   docker build --build-arg GITHUB_PAT=${GITHUB_PAT} -t rstudio/shinycoreci:base-4.1-xenial .
+#   docker build --build-arg GITHUB_PAT=${GITHUB_PAT} -t rstudio/shinycoreci:base-4.1-focal .
 #   docker build --build-arg GITHUB_PAT=${GITHUB_PAT} --build-arg R_VERSION=3.5 -t rstudio/shinycoreci:base-3.5-bionic .
-#   docker build --build-arg GITHUB_PAT=${GITHUB_PAT} --build-arg RELEASE=xenial -t rstudio/shinycoreci:base-3.6-xenial .
 #   docker build --build-arg GITHUB_PAT=${GITHUB_PAT} --build-arg SHINYCORECI_SHA="shiny-1.4.0.1" -t rstudio/shinycoreci:base-3.6-bionic-rc_v1.4.0.1 .
 
 #
 
 ARG R_VERSION=4.1
 
-# bionic, xenial
-# Not `focal`
-ARG RELEASE=xenial
+# Not `xenial` because it is EOL
+# bionic, focal
+ARG RELEASE=focal
 FROM rstudio/r-base:${R_VERSION}-${RELEASE}
-ARG RELEASE=xenial
+ARG RELEASE=focal
 
 # MAINTAINER Barret Schloerke "barret@rstudio.com"
 
@@ -106,8 +105,6 @@ RUN chmod 755 /root
 ###
 # shinycoreci
 ###
-
-
 
 ARG SHINYCORECI_SHA=HEAD
 
