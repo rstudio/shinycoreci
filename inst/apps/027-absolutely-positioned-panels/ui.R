@@ -3,11 +3,11 @@ library(markdown)
 fluidPage(style="padding-top: 80px;",
   h1("Absolutely-positioned panels"),
   absolutePanel(
-    bottom = 20, right = 20, width = 300,
+    top = 100, right = 20, width = 300,
     draggable = TRUE,
     wellPanel(
       HTML(markdownToHTML(fragment.only=TRUE, text=c(
-"This is an absolutePanel that uses `bottom` and `right` attributes.
+"This is an absolutePanel that uses `top` and `right` attributes.
 
 It also has `draggable = TRUE`, so you can drag it to move it around the page.
 
