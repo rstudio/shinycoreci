@@ -79,8 +79,5 @@
 - [ ] Test `test_in_ide()` in the IDE
 
 
-## Bad Images
-022 - linux chinese is broken
-
 ## Docker Notes
 Use Rocky Linux 8 instead of centos7
