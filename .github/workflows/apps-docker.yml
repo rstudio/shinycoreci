@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      max-parallel: 2
+      # max-parallel: 2
       fail-fast: false
       matrix:
 
@@ -37,10 +37,10 @@ jobs:
 
         r_version:
           - ${{ needs.config.outputs.release }}
-          # - ${{ needs.config.outputs.oldrel1 }}
-          # - ${{ needs.config.outputs.oldrel2 }}
-          # - ${{ needs.config.outputs.oldrel3 }}
-          # - ${{ needs.config.outputs.oldrel4 }}
+          - ${{ needs.config.outputs.oldrel1 }}
+          - ${{ needs.config.outputs.oldrel2 }}
+          - ${{ needs.config.outputs.oldrel3 }}
+          - ${{ needs.config.outputs.oldrel4 }}
 
         docker:
           # - workdir: inst/Docker/centos
