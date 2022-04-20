@@ -103,7 +103,7 @@ jobs:
         push: true
         tags: "base-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}"
         labels: rstudio/shinycoreci
-        build_args: |
+        build-args: |
           R_VERSION=${{ steps.short.outputs.r-version }}
           RELEASE=${{ matrix.docker.type }}
           SHINYCORECI_SHA=${{ matrix.flavor.shinycoreci_sha }}
@@ -116,7 +116,7 @@ jobs:
         context: "${{ matrix.docker.workdir }}_sso"
         push: true
         tags: "sso-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}"
-        build_args: |
+        build-args: |
           R_VERSION=${{ steps.short.outputs.r-version }}
           RELEASE=${{ matrix.docker.type }}
           EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
