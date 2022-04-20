@@ -6,7 +6,7 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: c31c7d19150fbe9da4c85276834cd7ddad35f5fe]",
+      "html": "[html data sha1: 4c8e8eed5f6778ba772f8e9d1b2773641c2f5c13]",
       "deps": [
         {
           "name": "jquery",
@@ -140,9 +140,44 @@
         }
       ]
     },
-    "out092bb89e9393fda8": "3.25",
-    "out1ba546fb6de0170a": {
-      "src": "[image data sha1: 9c276029578402f7201072d4371700e3010ceeb8]",
+    "out0a4534806ab07416": "A",
+    "outa859f0ffc8c7802f": {
+      "src": "[image data hash: 5ed57fb117e28b4c72eb399017444373]",
+      "width": 300,
+      "height": 40,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 1739.6033333332,
+              "right": 1993.3133333368,
+              "bottom": -718.800000012001,
+              "top": 972.600000012
+            },
+            "range": {
+              "left": 0,
+              "right": 300,
+              "bottom": 39,
+              "top": -0.999999999999991
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 300,
+          "height": 40
+        }
+      }
+    },
+    "outc41ba546fb6de017": {
+      "src": "[image data hash: 230c9e55f2f7f6c737a5d40ee5699f15]",
       "width": 600,
       "height": 400,
       "alt": "Plot object",
@@ -176,42 +211,7 @@
         }
       }
     },
-    "out4534806ab07416dc": "A",
-    "out59f0ffc8c7802ff4": {
-      "src": "[image data sha1: 8f037b8a36a4a6eb2b7977fb36b77773c6b6dcfb]",
-      "width": 300,
-      "height": 40,
-      "alt": "Plot object",
-      "coordmap": {
-        "panels": [
-          {
-            "domain": {
-              "left": 1739.6033333332,
-              "right": 1993.3133333368,
-              "bottom": -718.800000012001,
-              "top": 972.600000012
-            },
-            "range": {
-              "left": 0,
-              "right": 300,
-              "bottom": 39,
-              "top": -0.999999999999991
-            },
-            "log": {
-              "x": null,
-              "y": null
-            },
-            "mapping": {
-
-            }
-          }
-        ],
-        "dims": {
-          "width": 300,
-          "height": 40
-        }
-      }
-    }
+    "outdc092bb89e9393fd": "3.25"
   },
   "export": {
 
