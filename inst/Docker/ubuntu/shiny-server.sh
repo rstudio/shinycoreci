@@ -2,8 +2,9 @@
 
 set -x
 
-# Update pkgs
-R --quiet -e "shinycoreci:::install_shinyverse()"
+## Do not update on start. Would be good to do later if PAT can be passed through
+# # # Update pkgs
+# R --quiet -e "shinycoreci:::install_shinyverse()"
 
 # copy all apps to server location
 echo "Copying apps to /srv/shiny-server/"
