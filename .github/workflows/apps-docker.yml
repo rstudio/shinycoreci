@@ -43,19 +43,17 @@ jobs:
           # - ${{ needs.config.outputs.oldrel4 }}
 
         docker:
-          # - name: Centos7
-          #   workdir: inst/Docker/centos
+          - workdir: inst/Docker/debug
+            type: debug
+          # - workdir: inst/Docker/centos
           #   type: centos7
           # # Focal has trouble installing R 3.4, 3.5
-          - name: Focal
-            workdir: inst/Docker/ubuntu
-            type: focal
-          # - name: Bionic
-          #   workdir: inst/Docker/ubuntu
+          # - workdir: inst/Docker/ubuntu
+          #   type: focal
+          # - workdir: inst/Docker/ubuntu
           #   type: bionic
           # # Xenial has trouble installing R 3.5
-          # - name: Xenial
-          #   workdir: inst/Docker/ubuntu
+          # - workdir: inst/Docker/ubuntu
           #   type: xenial
 
     steps:
@@ -102,25 +100,25 @@ jobs:
       with:
         context: ${{ matrix.docker.workdir }}
         push: true
-        tags: "base-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}"
-        labels: rstudio/shinycoreci
+        tags: |
+          rstudio/shinycoreci:base-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
         build-args: |
           R_VERSION=${{ steps.short.outputs.r-version }}
           RELEASE=${{ matrix.docker.type }}
           SHINYCORECI_SHA=${{ matrix.flavor.shinycoreci_sha }}
           GITHUB_PAT=${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build SSO
-      uses: docker/build-push-action@v2
-      with:
-        labels: rstudio/shinycoreci
-        context: "${{ matrix.docker.workdir }}_sso"
-        push: true
-        tags: "sso-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}"
-        build-args: |
-          R_VERSION=${{ steps.short.outputs.r-version }}
-          RELEASE=${{ matrix.docker.type }}
-          EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
+    # - name: Build SSO
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     context: "${{ matrix.docker.workdir }}_sso"
+    #     push: true
+    #     tags: |
+    #       rstudio/shinycoreci:sso-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
+    #     build-args: |
+    #       R_VERSION=${{ steps.short.outputs.r-version }}
+    #       RELEASE=${{ matrix.docker.type }}
+    #       EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
 
     #     # Note: Store the license as a single line string with new lines as visible '\n' characters.
     # - name: Store SSP License
