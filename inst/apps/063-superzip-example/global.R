@@ -22,4 +22,4 @@ cleantable <- allzips %>%
     Long = longitude
   )
 
-readr::write_csv(cleantable, "data/superzip2.csv")
+# readr::write_csv(cleantable, "data/superzip2.csv")

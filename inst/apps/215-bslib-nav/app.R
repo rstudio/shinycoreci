@@ -43,7 +43,10 @@ shinyApp(
       h4("navs_pill_card()"),
       navs_pill_card(!!!nav_items("navs_pill_card()")),
       h4("navs_pill_list()"),
-      navs_pill_list(!!!nav_items("navs_pill_list()"))
+      navs_pill_list(!!!nav_items("navs_pill_list()")),
+
+      # Make sure body height does not change when taking screenshots
+      tags$style("body { min-height: 100vh; }"),
     )
   ),
   function(...) { }

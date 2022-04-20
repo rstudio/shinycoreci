@@ -81,11 +81,6 @@
 
 ## Bad Images
 022 - linux chinese is broken
-027 - absolute positioning is weird
 
-Prolly fix with min body height
-  * 063-superzip
-  * 114-modal-dialog
-  * 215-bslib-nav
-
-Rocky Linux 8
+## Docker Notes
+Use Rocky Linux 8 instead of centos7
