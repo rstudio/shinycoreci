@@ -9,6 +9,7 @@ test_in_sso(
   app_name = apps[1],
   apps = apps_manual,
   ...,
+  user = github_user(),
   release = c("focal", "bionic", "centos7"),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
@@ -20,6 +21,8 @@ test_in_sso(
 test_in_ssp(
   app_name = apps[1],
   apps = apps_manual,
+  ...,
+  user = github_user(),
   release = c("focal", "bionic", "centos7"),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
@@ -35,13 +38,9 @@ test_in_ssp(
 
 \item{...}{ignored}
 
-\item{release}{Distro release name, such as "focal" for ubuntu or "7" for centos}
+\item{user}{GitHub username. Ex: \code{schloerke}. Uses \code{\link{github_user}} by default}
 
-\item{r_version}{R version to use. Ex: \code{"3.6"}}
-
-\item{tag}{Extra tag information for the docker image. This will prepend a \verb{-} if a value is given.}
-
-\item{port}{Port for shiny application}
+\item{port}{Port for local shiny application}
 
 \item{port_background}{Port to connect to the Docker container}
 

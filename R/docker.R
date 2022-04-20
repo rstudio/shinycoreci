@@ -30,7 +30,8 @@ docker_clean <- function(stopped_containers = TRUE, untagged_images = TRUE) {
 #' @param tag Extra tag information for the docker image. This will prepend a \verb{-} if a value is given.
 #' @param launch_browser Logical variable that determines if the browser should open to the specified port location
 #' @describeIn docker Run SSO in a docker container
-#' @export
+# ' @export
+#' @noRd
 docker_run_sso <- function(
   release = c("focal", "bionic", "centos7"),
   port = switch(release, "centos7" = 7878, 3838),
@@ -53,8 +54,8 @@ docker_run_sso <- function(
 
 
 
-#' @describeIn docker Run SSP in a docker container
-#' @export
+# ' @describeIn docker Run SSP in a docker container
+# ' @export
 docker_run_ssp <- function(
   release = c("focal", "bionic", "centos7"),
   port = switch(release, "centos7" = 8989, 4949),
@@ -94,8 +95,11 @@ docker_run_server <- function(
   r_version <- match.arg(r_version)
 
   tag <- paste0(type, "-", r_version, "-", release, if(!is.null(tag)) paste0("-", tag))
+  if (!docker_is_logged_in()) {
+    stop("Docker is not logged in to the ghcr.io registry")
+  }
   docker_cmd(
-    "docker pull rstudio/shinycoreci:", tag
+    "docker pull ghcr.io/rstudio/shinycoreci:", tag
   )
   if (isTRUE(launch_browser)) {
     utils::browseURL(paste0("http://localhost:", port, "/"))
@@ -103,7 +107,7 @@ docker_run_server <- function(
 
   # -t   = pseudo-TTY https://stackoverflow.com/a/33027467/591574 needed for ./retail cmd
   docker_cmd(
-    "docker run -t --rm -p ", port, ":3838 --name ", type, "_", r_version, "_", release, " rstudio/shinycoreci:", tag
+    "docker run -t --rm -p ", port, ":3838 --name ", type, "_", r_version, "_", release, " ghcr.io/rstudio/shinycoreci:", tag
   )
 }
 
@@ -128,6 +132,7 @@ docker_is_alive <- function() {
   ret <- system("docker ps", ignore.stdout = TRUE, ignore.stderr = TRUE)
   ret == 0
 }
+
 docker_is_logged_in <- function(user = github_user()) {
   # if already logged in, it will return a 0
   # if not logged in, it will fail and return a 1
