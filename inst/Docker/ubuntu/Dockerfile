@@ -27,6 +27,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # X11 toolkit intrinsics library - libxt-dev
 # markdown - pandoc pandoc-citeproc
 # less, vim-tiny - common
+# cmake - nloptr
 RUN apt-get update && apt-get install -y \
   software-properties-common \
   locales \
@@ -40,7 +41,8 @@ RUN apt-get update && apt-get install -y \
   libcurl4-gnutls-dev \
   libssl-dev \
   libxt-dev \
-  pandoc pandoc-citeproc
+  pandoc pandoc-citeproc \
+  cmake
 
 # Create docker user with empty password (will have uid and gid 1000)
 RUN useradd --create-home --shell /bin/bash docker \
