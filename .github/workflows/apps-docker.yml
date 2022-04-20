@@ -101,7 +101,7 @@ jobs:
         context: ${{ matrix.docker.workdir }}
         push: true
         tags: |
-          schloerke/shinycoreci:base-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
+          ghcr.io/${{ github.repository }}:base-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
         build-args: |
           R_VERSION=${{ steps.short.outputs.r-version }}
           RELEASE=${{ matrix.docker.type }}
@@ -114,7 +114,7 @@ jobs:
     #     context: "${{ matrix.docker.workdir }}_sso"
     #     push: true
     #     tags: |
-    #       schloerke/shinycoreci:sso-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
+    #       ghcr.io/${{ github.repository }}:sso-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
     #     build-args: |
     #       R_VERSION=${{ steps.short.outputs.r-version }}
     #       RELEASE=${{ matrix.docker.type }}
