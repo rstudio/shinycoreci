@@ -9,9 +9,6 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(vars = "渗透性")
   app$expect_values()
   app$expect_screenshot()
-
-  print(app$get_logs())
-
   app$set_inputs(obs = 4)
   app$set_inputs(obs = 7)
   app$set_inputs(obs = 8)
