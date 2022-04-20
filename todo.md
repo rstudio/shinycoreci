@@ -80,6 +80,12 @@
 
 
 ## Bad Images
-063-superzip
-114-modal-dialog
-215-bslib-nav
+022 - linux chinese is broken
+027 - absolute positioning is weird
+
+Prolly fix with min body height
+  * 063-superzip
+  * 114-modal-dialog
+  * 215-bslib-nav
+
+Rocky Linux 8
