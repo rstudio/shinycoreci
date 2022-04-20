@@ -122,8 +122,9 @@ RUN R --quiet -e 'install.packages("pak", repos = sprintf("https://r-lib.github.
 RUN R --quiet \
   -e " \
     # Install troublesome packages\n\
-    pak::pkg_install('networkD3'))\n\
-    pak::pkg_install(c('rstudio/shinycoreci@${SHINYCORECI_SHA}', 'networkD3'))\n\
+    pak::pkg_install('networkD3')\n\
+    # Install shinycoreci\n\
+    pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}')\n\
     shinycoreci:::install_shinyverse_local(upgrade = FALSE)\n\
     "
 
