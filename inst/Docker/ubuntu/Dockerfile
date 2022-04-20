@@ -66,12 +66,14 @@ RUN Rscript --version
 
 
 # set up R to point to latest binary cran
-RUN echo "options(\n\
+RUN mkdir -p '/shinycoreci/R/library' && echo "options(\n\
   repos = c('https://packagemanager.rstudio.com/cran/__linux__/${RELEASE}/latest', 'https://cloud.r-project.org/'),\n\
   download.file.method = 'libcurl',\n\
   # Detect number of physical cores\n\
   Ncpus = parallel::detectCores(logical=FALSE)\n\
-  )" >> `Rscript -e "cat(R.home())"`/etc/Rprofile.site
+  )\n\
+  .libPaths('/shinycoreci/R/library')\n\
+  " >> `Rscript -e "cat(R.home())"`/etc/Rprofile.site
 
 RUN R -e 'source("https://packagemanager.rstudio.com/__docs__/admin/check-user-agent.R")'
 
@@ -117,12 +119,9 @@ ARG GITHUB_PAT=NOTSUPPLIED
 # RUN R --quiet -e "pak::pak_update()"
 # install testing repo at specific sha
 RUN R --quiet \
-  -e "pak::pkg_install('withr')" \
   -e " \
-    withr::with_envvar(list(GITHUB_PAT = '${GITHUB_PAT}'), { \
-      pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}'); \
-      shinycoreci:::install_shinyverse_local(upgrade = FALSE) \
-    }) \
+    pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}'); \
+    shinycoreci:::install_shinyverse_local(upgrade = FALSE) \
     "
 
 ###
