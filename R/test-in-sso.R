@@ -1,3 +1,11 @@
+#' Retrieve default GitHub username
+#'
+#' Equivalent to the terminal code: `git config github.user`
+#' @export
+github_user <- function() {
+  system("git config github.user", intern = TRUE)
+}
+
 
 #' Test Apps in SSO/SSP
 #'
@@ -7,7 +15,8 @@
 #'
 #' @inheritParams test_in_browser
 #' @inheritParams docker_run_sso
-#' @param port Port for shiny application
+#' @param user GitHub username. Ex: `schloerke`. Uses [`github_user`] by default
+#' @param port Port for local shiny application
 #' @param port_background Port to connect to the Docker container
 #' @export
 #' @describeIn test_in_ssossp Test SSO Shiny applications
@@ -18,6 +27,7 @@ test_in_sso <- function(
   app_name = apps[1],
   apps = apps_manual,
   ...,
+  user = github_user(),
   release = c("focal", "bionic", "centos7"),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
@@ -28,6 +38,7 @@ test_in_sso <- function(
   release <- match.arg(release)
 
   test_in_ssossp(
+    user = user,
     app_name = app_name,
     apps = apps,
     type = "sso",
@@ -44,6 +55,8 @@ test_in_sso <- function(
 test_in_ssp <- function(
   app_name = apps[1],
   apps = apps_manual,
+  ...,
+  user = github_user(),
   release = c("focal", "bionic", "centos7"),
   r_version = c("4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
@@ -54,6 +67,7 @@ test_in_ssp <- function(
   release <- match.arg(release)
 
   test_in_ssossp(
+    user = user,
     app_name = app_name,
     apps = apps,
     type = "ssp",
@@ -80,6 +94,7 @@ test_in_ssp <- function(
 
 
 test_in_ssossp <- function(
+  user = github_user(),
   app_name = apps[1],
   apps = apps_manual,
   type = c("sso", "ssp"),
@@ -101,14 +116,13 @@ test_in_ssossp <- function(
   release <- match.arg(release)
   force(port_background)
   r_version <- match.arg(r_version)
-  force(apps)
 
   radiant_app <- "141-radiant"
   if (radiant_app %in% apps) {
     message("\n!!! Radiant app being removed. It does not play well with centos7 !!!\n")
     apps <- setdiff(apps, radiant_app)
-    if (identical(app, radiant_app)) {
-      app <- apps[1]
+    if (identical(app_name, radiant_app)) {
+      app_name <- apps[1]
     }
   }
 
@@ -134,6 +148,7 @@ test_in_ssossp <- function(
   if (!docker_is_logged_in()) {
     stop("Docker is not logged in. Please run `docker login` in the terminal with your Docker Hub username / password")
   }
+
   docker_proc <- callr::r_bg(
     function(type_, release_, port_, r_version_, tag_, launch_browser_, docker_run_server_) {
       docker_run_server_(
@@ -207,8 +222,7 @@ test_in_ssossp <- function(
   message("Starting Docker... OK") # starting docker
 
   output_lines <- ""
-  app_names <- basename(apps)
-  app_infos <- lapply(app_names, function(app_name) {
+  app_infos <- lapply(apps, function(app_name) {
     list(
       app_name = app_name,
       start = function() {

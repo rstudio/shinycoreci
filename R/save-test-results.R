@@ -56,16 +56,29 @@ save_test_results <- function(output, gha_branch_name, pr_number, username, repo
 #' @rdname test-results
 #' @export
 view_test_results <- function(repo_dir = ".") {
+  stop("Make new function to render for a given day")
   stop("TODO-barret; Need to have runs on GHA; Need to update app to handle different data structures")
-
-  repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
-  if ("shinycoreci" != basename(repo_dir)) {
-    warning("This function should be called from the shinycoreci repo")
-  }
 
   Sys.setenv("SHINYCORECI_VIEW_TEST_RESULTS" = repo_dir)
   on.exit({
     Sys.unsetenv("SHINYCORECI_VIEW_TEST_RESULTS")
   }, add = TRUE)
   shiny::shinyAppDir(system.file("view_test_diff", package = "shinycoreci"))
+}
+
+
+verify_repo_dir_is_shinycoreci <- function(repo_dir = ".") {
+  repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
+  desc_file <- file.path(repo_dir, "DESCRIPTION")
+  if (!file.exists(desc_file)) {
+    warning("DESCRIPTION file not found in `", repo_dir, "`", call. = FALSE)
+    return(FALSE)
+  }
+  desc <- as.list(read.dcf(desc_file)[1, , drop = TRUE])
+  if (!identical(desc$Package, "shinycoreci")) {
+    warning("DESCRIPTION file does not contain `Package: shinycoreci`", call. = FALSE)
+    return(FALSE)
+  }
+
+  TRUE
 }
