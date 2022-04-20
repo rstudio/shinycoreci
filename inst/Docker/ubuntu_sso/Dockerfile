@@ -8,7 +8,7 @@
 ARG R_VERSION=4.1
 ARG RELEASE=focal
 ARG EXTRA_BASE_TAG=
-FROM rstudio/shinycoreci:base-${R_VERSION}-${RELEASE}${EXTRA_BASE_TAG}
+FROM ghcr.io/rstudio/shinycoreci:base-${R_VERSION}-${RELEASE}${EXTRA_BASE_TAG}
 
 ARG R_VERSION=4.1
 ARG RELEASE=focal
