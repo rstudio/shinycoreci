@@ -6,7 +6,7 @@
     "fast": "This happens right away",
     "slow": "Please wait for 2 seconds",
     "slow_plot": {
-      "src": "[image data sha1: a65f4cd00a2000a85d979df870a5f63a8c1f6133]",
+      "src": "[image data hash: 742cd339dde30ffb89d749dfe1e69633]",
       "width": 962,
       "height": 400,
       "alt": "Plot object",
@@ -20,10 +20,10 @@
               "top": 124.72
             },
             "range": {
-              "left": 59.0400061372148,
-              "right": 931.759996856549,
-              "bottom": 325.559981639995,
-              "top": 58.0400147600037
+              "left": 59.04,
+              "right": 931.76,
+              "bottom": 325.56,
+              "top": 58.04
             },
             "log": {
               "x": null,
