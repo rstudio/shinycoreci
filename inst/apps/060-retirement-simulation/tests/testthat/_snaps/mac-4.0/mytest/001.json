@@ -21,7 +21,7 @@
   },
   "output": {
     "a_distPlot": {
-      "src": "[image data sha1: d3e1886e2a0d864b314af4ce73ee3615ed99a528]",
+      "src": "[image data hash: 5693840febcd90e84e9ebf283957e0ff]",
       "width": 466,
       "height": 600,
       "alt": "Plot object",
@@ -56,7 +56,7 @@
       }
     },
     "b_distPlot": {
-      "src": "[image data sha1: 5349fab2b25282908cdd3f53c6c7dc44236c324b]",
+      "src": "[image data hash: b0a7ac4013989ec14f88a0f55f926476]",
       "width": 466,
       "height": 600,
       "alt": "Plot object",
