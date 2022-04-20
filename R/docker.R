@@ -128,9 +128,11 @@ docker_is_alive <- function() {
   ret <- system("docker ps", ignore.stdout = TRUE, ignore.stderr = TRUE)
   ret == 0
 }
-docker_is_logged_in <- function() {
+docker_is_logged_in <- function(user = github_user()) {
   # if already logged in, it will return a 0
   # if not logged in, it will fail and return a 1
-  ret <- system("docker login", ignore.stdout = TRUE, ignore.stderr = TRUE)
-  ret == 0
+  withr::with_options(list(warn = 2), {
+    ret <- system(paste0("echo $GITHUB_PAT | docker login ghcr.io -u \"", user, "\" --password-stdin"))
+    ret == 0
+  })
 }
