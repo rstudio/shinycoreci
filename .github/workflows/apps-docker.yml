@@ -49,9 +49,9 @@ jobs:
           - name: Focal
             workdir: Docker/ubuntu
             type: focal
-          - name: Bionic
-            workdir: Docker/ubuntu
-            type: bionic
+          # - name: Bionic
+          #   workdir: Docker/ubuntu
+          #   type: bionic
           # # Xenial has trouble installing R 3.5
           # - name: Xenial
           #   workdir: Docker/ubuntu
