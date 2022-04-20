@@ -116,11 +116,13 @@ ARG GITHUB_PAT=NOTSUPPLIED
 # pak
 RUN R --quiet -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform[["pkgType"]], R.Version()[["os"]], R.Version()[["arch"]]))'
 
-# Install shinycoreci from specific sha
+# Install problematic packages
 # Install networkD3 as it installs igraph which is troublesome if not done first. :shrug:
+# Install shinycoreci from specific sha
 RUN R --quiet \
   -e " \
     pak::pkg_install('networkD3');\
+    pak::pkg_install('nloptr');\
     pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}');\
     shinycoreci:::install_shinyverse_local(upgrade = FALSE);\
     "
