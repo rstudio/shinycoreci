@@ -1,6 +1,11 @@
 library(markdown)
 
-fluidPage(style="padding-top: 80px;",
+fluidPage(
+  style="padding-top: 80px;",
+
+  # Make sure body height does not change when taking screenshots
+  tags$style("body { min-height: 100vh; }"),
+
   h1("Absolutely-positioned panels"),
   absolutePanel(
     bottom = 20, right = 20, width = 300,
