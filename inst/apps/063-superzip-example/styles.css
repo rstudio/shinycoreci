@@ -49,3 +49,8 @@ h1, h2, h3, h4 { font-weight: 400; }
 .leaflet-container {
   background-color: white !important;
 }
+
+/* Make sure body height does not change when taking screenshots */
+body {
+  min-height: 100vh;
+}
