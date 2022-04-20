@@ -77,9 +77,6 @@ RUN mkdir -p '/shinycoreci/R/library' && echo "options(\n\
 
 RUN R -e 'source("https://packagemanager.rstudio.com/__docs__/admin/check-user-agent.R")'
 
-# pak
-RUN R --quiet -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform[["pkgType"]], R.Version()[["os"]], R.Version()[["arch"]]))'
-
 ####
 # TeX
 ####
@@ -93,7 +90,7 @@ RUN wget -qO- \
   && ~/.TinyTeX/bin/*/tlmgr path add \
   && tlmgr install metafont mfware inconsolata tex ae parskip listings \
   && tlmgr path add \
-  && Rscript -e "pak::pkg_install('tinytex'); tinytex::r_texmf()"
+  && Rscript -e "install.packages('tinytex'); tinytex::r_texmf()"
 
 # This is necessary for non-root users to follow symlinks to /root/.TinyTeX
 RUN chmod 755 /root
@@ -116,13 +113,18 @@ ARG GITHUB_PAT=NOTSUPPLIED
 # # make sure the variable persists
 # ENV GITHUB_PAT=$GITHUB_PAT
 
+# pak
+RUN R --quiet -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform[["pkgType"]], R.Version()[["os"]], R.Version()[["arch"]]))'
+
 # Make sure pak is the latest version
 # RUN R --quiet -e "pak::pak_update()"
 # install testing repo at specific sha
 RUN R --quiet \
   -e " \
-    pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}'); \
-    shinycoreci:::install_shinyverse_local(upgrade = FALSE) \
+    # Install troublesome packages\n\
+    pak::pkg_install('networkD3'))\n\
+    pak::pkg_install(c('rstudio/shinycoreci@${SHINYCORECI_SHA}', 'networkD3'))\n\
+    shinycoreci:::install_shinyverse_local(upgrade = FALSE)\n\
     "
 
 ###
