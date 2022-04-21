@@ -40,7 +40,8 @@ fix_snaps <- function(
   verify_no_git_changes(repo_dir = repo_dir, apps_folder = apps_folder)
   verify_no_untracked_files(repo_dir = repo_dir, apps_folder = apps_folder)
 
-  verify_no_new_snaps(repo_dir, apps_folder)
+  message("Accept all current snaps")
+  accept_snaps(repo_dir)
 
   branches <- gha_remotes_latest(repo_dir, sha = sha)
   if (length(branches) == 0) {

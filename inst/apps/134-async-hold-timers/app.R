@@ -88,6 +88,11 @@ server <- function(input, output, session) {
     }
   })
 
+  # Easier for shinytest2 to see if the test passed
+  exportTestValues(
+    is_passing = is_passing()
+  )
+
 }
 
 shinyApp(ui, server)

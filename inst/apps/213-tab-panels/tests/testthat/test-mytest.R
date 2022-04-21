@@ -10,10 +10,10 @@ test_that("Migrated shinytest test: mytest.R", {
   # Add Dynamic-1 and show it
   app$set_inputs(add = "click")
   app$set_inputs(tabs = "Dynamic-1")
-  app$run_js(script = "$('.dropdown-toggle').click()", timeout = 10000)
+  app$click(selector = ".dropdown-toggle")
   app$expect_values()
   app$expect_screenshot()
-  app$run_js(script = "$('.dropdown-toggle').click()", timeout = 10000)
+  app$click(selector = ".dropdown-toggle")
 
   # Remove Foo tabs
   app$set_inputs(removeFoo = "click")
@@ -32,10 +32,10 @@ test_that("Migrated shinytest test: mytest.R", {
 
   # Add Dynamic-2 tab and show it in menu. Do not show Dynamic-2 tab.
   app$set_inputs(add = "click")
-  app$run_js(script = "$('.dropdown-toggle').click()", timeout = 10000)
+  app$click(selector = ".dropdown-toggle")
   app$expect_values()
   app$expect_screenshot()
-  app$run_js(script = "$('.dropdown-toggle').click()", timeout = 10000)
+  app$click(selector = ".dropdown-toggle")
 
   # Add Foo-2 tab (also opens tab)
   app$set_inputs(addFoo = "click")

@@ -3,6 +3,12 @@
   <head>
     {{ headContent() }}
     {{ bootstrapLib(theme) }}
+    <style>
+      /* Make sure body height does not change when taking screenshots */
+      body {
+        min-height: 100vh;
+      }
+    </style>
   </head>
   <body style='padding: 1rem'>
     {{ date }}

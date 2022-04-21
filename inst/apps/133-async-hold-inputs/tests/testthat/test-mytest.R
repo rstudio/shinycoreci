@@ -7,8 +7,13 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(choice = "b", wait_ = FALSE)
   app$set_inputs(choice = "c", wait_ = FALSE)
   app$expect_values()
-  app$expect_screenshot()
-  Sys.sleep(4)
+
+  ## Commenting because the screenshot may or may not get the right
+  ## timing with the progress notification in the corner
+  # app$expect_screenshot()
+
+  app$wait_for_idle(duration = 1500)
+
   app$expect_values()
   app$expect_screenshot()
 })
