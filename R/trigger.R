@@ -44,7 +44,7 @@ trigger_tests <- function(
   repo = "rstudio/shinycoreci",
   auth_token = Sys.getenv("GITHUB_PAT")
 ) {
-  trigger("tests", repo = repo, auth_token = auth_token)
+  trigger("test", repo = repo, auth_token = auth_token)
 }
 #' @export
 #' @rdname trigger
