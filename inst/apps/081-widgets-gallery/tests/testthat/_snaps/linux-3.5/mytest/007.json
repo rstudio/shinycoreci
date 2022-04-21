@@ -1,8 +1,8 @@
 {
   "input": {
     "action": 6,
-    "checkbox": true,
     "checkGroup": null,
+    "checkbox": true,
     "date": "2014-01-30",
     "dates": [
       "2019-12-19",
@@ -34,8 +34,8 @@
   },
   "output": {
     "actionOut": "[1] 6\nattr(,\"class\")\n[1] \"shinyActionButtonValue\" \"integer\"               ",
-    "checkboxOut": "[1] TRUE",
     "checkGroupOut": "NULL",
+    "checkboxOut": "[1] TRUE",
     "dateOut": "[1] \"2014-01-30\"",
     "datesOut": "[1] \"2019-12-19\" \"2019-12-12\"",
     "fileOut": "      name size     type        datapath\n1 cars.csv  308 text/csv <tempdir>/0.csv",
