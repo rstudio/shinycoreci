@@ -3,7 +3,7 @@ name: Test apps
 on:
   push:
     branches:
-      - apps**
+      - test**
   pull_request:
     branches:
       - main
@@ -14,7 +14,7 @@ on:
   repository_dispatch:
     types:
       - all
-      - apps
+      - test
 
 jobs:
   precheck:

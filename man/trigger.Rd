@@ -2,6 +2,7 @@
 % Please edit documentation in R/trigger.R
 \name{trigger}
 \alias{trigger}
+\alias{trigger_tests}
 \alias{trigger_deploy}
 \alias{trigger_docker}
 \title{Generate a repository event.}
@@ -10,6 +11,11 @@ trigger(
   event_type,
   repo = "rstudio/shinycoreci",
   client_payload = list(),
+  auth_token = Sys.getenv("GITHUB_PAT")
+)
+
+trigger_tests(
+  repo = "rstudio/shinycoreci",
   auth_token = Sys.getenv("GITHUB_PAT")
 )
 
