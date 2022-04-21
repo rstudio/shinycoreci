@@ -6,9 +6,9 @@ apps_deps <- c("base64enc", "bslib", "Cairo", "clipr", "curl", "dbplyr", "Diagra
 "httpuv", "jsonlite", "knitr", "later", "leaflet", "magrittr", 
 "maps", "markdown", "memoise", "networkD3", "plotly", "png", 
 "progress", "promises", "pryr", "radiant", "ragg", "RColorBrewer", 
-"reactable", "reactlog", "reactR", "readr", "rlang", "rmarkdown", 
-"rprojroot", "rsconnect", "RSQLite", "rversions", "scales", "sf", 
-"shiny", "shinyAce", "shinydashboard", "shinyjs", "shinyjster", 
-"shinymeta", "shinytest2", "shinythemes", "shinyvalidate", "showtext", 
-"sysfonts", "systemfonts", "testthat", "thematic", "tidyr", "tm", 
-"websocket", "withr", "wordcloud")
+"reactable", "reactlog", "reactR", "rlang", "rmarkdown", "rprojroot", 
+"rsconnect", "RSQLite", "rversions", "scales", "sf", "shiny", 
+"shinyAce", "shinydashboard", "shinyjs", "shinyjster", "shinymeta", 
+"shinytest2", "shinythemes", "shinyvalidate", "showtext", "sysfonts", 
+"systemfonts", "testthat", "thematic", "tidyr", "tm", "websocket", 
+"withr", "wordcloud")
