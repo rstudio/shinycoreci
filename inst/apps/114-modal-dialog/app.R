@@ -1,5 +1,7 @@
 shinyApp(
   ui = basicPage(
+    # Make sure body height does not change when taking screenshots
+    tags$style("body { min-height: 100vh; }"),
     actionButton("show", "Show modal dialog")
   ),
   server = function(input, output) {

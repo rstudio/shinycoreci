@@ -25,6 +25,12 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Install Chinese fonts on Linux
+      if: runner.os == 'Linux'
+      shell: bash
+      # https://unix.stackexchange.com/a/548473
+      run: sudo apt-get install -y fonts-arphic-ukai fonts-arphic-uming
+
     - name: Gather remotes
       id: shinyverse
       shell: Rscript {0}

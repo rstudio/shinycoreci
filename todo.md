@@ -79,7 +79,5 @@
 - [ ] Test `test_in_ide()` in the IDE
 
 
-## Bad Images
-063-superzip
-114-modal-dialog
-215-bslib-nav
+## Docker Notes
+Use Rocky Linux 8 instead of centos7
