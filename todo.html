@@ -43,116 +43,78 @@
 
 
 <ul><li>
-<p><input type="checkbox" disabled checked>
-Mac installation issues in &lt;= R 3.6</p>
-<ul><li>Solved in <a href="https://github.com/r-lib/pkgdepends/commit/011240b1148e4580895584cc4c5dc5fda7731c97" class="external-link uri">https://github.com/r-lib/pkgdepends/commit/011240b1148e4580895584cc4c5dc5fda7731c97</a>
-<ul><li>Waiting for it to naturally resolve.</li>
+<p><input type="checkbox" disabled checked>Mac installation issues in &lt;= R 3.6</p>
+<ul><li>Solved in <a href="https://github.com/r-lib/pkgdepends/commit/011240b1148e4580895584cc4c5dc5fda7731c97" class="external-link uri">https://github.com/r-lib/pkgdepends/commit/011240b1148e4580895584cc4c5dc5fda7731c97</a><ul><li>Waiting for it to naturally resolve.</li>
 <li>Could use unstable pak, but do not want to as able to test on R &gt;= 4.0</li>
-</ul></li>
-</ul></li>
+</ul></li></ul></li>
 <li>
-<p><input type="checkbox" disabled checked>
-Fix installations for R 3.4</p>
-<ul><li>No. R 3.4 will be removed sooner than later</li>
-</ul></li>
+<p><input type="checkbox" disabled checked>Fix installations for R 3.4</p>
+<ul><li>No. R 3.4 will be removed sooner than later</li></ul></li>
 <li>
-<p><input type="checkbox" disabled checked>
-Install using {pac}</p>
+<p><input type="checkbox" disabled checked>Install using {pac}</p>
 <ul><li>
-<input type="checkbox" disabled checked>
-Install into lib path</li>
+<input type="checkbox" disabled checked>Install into lib path</li>
 <li>
-<input type="checkbox" disabled checked>
-have non shinycoreci pkgs be installed via <code>any::</code>
+<input type="checkbox" disabled checked>have non shinycoreci pkgs be installed via <code>any::</code>
 </li>
 <li>
-<input type="checkbox" disabled checked>
-update via flag which is enabled by default</li>
+<input type="checkbox" disabled checked>update via flag which is enabled by default</li>
 <li>
-<input type="checkbox" disabled checked>
-use a separate library for all installations<ul><li>
-<input type="checkbox" disabled checked>
-use this library like revdepcheck does to check packages</li>
+<input type="checkbox" disabled checked>use a separate library for all installations<ul><li>
+<input type="checkbox" disabled checked>use this library like revdepcheck does to check packages</li>
 <li>
-<input type="checkbox" disabled checked>
-double check known namespaces so that they are not carried over from public library</li>
+<input type="checkbox" disabled checked>double check known namespaces so that they are not carried over from public library</li>
 <li>
-<input type="checkbox" disabled checked>
-store the library in the package location given the R version that persists over installations</li>
+<input type="checkbox" disabled checked>store the library in the package location given the R version that persists over installations</li>
 </ul></li>
 </ul></li>
-<li><p><input type="checkbox" disabled checked>
-Remove <code>dir</code> parameter as it should be internally handled</p></li>
+<li><p><input type="checkbox" disabled checked>Remove <code>dir</code> parameter as it should be internally handled</p></li>
 <li>
-<p><input type="checkbox" disabled checked>
-Remove outdated test methods as only testthat is used</p>
+<p><input type="checkbox" disabled checked>Remove outdated test methods as only testthat is used</p>
 <ul><li>test shinyjster app</li>
 <li>test testthat app</li>
 <li>test shinytest app</li>
 </ul></li>
-<li><p><input type="checkbox" disabled checked>
-Remove app-status stuff. No one uses it</p></li>
-</ul><div id="actions" class="section level1">
-
-<ul><li>
-<input type="checkbox" disabled checked>
-Make action to update renv pkgs with <code>shinycoreci:::update_apps_deps()</code><ul><li>
-<input type="checkbox" disabled checked>
-Run on any update to <code>inst/internal/apps</code>
-</li>
-</ul></li>
+<li><p><input type="checkbox" disabled checked>Remove app-status stuff. No one uses it</p></li>
+</ul><div id="actions" class="section level1"><ul><li>
+<input type="checkbox" disabled checked>Make action to update renv pkgs with <code>shinycoreci:::update_apps_deps()</code><ul><li>
+<input type="checkbox" disabled checked>Run on any update to <code>inst/internal/apps</code>
+</li></ul></li>
 <li>
-<input type="checkbox" disabled checked>
-Deploying to Connect should push back connect urls</li>
+<input type="checkbox" disabled checked>Deploying to Connect should push back connect urls</li>
 <li>
-<input type="checkbox" disabled checked>
-Port actions from <code>rstudio/shinycoreci-apps</code>
+<input type="checkbox" disabled checked>Port actions from <code>rstudio/shinycoreci-apps</code>
 </li>
 <li>
-<input type="checkbox" disabled checked>
-Add validation that there is no usage of <code>shinycoreci::[^:]</code> in <code>./inst/internal/apps</code>
+<input type="checkbox" disabled checked>Add validation that there is no usage of <code>shinycoreci::[^:]</code> in <code>./inst/internal/apps</code>
 </li>
 </ul></div>
 <div class="section level1">
 <h1 id="apps">Apps<a class="anchor" aria-label="anchor" href="#apps"></a></h1>
-<ul><li><p><input type="checkbox" disabled checked>
-App 217 needs to use <code>.Platform$OS.type == "windows" for determining windows support</code></p></li>
-<li><p><input type="checkbox" disabled checked>
-Replace all usage of <code><a href="reference/platform_rversion.html">shinycoreci::platform_rversion()</a></code> with <code>shinytest2::platform_variant()</code></p></li>
-<li><p><input type="checkbox" disabled checked>
-Replace <code>shinycoreciapps::testthat_shinyjster()</code> with <code>shinyjster::testthat_shinyjster()</code></p></li>
-<li><p><input type="checkbox" disabled>
-Convert logic for 169 to use testthat</p></li>
+<ul><li><p><input type="checkbox" disabled checked>App 217 needs to use <code>.Platform$OS.type == "windows" for determining windows support</code></p></li>
+<li><p><input type="checkbox" disabled checked>Replace all usage of <code><a href="reference/platform_rversion.html">shinycoreci::platform_rversion()</a></code> with <code>shinytest2::platform_variant()</code></p></li>
+<li><p><input type="checkbox" disabled checked>Replace <code>shinycoreciapps::testthat_shinyjster()</code> with <code>shinyjster::testthat_shinyjster()</code></p></li>
+<li><p><input type="checkbox" disabled>Convert logic for 169 to use testthat</p></li>
 <li>
-<p><input type="checkbox" disabled checked>
-Move skip logic to inside tests</p>
+<p><input type="checkbox" disabled checked>Move skip logic to inside tests</p>
 <ul><li>
-<input type="checkbox" disabled checked>
-181-report-image</li>
+<input type="checkbox" disabled checked>181-report-image</li>
 <li>
-<input type="checkbox" disabled checked>
-182-report-png</li>
+<input type="checkbox" disabled checked>182-report-png</li>
 <li>
-<input type="checkbox" disabled checked>
-183-report-cairo</li>
+<input type="checkbox" disabled checked>183-report-cairo</li>
 <li>
-<input type="checkbox" disabled checked>
-184-report-ragg</li>
+<input type="checkbox" disabled checked>184-report-ragg</li>
 <li>
-<input type="checkbox" disabled checked>
-193-reactlog-dynamic-ui</li>
+<input type="checkbox" disabled checked>193-reactlog-dynamic-ui</li>
 <li>
-<input type="checkbox" disabled checked>
-301-bs-themes</li>
+<input type="checkbox" disabled checked>301-bs-themes</li>
 <li>
-<input type="checkbox" disabled checked>
-302-bootswatch-themes</li>
+<input type="checkbox" disabled checked>302-bootswatch-themes</li>
 </ul></li>
 <li>
-<p><input type="checkbox" disabled checked>
-Reduce app name size to have files be under 100bytes</p>
-<ul><li>Fixed by not building test folders. ;-)</li>
-</ul></li>
+<p><input type="checkbox" disabled checked>Reduce app name size to have files be under 100bytes</p>
+<ul><li>Fixed by not building test folders. ;-)</li></ul></li>
 </ul></div>
 <div class="section level1">
 <h1 id="done">Done<a class="anchor" aria-label="anchor" href="#done"></a></h1>
@@ -164,21 +126,16 @@ Reduce app name size to have files be under 100bytes</p>
 <li>
 <p><input type="checkbox" disabled checked><code><a href="reference/test_in_ide.html">test_in_ide()</a></code></p>
 <ul><li>
-<input type="checkbox" disabled checked>
-Test in terminal</li>
-</ul></li>
+<input type="checkbox" disabled checked>Test in terminal</li></ul></li>
 <li>
 <p><input type="checkbox" disabled checked><code>test_in_ci()</code></p>
 <ul><li>
-<input type="checkbox" disabled checked>
-formerly <code>test_run_tests()</code>
+<input type="checkbox" disabled checked>formerly <code>test_run_tests()</code>
 </li>
 <li>
-<input type="checkbox" disabled checked>
-Changed data structure. Add version</li>
+<input type="checkbox" disabled checked>Changed data structure. Add version</li>
 </ul></li>
-<li><p><input type="checkbox" disabled checked>
-Move <code>testthat_shinyjster()</code> to <code>{shinyjster}</code> to avoid bad installs</p></li>
+<li><p><input type="checkbox" disabled checked>Move <code>testthat_shinyjster()</code> to <code>{shinyjster}</code> to avoid bad installs</p></li>
 <li><p><input type="checkbox" disabled checked><code>./docker.R</code></p></li>
 </ul><div class="section level2">
 <h2 id="after-merge">After merge<a class="anchor" aria-label="anchor" href="#after-merge"></a></h2>
@@ -195,14 +152,11 @@ Move <code>testthat_shinyjster()</code> to <code>{shinyjster}</code> to avoid ba
 <input type="checkbox" disabled><code><a href="reference/test-results.html">view_test_results()</a></code>
 </li>
 <li>
-<input type="checkbox" disabled>
-test results should be printed to log</li>
+<input type="checkbox" disabled>test results should be printed to log</li>
 <li>
-<input type="checkbox" disabled>
-Remove <code>test_path</code> from data structure; Use version to parse old files</li>
+<input type="checkbox" disabled>Remove <code>test_path</code> from data structure; Use version to parse old files</li>
 <li>
-<input type="checkbox" disabled>
-Test <code><a href="reference/test_in_ide.html">test_in_ide()</a></code> in the IDE</li>
+<input type="checkbox" disabled>Test <code><a href="reference/test_in_ide.html">test_in_ide()</a></code> in the IDE</li>
 </ul></div>
 <div class="section level2">
 <h2 id="docker-notes">Docker Notes<a class="anchor" aria-label="anchor" href="#docker-notes"></a></h2>
@@ -222,7 +176,7 @@ Test <code><a href="reference/test_in_ide.html">test_in_ide()</a></code> in the 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
   </div></footer></body></html>
