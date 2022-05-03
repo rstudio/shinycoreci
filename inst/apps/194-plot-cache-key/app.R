@@ -30,7 +30,7 @@ server <- function(input, output, session) {
 
   output$plot <- renderCachedPlot(
     {
-      Sys.sleep(2)     # Add an artificial delay
+      Sys.sleep(2) # Add an artificial delay
       d <- dataset()
       rownums <- seq_len(input$n)
       plot(d$x[rownums], d$y[rownums], xlim = range(d$x), ylim = range(d$y))

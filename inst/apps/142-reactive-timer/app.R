@@ -138,7 +138,7 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$busy_sync, {
-    Sys.sleep(5)
+    Sys.sleep(5) # Add an artificial delay
   })
 
   observeEvent(input$busy_async, {
