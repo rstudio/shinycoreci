@@ -6,16 +6,19 @@ test_that("Migrated shinytest test: mytest.R", {
 
   app$expect_values()
   app$expect_screenshot()
+
   app$set_inputs(`shinytheme-selector` = "lumen")
-  Sys.sleep(2)
+  Sys.sleep(2) # wait for css
   app$expect_values()
   app$expect_screenshot()
+
   app$set_inputs(`shinytheme-selector` = "spacelab")
-  Sys.sleep(2)
+  Sys.sleep(2) # wait for css
   app$expect_values()
   app$expect_screenshot()
+
   app$set_inputs(`shinytheme-selector` = "yeti")
-  Sys.sleep(2)
+  Sys.sleep(2) # wait for css
   app$expect_values()
   app$expect_screenshot()
 })

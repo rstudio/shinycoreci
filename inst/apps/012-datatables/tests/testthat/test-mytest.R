@@ -9,7 +9,7 @@ test_that("Migrated shinytest test: mytest.R", {
     width = 1200
   )
 
-  Sys.sleep(1)
+  app$wait_for_idle()
   # Input 'mytable1_rows_current' was set, but doesn't have an input binding.
   # Input 'mytable1_rows_all' was set, but doesn't have an input binding.
   app$expect_values()
@@ -22,7 +22,7 @@ test_that("Migrated shinytest test: mytest.R", {
     "price", "x", "y", "z"))
   # Input 'mytable1_rows_current' was set, but doesn't have an input binding.
   # Input 'mytable1_rows_all' was set, but doesn't have an input binding.
-  Sys.sleep(1)
+  app$wait_for_idle()
   app$expect_values()
   app$expect_screenshot()
   app$set_inputs(show_vars = c("color", "clarity", "price", "y",
@@ -39,11 +39,11 @@ test_that("Migrated shinytest test: mytest.R", {
   # Input 'mytable1_rows_current' was set, but doesn't have an input binding.
   # Input 'mytable1_rows_all' was set, but doesn't have an input binding.
   app$set_inputs(show_vars = "z")
-  Sys.sleep(1)
+  app$wait_for_idle()
   app$expect_values()
   app$expect_screenshot()
   app$set_inputs(dataset = "mtcars")
-  Sys.sleep(1)
+  app$wait_for_idle()
   app$expect_values()
   app$expect_screenshot()
 })

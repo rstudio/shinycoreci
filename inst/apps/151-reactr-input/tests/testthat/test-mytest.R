@@ -16,7 +16,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app$expect_values()
   app$expect_screenshot()
   app$set_inputs(._bookmark_ = "click")
-  Sys.sleep(1)
+  Sys.sleep(1) # wait for modal
   app$expect_values()
   app$expect_screenshot()
 })

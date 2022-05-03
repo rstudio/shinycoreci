@@ -5,7 +5,7 @@ test_that("Migrated shinytest test: mytest.R", {
     seed = 100, shiny_args = list(display.mode = "normal"))
 
   app$set_inputs(show = "click")
-  Sys.sleep(1)
+  Sys.sleep(1) # Wait for modal to appear
   app$expect_values()
   app$expect_screenshot()
 
