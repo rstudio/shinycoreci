@@ -15,12 +15,12 @@
       ]
     },
     "month": "Mar",
-    "plotly_afterplot-A": "\"outb037b936e10a1db3\"",
-    "plotly_relayout-A": "{\"width\":356,\"height\":201}"
+    "plotly_afterplot-A": "\"out5db037b936e10a1d\"",
+    "plotly_relayout-A": "{\"width\":356,\"height\":508}"
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 6b4ac1e46825e078d683cb40e24aeab725294aab]",
+      "html": "[html data sha1: a7909c61a1d7b8b189691d2ab8d2afadf1cfcdf5]",
       "deps": [
         {
           "name": "jquery",
@@ -116,9 +116,9 @@
         },
         {
           "name": "shinyjster-assets",
-          "version": "0.0.0.9009",
+          "version": "0.0.0.9010",
           "src": {
-            "href": "shinyjster-assets-0.0.0.9009"
+            "href": "shinyjster-assets-0.0.0.9010"
           },
           "meta": null,
           "script": "js/shinyjster.js",
@@ -169,28 +169,12 @@
         }
       ]
     },
-    "out035a8edd82f48c00": "Mar",
-    "out036980023b23cf30": {
-      "html": "<span class=\"value-output\" data-caption=\"Value Box 2\" data-color-accent=\"primary\">VB2: Mar<\/span>",
-      "deps": [
-        {
-          "name": "value-box-core",
-          "version": "0.5.2.9000",
-          "src": {
-            "href": "value-box-core-0.5.2.9000"
-          },
-          "meta": null,
-          "script": null,
-          "stylesheet": "value-box.css",
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        }
-      ]
-    },
-    "out0c4ed20cca892f03": "Mar",
-    "out163e7301d8a64ce7": "Mar",
-    "out372dd6df6a227499": {
+    "out00f3e342adbfac80": "Mar",
+    "out037dd30976d7eabf": "Mar",
+    "out03c6bba244da8241": "Mar",
+    "out1c0c4ed20cca892f": "Mar",
+    "out2df9200b0a8e5e33": "Mar",
+    "out30372dd6df6a2274": {
       "html": "<span class=\"value-output\" data-caption=\"Value Box 3\" data-color-accent=\"primary\">VB3: Mar<\/span>",
       "deps": [
         {
@@ -208,47 +192,7 @@
         }
       ]
     },
-    "out44a0bc45b351fb42": "Mar",
-    "out653cee2a3d1d7c1c": "Mar",
-    "out7dcd7a2a9c3598d5": "Mar",
-    "out7dd30976d7eabf77": "Mar",
-    "out8fe432e1a79c80a4": "Mar",
-    "out91b7f72ac16f31e0": {
-      "src": "[image data sha1: 2bbfe016f9866963cf9cf24a32eee1b03f31ae2b]",
-      "width": 356,
-      "height": 201,
-      "alt": "Shiny plot alt text: Mar",
-      "coordmap": {
-        "panels": [
-          {
-            "domain": {
-              "left": 3.16,
-              "right": 25.84,
-              "bottom": -2.72,
-              "top": 124.72
-            },
-            "range": {
-              "left": 59.04,
-              "right": 325.76,
-              "bottom": 126.56,
-              "top": 58.04
-            },
-            "log": {
-              "x": null,
-              "y": null
-            },
-            "mapping": {
-
-            }
-          }
-        ],
-        "dims": {
-          "width": 356,
-          "height": 201
-        }
-      }
-    },
-    "out9ac41049c5a0fec9": {
+    "out309ac41049c5a0fe": {
       "html": "<span class=\"value-output\" data-caption=\"Value Box 1\" data-color-accent=\"primary\">VB1: Mar<\/span>",
       "deps": [
         {
@@ -266,9 +210,44 @@
         }
       ]
     },
-    "outa1909d37acf95c56": "Mar",
-    "outad9cd2f73429a780": "Mar",
-    "outb037b936e10a1db3": {
+    "out42c9d1e58b62f865": "Mar",
+    "out45035a8edd82f48c": "Mar",
+    "out5691b7f72ac16f31": {
+      "src": "[image data hash: 9c54fd9c1e64045d6d93814706be7a86]",
+      "width": 356,
+      "height": 508,
+      "alt": "Shiny plot alt text: Mar",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 3.16,
+              "right": 25.84,
+              "bottom": -2.72,
+              "top": 124.72
+            },
+            "range": {
+              "left": 59.04,
+              "right": 325.76,
+              "bottom": 433.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 356,
+          "height": 508
+        }
+      }
+    },
+    "out5db037b936e10a1d": {
       "x": {
         "layout": {
           "margin": {
@@ -546,15 +525,36 @@
         }
       ]
     },
-    "outbc4ca252caab469b": "Mar",
-    "outc6bba244da8241d7": "Mar",
-    "outc9d1e58b62f86530": "Mar",
-    "outcc925fc0dd63a9ac": "Mar",
-    "outcee763e79bf47f75": "Mar",
-    "outdc20567dc228422d": "Mar",
-    "outec37d35207a0a103": "Mar",
-    "outf3e342adbfac80ed": "Mar",
-    "outf9200b0a8e5e335d": "Mar",
+    "out758fe432e1a79c80": "Mar",
+    "out77a1909d37acf95c": "Mar",
+    "out80163e7301d8a64c": "Mar",
+    "out99dc20567dc22842": "Mar",
+    "out9b653cee2a3d1d7c": "Mar",
+    "outa47dcd7a2a9c3598": "Mar",
+    "outaccee763e79bf47f": "Mar",
+    "outb3ec37d35207a0a1": "Mar",
+    "outc9036980023b23cf": {
+      "html": "<span class=\"value-output\" data-caption=\"Value Box 2\" data-color-accent=\"primary\">VB2: Mar<\/span>",
+      "deps": [
+        {
+          "name": "value-box-core",
+          "version": "0.5.2.9000",
+          "src": {
+            "href": "value-box-core-0.5.2.9000"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "value-box.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    },
+    "outd5ad9cd2f73429a7": "Mar",
+    "outdc44a0bc45b351fb": "Mar",
+    "oute0bc4ca252caab46": "Mar",
+    "outedcc925fc0dd63a9": "Mar",
     "p2r1content": "Mar"
   },
   "export": {

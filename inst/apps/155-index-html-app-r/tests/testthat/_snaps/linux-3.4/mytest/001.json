@@ -8,9 +8,9 @@
       "deps": [
         {
           "name": "shinyjster-assets",
-          "version": "0.0.0.9009",
+          "version": "0.0.0.9010",
           "src": {
-            "href": "shinyjster-assets-0.0.0.9009"
+            "href": "shinyjster-assets-0.0.0.9010"
           },
           "meta": null,
           "script": "js/shinyjster.js",

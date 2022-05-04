@@ -4,7 +4,7 @@
   },
   "output": {
     "plot": {
-      "src": "[image data sha1: 26ca4554eec4a0de09c66435bdc0b1a73171f419]",
+      "src": "[image data hash: d486776e6eb63e625621c283459a69a6]",
       "width": 962,
       "height": 800,
       "alt": "Plot object",
@@ -18,10 +18,10 @@
               "top": 1.04
             },
             "range": {
-              "left": 59.0400061372148,
-              "right": 931.759996856548,
-              "bottom": 725.559990819999,
-              "top": 58.040007380001
+              "left": 59.04,
+              "right": 931.76,
+              "bottom": 725.56,
+              "top": 58.0399999999999
             },
             "log": {
               "x": null,
@@ -39,7 +39,7 @@
       }
     },
     "plot2": {
-      "src": "[image data sha1: b26000779aa3957cf6c54c50435c854e30bbe407]",
+      "src": "[image data hash: 6723c06215d0ad874e1f5b034caf9f44]",
       "width": 260,
       "height": 200,
       "alt": "Plot object",
@@ -53,10 +53,10 @@
               "top": 35.28
             },
             "range": {
-              "left": 59.040022707701,
-              "right": 229.759988369226,
-              "bottom": 125.559963279982,
-              "top": 58.0400295200147
+              "left": 59.04,
+              "right": 229.76,
+              "bottom": 125.56,
+              "top": 58.04
             },
             "log": {
               "x": null,

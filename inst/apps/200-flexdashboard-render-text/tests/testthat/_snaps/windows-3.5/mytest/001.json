@@ -16,11 +16,11 @@
     },
     "month": "Feb",
     "plotly_afterplot-A": "\"out6fe48fa3cbd09f9e\"",
-    "plotly_relayout-A": "{\"width\":356,\"height\":201}"
+    "plotly_relayout-A": "{\"width\":356,\"height\":508}"
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: d3acd8c30c7b43c0ca7040dc7b3efd85ffbc7ae0]",
+      "html": "[html data sha1: eeceb8db16524118974b8979f3e16979a973ac43]",
       "deps": [
         {
           "name": "jquery",
@@ -116,9 +116,9 @@
         },
         {
           "name": "shinyjster-assets",
-          "version": "0.0.0.9009",
+          "version": "0.0.0.9010",
           "src": {
-            "href": "shinyjster-assets-0.0.0.9009"
+            "href": "shinyjster-assets-0.0.0.9010"
           },
           "meta": null,
           "script": "js/shinyjster.js",
@@ -514,9 +514,9 @@
     },
     "outc528c8f94aec73f5": "Feb",
     "outffbf7f8633805741": {
-      "src": "[image data sha1: 235d7ccd7167db2f2baad7ffd6078c2953e99c0c]",
+      "src": "[image data hash: e301c4a89e673f197bdf6e5be0825688]",
       "width": 356,
-      "height": 201,
+      "height": 508,
       "alt": "Shiny plot alt text: Feb",
       "coordmap": {
         "panels": [
@@ -530,7 +530,7 @@
             "range": {
               "left": 59.04,
               "right": 325.76,
-              "bottom": 126.56,
+              "bottom": 433.56,
               "top": 58.04
             },
             "log": {
@@ -544,7 +544,7 @@
         ],
         "dims": {
           "width": 356,
-          "height": 201
+          "height": 508
         }
       },
       "error": null

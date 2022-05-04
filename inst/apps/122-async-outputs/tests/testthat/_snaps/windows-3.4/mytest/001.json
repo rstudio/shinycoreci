@@ -26,14 +26,14 @@
       "escape": true
     },
     "image": {
-      "src": "[image data sha1: fd852df5478eb7eb9410ee9101bb364adf487fb0]"
+      "src": "[image data hash: cb41acc0ed5f59cc28103f8b83ee4404]"
     },
     "imagea": {
-      "src": "[image data sha1: fd852df5478eb7eb9410ee9101bb364adf487fb0]"
+      "src": "[image data hash: cb41acc0ed5f59cc28103f8b83ee4404]"
     },
     "plot": {
-      "src": "[image data sha1: d8358e7dd8f7907713f82bd85a9dc8532f18e5e6]",
-      "width": 383,
+      "src": "[image data hash: 86efa462920be2de49849db573612c28]",
+      "width": 376,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -46,10 +46,10 @@
               "top": 124.72
             },
             "range": {
-              "left": 59.0400154151476,
-              "right": 352.759992104437,
-              "bottom": 325.559981639995,
-              "top": 58.0400147600037
+              "left": 59.04,
+              "right": 345.76,
+              "bottom": 325.56,
+              "top": 58.04
             },
             "log": {
               "x": null,
@@ -61,14 +61,15 @@
           }
         ],
         "dims": {
-          "width": 383,
+          "width": 376,
           "height": 400
         }
-      }
+      },
+      "error": null
     },
     "plota": {
-      "src": "[image data sha1: d8358e7dd8f7907713f82bd85a9dc8532f18e5e6]",
-      "width": 383,
+      "src": "[image data hash: 86efa462920be2de49849db573612c28]",
+      "width": 376,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -81,10 +82,10 @@
               "top": 124.72
             },
             "range": {
-              "left": 59.0400154151476,
-              "right": 352.759992104437,
-              "bottom": 325.559981639995,
-              "top": 58.0400147600037
+              "left": 59.04,
+              "right": 345.76,
+              "bottom": 325.56,
+              "top": 58.04
             },
             "log": {
               "x": null,
@@ -96,10 +97,11 @@
           }
         ],
         "dims": {
-          "width": 383,
+          "width": 376,
           "height": 400
         }
-      }
+      },
+      "error": null
     },
     "print": "[1] \"hello\"",
     "print2": "[1] \"hello\"",

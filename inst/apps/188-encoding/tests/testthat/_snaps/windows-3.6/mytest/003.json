@@ -1,9 +1,9 @@
 {
   "input": {
-    "select": "é"
+    "select": "å"
   },
   "output": {
-    "txt": "é"
+    "txt": "å"
   },
   "export": {
 

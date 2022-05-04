@@ -15,12 +15,12 @@
       ]
     },
     "month": "Feb",
-    "plotly_afterplot-A": "\"outb037b936e10a1db3\"",
-    "plotly_relayout-A": "{\"width\":356,\"height\":201}"
+    "plotly_afterplot-A": "\"out5db037b936e10a1d\"",
+    "plotly_relayout-A": "{\"width\":356,\"height\":508}"
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 6b4ac1e46825e078d683cb40e24aeab725294aab]",
+      "html": "[html data sha1: a7909c61a1d7b8b189691d2ab8d2afadf1cfcdf5]",
       "deps": [
         {
           "name": "jquery",
@@ -116,9 +116,9 @@
         },
         {
           "name": "shinyjster-assets",
-          "version": "0.0.0.9009",
+          "version": "0.0.0.9010",
           "src": {
-            "href": "shinyjster-assets-0.0.0.9009"
+            "href": "shinyjster-assets-0.0.0.9010"
           },
           "meta": null,
           "script": "js/shinyjster.js",
@@ -169,27 +169,11 @@
         }
       ]
     },
-    "out035a8edd82f48c00": "Feb",
-    "out036980023b23cf30": {
-      "html": "<span class=\"value-output\" data-caption=\"Value Box 2\" data-color-accent=\"primary\">VB2: Feb<\/span>",
-      "deps": [
-        {
-          "name": "value-box-core",
-          "version": "0.5.2.9000",
-          "src": {
-            "href": "value-box-core-0.5.2.9000"
-          },
-          "meta": null,
-          "script": null,
-          "stylesheet": "value-box.css",
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        }
-      ]
-    },
-    "out0c4ed20cca892f03": "Feb",
-    "out372dd6df6a227499": {
+    "out037dd30976d7eabf": "Feb",
+    "out03c6bba244da8241": "Feb",
+    "out1c0c4ed20cca892f": "Feb",
+    "out2df9200b0a8e5e33": "Feb",
+    "out30372dd6df6a2274": {
       "html": "<span class=\"value-output\" data-caption=\"Value Box 3\" data-color-accent=\"primary\">VB3: Feb<\/span>",
       "deps": [
         {
@@ -207,46 +191,7 @@
         }
       ]
     },
-    "out44a0bc45b351fb42": "Feb",
-    "out653cee2a3d1d7c1c": "Feb",
-    "out7dd30976d7eabf77": "Feb",
-    "out91b7f72ac16f31e0": {
-      "src": "[image data sha1: 235d7ccd7167db2f2baad7ffd6078c2953e99c0c]",
-      "width": 356,
-      "height": 201,
-      "alt": "Shiny plot alt text: Feb",
-      "coordmap": {
-        "panels": [
-          {
-            "domain": {
-              "left": 3.16,
-              "right": 25.84,
-              "bottom": -2.72,
-              "top": 124.72
-            },
-            "range": {
-              "left": 59.04,
-              "right": 325.76,
-              "bottom": 126.56,
-              "top": 58.04
-            },
-            "log": {
-              "x": null,
-              "y": null
-            },
-            "mapping": {
-
-            }
-          }
-        ],
-        "dims": {
-          "width": 356,
-          "height": 201
-        }
-      },
-      "error": null
-    },
-    "out9ac41049c5a0fec9": {
+    "out309ac41049c5a0fe": {
       "html": "<span class=\"value-output\" data-caption=\"Value Box 1\" data-color-accent=\"primary\">VB1: Feb<\/span>",
       "deps": [
         {
@@ -264,8 +209,45 @@
         }
       ]
     },
-    "outa1909d37acf95c56": "Feb",
-    "outb037b936e10a1db3": {
+    "out42c9d1e58b62f865": "Feb",
+    "out45035a8edd82f48c": "Feb",
+    "out5691b7f72ac16f31": {
+      "src": "[image data hash: e301c4a89e673f197bdf6e5be0825688]",
+      "width": 356,
+      "height": 508,
+      "alt": "Shiny plot alt text: Feb",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 3.16,
+              "right": 25.84,
+              "bottom": -2.72,
+              "top": 124.72
+            },
+            "range": {
+              "left": 59.04,
+              "right": 325.76,
+              "bottom": 433.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 356,
+          "height": 508
+        }
+      },
+      "error": null
+    },
+    "out5db037b936e10a1d": {
       "x": {
         "layout": {
           "margin": {
@@ -543,12 +525,30 @@
         }
       ]
     },
-    "outbc4ca252caab469b": "Feb",
-    "outc6bba244da8241d7": "Feb",
-    "outc9d1e58b62f86530": "Feb",
-    "outdc20567dc228422d": "Feb",
-    "outec37d35207a0a103": "Feb",
-    "outf9200b0a8e5e335d": "Feb"
+    "out77a1909d37acf95c": "Feb",
+    "out99dc20567dc22842": "Feb",
+    "out9b653cee2a3d1d7c": "Feb",
+    "outb3ec37d35207a0a1": "Feb",
+    "outc9036980023b23cf": {
+      "html": "<span class=\"value-output\" data-caption=\"Value Box 2\" data-color-accent=\"primary\">VB2: Feb<\/span>",
+      "deps": [
+        {
+          "name": "value-box-core",
+          "version": "0.5.2.9000",
+          "src": {
+            "href": "value-box-core-0.5.2.9000"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "value-box.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    },
+    "outdc44a0bc45b351fb": "Feb",
+    "oute0bc4ca252caab46": "Feb"
   },
   "export": {
 
