@@ -21,12 +21,12 @@ test_that("Migrated shinytest test: mytest.R", {
 
   wait_til_open <- function(css = ".selectize-dropdown-content *") {
     app$wait_for_js(paste0("$(\"", css, "\").length > 0"), timeout = 3000)
+    Sys.sleep(1) # wait for dropdown
   }
 
   # Take snapshot of dropdown once it has content
   app$run_js(script = "$('#select')[0].selectize.open()", timeout = 10000)
   wait_til_open()
-  Sys.sleep(1)
   app$expect_values()
   app$expect_screenshot()
 
@@ -35,7 +35,6 @@ test_that("Migrated shinytest test: mytest.R", {
   app$run_js(script = "$('#select_multiple')[0].selectize.open()",
     timeout = 10000)
   wait_til_open()
-  Sys.sleep(1)
   app$expect_values()
   app$expect_screenshot()
 
