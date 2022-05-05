@@ -1,4 +1,4 @@
-Image Version:  20220227.1 
+Image Version:  20220426.1
 osVersion: Ubuntu 18.04.6 LTS
 --------------------------------------------------------------------------------
  setting  value
@@ -10,161 +10,206 @@ osVersion: Ubuntu 18.04.6 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2022-03-08
+ date     2022-04-29
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
-              Package    Version Source     SHA          Ref
-1         AsioHeaders   1.16.1-1   RSPM                     
-2             askpass        1.1   RSPM                     
-3          assertthat      0.2.1   RSPM                     
-4           backports      1.4.1   RSPM                     
-5           base64enc      0.1-3   RSPM                     
-6              bitops      1.0-7   RSPM                     
-7                brio      1.1.3   RSPM                     
-8               bslib 0.3.1.9000    Git 888fbe0        /main
-9              cachem 1.0.6.9000    Git f5ea146        /main
-10              callr      3.7.0   RSPM                     
-11          checkmate      2.0.0   RSPM                     
-12                cli      3.2.0   RSPM                     
-13         colorspace      2.0-3   RSPM                     
-14         commonmark        1.7   RSPM                     
-15              cpp11      0.4.2   RSPM                     
-16             crayon      1.5.0   RSPM                     
-17          crosstalk 1.2.0.9000    Git 8128ef3        /main
-18               curl      4.3.2   CRAN                     
-19         data.table     1.14.2   RSPM                     
-20                DBI      1.1.2   RSPM                     
-21            debugme      1.1.0   RSPM                     
-22               desc      1.4.1   RSPM                     
-23            diffobj      0.3.5   RSPM                     
-24             digest     0.6.29   RSPM                     
-25              dplyr      1.0.8   RSPM                     
-26                 DT     0.21.1    Git 815872d        /main
-27           ellipsis      0.3.2   RSPM                     
-28            english      1.2-6   RSPM                     
-29           evaluate       0.15   RSPM                     
-30              fansi      1.0.2   RSPM                     
-31             farver      2.1.0   RSPM                     
-32            fastmap 1.1.0.9000    Git d2722e7        /main
-33           filelock      1.0.2   RSPM                     
-34      flexdashboard 0.5.2.9000    Git 33458ea        /main
-35        fontawesome 0.2.2.9000    Git 2bc71f2        /main
-36                 fs      1.5.2   RSPM                     
-37           generics      0.1.2   RSPM                     
-38            ggplot2      3.3.5   RSPM                     
-39               glue      1.6.2   RSPM                     
-40          gridExtra        2.3   RSPM                     
-41                 gt      0.4.0   RSPM                     
-42             gtable      0.3.0   RSPM                     
-43              highr        0.9   RSPM                     
-44                hms      1.1.1   RSPM                     
-45          htmltools 0.5.2.9000    Git 9490b62        /main
-46        htmlwidgets      1.5.4   RSPM                     
-47             httpuv 1.6.5.9000    Git 90ed372        /main
-48               httr      1.4.2   RSPM                     
-49            isoband      0.2.5   RSPM                     
-50          jquerylib      0.1.4   RSPM                     
-51           jsonlite      1.8.0   RSPM                     
-52              knitr       1.37   RSPM                     
-53           labeling      0.4.2   RSPM                     
-54              later 1.3.0.9000    Git ba70887        /main
-55           lazyeval      0.2.2   RSPM                     
-56            leaflet      2.1.0   RSPM                     
-57  leaflet.providers      1.9.0   RSPM                     
-58          lifecycle      1.0.1   RSPM                     
-59            lpSolve     5.6.15   RSPM                     
-60           magrittr      2.0.2   RSPM                     
-61           markdown        1.1   RSPM                     
-62            memoise      2.0.1   RSPM                     
-63               mime       0.12   RSPM                     
-64            munsell      0.5.0   RSPM                     
-65            openssl      2.0.0   RSPM                     
-66            packrat      0.7.0   RSPM                     
-67          parsedate      1.3.0   RSPM                     
-68             pillar      1.7.0   RSPM                     
-69              pingr      2.0.1   RSPM                     
-70           pkgbuild      1.3.1   RSPM                     
-71           pkgcache      2.0.1   RSPM                     
-72          pkgconfig      2.0.3   RSPM                     
-73         pkgdepends 0.3.0.9000    Git e1acfd0        /main
-74            pkgload      1.2.4   RSPM                     
-75             plotly     4.10.0   RSPM                     
-76                png      0.1-7   RSPM                     
-77               pool 0.1.6.9000    Git 203bb12        /main
-78             praise      1.0.0   RSPM                     
-79        prettyunits      1.1.1   RSPM                     
-80           processx      3.5.2   RSPM                     
-81           progress      1.2.2   RSPM                     
-82           promises 1.2.0.9000    Git 7979d6c        /main
-83                 ps      1.6.0   RSPM                     
-84              purrr      0.3.4   RSPM                     
-85            R.cache     0.15.0   RSPM                     
-86        R.methodsS3      1.8.1   RSPM                     
-87               R.oo     1.24.0   RSPM                     
-88            R.utils     2.11.0   RSPM                     
-89                 R6      2.5.1   RSPM                     
-90           rappdirs      0.3.3   RSPM                     
-91             raster     3.5-15   RSPM                     
-92       RColorBrewer      1.1-2   RSPM                     
-93               Rcpp      1.0.8   RSPM                     
-94           reactlog      1.1.0    Git e8f0548        /main
-95            rematch      1.0.1   RSPM                     
-96           rematch2      2.1.2   RSPM                     
-97            remotes      2.4.2   RSPM                     
-98               renv     0.15.4   RSPM                     
-99              rlang      1.0.2   RSPM                     
-100         rmarkdown       2.12   RSPM                     
-101         rprojroot      2.0.2   RSPM                     
-102         rsconnect     0.8.26    Git 83a822a        /main
-103        rstudioapi       0.13   RSPM                     
-104              sass 0.4.0.9000    Git f7a9540        /main
-105            scales      1.1.1   RSPM                     
-106       sessioninfo      1.2.2   RSPM                     
-107             shiny 1.7.1.9003    Git 5c03326        /main
-108       shinycoreci 0.0.0.9005 GitHub fa63471 rstudio/main
-109        shinyjster 0.0.0.9009    Git 72ac7e4        /main
-110         shinymeta    0.2.0.3    Git 5af8086        /main
-111         shinytest 1.5.1.9000    Git 650661d        /main
-112       shinythemes      1.2.0    Git 492b6aa        /main
-113     shinyvalidate 0.1.1.9001    Git 21c9a47        /main
-114         showimage      1.0.0   RSPM                     
-115       sourcetools      0.1.7   RSPM                     
-116                sp      1.4-6   RSPM                     
-117           stringi      1.7.6   RSPM                     
-118           stringr      1.4.0   RSPM                     
-119            styler      1.6.2   RSPM                     
-120               sys        3.4   RSPM                     
-121             terra     1.5-21   RSPM                     
-122          testthat      3.1.2   RSPM                     
-123          thematic 0.1.2.9000    Git dc79f6d        /main
-124            tibble      3.1.6   RSPM                     
-125             tidyr      1.2.0   RSPM                     
-126        tidyselect      1.1.2   RSPM                     
-127           tinytex       0.37   RSPM                     
-128              utf8      1.2.2   RSPM                     
-129             vctrs      0.3.8   RSPM                     
-130           viridis      0.6.2   RSPM                     
-131       viridisLite      0.4.0   RSPM                     
-132             waldo      0.3.1   RSPM                     
-133         webdriver 1.0.6.9001    Git 35d3805        /main
-134         websocket 1.4.1.9000    Git 2161ee7        /main
-135             withr      2.5.0   RSPM                     
-136              xfun       0.30   RSPM                     
-137            xtable      1.8-4   RSPM                     
-138              yaml      2.3.5   RSPM                     
-139               zip      2.2.0   RSPM                     
-140              boot     1.3-20   CRAN                     
-141             class     7.3-15   CRAN                     
-142           cluster    2.0.7-1   CRAN                     
-143         codetools     0.2-16   CRAN                     
-144           foreign     0.8-71   CRAN                     
-145        KernSmooth    2.23-15   CRAN                     
-146           lattice    0.20-38   CRAN                     
-147              MASS   7.3-51.1   CRAN                     
-148            Matrix     1.2-15   CRAN                     
-149              mgcv     1.8-27   CRAN                     
-150              nlme    3.1-137   CRAN                     
-151              nnet     7.3-12   CRAN                     
-152             rpart     4.1-13   CRAN                     
-153           spatial     7.3-11   CRAN                     
-154          survival     2.43-3   CRAN                     
+       Package    Version Source     SHA            Ref
+   AsioHeaders   1.16.1-1   CRAN 1.16.1-   /AsioHeaders
+       askpass        1.1   CRAN     1.1       /askpass
+    assertthat      0.2.1   CRAN   0.2.1    /assertthat
+     backports      1.4.1   CRAN   1.4.1     /backports
+     base64enc      0.1-3   CRAN   0.1-3     /base64enc
+           bit      4.0.4   CRAN   4.0.4           /bit
+         bit64      4.0.5   CRAN   4.0.5         /bit64
+        bitops      1.0-7   CRAN   1.0-7        /bitops
+          blob      1.2.3   CRAN   1.2.3          /blob
+          brio      1.1.3   CRAN   1.1.3          /brio
+         bslib 0.3.1.9000 GitHub 1d494d4   rstudio/HEAD
+        cachem 1.0.6.9000 GitHub fe6121f     r-lib/HEAD
+         Cairo     1.5-15   CRAN  1.5-15         /Cairo
+         callr      3.7.0   CRAN   3.7.0         /callr
+     checkmate      2.1.0   CRAN   2.1.0     /checkmate
+      chromote      0.1.0   CRAN   0.1.0      /chromote
+           cli      3.3.0   CRAN   3.3.0           /cli
+         clipr      0.8.0   CRAN   0.8.0         /clipr
+    colorspace      2.0-3   CRAN   2.0-3    /colorspace
+    commonmark      1.8.0   CRAN   1.8.0    /commonmark
+          covr      3.5.1   CRAN   3.5.1          /covr
+         cpp11      0.4.2   CRAN   0.4.2         /cpp11
+      cranlogs      2.1.1   CRAN   2.1.1      /cranlogs
+        crayon      1.5.1   CRAN   1.5.1        /crayon
+   credentials      1.3.2   CRAN   1.3.2   /credentials
+     crosstalk 1.2.0.9000 GitHub 8128ef3   rstudio/HEAD
+          curl      4.3.2   CRAN   4.3.2          /curl
+    data.table     1.14.2   CRAN  1.14.2    /data.table
+           DBI      1.1.2   CRAN   1.1.2           /DBI
+        dbplyr      2.1.1   CRAN   2.1.1        /dbplyr
+       debugme      1.1.0   CRAN   1.1.0       /debugme
+          desc      1.4.1   CRAN   1.4.1          /desc
+       diffobj      0.3.5   CRAN   0.3.5       /diffobj
+        digest     0.6.29   CRAN  0.6.29        /digest
+         dplyr      1.0.8   CRAN   1.0.8         /dplyr
+            DT     0.22.1 GitHub c66c719   rstudio/HEAD
+      dygraphs    1.1.1.7 GitHub 70b60ab   rstudio/HEAD
+      ellipsis      0.3.2   CRAN   0.3.2      /ellipsis
+       english      1.2-6   CRAN   1.2-6       /english
+      evaluate       0.15   CRAN    0.15      /evaluate
+         fansi      1.0.3   CRAN   1.0.3         /fansi
+        farver      2.1.0   CRAN   2.1.0        /farver
+       fastmap 1.1.0.9000 GitHub d2722e7     r-lib/HEAD
+ flexdashboard 0.5.2.9000 GitHub 78ef6d3   rstudio/HEAD
+   fontawesome 0.2.2.9000 GitHub 2bc71f2   rstudio/HEAD
+            fs      1.5.2   CRAN   1.5.2            /fs
+        future     1.25.0   CRAN  1.25.0        /future
+      generics      0.1.2   CRAN   0.1.2      /generics
+          gert      1.6.0   CRAN   1.6.0          /gert
+     gganimate      1.0.7   CRAN   1.0.7     /gganimate
+       ggiraph      0.8.2   CRAN   0.8.2       /ggiraph
+       ggplot2      3.3.5   CRAN   3.3.5       /ggplot2
+            gh      1.3.0   CRAN   1.3.0            /gh
+      gitcreds      0.1.1   CRAN   0.1.1      /gitcreds
+       globals     0.14.0   CRAN  0.14.0       /globals
+          glue      1.6.2   CRAN   1.6.2          /glue
+        gtable      0.3.0   CRAN   0.3.0        /gtable
+          here      1.0.1   CRAN   1.0.1          /here
+         highr        0.9   CRAN     0.9         /highr
+           hms      1.1.1   CRAN   1.1.1           /hms
+     htmltools 0.5.2.9000 GitHub 9490b62   rstudio/HEAD
+   htmlwidgets      1.5.4   CRAN   1.5.4   /htmlwidgets
+        httpuv 1.6.5.9000 GitHub 220319d   rstudio/HEAD
+          httr      1.4.2   CRAN   1.4.2          /httr
+      hunspell      3.0.1   CRAN   3.0.1      /hunspell
+           ini      0.3.1   CRAN   0.3.1           /ini
+       isoband      0.2.5   CRAN   0.2.5       /isoband
+     jquerylib      0.1.4   CRAN   0.1.4     /jquerylib
+      jsonlite      1.8.0   CRAN   1.8.0      /jsonlite
+         knitr       1.39   CRAN    1.39         /knitr
+      labeling      0.4.2   CRAN   0.4.2      /labeling
+         later 1.3.0.9000 GitHub ba70887     r-lib/HEAD
+      lazyeval      0.2.2   CRAN   0.2.2      /lazyeval
+     lifecycle      1.0.1   CRAN   1.0.1     /lifecycle
+       listenv      0.8.0   CRAN   0.8.0       /listenv
+      magrittr      2.0.3   CRAN   2.0.3      /magrittr
+      markdown        1.1   CRAN     1.1      /markdown
+       memoise      2.0.1   CRAN   2.0.1       /memoise
+          mime       0.12   CRAN    0.12          /mime
+       munsell      0.5.0   CRAN   0.5.0       /munsell
+       openssl      2.0.0   CRAN   2.0.0       /openssl
+       packrat      0.7.0   CRAN   0.7.0       /packrat
+           pak      0.3.0   RSPM
+    parallelly     1.31.1   CRAN  1.31.1    /parallelly
+     parsedate      1.3.0   CRAN   1.3.0     /parsedate
+        pillar      1.7.0   CRAN   1.7.0        /pillar
+         pingr      2.0.1   CRAN   2.0.1         /pingr
+     pkgconfig      2.0.3   CRAN   2.0.3     /pkgconfig
+       pkgload      1.2.4   CRAN   1.2.4       /pkgload
+         plogr      0.2.0   CRAN   0.2.0         /plogr
+        plotly     4.10.0   CRAN  4.10.0        /plotly
+       plumber      1.1.0   CRAN   1.1.0       /plumber
+          plyr      1.8.7   CRAN   1.8.7          /plyr
+           png      0.1-7   CRAN   0.1-7           /png
+          pool 0.1.6.9000 GitHub 203bb12   rstudio/HEAD
+        praise      1.0.0   CRAN   1.0.0        /praise
+   prettyunits      1.1.1   CRAN   1.1.1   /prettyunits
+      processx      3.5.3   CRAN   3.5.3      /processx
+      progress      1.2.2   CRAN   1.2.2      /progress
+      promises 1.2.0.9000 GitHub 7979d6c   rstudio/HEAD
+            ps      1.7.0   CRAN   1.7.0            /ps
+         purrr      0.3.4   CRAN   0.3.4         /purrr
+       R.cache     0.15.0   CRAN  0.15.0       /R.cache
+   R.methodsS3      1.8.1   CRAN   1.8.1   /R.methodsS3
+          R.oo     1.24.0   CRAN  1.24.0          /R.oo
+       R.utils     2.11.0   CRAN  2.11.0       /R.utils
+            R6      2.5.1   CRAN   2.5.1            /R6
+          ragg      1.2.2   CRAN   1.2.2          /ragg
+      rappdirs      0.3.3   CRAN   0.3.3      /rappdirs
+  RColorBrewer      1.1-3   CRAN   1.1-3  /RColorBrewer
+          Rcpp    1.0.8.3   CRAN 1.0.8.3          /Rcpp
+      RcppTOML      0.1.7   CRAN   0.1.7      /RcppTOML
+         RCurl   1.98-1.6   CRAN 1.98-1.         /RCurl
+      reactlog      1.1.0 GitHub e8f0548   rstudio/HEAD
+       rematch      1.0.1   CRAN   1.0.1       /rematch
+      rematch2      2.1.2   CRAN   2.1.2      /rematch2
+          renv     0.15.4   CRAN  0.15.4          /renv
+    reticulate       1.24   CRAN    1.24    /reticulate
+           rex      1.2.1   CRAN   1.2.1           /rex
+         rlang      1.0.2   CRAN   1.0.2         /rlang
+     rmarkdown       2.14   CRAN    2.14     /rmarkdown
+        RMySQL    0.10.23   CRAN 0.10.23        /RMySQL
+     rprojroot      2.0.3   CRAN   2.0.3     /rprojroot
+     rsconnect     0.8.26 GitHub 08fd312   rstudio/HEAD
+       RSQLite     2.2.12   CRAN  2.2.12       /RSQLite
+    rstudioapi       0.13   CRAN    0.13    /rstudioapi
+          rsvg      2.3.1   CRAN   2.3.1          /rsvg
+          sass 0.4.1.9000 GitHub 72e722a   rstudio/HEAD
+        scales      1.2.0   CRAN   1.2.0        /scales
+         servr       0.24   CRAN    0.24         /servr
+   sessioninfo      1.2.2   CRAN   1.2.2   /sessioninfo
+         shiny 1.7.1.9003 GitHub 8eb7b05   rstudio/HEAD
+      shinyAce      0.4.1   CRAN   0.4.1      /shinyAce
+   shinycoreci 0.0.0.9006  Local
+    shinyjster 0.0.0.9010 GitHub 109a1b8 schloerke/HEAD
+     shinymeta    0.2.0.3 GitHub 5af8086   rstudio/HEAD
+     shinytest 1.5.1.9000 GitHub 650661d   rstudio/HEAD
+    shinytest2      0.1.0 GitHub 93c20dc   rstudio/HEAD
+   shinythemes      1.2.0 GitHub 492b6aa   rstudio/HEAD
+ shinyvalidate      0.1.2 GitHub 575f586   rstudio/HEAD
+  shinyWidgets      0.6.4   CRAN   0.6.4  /shinyWidgets
+     showimage      1.0.0   CRAN   1.0.0     /showimage
+      showtext      0.9-5   CRAN   0.9-5      /showtext
+    showtextdb        3.0   CRAN     3.0    /showtextdb
+        sodium      1.2.0   CRAN   1.2.0        /sodium
+   sourcetools      0.1.7   CRAN   0.1.7   /sourcetools
+      spelling        2.2   CRAN     2.2      /spelling
+       stringi      1.7.6   CRAN   1.7.6       /stringi
+       stringr      1.4.0   CRAN   1.4.0       /stringr
+        styler      1.7.0   CRAN   1.7.0        /styler
+       svglite      2.1.0   CRAN   2.1.0       /svglite
+       swagger     3.33.1   CRAN  3.33.1       /swagger
+           sys        3.4   CRAN     3.4           /sys
+      sysfonts      0.8.8   CRAN   0.8.8      /sysfonts
+   systemfonts      1.0.4   CRAN   1.0.4   /systemfonts
+        testit       0.13   CRAN    0.13        /testit
+      testthat      3.1.4   CRAN   3.1.4      /testthat
+   textshaping      0.3.6   CRAN   0.3.6   /textshaping
+      thematic 0.1.2.9000 GitHub dc79f6d   rstudio/HEAD
+        tibble      3.1.6   CRAN   3.1.6        /tibble
+         tidyr      1.2.0   CRAN   1.2.0         /tidyr
+    tidyselect      1.1.2   CRAN   1.1.2    /tidyselect
+       tinytex       0.38   CRAN    0.38       /tinytex
+        tweenr      1.0.2   CRAN   1.0.2        /tweenr
+       usethis      2.1.5   CRAN   2.1.5       /usethis
+          utf8      1.2.2   CRAN   1.2.2          /utf8
+          uuid      1.1-0   CRAN   1.1-0          /uuid
+         vctrs      0.4.1   CRAN   0.4.1         /vctrs
+        vdiffr      1.0.4   CRAN   1.0.4        /vdiffr
+       vembedr      0.1.5   CRAN   0.1.5       /vembedr
+   viridisLite      0.4.0   CRAN   0.4.0   /viridisLite
+         waldo      0.4.0   CRAN   0.4.0         /waldo
+     webdriver 1.0.6.9001 GitHub 35d3805   rstudio/HEAD
+     websocket 1.4.1.9000 GitHub 2161ee7   rstudio/HEAD
+      webutils        1.1   CRAN     1.1      /webutils
+       whisker        0.4   CRAN     0.4       /whisker
+         withr      2.5.0   CRAN   2.5.0         /withr
+          xfun       0.30   CRAN    0.30          /xfun
+          xml2      1.3.3   CRAN   1.3.3          /xml2
+        xtable      1.8-4   CRAN   1.8-4        /xtable
+           xts     0.12.1   CRAN  0.12.1           /xts
+          yaml      2.3.5   CRAN   2.3.5          /yaml
+           zip      2.2.0   CRAN   2.2.0           /zip
+           zoo     1.8-10   CRAN  1.8-10           /zoo
+          boot     1.3-20   CRAN
+         class     7.3-15   CRAN
+       cluster    2.0.7-1   CRAN
+     codetools     0.2-16   CRAN
+       foreign     0.8-71   CRAN
+    KernSmooth    2.23-15   CRAN
+       lattice    0.20-38   CRAN
+          MASS   7.3-51.1   CRAN
+        Matrix     1.2-15   CRAN
+          mgcv     1.8-27   CRAN
+          nlme    3.1-137   CRAN
+          nnet     7.3-12   CRAN
+         rpart     4.1-13   CRAN
+       spatial     7.3-11   CRAN
+      survival     2.43-3   CRAN
