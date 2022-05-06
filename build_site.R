@@ -73,7 +73,7 @@ parse_data_files <- function(files) {
     format = "Reading data [:bar] :current/:total eta::eta",
     force = TRUE,
     # show_after = 0,
-    clear = FALSE
+    clear = TRUE
   )
   lapply(files, function(file) {
     pb$tick()
@@ -97,10 +97,11 @@ log_df <-
   as_tibble() %>%
   select(file, mtime) %>%
   mutate(
-    data = parse_data_files(file)
+    date = {
+      time <- vapply(strsplit(file, "-"), `[[`, character(1), 3)
+      as.Date(as.POSIXct(time, format = "%Y_%m_%d_%H_%M"))
+    },
   ) %>%
-  unnest(data) %>%
-  filter(branch_name == "main") %>%
   force()
 
 
@@ -134,14 +135,12 @@ pad2 <- function(x) {
   else x
 }
 
-unique_platforms <- sort(unique(log_df$platform))
-
 # For each date, try to build the site if newer files are available
 pb <- progress::progress_bar$new(
   total = as.numeric(as.difftime(max_date - min_date)) + 1,
   format = "Processing site [:bar] :date :current/:total eta::eta\n",
   force = TRUE,
-  # show_after = 0,
+  show_after = 0,
   clear = FALSE
 )
 cur_date <- max_date
@@ -178,9 +177,16 @@ while (cur_date >= min_date) {
       ".github/workflows/build-site.yml"
     )) {
       if (file.exists(file_path)) {
-        if (any(file.info("render-results.Rmd")$mtime > save_file_info$mtime)) {
+        if (any(file.info(file_path)$mtime > save_file_info$mtime)) {
           return(TRUE)
         }
+      }
+    }
+
+    # Always rebuild the last two days
+    if (identical(Sys.getenv("CI", "false"), "true")) {
+      if (cur_date >= max_date - lubridate::days(2)) {
+        return(TRUE)
       }
     }
 
@@ -193,6 +199,15 @@ while (cur_date >= min_date) {
     unlink(save_dir, recursive = TRUE)
     # Create the new dir
     dir.create(save_dir, showWarnings = FALSE, recursive = TRUE)
+
+    sub_df <- sub_df %>%
+      select(-date) %>%
+      mutate(
+        data = parse_data_files(file)
+      ) %>%
+      unnest(data) %>%
+      filter(branch_name == "main") %>%
+      force()
 
     # Build the site
     rmarkdown::render(
