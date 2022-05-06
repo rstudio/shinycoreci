@@ -303,14 +303,14 @@ logs_details <-
       perf_html <- gsub("\n", "\\\\n", perf_html)
       perf_html <- gsub("'", "\\'", perf_html)
       list(
-        tags$script(HTML(paste0("
+        paste0("
           $(function() {
             setTimeout(function() {
               var tbl_txt = '", perf_html, "';
               $(\"#", id[[1]], "\").html(tbl_txt);
             }, ", which(app_name[[1]] %in% unique_apps), ")
           });
-        ")))
+        ")
       )
     },
     # performance = {
@@ -470,7 +470,12 @@ if (nrow(logs_combined) >= 0) {
 ```
 
 ```{r, eval = render_rest, echo = FALSE}
-tagList(performance_js)
+tagList(
+  tags$script(HTML(paste0(
+    performance_js,
+    collapse = "\n\n"
+  )))
+)
 ```
 
 ```{r, eval = render_rest, echo = FALSE}

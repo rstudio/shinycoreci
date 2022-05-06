@@ -68,15 +68,7 @@ test_results_import <- function(file) {
 }
 
 parse_data_files <- function(files) {
-  pb <- progress::progress_bar$new(
-    length(files),
-    format = "Reading data [:bar] :current/:total eta::eta",
-    force = TRUE,
-    # show_after = 0,
-    clear = TRUE
-  )
   lapply(files, function(file) {
-    pb$tick()
     file_test_results(file)
   })
 }
@@ -136,16 +128,24 @@ pad2 <- function(x) {
 }
 
 # For each date, try to build the site if newer files are available
+status_vals <- c(
+  process = "Processing site",
+  reading = "Reading data",
+  render = "Rendering site",
+  done = "Finished"
+) %>%
+  format() %>%
+  as.list()
 pb <- progress::progress_bar$new(
   total = as.numeric(as.difftime(max_date - min_date)) + 1,
-  format = "Processing site [:bar] :date :current/:total eta::eta\n",
+  format = ":status [:bar] :date :current/:total eta::eta",
   force = TRUE,
   show_after = 0,
   clear = FALSE
 )
 cur_date <- max_date
 while (cur_date >= min_date) {
-  pb$tick(tokens = list(date = cur_date))
+  pb$tick(0, tokens = list(status = status_vals$process, date = cur_date))
 
   save_file <- file.path(
     save_folder,
@@ -200,6 +200,8 @@ while (cur_date >= min_date) {
     # Create the new dir
     dir.create(save_dir, showWarnings = FALSE, recursive = TRUE)
 
+    pb$tick(0, tokens = list(status = status_vals$reading, date = cur_date))
+
     sub_df <- sub_df %>%
       select(-date) %>%
       mutate(
@@ -210,7 +212,7 @@ while (cur_date >= min_date) {
       force()
 
     if (nrow(sub_df) > 0) {
-      message("Rendering ", save_file)
+      pb$tick(0, tokens = list(status = status_vals$render, date = cur_date))
 
       # Build the site
       rmarkdown::render(
@@ -234,5 +236,6 @@ while (cur_date >= min_date) {
 
 
   # increment and go again
+  pb$tick(1, tokens = list(status = status_vals$done, date = cur_date))
   cur_date <- cur_date - lubridate::days(1)
 }
