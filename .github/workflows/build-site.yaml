@@ -1,6 +1,7 @@
 on:
   push:
-    branches: [__test_results]
+    branches:
+      - _test_results
 
 name: Build static site
 
