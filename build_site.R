@@ -208,25 +208,28 @@ while (cur_date >= min_date) {
       unnest(data) %>%
       filter(branch_name == "main") %>%
       force()
-    message("Rendering ", save_file)
 
-    # Build the site
-    rmarkdown::render(
-      quiet = TRUE,
-      "render-results.Rmd",
-      # Relative path from input file
-      output_file = save_file,
-      params = list(
-        start_date = cur_date - lubridate::days(days_to_display),
-        end_date = cur_date,
-        df = sub_df
-      ),
-      output_options = list(
-        # https://github.com/rstudio/rmarkdown/pull/2199
-        # lib_dir = file.path(save_dir, "..", "..", "..", "lib")
-        lib_dir = file.path(save_dir, "lib")
+    if (nrow(sub_df) > 0) {
+      message("Rendering ", save_file)
+
+      # Build the site
+      rmarkdown::render(
+        quiet = TRUE,
+        "render-results.Rmd",
+        # Relative path from input file
+        output_file = save_file,
+        params = list(
+          start_date = cur_date - lubridate::days(days_to_display),
+          end_date = cur_date,
+          df = sub_df
+        ),
+        output_options = list(
+          # https://github.com/rstudio/rmarkdown/pull/2199
+          # lib_dir = file.path(save_dir, "..", "..", "..", "lib")
+          lib_dir = file.path(save_dir, "lib")
+        )
       )
-    )
+    }
   }
 
 
