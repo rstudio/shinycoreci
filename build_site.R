@@ -61,10 +61,24 @@ file_test_results <- function(file) {
 }
 
 test_results_import <- function(file) {
-  json <- jsonlite::fromJSON(file)
+  json <- jsonlite::read_json(file, simplifyVector = TRUE)
   json$results$gha_branch_name <- json$gha_branch_name
   json$results$branch_name <- json$branch_name
   json$results
+}
+
+parse_data_files <- function(files) {
+  pb <- progress::progress_bar$new(
+    length(files),
+    format = "Reading data [:bar] :current/:total eta::eta",
+    force = TRUE,
+    # show_after = 0,
+    clear = FALSE
+  )
+  lapply(files, function(file) {
+    pb$tick()
+    file_test_results(file)
+  })
 }
 
 log_files <- Sys.glob("__test_results/*.json")
@@ -82,7 +96,7 @@ log_df <-
   as_tibble() %>%
   select(file, mtime) %>%
   mutate(
-    data = lapply(file, file_test_results)
+    data = parse_data_files(file)
   ) %>%
   unnest(data) %>%
   filter(branch_name == "main") %>%
@@ -124,7 +138,7 @@ unique_platforms <- sort(unique(log_df$platform))
 # For each date, try to build the site if newer files are available
 pb <- progress::progress_bar$new(
   total = as.numeric(as.difftime(max_date - min_date)) + 1,
-  format = "[:bar] :date :current/:total eta::eta\n",
+  format = "Processing site [:bar] :date :current/:total eta::eta\n",
   force = TRUE,
   # show_after = 0,
   clear = FALSE
