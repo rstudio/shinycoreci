@@ -75,8 +75,8 @@ jobs:
           SHA="${{ github.sha }}"
           SHORT_SHA="${SHA:0:7}"
 
-          git add site && \
-            git commit -m "build site - rstudio/shinycoreci@$SHORT_SHA"
+          git add docs && \
+            git commit -m "build static docs - rstudio/shinycoreci@$SHORT_SHA"
           COMMIT_RESULT=$?
 
           if [ $COMMIT_RESULT -eq 0 ]; then

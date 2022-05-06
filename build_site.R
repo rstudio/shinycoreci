@@ -10,6 +10,7 @@ library(tidyr)
 library(lubridate)
 
 days_to_display <- 10
+save_folder <- "docs"
 
 # # Pull in the repo location to view the test results
 # dir <- Sys.getenv("SHINYCORECI_VIEW_TEST_RESULTS", unset = "__unknown")
@@ -91,6 +92,25 @@ log_df <-
 min_date <- min(log_df$date)
 max_date <- max(log_df$date)
 
+max_date_url <-
+  paste0(
+    strsplit(as.character(max_date), "-")[[1]],
+    "/",
+    collapse = ""
+  )
+
+cat(file = paste0(save_folder, "/index.html"), "
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv=\"refresh\" content=\"0; url='", max_date_url, "'\" />
+  </head>
+  <body>
+    <p><a href=\"", max_date_url, "\">Click for latest results</a></p>
+  </body>
+</html>
+")
+
 pad2 <- function(x) {
   x <- as.character(x)
   x_len <- nchar(x)
@@ -105,6 +125,7 @@ unique_platforms <- sort(unique(log_df$platform))
 pb <- progress::progress_bar$new(
   total = as.numeric(as.difftime(max_date - min_date)) + 1,
   format = "[:bar] :date :current/:total eta::eta\n",
+  force = TRUE,
   # show_after = 0,
   clear = FALSE
 )
@@ -113,7 +134,7 @@ while (cur_date >= min_date) {
   pb$tick(tokens = list(date = cur_date))
 
   save_file <- file.path(
-    "site",
+    save_folder,
     pad2(lubridate::year(cur_date)),
     pad2(lubridate::month(cur_date)),
     pad2(lubridate::day(cur_date)),
