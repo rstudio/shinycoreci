@@ -64,14 +64,32 @@ jobs:
       - name: Run `build_site.R`
         shell: Rscript {0}
         run: |
-          source("build_site.R")
+          source("build_site.R", echo = TRUE)
 
-      - name: Commit to git
+      - name: Commit and Push to git
         shell: bash
         run: |
           SHA="${{ github.sha }}"
           SHORT_SHA="${SHA:0:7}"
 
           git add site && \
-            git commit -m "build site - rstudio/shinycoreci@$SHORT_SHA" || \
-            echo "No static site changes to commit"
+            git commit -m "build site - rstudio/shinycoreci@$SHORT_SHA"
+          COMMIT_RESULT=$?
+
+          if [ $COMMIT_RESULT -eq 0 ]; then
+            # attempt to push until success. Allow for 15 attempts
+            COUNTER=0
+            git pull origin _test_results
+            until git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" _test_results
+            do
+              # wait 5-15 seconds to avoid deadlock
+              sleep $[ ($RANDOM % 10) + 5 ]s
+              [[ COUNTER -gt 15 ]] && echo "Too many attempts!" && exit 1
+              ((COUNTER++))
+              echo "Push failed. Trying again. Try #$COUNTER"
+              # pull again to have the latest
+              git pull origin _test_results
+            done
+          else
+            echo "No changes to commit or push"
+          fi
