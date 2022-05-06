@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>rstudio/shinycoreci results: 2022-04-07 - 2022-04-17</title>
+
+<script src="lib/header-attrs-2.14/header-attrs.js"></script>
+<script src="lib/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link href="lib/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+<script src="lib/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+<link href="lib/_Prompt-0.4.1/font.css" rel="stylesheet" />
+<script src="lib/bs3compat-0.3.1/transition.js"></script>
+<script src="lib/bs3compat-0.3.1/tabs.js"></script>
+<script src="lib/bs3compat-0.3.1/bs3compat.js"></script>
+<script src="lib/navigation-1.1/tabsets.js"></script>
+<link href="lib/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="lib/highlightjs-9.12.0/highlight.js"></script>
+<script src="shared/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script>(function() {
+        var datepicker = $.fn.datepicker.noConflict();
+        $.fn.bsDatepicker = datepicker;
+      })();
+     </script>
+<link href="lib/bootstrap-datepicker-1.9.0/bootstrap-datepicker.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">rstudio/shinycoreci results:<br/>2022-04-07 - 2022-04-17</h1>
+
+</div>
+
+
+<div id="datepicker" class="shiny-date-input form-group shiny-input-container" style="width:fit-content;">
+<label class="control-label" id="datepicker-label" for="datepicker"><svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm436-44v-36c0-26.5-21.5-48-48-48h-48V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H160V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H48C21.5 64 0 85.5 0 112v36c0 6.6 5.4 12 12 12h424c6.6 0 12-5.4 12-12z"/></svg></label>
+<input type="text" class="form-control" aria-labelledby="datepicker-label" title="Date format: yyyy-mm-dd" data-date-language="en" data-date-week-start="0" data-date-format="yyyy-mm-dd" data-date-start-view="month" data-initial-date="2022-04-17" data-date-autoclose="true" data-date-dates-disabled="null" data-date-days-of-week-disabled="null"/>
+</div>
+<script>
+    $(function() {
+      var d = '2022-04-17';
+      $('#datepicker').find("input").bsDatepicker("setUTCDate", new Date(d));
+      $('#datepicker').find("input").change(function() {
+        var new_date = $(this).val();
+        window.location = '../../../' + new_date.replaceAll('-', '/') + '/index.html';
+      })
+    });
+  </script>
+<style type="text/css">
+#datepicker {
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+#datepicker input {
+  width: 8rem;
+}
+.main-container {
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.dataTables_filter {display: none};
+.result_app {padding: 0.5em; border-collapse: collapse;}
+.result_pass {background-color: #009469 !important;} /* green */
+.result_fail {
+  background-color: #d95515 !important; /* red */
+  cursor: pointer;
+}
+.result_can_not_install {background-color: #0066a7 !important;} /* blue */
+.result_did_not_return {background-color: #a3a3a3 !important;} /* white */
+.result_did_not_execute {background-color: #323232 !important;} /* black */
+.result_day td {
+  border: 1px dotted grey;
+  padding: 0.5rem !important;
+  border-radius: 50%;
+  /* No border */
+}
+.result_day {
+  border-spacing: 1px;
+  border-collapse: separate;
+}
+.result_app > tbody > tr > td {
+    padding: 0px !important;
+    padding-right: 6px !important;
+}
+
+.no-failures {
+  color:darkgreen;
+}
+.has-failures {
+  color:darkred;
+}
+
+/* Reduce title height */
+.form-group {
+  margin-bottom: 0 !important;
+}
+.selectize-control {
+  margin-bottom: 0 !important;
+}
+</style>
+<h1>
+Refreshing to prior day with results: 
+<a href="../../../2022/04/15/index.html">2022-04-15</a>
+</h1>
+<meta http-equiv="Refresh" content="3; url=../../../2022/04/15/index.html"/>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+</body>
+</html>
