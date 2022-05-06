@@ -24,7 +24,7 @@ tagList(
       $('#datepicker').find(\"input\").bsDatepicker(\"setUTCDate\", new Date(d));
       $('#datepicker').find(\"input\").change(function() {
         var new_date = $(this).val();
-        window.location = '../../../' + new_date.replaceAll('-', '/') + '/index.html';
+        window.location = '../../../' + new_date.replaceAll('-', '/') + '/';
       })
     });
   ")))
@@ -152,7 +152,7 @@ if (nrow(logs_spread_today) == 0) {
       strsplit(as.character(last_day_with_results), "-")[[1]],
       collapse = "/"
     )
-  href_with_results <- paste0("../../../", url_with_results, "/index.html")
+  href_with_results <- paste0("../../../", url_with_results, "/")
 
   tagList(
     tags$h1(
@@ -259,7 +259,7 @@ logs_details <-
             tag_location <-
               strsplit(as.character(date), "-")[[1]] %>%
               paste0(collapse = "/") %>%
-              paste0("../../../", ., "/index.html#", app_name[[1]], "-", os_, "-", r_version_)
+              paste0("../../../", ., "/#", app_name[[1]], "-", os_, "-", r_version_)
 
             tags$td(
               class = "result_cell",
