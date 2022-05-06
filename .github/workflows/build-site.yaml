@@ -2,6 +2,10 @@ on:
   push:
     branches:
       - _test_results
+  repository_dispatch:
+    types:
+      - all
+      - site
 
 name: Build static site
 
