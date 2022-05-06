@@ -52,17 +52,18 @@ jobs:
           cache-version: site-1
           extra-packages: |
             rstudio/shiny
-            any::dplyr
-            any::tidyr
-            any::lubridate
-            any::jsonlite
-            any::progress
-            any::rmarkdown
             any::bslib
-            any::rlang
+            any::dplyr
             any::DT
-            any::withr
             any::fontawesome
+            any::jsonlite
+            any::lubridate
+            any::memoise
+            any::progress
+            any::rlang
+            any::rmarkdown
+            any::tidyr
+            any::withr
 
       - name: Run `build_site.R`
         shell: Rscript {0}
