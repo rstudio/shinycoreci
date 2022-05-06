@@ -85,6 +85,7 @@ log_files <- Sys.glob("__test_results/*.json")
 
 log_df <-
   log_files %>%
+  # head(20) %>%
   lapply(file.info) %>%
   bind_rows() %>%
   {
