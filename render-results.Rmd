@@ -287,18 +287,46 @@ logs_details <-
   group_by(app_name) %>%
   arrange(date) %>%
   summarise(
+    id = paste0("circles-", app_name[[1]]),
     performance = {
-      list(
-        tags$table(
-          class = "result_app",
-          tags$tr(
-            lapply(per_date, tags$td)
-          )
+      list(div(id = id, "Circles for ", app_name[[1]]))
+    },
+    performance_js = {
+      perf_table <- tags$table(
+        class = "result_app",
+        tags$tr(
+          lapply(per_date, tags$td)
         )
       )
+      perf_html <- as.character(perf_table)
+      perf_html <- gsub("\n", "\\\\n", perf_html)
+      perf_html <- gsub("'", "\\'", perf_html)
+      list(
+        tags$script(HTML(paste0("
+          (function() {
+            var tbl_txt = '", perf_html, "';
+            $(function() {
+              $(\"#", id[[1]], "\").html(tbl_txt);
+            });
+          })()
+        ")))
+      )
     },
+    # performance = {
+    #   list(
+    #     tags$table(
+    #       class = "result_app",
+    #       tags$tr(
+    #         lapply(per_date, tags$td)
+    #       )
+    #     )
+    #   )
+    # },
     .groups = "keep"
-  )
+  ) %>%
+  select(-id)
+performance_js <- logs_details$performance_js
+logs_details <- logs_details %>% select(-performance_js)
 ```
 
 ```{r bad_logs, include = FALSE}
@@ -437,6 +465,12 @@ if (render_rest && nrow(logs_combined) >= 0) {
     # Be able to use raw html
     escape = FALSE
   )
+}
+```
+
+```{r, eval = TRUE, echo = FALSE}
+if (render_rest) {
+  tagList(performance_js)
 }
 ```
 
