@@ -30,19 +30,12 @@ jobs:
           # Only need current files
           fetch-depth: 0
 
-      - name: Git config
-        shell: bash
-        # set local email to actor
-        # set local name to actor
-        # set to merge when pulling (used for test results)
-        # need to unset the extra header to allow for regular https push
-        # display config
-        run: |
-          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
-            git config --local user.name "${GITHUB_ACTOR}" && \
-            git config --local pull.rebase false && \
-            git config --local --unset http.https://github.com/.extraheader && \
-            git config --local --list
+      - uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: _gh-pages
+          # Only need current files
+          fetch-depth: 0
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -74,21 +67,40 @@ jobs:
         run: |
           source("build_site.R", echo = TRUE)
 
+      - name: Move `./docs` to `_gh-pages` folder
+        shell: bash
+        run: |
+          mv -fv ./docs ./_gh-pages
+
       - name: Commit and Push to git
         shell: bash
         run: |
+          # Work inside `_gh-pages` folder
+          cd _gh-pages
+
+          # set local email to actor
+          # set local name to actor
+          # set to merge when pulling (used for test results)
+          # need to unset the extra header to allow for regular https push
+          # display config
+          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
+            git config --local user.name "${GITHUB_ACTOR}" && \
+            git config --local pull.rebase false && \
+            git config --local --unset http.https://github.com/.extraheader && \
+            git config --local --list
+
           SHA="${{ github.sha }}"
           SHORT_SHA="${SHA:0:7}"
 
-          git add docs && \
-            git commit -m "build static docs - rstudio/shinycoreci@$SHORT_SHA"
+          git add . && \
+            git commit -m "Build static docs - rstudio/shinycoreci@$SHORT_SHA"
           COMMIT_RESULT=$?
 
           if [ $COMMIT_RESULT -eq 0 ]; then
             # attempt to push until success. Allow for 15 attempts
             COUNTER=0
-            git pull origin _test_results
-            until git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" _test_results
+            git pull origin gh-pages
+            until git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" gh-pages
             do
               # wait 5-15 seconds to avoid deadlock
               sleep $[ ($RANDOM % 10) + 5 ]s
@@ -96,7 +108,7 @@ jobs:
               ((COUNTER++))
               echo "Push failed. Trying again. Try #$COUNTER"
               # pull again to have the latest
-              git pull origin _test_results
+              git pull origin gh-pages
             done
           else
             echo "No changes to commit or push"
