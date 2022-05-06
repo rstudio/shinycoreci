@@ -45,7 +45,7 @@ file_test_results <- memoise::memoise(function(file) {
     mutate(
       os = platform,
       platform = paste(platform, r_version, sep = "-"),
-      time = as.POSIXct(time, format = "%Y_%m_%d_%H_%M"),
+      time = as.POSIXct(time, format = "%Y_%m_%d_%H_%M", tz = "UTC"),
       date = as.Date(time),
       sha = paste0(branch_name, "@", sha)
     ) %>%
@@ -99,7 +99,7 @@ log_df <-
   mutate(
     date = {
       time <- vapply(strsplit(file, "-"), `[[`, character(1), 3)
-      as.Date(as.POSIXct(time, format = "%Y_%m_%d_%H_%M"))
+      as.Date(as.POSIXct(time, format = "%Y_%m_%d_%H_%M", tz = "UTC"))
     },
   ) %>%
   force()
