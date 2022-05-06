@@ -163,33 +163,6 @@ while (cur_date >= min_date) {
         lib_dir = file.path(save_dir, "lib")
       )
     )
-
-    # if (FALSE) {
-
-    #   for (unique_platform in unique_platforms) {
-    #     platform_df <- sub_df %>% filter(platform == unique_platform)
-    #     print(sub_df[i, ])
-
-    #     results <- sub_df$results[[i]]
-    #     rmarkdown::render(
-    #       "render-logs.Rmd",
-    #       output_file = file.path(save_dir, paste0(sub_df$platform[[i]], ".html")),
-    #       params = list(
-    #         platform = unique_platform,
-    #         platform_df = platform_df,
-    #         results = results,
-    #         start_date = cur_date - lubridate::days(10),
-    #         end_date = cur_date,
-    #         df = sub_df[i, ]
-    #       ),
-    #       output_options = list(
-    #         # https://github.com/rstudio/rmarkdown/pull/2199
-    #         # lib_dir = "site/lib"
-    #         lib_dir = file.path(save_dir, "lib")
-    #       )
-    #     )
-    #   }
-    # }
   }
 
 
