@@ -31,7 +31,7 @@ strextract <- function(str, pattern) {
 }
 
 
-file_test_results <- function(file) {
+file_test_results <- memoise::memoise(function(file) {
   results <- test_results_import(file)
   dt <- bind_rows(results) %>%
     tibble::as_tibble() %>%
@@ -58,7 +58,7 @@ file_test_results <- function(file) {
     ret,
     select(dt, - app_name, -status, -result)[1, ]
   )
-}
+})
 
 test_results_import <- function(file) {
   json <- jsonlite::read_json(file, simplifyVector = TRUE)
@@ -208,6 +208,7 @@ while (cur_date >= min_date) {
       unnest(data) %>%
       filter(branch_name == "main") %>%
       force()
+    message("Rendering ", save_file)
 
     # Build the site
     rmarkdown::render(
