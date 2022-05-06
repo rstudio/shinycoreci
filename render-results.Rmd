@@ -3,7 +3,7 @@ title: '`r paste0("rstudio/shinycoreci results:<br/>", params$start_date, " - ",
 output:
   html_document:
     mathjax: NULL
-    self_contained: false
+    self_contained: true
     theme: !expr bslib::bs_add_rules(bslib::bs_theme(base_font = bslib::font_google("Prompt")), ".nav-pills { @extend .justify-content-center; }")
 params:
   start_date: "DATE"
