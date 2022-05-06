@@ -99,7 +99,7 @@ if (nrow(params$df) == 0) {
 ```
 
 
-```{r, include = FALSE}
+```{r, eval = render_rest, include = FALSE}
 library(dplyr)
 library(tidyr)
 library(magrittr)
@@ -139,7 +139,7 @@ logs_spread <- logs_spread %>%
   )
 ```
 
-```{r redirect, echo = FALSE, include = TRUE}
+```{r redirect, eval = render_rest, echo = FALSE, include = TRUE}
 logs_spread_today <-
   logs_spread %>%
   filter(date == params$end_date)
@@ -168,7 +168,7 @@ if (nrow(logs_spread_today) == 0) {
 }
 ```
 
-```{r logs_summary, include = FALSE}
+```{r logs_summary, eval = render_rest, include = FALSE}
 logs_summary_today <-
   logs_spread %>%
   filter(date == params$end_date) %>%
@@ -212,7 +212,7 @@ logs_summary <-
   # )
 ```
 
-```{r logs_details, include = FALSE}
+```{r logs_details, eval = render_rest, include = FALSE}
 logs_details <-
   logs_spread %>%
   mutate(
@@ -330,7 +330,7 @@ performance_js <- logs_details$performance_js
 logs_details <- logs_details %>% select(-performance_js)
 ```
 
-```{r bad_logs, include = FALSE}
+```{r bad_logs, eval = render_rest, include = FALSE}
 bad_logs <-
   logs %>%
   filter(date == params$end_date) %>%
@@ -385,7 +385,7 @@ bad_app_tags <-
 ```
 
 
-```{r logs_combined, include = FALSE}
+```{r logs_combined, eval = render_rest, include = FALSE}
 bad_app_names <- unique(bad_logs$app_name)
 logs_combined <-
   left_join(
@@ -427,8 +427,8 @@ logs_combined <-
   )
 ```
 
-```{r data_table, echo = FALSE, include = TRUE}
-if (render_rest && nrow(logs_combined) >= 0) {
+```{r data_table, eval = render_rest, echo = FALSE, include = TRUE}
+if (nrow(logs_combined) >= 0) {
   # Do not warn about size of table being larger than 1.5 mb
   # https://github.com/rstudio/DT/blob/ddcc9e91ffa00924ccffeb6ceee14dfb2e14c0b6/R/datatables.R#L397-L402
   withr::local_options(list(DT.warn.size = FALSE))
@@ -469,219 +469,30 @@ if (render_rest && nrow(logs_combined) >= 0) {
 }
 ```
 
-```{r, eval = TRUE, echo = FALSE}
-if (render_rest) {
-  tagList(performance_js)
-}
+```{r, eval = render_rest, echo = FALSE}
+tagList(performance_js)
 ```
 
-```{r, eval = TRUE, echo = FALSE}
-if (render_rest) {
-  sum_html <- as.character(tagList(bad_app_tags))
-  sum_html <- gsub("\n", "\\\\n", sum_html)
-  sum_html <- gsub("'", "\\'", sum_html)
+```{r, eval = render_rest, echo = FALSE}
+sum_html <- as.character(tagList(bad_app_tags))
+sum_html <- gsub("\n", "\\\\n", sum_html)
+sum_html <- gsub("'", "\\'", sum_html)
 
-  tagList(
-    tags$h1("Failure logs:"),
-    # selectInput(
-    #   "logs_date", NULL,
-    #   choices = sort(unique(logs$date), decreasing = TRUE)
-    # ),
-    tags$div(id = "app_summary"),
-    tags$script(HTML(paste0("
-      $(function() {
-        setTimeout(function() {
-          var sum_txt = '", sum_html, "';
-          $(\"#app_summary\").html(sum_txt);
-        }, ", length(unique_apps), ")
-      });
-    ")))
-    # !!!bad_app_tags
-  )
-}
-```
-
-```{r, eval = FALSE, include = FALSE}
-  selected_app <- reactive({
-    cell <- input$app_status_table_cell_clicked
-    if (length(cell) > 0) {
-      logs_summary()[cell$row, "App", drop = TRUE]
-    }
-  })
-
-  app_logs <- reactive({
-    req(selected_app())
-
-    filter(
-      logs(),
-      app_name %in% selected_app(),
-      status %in% c("fail", "can_not_install")
-    )
-  })
-
-  selected_app_logs <- reactive({
-    req(input$logs_date)
-    filter(app_logs(), date == as.Date(input$logs_date))
-  })
-
-  observeEvent(input$app_status_table_cell_clicked, {
-
-    logs <- app_logs()
-    log_dates <- sort(unique(logs$date), decreasing = TRUE)
-
-    # TODO: save GHA job id and create a hyperlink to
-    # https://github.com/rstudio/shinycoreci-apps/runs/{job_id}
-    # Better yet, can we link to either the build log or test source code?
-    modal <- modalDialog(
-      title = paste(selected_app(), "failure details"),
-      size = "l",
-      easyClose = TRUE,
-      tabsetPanel(
-        tabPanel(
-          "Daily details",
-          div(
-            style = "display:flex; justify-content:center; gap:1rem",
-            "Failure logs from:",
-            selectInput(
-              "logs_date", NULL, choices = log_dates
-            )
-          ),
-          uiOutput("logs_report")
-        ),
-        tabPanel("Timeline", uiOutput("timeline")),
-        type = "pills",
-        header = br()
-      )
-    )
-
-    showModal(modal)
-  })
-
-  output$timeline <- renderUI({
-    validate(need(
-      nrow(app_logs()) > 1,
-      "No failures to show for this app"
-    ))
-
-    withr::with_namespace(
-      "plotly", {
-
-        panel <- . %>%
-          plot_ly(height = 700) %>%
-          add_bars(
-            x = ~date, y = ~n, color = ~paste("R", r_version),
-            legendgroup = ~r_version,
-            showlegend = ~identical(unique(os), "Linux")
-          ) %>%
-          add_annotations(
-            text = ~unique(os), showarrow = FALSE,
-            x = 0.5, y = 1, yref = "paper", xref = "paper",
-            yanchor = "bottom", font = list(size = 15),
-            yshift = -3
-          ) %>%
-          layout(
-            showlegend = FALSE,
-            barmode = "stack",
-            shapes = list(
-              type = "rect",
-              x0 = 0, x1 = 1, xref = "paper",
-              y0 = 0, y1 = 16, yref = "paper",
-              yanchor = 1, ysizemode = "pixel",
-              fillcolor = toRGB("gray80"),
-              line = list(color = "transparent")
-            )
-          )
-
-        app_logs() %>%
-          count(date, platform) %>%
-          separate(platform, c("os", "r_version"), sep = "-") %>%
-          group_by(os) %>%
-          do(p = panel(.)) %>%
-          subplot(nrows = NROW(.), shareX = TRUE) %>%
-          layout(
-            font = list(family = "Prompt", size = 14),
-            showlegend = TRUE, hovermode = "x",
-            yaxis2 = list(title = "Number of failures"),
-            xaxis = list(title = ""),
-            legend = list(orientation = "h", x = 1, xanchor = "right")
-          ) %>%
-          config(displayModeBar = FALSE)
-      }
-    )
-  })
-
-  output$logs_report <- renderUI({
-    req(input$logs_date)
-
-    logs <- selected_app_logs()
-    logs <- split(logs, logs$platform)
-
-    tagList(
-      !!!Map(
-        logs, names(logs),
-        f = function(x, y) {
-          res <- paste(x$result, collapse = "\n")
-          tags$details(
-            open = NA,
-            tags$summary(y),
-            tags$code(tags$pre(res))
-          )
-        }
-      )
-    )
-  })
-
-}
-
-    if (FALSE) {
-      bad_app_plot <-
-        suppressWarnings(withr::with_namespace(
-          "plotly",
-          {
-            panel <- . %>%
-              plot_ly(height = 700) %>%
-              add_bars(
-                x = ~date, y = ~n, color = ~ paste("R", r_version),
-                legendgroup = ~r_version,
-                showlegend = ~ identical(unique(os), "Linux")
-              ) %>%
-              add_annotations(
-                text = ~ unique(os), showarrow = FALSE,
-                x = 0.5, y = 1, yref = "paper", xref = "paper",
-                yanchor = "bottom", font = list(size = 15),
-                yshift = -3
-              ) %>%
-              layout(
-                showlegend = FALSE,
-                barmode = "stack",
-                shapes = list(
-                  type = "rect",
-                  x0 = 0, x1 = 1, xref = "paper",
-                  y0 = 0, y1 = 16, yref = "paper",
-                  yanchor = 1, ysizemode = "pixel",
-                  fillcolor = toRGB("gray80"),
-                  line = list(color = "transparent")
-                )
-              )
-
-            bad_app_logs %>%
-              count(date, platform) %>%
-              separate(platform, c("os", "r_version"), sep = "-") %>%
-              group_by(os) %>%
-              do(p = panel(.)) %>%
-              subplot(nrows = NROW(.), shareX = TRUE) %>%
-              layout(
-                font = list(family = "Prompt", size = 14),
-                showlegend = TRUE, hovermode = "x",
-                yaxis2 = list(title = "Number of failures"),
-                xaxis = list(title = ""),
-                legend = list(orientation = "h", x = 1, xanchor = "right")
-              ) %>%
-              config(displayModeBar = FALSE)
-          }
-        ))
-    }
-
-
-# shinyApp(ui, server)
+tagList(
+  tags$h1("Failure logs:"),
+  # selectInput(
+  #   "logs_date", NULL,
+  #   choices = sort(unique(logs$date), decreasing = TRUE)
+  # ),
+  tags$div(id = "app_summary"),
+  tags$script(HTML(paste0("
+    $(function() {
+      setTimeout(function() {
+        var sum_txt = '", sum_html, "';
+        $(\"#app_summary\").html(sum_txt);
+      }, ", length(unique_apps), ")
+    });
+  ")))
+  # !!!bad_app_tags
+)
 ```
