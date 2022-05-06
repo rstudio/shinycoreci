@@ -82,10 +82,10 @@ if (length(errors_found) > 0) {
   stop("Errors found when validating apps")
 }
 
-warns <- warnings()
-if (length(warns) > 0) {
-  warn_txt <- Map(names(warns), warns, f = function(msg, expr) { paste0(msg, " : ", as.character(as.expression(expr)), "\n") })
-  stop("Warnings found when validating apps:\n", paste0(warn_txt, collapse = ""))
-}
+# warns <- warnings()
+# if (length(warns) > 0) {
+#   warn_txt <- Map(names(warns), warns, f = function(msg, expr) { paste0(msg, " : ", as.character(as.expression(expr)), "\n") })
+#   stop("Warnings found when validating apps:\n", paste0(warn_txt, collapse = ""))
+# }
 
 message("No errors found when validating apps")
