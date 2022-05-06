@@ -51,11 +51,11 @@ jobs:
           packages: any::sessioninfo
           cache-version: site-1
           extra-packages: |
+            rstudio/shiny
             any::dplyr
             any::tidyr
             any::lubridate
             any::jsonlite
-            any::shiny
             any::progress
             any::rmarkdown
             any::bslib

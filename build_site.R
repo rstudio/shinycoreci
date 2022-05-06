@@ -155,14 +155,18 @@ while (cur_date >= min_date) {
     if (any(sub_df$mtime > save_file_info$mtime)) {
       return(TRUE)
     }
-    # If the Rmd file is newer, rebuild
-    if (any(file.info("render-results.Rmd")$mtime > save_file_info$mtime)) {
-      return(TRUE)
-    }
 
-    # If this file is newer, rebuild
-    if (any(file.info("build_site.R")$mtime > save_file_info$mtime)) {
-      return(TRUE)
+    # If any of these files are newer, rebuild
+    for (file_path in c(
+      "render-results.Rmd",
+      "build_site.R",
+      ".github/workflows/build-site.yml"
+    )) {
+      if (file.exists(file_path)) {
+        if (any(file.info("render-results.Rmd")$mtime > save_file_info$mtime)) {
+          return(TRUE)
+        }
+      }
     }
 
     FALSE
