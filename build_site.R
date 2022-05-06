@@ -135,7 +135,16 @@ while (cur_date >= min_date) {
       return(TRUE)
     }
     # If the Rmd file is newer, rebuild
-    any(file.info("render-results.Rmd")$mtime > save_file_info$mtime)
+    if (any(file.info("render-results.Rmd")$mtime > save_file_info$mtime)) {
+      return(TRUE)
+    }
+
+    # If this file is newer, rebuild
+    if (any(file.info("build_site.R")$mtime > save_file_info$mtime)) {
+      return(TRUE)
+    }
+
+    FALSE
   })
 
   if (should_build_site) {
