@@ -7,6 +7,9 @@ name: Build static site
 
 jobs:
   build:
+
+    name: Build static site
+
     runs-on: ubuntu-latest
 
     env:
