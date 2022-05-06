@@ -106,6 +106,7 @@ library(magrittr)
 library(shiny)
 
 logs <- params$df %>% unnest(results)
+unique_apps <- unique(logs$app_name)
 logs_spread <-
   logs %>%
     count(app_name, os, r_version, date, status, name = "n") %>%
@@ -289,7 +290,7 @@ logs_details <-
   summarise(
     id = paste0("circles-", app_name[[1]]),
     performance = {
-      list(div(id = id, "Circles for ", app_name[[1]]))
+      list(div(id = id, "loading..."))
     },
     performance_js = {
       perf_table <- tags$table(
@@ -303,12 +304,12 @@ logs_details <-
       perf_html <- gsub("'", "\\'", perf_html)
       list(
         tags$script(HTML(paste0("
-          (function() {
-            var tbl_txt = '", perf_html, "';
-            $(function() {
+          $(function() {
+            setTimeout(function() {
+              var tbl_txt = '", perf_html, "';
               $(\"#", id[[1]], "\").html(tbl_txt);
-            });
-          })()
+            }, ", which(app_name[[1]] %in% unique_apps), ")
+          });
         ")))
       )
     },
@@ -448,7 +449,7 @@ if (render_rest && nrow(logs_combined) >= 0) {
       info = FALSE, paging = FALSE, #searching = FALSE,
       order = list(list(2, 'desc'), list(7, 'desc'), list(0, 'asc')),
 
-      deferRender = TRUE,
+      # deferRender = TRUE,
       scrollY = "80vh",
       scrollCollapse = TRUE,
       scroller = TRUE,
@@ -476,13 +477,26 @@ if (render_rest) {
 
 ```{r, eval = TRUE, echo = FALSE}
 if (render_rest) {
+  sum_html <- as.character(tagList(bad_app_tags))
+  sum_html <- gsub("\n", "\\\\n", sum_html)
+  sum_html <- gsub("'", "\\'", sum_html)
+
   tagList(
     tags$h1("Failure logs:"),
     # selectInput(
     #   "logs_date", NULL,
     #   choices = sort(unique(logs$date), decreasing = TRUE)
     # ),
-    !!!bad_app_tags
+    tags$div(id = "app_summary"),
+    tags$script(HTML(paste0("
+      $(function() {
+        setTimeout(function() {
+          var sum_txt = '", sum_html, "';
+          $(\"#app_summary\").html(sum_txt);
+        }, ", length(unique_apps), ")
+      });
+    ")))
+    # !!!bad_app_tags
   )
 }
 ```
