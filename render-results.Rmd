@@ -400,6 +400,10 @@ logs_combined <-
 
 ```{r data_table, echo = FALSE, include = TRUE}
 if (render_rest && nrow(logs_combined) >= 0) {
+  # Do not warn about size of table being larger than 1.5 mb
+  # https://github.com/rstudio/DT/blob/ddcc9e91ffa00924ccffeb6ceee14dfb2e14c0b6/R/datatables.R#L397-L402
+  withr::local_options(list(DT.warn.size = FALSE))
+
   DT::datatable(
     logs_combined,
     rownames = FALSE,
@@ -414,8 +418,12 @@ if (render_rest && nrow(logs_combined) >= 0) {
       columnDefs = list(list(width = '30px', targets = seq(2, ncol(logs_combined) - 1))),
 
       info = FALSE, paging = FALSE, #searching = FALSE,
-      scrollY = "80vh",
       order = list(list(2, 'desc'), list(7, 'desc'), list(0, 'asc')),
+
+      deferRender = TRUE,
+      scrollY = "80vh",
+      scrollCollapse = TRUE,
+      scroller = TRUE,
 
       # Init the tooltips
       drawCallback =  htmlwidgets::JS("
