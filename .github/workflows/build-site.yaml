@@ -1,0 +1,71 @@
+on:
+  push:
+    branches: [__test_results]
+
+name: Build static site
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Only need current files
+          fetch-depth: 0
+
+      - name: Git config
+        shell: bash
+        # set local email to actor
+        # set local name to actor
+        # set to merge when pulling (used for test results)
+        # need to unset the extra header to allow for regular https push
+        # display config
+        run: |
+          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
+            git config --local user.name "${GITHUB_ACTOR}" && \
+            git config --local pull.rebase false && \
+            git config --local --unset http.https://github.com/.extraheader && \
+            git config --local --list
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: any::sessioninfo
+          cache-version: site-1
+          extra-packages: |
+            any::dplyr
+            any::tidyr
+            any::lubridate
+            any::jsonlite
+            any::shiny
+            any::progress
+            any::rmarkdown
+            any::bslib
+            any::rlang
+            any::DT
+            any::withr
+            any::fontawesome
+
+      - name: Run `build_site.R`
+        shell: Rscript {0}
+        run: |
+          source("build_site.R")
+
+      - name: Commit to git
+        shell: bash
+        run: |
+          SHA="${{ github.sha }}"
+          SHORT_SHA="${SHA:0:7}"
+
+          git add site && \
+            git commit -m "build site - rstudio/shinycoreci@$SHORT_SHA" || \
+            echo "No static site changes to commit"
