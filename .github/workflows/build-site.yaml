@@ -69,9 +69,8 @@ jobs:
 
       - name: Commit and Push to git
         shell: bash
-        with:
-          # Work inside `_gh-pages` folder
-          working-directory: _gh-pages
+        # Work inside `_gh-pages` folder
+        working-directory: _gh-pages
         run: |
           # set local email to actor
           # set local name to actor
