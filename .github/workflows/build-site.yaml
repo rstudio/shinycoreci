@@ -67,11 +67,6 @@ jobs:
         run: |
           source("build_site.R", echo = TRUE)
 
-      - name: Move `./docs` to `_gh-pages` folder
-        shell: bash
-        run: |
-          mv -fv ./docs ./_gh-pages
-
       - name: Commit and Push to git
         shell: bash
         run: |
@@ -93,7 +88,7 @@ jobs:
           SHORT_SHA="${SHA:0:7}"
 
           git add . && \
-            git commit -m "Build static docs - rstudio/shinycoreci@$SHORT_SHA"
+            git commit -m "Build static results - rstudio/shinycoreci@$SHORT_SHA"
           COMMIT_RESULT=$?
 
           if [ $COMMIT_RESULT -eq 0 ]; then

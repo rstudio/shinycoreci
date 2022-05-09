@@ -10,7 +10,8 @@ library(tidyr)
 library(lubridate)
 
 days_to_display <- 10
-save_folder <- "docs"
+# Works with save location of GHA folder location
+save_folder <- "_gh-pages/results"
 
 # # Pull in the repo location to view the test results
 # dir <- Sys.getenv("SHINYCORECI_VIEW_TEST_RESULTS", unset = "__unknown")
