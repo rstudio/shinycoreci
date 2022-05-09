@@ -143,15 +143,13 @@ status_vals <- c(
   as.list()
 pb <- progress::progress_bar$new(
   total = as.numeric(as.difftime(max_date - min_date)) + 1,
-  format = ":status [:bar] :date :current/:total eta::eta",
+  format = ":date :current/:total eta::eta - :status - :file",
   force = TRUE,
   show_after = 0,
   clear = FALSE
 )
 cur_date <- max_date
 while (cur_date >= min_date) {
-  pb$tick(0, tokens = list(status = status_vals$process, date = cur_date))
-
   save_file <- file.path(
     save_folder,
     pad2(lubridate::year(cur_date)),
@@ -159,6 +157,8 @@ while (cur_date >= min_date) {
     pad2(lubridate::day(cur_date)),
     "index.html"
   )
+  pb$tick(0, tokens = list(status = status_vals$process, date = cur_date, file = save_file))
+
 
   sub_df <- log_df %>% filter(
     date >= cur_date - lubridate::days(days_to_display),
@@ -205,7 +205,7 @@ while (cur_date >= min_date) {
     # Create the new dir
     dir.create(save_dir, showWarnings = FALSE, recursive = TRUE)
 
-    pb$tick(0, tokens = list(status = status_vals$reading, date = cur_date))
+    pb$tick(0, tokens = list(status = status_vals$reading, date = cur_date, file = save_file))
 
     sub_df <- sub_df %>%
       select(-date) %>%
@@ -217,7 +217,7 @@ while (cur_date >= min_date) {
       force()
 
     if (nrow(sub_df) > 0) {
-      pb$tick(0, tokens = list(status = status_vals$render, date = cur_date))
+      pb$tick(0, tokens = list(status = status_vals$render, date = cur_date, file = save_file))
 
       # Build the site
       rmarkdown::render(
@@ -241,6 +241,6 @@ while (cur_date >= min_date) {
 
 
   # increment and go again
-  pb$tick(1, tokens = list(status = status_vals$done, date = cur_date))
+  pb$tick(1, tokens = list(status = status_vals$done, date = cur_date, file = save_file))
   cur_date <- cur_date - lubridate::days(1)
 }

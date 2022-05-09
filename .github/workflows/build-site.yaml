@@ -69,10 +69,10 @@ jobs:
 
       - name: Commit and Push to git
         shell: bash
-        run: |
+        with:
           # Work inside `_gh-pages` folder
-          cd _gh-pages
-
+          working-directory: _gh-pages
+        run: |
           # set local email to actor
           # set local name to actor
           # set to merge when pulling (used for test results)
@@ -86,6 +86,9 @@ jobs:
 
           SHA="${{ github.sha }}"
           SHORT_SHA="${SHA:0:7}"
+
+          # See what's changed!
+          git status
 
           git add . && \
             git commit -m "Build static results - rstudio/shinycoreci@$SHORT_SHA"
