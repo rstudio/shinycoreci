@@ -7,12 +7,12 @@ on:
       - all
       - site
 
-name: Build static site
+name: Build static results
 
 jobs:
   build:
 
-    name: Build static site
+    name: Build static results
 
     runs-on: ubuntu-latest
 
