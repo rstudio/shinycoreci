@@ -11,7 +11,7 @@ library(lubridate)
 
 days_to_display <- 10
 # Works with save location of GHA folder location
-save_folder <- "_gh-pages/results"; dir.create(save_dir, showWarnings = FALSE, recursive = TRUE)
+save_folder <- "_gh-pages/results"; dir.create(save_folder, showWarnings = FALSE, recursive = TRUE)
 
 # # Pull in the repo location to view the test results
 # dir <- Sys.getenv("SHINYCORECI_VIEW_TEST_RESULTS", unset = "__unknown")
