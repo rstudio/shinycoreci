@@ -143,7 +143,8 @@ status_vals <- c(
   as.list()
 pb <- progress::progress_bar$new(
   total = as.numeric(as.difftime(max_date - min_date)) + 1,
-  format = ":date :current/:total eta::eta - :status - :file",
+  format = ":current/:total eta::eta; :date - :status - :file",
+  width = 100,
   force = TRUE,
   show_after = 0,
   clear = FALSE
