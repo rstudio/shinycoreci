@@ -300,14 +300,13 @@ logs_details <-
         )
       )
       perf_html <- as.character(perf_table)
-      perf_html <- gsub("\n", "\\\\n", perf_html)
-      perf_html <- gsub("'", "\\'", perf_html)
+      perf_txt <- jsonlite::asJSON(list(txt = perf_html))
       list(
         paste0("
           $(function() {
             setTimeout(function() {
-              var tbl_txt = '", perf_html, "';
-              $(\"#", id[[1]], "\").html(tbl_txt);
+              var tbl_obj = ", perf_txt, ";
+              $(\"#", id[[1]], "\").html(tbl_obj.txt);
             }, ", which(app_name[[1]] %in% unique_apps), ")
           });
         ")
@@ -480,8 +479,7 @@ tagList(
 
 ```{r, eval = render_rest, echo = FALSE}
 sum_html <- as.character(tagList(bad_app_tags))
-sum_html <- gsub("\n", "\\\\n", sum_html)
-sum_html <- gsub("'", "\\'", sum_html)
+sum_txt <- jsonlite::toJSON(list(txt = as.character(sum_html)))
 
 tagList(
   tags$h1("Failure logs:"),
@@ -493,8 +491,8 @@ tagList(
   tags$script(HTML(paste0("
     $(function() {
       setTimeout(function() {
-        var sum_txt = '", sum_html, "';
-        $(\"#app_summary\").html(sum_txt);
+        var sum_obj = ", sum_txt, ";
+        $(\"#app_summary\").html(sum_obj.txt);
       }, ", length(unique_apps), ")
     });
   ")))

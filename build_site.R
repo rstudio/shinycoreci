@@ -78,7 +78,6 @@ log_files <- Sys.glob("__test_results/*.json")
 
 log_df <-
   log_files %>%
-  # head(20) %>%
   lapply(file.info) %>%
   bind_rows() %>%
   {
@@ -95,7 +94,12 @@ log_df <-
       as.Date(as.POSIXct(time, format = "%Y_%m_%d_%H_%M", tz = "UTC"))
     },
   ) %>%
+  arrange(desc(date)) %>%
   force()
+
+if (interactive()) {
+  log_df <- head(log_df, 50)
+}
 
 
 min_date <- min(log_df$date)
