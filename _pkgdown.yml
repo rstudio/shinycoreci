@@ -8,3 +8,8 @@ template:
     primary: "#2380c2"
     navbar-background: "#e7f3fb"
   trailing_slash_redirect: true
+
+home:
+  links:
+  - text: Nightly Testing
+    href: ./results
