@@ -300,7 +300,7 @@ logs_details <-
         )
       )
       perf_html <- as.character(perf_table)
-      perf_txt <- jsonlite::asJSON(list(txt = perf_html))
+      perf_txt <- jsonlite::toJSON(list(txt = perf_html))
       list(
         paste0("
           $(function() {
