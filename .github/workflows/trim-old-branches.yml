@@ -45,6 +45,6 @@ jobs:
             echo "Branch: $k"
             if [ -z "$(git log -1 --since='1 week ago' -s origin/$k)" ]; then
               echo "-- Deleting branch: $k"
-              git push https://schloerke:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci-apps.git --delete $k
+              git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/rstudio/shinycoreci.git --delete $k
             fi
           done

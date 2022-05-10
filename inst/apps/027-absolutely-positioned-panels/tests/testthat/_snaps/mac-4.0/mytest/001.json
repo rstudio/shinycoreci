@@ -4,7 +4,7 @@
   },
   "output": {
     "plot": {
-      "src": "[image data sha1: e7f035e63f2d8a46bc776b16e56ba68c79711399]",
+      "src": "[image data hash: 2532e16365c4641ae0e784c048a042ca]",
       "width": 962,
       "height": 800,
       "alt": "Plot object",
@@ -39,7 +39,7 @@
       }
     },
     "plot2": {
-      "src": "[image data sha1: a585d52ed0fab3307af49adc27d709c3d7ac8cc1]",
+      "src": "[image data hash: 1abb5d5f8507102051c53a1793071050]",
       "width": 260,
       "height": 200,
       "alt": "Plot object",

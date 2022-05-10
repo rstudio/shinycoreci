@@ -6,7 +6,7 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: c5c69e0dadbd8da57b3f55589f02cd9854373947]",
+      "html": "[html data sha1: 5b856cd9ab8a9b204f2c27ef2260ff4bd5bb83e6]",
       "deps": [
         {
           "name": "jquery",
@@ -142,7 +142,7 @@
     },
     "out4f461eb96152fad3": "A",
     "out588bc784570505a1": {
-      "src": "[image data sha1: 3f0ef5c58ca4f6242335a596735e32006a81ba66]",
+      "src": "[image data hash: 924e69cf083f74e3fdde68d8ac868268]",
       "width": 150,
       "height": 40,
       "alt": "Plot object",
@@ -178,7 +178,7 @@
     },
     "outd713b92a568d73cd": "1",
     "outf944471fabb10bd8": {
-      "src": "[image data sha1: ddc2a39a73430d1cc99a2631871a16088175251b]",
+      "src": "[image data hash: 0ca5501aa69ffdce78d4848ad3711e03]",
       "width": 600,
       "height": 400,
       "alt": "Plot object",

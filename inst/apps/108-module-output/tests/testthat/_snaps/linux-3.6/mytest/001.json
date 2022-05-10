@@ -4,7 +4,7 @@
   },
   "output": {
     "scatters-plot1": {
-      "src": "[image data sha1: 1851946d5732b46f30768432f11bf4af89b5eb81]",
+      "src": "[image data hash: 20fc504d792d79d04cccd62f47ee903f]",
       "width": 455,
       "height": 400,
       "alt": "Plot object",
@@ -47,7 +47,7 @@
       }
     },
     "scatters-plot2": {
-      "src": "[image data sha1: a2a7c88abb34a3b0a3495b112ad75196f580d487]",
+      "src": "[image data hash: d2826cbd1674c0b55b96c82e584ed5bd]",
       "width": 455,
       "height": 400,
       "alt": "Plot object",

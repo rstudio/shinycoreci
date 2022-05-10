@@ -1,12 +1,12 @@
 {
   "input": {
     "action": 2,
-    "checkbox": false,
     "checkGroup": [
       "1",
       "2",
       "3"
     ],
+    "checkbox": false,
     "date": "2014-01-01",
     "dates": [
       "2014-01-01",
@@ -25,8 +25,8 @@
   },
   "output": {
     "actionOut": "[1] 2\nattr(,\"class\")\n[1] \"shinyActionButtonValue\" \"integer\"               ",
-    "checkboxOut": "[1] FALSE",
     "checkGroupOut": "[1] \"1\" \"2\" \"3\"",
+    "checkboxOut": "[1] FALSE",
     "dateOut": "[1] \"2014-01-01\"",
     "datesOut": "[1] \"2014-01-01\" \"2014-02-20\"",
     "fileOut": "NULL",

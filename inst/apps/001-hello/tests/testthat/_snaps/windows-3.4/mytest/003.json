@@ -4,7 +4,7 @@
   },
   "output": {
     "distPlot": {
-      "src": "[image data sha1: 8db6556addc7e996b4df3de1388b08a5d65ba12f]",
+      "src": "[image data hash: 801ec2310c3fb48a9efaecd0bebb4a29]",
       "width": 631,
       "height": 400,
       "alt": "Plot object",
@@ -18,10 +18,10 @@
               "top": 72.8
             },
             "range": {
-              "left": 59.0400093565784,
-              "right": 600.759995207606,
-              "bottom": 325.559981639995,
-              "top": 58.0400147600037
+              "left": 59.04,
+              "right": 600.76,
+              "bottom": 325.56,
+              "top": 58.04
             },
             "log": {
               "x": null,

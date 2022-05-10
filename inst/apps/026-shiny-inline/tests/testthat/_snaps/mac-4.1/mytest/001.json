@@ -9,20 +9,6 @@
       "html": "[html data sha1: 4c8e8eed5f6778ba772f8e9d1b2773641c2f5c13]",
       "deps": [
         {
-          "name": "header-attrs",
-          "version": "2.13",
-          "src": {
-            "href": "header-attrs-2.13"
-          },
-          "meta": null,
-          "script": "header-attrs.js",
-          "stylesheet": null,
-          "head": null,
-          "attachment": null,
-          "package": null,
-          "all_files": true
-        },
-        {
           "name": "jquery",
           "version": "3.6.0",
           "src": {

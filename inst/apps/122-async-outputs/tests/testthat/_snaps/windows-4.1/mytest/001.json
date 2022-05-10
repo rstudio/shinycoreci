@@ -26,14 +26,14 @@
       "escape": true
     },
     "image": {
-      "src": "[image data sha1: fd852df5478eb7eb9410ee9101bb364adf487fb0]"
+      "src": "[image data hash: cb41acc0ed5f59cc28103f8b83ee4404]"
     },
     "imagea": {
-      "src": "[image data sha1: fd852df5478eb7eb9410ee9101bb364adf487fb0]"
+      "src": "[image data hash: cb41acc0ed5f59cc28103f8b83ee4404]"
     },
     "plot": {
-      "src": "[image data sha1: d744441fe029b5f9efa1e0563f9849b220d95fea]",
-      "width": 383,
+      "src": "[image data hash: 86efa462920be2de49849db573612c28]",
+      "width": 376,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -47,7 +47,7 @@
             },
             "range": {
               "left": 59.04,
-              "right": 352.76,
+              "right": 345.76,
               "bottom": 325.56,
               "top": 58.04
             },
@@ -61,14 +61,15 @@
           }
         ],
         "dims": {
-          "width": 383,
+          "width": 376,
           "height": 400
         }
-      }
+      },
+      "error": null
     },
     "plota": {
-      "src": "[image data sha1: d744441fe029b5f9efa1e0563f9849b220d95fea]",
-      "width": 383,
+      "src": "[image data hash: 86efa462920be2de49849db573612c28]",
+      "width": 376,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -82,7 +83,7 @@
             },
             "range": {
               "left": 59.04,
-              "right": 352.76,
+              "right": 345.76,
               "bottom": 325.56,
               "top": 58.04
             },
@@ -96,10 +97,11 @@
           }
         ],
         "dims": {
-          "width": 383,
+          "width": 376,
           "height": 400
         }
-      }
+      },
+      "error": null
     },
     "print": "[1] \"hello\"",
     "print2": "[1] \"hello\"",

@@ -25,13 +25,13 @@ test_that("Migrated shinytest test: mytest.R", {
 
 
   app$set_inputs(`reactlog_module-refresh` = "click")
-  Sys.sleep(4)
+  Sys.sleep(4) # wait for reactlog to settle
   app$expect_values()
   app$expect_screenshot()
 
   app$set_inputs(dynamic = 14)
   app$set_inputs(`reactlog_module-refresh` = "click")
-  Sys.sleep(4)
+  Sys.sleep(4) # wait for reactlog to settle
   app$expect_values()
   app$expect_screenshot()
 
@@ -68,7 +68,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(dynamic = c("2020-01-08", "2020-01-31"))
 
   app$set_inputs(`reactlog_module-refresh` = "click")
-  Sys.sleep(4)
+  Sys.sleep(4) # wait for reactlog to settle
   app$expect_values()
   app$expect_screenshot()
 })

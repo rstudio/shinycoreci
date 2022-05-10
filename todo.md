@@ -71,17 +71,13 @@
 
 ## After merge
 - [x] `fix_all_gha_branches()`
-- [x] Remove radiant from deployment
-- [x] `view_test_diff()`; Removed
-- [ ] `view_test_results()`
-- [ ] `test_in_sso()` / `test_in_ssp()`
-- [ ] Test results should be printed to log on retry only
-- [x] Remove `test_path` from data structure; Use object class to parse old files
+- [x] `view_test_diff()`
+- [x] `view_test_results()`
+- [x] Remove `test_path` from data structure; Use version to parse old files
 - [ ] Test `test_in_ide()` in the IDE
+- [ ] test results should be printed to log
+- [ ] `test_in_sso()` / `test_in_ssp()`
 
 
-## Bad Images
-Prolly fix with min body height
-  * 063-superzip
-  * 114-modal-dialog
-  * 215-bslib-nav
+## Docker Notes
+Use Rocky Linux 8 instead of centos7

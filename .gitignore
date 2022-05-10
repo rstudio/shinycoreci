@@ -2,9 +2,12 @@
 .Rhistory
 shinyverse.png
 
+_gh-pages
+
 *.lic
 docs
 patches
 
 # Ignore all debug snapshots
 *_.png
+*_.new.png

@@ -6,7 +6,7 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 3a0d8957622a290e2064a8fc6eb4647318247df4]",
+      "html": "[html data sha1: 4c8e8eed5f6778ba772f8e9d1b2773641c2f5c13]",
       "deps": [
         {
           "name": "jquery",
@@ -140,9 +140,44 @@
         }
       ]
     },
-    "out092bb89e9393fda8": "1",
-    "out1ba546fb6de0170a": {
-      "src": "[image data sha1: ddc2a39a73430d1cc99a2631871a16088175251b]",
+    "out0a4534806ab07416": "A",
+    "outa859f0ffc8c7802f": {
+      "src": "[image data hash: 924e69cf083f74e3fdde68d8ac868268]",
+      "width": 150,
+      "height": 40,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 1739.6033333332,
+              "right": 1993.3133333368,
+              "bottom": -42.2400000024001,
+              "top": 296.0400000024
+            },
+            "range": {
+              "left": 0,
+              "right": 150,
+              "bottom": 39,
+              "top": -1
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 150,
+          "height": 40
+        }
+      }
+    },
+    "outc41ba546fb6de017": {
+      "src": "[image data hash: 0ca5501aa69ffdce78d4848ad3711e03]",
       "width": 600,
       "height": 400,
       "alt": "Plot object",
@@ -176,42 +211,7 @@
         }
       }
     },
-    "out4534806ab07416dc": "A",
-    "out59f0ffc8c7802ff4": {
-      "src": "[image data sha1: 3f0ef5c58ca4f6242335a596735e32006a81ba66]",
-      "width": 150,
-      "height": 40,
-      "alt": "Plot object",
-      "coordmap": {
-        "panels": [
-          {
-            "domain": {
-              "left": 1739.6033333332,
-              "right": 1993.3133333368,
-              "bottom": -42.2400000024001,
-              "top": 296.0400000024
-            },
-            "range": {
-              "left": 0,
-              "right": 150,
-              "bottom": 39,
-              "top": -1
-            },
-            "log": {
-              "x": null,
-              "y": null
-            },
-            "mapping": {
-
-            }
-          }
-        ],
-        "dims": {
-          "width": 150,
-          "height": 40
-        }
-      }
-    }
+    "outdc092bb89e9393fd": "1"
   },
   "export": {
 
