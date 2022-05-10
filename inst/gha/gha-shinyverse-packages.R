@@ -3,7 +3,7 @@
 shinyverse_remotes_file <- "R/data-shinyverse-remotes.R"
 stopifnot(file.exists(shinyverse_remotes_file))
 
-apps_deps_file <- "R/data-apps_deps.R"
+apps_deps_file <- "R/data-apps-deps.R"
 stopifnot(file.exists(apps_deps_file))
 
 source(shinyverse_remotes_file)
