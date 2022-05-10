@@ -43,10 +43,13 @@ test_in_local <- function(
   test_dt <- tibble::tibble(
     app_name = apps,
     status = ci_status$default,
-    result = replicate(length(apps), list())
+    result = replicate(length(apps), list()),
+    log = replicate(length(apps), "(not run yet)")
   )
 
-  run_test <- function(app_name) {
+  run_test <- function(app_name, show_output = TRUE) {
+
+    log_file <- tempfile("coreci-log-", fileext = ".log")
 
     tryCatch(
       {
@@ -55,6 +58,11 @@ test_in_local <- function(
             withr::with_envvar(
               list(NOT_CRAN = "true"),
               {
+                message("\n###\nRunning tests for app: ", basename(app_path_), "\n")
+                on.exit({
+                  message("\nStopping tests for app: ", basename(app_path_), "\n###")
+                }, add = TRUE)
+
                 shiny::runTests(
                   appDir = app_path_,
                   assert = FALSE
@@ -67,7 +75,9 @@ test_in_local <- function(
           ),
           libpath = libpath,
           timeout = timeout,
-          show = TRUE
+          stdout = log_file,
+          stderr = "2>&1",
+          show = show_output
         )
         result <- test_result$result[[1]]
         status <-
@@ -82,20 +92,23 @@ test_in_local <- function(
           }
         list(
           status = status,
-          result = result
+          result = result,
+          log_file = log_file
         )
       },
       error = function(e) {
         # return a failed test
         list(
           status = ci_status$fail,
-          result = e
+          result = e,
+          log_file = log_file
         )
       }
     )
   }
 
   # (break statements at beginning and end of while loop)
+  show_output <- FALSE
   while (TRUE) {
 
     # get all positions that should be tested
@@ -124,11 +137,21 @@ test_in_local <- function(
       ##   status = VAL,
       ##   result = VAL
       ## )
-      ans <- run_test(app_name)
+      ans <- run_test(app_name, show_output = show_output)
 
       # store result
+      log_content <-
+        if (file.exists(ans$log_file)) {
+          content <- paste0(readLines(ans$log_file), collapse = "\n")
+          unlink(ans$log_file)
+          content
+        } else {
+          "(no log file found)"
+        }
       test_dt$status[to_test_position] <- ans$status
       test_dt$result[to_test_position] <- list(ans$result)
+      test_dt$log[to_test_position] <- log_content
+
       # ans$status should _always_ be of length 1 (otherwise assignment above would fail)
       if (ans$status == ci_status$default) {
         utils::str(app_name)
@@ -142,6 +165,7 @@ test_in_local <- function(
       break
     }
     retries <- retries - 1
+    show_output <- TRUE
   }
 
   class(test_dt) <- c("shinycoreci_test_output", class(test_dt))
@@ -174,25 +198,9 @@ assert_test_output <- function(output) {
 
     content_ret <- mapply(
       sub_app_name,
-      sub_test_dt$result,
-      FUN = function(app_name, result) {
-
-        result_str <-
-          if (include_result) {
-            # TODO-barret; display rich results here
-            paste0(
-              "\n",
-              paste0(
-                utils::capture.output({
-                  print(result)
-                }),
-                collapse = "\n"
-              )
-            )
-          } else {
-            ""
-          }
-
+      sub_test_dt$log,
+      FUN = function(app_name, log) {
+        result_str <- if (include_result) log else ""
         paste0("* ", app_name, result_str)
       }
     )
