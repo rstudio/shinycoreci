@@ -11,8 +11,6 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  shinyjster::shinyjster_server(input, output)
-
   observe({
     insertUI(
       selector = "head",
