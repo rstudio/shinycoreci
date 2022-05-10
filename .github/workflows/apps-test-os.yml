@@ -134,7 +134,7 @@ jobs:
           color: warning
 
       - name: Install R, shinycoreci, and shinyverse
-        timeout-minutes: 45
+        timeout-minutes: 100 # windows may take a while
         uses: ./.github/internal/install-shinyverse
         with:
           r-version: ${{ inputs.r-version }}
