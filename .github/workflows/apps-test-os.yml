@@ -255,6 +255,12 @@ jobs:
         run: |
           CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
           echo "$CURRENT_BRANCH"
+          if [ "$CURRENT_BRANCH" != "$str2" ]; then
+            echo "Not on main branch. Not going to save results"
+            echo "Exiting! (safely)"
+            exit 0
+          fi
+
           git fetch origin _test_results
           git checkout _test_results --
 
