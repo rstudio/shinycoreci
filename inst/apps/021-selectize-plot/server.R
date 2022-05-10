@@ -26,7 +26,6 @@ function(input, output, session) {
       shiny:::httpResponse(
         200, 'image/png', readBin(image, 'raw', file.info(image)[, 'size'])
       )
-
     }
   )
 

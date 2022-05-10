@@ -1,3 +1,4 @@
+
 library(tm)
 library(wordcloud)
 library(memoise)
@@ -26,8 +27,8 @@ getTermMatrix <- memoise(function(book) {
 
   myDTM = TermDocumentMatrix(myCorpus,
               control = list(minWordLength = 1))
-  
+
   m = as.matrix(myDTM)
-  
+
   sort(rowSums(m), decreasing = TRUE)
 })
