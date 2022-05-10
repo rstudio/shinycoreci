@@ -2,12 +2,9 @@
 % Please edit documentation in R/save-test-results.R
 \name{save_test_results}
 \alias{save_test_results}
-\alias{view_test_results}
 \title{View (and save) \code{test_in_local()} output}
 \usage{
 save_test_results(output, gha_branch_name, pr_number, username, repo_dir = ".")
-
-view_test_results(repo_dir = ".")
 }
 \arguments{
 \item{output}{output from \code{test_in_local()}.}

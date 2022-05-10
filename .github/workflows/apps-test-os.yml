@@ -134,7 +134,7 @@ jobs:
           color: warning
 
       - name: Install R, shinycoreci, and shinyverse
-        timeout-minutes: 45
+        timeout-minutes: 100 # windows may take a while
         uses: ./.github/internal/install-shinyverse
         with:
           r-version: ${{ inputs.r-version }}
@@ -254,6 +254,13 @@ jobs:
         # https://stackoverflow.com/questions/34100048/github-create-empty-branch)
         run: |
           CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          echo "$CURRENT_BRANCH"
+          if [ "$CURRENT_BRANCH" != "$str2" ]; then
+            echo "Not on main branch. Not going to save results"
+            echo "Exiting! (safely)"
+            exit 0
+          fi
+
           git fetch origin _test_results
           git checkout _test_results --
 

@@ -70,13 +70,13 @@
 - [x] `./docker.R`
 
 ## After merge
-- [ ] `fix_all_gha_branches()`
-- [ ] `test_in_sso()` / `test_in_ssp()`
-- [ ] `view_test_diff()`
-- [ ] `view_test_results()`
-- [ ] test results should be printed to log
-- [ ] Remove `test_path` from data structure; Use version to parse old files
+- [x] `fix_all_gha_branches()`
+- [x] `view_test_diff()`
+- [x] `view_test_results()`
+- [x] Remove `test_path` from data structure; Use version to parse old files
 - [ ] Test `test_in_ide()` in the IDE
+- [ ] test results should be printed to log
+- [ ] `test_in_sso()` / `test_in_ssp()`
 
 
 ## Docker Notes

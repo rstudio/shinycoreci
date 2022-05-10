@@ -3,8 +3,14 @@
 shinyverse_remotes_file <- "R/data-shinyverse-remotes.R"
 stopifnot(file.exists(shinyverse_remotes_file))
 
+apps_deps_file <- "R/data-apps-deps.R"
+stopifnot(file.exists(apps_deps_file))
+
 source(shinyverse_remotes_file)
 stopifnot(length(shinyverse_remotes) > 0)
+
+source(apps_deps_file)
+stopifnot(length(apps_deps) > 0)
 
 # Very difficult to have both urls and remotes mixed. Does not really work in practice
 # Ex:
@@ -24,8 +30,14 @@ stopifnot(length(shinyverse_remotes) > 0)
 # )
 
 cat(
-  "::set-output name=remotes::",
-  paste0(shinyverse_remotes, collapse = ","),
+  "::set-output name=packages::",
+  paste0(
+    c(
+      shinyverse_remotes,
+      paste0("any::", apps_deps)
+    ),
+    collapse = ","
+  ),
   "\n",
   sep = ""
 )

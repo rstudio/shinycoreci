@@ -16,15 +16,11 @@ save_test_results <- function(output, gha_branch_name, pr_number, username, repo
   }
   repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
 
-  # Make the results serializable (result contain conditions, data frames, etc)
-  message("TODO-barret; Make results more verbose given testthat output")
-  output$result <- vapply(
-    output$result,
-    function(x) {
-      paste0(utils::capture.output({print(x)}), collapse = "\n")
-    },
-    character(1)
-  )
+  # The "result" is displayed as logs. Overwrite the result with the log value.
+  # Remove the original log content
+  # TODO-future - Should the result be removed if the status is "pass"?
+  output$result <- output$log
+  output$log <- NULL
 
   # Attach some other meta-data to the test results
   val <- list(
@@ -49,23 +45,4 @@ save_test_results <- function(output, gha_branch_name, pr_number, username, repo
 
   cat(jsonlite::toJSON(val, auto_unbox = TRUE), file = results_file)
   invisible(val)
-}
-
-
-
-#' @rdname test-results
-#' @export
-view_test_results <- function(repo_dir = ".") {
-  stop("TODO-barret; Need to have runs on GHA; Need to update app to handle different data structures")
-
-  repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
-  if ("shinycoreci" != basename(repo_dir)) {
-    warning("This function should be called from the shinycoreci repo")
-  }
-
-  Sys.setenv("SHINYCORECI_VIEW_TEST_RESULTS" = repo_dir)
-  on.exit({
-    Sys.unsetenv("SHINYCORECI_VIEW_TEST_RESULTS")
-  }, add = TRUE)
-  shiny::shinyAppDir(system.file("view_test_diff", package = "shinycoreci"))
 }
