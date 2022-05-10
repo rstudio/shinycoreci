@@ -120,7 +120,7 @@ test_in_local <- function(
 
     pb <- progress_bar(
       total = length(to_test_positions),
-      format = "[:current/:total;:elapsed;:eta] :app\n"
+      format = "[:current/:total;:elapsed;:eta] :app"
     )
     # for each file position...
     for (to_test_position in to_test_positions) {
