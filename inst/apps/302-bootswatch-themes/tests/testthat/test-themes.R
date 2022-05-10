@@ -61,6 +61,7 @@ themes <-
 pb <- progress::progress_bar$new(
   format = "\n:name [:bar] :current/:total eta::eta\n",
   total = length(themes),
+  force = TRUE,
   show_after = 0
 )
 for (theme in themes) {
