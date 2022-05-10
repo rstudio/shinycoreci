@@ -254,6 +254,7 @@ jobs:
         # https://stackoverflow.com/questions/34100048/github-create-empty-branch)
         run: |
           CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          echo "$CURRENT_BRANCH"
           git fetch origin _test_results
           git checkout _test_results --
 
