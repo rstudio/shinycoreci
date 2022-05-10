@@ -31,11 +31,11 @@ runs:
       # https://unix.stackexchange.com/a/548473
       run: sudo apt-get install -y fonts-arphic-ukai fonts-arphic-uming
 
-    - name: Gather remotes
+    - name: Gather remotes and app deps
       id: shinyverse
       shell: Rscript {0}
       run: |
-        source("inst/gha/gha-shinyverse-remotes.R")
+        source("inst/gha/gha-shinyverse-packages.R")
 
     - name: Install R, shinycoreci, and shinyverse
       uses: rstudio/shiny-workflows/setup-r-package@v1
@@ -46,5 +46,5 @@ runs:
         pandoc-version: ${{ inputs.pandoc-version }}
         extra-packages:
           local::.
-          ${{ steps.shinyverse.outputs.remotes }}
+          ${{ steps.shinyverse.outputs.packages }}
           ${{ inputs.extra-packages }}
