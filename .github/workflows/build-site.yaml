@@ -5,7 +5,7 @@ on:
   repository_dispatch:
     types:
       - all
-      - site
+      - results
 
 name: Build static results
 
