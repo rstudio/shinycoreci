@@ -63,3 +63,12 @@ trigger_docker <- function(
 ) {
   trigger("docker", repo = repo, auth_token = auth_token)
 }
+
+#' @export
+#' @rdname trigger
+trigger_results <- function(
+  repo = "rstudio/shinycoreci",
+  auth_token = Sys.getenv("GITHUB_PAT")
+) {
+  trigger("results", repo = repo, auth_token = auth_token)
+}

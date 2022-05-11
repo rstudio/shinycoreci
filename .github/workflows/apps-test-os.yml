@@ -290,6 +290,9 @@ jobs:
             git pull origin _test_results
           done
 
+          # Build the results static site
+          R --quiet -e "shinycoreci::trigger_results()"
+
           git checkout ${{ steps.current_branch.outputs.name }}
 
 
