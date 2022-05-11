@@ -5,6 +5,7 @@
 \alias{trigger_tests}
 \alias{trigger_deploy}
 \alias{trigger_docker}
+\alias{trigger_results}
 \title{Generate a repository event.}
 \usage{
 trigger(
@@ -25,6 +26,11 @@ trigger_deploy(
 )
 
 trigger_docker(
+  repo = "rstudio/shinycoreci",
+  auth_token = Sys.getenv("GITHUB_PAT")
+)
+
+trigger_results(
   repo = "rstudio/shinycoreci",
   auth_token = Sys.getenv("GITHUB_PAT")
 )

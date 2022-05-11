@@ -165,17 +165,16 @@ This repo contains several [GitHub Actions](https://github.com/features/actions)
 The **runTests** workflow runs automatically on every code change to `shinycoreci-apps` as well as every night (around midnight UTC). The other workflows may be triggered via `shinycoreci::trigger_docker()` and `shinycoreci::trigger_deploy()`
 
 
-### `_test_results`'s `build-site.yaml`
 
-Location of `build-site.yaml` workflow file: https://github.com/rstudio/shinycoreci/blob/_test_results/.github/workflows/build-site.yaml
+### `build-results.yml`
 
-Goal: Process all results to static files and push new outputs to `gh-pages` website
+Goal: After `apps-test-matrix.yml` has completed, process all results in `_test_results` branch into static files and push new outputs to `gh-pages` website
 
 Final website location of results: https://rstudio.github.io/shinycoreci/results/
 
 #### Actions performed
 
-On push to `_test_results` branch...
+On completion of `apps-test-matrix.yml`...
 
 * GHA will check out the latest `_test_results` branch into the local folder.
 * GHA will check out the latest `gh-pages` branch into the `./_gh-pages` folder.

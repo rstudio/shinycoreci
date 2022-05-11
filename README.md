@@ -59,7 +59,9 @@ Tools for manual and automated testing of shiny apps.
 
 ## Running manual tests
 
-First, clone the shinycoreci-apps repo. Next, install [`remotes::install_github("rstudio/shinycoreci")`](https://github.com/rstudio/shinycoreci). You may need to add your `GITHUB_PAT` to your R Environ file (See `?usethis::edit_r_environ` and `?usethis::browse_github_pat`)
+First, install the `{shinycoreci}` repo via {pak} (from instructions above). Before running any tests, you may need to add your `GITHUB_PAT` to your R Environ file (See `?usethis::edit_r_environ` and `?usethis::browse_github_pat`)
+
+Commands used to test in different situations:
 
   - [RStudio IDE](https://rstudio.com/products/rstudio/download/#download) - `shinycoreci::test_in_ide()`
   - [RStudio Cloud](http://rstudio.cloud) - `shinycoreci::test_in_ide()`
@@ -82,44 +84,41 @@ All testing functions may be run from within the IDE (except for R Terminal / R 
 
 # Install the latest from pak
 pak::pkg_install("rstudio/shinycoreci")
+
 # Install shinyverse
 # Run all manual tests
 shinycoreci::test_in_ide()
 ```
 
-<!--
-## View and manage automated test results
+## View the latest test results
 
-To view and manage test results, first make sure your working directory is the `shinycoreci-apps` repo.
+To view the latest test results, please visit <https://rstudio.github.io/shinycoreci/results/>. This link will update to the latest results when they are pushed.
 
-Use `shinycoreci::view_test_results()` to obtain an overview of the most recent test runs (it should prompt a **shiny** app that looks similar to this):
+<!-- Use `shinycoreci::view_test_results()` to obtain an overview of the most recent test runs (it should prompt a **shiny** app that looks similar to this):
 
 <div align="center">
   <img src="README_files/view-test-results.png" />
-</div>
+</div> -->
 
-If you see failures that indicate a difference in **shinytest2** baselines (as above), you may need to just view and approve the differences.
+If you see failures, this indicates that a test has failed. If it is related to a `{shinytest2}` snapshot failure, we can view and approve these failures with `shinycoreci::fix_snaps()`. Your working directory must be in a local checkout of the `rstudio/shinycoreci` repo. Once `shinycoreci::fix_snaps()` has finished running, use [GitHub Desktop](https://desktop.github.com/) to view the changes.
 
-To obtain and correct the shinytest differences, use `shinycoreci::fix_all_gha_branches()`. This function will walk you through the steps needed to update all `shinytest` failures and merge in the latest information from each `gha-` branch.  To approve the differences, click on the "Update & click" button. To reject the differences, click on "Quit" button.
+If you receive the error `No information found for sha: ABC1234 . Do you have a valid sha?`, you may have to provide the git sha value directly: `shinycoreci::fix_snaps(sha = "XYZ5678")`.
 
-If you receive the error `No information found for sha: ABC1234 . Do you have a valid sha?`, you may have to provide the git sha value directly: `shinycoreci::fix_all_gha_branches(sha = "XYZ5678")`.
-
-In the event that all testing failures can not be addressed by updating shinytest baselines, have a look at the [GHA actions](https://github.com/rstudio/shinycoreci-apps/actions) build log and keep the following troubleshooting tips in mind:
--->
+In the event that all testing failures can not be addressed by updating `{shinytest2}` baselines, have a look at the [GHA actions](https://github.com/rstudio/shinycoreci/actions) build log and keep the following troubleshooting tips in mind:
 
 ### Troubleshooting test failures
 
 1.  Failures on old versions of R
 
-If a testing app passes on recent version(s) of R, but fails in a suprising way on old R version(s), it may be due to an old R package version. In that case, modify the tests to run only if a sufficient version of the relevant package is available ([for example](https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/145-dt-replacedata/tests/shinytest.R)).
+If a testing app passes on recent version(s) of R, but fails in a suprising way on old R version(s), it may be due to an old R package version. In that case, modify the tests to run only if a sufficient version of the relevant package is available ([for example](https://github.com/rstudio/shinycoreci/blob/d8f627bea573cf7bb7a53788522f04d90aeb557f/inst/apps/145-dt-replacedata/tests/testthat/test-mytest.R)).
 
 2.  Other failures that can’t replicated locally
 
-Other surprising failures are often the result of timing issues (which can be difficult, if not impossible, to replicate locally). If your testing app uses dynamic UI and/or doesn’t have proper input/output bindings, **shinytest** probably needs to know how long to wait for value(s) to update (in this case, use `waitForValue()`, [for example](https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/021-selectize-plot/tests/shinytest/mytest.R#L10-L11)). Somewhat similarly, when checking DOM values with **shinyjster**, you may need to wait for an update to DOM element(s) before checking value(s), in which case you can write a recursive function that keeps calling itself until the DOM is ready ([for example](https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/187-navbar-collapse/app.R#L24-L34)).
+Other surprising failures are often the result of timing issues (which can be difficult, if not impossible, to replicate locally). If your testing app uses dynamic UI and/or doesn’t have proper input/output bindings, **shinytest2** probably needs to know how long to wait for value(s) to update (in this case, use `app$wait_for_idle()`, [for example](https://github.com/rstudio/shinycoreci/blob/46cdf9df12ee665d5ac77f85eb22f511ce8a4fe6/inst/apps/135-bookmark-uioutput/tests/testthat/test-mytest.R#L6)). Somewhat similarly, when checking DOM values with **shinyjster**, you may need to wait for an update to DOM element(s) before checking value(s), in which case you can write a recursive function that keeps calling itself until the DOM is ready ([for example](https://github.com/rstudio/shinycoreci/blob/46cdf9df12ee665d5ac77f85eb22f511ce8a4fe6/inst/apps/187-navbar-collapse/app.R#L27-L36)).
 
 3.  All of the windows shinytest plots have failed
 
-When Windows virtual images update on GitHub Actions, the graphics device may behave exactly as the prior graphics device. Check to see if your windows `Image Version` has updated. (To view this, inspect the top lines in `./apps/sys-info-win-XX.txt` for a change.) You should accept the updated shinytest output for the build with the higher `Image Version`.
+When Windows virtual images update on GitHub Actions, the graphics device may behave exactly as the prior graphics device. Check to see if your windows `Image Version` has updated. (To view this, inspect the top lines in `./inst/apps/sys-info-win-XX.txt` for a change.) You should accept the updated shinytest output for the build with the higher `Image Version`.
 
 ## Contribute a testing app
 
@@ -132,7 +131,7 @@ When contributing a testing app, try to do the following:
 
 Note that **shinycoreci** only supports `{testthat}` testing framework. Call `shinytest2::use_shinytest2(APP_DIR)` to use `{shinytest2}` and `{testthat}`
 
-1.  **shinytest**: primarily useful for taking screenshots of shiny output binding(s) (before or after interacting with **shiny** input bindings). [See here](https://github.com/rstudio/shinycoreci-apps/blob/5691d1f/apps/001-hello/tests/shinytest/mytest.R) for an example (note that `shinytest::recordTest()` can be used to generate shinytest testing scripts).
+1.  **shinytest2**: primarily useful for taking screenshots of shiny output binding(s) (before or after interacting with **shiny** input bindings). [See here](https://github.com/rstudio/shinycoreci/blob/d8f627bea573cf7bb7a53788522f04d90aeb557f/inst/apps/001-hello/tests/testthat/test-mytest.R) for an example (note that `shinytest2::record_test()` can be used to generate shinytest2 testing scripts).
 
 2.  **shinyjster**: primarily useful for asserting certain expectations about the DOM (in JavaScript). [See here](https://github.com/rstudio/shinycoreci-apps/blob/5691d1f/apps/001-hello/app.R#L37-L61) for an example (note that `shinyjster::shinyjster_js()` needs to be placed in the UI and `shinyjster::shinyjster_server(input, output)` needs to be placed in the server).
 
@@ -141,7 +140,6 @@ Note that **shinycoreci** only supports `{testthat}` testing framework. Call `sh
 <!-- end list -->
 
   - [See here](https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/001-hello/tests/testthat/tests.R#L4) for an example.
-  - Call `shinycoreci::use_tests_testthat(app_dir)` to provide the file scaffolding necessary to run the **testthat** tests
 
 ## Pruning old git branches
 
@@ -161,17 +159,34 @@ This repo contains several [GitHub Actions](https://github.com/features/actions)
 
 The **runTests** workflow runs automatically on every code change to `shinycoreci-apps` as well as every night (around midnight UTC). The other workflows may be triggered via `shinycoreci::trigger_docker()` and `shinycoreci::trigger_deploy()`
 
-<!--
-### Managing R package dependencies
+### `_test_results`’s `build-site.yaml`
 
-"Core" `shinycoreci-apps` R package dependencies come from **shinycoreci**'s [DESCRIPTION file](https://github.com/rstudio/shinycoreci/blob/master/DESCRIPTION); and so, that file may be modified to test different versions of different packages in the shinyverse.
+Location of `build-site.yaml` workflow file: <https://github.com/rstudio/shinycoreci/blob/_test_results/.github/workflows/build-site.yaml>
 
-Application-specific R package dependencies are automatically inferred (and installed at run-time) using `renv::dependencies()`.
+Goal: Process all results to static files and push new outputs to `gh-pages` website
 
-> Note: `renv::dependencies()` are taken from CRAN, not GitHub Remotes.
- -->
+Final website location of results: <https://rstudio.github.io/shinycoreci/results/>
 
-## FAQ:
+#### Actions performed
+
+On push to `_test_results` branch…
+
+  - GHA will check out the latest `_test_results` branch into the local folder.
+  - GHA will check out the latest `gh-pages` branch into the `./_gh-pages` folder.
+  - GHA will install R and necessary package dependencies.
+  - Run `./build_site.R`
+      - Read the *modify times* of each file in `_test_results` and processing files
+      - Compare *modify times* to *modify times* of output files
+      - If any input file is newer than the output file, reprocess the documen
+      - If reprocessing, render `./render-results.Rmd` given proper subset of data
+          - Save output to \`./\_gh-pages/results/YEAR/MONTH/DAY/index.html
+      - Update `./_gh-pages/results/index.html` to redirect to the most recent results
+  - Within the `./_gh-pages` directory
+      - Add any files that have been altered
+      - Commit and push back any changes to the `gh-pages` website
+          - Final results are
+
+# FAQ:
 
 If you run into an odd `{pak}` installation issue:
 

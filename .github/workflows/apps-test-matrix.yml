@@ -14,6 +14,7 @@ on:
   repository_dispatch:
     types:
       - all
+      # Trigger with `shinycoreci::trigger_tests()`
       - test
 
 jobs:
