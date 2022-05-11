@@ -19,6 +19,20 @@ chown shiny.shiny /var/log/shiny-server
 
 retail /var/log/shiny-server/ &
 
+# activate license for SSP from mounted volume
+if grep -Fq "Shiny Server PRO" "/srv/shiny-server/__version"
+then
+  if [[ ! -f "/opt/license/ssp.lic" ]] ; then
+    echo "Please mount the SSP license to `/opt/license`"
+    echo "Add to command: -v LOCAL_LICENSE_FOLDER:/opt/license"
+    exit 1
+  fi
+
+  wc -l /opt/license/ssp.lic && \
+    /opt/shiny-server/bin/license-manager activate-file /opt/ssp.lic > /dev/null 2>&1
+fi
+
+
 echo ""
 echo ""
 echo "Starting `cat /srv/shiny-server/__version` ..."
