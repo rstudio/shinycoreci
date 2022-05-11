@@ -1,17 +1,19 @@
 # To build, cd to this directory, then:
-#   docker build --build-arg SSP_LICENSE_FILE="ssp-rstudio-license-2024-09-06.lic" -t rstudio/shinycoreci:ssp-4.1-focal .
-#   docker build --build-arg EXTRA_BASE_TAG=-rc_v1.4.0.1 --build-arg SSP_LICENSE_FILE="ssp-rstudio-license-2024-09-06.lic" -t rstudio/shinycoreci:ssp-4.1-focal-rc_v1.4.0.1 .
+#   docker build -t ghcr.io/rstudio/shinycoreci:ssp-4.2-focal .
+#   docker build --build-arg EXTRA_BASE_TAG=-rc_v1.4.0.1 -t rstudio/shinycoreci:ssp-4.2-focal-rc_v1.4.0.1 .
+
+# -v /local/path/to/file1:/container/path/to/file.txt
 
 # To run:
-#   docker run --rm -p 4949:3838 --name ssp_bionic rstudio/shinycoreci:ssp-4.1-focal
-#   docker run --rm -p 4949:3838 --name ssp_bionic rstudio/shinycoreci:ssp-4.1-focal-rc_v1.4.0.1
+#   docker run --rm -p 4949:3838 -v license_folder:/opt/license rstudio/shinycoreci:ssp-4.2-focal --name ssp_focal rstudio/shinycoreci:ssp-4.2-focal
+#   docker run --rm -p 4949:3838 --name ssp_focal rstudio/shinycoreci:ssp-4.2-focal-rc_v1.4.0.1
 
-ARG R_VERSION=4.1
+ARG R_VERSION=4.2
 ARG RELEASE=focal
 ARG EXTRA_BASE_TAG=
 FROM ghcr.io/rstudio/shinycoreci:base-${R_VERSION}-${RELEASE}${EXTRA_BASE_TAG}
 
-ARG R_VERSION=4.1
+ARG R_VERSION=4.2
 ARG RELEASE=focal
 ARG EXTRA_BASE_TAG=
 
@@ -32,12 +34,6 @@ RUN apt-get update && apt-get install -y gdebi-core && \
   rm -f ssp-latest.deb && \
   rm /srv/shiny-server/index.html
 
-# activate license
-ARG SSP_LICENSE_FILE
-COPY ${SSP_LICENSE_FILE} ssp.lic
-RUN wc -l ssp.lic && \
-  /opt/shiny-server/bin/license-manager activate-file ssp.lic > /dev/null 2>&1 && \
-  rm ssp.lic
 
 RUN echo "${R_VERSION}-${RELEASE}${EXTRA_BASE_TAG} Shiny Server PRO: `cat version.txt`\n" >> /srv/shiny-server/__version && \
   rm -f version.txt
