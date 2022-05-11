@@ -109,6 +109,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Gather branch name
+        id: current_branch
+        shell: bash
+        run: |
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          echo "::set-output name=name::$CURRENT_BRANCH"
+
       - name: Collect changed file names
         if: github.event_name == 'pull_request'
         id: files_changed
@@ -232,7 +239,6 @@ jobs:
             git commit -m '`sysinfo` Changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}' || \
             echo "No apps/sysinfo-* changes to commit"
 
-          echo "TODO-barret; Perform this in many many commits, not a single massive commit"
           git add inst/apps && \
             git commit -m 'App changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}'|| \
             echo "No app changes to commit"
@@ -246,6 +252,8 @@ jobs:
             git push --force "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" "HEAD:${{ steps.gha_branch.outputs.name }}"
           fi
 
+          git checkout ${{ steps.current_branch.outputs.name }}
+
       - name: Push test results to rstudio/shinycoreci
         if: always()
         shell: bash
@@ -253,9 +261,7 @@ jobs:
         # (this assumes the __test_results branch already exists, which was setup manually like this
         # https://stackoverflow.com/questions/34100048/github-create-empty-branch)
         run: |
-          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          echo "$CURRENT_BRANCH"
-          if [ "$CURRENT_BRANCH" != "$str2" ]; then
+          if [ "${{ steps.current_branch.outputs.name }}" != "main" ]; then
             echo "Not on main branch. Not going to save results"
             echo "Exiting! (safely)"
             exit 0
@@ -284,7 +290,7 @@ jobs:
             git pull origin _test_results
           done
 
-          git checkout $CURRENT_BRANCH
+          git checkout ${{ steps.current_branch.outputs.name }}
 
 
       - name: Notify slack SUCCESS
