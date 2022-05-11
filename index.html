@@ -108,7 +108,8 @@
 <div class="section level2">
 <h2 id="running-manual-tests">Running manual tests<a class="anchor" aria-label="anchor" href="#running-manual-tests"></a>
 </h2>
-<p>First, clone the shinycoreci-apps repo. Next, install <a href="https://github.com/rstudio/shinycoreci" class="external-link"><code>remotes::install_github("rstudio/shinycoreci")</code></a>. You may need to add your <code>GITHUB_PAT</code> to your R Environ file (See <code>?usethis::edit_r_environ</code> and <code>?usethis::browse_github_pat</code>)</p>
+<p>First, install the <a href="https://github.com/rstudio/shinycoreci" class="external-link">shinycoreci</a> repo via {pak} (from instructions above). Before running any tests, you may need to add your <code>GITHUB_PAT</code> to your R Environ file (See <code>?usethis::edit_r_environ</code> and <code>?usethis::browse_github_pat</code>)</p>
+<p>Commands used to test in different situations:</p>
 <ul>
 <li>
 <a href="https://rstudio.com/products/rstudio/download/#download" class="external-link">RStudio IDE</a> - <code><a href="reference/test_in_ide.html">shinycoreci::test_in_ide()</a></code>
@@ -141,38 +142,32 @@
 
 <span class="co"># Install the latest from pak</span>
 <span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="http://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"rstudio/shinycoreci"</span><span class="op">)</span>
+
 <span class="co"># Install shinyverse</span>
 <span class="co"># Run all manual tests</span>
 <span class="fu">shinycoreci</span><span class="fu">::</span><span class="fu"><a href="reference/test_in_ide.html">test_in_ide</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<!--
-## View and manage automated test results
-
-To view and manage test results, first make sure your working directory is the `shinycoreci-apps` repo.
-
-Use `shinycoreci::view_test_results()` to obtain an overview of the most recent test runs (it should prompt a **shiny** app that looks similar to this):
+</div>
+</div>
+<div class="section level2">
+<h2 id="view-the-latest-test-results">View the latest test results<a class="anchor" aria-label="anchor" href="#view-the-latest-test-results"></a>
+</h2>
+<p>To view the latest test results, please visit <a href="https://rstudio.github.io/shinycoreci/results/" class="uri">https://rstudio.github.io/shinycoreci/results/</a>. This link will update to the latest results when they are pushed.</p>
+<!-- Use `shinycoreci::view_test_results()` to obtain an overview of the most recent test runs (it should prompt a **shiny** app that looks similar to this):
 
 <div align="center">
   <img src="README_files/view-test-results.png" />
-</div>
-
-If you see failures that indicate a difference in **shinytest2** baselines (as above), you may need to just view and approve the differences.
-
-To obtain and correct the shinytest differences, use `shinycoreci::fix_all_gha_branches()`. This function will walk you through the steps needed to update all `shinytest` failures and merge in the latest information from each `gha-` branch.  To approve the differences, click on the "Update & click" button. To reject the differences, click on "Quit" button.
-
-If you receive the error `No information found for sha: ABC1234 . Do you have a valid sha?`, you may have to provide the git sha value directly: `shinycoreci::fix_all_gha_branches(sha = "XYZ5678")`.
-
-In the event that all testing failures can not be addressed by updating shinytest baselines, have a look at the [GHA actions](https://github.com/rstudio/shinycoreci-apps/actions) build log and keep the following troubleshooting tips in mind:
--->
-</div>
+</div> --><p>If you see failures, this indicates that a test has failed. If it is related to a <a href="https://github.com/rstudio/shinytest2" class="external-link">shinytest2</a> snapshot failure, we can view and approve these failures with <code><a href="reference/fix_snaps.html">shinycoreci::fix_snaps()</a></code>. Your working directory must be in a local checkout of the <code>rstudio/shinycoreci</code> repo. Once <code><a href="reference/fix_snaps.html">shinycoreci::fix_snaps()</a></code> has finished running, use <a href="https://desktop.github.com/" class="external-link">GitHub Desktop</a> to view the changes.</p>
+<p>If you receive the error <code>No information found for sha: ABC1234 . Do you have a valid sha?</code>, you may have to provide the git sha value directly: <code>shinycoreci::fix_snaps(sha = "XYZ5678")</code>.</p>
+<p>In the event that all testing failures can not be addressed by updating <a href="https://github.com/rstudio/shinytest2" class="external-link">shinytest2</a> baselines, have a look at the <a href="https://github.com/rstudio/shinycoreci/actions" class="external-link">GHA actions</a> build log and keep the following troubleshooting tips in mind:</p>
 <div class="section level3">
 <h3 id="troubleshooting-test-failures">Troubleshooting test failures<a class="anchor" aria-label="anchor" href="#troubleshooting-test-failures"></a>
 </h3>
 <ol style="list-style-type: decimal"><li>Failures on old versions of R</li></ol>
-<p>If a testing app passes on recent version(s) of R, but fails in a suprising way on old R version(s), it may be due to an old R package version. In that case, modify the tests to run only if a sufficient version of the relevant package is available (<a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/145-dt-replacedata/tests/shinytest.R" class="external-link">for example</a>).</p>
+<p>If a testing app passes on recent version(s) of R, but fails in a suprising way on old R version(s), it may be due to an old R package version. In that case, modify the tests to run only if a sufficient version of the relevant package is available (<a href="https://github.com/rstudio/shinycoreci/blob/d8f627bea573cf7bb7a53788522f04d90aeb557f/inst/apps/145-dt-replacedata/tests/testthat/test-mytest.R" class="external-link">for example</a>).</p>
 <ol start="2" style="list-style-type: decimal"><li>Other failures that can’t replicated locally</li></ol>
-<p>Other surprising failures are often the result of timing issues (which can be difficult, if not impossible, to replicate locally). If your testing app uses dynamic UI and/or doesn’t have proper input/output bindings, <strong>shinytest</strong> probably needs to know how long to wait for value(s) to update (in this case, use <code>waitForValue()</code>, <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/021-selectize-plot/tests/shinytest/mytest.R#L10-L11" class="external-link">for example</a>). Somewhat similarly, when checking DOM values with <strong>shinyjster</strong>, you may need to wait for an update to DOM element(s) before checking value(s), in which case you can write a recursive function that keeps calling itself until the DOM is ready (<a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/187-navbar-collapse/app.R#L24-L34" class="external-link">for example</a>).</p>
+<p>Other surprising failures are often the result of timing issues (which can be difficult, if not impossible, to replicate locally). If your testing app uses dynamic UI and/or doesn’t have proper input/output bindings, <strong>shinytest2</strong> probably needs to know how long to wait for value(s) to update (in this case, use <code>app$wait_for_idle()</code>, <a href="https://github.com/rstudio/shinycoreci/blob/46cdf9df12ee665d5ac77f85eb22f511ce8a4fe6/inst/apps/135-bookmark-uioutput/tests/testthat/test-mytest.R#L6" class="external-link">for example</a>). Somewhat similarly, when checking DOM values with <strong>shinyjster</strong>, you may need to wait for an update to DOM element(s) before checking value(s), in which case you can write a recursive function that keeps calling itself until the DOM is ready (<a href="https://github.com/rstudio/shinycoreci/blob/46cdf9df12ee665d5ac77f85eb22f511ce8a4fe6/inst/apps/187-navbar-collapse/app.R#L27-L36" class="external-link">for example</a>).</p>
 <ol start="3" style="list-style-type: decimal"><li>All of the windows shinytest plots have failed</li></ol>
-<p>When Windows virtual images update on GitHub Actions, the graphics device may behave exactly as the prior graphics device. Check to see if your windows <code>Image Version</code> has updated. (To view this, inspect the top lines in <code>./apps/sys-info-win-XX.txt</code> for a change.) You should accept the updated shinytest output for the build with the higher <code>Image Version</code>.</p>
+<p>When Windows virtual images update on GitHub Actions, the graphics device may behave exactly as the prior graphics device. Check to see if your windows <code>Image Version</code> has updated. (To view this, inspect the top lines in <code>./inst/apps/sys-info-win-XX.txt</code> for a change.) You should accept the updated shinytest output for the build with the higher <code>Image Version</code>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -189,15 +184,12 @@ In the event that all testing failures can not be addressed by updating shinytes
 </ul>
 <p>Note that <strong>shinycoreci</strong> only supports <a href="https://testthat.r-lib.org" class="external-link">testthat</a> testing framework. Call <code>shinytest2::use_shinytest2(APP_DIR)</code> to use <a href="https://github.com/rstudio/shinytest2" class="external-link">shinytest2</a> and <a href="https://testthat.r-lib.org" class="external-link">testthat</a></p>
 <ol style="list-style-type: decimal">
-<li><p><strong>shinytest</strong>: primarily useful for taking screenshots of shiny output binding(s) (before or after interacting with <strong>shiny</strong> input bindings). <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f/apps/001-hello/tests/shinytest/mytest.R" class="external-link">See here</a> for an example (note that <code><a href="https://rdrr.io/pkg/shinytest/man/recordTest.html" class="external-link">shinytest::recordTest()</a></code> can be used to generate shinytest testing scripts).</p></li>
+<li><p><strong>shinytest2</strong>: primarily useful for taking screenshots of shiny output binding(s) (before or after interacting with <strong>shiny</strong> input bindings). <a href="https://github.com/rstudio/shinycoreci/blob/d8f627bea573cf7bb7a53788522f04d90aeb557f/inst/apps/001-hello/tests/testthat/test-mytest.R" class="external-link">See here</a> for an example (note that <code>shinytest2::record_test()</code> can be used to generate shinytest2 testing scripts).</p></li>
 <li><p><strong>shinyjster</strong>: primarily useful for asserting certain expectations about the DOM (in JavaScript). <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f/apps/001-hello/app.R#L37-L61" class="external-link">See here</a> for an example (note that <code>shinyjster::shinyjster_js()</code> needs to be placed in the UI and <code>shinyjster::shinyjster_server(input, output)</code> needs to be placed in the server).</p></li>
 <li><p><strong>testthat</strong>: primarily useful in combination with <code><a href="https://rdrr.io/pkg/shiny/man/testServer.html" class="external-link">shiny::testServer()</a></code> to test server-side reactive logic of the application.</p></li>
 </ol>
-<!-- end list --><ul>
-<li>
-<a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/001-hello/tests/testthat/tests.R#L4" class="external-link">See here</a> for an example.</li>
-<li>Call <code>shinycoreci::use_tests_testthat(app_dir)</code> to provide the file scaffolding necessary to run the <strong>testthat</strong> tests</li>
-</ul>
+<!-- end list --><ul><li>
+<a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/001-hello/tests/testthat/tests.R#L4" class="external-link">See here</a> for an example.</li></ul>
 </div>
 <div class="section level2">
 <h2 id="pruning-old-git-branches">Pruning old git branches<a class="anchor" aria-label="anchor" href="#pruning-old-git-branches"></a>
@@ -219,23 +211,49 @@ In the event that all testing failures can not be addressed by updating shinytes
 </li>
 </ul>
 <p>The <strong>runTests</strong> workflow runs automatically on every code change to <code>shinycoreci-apps</code> as well as every night (around midnight UTC). The other workflows may be triggered via <code><a href="reference/trigger.html">shinycoreci::trigger_docker()</a></code> and <code><a href="reference/trigger.html">shinycoreci::trigger_deploy()</a></code></p>
-<!--
-### Managing R package dependencies
-
-"Core" `shinycoreci-apps` R package dependencies come from **shinycoreci**'s [DESCRIPTION file](https://github.com/rstudio/shinycoreci/blob/master/DESCRIPTION); and so, that file may be modified to test different versions of different packages in the shinyverse.
-
-Application-specific R package dependencies are automatically inferred (and installed at run-time) using `renv::dependencies()`.
-
-> Note: `renv::dependencies()` are taken from CRAN, not GitHub Remotes.
- -->
+<div class="section level3">
+<h3 id="_test_resultss-build-siteyaml">
+<code>_test_results</code>’s <code>build-site.yaml</code>
+<a class="anchor" aria-label="anchor" href="#_test_resultss-build-siteyaml"></a>
+</h3>
+<p>Location of <code>build-site.yaml</code> workflow file: <a href="https://github.com/rstudio/shinycoreci/blob/_test_results/.github/workflows/build-site.yaml" class="external-link uri">https://github.com/rstudio/shinycoreci/blob/_test_results/.github/workflows/build-site.yaml</a></p>
+<p>Goal: Process all results to static files and push new outputs to <code>gh-pages</code> website</p>
+<p>Final website location of results: <a href="https://rstudio.github.io/shinycoreci/results/" class="uri">https://rstudio.github.io/shinycoreci/results/</a></p>
+<div class="section level4">
+<h4 id="actions-performed">Actions performed<a class="anchor" aria-label="anchor" href="#actions-performed"></a>
+</h4>
+<p>On push to <code>_test_results</code> branch…</p>
+<ul>
+<li>GHA will check out the latest <code>_test_results</code> branch into the local folder.</li>
+<li>GHA will check out the latest <code>gh-pages</code> branch into the <code>./_gh-pages</code> folder.</li>
+<li>GHA will install R and necessary package dependencies.</li>
+<li>Run <code>./build_site.R</code><ul>
+<li>Read the <em>modify times</em> of each file in <code>_test_results</code> and processing files</li>
+<li>Compare <em>modify times</em> to <em>modify times</em> of output files</li>
+<li>If any input file is newer than the output file, reprocess the documen</li>
+<li>If reprocessing, render <code>./render-results.Rmd</code> given proper subset of data<ul><li>Save output to `./_gh-pages/results/YEAR/MONTH/DAY/index.html</li></ul>
+</li>
+<li>Update <code>./_gh-pages/results/index.html</code> to redirect to the most recent results</li>
+</ul>
+</li>
+<li>Within the <code>./_gh-pages</code> directory<ul>
+<li>Add any files that have been altered</li>
+<li>Commit and push back any changes to the <code>gh-pages</code> website<ul><li>Final results are</li></ul>
+</li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="section level2">
-<h2 id="faq">FAQ:<a class="anchor" aria-label="anchor" href="#faq"></a>
-</h2>
+</div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="faq">FAQ:<a class="anchor" aria-label="anchor" href="#faq"></a>
+</h1>
 <p>If you run into an odd <a href="https://pak.r-lib.org/" class="external-link">pak</a> installation issue:</p>
 <ul><li>Run <code><a href="http://pak.r-lib.org/reference/cache.html" class="external-link">pak::cache_clean()</a></code> to clear the cache and try your original command again</li></ul>
 </div>
-</div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
