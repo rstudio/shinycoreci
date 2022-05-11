@@ -1,0 +1,115 @@
+on:
+  workflow_run:
+    workflows: [ Run Tests ]
+    branches:  [ main ]
+    types:     [ completed ]
+  repository_dispatch:
+    types:
+      - all
+      # Trigger with `shinycoreci::trigger_results()`
+      - results
+
+name: Build results website
+
+jobs:
+  build:
+
+    name: Build results website
+
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: '"Two workflows enter, one workflow leaves"'
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          all_but_latest: true
+
+      - uses: actions/checkout@v2
+        with:
+          ref: _test_results
+          # Only need current files
+          fetch-depth: 0
+
+      - uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: _gh-pages
+          # Only need current files
+          fetch-depth: 0
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: any::sessioninfo
+          cache-version: results-1
+          extra-packages: |
+            rstudio/shiny
+            any::bslib
+            any::dplyr
+            any::DT
+            any::fontawesome
+            any::jsonlite
+            any::lubridate
+            any::memoise
+            any::progress
+            any::rlang
+            any::rmarkdown
+            any::tidyr
+            any::withr
+
+      - name: Run `build_site.R`
+        shell: Rscript {0}
+        run: |
+          source("build_site.R", echo = TRUE)
+
+      - name: Commit and Push to git
+        shell: bash
+        # Work inside `_gh-pages` folder
+        working-directory: _gh-pages
+        run: |
+          # set local email to actor
+          # set local name to actor
+          # set to merge when pulling (used for test results)
+          # need to unset the extra header to allow for regular https push
+          # display config
+          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
+            git config --local user.name "${GITHUB_ACTOR}" && \
+            git config --local pull.rebase false && \
+            git config --local --unset http.https://github.com/.extraheader && \
+            git config --local --list
+
+          SHA="${{ github.sha }}"
+          SHORT_SHA="${SHA:0:7}"
+
+          # See what's changed!
+          git status
+
+          git add . && \
+            git commit -m "Build static results - rstudio/shinycoreci@$SHORT_SHA"
+          COMMIT_RESULT=$?
+
+          if [ $COMMIT_RESULT -eq 0 ]; then
+            # attempt to push until success. Allow for 15 attempts
+            COUNTER=0
+            git pull origin gh-pages
+            until git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" gh-pages
+            do
+              # wait 5-15 seconds to avoid deadlock
+              sleep $[ ($RANDOM % 10) + 5 ]s
+              [[ COUNTER -gt 15 ]] && echo "Too many attempts!" && exit 1
+              ((COUNTER++))
+              echo "Push failed. Trying again. Try #$COUNTER"
+              # pull again to have the latest
+              git pull origin gh-pages
+            done
+          else
+            echo "No changes to commit or push"
+          fi
