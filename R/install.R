@@ -68,6 +68,7 @@ install_shinyverse <- function(
   upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
   dependencies = NA, # pak::pkg_install(dependencies = NA)
   extra_packages = NULL,
+  install_apps_deps = TRUE,
   libpath = shinyverse_libpath()
 ) {
   if (!isTRUE(install)) return(.libPaths()[1])
@@ -86,8 +87,12 @@ install_shinyverse <- function(
   }
 
   # Remove shinyverse
-  apps_deps <- apps_deps[!(apps_deps %in% c(shinyverse_pkgs, "shinycoreci", "shinycoreciapps"))]
-  pak_apps_deps <- paste0("any::", apps_deps)
+  pak_apps_deps <-
+    if (isTRUE(install_apps_deps)) {
+      paste0("any::", apps_deps[!(apps_deps %in% c(shinyverse_pkgs, "shinycoreci", "shinycoreciapps"))])
+    } else {
+      NULL
+    }
 
   # Load pak into current namespace
   pkgs <- c(shinyverse_remotes, pak_apps_deps, extra_packages)

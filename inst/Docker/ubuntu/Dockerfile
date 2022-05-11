@@ -120,7 +120,7 @@ RUN R --quiet -e 'install.packages("pak", repos = sprintf("https://r-lib.github.
 
 # Install system requirements of packages
 # Install packages using binary builds from package manager
-# Install shinycoreci then install shinyverse
+# Install shinycoreci then install shinyverse; Do not install apps deps as they have been installed via binary in prior step
 RUN R --quiet \
   -e " \
   pkgs <- c('base64enc', 'bslib', 'Cairo', 'clipr', 'curl', 'dbplyr', 'DiagrammeR', \
@@ -141,7 +141,7 @@ RUN R --quiet \
   pak::pkg_system_requirements(pkgs, execute = TRUE); \
   install.packages(pkgs); \
   pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}');\
-  shinycoreci:::install_shinyverse_local(upgrade = FALSE);\
+  shinycoreci:::install_shinyverse_local(upgrade = FALSE, install_apps_deps = FALSE);\
   "
 
 
