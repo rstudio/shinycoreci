@@ -14,7 +14,10 @@ github_user <- function() {
 #' The docker application will stop when the shiny application exits.
 #'
 #' @inheritParams test_in_browser
-#' @inheritParams docker_run_sso
+#' @param r_version R version to use. Ex: \code{"3.6"}
+#' @param release Distro release name, such as "focal" for ubuntu or "7" for centos
+#' @param port port to have server function locally
+#' @param tag Extra tag information for the docker image. This will prepend a \verb{-} if a value is given.
 #' @param user GitHub username. Ex: `schloerke`. Uses [`github_user`] by default
 #' @param port Port for local shiny application
 #' @param port_background Port to connect to the Docker container
@@ -29,7 +32,7 @@ test_in_sso <- function(
   ...,
   user = github_user(),
   release = c("focal", "bionic", "centos7"),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 7878, 3838),
@@ -58,7 +61,7 @@ test_in_ssp <- function(
   ...,
   user = github_user(),
   release = c("focal", "bionic", "centos7"),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 8989, 4949),
@@ -103,7 +106,7 @@ test_in_ssossp <- function(
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   host = "127.0.0.1",
   port = 8080

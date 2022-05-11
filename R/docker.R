@@ -29,13 +29,13 @@ docker_clean <- function(stopped_containers = TRUE, untagged_images = TRUE) {
 #' @param port port to have server function locally
 #' @param tag Extra tag information for the docker image. This will prepend a \verb{-} if a value is given.
 #' @param launch_browser Logical variable that determines if the browser should open to the specified port location
-#' @describeIn docker Run SSO in a docker container
+# ' @describeIn docker Run SSO in a docker container
 # ' @export
 #' @noRd
 docker_run_sso <- function(
   release = c("focal", "bionic", "centos7"),
   port = switch(release, "centos7" = 7878, 3838),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   launch_browser = TRUE
 ) {
@@ -59,7 +59,7 @@ docker_run_sso <- function(
 docker_run_ssp <- function(
   release = c("focal", "bionic", "centos7"),
   port = switch(release, "centos7" = 8989, 4949),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   launch_browser = TRUE
 ) {
@@ -86,7 +86,7 @@ docker_run_server <- function(
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   launch_browser = launch_browser
 ) {
