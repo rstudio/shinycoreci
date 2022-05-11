@@ -112,7 +112,10 @@ max_date_url <-
     collapse = ""
   )
 
-cat(file = paste0(save_folder, "/index.html"), "
+cat(
+  file = paste0(save_folder, "/index.html"), 
+  sep = "",
+  "
 <!DOCTYPE html>
 <html>
   <head>
