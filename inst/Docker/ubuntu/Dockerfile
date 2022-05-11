@@ -1,11 +1,11 @@
 # To build, cd to this directory, then:
-#   docker build --progress=plain --build-arg GITHUB_PAT=${GITHUB_PAT} -t rstudio/shinycoreci:base-4.1-focal .
-#   docker build --progress=plain --build-arg GITHUB_PAT=${GITHUB_PAT} --build-arg R_VERSION=3.5 -t rstudio/shinycoreci:base-3.5-bionic .
-#   docker build --progress=plain --build-arg GITHUB_PAT=${GITHUB_PAT} --build-arg SHINYCORECI_SHA="shiny-1.4.0.1" -t rstudio/shinycoreci:base-3.6-bionic-rc_v1.4.0.1 .
+#   docker build --progress=plain --build-arg GITHUB_PAT=${GITHUB_PAT} -t ghcr.io/rstudio/shinycoreci:base-4.2-focal .
+#   docker build --progress=plain --build-arg GITHUB_PAT=${GITHUB_PAT} --build-arg R_VERSION=3.5 -t ghcr.io/rstudio/shinycoreci:base-3.5-bionic .
+#   docker build --progress=plain --build-arg GITHUB_PAT=${GITHUB_PAT} --build-arg SHINYCORECI_SHA="shiny-1.4.0.1" -t ghcr.io/rstudio/shinycoreci:base-3.6-bionic-rc_v1.4.0.1 .
 
 #
 
-ARG R_VERSION=4.1
+ARG R_VERSION=4.2
 
 # Not `xenial` because it is EOL
 # bionic, focal
@@ -118,23 +118,32 @@ ARG GITHUB_PAT=NOTSUPPLIED
 # pak
 RUN R --quiet -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform[["pkgType"]], R.Version()[["os"]], R.Version()[["arch"]]))'
 
-# Install problematic packages
-# Install networkD3 as it installs igraph which is troublesome if not done first. :shrug:
-# Install shinycoreci from specific sha
+# Install system requirements of packages
+# Install packages using binary builds from package manager
+# Install shinycoreci then install shinyverse
 RUN R --quiet \
   -e " \
-    pak::pkg_install('networkD3');\
-    pak::pkg_install('nloptr');\
-    pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}');\
-    shinycoreci:::install_shinyverse_local(upgrade = FALSE);\
-    "
+  pkgs <- c('base64enc', 'bslib', 'Cairo', 'clipr', 'curl', 'dbplyr', 'DiagrammeR', \
+  'dplyr', 'DT', 'evaluate', 'flexdashboard', 'future', 'ggplot2', \
+  'ggvis', 'hexbin', 'htmltools', 'htmlwidgets', \
+  'httpuv', 'jsonlite', 'knitr', 'later', 'leaflet', 'magrittr', \
+  'maps', 'markdown', 'memoise', 'networkD3', 'plotly', 'png', \
+  'progress', 'promises', 'pryr', 'radiant', 'ragg', 'RColorBrewer', \
+  'reactable', 'reactlog', 'reactR', 'rlang', 'rmarkdown', 'rprojroot', \
+  'rsconnect', 'RSQLite', 'rversions', 'scales', 'sf', 'shiny', \
+  'shinyAce', 'shinydashboard', 'shinyjs', 'shinymeta', \
+  'shinytest2', 'shinythemes', 'shinyvalidate', 'showtext', 'sysfonts', \
+  'systemfonts', 'testthat', 'thematic', 'tidyr', 'tm', 'websocket', \
+  'withr', 'wordcloud', \
+  'sessioninfo', \
+  'debugme', 'highcharter', 'parsedate', 'quantmod', 'rjson', 'rlist', 'showimage', 'TTR', 'XML', 'xts' \
+  ); \
+  pak::pkg_system_requirements(pkgs, execute = TRUE); \
+  install.packages(pkgs); \
+  pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}');\
+  shinycoreci:::install_shinyverse_local(upgrade = FALSE);\
+  "
 
-###
-# shinycoreci apps
-###
-
-# # remove radiant as it has a lot of trouble being installed
-# RUN rm -r ~/apps/141-radiant
 
 ###
 # Logs
