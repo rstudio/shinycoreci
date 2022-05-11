@@ -1,4 +1,4 @@
-FROM rstudio/r-base:4.1-focal
+FROM rstudio/r-base:4.2-focal
 
 ARG DEBIAN_FRONTEND=noninteractive
 

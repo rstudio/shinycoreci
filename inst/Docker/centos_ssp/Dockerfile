@@ -1,15 +1,15 @@
 # To build, cd to this directory, then:
-#   docker build --build-arg SSP_LICENSE_FILE="ssp-rstudio-license-2024-09-06.lic" -t rstudio/shinycoreci:ssp-4.1-centos7 .
+#   docker build --build-arg SSP_LICENSE_FILE="ssp-rstudio-license-2024-09-06.lic" -t rstudio/shinycoreci:ssp-4.2-centos7 .
 #
 # To run:
-#   docker run --rm -p 7979:3838 --name ssp_centos rstudio/shinycoreci:ssp-4.1-centos7
+#   docker run --rm -p 7979:3838 --name ssp_centos rstudio/shinycoreci:ssp-4.2-centos7
 
-ARG R_VERSION=4.1
+ARG R_VERSION=4.2
 ARG RELEASE=centos7
 ARG EXTRA_BASE_TAG=
 FROM rstudio/shinycoreci:base-${R_VERSION}-${RELEASE}${EXTRA_BASE_TAG}
 
-ARG R_VERSION=4.1
+ARG R_VERSION=4.2
 ARG RELEASE=centos7
 ARG EXTRA_BASE_TAG=
 ARG AWS_BUILD_MACHINE=centos7
