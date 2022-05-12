@@ -31,8 +31,10 @@ then
     exit 1
   fi
 
-  wc -l /opt/license/ssp.lic && \
-    /opt/shiny-server/bin/license-manager activate-file /opt/ssp.lic > /dev/null 2>&1
+  # Activate license
+  ls -lth /opt/license && \
+    wc -l /opt/license/ssp.lic && \
+    /opt/shiny-server/bin/license-manager activate-file /opt/license/ssp.lic > /dev/null 2>&1
 fi
 
 
