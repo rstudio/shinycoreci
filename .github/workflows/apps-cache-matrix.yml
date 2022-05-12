@@ -123,7 +123,7 @@ jobs:
       cache-version: ${{ needs.config.outputs.cache-version }}
   windows-oldrel-2:
     if: always()
-    needs: [config, windows-olrel-1]
+    needs: [config, windows-oldrel-1]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel2 }}
