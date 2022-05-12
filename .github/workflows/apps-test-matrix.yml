@@ -192,7 +192,8 @@ jobs:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
 
-  results:
+  build-results:
+    uses: ./.github/workflows/build-results.yml
     if: success() || failure()
     needs:
     - macos-release
@@ -200,14 +201,15 @@ jobs:
     - macos-oldrel-2
     - macos-oldrel-3
     - macos-oldrel-4
+
     - ubuntu-release
     - ubuntu-oldrel-1
     - ubuntu-oldrel-2
     - ubuntu-oldrel-3
     - ubuntu-oldrel-4
+
     - windows-release
     - windows-oldrel-1
     - windows-oldrel-2
     - windows-oldrel-3
     - windows-oldrel-4
-    uses: ./.github/workflows/build-results.yml
