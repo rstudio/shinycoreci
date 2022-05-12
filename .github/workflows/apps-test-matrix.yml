@@ -27,7 +27,8 @@ jobs:
 
 
   macos-release:
-    needs: config
+    if: always()
+    needs: [config, ubuntu-release]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.release }}
@@ -37,7 +38,8 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   macos-oldrel-1:
-    needs: config
+    if: always()
+    needs: [config, ubuntu-oldrel-1]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel1 }}
@@ -47,7 +49,8 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   macos-oldrel-2:
-    needs: config
+    if: always()
+    needs: [config, ubuntu-oldrel-2]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel2 }}
@@ -57,7 +60,8 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   macos-oldrel-3:
-    needs: config
+    if: always()
+    needs: [config, ubuntu-oldrel-3]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel3 }}
@@ -67,7 +71,8 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   macos-oldrel-4:
-    needs: config
+    if: always()
+    needs: [config, ubuntu-oldrel-4]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel4 }}
@@ -131,7 +136,8 @@ jobs:
 
 
   windows-release:
-    needs: config
+    if: always()
+    needs: [config, macos-release]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.release }}
@@ -141,7 +147,8 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-1:
-    needs: config
+    if: always()
+    needs: [config, macos-oldrel-1]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel1 }}
@@ -151,7 +158,8 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-2:
-    needs: config
+    if: always()
+    needs: [config, macos-oldrel-2]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel2 }}
@@ -161,7 +169,8 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-3:
-    needs: config
+    if: always()
+    needs: [config, macos-oldrel-3]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel3 }}
@@ -171,7 +180,8 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-4:
-    needs: config
+    if: always()
+    needs: [config, macos-oldrel-4]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel4 }}
@@ -180,3 +190,24 @@ jobs:
     secrets:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+
+  results:
+    if: always()
+    needs:
+    - macos-release
+    - macos-oldrel-1
+    - macos-oldrel-2
+    - macos-oldrel-3
+    - macos-oldrel-4
+    - ubuntu-release
+    - ubuntu-oldrel-1
+    - ubuntu-oldrel-2
+    - ubuntu-oldrel-3
+    - ubuntu-oldrel-4
+    - windows-release
+    - windows-oldrel-1
+    - windows-oldrel-2
+    - windows-oldrel-3
+    - windows-oldrel-4
+    uses: ./.github/workflows/build-results.yml

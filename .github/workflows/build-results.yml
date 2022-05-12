@@ -1,8 +1,7 @@
 on:
-  workflow_run:
-    workflows: [ Run Tests ]
-    branches:  [ main ]
-    types:     [ completed ]
+  push:
+    branches:
+      - results**
   repository_dispatch:
     types:
       - all
@@ -13,6 +12,8 @@ name: Build results website
 
 jobs:
   build:
+
+    if: github.repository == 'rstudio/shinycoreci'
 
     name: Build results website
 
