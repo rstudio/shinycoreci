@@ -54,11 +54,13 @@ test_in_sso <- function(
   )
 }
 #' @export
+#' @param license_file Path to a SSP license file
 #' @describeIn test_in_ssossp Test SSP Shiny applications
 test_in_ssp <- function(
   app_name = apps[1],
   apps = apps_manual,
   ...,
+  license_file = NULL,
   user = github_user(),
   release = c("focal", "bionic", "centos7"),
   r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
@@ -75,6 +77,7 @@ test_in_ssp <- function(
     apps = apps,
     type = "ssp",
     release = release,
+    license_file = license_file,
     port_background = port_background,
     r_version = match.arg(r_version),
     tag = NULL,
@@ -102,6 +105,7 @@ test_in_ssossp <- function(
   apps = apps_manual,
   type = c("sso", "ssp"),
   release = c("focal", "bionic", "centos7"),
+  license_file = NULL,
   port_background = switch(type,
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
@@ -153,10 +157,11 @@ test_in_ssossp <- function(
   }
 
   docker_proc <- callr::r_bg(
-    function(type_, release_, port_, r_version_, tag_, launch_browser_, docker_run_server_) {
+    function(type_, release_, license_file_, port_, r_version_, tag_, launch_browser_, docker_run_server_) {
       docker_run_server_(
         type = type_,
         release = release_,
+        license_file = license_file_,
         port = port_,
         r_version = r_version_,
         tag = tag_,
@@ -166,6 +171,7 @@ test_in_ssossp <- function(
     list(
       type_ = type,
       release_ = release,
+      license_file_ = license_file,
       port_ = port_background,
       r_version_ = r_version,
       tag_ = tag,
@@ -206,12 +212,19 @@ test_in_ssossp <- function(
     }
   }
   while (TRUE) {
+    if (!docker_proc$is_alive()) {
+      message("Trying to display docker failure message...")
+      print(docker_proc$read_all_output_lines())
+      stop("Background docker process has errored.")
+    }
     tryCatch({
       # will throw error on connection failure
+      message("Waiting for url to respond:", "http://127.0.0.1:", port_background)
       httr::GET(paste0("http://127.0.0.1:", port_background))
       cat(get_docker_output(), "\n")
       break
     }, error = function(e) {
+    message("error", e)
       Sys.sleep(0.5) # arbitrary, but it'll be a while till the docker is launched
       # display all docker output
       out <- get_docker_output()

@@ -22,6 +22,7 @@ test_in_ssp(
   app_name = apps[1],
   apps = apps_manual,
   ...,
+  license_file = NULL,
   user = github_user(),
   release = c("focal", "bionic", "centos7"),
   r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
@@ -51,6 +52,8 @@ test_in_ssp(
 \item{port_background}{Port to connect to the Docker container}
 
 \item{host}{\code{host} for the foreground and background app processes}
+
+\item{license_file}{Path to a SSP license file}
 }
 \description{
 Automatically launches docker in a background process.  Once the docker is ready, a shiny application will be launched to help move through the applications.
