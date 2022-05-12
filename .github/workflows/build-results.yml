@@ -1,8 +1,9 @@
 on:
-  workflow_run:
-    workflows: [ Run Tests ]
-    branches:  [ main ]
-    types:     [ completed ]
+  push:
+    branches:
+      - results**
+  # Test matrix will call this workflow
+  workflow_call:
   repository_dispatch:
     types:
       - all
@@ -13,6 +14,8 @@ name: Build results website
 
 jobs:
   build:
+
+    if: github.repository == 'rstudio/shinycoreci'
 
     name: Build results website
 

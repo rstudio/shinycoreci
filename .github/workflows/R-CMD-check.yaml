@@ -5,8 +5,30 @@
 on:
   push:
     branches: [main, rc-**]
+    paths:
+    - ".github/workflows/R-CMD-check.yaml"
+    - "DESCRIPTION"
+    - "NAMESPACE"
+    - "LICENSE"
+    - "LICENSE.md"
+    - ".Rbuildignore"
+    - "_pkgdown.yml"
+    - "man/**"
+    - "R/**"
+    - "tests/**"
   pull_request:
     branches: [main]
+    paths:
+    - ".github/workflows/R-CMD-check.yaml"
+    - "DESCRIPTION"
+    - "NAMESPACE"
+    - "LICENSE"
+    - "LICENSE.md"
+    - ".Rbuildignore"
+    - "_pkgdown.yml"
+    - "man/**"
+    - "R/**"
+    - "tests/**"
   schedule:
     - cron: '0 11 * * 1' # every monday
 
@@ -19,6 +41,5 @@ jobs:
       clean: "FALSE"
   routine:
     uses: rstudio/shiny-workflows/.github/workflows/routine.yaml@v1
-  # Only check on macOS; There are too many remotes to check on all OS flavors
   R-CMD-check:
     uses: rstudio/shiny-workflows/.github/workflows/R-CMD-check.yaml@v1
