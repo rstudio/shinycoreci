@@ -71,9 +71,9 @@ docker_run_server <- function(
   if (!docker_is_logged_in()) {
     stop("Docker is not logged in to the ghcr.io registry")
   }
-  # docker_cmd(
-  #   "docker pull ghcr.io/rstudio/shinycoreci:", tag
-  # )
+  docker_cmd(
+    "docker pull ghcr.io/rstudio/shinycoreci:", tag
+  )
   if (isTRUE(launch_browser)) {
     utils::browseURL(paste0("http://localhost:", port, "/"))
   }
