@@ -122,28 +122,15 @@ jobs:
           RELEASE=${{ matrix.docker.type }}
           EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
 
-    ## Do not test on SSP using a public package registry
-    # # Note: Store the license as a single line string with new lines as visible '\n' characters.
-    # - name: Store SSP License
-    #   if: steps.can-build.conclusion != 'skipped'
-    #   shell: bash
-    #   run: |
-    #     printf "%b" "${{ secrets.SSP_LICENSE_FILE }}" > ${{ matrix.docker.workdir }}_ssp/ssp.lic 2>/dev/null
-    #     wc -l ${{ matrix.docker.workdir }}_ssp/ssp.lic
-    # - name: Build SSP
-    #   if: steps.can-build.conclusion != 'skipped'
-    #   uses: docker/build-push-action@v2
-    #   with:
-    #     context: "${{ matrix.docker.workdir }}_ssp"
-    #     push: true
-    #     tags: |
-    #       ghcr.io/${{ github.repository }}:ssp-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
-    #     build-args: |
-    #       R_VERSION=${{ steps.short.outputs.r-version }}
-    #       RELEASE=${{ matrix.docker.type }}
-    #       SSP_LICENSE_FILE=ssp.lic
-    #       EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
-    # - name: Remove SSP License
-    #   if: ${{ always() && steps.can-build.conclusion != 'skipped' }}
-    #   run: |
-    #     rm ${{ matrix.docker.workdir }}_ssp/ssp.lic
+    - name: Build SSP
+      if: steps.can-build.conclusion != 'skipped'
+      uses: docker/build-push-action@v2
+      with:
+        context: "${{ matrix.docker.workdir }}_ssp"
+        push: true
+        tags: |
+          ghcr.io/${{ github.repository }}:ssp-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
+        build-args: |
+          R_VERSION=${{ steps.short.outputs.r-version }}
+          RELEASE=${{ matrix.docker.type }}
+          EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
