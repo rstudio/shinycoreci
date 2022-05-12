@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - results**
+  # Test matrix will call this workflow
+  workflow_call:
   repository_dispatch:
     types:
       - all
