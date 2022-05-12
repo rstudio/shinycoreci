@@ -6,7 +6,7 @@ on:
   push:
     branches: [main, rc-**]
     paths:
-    - ".github/workflwos/R-CMD-check.yaml"
+    - ".github/workflows/R-CMD-check.yaml"
     - "DESCRIPTION"
     - "NAMESPACE"
     - "LICENSE"
@@ -19,7 +19,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-    - ".github/workflwos/R-CMD-check.yaml"
+    - ".github/workflows/R-CMD-check.yaml"
     - "DESCRIPTION"
     - "NAMESPACE"
     - "LICENSE"
