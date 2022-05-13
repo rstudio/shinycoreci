@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-05-10
+ date     2022-05-12
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -61,7 +61,7 @@ osVersion: macOS  10.16
                digest     0.6.29   CRAN  0.6.29               /digest
            downloader        0.4   CRAN     0.4           /downloader
                 dplyr      1.0.8   CRAN   1.0.8                /dplyr
-                   DT     0.22.1 GitHub c66c719          rstudio/HEAD
+                   DT     0.23.1 GitHub 8bc1bc8          rstudio/HEAD
              dygraphs    1.1.1.7 GitHub 70b60ab          rstudio/HEAD
                 e1071      1.7-9   CRAN   1.7-9                /e1071
              ellipsis      0.3.2   CRAN   0.3.2             /ellipsis

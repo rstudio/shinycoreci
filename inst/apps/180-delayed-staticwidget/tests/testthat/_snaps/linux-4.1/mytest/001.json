@@ -1,7 +1,7 @@
 {
   "input": {
     "htmlwidget-c9f6656ff2d8f9cdeb96_bounds": {
-      "north": -8.75479470243561,
+      "north": -8.75479470243562,
       "east": 219.19921875,
       "south": -40.178873314347,
       "west": 134.6484375
@@ -119,9 +119,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.1.0",
+          "version": "2.1.1",
           "src": {
-            "href": "leaflet-binding-2.1.0"
+            "href": "leaflet-binding-2.1.1"
           },
           "meta": null,
           "script": "leaflet.js",

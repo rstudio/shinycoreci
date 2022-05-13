@@ -116,11 +116,20 @@
           "lang": {
             "contextButtonTitle": "Chart context menu",
             "decimalPoint": ".",
+            "downloadCSV": "Download CSV",
             "downloadJPEG": "Download JPEG image",
             "downloadPDF": "Download PDF document",
             "downloadPNG": "Download PNG image",
             "downloadSVG": "Download SVG vector image",
-            "drillUpText": "Back to {series.name}",
+            "downloadXLS": "Download XLS",
+            "drillUpText": "◁ Back to {series.name}",
+            "exitFullscreen": "Exit from full screen",
+            "exportData": {
+              "annotationHeader": "Annotations",
+              "categoryDatetimeHeader": "DateTime",
+              "categoryHeader": "Category"
+            },
+            "hideData": "Hide data table",
             "invalidDate": null,
             "loading": "Loading...",
             "months": [
@@ -138,6 +147,7 @@
               "December"
             ],
             "noData": "No data to display",
+            "numericSymbolMagnitude": 1000,
             "numericSymbols": [
               "k",
               "M",
@@ -163,7 +173,18 @@
               "Nov",
               "Dec"
             ],
+            "shortWeekdays": [
+              "Sat",
+              "Sun",
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri"
+            ],
             "thousandsSep": " ",
+            "viewData": "View data table",
+            "viewFullscreen": "View in full screen",
             "weekdays": [
               "Sunday",
               "Monday",

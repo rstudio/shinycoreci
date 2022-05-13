@@ -3,14 +3,14 @@
     "cities": null,
     "color": "college",
     "map_bounds": {
-      "north": 57.8914973527103,
+      "north": 69.0685631869603,
       "east": -50.2734375,
-      "south": 9.53574899813361,
+      "south": -15.7076627695835,
       "west": -137.4609375
     },
     "map_center": {
-      "lng": -93.85,
-      "lat": 37.45
+      "lng": -93.8671875,
+      "lat": 37.4399740522706
     },
     "map_zoom": 4,
     "maxScore": 100,
@@ -23,7 +23,7 @@
   },
   "output": {
     "histCentile": {
-      "src": "[image data sha1: c5c72eef9a3e0f26f5deca976db0adabac63bf16]",
+      "src": "[image data hash: 7058e56b073a00350b758e186d7391fc]",
       "width": 288,
       "height": 200,
       "alt": "Plot object",
@@ -33,8 +33,8 @@
             "domain": {
               "left": -3.999931064,
               "right": 103.999986964,
-              "bottom": -42.6,
-              "top": 1107.6
+              "bottom": -42.64,
+              "top": 1108.64
             },
             "range": {
               "left": 59.04,
@@ -92,7 +92,7 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data sha1: e4846dda8eb537cb48b852c697944686b605d445]",
+      "src": "[image data hash: 968a1ce4cfa4d9ffc7b128c94bf97d41]",
       "width": 288,
       "height": 250,
       "alt": "Plot object",

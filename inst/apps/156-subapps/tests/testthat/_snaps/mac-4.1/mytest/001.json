@@ -4,22 +4,8 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 24c097eafeeda1c4d6798602526a1386ce540acc]",
+      "html": "[html data sha1: 29b0cc9f18950421b5a8f45a0b9e358d9671368d]",
       "deps": [
-        {
-          "name": "header-attrs",
-          "version": "2.13",
-          "src": {
-            "href": "header-attrs-2.13"
-          },
-          "meta": null,
-          "script": "header-attrs.js",
-          "stylesheet": null,
-          "head": null,
-          "attachment": null,
-          "package": null,
-          "all_files": true
-        },
         {
           "name": "jquery",
           "version": "3.6.0",
@@ -83,9 +69,9 @@
         },
         {
           "name": "shinyjster-assets",
-          "version": "0.0.0.9009",
+          "version": "0.0.0.9010",
           "src": {
-            "href": "shinyjster-assets-0.0.0.9009"
+            "href": "shinyjster-assets-0.0.0.9010"
           },
           "meta": null,
           "script": "js/shinyjster.js",

@@ -9,19 +9,19 @@
     "event_reactive__quoted": "8 - Clicks: 0",
     "image__expected": "bear lifting",
     "image__injected": {
-      "src": "[image data sha1: 051dfd3aed6885f35847f90e6d4746b169a2303e]",
+      "src": "[image data hash: d06486eaefce73561e8a35fe8e246c7c]",
       "height": "150px",
       "width": "150px",
       "alt": "Deadlift"
     },
     "image__manual": {
-      "src": "[image data sha1: 051dfd3aed6885f35847f90e6d4746b169a2303e]",
+      "src": "[image data hash: d06486eaefce73561e8a35fe8e246c7c]",
       "height": "150px",
       "width": "150px",
       "alt": "Deadlift"
     },
     "image__quoted": {
-      "src": "[image data sha1: 051dfd3aed6885f35847f90e6d4746b169a2303e]",
+      "src": "[image data hash: d06486eaefce73561e8a35fe8e246c7c]",
       "height": "150px",
       "width": "150px",
       "alt": "Deadlift"
@@ -36,7 +36,7 @@
     "observe_event__quoted": "5 - Clicks: 0",
     "plot__expected": "1:5",
     "plot__injected": {
-      "src": "[image data sha1: fbd5d64f306a45bc6d92990e9bbacf423ae1d1b3]",
+      "src": "[image data hash: 1a052b4364f98ff53d4790523ff524ba]",
       "width": 250,
       "height": 250,
       "alt": "Plot object",
@@ -71,7 +71,7 @@
       }
     },
     "plot__manual": {
-      "src": "[image data sha1: fbd5d64f306a45bc6d92990e9bbacf423ae1d1b3]",
+      "src": "[image data hash: 1a052b4364f98ff53d4790523ff524ba]",
       "width": 250,
       "height": 250,
       "alt": "Plot object",
@@ -106,7 +106,7 @@
       }
     },
     "plot__quoted": {
-      "src": "[image data sha1: fbd5d64f306a45bc6d92990e9bbacf423ae1d1b3]",
+      "src": "[image data hash: 1a052b4364f98ff53d4790523ff524ba]",
       "width": 250,
       "height": 250,
       "alt": "Plot object",
