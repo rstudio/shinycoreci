@@ -20,9 +20,7 @@ connect_urls(
 \arguments{
 \item{apps}{A character vector of fully defined shiny application folders}
 
-\item{account}{args supplied to \verb{[rsconnect::deployApp]}}
-
-\item{server}{args supplied to \verb{[rsconnect::deployApp]}}
+\item{account, server}{args supplied to \verb{[rsconnect::deployApp]}}
 }
 \description{
 The corresponding \code{rsconnect} account should already exist before calling \code{connect_set_public}.  This can be done by calling \code{rsconnect::connectApiUser} to add the appropriate account information.
