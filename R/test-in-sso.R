@@ -219,12 +219,10 @@ test_in_ssossp <- function(
     }
     tryCatch({
       # will throw error on connection failure
-      message("Waiting for url to respond:", "http://127.0.0.1:", port_background)
       httr::GET(paste0("http://127.0.0.1:", port_background))
       cat(get_docker_output(), "\n")
       break
     }, error = function(e) {
-    message("error", e)
       Sys.sleep(0.5) # arbitrary, but it'll be a while till the docker is launched
       # display all docker output
       out <- get_docker_output()
