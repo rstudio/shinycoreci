@@ -107,11 +107,10 @@ RUN chmod 755 /root
 # shinycoreci
 ###
 
-# ARG SHINYCORECI_SHA=HEAD
-ARG SHINYCORECI_SHA=docker_new
+ARG SHINYCORECI_SHA=HEAD
 
-# Do not persist GITHUB_PAT. Supply it at run time as well
 ARG GITHUB_PAT=NOTSUPPLIED
+## Do not persist GITHUB_PAT. Supply it at run time if needed
 # # make sure the variable persists
 # ENV GITHUB_PAT=$GITHUB_PAT
 
