@@ -1,6 +1,6 @@
 Package: shinycoreci
 Title: CI Testing for shiny
-Version: 0.0.0.9006
+Version: 0.0.0.9007
 Authors@R: c(
     person("Barret", "Schloerke", role = c("aut", "cre"), email = "barret@rstudio.com"),
     person("Winston", "Chang", role = "aut", email = "winston@rstudio.com"),
