@@ -222,30 +222,30 @@ test_in_external <- function(
       )
     }
 
-    shiny::observeEvent({input$accept}, {
-      message("PASS ", app_name())
-      # app_status_save(
-      #   app_dir = file.path(dir, app_name()),
-      #   pass = TRUE,
-      #   log = output_lines(),
-      #   user_agent = user_agent()
-      # )
-      go_to_next_app()
-    })
+    # shiny::observeEvent({input$accept}, {
+    #   message("PASS ", app_name())
+    #   # app_status_save(
+    #   #   app_dir = file.path(dir, app_name()),
+    #   #   pass = TRUE,
+    #   #   log = output_lines(),
+    #   #   user_agent = user_agent()
+    #   # )
+    #   go_to_next_app()
+    # })
 
-    shiny::observeEvent({input$reject}, {
-      message("FAIL ", app_name())
-      # app_status_save(
-      #   app_dir = file.path(dir, app_name()),
-      #   pass = FALSE,
-      #   log = output_lines(),
-      #   user_agent = user_agent()
-      # )
-      go_to_next_app()
-    })
+    # shiny::observeEvent({input$reject}, {
+    #   message("FAIL ", app_name())
+    #   # app_status_save(
+    #   #   app_dir = file.path(dir, app_name()),
+    #   #   pass = FALSE,
+    #   #   log = output_lines(),
+    #   #   user_agent = user_agent()
+    #   # )
+    #   go_to_next_app()
+    # })
 
     shiny::observeEvent({input[["next"]]}, {
-      message("DONE WITH APP: ", app_name())
+      # message("CLOSE APP: ", app_name(), "\n")
       # app_status_save(
       #   app_dir = file.path(dir, app_name()),
       #   pass = FALSE,
@@ -317,6 +317,8 @@ test_in_external <- function(
     output$app_iframe <- shiny::renderUI({
       # trigger after starting
       app_has_started()
+
+      message("APP: ", app_name())
 
       shiny::tags$iframe(
         src = app_info()$app_url(),
