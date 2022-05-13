@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - docker**
-  # # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
-  # schedule:
-  #   - cron:  '0 7 * * 1-5' # every work night (delayed 1 hr)
+  # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
+  schedule:
+    - cron:  '0 3 * * 1-5' # every work night (delayed 1 hr)
   repository_dispatch:
     types:
       - all
@@ -46,7 +46,6 @@ jobs:
         docker:
           # - workdir: inst/Docker/centos
           #   type: centos7
-          # Focal has trouble installing R 3.4, 3.5
           - workdir: inst/Docker/ubuntu
             type: focal
           - workdir: inst/Docker/ubuntu
