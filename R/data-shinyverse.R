@@ -28,3 +28,5 @@ shinyverse_remotes <- c(
   "schloerke/shinyjster",
   NULL
 )
+
+shinyverse_pkgs <- vapply(strsplit(shinyverse_remotes, "/"), `[[`, character(1), 2)

@@ -1,6 +1,6 @@
 # Set an output variable for GHA to use in installations
 
-shinyverse_remotes_file <- "R/data-shinyverse-remotes.R"
+shinyverse_remotes_file <- "R/data-shinyverse.R"
 stopifnot(file.exists(shinyverse_remotes_file))
 
 apps_deps_file <- "R/data-apps-deps.R"
