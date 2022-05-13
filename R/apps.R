@@ -66,7 +66,7 @@ repo_app_path <- function(app_name, repo_dir = ".") {
 ## _Package Globals_
 apps_folder <- app_names <- app_nums <- app_name_map <- app_num_map <- NULL
 app_paths <- app_paths_map <- NULL
-apps_manual <- apps_shiny <- NULL
+apps_manual <- apps_shiny <- apps_deploy <- NULL
 
 
 get_app_nums <- function(app_names) {
@@ -92,4 +92,5 @@ apps_on_load <- function() {
 
   apps_manual <<- basename(Filter(x = app_paths, is_manual_app))
   apps_shiny  <<- basename(Filter(x = app_paths, has_shinyish_files))
+  apps_deploy <<- setdiff(apps_shiny, "141-radiant")
 }

@@ -1,3 +1,11 @@
+#' Retrieve default GitHub username
+#'
+#' Equivalent to the terminal code: `git config github.user`
+#' @export
+github_user <- function() {
+  system("git config github.user", intern = TRUE)
+}
+
 
 #' Test Apps in SSO/SSP
 #'
@@ -6,8 +14,12 @@
 #' The docker application will stop when the shiny application exits.
 #'
 #' @inheritParams test_in_browser
-#' @inheritParams docker_run_sso
-#' @param port Port for shiny application
+#' @param r_version R version to use. Ex: \code{"3.6"}
+#' @param release Distro release name, such as "focal" for ubuntu or "7" for centos
+#' @param port port to have server function locally
+#' @param tag Extra tag information for the docker image. This will prepend a \verb{-} if a value is given.
+#' @param user GitHub username. Ex: `schloerke`. Uses [`github_user`] by default
+#' @param port Port for local shiny application
 #' @param port_background Port to connect to the Docker container
 #' @export
 #' @describeIn test_in_ssossp Test SSO Shiny applications
@@ -18,8 +30,9 @@ test_in_sso <- function(
   app_name = apps[1],
   apps = apps_manual,
   ...,
+  user = github_user(),
   release = c("focal", "bionic", "centos7"),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 7878, 3838),
@@ -28,6 +41,7 @@ test_in_sso <- function(
   release <- match.arg(release)
 
   test_in_ssossp(
+    user = user,
     app_name = app_name,
     apps = apps,
     type = "sso",
@@ -40,12 +54,16 @@ test_in_sso <- function(
   )
 }
 #' @export
+#' @param license_file Path to a SSP license file
 #' @describeIn test_in_ssossp Test SSP Shiny applications
 test_in_ssp <- function(
   app_name = apps[1],
   apps = apps_manual,
+  ...,
+  license_file = NULL,
+  user = github_user(),
   release = c("focal", "bionic", "centos7"),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 8989, 4949),
@@ -54,10 +72,12 @@ test_in_ssp <- function(
   release <- match.arg(release)
 
   test_in_ssossp(
+    user = user,
     app_name = app_name,
     apps = apps,
     type = "ssp",
     release = release,
+    license_file = license_file,
     port_background = port_background,
     r_version = match.arg(r_version),
     tag = NULL,
@@ -80,15 +100,17 @@ test_in_ssp <- function(
 
 
 test_in_ssossp <- function(
+  user = github_user(),
   app_name = apps[1],
   apps = apps_manual,
   type = c("sso", "ssp"),
   release = c("focal", "bionic", "centos7"),
+  license_file = NULL,
   port_background = switch(type,
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   host = "127.0.0.1",
   port = 8080
@@ -101,14 +123,13 @@ test_in_ssossp <- function(
   release <- match.arg(release)
   force(port_background)
   r_version <- match.arg(r_version)
-  force(apps)
 
   radiant_app <- "141-radiant"
   if (radiant_app %in% apps) {
     message("\n!!! Radiant app being removed. It does not play well with centos7 !!!\n")
     apps <- setdiff(apps, radiant_app)
-    if (identical(app, radiant_app)) {
-      app <- apps[1]
+    if (identical(app_name, radiant_app)) {
+      app_name <- apps[1]
     }
   }
 
@@ -134,11 +155,13 @@ test_in_ssossp <- function(
   if (!docker_is_logged_in()) {
     stop("Docker is not logged in. Please run `docker login` in the terminal with your Docker Hub username / password")
   }
+
   docker_proc <- callr::r_bg(
-    function(type_, release_, port_, r_version_, tag_, launch_browser_, docker_run_server_) {
+    function(type_, release_, license_file_, port_, r_version_, tag_, launch_browser_, docker_run_server_) {
       docker_run_server_(
         type = type_,
         release = release_,
+        license_file = license_file_,
         port = port_,
         r_version = r_version_,
         tag = tag_,
@@ -148,6 +171,7 @@ test_in_ssossp <- function(
     list(
       type_ = type,
       release_ = release,
+      license_file_ = license_file,
       port_ = port_background,
       r_version_ = r_version,
       tag_ = tag,
@@ -188,6 +212,11 @@ test_in_ssossp <- function(
     }
   }
   while (TRUE) {
+    if (!docker_proc$is_alive()) {
+      message("Trying to display docker failure message...")
+      print(docker_proc$read_all_output_lines())
+      stop("Background docker process has errored.")
+    }
     tryCatch({
       # will throw error on connection failure
       httr::GET(paste0("http://127.0.0.1:", port_background))
@@ -207,8 +236,7 @@ test_in_ssossp <- function(
   message("Starting Docker... OK") # starting docker
 
   output_lines <- ""
-  app_names <- basename(apps)
-  app_infos <- lapply(app_names, function(app_name) {
+  app_infos <- lapply(apps, function(app_name) {
     list(
       app_name = app_name,
       start = function() {

@@ -1,15 +1,15 @@
 # To build, cd to this directory, then:
-#   docker build -t rstudio/shinycoreci:sso-4.1-centos7 .
+#   docker build -t rstudio/shinycoreci:sso-4.2-centos7 .
 #
 # To run:
-#   docker run --rm -p 7878:3838 --name sso_centos rstudio/shinycoreci:sso-4.1-centos7
+#   docker run --rm -p 7878:3838 --name sso_centos rstudio/shinycoreci:sso-4.2-centos7
 
-ARG R_VERSION=4.1
+ARG R_VERSION=4.2
 ARG RELEASE=centos7
 ARG EXTRA_BASE_TAG=
 FROM rstudio/shinycoreci:base-${R_VERSION}-${RELEASE}${EXTRA_BASE_TAG}
 
-ARG R_VERSION=4.1
+ARG R_VERSION=4.2
 ARG RELEASE=centos7
 ARG EXTRA_BASE_TAG=
 ARG AWS_BUILD_MACHINE=centos6.3

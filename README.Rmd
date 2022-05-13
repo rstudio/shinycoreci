@@ -77,9 +77,9 @@ Commands used to test in different situations:
 * [shinyapps.io](http://shinyapps.io) - `shinycoreci::test_in_shinyappsio()`
 * [RStudio Connect](http://beta.rstudioconnect.com) - `shinycoreci::test_in_connect()`
 * SSO - `shinycoreci::test_in_sso(release = "focal")`
-  > will require docker login. Run `docker login` in the terminal
+  > Requires `Docker` application to be running
 * SSP - `shinycoreci::test_in_ssp(release = "centos7")`
-  > will require docker login. Run `docker login` in the terminal
+  > Requires `Docker` application to be running
 
 All testing functions may be run from within the IDE (except for R Terminal / R GUI).
 
@@ -158,21 +158,56 @@ git fetch --prune
 
 This repo contains several [GitHub Actions](https://github.com/features/actions) workflows:
 
-* [**runTests:**](https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3ArunTests) Run the automated tests (via `shiny::runTests()`).
-* [**Docker:**](https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3ADocker) Create all SSO and SSP docker images
-* [**Deploy**](https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3ADeploy): Deploy all testing apps to [shinyapps.io](shinyapps.io) and [beta.rstudioconnect.com](https://beta.rstudioconnect.com)
+* [**Test apps:**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml) Run all automated tests (via `shiny::runTests()`). If on `main` branch, test results will be saved to `_test_results` branch.
+* [**Docker:**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml) Create all SSO and SSP docker images. Docker images are hosted on [`rstudio/shinycoreci` via GitHub Packages](https://github.com/rstudio/shinycoreci/pkgs/container/shinycoreci).
+* [**Deploy**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml): Deploy all testing apps to [shinyapps.io](shinyapps.io) and [beta.rstudioconnect.com](https://beta.rstudioconnect.com)
+* [**Warm Library Cache**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-cache-matrix.yml): Install and cache `{shinycoreci}` and the shinyverse. Does not test any applications. Makes installations for testing **much** faster.
+* [**Build results website**](https://github.com/rstudio/shinycoreci/actions/workflows/build-results.yml): Builds results for **Test apps** workflow. This workflow is called from within **Test apps**. After all tests have completed, this workflow will process all results in `_test_results` branch into static files, storing the results in `gh-pages` branch. Final website location of results: https://rstudio.github.io/shinycoreci/results/
+* [**Package checks**](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml): There are three main tasks that this workflow achieves:
+  1. Creates the `website` via `{pkgdown}`
+  2. Performs `routine` procedures like making sure all documentation and README.md is up to date
+  2. Performs ``R CMD check`` on `{shinycoreci}`, across macOS, Windows, and Ubuntu (multiple R versions).
+* [**Update app deps**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deps.yml): Updates known dependencies of all Shiny applications in `./inst/apps`.
+* [**Trim old branches**](https://github.com/rstudio/shinycoreci/actions/workflows/trim-old-branches.yml): The current data model of **Test apps** workflow is to create many `gha-**` branches containing the changes of each test run on `main`. `gha-**` branches that have been stale for more than a week are removed.
 
-The **runTests** workflow runs automatically on every code change to `shinycoreci-apps` as well as every night (around midnight UTC). The other workflows may be triggered via `shinycoreci::trigger_docker()` and `shinycoreci::trigger_deploy()`
+### Trigger
 
+There are a handful of methods that can be called to trigger the GHA actions.
+
+* `shinycoreci::trigger_tests()`: Trigger the **Test apps** workflow.
+* `shinycoreci::trigger_docker()`: Trigger the **Docker** workflow.
+* `shinycoreci::trigger_deploy()`: Trigger the **Deploy** workflow.
+* `shinycoreci::trigger_cache()`: Trigger the **Warm library cache** workflow.
+* `shinycoreci::trigger_results()`: Trigger the **Build results website** workflow.
+* `shinycoreci::trigger(event_type=)`: Sends a custom event to the GHA workflow. For example, this can be used to trigger **Trim old branches** with `shinycoreci::trigger("trim")`.
+
+A triggered workflow will run without having to push to the repo. Anyone with repo write access can call this command.
+
+
+### Schedule
+
+Most of the workflows are run on schedule.
+
+Example schedule where the workflow is run at 2am UTC Monday through Friday:
+
+```yaml
+  schedule:
+    - cron:  '0 2 * * 1-5'
+```
+
+Schedule of `rstudio/shinycoreci` workflows:
+
+* 12am UTC, S-S: **Trim old branches**; < 1 min
+* 12am UTC, M-F: **Update app deps**; < 5 mins
+* 12:30am UTC, M-F: **Warm library cache**; 1 - 2 hrs
+* 2am UTC, M-F: **Deploy apps**; ~ 2 hrs
+* 3am UTC, M-F: **Docker**; ~ 1 hr
+* 5am UTC, M-F: **Test apps** (Internally calls **Build results website**); ~ 4 hrs
 
 
 ### `build-results.yml`
 
-Goal: After `apps-test-matrix.yml` has completed, process all results in `_test_results` branch into static files and push new outputs to `gh-pages` website
-
-Final website location of results: https://rstudio.github.io/shinycoreci/results/
-
-#### Actions performed
+Breakdown of what happens in the **Build results website** workflow:
 
 On completion of `apps-test-matrix.yml`...
 
@@ -189,7 +224,8 @@ On completion of `apps-test-matrix.yml`...
 * Within the `./_gh-pages` directory
   * Add any files that have been altered
   * Commit and push back any changes to the `gh-pages` website
-    * Final results are
+
+Final results are available at: https://rstudio.github.io/shinycoreci/results/
 
 
 # FAQ:

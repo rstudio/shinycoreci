@@ -69,6 +69,7 @@ jobs:
             any::withr
 
       - name: Run `build_site.R`
+        # This file is found in `_test_results` branch for easier debugging
         shell: Rscript {0}
         run: |
           source("build_site.R", echo = TRUE)

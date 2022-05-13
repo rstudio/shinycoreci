@@ -13,7 +13,7 @@ on:
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
   schedule:
-    - cron:  '0 2 * * 1-5' # every work night before
+    - cron:  '30 0 * * 1-5' # every work night before
   repository_dispatch:
     types:
       - all

@@ -72,3 +72,12 @@ trigger_results <- function(
 ) {
   trigger("results", repo = repo, auth_token = auth_token)
 }
+
+#' @export
+#' @rdname trigger
+trigger_cache <- function(
+  repo = "rstudio/shinycoreci",
+  auth_token = Sys.getenv("GITHUB_PAT")
+) {
+  trigger("cache", repo = repo, auth_token = auth_token)
+}

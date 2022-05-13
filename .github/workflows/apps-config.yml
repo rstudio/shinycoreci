@@ -6,9 +6,6 @@ on:
     #     default: release
     #     required: false
     outputs:
-      firstword:
-        description: "The first output string"
-        value: ${{ jobs.example_job.outputs.output1 }}
       macos:
         description: macos OS value
         value: "macos-11"

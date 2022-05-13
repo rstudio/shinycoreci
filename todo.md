@@ -37,7 +37,7 @@
   `.Platform$OS.type == "windows" for determining windows support`
 - [x] Replace all usage of `shinycoreci::platform_rversion()` with `shinytest2::platform_variant()`
 - [x] Replace `shinycoreciapps::testthat_shinyjster()` with `shinyjster::testthat_shinyjster()`
-- [ ] Convert logic for 169 to use testthat
+- [x] Convert logic for 169 to use testthat
 
 - [x] Move skip logic to inside tests
   - [x] 181-report-image

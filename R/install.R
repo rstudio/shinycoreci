@@ -65,7 +65,10 @@ install_shinyverse_local <- function(
 install_shinyverse <- function(
   install = TRUE,
   validate_loaded = TRUE,
+  upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
+  dependencies = NA, # pak::pkg_install(dependencies = NA)
   extra_packages = NULL,
+  install_apps_deps = TRUE,
   libpath = shinyverse_libpath()
 ) {
   if (!isTRUE(install)) return(.libPaths()[1])
@@ -84,8 +87,12 @@ install_shinyverse <- function(
   }
 
   # Remove shinyverse
-  apps_deps <- apps_deps[!(apps_deps %in% c(shinyverse_pkgs, "shinycoreci", "shinycoreciapps"))]
-  pak_apps_deps <- paste0("any::", apps_deps)
+  pak_apps_deps <-
+    if (isTRUE(install_apps_deps)) {
+      paste0("any::", apps_deps[!(apps_deps %in% c(shinyverse_pkgs, "shinycoreci", "shinycoreciapps"))])
+    } else {
+      NULL
+    }
 
   # Load pak into current namespace
   pkgs <- c(shinyverse_remotes, pak_apps_deps, extra_packages)
@@ -94,7 +101,7 @@ install_shinyverse <- function(
     message("Extra packages:\n", paste0("* ", extra_packages, collapse = "\n"))
   }
   callr::r(
-    function(pkgs, lib) {
+    function(pkgs, lib, upgrade, dependencies) {
       # Performing a leap of faith that pak is installed.
       # Avoids weird installs when using pak to install shinycoreci
       stopifnot(utils::packageVersion("pak") >= "0.3.0")
@@ -102,14 +109,16 @@ install_shinyverse <- function(
       pak__pkg_install(
         pkgs,
         lib = lib,
-        upgrade = TRUE,
-        ask = FALSE,
-        dependencies = TRUE
+        upgrade = upgrade,
+        dependencies = dependencies,
+        ask = FALSE # Not interactive, so don't ask
       )
     },
     list(
       pkgs = pkgs,
-      lib = libpath
+      lib = libpath,
+      upgrade = upgrade,
+      dependencies = dependencies
     ),
     show = TRUE,
     spinner = TRUE # helps with CI from timing out

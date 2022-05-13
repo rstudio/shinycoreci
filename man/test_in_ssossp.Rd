@@ -9,8 +9,9 @@ test_in_sso(
   app_name = apps[1],
   apps = apps_manual,
   ...,
+  user = github_user(),
   release = c("focal", "bionic", "centos7"),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, centos7 = 7878, 3838),
@@ -20,8 +21,11 @@ test_in_sso(
 test_in_ssp(
   app_name = apps[1],
   apps = apps_manual,
+  ...,
+  license_file = NULL,
+  user = github_user(),
   release = c("focal", "bionic", "centos7"),
-  r_version = c("4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, centos7 = 8989, 4949),
@@ -35,17 +39,21 @@ test_in_ssp(
 
 \item{...}{ignored}
 
+\item{user}{GitHub username. Ex: \code{schloerke}. Uses \code{\link{github_user}} by default}
+
 \item{release}{Distro release name, such as "focal" for ubuntu or "7" for centos}
 
 \item{r_version}{R version to use. Ex: \code{"3.6"}}
 
 \item{tag}{Extra tag information for the docker image. This will prepend a \verb{-} if a value is given.}
 
-\item{port}{Port for shiny application}
+\item{port}{Port for local shiny application}
 
 \item{port_background}{Port to connect to the Docker container}
 
 \item{host}{\code{host} for the foreground and background app processes}
+
+\item{license_file}{Path to a SSP license file}
 }
 \description{
 Automatically launches docker in a background process.  Once the docker is ready, a shiny application will be launched to help move through the applications.

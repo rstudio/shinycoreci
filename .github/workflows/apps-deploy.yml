@@ -6,7 +6,7 @@ on:
       - deploy**
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   schedule:
-    - cron:  '0 6 * * 1-5' # every work night (delayed 0 hrs)
+    - cron:  '0 3 * * 1-5' # every work night (delayed 0 hrs)
   repository_dispatch:
     types:
       - all
@@ -29,8 +29,8 @@ jobs:
 
       matrix:
         config:
-        - { os: "${{ needs.config.outputs.ubuntu }}", r: 'release', type: "shinyappsio", account: "testing-apps", server_name: "shinyapps.io", cores: 5, retry: 3 } # , extra_app_text: ", apps = c(1,2)" }
-        - { os: "${{ needs.config.outputs.ubuntu }}", r: 'release', type: "connect", account: "barret", server_name: "beta.rstudioconnect.com", server_url: "https://beta.rstudioconnect.com/__api__", cores: 1, retry: 3 } # , extra_app_text: ", apps = c(1,2)" }
+        - { os: "${{ needs.config.outputs.ubuntu }}", r: '4.1', type: "shinyappsio", account: "testing-apps", server_name: "shinyapps.io", cores: 5, retry: 3 } # , extra_app_text: ", apps = c(1,2)" }
+        - { os: "${{ needs.config.outputs.ubuntu }}", r: '4.1', type: "connect", account: "barret", server_name: "beta.rstudioconnect.com", server_url: "https://beta.rstudioconnect.com/__api__", cores: 1, retry: 3 } # , extra_app_text: ", apps = c(1,2)" }
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true

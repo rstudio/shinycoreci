@@ -14,7 +14,7 @@
 #' @param retrying_ For internal use only
 #' @export
 deploy_apps <- function(
-  apps = apps_shiny,
+  apps = apps_deploy,
   account = "testing-apps",
   server = "shinyapps.io",
   ...,
