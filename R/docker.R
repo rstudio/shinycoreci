@@ -71,6 +71,7 @@ docker_run_server <- function(
   if (!docker_is_logged_in()) {
     stop("Docker is not logged in to the ghcr.io registry")
   }
+  message("Pulling Docker image. This may take a minute...")
   docker_cmd(
     "docker pull ghcr.io/rstudio/shinycoreci:", tag
   )
