@@ -32,7 +32,7 @@
     
     <a class="navbar-brand me-2" href="index.html">shinycoreci</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9007</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,8 +130,8 @@
 <li>
 <a href="http://beta.rstudioconnect.com" class="external-link">RStudio Connect</a> - <code><a href="reference/test_in_deployed.html">shinycoreci::test_in_connect()</a></code>
 </li>
-<li>SSO - <code>shinycoreci::test_in_sso(release = "focal")</code> &gt; will require docker login. Run <code>docker login</code> in the terminal</li>
-<li>SSP - <code>shinycoreci::test_in_ssp(release = "centos7")</code> &gt; will require docker login. Run <code>docker login</code> in the terminal</li>
+<li>SSO - <code>shinycoreci::test_in_sso(release = "focal")</code> &gt; Requires <code>Docker</code> application to be running</li>
+<li>SSP - <code>shinycoreci::test_in_ssp(release = "centos7")</code> &gt; Requires <code>Docker</code> application to be running</li>
 </ul>
 <p>All testing functions may be run from within the IDE (except for R Terminal / R GUI).</p>
 <div class="section level4">
@@ -203,26 +203,73 @@
 <p>This repo contains several <a href="https://github.com/features/actions" class="external-link">GitHub Actions</a> workflows:</p>
 <ul>
 <li>
-<a href="https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3ArunTests" class="external-link"><strong>runTests:</strong></a> Run the automated tests (via <code><a href="https://rdrr.io/pkg/shiny/man/runTests.html" class="external-link">shiny::runTests()</a></code>).</li>
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml" class="external-link"><strong>Test apps:</strong></a> Run all automated tests (via <code><a href="https://rdrr.io/pkg/shiny/man/runTests.html" class="external-link">shiny::runTests()</a></code>). If on <code>main</code> branch, test results will be saved to <code>_test_results</code> branch.</li>
 <li>
-<a href="https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3ADocker" class="external-link"><strong>Docker:</strong></a> Create all SSO and SSP docker images</li>
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml" class="external-link"><strong>Docker:</strong></a> Create all SSO and SSP docker images. Docker images are hosted on <a href="https://github.com/rstudio/shinycoreci/pkgs/container/shinycoreci" class="external-link"><code>rstudio/shinycoreci</code> via GitHub Packages</a>.</li>
 <li>
-<a href="https://github.com/rstudio/shinycoreci-apps/actions?query=workflow%3ADeploy" class="external-link"><strong>Deploy</strong></a>: Deploy all testing apps to <a href="shinyapps.io">shinyapps.io</a> and <a href="https://beta.rstudioconnect.com" class="external-link">beta.rstudioconnect.com</a>
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml" class="external-link"><strong>Deploy</strong></a>: Deploy all testing apps to <a href="shinyapps.io">shinyapps.io</a> and <a href="https://beta.rstudioconnect.com" class="external-link">beta.rstudioconnect.com</a>
 </li>
+<li>
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-cache-matrix.yml" class="external-link"><strong>Warm Library Cache</strong></a>: Install and cache <a href="https://github.com/rstudio/shinycoreci" class="external-link">shinycoreci</a> and the shinyverse. Does not test any applications. Makes installations for testing <strong>much</strong> faster.</li>
+<li>
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/build-results.yml" class="external-link"><strong>Build results website</strong></a>: Builds results for <strong>Test apps</strong> workflow. This workflow is called from within <strong>Test apps</strong>. After all tests have completed, this workflow will process all results in <code>_test_results</code> branch into static files, storing the results in <code>gh-pages</code> branch. Final website location of results: <a href="https://rstudio.github.io/shinycoreci/results/" class="uri">https://rstudio.github.io/shinycoreci/results/</a>
+</li>
+<li>
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml" class="external-link"><strong>Package checks</strong></a>: There are three main tasks that this workflow achieves:<ol style="list-style-type: decimal">
+<li>Creates the <code>website</code> via <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>
+</li>
+<li>Performs <code>routine</code> procedures like making sure all documentation and README.md is up to date</li>
+<li>Performs <code>R CMD check</code> on <a href="https://github.com/rstudio/shinycoreci" class="external-link">shinycoreci</a>, across macOS, Windows, and Ubuntu (multiple R versions).</li>
+</ol>
+</li>
+<li>
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-deps.yml" class="external-link"><strong>Update app deps</strong></a>: Updates known dependencies of all Shiny applications in <code>./inst/apps</code>.</li>
+<li>
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/trim-old-branches.yml" class="external-link"><strong>Trim old branches</strong></a>: The current data model of <strong>Test apps</strong> workflow is to create many <code>gha-**</code> branches containing the changes of each test run on <code>main</code>. <code>gha-**</code> branches that have been stale for more than a week are removed.</li>
 </ul>
-<p>The <strong>runTests</strong> workflow runs automatically on every code change to <code>shinycoreci-apps</code> as well as every night (around midnight UTC). The other workflows may be triggered via <code><a href="reference/trigger.html">shinycoreci::trigger_docker()</a></code> and <code><a href="reference/trigger.html">shinycoreci::trigger_deploy()</a></code></p>
 <div class="section level3">
-<h3 id="_test_resultss-build-siteyaml">
-<code>_test_results</code>’s <code>build-site.yaml</code>
-<a class="anchor" aria-label="anchor" href="#_test_resultss-build-siteyaml"></a>
+<h3 id="trigger">Trigger<a class="anchor" aria-label="anchor" href="#trigger"></a>
 </h3>
-<p>Location of <code>build-site.yaml</code> workflow file: <a href="https://github.com/rstudio/shinycoreci/blob/_test_results/.github/workflows/build-site.yaml" class="external-link uri">https://github.com/rstudio/shinycoreci/blob/_test_results/.github/workflows/build-site.yaml</a></p>
-<p>Goal: Process all results to static files and push new outputs to <code>gh-pages</code> website</p>
-<p>Final website location of results: <a href="https://rstudio.github.io/shinycoreci/results/" class="uri">https://rstudio.github.io/shinycoreci/results/</a></p>
-<div class="section level4">
-<h4 id="actions-performed">Actions performed<a class="anchor" aria-label="anchor" href="#actions-performed"></a>
-</h4>
-<p>On push to <code>_test_results</code> branch…</p>
+<p>There are a handful of methods that can be called to trigger the GHA actions.</p>
+<ul>
+<li>
+<code><a href="reference/trigger.html">shinycoreci::trigger_tests()</a></code>: Trigger the <strong>Test apps</strong> workflow.</li>
+<li>
+<code><a href="reference/trigger.html">shinycoreci::trigger_docker()</a></code>: Trigger the <strong>Docker</strong> workflow.</li>
+<li>
+<code><a href="reference/trigger.html">shinycoreci::trigger_deploy()</a></code>: Trigger the <strong>Deploy</strong> workflow.</li>
+<li>
+<code><a href="reference/trigger.html">shinycoreci::trigger_cache()</a></code>: Trigger the <strong>Warm library cache</strong> workflow.</li>
+<li>
+<code><a href="reference/trigger.html">shinycoreci::trigger_results()</a></code>: Trigger the <strong>Build results website</strong> workflow.</li>
+<li>
+<code>shinycoreci::trigger(event_type=)</code>: Sends a custom event to the GHA workflow. For example, this can be used to trigger <strong>Trim old branches</strong> with <code>shinycoreci::trigger("trim")</code>.</li>
+</ul>
+<p>A triggered workflow will run without having to push to the repo. Anyone with repo write access can call this command.</p>
+</div>
+<div class="section level3">
+<h3 id="schedule">Schedule<a class="anchor" aria-label="anchor" href="#schedule"></a>
+</h3>
+<p>Most of the workflows are run on schedule.</p>
+<p>Example schedule where the workflow is run at 2am UTC Monday through Friday:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at">  </span><span class="st">'0 2 * * 1-5'</span></span></code></pre></div>
+<p>Schedule of <code>rstudio/shinycoreci</code> workflows:</p>
+<ul>
+<li>12am UTC, S-S: <strong>Trim old branches</strong>; &lt; 1 min</li>
+<li>12am UTC, M-F: <strong>Update app deps</strong>; &lt; 5 mins</li>
+<li>12:30am UTC, M-F: <strong>Warm library cache</strong>; 1 - 2 hrs</li>
+<li>2am UTC, M-F: <strong>Deploy apps</strong>; ~ 2 hrs</li>
+<li>3am UTC, M-F: <strong>Docker</strong>; ~ 1 hr</li>
+<li>5am UTC, M-F: <strong>Test apps</strong> (Internally calls <strong>Build results website</strong>); ~ 4 hrs</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="build-resultsyml">
+<code>build-results.yml</code><a class="anchor" aria-label="anchor" href="#build-resultsyml"></a>
+</h3>
+<p>Breakdown of what happens in the <strong>Build results website</strong> workflow:</p>
+<p>On completion of <code>apps-test-matrix.yml</code>…</p>
 <ul>
 <li>GHA will check out the latest <code>_test_results</code> branch into the local folder.</li>
 <li>GHA will check out the latest <code>gh-pages</code> branch into the <code>./_gh-pages</code> folder.</li>
@@ -238,12 +285,11 @@
 </li>
 <li>Within the <code>./_gh-pages</code> directory<ul>
 <li>Add any files that have been altered</li>
-<li>Commit and push back any changes to the <code>gh-pages</code> website<ul><li>Final results are</li></ul>
-</li>
+<li>Commit and push back any changes to the <code>gh-pages</code> website</li>
 </ul>
 </li>
 </ul>
-</div>
+<p>Final results are available at: <a href="https://rstudio.github.io/shinycoreci/results/" class="uri">https://rstudio.github.io/shinycoreci/results/</a></p>
 </div>
 </div>
 </div>

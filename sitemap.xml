@@ -43,6 +43,9 @@
     <loc>https://rstudio.github.io/shinycoreci/reference/fix_snaps.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/shinycoreci/reference/github_user.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/shinycoreci/reference/index.html</loc>
   </url>
   <url>
@@ -167,6 +170,18 @@
   </url>
   <url>
     <loc>https://rstudio.github.io/shinycoreci/results/2022/05/09/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinycoreci/results/2022/05/10/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinycoreci/results/2022/05/11/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinycoreci/results/2022/05/12/index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/shinycoreci/results/2022/05/13/index.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/shinycoreci/results/index.html</loc>

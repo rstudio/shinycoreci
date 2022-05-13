@@ -12,7 +12,7 @@ that can trigger workflows."><!-- mathjax --><script src="https://cdnjs.cloudfla
     
     <a class="navbar-brand me-2" href="../index.html">shinycoreci</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9007</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,6 +74,11 @@ that can trigger workflows.</p>
 <span class="op">)</span>
 
 <span class="fu">trigger_results</span><span class="op">(</span>
+  repo <span class="op">=</span> <span class="st">"rstudio/shinycoreci"</span>,
+  auth_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GITHUB_PAT"</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="fu">trigger_cache</span><span class="op">(</span>
   repo <span class="op">=</span> <span class="st">"rstudio/shinycoreci"</span>,
   auth_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GITHUB_PAT"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
