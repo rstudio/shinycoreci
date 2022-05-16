@@ -39,7 +39,7 @@ if (is_linux()) {
       install_troublesome_pkgs(
         list(
           list(name = "rjson", version = "0.2.20"),
-          list(name = "radiant", version = "1.3.4")
+          list(name = "radiant", version = "1.3.2")
         )
       )
       # These packages do not like to be installed on earlier R versions
