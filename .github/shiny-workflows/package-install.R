@@ -7,7 +7,7 @@ install_troublesome_pkgs <- function(pkgs) {
   }
 
   # Always install system deps
-  pak::system_requirements(pkgs, execute = TRUE)
+  pak::pkg_system_requirements(pkgs, execute = TRUE)
 
   # Install missing pkgs
   installed_packages <- as.data.frame(installed.packages(), stringsAsFactors = FALSE)$Package
