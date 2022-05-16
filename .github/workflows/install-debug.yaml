@@ -12,16 +12,21 @@ jobs:
   debug:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }} - ${{ matrix.config.packages }})
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: '3.6', packages: "any::highcharter, any::radiant, any::sessioninfo"}
-          - {os: windows-latest, r: '3.6', packages: "any::highcharter, any::radiant, any::sessioninfo"}
-          - {os: ubuntu-latest,  r: '3.6', packages: "any::highcharter, any::radiant, any::sessioninfo"}
-          - {os: ubuntu-latest,  r: '4.2', packages: "XML, any::sessioninfo"}
+          - {os: macOS-latest,   r: '3.5', packages: "any::highcharter, any::radiant, any::sessioninfo"}
+          - {os: windows-latest, r: '3.5', packages: "any::highcharter, any::radiant, any::sessioninfo"}
+          - {os: ubuntu-latest,  r: '3.5', packages: "any::highcharter, any::radiant, any::sessioninfo"}
+          - {os: ubuntu-latest,  r: '4.2', packages: "any::XML, any::sessioninfo"}
+
+          - {os: macOS-latest,   r: '3.5', packages: "highcharter, radiant, sessioninfo"}
+          - {os: windows-latest, r: '3.5', packages: "highcharter, radiant, sessioninfo"}
+          - {os: ubuntu-latest,  r: '3.5', packages: "highcharter, radiant, sessioninfo"}
+          - {os: ubuntu-latest,  r: '4.2', packages: "XML, sessioninfo"}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
