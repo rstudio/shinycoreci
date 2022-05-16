@@ -11,7 +11,7 @@ shinyverse_libpath <- function() {
     rappdirs::user_data_dir(),
     "R",
     "shinycoreci",
-    paste0("R-", version$major, "_", sub(".", "_", version$minor, fixed = TRUE))
+    paste0("R-", gsub(".", "_", getRversion(), fixed = TRUE))
   )
   # Provide a fully defined path. Things don't like to work without a fully defined path in pak
   if (!dir.exists(dir)) {

@@ -19,6 +19,7 @@ on:
       - all
       - cache
 
+
 jobs:
   config:
     uses: ./.github/workflows/apps-config.yml
