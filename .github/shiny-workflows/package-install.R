@@ -13,13 +13,13 @@ install_troublesome_pkgs <- function(pkgs) {
   installed_packages <- as.data.frame(installed.packages(), stringsAsFactors = FALSE)$Package
   pkgs_to_install <- pkgs[!(pkgs %in% installed_packages)]
   if (length(pkgs_to_install) > 0) {
+    message("Installing packages: ", paste0(pkgs_to_install, collapse = ", "))
     install.packages(pkgs_to_install)
   }
-
 }
 
 if (is_linux()) {
-  switch(getRversion(),
+  switch(as.character(getRversion()),
     "3.6.3" = {
       install_troublesome_pkgs(c("rjson"))
     },
