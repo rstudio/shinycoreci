@@ -20,7 +20,6 @@ on:
       - cache
 
 
-
 jobs:
   config:
     uses: ./.github/workflows/apps-config.yml
