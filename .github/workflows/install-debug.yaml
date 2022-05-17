@@ -12,14 +12,14 @@ jobs:
   debug:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }} - ${{ matrix.packages }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }} - ${{ matrix.prep-install }})
 
     strategy:
       fail-fast: false
       matrix:
         packages:
           - "any::highcharter, any::radiant, any::sessioninfo"
-          - "highcharter, radiant, sessioninfo"
+          # - "highcharter, radiant, sessioninfo"
         prep-install:
           - true
           - false
@@ -53,3 +53,4 @@ jobs:
         with:
           packages: ${{ matrix.packages }}
           extra-packages: any::rcmdcheck
+          cache-version: "10"
