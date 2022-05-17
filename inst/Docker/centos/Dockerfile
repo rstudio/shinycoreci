@@ -1,5 +1,5 @@
 # To build, cd to this directory, then:
-#   docker build --build-arg GITHUB_PAT=${GITHUB_PAT} -t rstudio/shinycoreci:base-4.2-centos7 .
+#   docker build --progress=plain --build-arg GITHUB_PAT=${GITHUB_PAT} -t ghcr.io/rstudio/shinycoreci:base-4.2-centos7 .
 
 
 ARG R_VERSION=4.2
@@ -9,7 +9,7 @@ ARG RELEASE=centos7
 FROM rstudio/r-base:${R_VERSION}-${RELEASE}
 ARG RELEASE=centos7
 
-MAINTAINER Barret Schloerke "barret@rstudio.com"
+# MAINTAINER Barret Schloerke "barret@rstudio.com"
 
 RUN yum -y update && \
   yum -y install epel-release && \
@@ -68,10 +68,24 @@ RUN curl -O https://download.osgeo.org/gdal/2.2.3/gdal-2.2.3.tar.gz \
 ####
 
 # RUN mkdir -p /usr/local/lib64/R/etc
-RUN echo "options(repos = c('https://packagemanager.rstudio.com/cran/__linux__/${RELEASE}/latest', 'https://cloud.r-project.org/'),download.file.method = 'libcurl', Ncpus = parallel::detectCores(logical=FALSE))" >> `Rscript -e "cat(R.home())"`/etc/Rprofile.site
+RUN echo "options(repos = c('https://packagemanager.rstudio.com/cran/__linux__/${RELEASE}/latest', 'https://cloud.r-project.org/'), download.file.method = 'libcurl', Ncpus = parallel::detectCores(logical=FALSE) )" >> `Rscript -e "cat(R.home())"`/etc/Rprofile.site
 RUN cat `Rscript -e "cat(R.home())"`/etc/Rprofile.site
 
 RUN R -e 'source("https://packagemanager.rstudio.com/__docs__/admin/check-user-agent.R")'
+
+# Install TinyTeX (subset of TeXLive)
+# From FAQ 5 and 6 here: https://yihui.name/tinytex/faq/
+# Also install ae, parskip, and listings packages to build R vignettes
+RUN wget -qO- \
+  "https://raw.githubusercontent.com/yihui/tinytex/main/tools/install-unx.sh" | \
+  sh -s - --admin --no-path \
+  && ~/.TinyTeX/bin/*/tlmgr path add \
+  && tlmgr install metafont mfware inconsolata tex ae parskip listings \
+  && tlmgr path add \
+  && Rscript -e "install.packages('tinytex'); tinytex::r_texmf()"
+
+# This is necessary for non-root users to follow symlinks to /root/.TinyTeX
+RUN chmod 755 /root
 
 
 ###
@@ -79,52 +93,76 @@ RUN R -e 'source("https://packagemanager.rstudio.com/__docs__/admin/check-user-a
 ###
 
 # known deps for shinycoreci
-RUN yum install -y epel-release glpk-devel gmp-devel libcurl-devel libicu-devel libpng-devel libxml2-devel make openssl-devel pandoc zlib-devel
+# pak::pkg_system_requirements(pkgs, os = "centos", os_release = "7");
+# Remove chrome installation instructions
+RUN yum install -y \
+  epel-release \
+  which \
+  make \
+  libpng-devel \
+  libxml2-devel \
+  libcurl-devel \
+  openssl-devel \
+  zlib-devel \
+  freetype-devel \
+  fribidi-devel \
+  harfbuzz-devel \
+  libicu-devel \
+  udunits2-devel \
+  fontconfig-devel \
+  libjpeg-turbo-devel \
+  libtiff-devel \
+  gdal-devel \
+  geos-devel \
+  proj-devel \
+  proj-epsg \
+  cairo-devel \
+  glpk-devel \
+  gmp-devel \
+  pandoc \
+  cmake
+
+ARG SHINYCORECI_SHA=HEAD
 
 ARG GITHUB_PAT=NOTSUPPLIED
-ENV GITHUB_PAT=$GITHUB_PAT
+## Do not persist GITHUB_PAT. Supply it at run time if needed
+# # make sure the variable persists
+# ENV GITHUB_PAT=$GITHUB_PAT
 
-# prep install
-RUN R --quiet -e "install.packages('remotes')"
-RUN R --quiet -e "remotes::install_cran(c('knitr', 'rmarkdown', 'curl'))"
-RUN R --quiet -e "remotes::install_cran(c('shinytest'))"
-# some how this package isn't a dep, but is required for a package
-RUN R --quiet -e "remotes::install_cran(c('markdown'))"
+# pak
+RUN R --quiet -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform[["pkgType"]], R.Version()[["os"]], R.Version()[["arch"]]))'
 
-ARG SHINYCORECI_SHA=main
-ARG APPS_SHA=main
+# Install system requirements of packages
+# Install packages using binary builds from package manager
+# Install shinycoreci then install shinyverse; Do not install apps deps as they have been installed via binary in prior step
+RUN R --quiet \
+  -e " \
+  pkgs <- c('base64enc', 'bslib', 'Cairo', 'clipr', 'curl', 'dbplyr', 'DiagrammeR', \
+  'dplyr', 'DT', 'evaluate', 'flexdashboard', 'future', 'ggplot2', \
+  'ggvis', 'hexbin', 'htmltools', 'htmlwidgets', \
+  'httpuv', 'jsonlite', 'knitr', 'later', 'leaflet', 'magrittr', \
+  'maps', 'markdown', 'memoise', 'networkD3', 'plotly', 'png', \
+  'progress', 'promises', 'pryr', 'radiant', 'ragg', 'RColorBrewer', \
+  'reactable', 'reactlog', 'reactR', 'rlang', 'rmarkdown', 'rprojroot', \
+  'rsconnect', 'RSQLite', 'rversions', 'scales', 'sf', 'shiny', \
+  'shinyAce', 'shinydashboard', 'shinyjs', 'shinymeta', \
+  'shinytest2', 'shinythemes', 'shinyvalidate', 'showtext', 'sysfonts', \
+  'systemfonts', 'testthat', 'thematic', 'tidyr', 'tm', 'websocket', \
+  'withr', 'wordcloud', \
+  'sessioninfo', \
+  'debugme', 'highcharter', 'parsedate', 'quantmod', 'rjson', 'rlist', 'showimage', 'TTR', 'XML', 'xts' \
+  ); \
+  # pak::pkg_system_requirements(pkgs, execute = TRUE); \
+  install.packages(pkgs); \
+  pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}');\
+  shinycoreci:::install_shinyverse_local(upgrade = FALSE, install_apps_deps = FALSE);\
+  "
 
-# install testing repo at specific sha
-RUN R --quiet -e "remotes::install_github('rstudio/shinycoreci@${SHINYCORECI_SHA}', auth_token ='$GITHUB_PAT')"
 
-
-###
-# shinycoreci-apps
-###
-
-# Download the repo in a temp folder, then unzip it into the home folder
-RUN mkdir -p /tmp/apps_repo && \
-  cd /tmp/apps_repo && \
-  wget --no-check-certificate -O _apps.zip https://github.com/rstudio/shinycoreci-apps/archive/${APPS_SHA}.zip && \
-  unzip _apps.zip -d . && \
-  mv */* ~
-
-# list the folders to see that it worked
-RUN ls -alh ~ && echo '' &&  ls -alh ~/apps
-# remove radiant as it has a lot of trouble being installed
-RUN rm -r ~/apps/141-radiant
-
-# install R pkg system requirements
-## Install manually until ragg / RSPM fixes it; https://github.com/r-lib/ragg/issues/41
-RUN yum install -y freetype-devel libpng-devel libtiff-devel
-# Must use `~/apps` as default working directory is not `~`
-RUN R --quiet -e "system(print(shinycoreci::rspm_all_install_scripts('~/apps', release = '${RELEASE}')))"
-
-# install r pkgs
-## install htmltools to get dev version
-RUN R --quiet -e "remotes::install_github('rstudio/htmltools', auth_token ='${GITHUB_PAT}')"
-RUN R --quiet -e "shinycoreci:::update_packages_installed('~/apps')"
-
+# # list the folders to see that it worked
+# RUN ls -alh ~ && echo '' &&  ls -alh ~/apps
+# # remove radiant as it has a lot of trouble being installed
+# RUN rm -r ~/apps/141-radiant
 
 ## doesn't work
 # COPY retail.c _retail.c

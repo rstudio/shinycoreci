@@ -1,5 +1,5 @@
 # To build, cd to this directory, then:
-#   docker build --build-arg SSP_LICENSE_FILE="ssp-rstudio-license-2024-09-06.lic" -t rstudio/shinycoreci:ssp-4.2-centos7 .
+#   docker build -t ghcr.io/rstudio/shinycoreci:ssp-4.2-centos7 .
 #
 # To run:
 #   docker run --rm -p 7979:3838 --name ssp_centos rstudio/shinycoreci:ssp-4.2-centos7
@@ -7,7 +7,7 @@
 ARG R_VERSION=4.2
 ARG RELEASE=centos7
 ARG EXTRA_BASE_TAG=
-FROM rstudio/shinycoreci:base-${R_VERSION}-${RELEASE}${EXTRA_BASE_TAG}
+FROM ghcr.io/rstudio/shinycoreci:base-${R_VERSION}-${RELEASE}${EXTRA_BASE_TAG}
 
 ARG R_VERSION=4.2
 ARG RELEASE=centos7
@@ -31,12 +31,12 @@ RUN wget --no-verbose "https://s3.amazonaws.com/rstudio-shiny-server-pro-build/$
   rm -f ssp-latest.rpm && \
   rm /srv/shiny-server/index.html
 
-# activate license
-ARG SSP_LICENSE_FILE
-COPY ${SSP_LICENSE_FILE} ssp.lic
-RUN wc -l ssp.lic && \
-  /opt/shiny-server/bin/license-manager activate-file ssp.lic > /dev/null 2>&1 && \
-  rm ssp.lic
+# # activate license
+# ARG SSP_LICENSE_FILE
+# COPY ${SSP_LICENSE_FILE} ssp.lic
+# RUN wc -l ssp.lic && \
+#   /opt/shiny-server/bin/license-manager activate-file ssp.lic > /dev/null 2>&1 && \
+#   rm ssp.lic
 
 RUN echo "${R_VERSION}-${RELEASE}${EXTRA_BASE_TAG} Shiny Server PRO: `cat version.txt`\n" >> /srv/shiny-server/__version && \
   rm -f version.txt
