@@ -2,7 +2,7 @@ library(shinytest2)
 
 test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant(),
-    seed = 100, shiny_args = list(display.mode = "normal"))
+    seed = 100, height = 1200, width = 1500, shiny_args = list(display.mode = "normal"))
 
   verbose <- FALSE
   if (verbose) {

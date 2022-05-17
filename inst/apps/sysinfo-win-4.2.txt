@@ -1,4 +1,4 @@
-Image Version:  20220503.1
+Image Version:  20220511.2
 osVersion: Windows Server x64 (build 20348)
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.utf8
  ctype    English_United States.utf8
  tz       UTC
- date     2022-05-12
+ date     2022-05-16
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -53,7 +53,7 @@ osVersion: Windows Server x64 (build 20348)
            data.table     1.14.2   CRAN  1.14.2           /data.table
             data.tree      1.0.0   CRAN   1.0.0            /data.tree
                   DBI      1.1.2   CRAN   1.1.2                  /DBI
-               dbplyr      2.1.1    any   2.1.1          /any::dbplyr
+               dbplyr      2.1.1   CRAN   2.1.1               /dbplyr
               debugme      1.1.0   CRAN   1.1.0              /debugme
                  desc      1.4.1   CRAN   1.4.1                 /desc
            DiagrammeR      1.0.9    any   1.0.9      /any::DiagrammeR
@@ -135,7 +135,7 @@ osVersion: Windows Server x64 (build 20348)
                nloptr      2.0.1   CRAN   2.0.1               /nloptr
                   NLP      0.2-1   CRAN   0.2-1                  /NLP
              numDeriv 2016.8-1.1   CRAN 2016.8-             /numDeriv
-              openssl      2.0.0   CRAN   2.0.0              /openssl
+              openssl      2.0.1   CRAN   2.0.1              /openssl
               packrat      0.7.0   CRAN   0.7.0              /packrat
                   pak      0.3.0   RSPM
            parallelly     1.31.1   CRAN  1.31.1           /parallelly
@@ -203,7 +203,7 @@ osVersion: Windows Server x64 (build 20348)
             rmarkdown       2.14   CRAN    2.14            /rmarkdown
                RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
             rprojroot      2.0.3   CRAN   2.0.3            /rprojroot
-            rsconnect     0.8.26 GitHub 08fd312          rstudio/HEAD
+            rsconnect     0.8.26 GitHub 60e3790          rstudio/HEAD
               RSQLite     2.2.14   CRAN  2.2.14              /RSQLite
            rstudioapi       0.13   CRAN    0.13           /rstudioapi
                  rsvg      2.3.1   CRAN   2.3.1                 /rsvg
@@ -217,7 +217,7 @@ osVersion: Windows Server x64 (build 20348)
                    sf      1.0-7    any   1.0-7              /any::sf
                 shiny 1.7.1.9003 GitHub 78d77ce          rstudio/HEAD
              shinyAce      0.4.2   CRAN   0.4.2             /shinyAce
-          shinycoreci 0.0.0.9006  Local
+          shinycoreci 0.0.0.9007  Local
        shinydashboard      0.7.2    any   0.7.2  /any::shinydashboard
            shinyFiles      0.9.1   CRAN   0.9.1           /shinyFiles
               shinyjs      2.1.0    any   2.1.0         /any::shinyjs
