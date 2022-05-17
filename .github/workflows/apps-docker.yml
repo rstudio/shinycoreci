@@ -25,13 +25,13 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      # max-parallel: 2
+      max-parallel: 5
       fail-fast: false
       matrix:
 
         flavor:
           # - shinycoreci_sha: main
-          - shinycoreci_sha: docker_new
+          - shinycoreci_sha: main
             extra_base_tag: ""
           # - shinycoreci_sha: shiny-1.4.0.1
           #   extra_base_tag: "-rc_v1.4.0.1"
@@ -44,8 +44,8 @@ jobs:
           - ${{ needs.config.outputs.oldrel4 }}
 
         docker:
-          # - workdir: inst/Docker/centos
-          #   type: centos7
+          - workdir: inst/Docker/centos
+            type: centos7
           - workdir: inst/Docker/ubuntu
             type: focal
           - workdir: inst/Docker/ubuntu
