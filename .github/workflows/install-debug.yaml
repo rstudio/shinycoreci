@@ -12,17 +12,14 @@ jobs:
   debug:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }} - ${{ matrix.prep-install }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }} - ${{ matrix.packages }})
 
     strategy:
       fail-fast: false
       matrix:
         packages:
           - "any::highcharter, any::radiant, any::sessioninfo"
-          # - "highcharter, radiant, sessioninfo"
-        prep-install:
-          - true
-          - false
+          - "any::highcharter, url::https://cloud.r-project.org/src/contrib/Archive/cli/cli_1.0.0.tar.gz, any::radiant, any::sessioninfo"
         config:
           - {os: macOS-latest,   r: '3.5'}
           - {os: windows-latest, r: '3.5'}
@@ -41,16 +38,8 @@ jobs:
           r-version: ${{ matrix.config.r }}
           use-public-rspm: true
 
-      - name: Install rjson
-        if: matrix.prep-install
-        shell: Rscript {0}
-        run: |
-          install.packages("remotes")
-          remotes::install_version("rjson", "0.2.20")
-          remotes::install_version("radiant", "1.3.2")
-
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: ${{ matrix.packages }}
           extra-packages: any::rcmdcheck
-          cache-version: "10"
+          cache-version: "11"
