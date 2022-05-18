@@ -44,6 +44,31 @@ runs:
       run: |
         echo "::set-output name=value::42"
 
+    - name: Adjust packages to install
+      id: pkgs
+      shell: Rscript {0}
+      run: |
+        pkgs_to_install <- "${{ steps.shinyverse.outputs.packages }}"
+        is_linux <- Sys.info()[["sysname"]] == "Linux"
+        if (is_linux) {
+          # Get R version like `"4.2"`
+          short_version <- sub("\\.\\d$", "", as.character(getRversion()))
+          switch(short_version,
+            "4.2" = {
+              pkgs_to_install <- sub("any::XML", "XML", pkgs_to_install)
+            },
+            "3.6" = {
+              pkgs_to_install <- sub("any::rjson", "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz", pkgs_to_install)
+            },
+            "3.5" = {
+              pkgs_to_install <- sub("any::rjson", "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz", pkgs_to_install)
+              pkgs_to_install <- sub("any::radiant", "url::https://cran.r-project.org/src/contrib/Archive/radiant/radiant_1.3.2.tar.gz", pkgs_to_install)
+            }
+          )
+        }
+        print(pkgs_to_install)
+        cat("::set-output name=to-install::", pkgs_to_install, "\n", sep = "")
+
     - name: Install R, shinycoreci, and shinyverse
       uses: rstudio/shiny-workflows/setup-r-package@v1
       with:
@@ -54,5 +79,5 @@ runs:
         rtools-version: ${{ steps.rtools-version.outputs.value }}
         extra-packages:
           local::.
-          ${{ steps.shinyverse.outputs.packages }}
+          ${{ steps.pkgs.outputs.to-install }}
           ${{ inputs.extra-packages }}
