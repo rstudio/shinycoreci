@@ -12,14 +12,11 @@ jobs:
   debug:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }} - ${{ matrix.packages }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
       fail-fast: false
       matrix:
-        install-digest:
-          - true
-          - false
         config:
           - {os: ubuntu-latest,  r: '3.5'}
     env:
@@ -36,14 +33,7 @@ jobs:
           r-version: ${{ matrix.config.r }}
           use-public-rspm: true
 
-      - name: Install digest
-        if: matrix.install-digest
-        shell: Rscript {0}
-        run: |
-          install.packages("digest")
-
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          packages: any::highcharter, url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz, any::sessioninfo
-          extra-packages: any::rcmdcheck
-          cache-version: "12"
+          packages: url::https://cran.r-project.org/src/contrib/Archive/cli/cli_3.1.0.tar.gz, any::sessioninfo
+          cache-version: "13"
