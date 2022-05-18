@@ -36,7 +36,7 @@ jobs:
           r-version: ${{ matrix.config.r }}
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Install digest
         if: matrix.install-digest
         shell: Rscript {0}
         run: |
