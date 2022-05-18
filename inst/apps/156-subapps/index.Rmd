@@ -107,5 +107,4 @@ shinyjster::shinyjster_js("
   jst.test();
 ")
 shinyjster::shinyjster_server(input, output)
-
 ```

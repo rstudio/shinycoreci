@@ -38,11 +38,78 @@ runs:
         source("inst/gha/gha-shinyverse-packages.R")
 
     - name: Rtools version
-      if: runner.os == 'Windows' && startsWith('${{ inputs.r-version }}', '4.2')
+      if: runner.os == 'Windows'
       id: rtools-version
-      shell: bash
+      shell: Rscript {0}
       run: |
-        echo "::set-output name=value::42"
+        # Get R version like `"4.2"`
+        short_r_version <- sub("\\.\\d$", "", "${{ inputs.r-version }}")
+        # For R versions >= 4.2, use Rtools v42
+        # Otherwise leave blank
+        if (
+          package_version("${{ inputs.r-version }}") >= package_version("4.2")
+        ) {
+          message("Using Rtools v42")
+          cat("::set-output name=value::42\n", sep = "")
+        } else {
+          message("Not setting Rtools version!")
+        }
+
+    - name: Adjust packages to install
+      id: pkgs
+      shell: Rscript {0}
+      run: |
+        pkgs_to_install <- "${{ steps.shinyverse.outputs.packages }}"
+        is_windows <- .Platform$OS.type == "windows"
+        is_linux <- Sys.info()[["sysname"]] == "Linux"
+        # Get R version like `"4.2"`
+        short_r_version <- sub("\\.\\d$", "", "${{ inputs.r-version }}")
+
+        replace_or_add <- function(find_val, replace_val) {
+          pkgs_to_install <<-
+            if (grepl(find_val, pkgs_to_install, fixed = TRUE)) {
+              sub(find_val, replace_val, pkgs_to_install, fixed = TRUE)
+            } else {
+              paste0(pkgs_to_install, ",", replace_val)
+            }
+        }
+        if (is_linux) {
+          switch(short_r_version,
+            "4.2" = {
+              replace_or_add("any::XML", "XML")
+            },
+            "3.6" = {
+              replace_or_add(
+                "any::rjson",
+                "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz"
+              )
+            },
+            "3.5" = {
+              replace_or_add(
+                "any::rjson",
+                "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz"
+              )
+              replace_or_add(
+                "any::radiant",
+                "url::https://cran.r-project.org/src/contrib/Archive/radiant/radiant_1.3.2.tar.gz"
+              )
+            }
+          )
+        }
+        if (is_windows) {
+          switch(short_r_version,
+            "3.5" = {
+              # https://github.com/r-spatial/s2/issues/140
+              # Once s2 > 1.0.7 is released, this can be removed... hopefully
+              replace_or_add(
+                "any::s2",
+                "r-spatial/s2"
+              )
+            }
+          )
+        }
+        message("Final packages:\n", gsub(",", ",\n", pkgs_to_install))
+        cat("::set-output name=to-install::", pkgs_to_install, "\n", sep = "")
 
     - name: Install R, shinycoreci, and shinyverse
       uses: rstudio/shiny-workflows/setup-r-package@v1
@@ -54,5 +121,5 @@ runs:
         rtools-version: ${{ steps.rtools-version.outputs.value }}
         extra-packages:
           local::.
-          ${{ steps.shinyverse.outputs.packages }}
+          ${{ steps.pkgs.outputs.to-install }}
           ${{ inputs.extra-packages }}

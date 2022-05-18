@@ -39,10 +39,10 @@ These GitHub packages will be installed to make sure the latest package developm
   - [rstudio/fontawesome](http://github.com/rstudio/fontawesome)
   - [rstudio/htmltools](http://github.com/rstudio/htmltools)
   - [rstudio/httpuv](http://github.com/rstudio/httpuv)
+  - [rstudio/leaflet](http://github.com/rstudio/leaflet)
   - [rstudio/pool](http://github.com/rstudio/pool)
   - [rstudio/promises](http://github.com/rstudio/promises)
   - [rstudio/reactlog](http://github.com/rstudio/reactlog)
-  - [rstudio/rsconnect](http://github.com/rstudio/rsconnect)
   - [rstudio/sass](http://github.com/rstudio/sass)
   - [rstudio/shiny](http://github.com/rstudio/shiny)
   - [rstudio/shinymeta](http://github.com/rstudio/shinymeta)
@@ -222,6 +222,29 @@ Final results are available at: <https://rstudio.github.io/shinycoreci/results/>
 
 # FAQ:
 
-If you run into an odd `{pak}` installation issue:
+  - If you run into an odd `{pak}` installation issue:
+      - Run `pak::cache_clean()` to clear the cache and try your original command again
+  - Installing on fresh linux? Run these commands before testing:
 
-  - Run `pak::cache_clean()` to clear the cache and try your original command again
+<!-- end list -->
+
+``` r
+pkgs <- c('base64enc', 'bslib', 'Cairo', 'clipr', 'curl', 'dbplyr', 'DiagrammeR',
+  'dplyr', 'DT', 'evaluate', 'flexdashboard', 'future', 'ggplot2',
+  'ggvis', 'hexbin', 'htmltools', 'htmlwidgets',
+  'httpuv', 'jsonlite', 'knitr', 'later', 'leaflet', 'magrittr',
+  'maps', 'markdown', 'memoise', 'networkD3', 'plotly', 'png',
+  'progress', 'promises', 'pryr', 'radiant', 'ragg', 'RColorBrewer',
+  'reactable', 'reactlog', 'reactR', 'rlang', 'rmarkdown', 'rprojroot',
+  'rsconnect', 'RSQLite', 'rversions', 'scales', 'sf', 'shiny',
+  'shinyAce', 'shinydashboard', 'shinyjs', 'shinymeta',
+  'shinytest2', 'shinythemes', 'shinyvalidate', 'showtext', 'sysfonts',
+  'systemfonts', 'testthat', 'thematic', 'tidyr', 'tm', 'websocket',
+  'withr', 'wordcloud',
+  'sessioninfo',
+  'debugme', 'highcharter', 'parsedate', 'quantmod', 'rjson', 'rlist', 'showimage', 'TTR', 'XML', 'xts'
+);
+pak::pkg_system_requirements(pkgs, execute = TRUE);
+install.packages(pkgs);
+# Now you should be able to go about testing
+```

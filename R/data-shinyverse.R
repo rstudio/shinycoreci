@@ -1,3 +1,5 @@
+# Written by hand!
+
 # Used by GHA script
 shinyverse_remotes <- c(
   "r-lib/cachem",
@@ -11,10 +13,10 @@ shinyverse_remotes <- c(
   "rstudio/fontawesome",
   "rstudio/htmltools",
   "rstudio/httpuv",
+  "rstudio/leaflet",
   "rstudio/pool",
   "rstudio/promises",
   "rstudio/reactlog",
-  "rstudio/rsconnect",
   "rstudio/sass",
   "rstudio/shiny",
   "rstudio/shinymeta",
@@ -28,3 +30,5 @@ shinyverse_remotes <- c(
   "schloerke/shinyjster",
   NULL
 )
+
+shinyverse_pkgs <- vapply(strsplit(shinyverse_remotes, "/"), `[[`, character(1), 2)

@@ -12,6 +12,12 @@ update_apps_deps <- function(repo_dir = ".") {
     base_packages()
   )
 
+  source("R/data-shinyverse.R")
+  apps_deps <- setdiff(
+    apps_deps,
+    c("shinycoreci", shinyverse_pkgs)
+  )
+
   apps_deps_txt <- utils::capture.output(dput(apps_deps))
 
   cat(
