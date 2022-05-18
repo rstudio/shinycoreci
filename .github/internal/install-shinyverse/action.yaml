@@ -53,20 +53,39 @@ runs:
         if (is_linux) {
           # Get R version like `"4.2"`
           short_version <- sub("\\.\\d$", "", as.character(getRversion()))
+
+          replace_or_add <- function(find_val, replace_val) {
+            pkgs_to_install <<-
+              if (grepl(find_val, pkgs_to_install, fixed = TRUE)) {
+                sub(find_val, replace_val, pkgs_to_install, fixed = TRUE)
+              } else {
+                paste0(pkgs_to_install, ",", replace_val)
+              }
+          }
+
           switch(short_version,
             "4.2" = {
-              pkgs_to_install <- sub("any::XML", "XML", pkgs_to_install)
+              replace_or_add("any::XML", "XML")
             },
             "3.6" = {
-              pkgs_to_install <- sub("any::rjson", "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz", pkgs_to_install)
+              replace_or_add(
+                "any::rjson",
+                "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz"
+              )
             },
             "3.5" = {
-              pkgs_to_install <- sub("any::rjson", "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz", pkgs_to_install)
-              pkgs_to_install <- sub("any::radiant", "url::https://cran.r-project.org/src/contrib/Archive/radiant/radiant_1.3.2.tar.gz", pkgs_to_install)
+              replace_or_add(
+                "any::rjson",
+                "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz"
+              )
+              replace_or_add(
+                "any::radiant",
+                "url::https://cran.r-project.org/src/contrib/Archive/radiant/radiant_1.3.2.tar.gz"
+              )
             }
           )
         }
-        print(pkgs_to_install)
+        message("Final packages:\n", gsub(",", ",\n", pkgs_to_install))
         cat("::set-output name=to-install::", pkgs_to_install, "\n", sep = "")
 
     - name: Install R, shinycoreci, and shinyverse
