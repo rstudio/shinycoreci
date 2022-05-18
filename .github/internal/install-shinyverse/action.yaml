@@ -38,11 +38,22 @@ runs:
         source("inst/gha/gha-shinyverse-packages.R")
 
     - name: Rtools version
-      if: runner.os == 'Windows' && startsWith('${{ inputs.r-version }}', '4.2')
+      if: runner.os == 'Windows'
       id: rtools-version
-      shell: bash
+      shell: Rscript {0}
       run: |
-        echo "::set-output name=value::42"
+        # Get R version like `"4.2"`
+        short_r_version <- sub("\\.\\d$", "", "${{ inputs.r-version }}")
+        # For R versions >= 4.2, use Rtools v42
+        # Otherwise leave blank
+        if (
+          package_version("${{ inputs.r-version }}") >= package_version("4.2")
+        ) {
+          message("Using Rtools v42")
+          cat("::set-output name=value::42\n", sep = "")
+        } else {
+          message("Not setting Rtools version!")
+        }
 
     - name: Adjust packages to install
       id: pkgs
@@ -52,8 +63,7 @@ runs:
         is_linux <- Sys.info()[["sysname"]] == "Linux"
         if (is_linux) {
           # Get R version like `"4.2"`
-          r_version <- "${{ inputs.r-version }}"
-          short_version <- sub("\\.\\d$", "", r_version)
+          short_r_version <- sub("\\.\\d$", "", "${{ inputs.r-version }}")
 
           replace_or_add <- function(find_val, replace_val) {
             pkgs_to_install <<-
@@ -64,7 +74,7 @@ runs:
               }
           }
 
-          switch(short_version,
+          switch(short_r_version,
             "4.2" = {
               replace_or_add("any::XML", "XML")
             },
