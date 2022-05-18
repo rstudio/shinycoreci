@@ -92,9 +92,9 @@ RUN chmod 755 /root
 # shinycoreci
 ###
 
-# known deps for shinycoreci
+# Known deps for shinycoreci
 # pak::pkg_system_requirements(pkgs, os = "centos", os_release = "7");
-# Remove chrome installation instructions
+# Removed chrome installation instructions
 RUN yum install -y \
   epel-release \
   which \
@@ -152,6 +152,7 @@ RUN R --quiet \
   'sessioninfo', \
   'debugme', 'highcharter', 'parsedate', 'quantmod', 'rjson', 'rlist', 'showimage', 'TTR', 'XML', 'xts' \
   ); \
+  # NOTE! System requirements must be updated by hand. :-(
   # pak::pkg_system_requirements(pkgs, execute = TRUE); \
   install.packages(pkgs); \
   pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}');\
