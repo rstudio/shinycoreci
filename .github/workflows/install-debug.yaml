@@ -17,12 +17,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        packages:
-          - "any::highcharter, any::radiant, any::sessioninfo"
-          - "any::highcharter, url::https://cloud.r-project.org/src/contrib/Archive/cli/cli_1.0.0.tar.gz, any::radiant, any::sessioninfo"
+        install-digest:
+          - true
+          - false
         config:
-          - {os: macOS-latest,   r: '3.5'}
-          - {os: windows-latest, r: '3.5'}
           - {os: ubuntu-latest,  r: '3.5'}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -39,7 +37,13 @@ jobs:
           use-public-rspm: true
 
       - uses: r-lib/actions/setup-r-dependencies@v2
+        if: matrix.install-digest
+        shell: Rscript {0}
+        run: |
+          install.packages("digest")
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          packages: ${{ matrix.packages }}
+          packages: any::highcharter, url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz, any::sessioninfo
           extra-packages: any::rcmdcheck
-          cache-version: "11"
+          cache-version: "12"
