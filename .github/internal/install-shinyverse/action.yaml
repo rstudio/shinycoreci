@@ -52,7 +52,8 @@ runs:
         is_linux <- Sys.info()[["sysname"]] == "Linux"
         if (is_linux) {
           # Get R version like `"4.2"`
-          short_version <- sub("\\.\\d$", "", as.character(getRversion()))
+          r_version <- "${{ inputs.r-version }}"
+          short_version <- sub("\\.\\d$", "", r_version)
 
           replace_or_add <- function(find_val, replace_val) {
             pkgs_to_install <<-
