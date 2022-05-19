@@ -10,7 +10,7 @@ osVersion: macOS Big Sur/Monterey 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-05-16
+ date     2022-05-18
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -135,7 +135,7 @@ osVersion: macOS Big Sur/Monterey 10.16
                nloptr      2.0.0   CRAN   2.0.0               /nloptr
                   NLP      0.2-1   CRAN   0.2-1                  /NLP
              numDeriv 2016.8-1.1   CRAN 2016.8-             /numDeriv
-              openssl      2.0.0   CRAN   2.0.0              /openssl
+              openssl      2.0.1   CRAN   2.0.1              /openssl
               packrat      0.7.0   CRAN   0.7.0              /packrat
                   pak      0.3.0   CRAN
            parallelly     1.31.1   CRAN  1.31.1           /parallelly
@@ -203,7 +203,7 @@ osVersion: macOS Big Sur/Monterey 10.16
             rmarkdown       2.14   CRAN    2.14            /rmarkdown
                RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
             rprojroot      2.0.3   CRAN   2.0.3            /rprojroot
-            rsconnect     0.8.26 GitHub 60e3790          rstudio/HEAD
+            rsconnect     0.8.26 GitHub 34ad08c          rstudio/HEAD
               RSQLite     2.2.14   CRAN  2.2.14              /RSQLite
            rstudioapi       0.13   CRAN    0.13           /rstudioapi
                  rsvg      2.3.1   CRAN   2.3.1                 /rsvg
