@@ -3,14 +3,14 @@
     "cities": null,
     "color": "college",
     "map_bounds": {
-      "north": 57.8914973527103,
-      "east": -50.2734375,
-      "south": 9.53574899813361,
-      "west": -137.4609375
+      "north": 67.067433351083,
+      "east": -27.94921875,
+      "south": -10.4013775545435,
+      "west": -159.78515625
     },
     "map_center": {
-      "lng": -93.85,
-      "lat": 37.45
+      "lng": -93.8671875,
+      "lat": 37.474858084971
     },
     "map_zoom": 4,
     "maxScore": 100,
@@ -31756,11 +31756,142 @@
     ],
     "ziptable_rows_selected": null,
     "ziptable_search": "",
-    "ziptable_state": null
+    "ziptable_state": {
+      "start": 0,
+      "length": 10,
+      "order": [
+
+      ],
+      "search": {
+        "search": "",
+        "smart": true,
+        "regex": false,
+        "caseInsensitive": true
+      },
+      "columns": [
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        }
+      ]
+    }
   },
   "output": {
     "histCentile": {
-      "src": "[image data sha1: 4fa5ac8b7808bdf6e0a96ec2d5c25c92ae0ebe70]",
+      "src": "[image data hash: 71da87b796720d7b448aebf7ae04fe52]",
       "width": 288,
       "height": 200,
       "alt": "Plot object",
@@ -31770,8 +31901,8 @@
             "domain": {
               "left": -3.999931064,
               "right": 103.999986964,
-              "bottom": -42.6,
-              "top": 1107.6
+              "bottom": -42.8,
+              "top": 1112.8
             },
             "range": {
               "left": 59.04,
@@ -31829,7 +31960,7 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data sha1: beeffc0b848c4d294906bcf0e5fb690b8253f8b5]",
+      "src": "[image data hash: c73d0ef82b1c18f08d39f173bf621770]",
       "width": 288,
       "height": 250,
       "alt": "Plot object",
@@ -31929,9 +32060,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.10.20",
+          "version": "1.11.3",
           "src": {
-            "href": "dt-core-1.10.20"
+            "href": "dt-core-1.11.3"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -31946,9 +32077,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.1.1.9000",
+          "version": "1.2.0.9000",
           "src": {
-            "href": "crosstalk-1.1.1.9000"
+            "href": "crosstalk-1.2.0.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",

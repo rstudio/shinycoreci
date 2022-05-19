@@ -675,7 +675,7 @@
   },
   "output": {
     "histCentile": {
-      "src": "[image data sha1: c5c72eef9a3e0f26f5deca976db0adabac63bf16]",
+      "src": "[image data hash: 9e2ef53bc5104b947dd3b34ee9a19fc7]",
       "width": 288,
       "height": 200,
       "alt": "Plot object",
@@ -685,8 +685,8 @@
             "domain": {
               "left": -3.999931064,
               "right": 103.999986964,
-              "bottom": -42.6,
-              "top": 1107.6
+              "bottom": -42.8,
+              "top": 1112.8
             },
             "range": {
               "left": 59.04,
@@ -744,7 +744,7 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data sha1: e4846dda8eb537cb48b852c697944686b605d445]",
+      "src": "[image data hash: 86fe2ab5a65a8c56e931e6d15922fa1b]",
       "width": 288,
       "height": 250,
       "alt": "Plot object",

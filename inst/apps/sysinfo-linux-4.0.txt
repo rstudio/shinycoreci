@@ -10,7 +10,7 @@ osVersion: Ubuntu 18.04.6 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2022-05-16
+ date     2022-05-18
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -206,7 +206,7 @@ osVersion: Ubuntu 18.04.6 LTS
             rmarkdown       2.14   CRAN    2.14            /rmarkdown
                RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
             rprojroot      2.0.3   CRAN   2.0.3            /rprojroot
-            rsconnect     0.8.26 GitHub 60e3790          rstudio/HEAD
+            rsconnect     0.8.26 GitHub 34ad08c          rstudio/HEAD
               RSQLite     2.2.14   CRAN  2.2.14              /RSQLite
            rstudioapi       0.13   CRAN    0.13           /rstudioapi
                  rsvg      2.3.1   CRAN   2.3.1                 /rsvg
@@ -256,7 +256,7 @@ osVersion: Ubuntu 18.04.6 LTS
                tibble      3.1.7   CRAN   3.1.7               /tibble
                 tidyr      1.2.0    any   1.2.0           /any::tidyr
            tidyselect      1.1.2   CRAN   1.1.2           /tidyselect
-              tinytex       0.38   CRAN    0.38              /tinytex
+              tinytex       0.39   CRAN    0.39              /tinytex
                    tm      0.7-8    any   0.7-8              /any::tm
               tmvnsim      1.0-2   CRAN   1.0-2              /tmvnsim
                   TTR     0.24.3   CRAN  0.24.3                  /TTR
