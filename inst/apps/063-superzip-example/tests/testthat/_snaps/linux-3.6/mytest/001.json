@@ -3,10 +3,10 @@
     "cities": null,
     "color": "superzip",
     "map_bounds": {
-      "north": 57.8914973527103,
-      "east": -50.2734375,
-      "south": 9.53574899813361,
-      "west": -137.4609375
+      "north": 67.067433351083,
+      "east": -27.94921875,
+      "south": -10.4013775545435,
+      "west": -159.78515625
     },
     "map_center": {
       "lng": -93.85,
@@ -23,7 +23,7 @@
   },
   "output": {
     "histCentile": {
-      "src": "[image data sha1: 306d3731b994af9fb285ca044f1297c62a8ba9cf]",
+      "src": "[image data hash: c8acc8b769907c427420460245e831ce]",
       "width": 288,
       "height": 200,
       "alt": "Plot object",
@@ -33,8 +33,8 @@
             "domain": {
               "left": -3.999931064,
               "right": 103.999986964,
-              "bottom": -42.6,
-              "top": 1107.6
+              "bottom": -42.8,
+              "top": 1112.8
             },
             "range": {
               "left": 59.04,
@@ -92,7 +92,7 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data sha1: d2e3ead244070527986bc426c8b66a9abc74abaa]",
+      "src": "[image data hash: def9fc335894a9d028eb9ee7bc6ddc52]",
       "width": 288,
       "height": 250,
       "alt": "Plot object",

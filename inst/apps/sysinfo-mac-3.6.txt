@@ -1,4 +1,4 @@
-Image Version:  20220508.1
+Image Version:  20220517.4
 osVersion: macOS  10.16
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-05-18
+ date     2022-05-23
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -112,7 +112,7 @@ osVersion: macOS  10.16
              labeling      0.4.2   CRAN   0.4.2             /labeling
                 later 1.3.0.9000 GitHub ba70887            r-lib/HEAD
              lazyeval      0.2.2   CRAN   0.2.2             /lazyeval
-              leaflet    2.0.4.1    any 2.0.4.1         /any::leaflet
+              leaflet      2.1.1 GitHub 0016c07          rstudio/HEAD
     leaflet.providers      1.9.0   CRAN   1.9.0    /leaflet.providers
             lifecycle      1.0.1   CRAN   1.0.1            /lifecycle
               listenv      0.8.0   CRAN   0.8.0              /listenv
@@ -135,7 +135,7 @@ osVersion: macOS  10.16
                nloptr    1.2.2.3   CRAN 1.2.2.3               /nloptr
                   NLP      0.2-1   CRAN   0.2-1                  /NLP
              numDeriv 2016.8-1.1   CRAN 2016.8-             /numDeriv
-              openssl      2.0.1   CRAN   2.0.1              /openssl
+              openssl      1.4.6   CRAN   1.4.6              /openssl
              openxlsx      4.2.5   CRAN   4.2.5             /openxlsx
               packrat      0.7.0   CRAN   0.7.0              /packrat
                   pak      0.3.0   CRAN
@@ -198,14 +198,17 @@ osVersion: macOS  10.16
              reshape2      1.4.4   CRAN   1.4.4             /reshape2
            reticulate       1.24   CRAN    1.24           /reticulate
                   rex      1.2.1   CRAN   1.2.1                  /rex
+                rgdal     1.5-28   CRAN  1.5-28                /rgdal
+                rgeos      0.5-9   CRAN   0.5-9                /rgeos
                   rio     0.5.16   CRAN  0.5.16                  /rio
                 rjson     0.2.20   CRAN  0.2.20                /rjson
+              RJSONIO    1.3-1.6   CRAN 1.3-1.6              /RJSONIO
                 rlang      1.0.1   CRAN   1.0.1                /rlang
                 rlist    0.4.6.2   CRAN 0.4.6.2                /rlist
             rmarkdown       2.11   CRAN    2.11            /rmarkdown
                RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
             rprojroot      2.0.2   CRAN   2.0.2            /rprojroot
-            rsconnect     0.8.26 GitHub 34ad08c          rstudio/HEAD
+            rsconnect     0.8.25   CRAN  0.8.25            /rsconnect
               RSQLite      2.2.9   CRAN   2.2.9              /RSQLite
            rstudioapi       0.13   CRAN    0.13           /rstudioapi
                  rsvg      2.2.0   CRAN   2.2.0                 /rsvg

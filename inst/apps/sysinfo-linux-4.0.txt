@@ -1,4 +1,4 @@
-Image Version:  20220511.2
+Image Version:  20220515.1
 osVersion: Ubuntu 18.04.6 LTS
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: Ubuntu 18.04.6 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2022-05-18
+ date     2022-05-23
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -75,7 +75,7 @@ osVersion: Ubuntu 18.04.6 LTS
           fontawesome 0.2.2.9000 GitHub 2bc71f2          rstudio/HEAD
               foreach      1.5.2   CRAN   1.5.2              /foreach
                    fs      1.5.2   CRAN   1.5.2                   /fs
-               future     1.25.0   CRAN  1.25.0               /future
+               future     1.25.0    any  1.25.0          /any::future
              generics      0.1.2   CRAN   0.1.2             /generics
                  gert      1.6.0   CRAN   1.6.0                 /gert
             gganimate      1.0.7   CRAN   1.0.7            /gganimate
@@ -113,7 +113,7 @@ osVersion: Ubuntu 18.04.6 LTS
              labeling      0.4.2   CRAN   0.4.2             /labeling
                 later 1.3.0.9000 GitHub ba70887            r-lib/HEAD
              lazyeval      0.2.2   CRAN   0.2.2             /lazyeval
-              leaflet      2.1.1    any   2.1.1         /any::leaflet
+              leaflet      2.1.1 GitHub 0016c07          rstudio/HEAD
     leaflet.providers      1.9.0   CRAN   1.9.0    /leaflet.providers
             lifecycle      1.0.1   CRAN   1.0.1            /lifecycle
               listenv      0.8.0   CRAN   0.8.0              /listenv
@@ -123,7 +123,7 @@ osVersion: Ubuntu 18.04.6 LTS
              magrittr      2.0.3   CRAN   2.0.3             /magrittr
                  maps      3.4.0    any   3.4.0            /any::maps
              maptools      1.1-4   CRAN   1.1-4             /maptools
-             markdown        1.1    any     1.1        /any::markdown
+             markdown        1.1   CRAN     1.1             /markdown
          MatrixModels      0.5-0   CRAN   0.5-0         /MatrixModels
               memoise      2.0.1   CRAN   2.0.1              /memoise
                  mime       0.12   CRAN    0.12                 /mime
@@ -133,7 +133,7 @@ osVersion: Ubuntu 18.04.6 LTS
               mvtnorm      1.1-3   CRAN   1.1-3              /mvtnorm
             networkD3        0.4    any     0.4       /any::networkD3
        NeuralNetTools      1.5.3   CRAN   1.5.3       /NeuralNetTools
-               nloptr      2.0.1   CRAN   2.0.1               /nloptr
+               nloptr      2.0.2   CRAN   2.0.2               /nloptr
                   NLP      0.2-1   CRAN   0.2-1                  /NLP
              numDeriv 2016.8-1.1   CRAN 2016.8-             /numDeriv
               openssl      2.0.1   CRAN   2.0.1              /openssl
@@ -149,7 +149,7 @@ osVersion: Ubuntu 18.04.6 LTS
             pkgconfig      2.0.3   CRAN   2.0.3            /pkgconfig
               pkgload      1.2.4   CRAN   1.2.4              /pkgload
                 plogr      0.2.0   CRAN   0.2.0                /plogr
-               plotly     4.10.0    any  4.10.0          /any::plotly
+               plotly     4.10.0   CRAN  4.10.0               /plotly
               plumber      1.1.0   CRAN   1.1.0              /plumber
                  plyr      1.8.7   CRAN   1.8.7                 /plyr
                   png      0.1-7   CRAN   0.1-7                  /png
@@ -200,13 +200,16 @@ osVersion: Ubuntu 18.04.6 LTS
              reshape2      1.4.4   CRAN   1.4.4             /reshape2
            reticulate       1.25   CRAN    1.25           /reticulate
                   rex      1.2.1   CRAN   1.2.1                  /rex
+                rgdal     1.5-32   CRAN  1.5-32                /rgdal
+                rgeos      0.5-9   CRAN   0.5-9                /rgeos
                 rjson     0.2.21   CRAN  0.2.21                /rjson
+              RJSONIO    1.3-1.6   CRAN 1.3-1.6              /RJSONIO
                 rlang      1.0.2   CRAN   1.0.2                /rlang
                 rlist    0.4.6.2   CRAN 0.4.6.2                /rlist
             rmarkdown       2.14   CRAN    2.14            /rmarkdown
                RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
             rprojroot      2.0.3   CRAN   2.0.3            /rprojroot
-            rsconnect     0.8.26 GitHub 34ad08c          rstudio/HEAD
+            rsconnect     0.8.25    any  0.8.25       /any::rsconnect
               RSQLite     2.2.14   CRAN  2.2.14              /RSQLite
            rstudioapi       0.13   CRAN    0.13           /rstudioapi
                  rsvg      2.3.1   CRAN   2.3.1                 /rsvg
@@ -214,9 +217,9 @@ osVersion: Ubuntu 18.04.6 LTS
                    s2      1.0.7   CRAN   1.0.7                   /s2
              sandwich      3.0-1   CRAN   3.0-1             /sandwich
                  sass 0.4.1.9000 GitHub 72e722a          rstudio/HEAD
-               scales      1.2.0   CRAN   1.2.0               /scales
+               scales      1.2.0    any   1.2.0          /any::scales
                 servr       0.24   CRAN    0.24                /servr
-          sessioninfo      1.2.2    any   1.2.2     /any::sessioninfo
+          sessioninfo      1.2.2   CRAN   1.2.2          /sessioninfo
                    sf      1.0-7    any   1.0-7              /any::sf
                 shiny 1.7.1.9003 GitHub 78d77ce          rstudio/HEAD
              shinyAce      0.4.2   CRAN   0.4.2             /shinyAce

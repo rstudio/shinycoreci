@@ -1,0 +1,133 @@
+{
+  "input": {
+    "cities": null,
+    "color": "college",
+    "map_bounds": {
+      "north": 67.067433351083,
+      "east": -27.94921875,
+      "south": -10.4013775545435,
+      "west": -159.78515625
+    },
+    "map_center": {
+      "lng": -93.8671875,
+      "lat": 37.474858084971
+    },
+    "map_zoom": 4,
+    "maxScore": 100,
+    "minScore": 0,
+    "nav": "Interactive map",
+    "size": "adultpop",
+    "states": null,
+    "threshold": 3,
+    "zipcodes": null
+  },
+  "output": {
+    "histCentile": {
+      "src": "[image data hash: c8acc8b769907c427420460245e831ce]",
+      "width": 288,
+      "height": 200,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -3.999931064,
+              "right": 103.999986964,
+              "bottom": -42.8,
+              "top": 1112.8
+            },
+            "range": {
+              "left": 59.04,
+              "right": 257.76,
+              "bottom": 125.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 288,
+          "height": 200
+        }
+      }
+    },
+    "map": {
+      "x": {
+        "options": {
+          "crs": {
+            "crsClass": "L.CRS.EPSG3857",
+            "code": null,
+            "proj4def": null,
+            "projectedBounds": null,
+            "options": {
+
+            }
+          }
+        },
+        "setView": [
+          [
+            37.45,
+            -93.85
+          ],
+          4,
+          [
+
+          ]
+        ]
+      },
+      "evals": [
+
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+
+      ]
+    },
+    "scatterCollegeIncome": {
+      "src": "[image data hash: c3e17f90d59c65f153079f629b4e75ae]",
+      "width": 288,
+      "height": 250,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -0.04,
+              "right": 1.04,
+              "bottom": -0.04,
+              "top": 1.04
+            },
+            "range": {
+              "left": 0,
+              "right": 288,
+              "bottom": 249,
+              "top": -1
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 288,
+          "height": 250
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}
