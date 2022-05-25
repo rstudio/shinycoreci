@@ -10,7 +10,7 @@ osVersion: Ubuntu 18.04.6 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2022-05-23
+ date     2022-05-24
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -31,7 +31,7 @@ osVersion: Ubuntu 18.04.6 LTS
                 broom      0.8.0   CRAN   0.8.0                /broom
                 bslib 0.3.1.9000 GitHub a4946a4          rstudio/HEAD
                cachem 1.0.6.9000 GitHub fe6121f            r-lib/HEAD
-                Cairo     1.5-15   CRAN  1.5-15                /Cairo
+                Cairo     1.5-15    any  1.5-15           /any::Cairo
                 callr      3.7.0   CRAN   3.7.0                /callr
                   car     3.0-13   CRAN  3.0-13                  /car
               carData      3.0-5   CRAN   3.0-5              /carData
@@ -54,7 +54,7 @@ osVersion: Ubuntu 18.04.6 LTS
            data.table     1.14.2   CRAN  1.14.2           /data.table
             data.tree      1.0.0   CRAN   1.0.0            /data.tree
                   DBI      1.1.2   CRAN   1.1.2                  /DBI
-               dbplyr      2.1.1    any   2.1.1          /any::dbplyr
+               dbplyr      2.1.1   CRAN   2.1.1               /dbplyr
               debugme      1.1.0   CRAN   1.1.0              /debugme
                  desc      1.4.1   CRAN   1.4.1                 /desc
            DiagrammeR      1.0.9    any   1.0.9      /any::DiagrammeR
@@ -183,7 +183,7 @@ osVersion: Ubuntu 18.04.6 LTS
        radiant.design      1.4.1   CRAN   1.4.1       /radiant.design
         radiant.model      1.4.3   CRAN   1.4.3        /radiant.model
  radiant.multivariate      1.4.1   CRAN   1.4.1 /radiant.multivariate
-                 ragg      1.2.2   CRAN   1.2.2                 /ragg
+                 ragg      1.2.2    any   1.2.2            /any::ragg
             randomizr     0.22.0   CRAN  0.22.0            /randomizr
                ranger     0.13.1   CRAN  0.13.1               /ranger
              rappdirs      0.3.3   CRAN   0.3.3             /rappdirs
@@ -214,7 +214,7 @@ osVersion: Ubuntu 18.04.6 LTS
                RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
             rprojroot      2.0.3   CRAN   2.0.3            /rprojroot
             rsconnect     0.8.25    any  0.8.25       /any::rsconnect
-              RSQLite     2.2.14   CRAN  2.2.14              /RSQLite
+              RSQLite     2.2.14    any  2.2.14         /any::RSQLite
            rstudioapi       0.13   CRAN    0.13           /rstudioapi
                  rsvg      2.3.1   CRAN   2.3.1                 /rsvg
             rversions      2.1.1    any   2.1.1       /any::rversions
@@ -239,7 +239,7 @@ osVersion: Ubuntu 18.04.6 LTS
         shinyvalidate      0.1.2 GitHub 575f586          rstudio/HEAD
          shinyWidgets      0.7.0   CRAN   0.7.0         /shinyWidgets
             showimage      1.0.0   CRAN   1.0.0            /showimage
-             showtext      0.9-5   CRAN   0.9-5             /showtext
+             showtext      0.9-5    any   0.9-5        /any::showtext
            showtextdb        3.0   CRAN     3.0           /showtextdb
                  slam     0.1-50   CRAN  0.1-50                 /slam
                sodium      1.2.0   CRAN   1.2.0               /sodium
