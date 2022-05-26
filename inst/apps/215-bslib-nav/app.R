@@ -27,7 +27,7 @@ nav_items <- function(prefix) {
 
 shinyApp(
   page_navbar(
-    theme = bs_theme(version = 4),
+    theme = bs_theme(),
     title = "page_navbar()",
     bg = "#0062cc",
     !!!nav_items("page_navbar()"),
