@@ -6,7 +6,7 @@ library(bslib)
 #   cosmo3 = list(version = 3, bootswatch = cosmo)
 # )
 
-for (version in c(3,4)) {
+for (version in c(4,5)) {
   for (theme in c("cosmo")) {
     # Ex: cosmo4
     name <- gsub("\\s+", "-", paste0(theme, version))

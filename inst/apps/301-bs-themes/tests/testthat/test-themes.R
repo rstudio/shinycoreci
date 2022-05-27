@@ -15,8 +15,23 @@ if (length(dir("_snaps")) > 1) {
 }
 
 themes <- list(
+  default4 = list(version = 5),
   default4 = list(version = 4),
-  default3 = list(version = 3),
+  #default3 = list(version = 3),
+  custom5 = list(
+    version = 5,
+    bg = "#202123",
+    fg = "#B8BCC2",
+    primary = "#EA80FC",
+    secondary = "#00DAC6",
+    success = "#4F9B29",
+    info = "#28B3ED",
+    warning = "#FD7424",
+    danger = "#F7367E",
+    base_font = bslib::font_google("Open Sans"),
+    heading_font = bslib::font_google("Proza Libre"),
+    code_font = bslib::font_google("Fira Code")
+  ),
   custom4 = list(
     version = 4,
     bg = "#202123",
@@ -30,14 +45,14 @@ themes <- list(
     base_font = bslib::font_google("Open Sans"),
     heading_font = bslib::font_google("Proza Libre"),
     code_font = bslib::font_google("Fira Code")
-  ),
-  custom3 = list(
-    version = 3,
-    bg = "#002B36",
-    fg = "#EEE8D5",
-    primary = "#2AA198",
-    base_font = font_google("Grandstander")
   )
+#   custom3 = list(
+#     version = 3,
+#     bg = "#002B36",
+#     fg = "#EEE8D5",
+#     primary = "#2AA198",
+#     base_font = font_google("Grandstander")
+#   )
 )
 
 for (theme_name in names(themes)) {

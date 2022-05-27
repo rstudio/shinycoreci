@@ -3,7 +3,7 @@ library(bslib)
 shinyjster::testthat_shinyjster("No theme", dimensions = "550x700")
 
 local({
-  old_theme <- bs_global_set(bs_theme(version = 4))
+  old_theme <- bs_global_set(bs_theme())
   on.exit(bs_global_set(old_theme))
   shinyjster::testthat_shinyjster("bs4", dimensions = "550x700")
 })

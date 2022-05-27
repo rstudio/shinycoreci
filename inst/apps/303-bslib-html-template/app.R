@@ -3,8 +3,9 @@ library(bslib)
 
 ui <- htmlTemplate(
   "template.html",
+  # Bootstrap version defaults to 5
   theme = bs_theme(
-    version = 4, primary = "yellow",
+    primary = "yellow",
     bg = "black", fg = "white",
     base_font = font_google("Yellowtail")
   ),
