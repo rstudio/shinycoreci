@@ -138,7 +138,8 @@ jobs:
   #     cache-version: ${{ needs.config.outputs.cache-version }}
   windows-oldrel-4:
     if: success() || failure()
-    needs: [config, macos-oldrel-4]
+    # needs: [config, macos-oldrel-4]
+    needs: config
     uses: ./.github/workflows/apps-cache-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel4 }}
