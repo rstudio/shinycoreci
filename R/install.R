@@ -209,23 +209,17 @@ install_troublesome_pkgs <- function(libpath = .libPaths()[1]) {
   if (is_windows()) {
     switch(short_r_version,
       "3.5" = {
-        install_missing_pkgs(
-          packages = "mapview",
-          packages_to_install = "url::https://cran.r-project.org/bin/windows/contrib/3.5/mapview_2.7.8.zip",
-          libpath = libpath
-        )
-        # Can't install from source on windows; Missing many libraries
-        install_missing_pkgs(
-          packages = "sf",
-          packages_to_install = "url::https://cran.r-project.org/bin/windows/contrib/3.5/sf_0.9-2.zip",
-          libpath = libpath
-        )
-
         # https://github.com/r-spatial/s2/issues/140
-        # Once s2 > 1.0.7 is released, this can be removed... hopefully
+        # Once s2 > 1.0.7 is released, s2 install can be removed... hopefully
+        # Can't install sf from source on windows; Missing many libraries
+        # Can't install mapview from source; Latest version requires R 3.6
         install_missing_pkgs(
-          packages = "s2",
-          packages_to_install = "r-spatial/s2",
+          packages = c("s2", "mapview", "sf"),
+          packages_to_install = c(
+            "r-spatial/s2",
+            "url::https://cran.r-project.org/bin/windows/contrib/3.5/mapview_2.7.8.zip",
+            "url::https://cran.r-project.org/bin/windows/contrib/3.5/sf_0.9-2.zip"
+          )
           libpath = libpath
         )
 
