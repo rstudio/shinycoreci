@@ -13,6 +13,14 @@ ui <- fluidPage(
       numericInput(inputId = "obs", label = "Number of observations to view:", value = 10)
     ),
     mainPanel(
+      # # https://github.com/puppeteer/puppeteer/issues/2410#issuecomment-604026694
+      # tags$head(tags$style(HTML("
+      #   <style>
+      #     * {
+      #       text-rendering: geometricprecision !important;
+      #     }
+      #   </style>
+      # "))),
       h3(textOutput("caption_out", container = span)),
       verbatimTextOutput("summary"),
       tableOutput("view")
