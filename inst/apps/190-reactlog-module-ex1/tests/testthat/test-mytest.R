@@ -2,12 +2,6 @@ library(shinytest2)
 
 
 test_that("Migrated shinytest test: mytest.R", {
-  # old_args <- chromote::default_chrome_args()
-  # withr::defer({
-  #   chromote::set_chrome_args(old_args)
-  # })
-  # # https://github.com/puppeteer/puppeteer/issues/2410#issuecomment-560573612
-  # chromote::set_chrome_args(c("--font-render-hinting=none", "--disable-font-subpixel-positioning", old_args))
 
   app <- AppDriver$new(variant = shinytest2::platform_variant(),
     seed = 54322)

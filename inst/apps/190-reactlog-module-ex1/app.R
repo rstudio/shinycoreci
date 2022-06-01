@@ -16,14 +16,6 @@ ui <- fluidPage(
       # Make sure body height does not change when taking screenshots
       tags$style("body { min-height: 100vh; }"),
 
-      # # https://github.com/puppeteer/puppeteer/issues/2410#issuecomment-604026694
-      # tags$head(tags$style(HTML("
-      #   <style>
-      #     * {
-      #       text-rendering: geometricprecision !important;
-      #     }
-      #   </style>
-      # "))),
       h3(textOutput("caption_out", container = span)),
       verbatimTextOutput("summary"),
       tableOutput("view")
