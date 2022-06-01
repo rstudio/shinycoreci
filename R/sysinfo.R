@@ -36,6 +36,7 @@ find_deps_installed <- function(libpath = shinyverse_libpath()) {
 #' Write system information to a file
 #'
 #' @param file Name of file, or file object to write to (defaults to stdout).
+#' @param libpath Library path to find installaed packages.
 #' @export
 write_sysinfo <- function(file = stdout(), libpath = shinyverse_libpath()) {
   check_installed("sessioninfo")
