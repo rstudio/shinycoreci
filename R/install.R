@@ -78,7 +78,7 @@ install_shinyverse <- function(
 
 # Install missing dependencies given an app name
 # If more than one app name is provided, run through all of them individually
-## Method used by GHA cache warming
+## Unexported method used by GHA cache warming!!
 install_missing_app_deps <- function(app_name = names(apps_deps_map), libpath = .libPaths()[1], upgrade = FALSE, dependencies = NA, ..., recursing = FALSE) {
   if (!isTRUE(recursing)) {
     install_troublesome_pkgs(libpath = libpath)
