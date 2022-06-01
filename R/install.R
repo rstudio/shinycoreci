@@ -219,7 +219,7 @@ install_troublesome_pkgs <- function(libpath = .libPaths()[1]) {
             "r-spatial/s2",
             "url::https://cran.r-project.org/bin/windows/contrib/3.5/mapview_2.7.8.zip",
             "url::https://cran.r-project.org/bin/windows/contrib/3.5/sf_0.9-2.zip"
-          )
+          ),
           libpath = libpath
         )
 
