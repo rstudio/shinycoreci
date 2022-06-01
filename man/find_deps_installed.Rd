@@ -4,7 +4,7 @@
 \alias{find_deps_installed}
 \title{Find package dependencies installed}
 \usage{
-find_deps_installed()
+find_deps_installed(libpath = shinyverse_libpath())
 }
 \description{
 Find package dependencies installed

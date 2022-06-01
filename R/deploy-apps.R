@@ -39,11 +39,11 @@ deploy_apps <- function(
     if (on_ci) {
       if (retrying_) {
         # Use standard libpath location
-        install_shinyverse_local(install = FALSE)
+        install_shinyverse_local(install = FALSE, install_apps_deps = FALSE)
       } else {
         # Install on first pass
         # Install everything. No need to validated if pkgs are loaded as deploying in background process
-        install_shinyverse_local(install = install, validate_loaded = FALSE, extra_packages = extra_packages)
+        install_shinyverse_local(install = install, validate_loaded = FALSE, extra_packages = extra_packages, install_apps_deps = FALSE)
       }
     } else {
       if (retrying_) {
@@ -52,9 +52,14 @@ deploy_apps <- function(
       } else {
         # Install on first pass
         # Install everything. No need to validated if pkgs are loaded as deploying in background process
-        install_shinyverse(install = install, validate_loaded = FALSE, extra_packages = extra_packages)
+        install_shinyverse(install = install, validate_loaded = FALSE, extra_packages = extra_packages, install_apps_deps = FALSE)
       }
     }
+
+  if (!retrying_) {
+    # Always make sure the app dependencies are available
+    install_missing_app_deps(apps)
+  }
 
 
   cores <- validate_cores(cores)

@@ -34,7 +34,9 @@ cat(
   paste0(
     c(
       shinyverse_remotes,
-      paste0("any::", apps_deps)
+      ## Don't install apps_deps here. Let the methods install them if they're missing
+      # paste0("any::", apps_deps),
+      NULL
     ),
     collapse = ","
   ),

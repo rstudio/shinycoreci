@@ -1,8 +1,8 @@
 #' Find package dependencies installed
 #'
 # ' @export
-find_deps_installed <- function() {
-  deps <- renv__renv_snapshot_r_packages(c(shinyverse_libpath(), .libPaths()))
+find_deps_installed <- function(libpath = shinyverse_libpath()) {
+  deps <- renv__renv_snapshot_r_packages(c(libpath, .libPaths()))
   cols <- c(
     "Package",
     "Version",
@@ -36,8 +36,9 @@ find_deps_installed <- function() {
 #' Write system information to a file
 #'
 #' @param file Name of file, or file object to write to (defaults to stdout).
+#' @param libpath Library path to find installaed packages.
 #' @export
-write_sysinfo <- function(file = stdout()) {
+write_sysinfo <- function(file = stdout(), libpath = shinyverse_libpath()) {
   check_installed("sessioninfo")
 
   opts <- options()
@@ -51,7 +52,7 @@ write_sysinfo <- function(file = stdout()) {
       cat(rep("-", 80), "\n", sep = "")
       print(sessioninfo::platform_info())
       cat(rep("-", 80), "\n", sep = "")
-      print(find_deps_installed(), max = 10000, row.names = FALSE)
+      print(find_deps_installed(libpath = libpath), max = 10000, row.names = FALSE)
     }),
     sep = "\n",
     file = file
