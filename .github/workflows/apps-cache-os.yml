@@ -94,3 +94,14 @@ jobs:
           http-user-agent: ${{ inputs.http-user-agent }}
           pandoc-version: ${{ inputs.pandoc-version }}
           extra-packages: ${{ inputs.extra-packages }}
+
+      - name: Attempt to install app dependencies
+        timeout-minutes: 45
+        shell: Rscript {0}
+        run: |
+          app_names <- eval(formals(shinycoreci::install_missing_app_deps)$app_name)
+          for (app_name in app_names) {
+            try({
+              install_missing_app_deps(app_name)
+            })
+          }

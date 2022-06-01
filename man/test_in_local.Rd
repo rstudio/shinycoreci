@@ -19,7 +19,7 @@ test_in_local(
 
 \item{...}{ignored}
 
-\item{install}{If \code{TRUE}, installs shinyverse in the default libpath before running tests}
+\item{install}{If \code{TRUE}, installs shinyverse in the default libpath before running tests. App dependencies will always be installed if missing.}
 
 \item{assert}{logical value which will determine if \code{\link[=assert_test_output]{assert_test_output()}} will be called on the result}
 

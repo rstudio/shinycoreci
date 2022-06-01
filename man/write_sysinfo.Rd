@@ -4,7 +4,7 @@
 \alias{write_sysinfo}
 \title{Write system information to a file}
 \usage{
-write_sysinfo(file = stdout())
+write_sysinfo(file = stdout(), libpath = shinyverse_libpath())
 }
 \arguments{
 \item{file}{Name of file, or file object to write to (defaults to stdout).}

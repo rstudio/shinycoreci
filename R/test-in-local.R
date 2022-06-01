@@ -14,7 +14,7 @@ ci_status <- list(
 #' @param retries number of attempts to retry before declaring the test a failure
 #' @param repo_dir Location of local shinycoreci repo
 #' @param ... ignored
-#' @param install If \code{TRUE}, installs shinyverse in the default libpath before running tests
+#' @param install If \code{TRUE}, installs shinyverse in the default libpath before running tests. App dependencies will always be installed if missing.
 #' @export
 test_in_local <- function(
   apps = apps_with_tests(repo_dir),
@@ -31,14 +31,16 @@ test_in_local <- function(
   stopifnot(length(apps_with_tests(repo_dir)) > 0)
   apps <- resolve_app_name(apps, known_apps = apps_with_tests(repo_dir))
 
-  libpath <- install_shinyverse_local(install = install)
+  # libpath <- install_shinyverse_local(install = install, install_apps_deps = FALSE)
+  libpath <- shinyverse_libpath()
 
-  # # Do not include apps here, only make sure shinyverse is intact
-  # # the only thing to make sure remains is the CRAN packages for each app
-  # validate_exact_deps(dir = dir, apps = c(), update_pkgs = update_pkgs)
-
-  # Record platform info and package versions
-  write_sysinfo(file.path(repo_apps_path(repo_dir), paste0("sysinfo-", platform_rversion(), ".txt")))
+  withr::defer({
+    # Record platform info and package versions (after everything has been installed)
+    write_sysinfo(
+      file.path(repo_apps_path(repo_dir), paste0("sysinfo-", platform_rversion(), ".txt")),
+      libpath = libpath
+    )
+  })
 
   test_dt <- tibble::tibble(
     app_name = apps,
@@ -48,6 +50,25 @@ test_in_local <- function(
   )
 
   run_test <- function(app_name, show_output = TRUE) {
+
+    install_result <- try({
+      install_missing_app_deps(app_name, libpath = libpath)
+    })
+    # Check for installation results
+    if (inherits(install_result, "try-error")) {
+      tmpfile <- tempfile()
+      app_deps <- apps_deps_map[[app_name]]
+      cat(
+        file = tmpfile,
+        "Failed to install:\n", paste0("* ", app_deps, "\n"),
+        "\nError:\n", as.character(install_result), "\n"
+      )
+      return(list(
+        status = ci_status$no_install,
+        result = as.character(install_result),
+        log_file = tmpfile
+      ))
+    }
 
     log_file <- tempfile("coreci-log-", fileext = ".log")
 
