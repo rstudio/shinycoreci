@@ -100,7 +100,7 @@ jobs:
         shell: Rscript {0}
         run: |
           for (app_name in names(shinycoreci:::apps_deps_map)) {
-            message(app_name)
+            message("Install deps for: ", app_name)
             try({
               shinycoreci:::install_missing_app_deps(app_name)
             })
