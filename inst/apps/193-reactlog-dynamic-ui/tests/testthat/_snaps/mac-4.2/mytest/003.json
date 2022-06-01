@@ -1,12 +1,15 @@
 {
   "input": {
-    "dynamic": 14,
-    "input_type": "slider",
+    "dynamic": [
+      "2020-01-08",
+      "2020-01-31"
+    ],
+    "input_type": "daterange",
     "reactlog_module-refresh": 2
   },
   "output": {
-    "dynamic_value": " int 14",
-    "input_type_text": "slider",
+    "dynamic_value": " Date[1:2], format: \"2020-01-08\" \"2020-01-31\"",
+    "input_type_text": "daterange",
     "reactlog_module-iframe": {
       "html": "<iframe id=\"reactlog_module-reactlog_iframe_8d6500c\" width=\"100%\" height=\"600\"><\/iframe>\n<script>\n            (function() {\n              var src =\n                'reactlog?w=' + window.escape(window.Shiny.shinyapp.config.workerId) +\n                '&s=' + window.escape(window.Shiny.shinyapp.config.sessionId) + '&test=1';\n              $('#reactlog_module-reactlog_iframe_8d6500c').attr('src', src);\n            })()\n          <\/script>",
       "deps": [
@@ -14,43 +17,30 @@
       ]
     },
     "ui": {
-      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"dynamic-label\" for=\"dynamic\">Dynamic<\/label>\n  <input class=\"js-range-slider\" id=\"dynamic\" data-skin=\"shiny\" data-min=\"1\" data-max=\"20\" data-from=\"10\" data-step=\"1\" data-grid=\"true\" data-grid-num=\"9.5\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-data-type=\"number\"/>\n<\/div>",
+      "html": "<div id=\"dynamic\" class=\"shiny-date-range-input form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"dynamic-label\" for=\"dynamic\">Dynamic<\/label>\n  <div class=\"input-daterange input-group input-group-sm\">\n    <input class=\"form-control\" type=\"text\" aria-labelledby=\"dynamic-label\" title=\"Date format: yyyy-mm-dd\" data-date-language=\"en\" data-date-week-start=\"0\" data-date-format=\"yyyy-mm-dd\" data-date-start-view=\"month\" data-date-autoclose=\"true\"/>\n    <span class=\"input-group-addon input-group-prepend input-group-append\">\n      <span class=\"input-group-text\"> to <\/span>\n    <\/span>\n    <input class=\"form-control\" type=\"text\" aria-labelledby=\"dynamic-label\" title=\"Date format: yyyy-mm-dd\" data-date-language=\"en\" data-date-week-start=\"0\" data-date-format=\"yyyy-mm-dd\" data-date-start-view=\"month\" data-date-autoclose=\"true\"/>\n  <\/div>\n<\/div>",
       "deps": [
         {
-          "name": "ionrangeslider-javascript",
-          "version": "2.3.1",
+          "name": "bootstrap-datepicker-js",
+          "version": "1.9.0",
           "src": {
-            "href": "ionrangeslider-javascript-2.3.1"
+            "href": "bootstrap-datepicker-js-1.9.0"
           },
           "meta": null,
-          "script": "js/ion.rangeSlider.min.js",
+          "script": "js/bootstrap-datepicker.min.js",
           "stylesheet": null,
-          "head": null,
+          "head": "<script>(function() {\n        var datepicker = $.fn.datepicker.noConflict();\n        $.fn.bsDatepicker = datepicker;\n      })();\n     <\/script>",
           "attachment": null,
           "all_files": true
         },
         {
-          "name": "strftime",
-          "version": "0.9.2",
+          "name": "bootstrap-datepicker-css",
+          "version": "1.9.0",
           "src": {
-            "href": "strftime-0.9.2"
-          },
-          "meta": null,
-          "script": "strftime-min.js",
-          "stylesheet": null,
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        },
-        {
-          "name": "ionrangeslider-css",
-          "version": "2.3.1",
-          "src": {
-            "href": "ionrangeslider-css-2.3.1"
+            "href": "bootstrap-datepicker-css-1.9.0"
           },
           "meta": null,
           "script": null,
-          "stylesheet": "css/ion.rangeSlider.css",
+          "stylesheet": "css/bootstrap-datepicker3.min.css",
           "head": null,
           "attachment": null,
           "all_files": true

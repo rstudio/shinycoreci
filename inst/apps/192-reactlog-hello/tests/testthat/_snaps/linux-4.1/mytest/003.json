@@ -1,12 +1,12 @@
 {
   "input": {
-    "bins": 8,
+    "bins": 22,
     "reactlog_module-refresh": 2
   },
   "output": {
     "distPlot": {
-      "src": "[image data hash: 3a0e464140566a5789dadbd45c0495c6]",
-      "width": 631,
+      "src": "[image data hash: b868d0c61d85d43313ef8d55a888e12c]",
+      "width": 720,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -15,12 +15,12 @@
             "domain": {
               "left": 40.88,
               "right": 98.12,
-              "bottom": -2.8,
-              "top": 72.8
+              "bottom": -1.48,
+              "top": 38.48
             },
             "range": {
               "left": 59.04,
-              "right": 600.76,
+              "right": 689.76,
               "bottom": 325.56,
               "top": 58.04
             },
@@ -34,10 +34,11 @@
           }
         ],
         "dims": {
-          "width": 631,
+          "width": 720,
           "height": 400
         }
-      }
+      },
+      "error": null
     },
     "reactlog_module-iframe": {
       "html": "<iframe id=\"reactlog_module-reactlog_iframe_8d6500c\" width=\"100%\" height=\"600\"><\/iframe>\n<script>\n            (function() {\n              var src =\n                'reactlog?w=' + window.escape(window.Shiny.shinyapp.config.workerId) +\n                '&s=' + window.escape(window.Shiny.shinyapp.config.sessionId) + '&test=1';\n              $('#reactlog_module-reactlog_iframe_8d6500c').attr('src', src);\n            })()\n          <\/script>",

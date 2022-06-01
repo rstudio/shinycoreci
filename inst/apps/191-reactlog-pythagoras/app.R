@@ -4,6 +4,9 @@ library(reactlog)
 reactlog_enable()
 
 ui <- fluidPage(
+  # Make sure body height does not change when taking screenshots
+  tags$style("body { min-height: 100vh; }"),
+
   tags$h1("Pythagorean theorem"),
   numericInput("a", "A", 3),
   numericInput("b", "B", 4),
