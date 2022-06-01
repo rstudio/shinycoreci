@@ -34,7 +34,8 @@ cat(
   paste0(
     c(
       shinyverse_remotes,
-      paste0("any::", apps_deps)
+      # paste0("any::", apps_deps),
+      NULL
     ),
     collapse = ","
   ),
