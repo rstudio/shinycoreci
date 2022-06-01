@@ -19,7 +19,7 @@ update_apps_deps <- function(repo_dir = ".") {
     )
   apps_deps <- sort(unique(revdeps$Package))
 
-  revdeps$folder <- sub(".*/(\\d\\d\\d-[^/]+)/.*", "\\1", revdeps$Source)
+  revdeps$folder <- sub(".*/apps/(\\d\\d\\d-[^/]+)/.*", "\\1", revdeps$Source)
 
   apps_deps_map <- lapply(split(revdeps, revdeps$folder), function(revdeps_sub) {
     sort(unique(revdeps_sub$Package))

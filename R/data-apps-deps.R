@@ -9,7 +9,7 @@ apps_deps <- c("base64enc", "Cairo", "clipr", "curl", "dbplyr", "DiagrammeR",
 "rversions", "scales", "sf", "shinyAce", "shinydashboard", "shinyjs",
 "showtext", "sysfonts", "systemfonts", "testthat", "tidyr", "tm",
 "withr", "wordcloud")
-apps_deps_map <- list(`001-hello` = c("rsconnect", "barret"), `012-datatables` = "ggplot2",
+apps_deps_map <- list(`001-hello` = "rsconnect", `012-datatables` = "ggplot2",
     `016-knitr-pdf` = "rmarkdown", `020-knit-html` = c("evaluate",
     "knitr", "rmarkdown"), `021-selectize-plot` = "maps", `022-unicode-chinese` = c("curl",
     "showtext", "sysfonts"), `026-shiny-inline` = "rmarkdown",
@@ -34,7 +34,7 @@ apps_deps_map <- list(`001-hello` = c("rsconnect", "barret"), `012-datatables` =
     "plotly"), `150-networkD3-sankey` = c("networkD3", "shinydashboard"
     ), `151-reactr-input` = "reactR", `153-connection-header` = c("curl",
     "future"), `156-subapps` = "rmarkdown", `161-discrete-limits` = c("dplyr",
-    "ggplot2"), `168-supporting-r-dir` = "withr", `169-prerender-a` = "rmarkdown",
+    "ggplot2"), `168-supporting-r-dir` = "withr", `169-prerender` = "rmarkdown",
     `173-invalidatelater-leak` = "pryr", `174-throttle-debounce` = "magrittr",
     `178-delayed-widget` = "htmlwidgets", `179-nondelayed-widget` = "htmlwidgets",
     `180-delayed-staticwidget` = "htmlwidgets", `181-report-image` = c("Cairo",
