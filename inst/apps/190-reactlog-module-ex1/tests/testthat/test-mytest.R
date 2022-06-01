@@ -14,7 +14,7 @@ test_that("Migrated shinytest test: mytest.R", {
 
   refresh_and_expect <- function() {
     app$set_inputs(`reactlog_module-refresh` = "click")
-    Sys.sleep(1.5) # wait for reactlog to settle
+    Sys.sleep(3) # wait for reactlog to settle
     app$expect_values()
     app$expect_screenshot()
   }
