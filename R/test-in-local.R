@@ -31,8 +31,7 @@ test_in_local <- function(
   stopifnot(length(apps_with_tests(repo_dir)) > 0)
   apps <- resolve_app_name(apps, known_apps = apps_with_tests(repo_dir))
 
-  # libpath <- install_shinyverse_local(install = install, install_apps_deps = FALSE)
-  libpath <- shinyverse_libpath()
+  libpath <- install_shinyverse_local(install = install, install_apps_deps = FALSE)
 
   withr::defer({
     # Record platform info and package versions (after everything has been installed)
