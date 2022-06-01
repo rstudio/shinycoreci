@@ -223,6 +223,11 @@ install_troublesome_pkgs <- function(libpath = .libPaths()[1]) {
           packages_to_install = "url::https://cran.r-project.org/bin/windows/contrib/3.5/sf_0.9-2.zip",
           libpath = libpath
         )
+        install_missing_pkgs(
+          packages = "mapview",
+          packages_to_install = "url::https://cran.r-project.org/bin/windows/contrib/3.5/mapview_2.7.8.zip",
+          libpath = libpath
+        )
       }
     )
   }
