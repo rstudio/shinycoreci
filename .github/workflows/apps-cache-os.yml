@@ -99,8 +99,8 @@ jobs:
         timeout-minutes: 45
         shell: Rscript {0}
         run: |
-          app_names <- eval(formals(shinycoreci:::install_missing_app_deps)$app_name)
-          for (app_name in app_names) {
+          for (app_name in names(shinycoreci:::apps_deps_map)) {
+            message(app_name)
             try({
               shinycoreci:::install_missing_app_deps(app_name)
             })
