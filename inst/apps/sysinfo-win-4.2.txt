@@ -53,7 +53,7 @@ osVersion: Windows Server x64 (build 20348)
            data.table     1.14.2   CRAN  1.14.2           /data.table
             data.tree      1.0.0   CRAN   1.0.0            /data.tree
                   DBI      1.1.2   CRAN   1.1.2                  /DBI
-               dbplyr      2.1.1    any   2.1.1          /any::dbplyr
+               dbplyr      2.1.1   CRAN   2.1.1               /dbplyr
               debugme      1.1.0   CRAN   1.1.0              /debugme
                  desc      1.4.1   CRAN   1.4.1                 /desc
            DiagrammeR      1.0.9    any   1.0.9      /any::DiagrammeR
@@ -108,7 +108,7 @@ osVersion: Windows Server x64 (build 20348)
             iterators     1.0.14   CRAN  1.0.14            /iterators
             jquerylib      0.1.4   CRAN   0.1.4            /jquerylib
              jsonlite      1.8.0   CRAN   1.8.0             /jsonlite
-                knitr       1.39    any    1.39           /any::knitr
+                knitr       1.39   CRAN    1.39                /knitr
              labeling      0.4.2   CRAN   0.4.2             /labeling
                 later 1.3.0.9000 GitHub ba70887            r-lib/HEAD
              lazyeval      0.2.2   CRAN   0.2.2             /lazyeval
@@ -147,7 +147,7 @@ osVersion: Windows Server x64 (build 20348)
                 pingr      2.0.1   CRAN   2.0.1                /pingr
             pkgconfig      2.0.3   CRAN   2.0.3            /pkgconfig
               pkgload      1.2.4   CRAN   1.2.4              /pkgload
-               plotly     4.10.0    any  4.10.0          /any::plotly
+               plotly     4.10.0   CRAN  4.10.0               /plotly
               plumber      1.1.0   CRAN   1.1.0              /plumber
                  plyr      1.8.7   CRAN   1.8.7                 /plyr
                   png      0.1-7   CRAN   0.1-7                  /png
@@ -156,7 +156,7 @@ osVersion: Windows Server x64 (build 20348)
                praise      1.0.0   CRAN   1.0.0               /praise
           prettyunits      1.1.1   CRAN   1.1.1          /prettyunits
              processx      3.5.3   CRAN   3.5.3             /processx
-             progress      1.2.2    any   1.2.2        /any::progress
+             progress      1.2.2   CRAN   1.2.2             /progress
              promises 1.2.0.9000 GitHub 7979d6c          rstudio/HEAD
                 proxy     0.4-26   CRAN  0.4-26                /proxy
                  pryr      0.1.5    any   0.1.5            /any::pryr
@@ -206,7 +206,7 @@ osVersion: Windows Server x64 (build 20348)
             rmarkdown       2.14   CRAN    2.14            /rmarkdown
                RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
             rprojroot      2.0.3   CRAN   2.0.3            /rprojroot
-            rsconnect     0.8.25    any  0.8.25       /any::rsconnect
+            rsconnect     0.8.26   CRAN  0.8.26            /rsconnect
               RSQLite     2.2.14   CRAN  2.2.14              /RSQLite
            rstudioapi       0.13   CRAN    0.13           /rstudioapi
                  rsvg      2.3.1   CRAN   2.3.1                 /rsvg
@@ -214,7 +214,7 @@ osVersion: Windows Server x64 (build 20348)
                    s2      1.0.7   CRAN   1.0.7                   /s2
              sandwich      3.0-1   CRAN   3.0-1             /sandwich
                  sass 0.4.1.9000 GitHub 72e722a          rstudio/HEAD
-               scales      1.2.0    any   1.2.0          /any::scales
+               scales      1.2.0   CRAN   1.2.0               /scales
                 servr       0.24   CRAN    0.24                /servr
           sessioninfo      1.2.2   CRAN   1.2.2          /sessioninfo
                    sf      1.0-7   CRAN   1.0-7                   /sf
@@ -254,7 +254,7 @@ osVersion: Windows Server x64 (build 20348)
           textshaping      0.3.6   CRAN   0.3.6          /textshaping
              thematic 0.1.2.9000 GitHub 3fa742d          rstudio/HEAD
                tibble      3.1.7   CRAN   3.1.7               /tibble
-                tidyr      1.2.0    any   1.2.0           /any::tidyr
+                tidyr      1.2.0   CRAN   1.2.0                /tidyr
            tidyselect      1.1.2   CRAN   1.1.2           /tidyselect
               tinytex       0.39   CRAN    0.39              /tinytex
                    tm      0.7-8    any   0.7-8              /any::tm

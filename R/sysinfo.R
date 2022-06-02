@@ -1,5 +1,6 @@
 #' Find package dependencies installed
 #'
+#' @noRd
 # ' @export
 find_deps_installed <- function(libpath = shinyverse_libpath()) {
   deps <- renv__renv_snapshot_r_packages(c(libpath, .libPaths()))
