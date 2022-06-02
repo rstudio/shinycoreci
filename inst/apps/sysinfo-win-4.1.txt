@@ -206,7 +206,7 @@ osVersion: Windows Server x64 (build 20348)
             rmarkdown       2.14   CRAN    2.14            /rmarkdown
                RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
             rprojroot      2.0.3   CRAN   2.0.3            /rprojroot
-            rsconnect     0.8.25    any  0.8.25       /any::rsconnect
+            rsconnect     0.8.26    any  0.8.26       /any::rsconnect
               RSQLite     2.2.14   CRAN  2.2.14              /RSQLite
            rstudioapi       0.13   CRAN    0.13           /rstudioapi
                  rsvg      2.3.1   CRAN   2.3.1                 /rsvg
