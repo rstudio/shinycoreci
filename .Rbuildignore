@@ -17,3 +17,6 @@ www/nvd3/deprecated
 ^docs$
 ^pkgdown$
 ^patches$
+
+^README_files$
+^_gh-pages$
