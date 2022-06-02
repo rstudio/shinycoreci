@@ -163,7 +163,14 @@ fix_snaps <- function(
     message(branch, " - ", ...)
   }
 
-  app_info_dt <- app_info_dt[order(app_info_dt$app_name, app_info_dt$os, app_info_dt$r_version), ]
+  if (is.null(app_info_dt)) {
+    message("\nNo apps were changed. Merging all branches.")
+    ask_apps <- FALSE
+    ask_branches <- FALSE
+  } else {
+    app_info_dt <- app_info_dt[order(app_info_dt$app_name, app_info_dt$os, app_info_dt$r_version), ]
+  }
+
 
   print_apps <- function() {
     app_info_dt_fmt <- app_info_dt
@@ -223,12 +230,15 @@ fix_snaps <- function(
     }
   }
 
-  message("\nFinal Apps:")
-  print_apps()
+  patch_files_sub <- patch_files
+  if (!is.null(app_info_dt)) {
+    message("\nFinal Apps:")
+    print_apps()
+    patch_files_sub <- patch_files[names(patch_files) %in% app_info_dt$branch]
+  }
 
   # Apply patch files
-  patch_files_sub <- patch_files[names(patch_files) %in% app_info_dt$branch]
-  pb <- progress_bar(total = length(patch_files_sub), format = "Apply patches - :name [:bar] :current/:total")
+  pb <- progress_bar(total = length(patch_files_sub), format = "Apply patches - :name [:bar] :current/:total", show_after = 0, clear = FALSE)
   Map(
     names(patch_files_sub),
     patch_files_sub,
