@@ -22,6 +22,6 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(newdata = "click")
   refresh_and_expect()
 
-  app$set_inputs(n = 300)
+  app$set_inputs(n = 250)
   refresh_and_expect()
 })
