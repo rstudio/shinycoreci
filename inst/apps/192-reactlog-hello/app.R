@@ -6,8 +6,8 @@ library(reactlog)
 reactlog_enable()
 
 ui <- fluidPage(
-  # Make sure body height does not change when taking screenshots
-  tags$style("body { min-height: 100vh; }"),
+  # # Make sure body height does not change when taking screenshots
+  # tags$style("body { min-height: 100vh; }"),
 
   titlePanel("Hello Shiny!"),
   sidebarLayout(
