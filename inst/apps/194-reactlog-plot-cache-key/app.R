@@ -8,6 +8,9 @@ reactlog_enable()
 dataset <- reactiveVal(data.frame(x = rnorm(400), y = rnorm(400)))
 
 ui <- fluidPage(
+  # # Make sure body height does not change when taking screenshots
+  # tags$style("body { min-height: 100vh; }"),
+
   sidebarLayout(
     sidebarPanel(
       sliderInput("n", "Number of points to display", 50, 400, 100, step = 50),
