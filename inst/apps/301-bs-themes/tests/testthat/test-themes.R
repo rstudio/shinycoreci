@@ -10,14 +10,10 @@ release <- paste0(
 if (!identical(paste0("mac-", release), shinytest2::platform_variant())) {
   skip("Not mac + r-release")
 }
-if (length(dir("_snaps")) > 1) {
-  stop("More than 1 _snaps folder found!")
-}
 
 themes <- list(
   default4 = list(version = 5),
   default4 = list(version = 4),
-  #default3 = list(version = 3),
   custom5 = list(
     version = 5,
     bg = "#202123",
@@ -46,13 +42,6 @@ themes <- list(
     heading_font = bslib::font_google("Proza Libre"),
     code_font = bslib::font_google("Fira Code")
   )
-#   custom3 = list(
-#     version = 3,
-#     bg = "#002B36",
-#     fg = "#EEE8D5",
-#     primary = "#2AA198",
-#     base_font = font_google("Grandstander")
-#   )
 )
 
 for (theme_name in names(themes)) {
@@ -64,7 +53,7 @@ for (theme_name in names(themes)) {
   test_that(paste0("theme: ", theme_name), {
     app <- AppDriver$new(
       name = theme_name,
-      variant = shinytest2::platform_variant(),
+      variant = NULL,
       seed = 101,
       options = list(bslib_theme = theme)
     )
