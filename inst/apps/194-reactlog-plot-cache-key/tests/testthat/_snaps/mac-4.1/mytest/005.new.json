@@ -1,12 +1,12 @@
 {
   "input": {
-    "n": 300,
+    "n": 250,
     "newdata": 1,
     "reactlog_module-refresh": 5
   },
   "output": {
     "plot": {
-      "src": "[image data sha1: 15ed7d48b09942ad3350623de8960ae2dbd6456e]",
+      "src": "[image data hash: 2130416470ec4fdd734bf6bae6cec947]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
