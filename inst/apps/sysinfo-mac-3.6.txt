@@ -1,4 +1,4 @@
-Image Version:  20220523.2
+Image Version:  20220530.2
 osVersion: macOS  10.16
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-06-01
+ date     2022-06-03
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -21,16 +21,15 @@ osVersion: macOS  10.16
               askpass        1.1   CRAN     1.1              /askpass
            assertthat      0.2.1   CRAN   0.2.1           /assertthat
             backports      1.4.1   CRAN   1.4.1            /backports
-            base64enc      0.1-3    any   0.1-3       /any::base64enc
+            base64enc      0.1-3   CRAN   0.1-3            /base64enc
                   bit      4.0.4   CRAN   4.0.4                  /bit
                 bit64      4.0.5   CRAN   4.0.5                /bit64
-               bitops      1.0-7   CRAN   1.0-7               /bitops
                  blob      1.2.2   CRAN   1.2.2                 /blob
                  brio      1.1.3   CRAN   1.1.3                 /brio
                 broom     0.7.12   CRAN  0.7.12                /broom
                 bslib 0.3.1.9000 GitHub a4946a4          rstudio/HEAD
                cachem 1.0.6.9000 GitHub fe6121f            r-lib/HEAD
-                Cairo   1.5-12.2    any 1.5-12.           /any::Cairo
+                Cairo   1.5-12.2   CRAN 1.5-12.                /Cairo
                 callr      3.7.0   CRAN   3.7.0                /callr
                   car     3.0-10   CRAN  3.0-10                  /car
               carData      3.0-5   CRAN   3.0-5              /carData
@@ -39,7 +38,7 @@ osVersion: macOS  10.16
              chromote      0.1.0   CRAN   0.1.0             /chromote
              classInt      0.4-3   CRAN   0.4-3             /classInt
                   cli      3.1.1   CRAN   3.1.1                  /cli
-                clipr      0.7.1    any   0.7.1           /any::clipr
+                clipr      0.7.1   CRAN   0.7.1                /clipr
          clustMixType     0.2-15   CRAN  0.2-15         /clustMixType
            colorspace      2.0-2   CRAN   2.0-2           /colorspace
            commonmark        1.7   CRAN     1.7           /commonmark
@@ -49,24 +48,24 @@ osVersion: macOS  10.16
                crayon      1.4.2   CRAN   1.4.2               /crayon
           credentials      1.3.2   CRAN   1.3.2          /credentials
             crosstalk 1.2.0.9000 GitHub 8128ef3          rstudio/HEAD
-                 curl      4.3.2    any   4.3.2            /any::curl
+                 curl      4.3.2   CRAN   4.3.2                 /curl
            data.table     1.14.2   CRAN  1.14.2           /data.table
             data.tree      1.0.0   CRAN   1.0.0            /data.tree
                   DBI      1.1.2   CRAN   1.1.2                  /DBI
-               dbplyr      2.1.1    any   2.1.1          /any::dbplyr
+               dbplyr      2.1.1   CRAN   2.1.1               /dbplyr
               debugme      1.1.0   CRAN   1.1.0              /debugme
                  desc      1.4.0   CRAN   1.4.0                 /desc
-           DiagrammeR      1.0.8    any   1.0.8      /any::DiagrammeR
+           DiagrammeR      1.0.8   CRAN   1.0.8           /DiagrammeR
               diffobj      0.3.5   CRAN   0.3.5              /diffobj
-               digest     0.6.29   CRAN  0.6.29               /digest
+               digest     0.6.29   CRAN
            downloader        0.4   CRAN     0.4           /downloader
-                dplyr      1.0.8    any   1.0.8           /any::dplyr
+                dplyr      1.0.8   CRAN   1.0.8                /dplyr
                    DT     0.23.1 GitHub 9f84fb5          rstudio/HEAD
              dygraphs    1.1.1.7 GitHub 70b60ab          rstudio/HEAD
                 e1071      1.7-9   CRAN   1.7-9                /e1071
              ellipsis      0.3.2   CRAN   0.3.2             /ellipsis
               english      1.2-6   CRAN   1.2-6              /english
-             evaluate       0.14    any    0.14        /any::evaluate
+             evaluate       0.14   CRAN    0.14             /evaluate
                 fansi      1.0.2   CRAN   1.0.2                /fansi
                farver      2.1.0   CRAN   2.1.0               /farver
               fastmap 1.1.0.9000 GitHub d2722e7            r-lib/HEAD
@@ -74,14 +73,14 @@ osVersion: macOS  10.16
           fontawesome 0.2.2.9000 GitHub d43b75f          rstudio/HEAD
               forcats      0.5.1   CRAN   0.5.1              /forcats
                    fs      1.5.2   CRAN   1.5.2                   /fs
-               future     1.23.0    any  1.23.0          /any::future
+               future     1.23.0   CRAN  1.23.0               /future
              generics      0.1.2   CRAN   0.1.2             /generics
                  gert      1.5.0   CRAN   1.5.0                 /gert
             gganimate      1.0.7   CRAN   1.0.7            /gganimate
               ggiraph     0.7.10   CRAN  0.7.10              /ggiraph
-              ggplot2      3.3.5    any   3.3.5         /any::ggplot2
+              ggplot2      3.3.5   CRAN   3.3.5              /ggplot2
               ggrepel      0.9.1   CRAN   0.9.1              /ggrepel
-                ggvis      0.4.7    any   0.4.7           /any::ggvis
+                ggvis      0.4.7   CRAN   0.4.7                /ggvis
                    gh      1.3.0   CRAN   1.3.0                   /gh
              gitcreds      0.1.1   CRAN   0.1.1             /gitcreds
               globals     0.14.0   CRAN  0.14.0              /globals
@@ -91,9 +90,8 @@ osVersion: macOS  10.16
             gridExtra        2.3   CRAN     2.3            /gridExtra
                gtable      0.3.0   CRAN   0.3.0               /gtable
                 haven      2.4.3   CRAN   2.4.3                /haven
-                 here      1.0.1   CRAN   1.0.1                 /here
-               hexbin     1.28.2    any  1.28.2          /any::hexbin
-          highcharter      0.9.4    any   0.9.4     /any::highcharter
+               hexbin     1.28.2   CRAN  1.28.2               /hexbin
+          highcharter      0.9.4   CRAN   0.9.4          /highcharter
                 highr        0.9   CRAN     0.9                /highr
                   hms      1.1.1   CRAN   1.1.1                  /hms
             htmltools 0.5.2.9000 GitHub 9490b62          rstudio/HEAD
@@ -107,8 +105,8 @@ osVersion: macOS  10.16
                   ini      0.3.1   CRAN   0.3.1                  /ini
               isoband      0.2.5   CRAN   0.2.5              /isoband
             jquerylib      0.1.4   CRAN   0.1.4            /jquerylib
-             jsonlite      1.7.2    any   1.7.2        /any::jsonlite
-                knitr       1.37    any    1.37           /any::knitr
+             jsonlite      1.7.2   CRAN   1.7.2             /jsonlite
+                knitr       1.37   CRAN    1.37                /knitr
              labeling      0.4.2   CRAN   0.4.2             /labeling
                 later 1.3.0.9000 GitHub ba70887            r-lib/HEAD
              lazyeval      0.2.2   CRAN   0.2.2             /lazyeval
@@ -119,18 +117,18 @@ osVersion: macOS  10.16
                  lme4     1.1-28   CRAN  1.1-28                 /lme4
                lobstr      1.1.1   CRAN   1.1.1               /lobstr
             lubridate      1.8.0   CRAN   1.8.0            /lubridate
-             magrittr      2.0.2    any   2.0.2        /any::magrittr
-                 maps      3.4.0    any   3.4.0            /any::maps
+             magrittr      2.0.2   CRAN   2.0.2             /magrittr
+                 maps      3.4.0   CRAN   3.4.0                 /maps
              maptools      1.1-2   CRAN   1.1-2             /maptools
-             markdown        1.1    any     1.1        /any::markdown
+             markdown        1.1   CRAN     1.1             /markdown
          MatrixModels      0.5-0   CRAN   0.5-0         /MatrixModels
-              memoise      2.0.1    any   2.0.1         /any::memoise
+              memoise      2.0.1   CRAN   2.0.1              /memoise
                  mime       0.12   CRAN    0.12                 /mime
                 minqa      1.2.4   CRAN   1.2.4                /minqa
                mnormt      2.0.2   CRAN   2.0.2               /mnormt
               munsell      0.5.0   CRAN   0.5.0              /munsell
               mvtnorm      1.1-3   CRAN   1.1-3              /mvtnorm
-            networkD3        0.4    any     0.4       /any::networkD3
+            networkD3        0.4   CRAN     0.4            /networkD3
        NeuralNetTools      1.5.3   CRAN   1.5.3       /NeuralNetTools
                nloptr    1.2.2.3   CRAN 1.2.2.3               /nloptr
                   NLP      0.2-1   CRAN   0.2-1                  /NLP
@@ -149,9 +147,8 @@ osVersion: macOS  10.16
             pkgconfig      2.0.3   CRAN   2.0.3            /pkgconfig
               pkgload      1.2.4   CRAN   1.2.4              /pkgload
                plotly     4.10.0   CRAN  4.10.0               /plotly
-              plumber      1.1.0   CRAN   1.1.0              /plumber
                  plyr      1.8.6   CRAN   1.8.6                 /plyr
-                  png      0.1-7    any   0.1-7             /any::png
+                  png      0.1-7   CRAN   0.1-7                  /png
               polycor      0.8-1   CRAN   0.8-1              /polycor
                  pool 0.1.6.9000 GitHub 203bb12          rstudio/HEAD
                praise      1.0.0   CRAN   1.0.0               /praise
@@ -160,7 +157,7 @@ osVersion: macOS  10.16
              progress      1.2.2   CRAN   1.2.2             /progress
              promises 1.2.0.9000 GitHub 7979d6c          rstudio/HEAD
                 proxy     0.4-26   CRAN  0.4-26                /proxy
-                 pryr      0.1.5    any   0.1.5            /any::pryr
+                 pryr      0.1.5   CRAN   0.1.5                 /pryr
                    ps      1.6.0   CRAN   1.6.0                   /ps
                 psych      2.1.9   CRAN   2.1.9                /psych
                 purrr      0.3.4   CRAN   0.3.4                /purrr
@@ -172,22 +169,20 @@ osVersion: macOS  10.16
                  R.oo     1.24.0   CRAN  1.24.0                 /R.oo
               R.utils     2.11.0   CRAN  2.11.0              /R.utils
                    R6      2.5.1   CRAN   2.5.1                   /R6
-              radiant      1.4.0    any   1.4.0         /any::radiant
-       radiant.basics      1.4.0   CRAN   1.4.0       /radiant.basics
-         radiant.data     1.3.12   CRAN  1.3.12         /radiant.data
-       radiant.design      1.3.5   CRAN   1.3.5       /radiant.design
-        radiant.model      1.4.1   CRAN   1.4.1        /radiant.model
- radiant.multivariate      1.3.5   CRAN   1.3.5 /radiant.multivariate
-                 ragg      1.1.3    any   1.1.3            /any::ragg
+              radiant      1.4.2   CRAN   1.4.2              /radiant
+       radiant.basics      1.4.1   CRAN   1.4.1       /radiant.basics
+         radiant.data      1.4.2   CRAN   1.4.2         /radiant.data
+       radiant.design      1.4.1   CRAN   1.4.1       /radiant.design
+        radiant.model      1.4.4   CRAN   1.4.4        /radiant.model
+ radiant.multivariate      1.4.1   CRAN   1.4.1 /radiant.multivariate
+                 ragg      1.1.3   CRAN   1.1.3                 /ragg
             randomizr     0.22.0   CRAN  0.22.0            /randomizr
                ranger     0.13.1   CRAN  0.13.1               /ranger
              rappdirs      0.3.3   CRAN   0.3.3             /rappdirs
                raster     3.5-15   CRAN  3.5-15               /raster
-         RColorBrewer      1.1-2    any   1.1-2    /any::RColorBrewer
+         RColorBrewer      1.1-2   CRAN   1.1-2         /RColorBrewer
                  Rcpp      1.0.8   CRAN   1.0.8                 /Rcpp
-             RcppTOML      0.1.7   CRAN   0.1.7             /RcppTOML
-                RCurl   1.98-1.6   CRAN 1.98-1.                /RCurl
-            reactable      0.2.3    any   0.2.3       /any::reactable
+            reactable      0.3.0   CRAN   0.3.0            /reactable
              reactlog      1.1.0 GitHub e8f0548          rstudio/HEAD
                reactR      0.4.4   CRAN   0.4.4               /reactR
                 readr      2.1.2   CRAN   2.1.2                /readr
@@ -196,36 +191,35 @@ osVersion: macOS  10.16
              rematch2      2.1.2   CRAN   2.1.2             /rematch2
                  renv     0.15.2   CRAN  0.15.2                 /renv
              reshape2      1.4.4   CRAN   1.4.4             /reshape2
-           reticulate       1.24   CRAN    1.24           /reticulate
                   rex      1.2.1   CRAN   1.2.1                  /rex
                 rgdal     1.5-28   CRAN  1.5-28                /rgdal
                 rgeos      0.5-9   CRAN   0.5-9                /rgeos
                   rio     0.5.16   CRAN  0.5.16                  /rio
                 rjson     0.2.20   CRAN  0.2.20                /rjson
               RJSONIO    1.3-1.6   CRAN 1.3-1.6              /RJSONIO
-                rlang      1.0.1    any   1.0.1           /any::rlang
+                rlang      1.0.1   CRAN   1.0.1                /rlang
                 rlist    0.4.6.2   CRAN 0.4.6.2                /rlist
-            rmarkdown       2.11    any    2.11       /any::rmarkdown
+            rmarkdown       2.11   CRAN    2.11            /rmarkdown
                RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
-            rprojroot      2.0.2    any   2.0.2       /any::rprojroot
+            rprojroot      2.0.2   CRAN   2.0.2            /rprojroot
             rsconnect     0.8.26   CRAN  0.8.26            /rsconnect
-              RSQLite      2.2.9    any   2.2.9         /any::RSQLite
+              RSQLite      2.2.9   CRAN   2.2.9              /RSQLite
            rstudioapi       0.13   CRAN    0.13           /rstudioapi
                  rsvg      2.2.0   CRAN   2.2.0                 /rsvg
-            rversions      2.1.1    any   2.1.1       /any::rversions
+            rversions      2.1.1   CRAN   2.1.1            /rversions
                    s2      1.0.7   CRAN   1.0.7                   /s2
              sandwich      3.0-1   CRAN   3.0-1             /sandwich
                  sass 0.4.1.9000 GitHub 72e722a          rstudio/HEAD
-               scales      1.1.1    any   1.1.1          /any::scales
+               scales      1.1.1   CRAN   1.1.1               /scales
                 servr       0.24   CRAN    0.24                /servr
           sessioninfo      1.2.2    any   1.2.2     /any::sessioninfo
-                   sf      1.0-5    any   1.0-5              /any::sf
+                   sf      1.0-5   CRAN   1.0-5                   /sf
                 shiny 1.7.1.9003 GitHub 78d77ce          rstudio/HEAD
-             shinyAce      0.4.1    any   0.4.1        /any::shinyAce
+             shinyAce      0.4.1   CRAN   0.4.1             /shinyAce
           shinycoreci 0.0.0.9007  Local
-       shinydashboard      0.7.2    any   0.7.2  /any::shinydashboard
+       shinydashboard      0.7.2   CRAN   0.7.2       /shinydashboard
            shinyFiles      0.9.1   CRAN   0.9.1           /shinyFiles
-              shinyjs      2.1.0    any   2.1.0         /any::shinyjs
+              shinyjs      2.1.0   CRAN   2.1.0              /shinyjs
            shinyjster 0.0.0.9010 GitHub 109a1b8        schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086          rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d          rstudio/HEAD
@@ -234,10 +228,9 @@ osVersion: macOS  10.16
         shinyvalidate      0.1.2 GitHub 575f586          rstudio/HEAD
          shinyWidgets      0.6.2   CRAN   0.6.2         /shinyWidgets
             showimage      1.0.0   CRAN   1.0.0            /showimage
-             showtext      0.9-4    any   0.9-4        /any::showtext
+             showtext      0.9-4   CRAN   0.9-4             /showtext
            showtextdb        3.0   CRAN     3.0           /showtextdb
                  slam     0.1-50   CRAN  0.1-50                 /slam
-               sodium      1.2.0   CRAN   1.2.0               /sodium
           sourcetools      0.1.7   CRAN   0.1.7          /sourcetools
                    sp      1.4-6   CRAN   1.4-6                   /sp
               SparseM       1.81   CRAN    1.81              /SparseM
@@ -246,20 +239,19 @@ osVersion: macOS  10.16
               stringr      1.4.0   CRAN   1.4.0              /stringr
                styler      1.6.1   CRAN   1.6.1               /styler
               svglite      2.1.0   CRAN   2.1.0              /svglite
-              swagger     3.33.1   CRAN  3.33.1              /swagger
                   sys        3.4   CRAN     3.4                  /sys
-             sysfonts      0.8.5    any   0.8.5        /any::sysfonts
-          systemfonts      1.0.2    any   1.0.2     /any::systemfonts
+             sysfonts      0.8.5   CRAN   0.8.5             /sysfonts
+          systemfonts      1.0.2   CRAN   1.0.2          /systemfonts
                 terra     1.5-17   CRAN  1.5-17                /terra
                testit       0.13   CRAN    0.13               /testit
-             testthat      3.1.2    any   3.1.2        /any::testthat
+             testthat      3.1.2   CRAN   3.1.2             /testthat
           textshaping      0.3.6   CRAN   0.3.6          /textshaping
              thematic 0.1.2.9000 GitHub 3fa742d          rstudio/HEAD
                tibble      3.1.6   CRAN   3.1.6               /tibble
                 tidyr      1.2.0   CRAN   1.2.0                /tidyr
            tidyselect      1.1.1   CRAN   1.1.1           /tidyselect
               tinytex       0.36   CRAN    0.36              /tinytex
-                   tm      0.7-8    any   0.7-8              /any::tm
+                   tm      0.7-8   CRAN   0.7-8                   /tm
               tmvnsim      1.0-2   CRAN   1.0-2              /tmvnsim
                   TTR     0.24.3   CRAN  0.24.3                  /TTR
                tweenr      1.0.2   CRAN   1.0.2               /tweenr
@@ -278,11 +270,10 @@ osVersion: macOS  10.16
                 waldo      0.3.1   CRAN   0.3.1                /waldo
             webdriver 1.0.6.9001 GitHub 35d3805          rstudio/HEAD
             websocket 1.4.1.9000 GitHub 2161ee7          rstudio/HEAD
-             webutils        1.1   CRAN     1.1             /webutils
               whisker        0.4   CRAN     0.4              /whisker
-                withr      2.4.3    any   2.4.3           /any::withr
+                withr      2.4.3   CRAN   2.4.3                /withr
                    wk      0.5.0   CRAN   0.5.0                   /wk
-            wordcloud        2.6    any     2.6       /any::wordcloud
+            wordcloud        2.6   CRAN     2.6            /wordcloud
               writexl      1.4.0   CRAN   1.4.0              /writexl
                  xfun       0.29   CRAN    0.29                 /xfun
               xgboost    1.5.0.2   CRAN 1.5.0.2              /xgboost
