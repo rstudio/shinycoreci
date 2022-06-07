@@ -90,8 +90,13 @@ fix_snaps <- function(
       })
       # Go to branch
       git_checkout(branch, quiet = TRUE)
-      # Make patch file
-      git_cmd_(paste0("git format-patch '", original_git_branch, "' --stdout > ", patch_file))
+
+      # Merge latest results from base branch; Keep original branch version if necessary
+      git_cmd_("git merge ", original_git_branch, " --strategy-option ours")
+
+      # Make patch file given diff
+      # git_cmd_(paste0("git format-patch '", original_git_branch, "' --stdout > ", patch_file))
+      git_cmd_("git diff --binary ", original_git_branch, " > ", patch_file)
     }
 
     patch_file
