@@ -2,7 +2,7 @@ library(shinytest2)
 
 test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant(),
-    seed = 100, width = 1000, shiny_args = list(display.mode = "normal"))
+    seed = 100, height = 1200, width = 1000, shiny_args = list(display.mode = "normal"))
 
   a_dist <- app$wait_for_value(output = "a_distPlot")
   b_dist <- app$wait_for_value(output = "b_distPlot")

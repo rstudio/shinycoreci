@@ -343,8 +343,8 @@
     "inputPanelOutput": "List of 5\n $ sliderInput        : int [1:2] 14 83\n $ selectizeInput     : chr \"AK\"\n $ selectizeMultiInput: chr [1:3] \"AK\" \"AR\" \"CO\"\n $ dateInput          : Date[1:1], format: \"2020-12-21\"\n $ dateRangeInput     : Date[1:2], format: \"2020-12-24\" \"2020-12-26\"",
     "inputPanelOutputHeader": "Below are the values bound to each input widget above",
     "plot": {
-      "src": "[image data hash: c5eb620aa5427e4ef435fba54576a2e8]",
-      "width": 962,
+      "src": "[image data hash: 1fba3dd4d2f0be2478022b8431f9895f]",
+      "width": 968,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -372,8 +372,8 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 82.8997083690068,
-              "right": 370.453686857877,
+              "left": 82.8997083690069,
+              "right": 372.453686857877,
               "bottom": 190.063895280394,
               "top": 60.3959492722603
             }
@@ -401,8 +401,8 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 375.933138912671,
-              "right": 663.487117401541,
+              "left": 377.933138912671,
+              "right": 667.487117401541,
               "bottom": 190.063895280394,
               "top": 60.3959492722603
             }
@@ -430,8 +430,8 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 668.966569456336,
-              "right": 956.520547945205,
+              "left": 672.966569456336,
+              "right": 962.520547945206,
               "bottom": 190.063895280394,
               "top": 60.3959492722603
             }
@@ -459,8 +459,8 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 82.8997083690068,
-              "right": 370.453686857877,
+              "left": 82.8997083690069,
+              "right": 372.453686857877,
               "bottom": 350.246385380993,
               "top": 220.57843937286
             }
@@ -488,15 +488,15 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 375.933138912671,
-              "right": 663.487117401541,
+              "left": 377.933138912671,
+              "right": 667.487117401541,
               "bottom": 350.246385380993,
               "top": 220.57843937286
             }
           }
         ],
         "dims": {
-          "width": 962,
+          "width": 968,
           "height": 400
         }
       }

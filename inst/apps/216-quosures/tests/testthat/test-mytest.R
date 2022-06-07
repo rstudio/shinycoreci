@@ -2,7 +2,7 @@ library(shinytest2)
 
 test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant(),
-    seed = 100, width = 1300, shiny_args = list(display.mode = "normal"))
+    seed = 100, height = 1200, width = 1300, shiny_args = list(display.mode = "normal"))
 
   app$expect_values()
   app$expect_screenshot()
