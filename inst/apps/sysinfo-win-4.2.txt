@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.utf8
  ctype    English_United States.utf8
  tz       UTC
- date     2022-06-06
+ date     2022-06-08
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -63,7 +63,7 @@ osVersion: Windows Server x64 (build 20348)
                 dplyr      1.0.9   CRAN   1.0.9                /dplyr
                    DT     0.23.1 GitHub 9f84fb5          rstudio/HEAD
              dygraphs    1.1.1.7 GitHub 70b60ab          rstudio/HEAD
-                e1071      1.7-9   CRAN   1.7-9                /e1071
+                e1071     1.7-11   CRAN  1.7-11                /e1071
              ellipsis      0.3.2   CRAN   0.3.2             /ellipsis
               english      1.2-6   CRAN   1.2-6              /english
              evaluate       0.15   CRAN    0.15             /evaluate
@@ -138,7 +138,7 @@ osVersion: Windows Server x64 (build 20348)
               openssl      2.0.2   CRAN   2.0.2              /openssl
               packrat      0.8.0   CRAN   0.8.0              /packrat
                   pak      0.3.0   RSPM
-           parallelly     1.31.1   CRAN  1.31.1           /parallelly
+           parallelly     1.32.0   CRAN  1.32.0           /parallelly
             parsedate      1.3.0   CRAN   1.3.0            /parsedate
             patchwork      1.1.1   CRAN   1.1.1            /patchwork
              pbkrtest      0.5.1   CRAN   0.5.1             /pbkrtest
@@ -227,7 +227,7 @@ osVersion: Windows Server x64 (build 20348)
            shinyjster 0.0.0.9010 GitHub 109a1b8        schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086          rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d          rstudio/HEAD
-           shinytest2 0.1.0.9000 GitHub d8224e5          rstudio/HEAD
+           shinytest2 0.1.0.9000 GitHub 1288a36          rstudio/HEAD
           shinythemes      1.2.0 GitHub 492b6aa          rstudio/HEAD
         shinyvalidate      0.1.2 GitHub 575f586          rstudio/HEAD
          shinyWidgets      0.7.0   CRAN   0.7.0         /shinyWidgets

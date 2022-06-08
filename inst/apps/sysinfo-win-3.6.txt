@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.1252
  ctype    English_United States.1252
  tz       UTC
- date     2022-06-06
+ date     2022-06-08
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -52,7 +52,7 @@ osVersion: Windows Server x64 (build 20348)
            data.table     1.14.2   CRAN  1.14.2           /data.table
             data.tree      1.0.0   CRAN   1.0.0            /data.tree
                   DBI      1.1.2   CRAN   1.1.2                  /DBI
-               dbplyr      2.1.1   CRAN   2.1.1               /dbplyr
+               dbplyr      2.2.0   CRAN   2.2.0               /dbplyr
               debugme      1.1.0   CRAN   1.1.0              /debugme
                  desc      1.4.1   CRAN   1.4.1                 /desc
            DiagrammeR      1.0.9    any   1.0.9      /any::DiagrammeR
@@ -224,7 +224,7 @@ osVersion: Windows Server x64 (build 20348)
            shinyjster 0.0.0.9010 GitHub 109a1b8        schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086          rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d          rstudio/HEAD
-           shinytest2 0.1.0.9000 GitHub d8224e5          rstudio/HEAD
+           shinytest2 0.1.0.9000 GitHub 1288a36          rstudio/HEAD
           shinythemes      1.2.0 GitHub 492b6aa          rstudio/HEAD
         shinyvalidate      0.1.2 GitHub 575f586          rstudio/HEAD
          shinyWidgets      0.7.0   CRAN   0.7.0         /shinyWidgets
@@ -233,7 +233,7 @@ osVersion: Windows Server x64 (build 20348)
            showtextdb        3.0   CRAN     3.0           /showtextdb
                  slam     0.1-50   CRAN  0.1-50                 /slam
           sourcetools      0.1.7   CRAN   0.1.7          /sourcetools
-                   sp      1.4-7   CRAN   1.4-7                   /sp
+                   sp      1.5-0   CRAN   1.5-0                   /sp
               SparseM       1.81   CRAN    1.81              /SparseM
              spelling        2.2   CRAN     2.2             /spelling
               statmod     1.4.36   CRAN  1.4.36              /statmod

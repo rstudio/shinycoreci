@@ -6,7 +6,7 @@ test_that("Migrated shinytest test: mytest.R", {
 
   app$expect_values()
   app$expect_screenshot()
-  app$set_inputs(vars = "渗透性")
+  app$set_inputs(vars = "\u6e17\u900f\u6027")
   app$expect_values()
   app$expect_screenshot()
   app$set_inputs(obs = 4)
