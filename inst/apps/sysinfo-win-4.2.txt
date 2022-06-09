@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.utf8
  ctype    English_United States.utf8
  tz       UTC
- date     2022-06-06
+ date     2022-06-08
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -227,7 +227,7 @@ osVersion: Windows Server x64 (build 20348)
            shinyjster 0.0.0.9010 GitHub 109a1b8        schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086          rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d          rstudio/HEAD
-           shinytest2 0.1.0.9000 GitHub d8224e5          rstudio/HEAD
+           shinytest2 0.1.0.9000 GitHub 1288a36          rstudio/HEAD
           shinythemes      1.2.0 GitHub 492b6aa          rstudio/HEAD
         shinyvalidate      0.1.2 GitHub 575f586          rstudio/HEAD
          shinyWidgets      0.7.0   CRAN   0.7.0         /shinyWidgets
