@@ -12,7 +12,7 @@
     "b_annual_inf_std_dev": 1.5,
     "b_annual_inflation": 2.5,
     "b_annual_mean_return": 5,
-    "b_annual_ret_std_dev": 16.8,
+    "b_annual_ret_std_dev": 16,
     "b_monthly_withdrawals": 10000,
     "b_n_obs": 20,
     "b_n_sim": 1070,
@@ -56,7 +56,7 @@
       }
     },
     "b_distPlot": {
-      "src": "[image data hash: e098758da3ab4d2c2871e4ecb789f726]",
+      "src": "[image data hash: 846e717f518e8415066d9bcf428761b4]",
       "width": 463,
       "height": 600,
       "alt": "Plot object",
@@ -64,10 +64,10 @@
         "panels": [
           {
             "domain": {
-              "left": -0.973826486375074,
-              "right": 25.3194886457519,
-              "bottom": -0.0193271095894454,
-              "top": 0.502504849325581
+              "left": -0.860393705222396,
+              "right": 22.3702363357823,
+              "bottom": -0.0201758750141434,
+              "top": 0.524572750367729
             },
             "range": {
               "left": 280.5032,
