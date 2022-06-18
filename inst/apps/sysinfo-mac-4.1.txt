@@ -1,4 +1,4 @@
-Image Version:  20220605.1
+Image Version:  20220614.2
 osVersion: macOS Big Sur/Monterey 10.16
 --------------------------------------------------------------------------------
  setting  value
@@ -10,14 +10,14 @@ osVersion: macOS Big Sur/Monterey 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-06-16
+ date     2022-06-17
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
                 abind      1.4-5   CRAN   1.4-5                /abind
                admisc       0.28   CRAN    0.28               /admisc
             AlgDesign      1.2.1   CRAN   1.2.1            /AlgDesign
-          AsioHeaders   1.16.1-1   CRAN 1.16.1-          /AsioHeaders
+          AsioHeaders   1.22.1-1   CRAN 1.22.1-          /AsioHeaders
               askpass        1.1   CRAN     1.1              /askpass
            assertthat      0.2.1   CRAN   0.2.1           /assertthat
             backports      1.4.1   CRAN   1.4.1            /backports
