@@ -14,7 +14,8 @@ ui <- fluidPage(
 
     jst.add(function() {
       var bg = window.getComputedStyle(document.body).backgroundColor;
-      Jster.assert.isEqual(bg, 'rgb(255, 255, 255)');
+      var white = 'rgb(255, 255, 255)';
+      Jster.assert.isEqual(bg === 'transparent' ? white : bg, white);
     });
 
     jst.add(function() {
