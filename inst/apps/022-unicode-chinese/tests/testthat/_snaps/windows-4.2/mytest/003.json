@@ -7,7 +7,7 @@
   },
   "output": {
     "rockplot": {
-      "src": "[image data hash: dc772b136bb53c88609a249891e12fdf]",
+      "src": "[image data hash: 81348d4325c7c82040b4a5649fddb242]",
       "width": 631,
       "height": 400,
       "alt": "Plot object",
@@ -21,10 +21,10 @@
               "top": 12659.84
             },
             "range": {
-              "left": 57.6000091283691,
-              "right": 629.559999771791,
-              "bottom": 341.399985599996,
-              "top": 0.440000360000093
+              "left": 57.6,
+              "right": 629.56,
+              "bottom": 341.4,
+              "top": 0.440000000000019
             },
             "log": {
               "x": null,

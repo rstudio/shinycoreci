@@ -4,7 +4,7 @@
   },
   "output": {
     "ggplotNN": {
-      "src": "[image data hash: 8bd525f0d8c24e1fbc611dfd19fed89e]",
+      "src": "[image data hash: 7d4583034319838802d8529bd6499a99]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -30,9 +30,9 @@
               "y": "dist"
             },
             "range": {
-              "left": 39.1506849315068,
+              "left": 37.8225599315069,
               "right": 474.520547945206,
-              "bottom": 366.849315068493,
+              "bottom": 368.846473150198,
               "top": 5.47945205479452
             }
           }
@@ -45,7 +45,7 @@
       "class": "shiny-scalable"
     },
     "ggplotNY": {
-      "src": "[image data hash: 8bd525f0d8c24e1fbc611dfd19fed89e]",
+      "src": "[image data hash: 7d4583034319838802d8529bd6499a99]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -71,9 +71,9 @@
               "y": "dist"
             },
             "range": {
-              "left": 39.1506849315068,
+              "left": 37.8225599315069,
               "right": 474.520547945206,
-              "bottom": 366.849315068493,
+              "bottom": 368.846473150198,
               "top": 5.47945205479452
             }
           }
@@ -86,7 +86,7 @@
       "class": "shiny-scalable"
     },
     "ggplotYN": {
-      "src": "[image data hash: 8bd525f0d8c24e1fbc611dfd19fed89e]",
+      "src": "[image data hash: 7d4583034319838802d8529bd6499a99]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -112,9 +112,9 @@
               "y": "dist"
             },
             "range": {
-              "left": 39.1506849315068,
+              "left": 37.8225599315069,
               "right": 474.520547945206,
-              "bottom": 366.849315068493,
+              "bottom": 368.846473150198,
               "top": 5.47945205479452
             }
           }
@@ -127,7 +127,7 @@
       "class": "shiny-scalable"
     },
     "ggplotYY": {
-      "src": "[image data hash: 8bd525f0d8c24e1fbc611dfd19fed89e]",
+      "src": "[image data hash: 7d4583034319838802d8529bd6499a99]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -153,9 +153,9 @@
               "y": "dist"
             },
             "range": {
-              "left": 39.1506849315068,
+              "left": 37.8225599315069,
               "right": 474.520547945206,
-              "bottom": 366.849315068493,
+              "bottom": 368.846473150198,
               "top": 5.47945205479452
             }
           }
@@ -168,7 +168,7 @@
       "class": "shiny-scalable"
     },
     "plotNN": {
-      "src": "[image data hash: 8e7952350890664e9f8cf973c67c3ec4]",
+      "src": "[image data hash: 4d51ac65999a3d5d417b1161fa006b67]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -202,7 +202,7 @@
       "class": "shiny-scalable"
     },
     "plotNY": {
-      "src": "[image data hash: 8e7952350890664e9f8cf973c67c3ec4]",
+      "src": "[image data hash: 4d51ac65999a3d5d417b1161fa006b67]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -236,7 +236,7 @@
       "class": "shiny-scalable"
     },
     "plotYN": {
-      "src": "[image data hash: 8e7952350890664e9f8cf973c67c3ec4]",
+      "src": "[image data hash: 4d51ac65999a3d5d417b1161fa006b67]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -270,7 +270,7 @@
       "class": "shiny-scalable"
     },
     "plotYY": {
-      "src": "[image data hash: 8e7952350890664e9f8cf973c67c3ec4]",
+      "src": "[image data hash: 4d51ac65999a3d5d417b1161fa006b67]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [

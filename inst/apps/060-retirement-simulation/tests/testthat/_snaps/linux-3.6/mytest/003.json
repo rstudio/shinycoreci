@@ -21,8 +21,8 @@
   },
   "output": {
     "a_distPlot": {
-      "src": "[image data hash: f9c1f7504cd84593d6653167095b1cb8]",
-      "width": 463,
+      "src": "[image data hash: de594d78514670e906b74fd3cbd04161]",
+      "width": 470,
       "height": 600,
       "alt": "Plot object",
       "coordmap": {
@@ -36,7 +36,7 @@
             },
             "range": {
               "left": 49.0032,
-              "right": 206.4008,
+              "right": 209.9008,
               "bottom": 538.0448,
               "top": 348.0032
             },
@@ -50,14 +50,14 @@
           }
         ],
         "dims": {
-          "width": 463,
+          "width": 470,
           "height": 600
         }
       }
     },
     "b_distPlot": {
-      "src": "[image data hash: e098758da3ab4d2c2871e4ecb789f726]",
-      "width": 463,
+      "src": "[image data hash: cf2f501864d318dc8924c30047dc77cd]",
+      "width": 470,
       "height": 600,
       "alt": "Plot object",
       "coordmap": {
@@ -70,8 +70,8 @@
               "top": 0.502504849325581
             },
             "range": {
-              "left": 280.5032,
-              "right": 437.9008,
+              "left": 284.0032,
+              "right": 444.9008,
               "bottom": 538.0448,
               "top": 348.0032
             },
@@ -85,7 +85,7 @@
           }
         ],
         "dims": {
-          "width": 463,
+          "width": 470,
           "height": 600
         }
       }
