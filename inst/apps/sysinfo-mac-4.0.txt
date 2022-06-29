@@ -10,7 +10,7 @@ osVersion: macOS Big Sur 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-06-27
+ date     2022-06-28
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -210,7 +210,7 @@ osVersion: macOS Big Sur 10.16
                 servr       0.24   CRAN    0.24                /servr
           sessioninfo      1.2.2    any   1.2.2     /any::sessioninfo
                    sf      1.0-7   CRAN   1.0-7                   /sf
-                shiny 1.7.1.9003 GitHub d4527cd          rstudio/HEAD
+                shiny 1.7.1.9003 GitHub ff5ef52          rstudio/HEAD
              shinyAce      0.4.1   CRAN   0.4.1             /shinyAce
           shinycoreci 0.0.0.9007  Local
        shinydashboard      0.7.2   CRAN   0.7.2       /shinydashboard
