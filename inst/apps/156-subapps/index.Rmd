@@ -1,5 +1,4 @@
 ---
-### Keep this line to manually test this shiny application. Do not edit this line; shinycoreci::::is_manual_app
 title: "Subapp test"
 output: html_document
 runtime: shiny
