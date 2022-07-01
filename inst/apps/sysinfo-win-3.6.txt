@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.1252
  ctype    English_United States.1252
  tz       UTC
- date     2022-06-28
+ date     2022-07-01
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -52,7 +52,7 @@ osVersion: Windows Server x64 (build 20348)
            data.table     1.14.2   CRAN  1.14.2           /data.table
             data.tree      1.0.0   CRAN   1.0.0            /data.tree
                   DBI      1.1.3   CRAN   1.1.3                  /DBI
-               dbplyr      2.2.0   CRAN   2.2.0               /dbplyr
+               dbplyr      2.2.1   CRAN   2.2.1               /dbplyr
               debugme      1.1.0   CRAN   1.1.0              /debugme
                  desc      1.4.1   CRAN   1.4.1                 /desc
            DiagrammeR      1.0.9   CRAN   1.0.9           /DiagrammeR
@@ -60,7 +60,7 @@ osVersion: Windows Server x64 (build 20348)
                digest     0.6.29   CRAN  0.6.29               /digest
            downloader        0.4   CRAN     0.4           /downloader
                 dplyr      1.0.9   CRAN   1.0.9                /dplyr
-                   DT     0.23.1 GitHub 9f84fb5          rstudio/HEAD
+                   DT     0.23.2 GitHub 823b781          rstudio/HEAD
              dygraphs    1.1.1.7 GitHub 70b60ab          rstudio/HEAD
                 e1071     1.7-11   CRAN  1.7-11                /e1071
              ellipsis      0.3.2   CRAN   0.3.2             /ellipsis
@@ -137,7 +137,7 @@ osVersion: Windows Server x64 (build 20348)
              numDeriv 2016.8-1.1   CRAN 2016.8-             /numDeriv
               openssl      2.0.2   CRAN   2.0.2              /openssl
              openxlsx      4.2.5   CRAN   4.2.5             /openxlsx
-              packrat      0.8.0   CRAN   0.8.0              /packrat
+              packrat      0.8.1   CRAN   0.8.1              /packrat
                   pak      0.3.0   RSPM
            parallelly     1.32.0   CRAN  1.32.0           /parallelly
             parsedate      1.3.0   CRAN   1.3.0            /parsedate
@@ -147,7 +147,7 @@ osVersion: Windows Server x64 (build 20348)
                pillar      1.7.0   CRAN   1.7.0               /pillar
                 pingr      2.0.1   CRAN   2.0.1                /pingr
             pkgconfig      2.0.3   CRAN   2.0.3            /pkgconfig
-              pkgload      1.2.4   CRAN   1.2.4              /pkgload
+              pkgload      1.3.0   CRAN   1.3.0              /pkgload
                plotly     4.10.0   CRAN  4.10.0               /plotly
                  plyr      1.8.7   CRAN   1.8.7                 /plyr
                   png      0.1-7   CRAN   0.1-7                  /png
@@ -169,7 +169,7 @@ osVersion: Windows Server x64 (build 20348)
               R.cache     0.15.0   CRAN  0.15.0              /R.cache
           R.methodsS3      1.8.2   CRAN   1.8.2          /R.methodsS3
                  R.oo     1.25.0   CRAN  1.25.0                 /R.oo
-              R.utils     2.11.0   CRAN  2.11.0              /R.utils
+              R.utils     2.12.0   CRAN  2.12.0              /R.utils
                    R6      2.5.1   CRAN   2.5.1                   /R6
               radiant      1.4.2   CRAN   1.4.2              /radiant
        radiant.basics      1.4.1   CRAN   1.4.1       /radiant.basics
@@ -181,7 +181,7 @@ osVersion: Windows Server x64 (build 20348)
             randomizr     0.22.0   CRAN  0.22.0            /randomizr
                ranger     0.14.1   CRAN  0.14.1               /ranger
              rappdirs      0.3.3   CRAN   0.3.3             /rappdirs
-               raster     3.5-15   CRAN  3.5-15               /raster
+               raster     3.5-21   CRAN  3.5-21               /raster
          RColorBrewer      1.1-3   CRAN   1.1-3         /RColorBrewer
                  Rcpp    1.0.8.3   CRAN 1.0.8.3                 /Rcpp
             reactable      0.3.0   CRAN   0.3.0            /reactable
@@ -199,7 +199,7 @@ osVersion: Windows Server x64 (build 20348)
                   rio     0.5.29   CRAN  0.5.29                  /rio
                 rjson     0.2.20   CRAN  0.2.20                /rjson
               RJSONIO    1.3-1.6   CRAN 1.3-1.6              /RJSONIO
-                rlang      1.0.2   CRAN   1.0.2                /rlang
+                rlang      1.0.3   CRAN   1.0.3                /rlang
                 rlist    0.4.6.2   CRAN 0.4.6.2                /rlist
             rmarkdown       2.14   CRAN    2.14            /rmarkdown
                RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
