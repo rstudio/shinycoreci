@@ -29,14 +29,15 @@ resolve_app_name <- function(app, known_apps = NULL) {
 
   resolved_app
 }
-next_app_name <- function(app) {
+next_app_name <- function(app, manual = TRUE) {
   if (is.null(app)) return(NULL)
   resolved_app <- resolve_app_name(app)
-  pos <- which(app_names == resolved_app)
-  if (pos == length(app_names)) {
+  apps <- if (manual) apps_manual else app_names
+  pos <- which(apps == resolved_app)
+  if (pos == length(apps)) {
     return(NULL)
   }
-  app_names[pos + 1]
+  apps[pos + 1]
 }
 
 
