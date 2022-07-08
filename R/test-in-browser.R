@@ -19,9 +19,10 @@ test_in_browser <- function(
   port = 8080,
   port_background = NULL,
   host = "127.0.0.1",
-  local_pkgs = FALSE
+  local_pkgs = FALSE,
+  upgrade = TRUE
 ) {
-  libpath <- install_shinyverse(install = !isTRUE(local_pkgs))
+  libpath <- install_shinyverse(install = !isTRUE(local_pkgs), upgrade = upgrade)
 
   app_infos <- lapply(apps, function(app_name) {
     app_proc <- NULL
