@@ -41,12 +41,12 @@
         },
         {
           "name": "jquery",
-          "version": "1.12.4",
+          "version": "3.6.0",
           "src": {
-            "href": "jquery-1.12.4"
+            "href": "jquery-3.6.0"
           },
           "meta": null,
-          "script": "jquery.min.js",
+          "script": "jquery-3.6.0.min.js",
           "stylesheet": null,
           "head": null,
           "attachment": null,
