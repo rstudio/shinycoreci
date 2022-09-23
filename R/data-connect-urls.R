@@ -153,6 +153,7 @@ default_connect_urls <- structure(c(`001-hello` = "https://beta.rstudioconnect.c
 `217-snapshot-info-option` = "https://beta.rstudioconnect.com/content/208a904d-301e-4d61-bd56-c87962794e0b/", 
 `217-snapshot-info-url` = "https://beta.rstudioconnect.com/content/5d0c151b-f42a-45de-95a3-d6c045cf1fa7/", 
 `218-insert-ui-jquery` = "https://beta.rstudioconnect.com/content/054610b7-79e6-4373-93ff-1fa72d0d2cdf/", 
+`219-sliders-date` = "https://beta.rstudioconnect.com/content/b2b64560-eb17-484c-98f6-597b0dbf7ddb/", 
 `300-bs-themer` = "https://beta.rstudioconnect.com/content/35545a4d-ad66-4d58-8d46-24d890e43016/", 
 `301-bs-themes` = "https://beta.rstudioconnect.com/content/f8eee5ea-7a78-4821-98b9-bd5c073af443/", 
 `302-bootswatch-themes` = "https://beta.rstudioconnect.com/content/17225553-a042-4bee-bb37-d961bcdbf482/", 

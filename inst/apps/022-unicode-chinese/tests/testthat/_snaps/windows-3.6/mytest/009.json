@@ -3,11 +3,11 @@
     "dataset": "cars",
     "obs": 8,
     "summary": false,
-    "vars": "周长"
+    "vars": "渗透性"
   },
   "output": {
     "rockplot": {
-      "src": "[image data sha1: b84a951dd2d351021ceb51249f2ff5a5cee2cfd5]",
+      "src": "[image data hash: 6676083a433343df6a8877a3fc3ff339]",
       "width": 631,
       "height": 400,
       "alt": "Plot object",
@@ -15,16 +15,16 @@
         "panels": [
           {
             "domain": {
-              "left": 126.41888,
-              "right": 5046.44312,
+              "left": -45.448,
+              "right": 1351.748,
               "bottom": 568.16,
               "top": 12659.84
             },
             "range": {
-              "left": 57.6000091283691,
-              "right": 629.559999771791,
-              "bottom": 341.399985599996,
-              "top": 0.440000360000093
+              "left": 57.6,
+              "right": 629.56,
+              "bottom": 341.4,
+              "top": 0.440000000000019
             },
             "log": {
               "x": null,

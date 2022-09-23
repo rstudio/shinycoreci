@@ -10,6 +10,7 @@ births <- read.csv("data/births.csv")
 # Determine years in data -------------------------------------------
 years <- unique(births$year)
 
+
 # UI ----------------------------------------------------------------
 ui <- fluidPage(
 

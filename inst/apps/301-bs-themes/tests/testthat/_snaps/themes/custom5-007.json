@@ -49,7 +49,7 @@
     "inputPanelOutput": "List of 5\n $ sliderInput        : int [1:2] 14 83\n $ selectizeInput     : chr \"AK\"\n $ selectizeMultiInput: chr [1:3] \"AK\" \"AR\" \"CO\"\n $ dateInput          : Date[1:1], format: \"2020-12-21\"\n $ dateRangeInput     : Date[1:2], format: \"2020-12-24\" \"2020-12-26\"",
     "inputPanelOutputHeader": "Below are the values bound to each input widget above",
     "plot": {
-      "src": "[image data hash: a8d9f5271de71f5736ad0b348655a20e]",
+      "src": "[image data hash: db76f4f5fa577af61e0739dbe1084bf3]",
       "width": 968,
       "height": 400,
       "alt": "Plot object",
@@ -78,10 +78,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 84.4680677440069,
-              "right": 373.499259774543,
-              "bottom": 189.864090592894,
-              "top": 61.7279805222603
+              "left": 84.4631849315069,
+              "right": 373.49600456621,
+              "bottom": 190.165982140685,
+              "top": 60.7405922285214
             }
           },
           {
@@ -107,10 +107,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 378.978711829338,
-              "right": 668.009903859874,
-              "bottom": 189.864090592894,
-              "top": 61.7279805222603
+              "left": 378.975456621005,
+              "right": 668.008276255708,
+              "bottom": 190.165982140685,
+              "top": 60.7405922285214
             }
           },
           {
@@ -136,10 +136,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 673.489355914669,
+              "left": 673.487728310502,
               "right": 962.520547945205,
-              "bottom": 189.864090592894,
-              "top": 61.7279805222603
+              "bottom": 190.165982140685,
+              "top": 60.7405922285214
             }
           },
           {
@@ -165,10 +165,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 84.4680677440069,
-              "right": 373.499259774543,
-              "bottom": 349.047557255993,
-              "top": 220.91144718536
+              "left": 84.4631849315069,
+              "right": 373.49600456621,
+              "bottom": 349.843631231903,
+              "top": 220.41824131974
             }
           },
           {
@@ -194,10 +194,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 378.978711829338,
-              "right": 668.009903859874,
-              "bottom": 349.047557255993,
-              "top": 220.91144718536
+              "left": 378.975456621005,
+              "right": 668.008276255708,
+              "bottom": 349.843631231903,
+              "top": 220.41824131974
             }
           }
         ],
