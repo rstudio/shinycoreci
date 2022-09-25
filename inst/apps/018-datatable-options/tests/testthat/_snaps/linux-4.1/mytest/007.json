@@ -1194,9 +1194,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.11.3",
+          "version": "1.12.1",
           "src": {
-            "href": "dt-core-1.11.3"
+            "href": "dt-core-1.12.1"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1299,9 +1299,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.11.3",
+          "version": "1.12.1",
           "src": {
-            "href": "dt-core-1.11.3"
+            "href": "dt-core-1.12.1"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1392,9 +1392,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.11.3",
+          "version": "1.12.1",
           "src": {
-            "href": "dt-core-1.11.3"
+            "href": "dt-core-1.12.1"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1485,9 +1485,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.11.3",
+          "version": "1.12.1",
           "src": {
-            "href": "dt-core-1.11.3"
+            "href": "dt-core-1.12.1"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",

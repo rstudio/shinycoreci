@@ -20,7 +20,7 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: a7909c61a1d7b8b189691d2ab8d2afadf1cfcdf5]",
+      "html": "[html data sha1: 9c58894b94ec1f3e8d3a316fdf2e070239e9dde2]",
       "deps": [
         {
           "name": "jquery",
@@ -71,9 +71,9 @@
         },
         {
           "name": "value-box-accent-static",
-          "version": "0.5.2.9000",
+          "version": "0.6.0.9000",
           "src": {
-            "href": "value-box-accent-static-0.5.2.9000"
+            "href": "value-box-accent-static-0.6.0.9000"
           },
           "meta": null,
           "script": null,
@@ -84,9 +84,9 @@
         },
         {
           "name": "flexdashboard-css",
-          "version": "0.5.2.9000",
+          "version": "0.6.0.9000",
           "src": {
-            "href": "flexdashboard-css-0.5.2.9000"
+            "href": "flexdashboard-css-0.6.0.9000"
           },
           "meta": null,
           "script": null,
@@ -178,9 +178,9 @@
       "deps": [
         {
           "name": "value-box-core",
-          "version": "0.5.2.9000",
+          "version": "0.6.0.9000",
           "src": {
-            "href": "value-box-core-0.5.2.9000"
+            "href": "value-box-core-0.6.0.9000"
           },
           "meta": null,
           "script": null,
@@ -196,9 +196,9 @@
       "deps": [
         {
           "name": "value-box-core",
-          "version": "0.5.2.9000",
+          "version": "0.6.0.9000",
           "src": {
-            "href": "value-box-core-0.5.2.9000"
+            "href": "value-box-core-0.6.0.9000"
           },
           "meta": null,
           "script": null,
@@ -533,9 +533,9 @@
       "deps": [
         {
           "name": "value-box-core",
-          "version": "0.5.2.9000",
+          "version": "0.6.0.9000",
           "src": {
-            "href": "value-box-core-0.5.2.9000"
+            "href": "value-box-core-0.6.0.9000"
           },
           "meta": null,
           "script": null,

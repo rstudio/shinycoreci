@@ -307,9 +307,9 @@
         },
         {
           "name": "dt-core-bootstrap4",
-          "version": "1.11.3",
+          "version": "1.12.1",
           "src": {
-            "href": "dt-core-bootstrap4-1.11.3"
+            "href": "dt-core-bootstrap4-1.12.1"
           },
           "meta": null,
           "script": [
