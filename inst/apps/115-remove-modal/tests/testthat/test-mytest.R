@@ -10,7 +10,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(openModalBtn = "click")
   app$wait_for_js("window.modalShown", timeout = 3000)
   app$expect_values()
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 2)
 
 
   # Verify modal is closed
