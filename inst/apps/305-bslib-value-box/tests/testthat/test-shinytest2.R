@@ -1,5 +1,16 @@
 library(shinytest2)
 
+# Only run these tests on mac + r-release
+# (To reduce the amount of screenshot diffing noise)
+release <- rversions::r_release()$version
+release <- paste0(
+  strsplit(release, ".", fixed = TRUE)[[1]][1:2],
+  collapse = "."
+)
+if (!identical(paste0("mac-", release), platform_variant())) {
+  skip("Not mac + r-release")
+}
+
 test_that("{shinytest2} recording: value_box", {
 
   width <- 1720
