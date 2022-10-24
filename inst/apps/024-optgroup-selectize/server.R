@@ -1,5 +1,4 @@
 function(input, output, session) {
-
   updateSelectizeInput(session, 'x2', choices = list(
     Eastern = c(`Rhode Island` = 'RI', `New Jersey` = 'NJ'),
     Western = c(`Oregon` = 'OR', `Washington` = 'WA'),
