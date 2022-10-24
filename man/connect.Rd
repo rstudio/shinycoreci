@@ -27,11 +27,11 @@ The corresponding \code{rsconnect} account should already exist before calling \
 }
 \section{Functions}{
 \itemize{
-\item \code{connect_set_public}: Set all the Shiny apps to be public on a Connect server
+\item \code{connect_set_public()}: Set all the Shiny apps to be public on a Connect server
 
-\item \code{connect_urls}: Retrieve the urls from a Connect server using the Shiny applications provided in \verb{dir}
+\item \code{connect_urls()}: Retrieve the urls from a Connect server using the Shiny applications provided in \verb{dir}
+
 }}
-
 \examples{
 \dontrun{
   rsconnect::addConnectServer(url = 'https://SERVER.com/API', name = 'CustomName')
