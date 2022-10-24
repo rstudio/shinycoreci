@@ -36,3 +36,5 @@ Suggests:
 Config/Needs/website: tidyverse/tidytemplate
 URL: https://github.com/rstudio/shinycoreci
 BugReports: https://github.com/rstudio/shinycoreci/issues
+Remotes:
+    rstudio/shiny@rc-v1.7.2.1
