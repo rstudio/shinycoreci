@@ -31,7 +31,7 @@ These GitHub packages will be installed to make sure the latest package developm
   - [r-lib/cachem](http://github.com/r-lib/cachem)
   - [r-lib/fastmap](http://github.com/r-lib/fastmap)
   - [r-lib/later](http://github.com/r-lib/later)
-  - [rstudio/bslib](http://github.com/rstudio/bslib)
+  - [cran/bslib](http://github.com/cran/bslib)
   - [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
   - [rstudio/DT](http://github.com/rstudio/DT)
   - [rstudio/dygraphs](http://github.com/rstudio/dygraphs)
