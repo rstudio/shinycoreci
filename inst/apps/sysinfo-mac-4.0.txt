@@ -212,13 +212,13 @@ osVersion: macOS Big Sur 10.16
                 servr       0.24   CRAN    0.24                /servr
           sessioninfo      1.2.2    any   1.2.2     /any::sessioninfo
                    sf      1.0-7   CRAN   1.0-7                   /sf
-                shiny 1.7.2.9000 GitHub cda59da          rstudio/HEAD
+                shiny 1.7.2.9000 GitHub 62a95b9          rstudio/HEAD
              shinyAce      0.4.1   CRAN   0.4.1             /shinyAce
           shinycoreci 0.0.0.9007  Local
        shinydashboard      0.7.2   CRAN   0.7.2       /shinydashboard
            shinyFiles      0.9.1   CRAN   0.9.1           /shinyFiles
               shinyjs      2.1.0   CRAN   2.1.0              /shinyjs
-           shinyjster 0.0.0.9010 GitHub 28c5e18        schloerke/HEAD
+           shinyjster 0.0.0.9010 GitHub 2a94494        schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086          rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d          rstudio/HEAD
            shinytest2      0.2.0 GitHub 1941033          rstudio/HEAD
