@@ -1,4 +1,4 @@
-Image Version:  20220918.1
+Image Version:  20221018.1
 osVersion: macOS Big Sur ... 10.16
 --------------------------------------------------------------------------------
  setting  value
@@ -10,279 +10,280 @@ osVersion: macOS Big Sur ... 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-09-23
+ date     2022-10-24
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
-              Package    Version Source     SHA                   Ref
-                abind      1.4-5   CRAN   1.4-5                /abind
-               admisc       0.29   CRAN    0.29               /admisc
-            AlgDesign      1.2.1   CRAN   1.2.1            /AlgDesign
-              anytime      0.3.9   CRAN   0.3.9              /anytime
-          AsioHeaders   1.22.1-1   CRAN 1.22.1-          /AsioHeaders
-              askpass        1.1   CRAN     1.1              /askpass
-           assertthat      0.2.1   CRAN   0.2.1           /assertthat
-            backports      1.4.1   CRAN   1.4.1            /backports
-            base64enc      0.1-3   CRAN   0.1-3            /base64enc
-                  bit      4.0.4   CRAN   4.0.4                  /bit
-                bit64      4.0.5   CRAN   4.0.5                /bit64
-                 blob      1.2.3   CRAN   1.2.3                 /blob
-                 brio      1.1.3   CRAN   1.1.3                 /brio
-                broom      1.0.0   CRAN   1.0.0                /broom
-                bslib 0.4.0.9000 GitHub fa2e03c          rstudio/HEAD
-               cachem 1.0.6.9000 GitHub 7b9d764            r-lib/HEAD
-                Cairo      1.6-0   CRAN   1.6-0                /Cairo
-                callr      3.7.2   CRAN   3.7.2                /callr
-                  car      3.1-0   CRAN   3.1-0                  /car
-              carData      3.0-5   CRAN   3.0-5              /carData
-           cellranger      1.1.0   CRAN   1.1.0           /cellranger
-            checkmate      2.1.0   CRAN   2.1.0            /checkmate
-             chromote      0.1.1   CRAN   0.1.1             /chromote
-             classInt      0.4-7   CRAN   0.4-7             /classInt
-                  cli      3.4.0   CRAN   3.4.0                  /cli
-                clipr      0.8.0   CRAN   0.8.0                /clipr
-         clustMixType     0.2-15   CRAN  0.2-15         /clustMixType
-           colorspace      2.0-3   CRAN   2.0-3           /colorspace
-           commonmark      1.8.0   CRAN   1.8.0           /commonmark
-                 covr      3.6.1   CRAN   3.6.1                 /covr
-                cpp11      0.4.2   CRAN   0.4.2                /cpp11
-             cranlogs      2.1.1   CRAN   2.1.1             /cranlogs
-               crayon      1.5.1   CRAN   1.5.1               /crayon
-          credentials      1.3.2   CRAN   1.3.2          /credentials
-            crosstalk 1.2.0.9000 GitHub 8128ef3          rstudio/HEAD
-                 curl      4.3.2   CRAN   4.3.2                 /curl
-           data.table     1.14.2   CRAN  1.14.2           /data.table
-            data.tree      1.0.0   CRAN   1.0.0            /data.tree
-                  DBI      1.1.3   CRAN   1.1.3                  /DBI
-               dbplyr      2.2.1   CRAN   2.2.1               /dbplyr
-              debugme      1.1.0   CRAN   1.1.0              /debugme
-                 desc      1.4.2   CRAN   1.4.2                 /desc
-              deSolve       1.33   CRAN    1.33              /deSolve
-           DiagrammeR      1.0.9   CRAN   1.0.9           /DiagrammeR
-              diffobj      0.3.5   CRAN   0.3.5              /diffobj
-               digest     0.6.29   CRAN
-           downloader        0.4   CRAN     0.4           /downloader
-                dplyr     1.0.10   CRAN  1.0.10                /dplyr
-                   DT     0.25.1 GitHub 2c1b871          rstudio/HEAD
-             dygraphs    1.1.1.7 GitHub 70b60ab          rstudio/HEAD
-                e1071     1.7-11   CRAN  1.7-11                /e1071
-             ellipsis      0.3.2   CRAN   0.3.2             /ellipsis
-              english      1.2-6   CRAN   1.2-6              /english
-             evaluate       0.16   CRAN    0.16             /evaluate
-                fansi      1.0.3   CRAN   1.0.3                /fansi
-               farver      2.1.1   CRAN   2.1.1               /farver
-              fastmap 1.1.0.9000 GitHub d2722e7            r-lib/HEAD
-        flexdashboard 0.6.0.9000 GitHub b3cb4a3          rstudio/HEAD
-          fontawesome 0.3.0.9000 GitHub a34bbc1          rstudio/HEAD
-              foreach      1.5.2   CRAN   1.5.2              /foreach
-                   fs      1.5.2   CRAN   1.5.2                   /fs
-               future     1.28.0   CRAN  1.28.0               /future
-             generics      0.1.3   CRAN   0.1.3             /generics
-                 gert      1.9.0   CRAN   1.9.0                 /gert
-            gganimate      1.0.8   CRAN   1.0.8            /gganimate
-              ggiraph      0.8.3   CRAN   0.8.3              /ggiraph
-              ggplot2      3.3.6   CRAN   3.3.6              /ggplot2
-              ggrepel      0.9.1   CRAN   0.9.1              /ggrepel
-                ggvis      0.4.7   CRAN   0.4.7                /ggvis
-                   gh      1.3.1   CRAN   1.3.1                   /gh
-             gitcreds      0.1.2   CRAN   0.1.2             /gitcreds
-              globals     0.16.1   CRAN  0.16.1              /globals
-                 glue      1.6.2   CRAN   1.6.2                 /glue
-                gower      1.0.0   CRAN   1.0.0                /gower
-          GPArotation   2022.4-1   CRAN 2022.4-          /GPArotation
-            gridExtra        2.3   CRAN     2.3            /gridExtra
-               gtable      0.3.1   CRAN   0.3.1               /gtable
-               hexbin     1.28.2   CRAN  1.28.2               /hexbin
-          highcharter      0.9.4   CRAN   0.9.4          /highcharter
-                highr        0.9   CRAN     0.9                /highr
-                  hms      1.1.2   CRAN   1.1.2                  /hms
-            htmltools 0.5.3.9000 GitHub 5fa01e7          rstudio/HEAD
-          htmlwidgets      1.5.4   CRAN   1.5.4          /htmlwidgets
-               httpuv      1.6.6 GitHub ab8d702          rstudio/HEAD
-                 httr      1.4.4   CRAN   1.4.4                 /httr
-             hunspell      3.0.2   CRAN   3.0.2             /hunspell
-               igraph      1.3.4   CRAN   1.3.4               /igraph
-               import      1.3.0   CRAN   1.3.0               /import
-           influenceR    0.1.0.1   CRAN 0.1.0.1           /influenceR
-                  ini      0.3.1   CRAN   0.3.1                  /ini
-              isoband      0.2.5   CRAN   0.2.5              /isoband
-            iterators     1.0.14   CRAN  1.0.14            /iterators
-            jquerylib      0.1.4   CRAN   0.1.4            /jquerylib
-             jsonlite      1.8.0   CRAN   1.8.0             /jsonlite
-                knitr       1.40   CRAN    1.40                /knitr
-             labeling      0.4.2   CRAN   0.4.2             /labeling
-                later 1.3.0.9000 GitHub ba70887            r-lib/HEAD
-             lazyeval      0.2.2   CRAN   0.2.2             /lazyeval
-              leaflet 2.1.1.9000 GitHub 6d0db38          rstudio/HEAD
-    leaflet.providers      1.9.0   CRAN   1.9.0    /leaflet.providers
-            lifecycle      1.0.2   CRAN   1.0.2            /lifecycle
-              listenv      0.8.0   CRAN   0.8.0              /listenv
-                 lme4     1.1-30   CRAN  1.1-30                 /lme4
-               lobstr      1.1.2   CRAN   1.1.2               /lobstr
-            lubridate      1.8.0   CRAN   1.8.0            /lubridate
-             magrittr      2.0.3   CRAN   2.0.3             /magrittr
-                 maps      3.4.0   CRAN   3.4.0                 /maps
-             maptools      1.1-4   CRAN   1.1-4             /maptools
-             markdown        1.1   CRAN     1.1             /markdown
-         MatrixModels      0.5-0   CRAN   0.5-0         /MatrixModels
-              memoise      2.0.1   CRAN   2.0.1              /memoise
-                 mime       0.12   CRAN    0.12                 /mime
-                minqa      1.2.4   CRAN   1.2.4                /minqa
-               mnormt      2.1.0   CRAN   2.1.0               /mnormt
-              munsell      0.5.0   CRAN   0.5.0              /munsell
-              mvtnorm      1.1-3   CRAN   1.1-3              /mvtnorm
-            networkD3        0.4   CRAN     0.4            /networkD3
-       NeuralNetTools      1.5.3   CRAN   1.5.3       /NeuralNetTools
-               nloptr      2.0.3   CRAN   2.0.3               /nloptr
-                  NLP      0.2-1   CRAN   0.2-1                  /NLP
-             numDeriv 2016.8-1.1   CRAN 2016.8-             /numDeriv
-              openssl      2.0.3   CRAN   2.0.3              /openssl
-              packrat      0.8.1   CRAN   0.8.1              /packrat
+              Package    Version Source     SHA               Ref
+                abind      1.4-5   CRAN
+               admisc       0.29   CRAN
+            AlgDesign      1.2.1   CRAN
+              anytime      0.3.9   CRAN
+          AsioHeaders   1.22.1-1   CRAN
+              askpass        1.1   CRAN
+           assertthat      0.2.1   CRAN
+            backports      1.4.1   CRAN
+            base64enc      0.1-3   CRAN
+                  bit      4.0.4   CRAN
+                bit64      4.0.5   CRAN
+                 blob      1.2.3   CRAN
+                 brio      1.1.3   CRAN
+                broom      1.0.0   CRAN
+              bsicons 0.0.0.9000 GitHub 9d8d64a      rstudio/HEAD
+                bslib 0.4.0.9900 GitHub d15909c      rstudio/HEAD
+               cachem 1.0.6.9000 GitHub 7b9d764        r-lib/HEAD
+                Cairo      1.6-0   CRAN
+                callr      3.7.2   CRAN
+                  car      3.1-0   CRAN
+              carData      3.0-5   CRAN
+           cellranger      1.1.0   CRAN
+            checkmate      2.1.0   CRAN
+             chromote      0.1.1   CRAN
+             classInt      0.4-8   CRAN
+                  cli      3.4.1   CRAN
+                clipr      0.8.0   CRAN
+         clustMixType     0.2-15   CRAN
+           colorspace      2.0-3   CRAN
+           commonmark      1.8.1   CRAN
+                 covr      3.6.1   CRAN
+                cpp11      0.4.3   CRAN
+             cranlogs      2.1.1   CRAN
+               crayon      1.5.2   CRAN
+          credentials      1.3.2   CRAN
+            crosstalk 1.2.0.9000 GitHub 8128ef3      rstudio/HEAD
+                 curl      4.3.3   CRAN
+           data.table     1.14.4   CRAN
+            data.tree      1.0.0   CRAN
+                  DBI      1.1.3   CRAN
+               dbplyr      2.2.1   CRAN
+              debugme      1.1.0   CRAN
+                 desc      1.4.2   CRAN
+              deSolve       1.33   CRAN
+           DiagrammeR      1.0.9   CRAN
+              diffobj      0.3.5   CRAN
+               digest     0.6.30   CRAN
+           downloader        0.4   CRAN
+                dplyr     1.0.10   CRAN
+                   DT     0.26.1 GitHub e02783c      rstudio/HEAD
+             dygraphs    1.1.1.7 GitHub 70b60ab      rstudio/HEAD
+                e1071     1.7-11   CRAN
+             ellipsis      0.3.2   CRAN
+              english      1.2-6   CRAN
+             evaluate       0.17   CRAN
+                fansi      1.0.3   CRAN
+               farver      2.1.1   CRAN
+              fastmap 1.1.0.9000 GitHub d2722e7        r-lib/HEAD
+        flexdashboard 0.6.0.9000 GitHub b3cb4a3      rstudio/HEAD
+          fontawesome 0.3.0.9000 GitHub 7fcff57      rstudio/HEAD
+              foreach      1.5.2   CRAN
+                   fs      1.5.2   CRAN
+               future     1.28.0   CRAN
+             generics      0.1.3   CRAN
+                 gert      1.9.1   CRAN
+            gganimate      1.0.8   CRAN
+              ggiraph      0.8.3   CRAN
+              ggplot2      3.3.6   CRAN
+              ggrepel      0.9.1   CRAN
+                ggvis      0.4.7   CRAN
+                   gh      1.3.1   CRAN
+             gitcreds      0.1.2   CRAN
+              globals     0.16.1   CRAN
+                 glue      1.6.2   CRAN
+                gower      1.0.0   CRAN
+          GPArotation   2022.4-1   CRAN
+            gridExtra        2.3   CRAN
+               gtable      0.3.1   CRAN
+               hexbin     1.28.2   CRAN
+          highcharter      0.9.4   CRAN
+                highr        0.9   CRAN
+                  hms      1.1.2   CRAN
+            htmltools 0.5.3.9000 GitHub 95f2796      rstudio/HEAD
+          htmlwidgets      1.5.4   CRAN
+               httpuv      1.6.6 GitHub ab8d702      rstudio/HEAD
+                 httr      1.4.4   CRAN
+             hunspell      3.0.2   CRAN
+               igraph      1.3.4   CRAN
+               import      1.3.0   CRAN
+           influenceR    0.1.0.1   CRAN
+                  ini      0.3.1   CRAN
+              isoband      0.2.6   CRAN
+            iterators     1.0.14   CRAN
+            jquerylib      0.1.4   CRAN
+             jsonlite      1.8.3   CRAN
+                knitr       1.40   CRAN
+             labeling      0.4.2   CRAN
+                later 1.3.0.9000 GitHub ba70887        r-lib/HEAD
+             lazyeval      0.2.2   CRAN
+              leaflet 2.1.1.9000 GitHub 69e8c31      rstudio/HEAD
+    leaflet.providers      1.9.0   CRAN
+            lifecycle      1.0.3   CRAN
+              listenv      0.8.0   CRAN
+                 lme4     1.1-30   CRAN
+               lobstr      1.1.2   CRAN
+            lubridate      1.8.0   CRAN
+             magrittr      2.0.3   CRAN
+                 maps      3.4.0   CRAN
+             maptools      1.1-4   CRAN
+             markdown        1.2   CRAN
+         MatrixModels      0.5-0   CRAN
+              memoise      2.0.1   CRAN
+                 mime       0.12   CRAN
+                minqa      1.2.4   CRAN
+               mnormt      2.1.0   CRAN
+              munsell      0.5.0   CRAN
+              mvtnorm      1.1-3   CRAN
+            networkD3        0.4   CRAN
+       NeuralNetTools      1.5.3   CRAN
+               nloptr      2.0.3   CRAN
+                  NLP      0.2-1   CRAN
+             numDeriv 2016.8-1.1   CRAN
+              openssl      2.0.4   CRAN
+              packrat      0.8.1   CRAN
                   pak      0.3.0   CRAN
-           parallelly     1.32.1   CRAN  1.32.1           /parallelly
-            parsedate      1.3.0   CRAN   1.3.0            /parsedate
-            patchwork      1.1.1   CRAN   1.1.1            /patchwork
-             pbkrtest      0.5.1   CRAN   0.5.1             /pbkrtest
-                  pdp      0.8.1   CRAN   0.8.1                  /pdp
-               pillar      1.8.1   CRAN   1.8.1               /pillar
-                pingr      2.0.1   CRAN   2.0.1                /pingr
-            pkgconfig      2.0.3   CRAN   2.0.3            /pkgconfig
-              pkgload      1.3.0   CRAN   1.3.0              /pkgload
-               plotly     4.10.0   CRAN  4.10.0               /plotly
-                 plyr      1.8.7   CRAN   1.8.7                 /plyr
-                  png      0.1-7   CRAN   0.1-7                  /png
-              polycor      0.8-1   CRAN   0.8-1              /polycor
-                 pool 0.1.6.9000 GitHub 203bb12          rstudio/HEAD
-               praise      1.0.0   CRAN   1.0.0               /praise
-          prettyunits      1.1.1   CRAN   1.1.1          /prettyunits
-             processx      3.7.0   CRAN   3.7.0             /processx
-             progress      1.2.2   CRAN   1.2.2             /progress
-             promises 1.2.0.9000 GitHub 7979d6c          rstudio/HEAD
-                proxy     0.4-27   CRAN  0.4-27                /proxy
-                 pryr      0.1.5   CRAN   0.1.5                 /pryr
-                   ps      1.7.1   CRAN   1.7.1                   /ps
-                psych      2.2.5   CRAN   2.2.5                /psych
-                purrr      0.3.4   CRAN   0.3.4                /purrr
-                  pwr      1.3-0   CRAN   1.3-0                  /pwr
-             quantmod     0.4.20   CRAN  0.4.20             /quantmod
-             quantreg       5.94   CRAN    5.94             /quantreg
-              R.cache     0.16.0   CRAN  0.16.0              /R.cache
-          R.methodsS3      1.8.2   CRAN   1.8.2          /R.methodsS3
-                 R.oo     1.25.0   CRAN  1.25.0                 /R.oo
-              R.utils     2.12.0   CRAN  2.12.0              /R.utils
-                   R6      2.5.1   CRAN   2.5.1                   /R6
-              radiant      1.4.2   CRAN   1.4.2              /radiant
-       radiant.basics      1.4.4   CRAN   1.4.4       /radiant.basics
-         radiant.data      1.4.4   CRAN   1.4.4         /radiant.data
-       radiant.design      1.4.4   CRAN   1.4.4       /radiant.design
-        radiant.model      1.4.6   CRAN   1.4.6        /radiant.model
- radiant.multivariate      1.4.4   CRAN   1.4.4 /radiant.multivariate
-                 ragg      1.2.2   CRAN   1.2.2                 /ragg
-            randomizr     0.22.0   CRAN  0.22.0            /randomizr
-               ranger     0.14.1   CRAN  0.14.1               /ranger
-             rappdirs      0.3.3   CRAN   0.3.3             /rappdirs
-               raster      3.6-3   CRAN   3.6-3               /raster
-         RColorBrewer      1.1-3   CRAN   1.1-3         /RColorBrewer
-                 Rcpp      1.0.9   CRAN   1.0.9                 /Rcpp
-            reactable      0.3.0   CRAN   0.3.0            /reactable
-             reactlog      1.1.0 GitHub e8f0548          rstudio/HEAD
-               reactR      0.4.4   CRAN   0.4.4               /reactR
-                readr      2.1.2   CRAN   2.1.2                /readr
-               readxl      1.4.0   CRAN   1.4.0               /readxl
-              rematch      1.0.1   CRAN   1.0.1              /rematch
-             rematch2      2.1.2   CRAN   2.1.2             /rematch2
-                 renv     0.15.5   CRAN  0.15.5                 /renv
-             reshape2      1.4.4   CRAN   1.4.4             /reshape2
-                  rex      1.2.1   CRAN   1.2.1                  /rex
-                rgdal     1.5-32   CRAN  1.5-32                /rgdal
-                rgeos      0.5-9   CRAN   0.5-9                /rgeos
-                rjson     0.2.21   CRAN  0.2.21                /rjson
-              RJSONIO    1.3-1.6   CRAN 1.3-1.6              /RJSONIO
-                rlang      1.0.5   CRAN   1.0.5                /rlang
-                rlist    0.4.6.2   CRAN 0.4.6.2                /rlist
-            rmarkdown       2.16   CRAN    2.16            /rmarkdown
-               RMySQL    0.10.23   CRAN 0.10.23               /RMySQL
-            rprojroot      2.0.3   CRAN   2.0.3            /rprojroot
-            rsconnect     0.8.27   CRAN  0.8.27            /rsconnect
-              RSQLite     2.2.17   CRAN  2.2.17              /RSQLite
-           rstudioapi       0.14   CRAN    0.14           /rstudioapi
-                 rsvg      2.3.1   CRAN   2.3.1                 /rsvg
-            rversions      2.1.1   CRAN   2.1.1            /rversions
-                   s2      1.1.0   CRAN   1.1.0                   /s2
-             sandwich      3.0-2   CRAN   3.0-2             /sandwich
-                 sass 0.4.2.9000 GitHub e1a1832          rstudio/HEAD
-               scales      1.2.1   CRAN   1.2.1               /scales
-                servr       0.24   CRAN    0.24                /servr
-          sessioninfo      1.2.2    any   1.2.2     /any::sessioninfo
-                   sf      1.0-8   CRAN   1.0-8                   /sf
-                shiny 1.7.2.9000 GitHub 6e40a3d          rstudio/HEAD
-             shinyAce      0.4.2   CRAN   0.4.2             /shinyAce
+           parallelly     1.32.1   CRAN
+            parsedate      1.3.0   CRAN
+            patchwork      1.1.1   CRAN
+             pbkrtest      0.5.1   CRAN
+                  pdp      0.8.1   CRAN
+               pillar      1.8.1   CRAN
+                pingr      2.0.1   CRAN
+            pkgconfig      2.0.3   CRAN
+              pkgload      1.3.0   CRAN
+               plotly     4.10.0   CRAN
+                 plyr      1.8.7   CRAN
+                  png      0.1-7   CRAN
+              polycor      0.8-1   CRAN
+                 pool 0.1.6.9000 GitHub 203bb12      rstudio/HEAD
+               praise      1.0.0   CRAN
+          prettyunits      1.1.1   CRAN
+             processx      3.7.0   CRAN
+             progress      1.2.2   CRAN
+             promises 1.2.0.9000 GitHub 7979d6c      rstudio/HEAD
+                proxy     0.4-27   CRAN
+                 pryr      0.1.5   CRAN
+                   ps      1.7.1   CRAN
+                psych      2.2.5   CRAN
+                purrr      0.3.5   CRAN
+                  pwr      1.3-0   CRAN
+             quantmod     0.4.20   CRAN
+             quantreg       5.94   CRAN
+              R.cache     0.16.0   CRAN
+          R.methodsS3      1.8.2   CRAN
+                 R.oo     1.25.0   CRAN
+              R.utils     2.12.0   CRAN
+                   R6      2.5.1   CRAN
+              radiant      1.4.2   CRAN
+       radiant.basics      1.4.4   CRAN
+         radiant.data      1.4.4   CRAN
+       radiant.design      1.4.4   CRAN
+        radiant.model      1.4.6   CRAN
+ radiant.multivariate      1.4.4   CRAN
+                 ragg      1.2.3   CRAN
+            randomizr     0.22.0   CRAN
+               ranger     0.14.1   CRAN
+             rappdirs      0.3.3   CRAN
+               raster      3.6-3   CRAN
+         RColorBrewer      1.1-3   CRAN
+                 Rcpp      1.0.9   CRAN
+            reactable      0.3.0   CRAN
+             reactlog      1.1.1 GitHub 83a4958      rstudio/HEAD
+               reactR      0.4.4   CRAN
+                readr      2.1.2   CRAN
+               readxl      1.4.0   CRAN
+              rematch      1.0.1   CRAN
+             rematch2      2.1.2   CRAN
+                 renv     0.16.0   CRAN
+             reshape2      1.4.4   CRAN
+                  rex      1.2.1   CRAN
+                rgdal     1.5-32   CRAN
+                rgeos      0.5-9   CRAN
+                rjson     0.2.21   CRAN
+              RJSONIO    1.3-1.6   CRAN
+                rlang      1.0.6   CRAN
+                rlist    0.4.6.2   CRAN
+            rmarkdown       2.17   CRAN
+               RMySQL    0.10.24   CRAN
+            rprojroot      2.0.3   CRAN
+            rsconnect     0.8.27   CRAN
+              RSQLite     2.2.18   CRAN
+           rstudioapi       0.14   CRAN
+                 rsvg      2.3.2   CRAN
+            rversions      2.1.1   CRAN
+                   s2      1.1.0   CRAN
+             sandwich      3.0-2   CRAN
+                 sass 0.4.2.9000 GitHub e1a1832      rstudio/HEAD
+               scales      1.2.1   CRAN
+                servr       0.24   CRAN
+          sessioninfo      1.2.2    any   1.2.2 /any::sessioninfo
+                   sf      1.0-8   CRAN
+                shiny 1.7.2.9000 GitHub 62a95b9      rstudio/HEAD
+             shinyAce      0.4.2   CRAN
           shinycoreci 0.0.0.9007  Local
-       shinydashboard      0.7.2   CRAN   0.7.2       /shinydashboard
-           shinyFiles      0.9.2   CRAN   0.9.2           /shinyFiles
-              shinyjs      2.1.0   CRAN   2.1.0              /shinyjs
-           shinyjster 0.0.0.9010 GitHub 109a1b8        schloerke/HEAD
-            shinymeta    0.2.0.3 GitHub 5af8086          rstudio/HEAD
-            shinytest 1.5.1.9000 GitHub 650661d          rstudio/HEAD
-           shinytest2 0.1.1.9000 GitHub 8631c17          rstudio/HEAD
-          shinythemes      1.2.0 GitHub 492b6aa          rstudio/HEAD
-        shinyvalidate      0.1.2 GitHub 575f586          rstudio/HEAD
-         shinyWidgets      0.7.3   CRAN   0.7.3         /shinyWidgets
-            showimage      1.0.0   CRAN   1.0.0            /showimage
-             showtext      0.9-5   CRAN   0.9-5             /showtext
-           showtextdb        3.0   CRAN     3.0           /showtextdb
-                 slam     0.1-50   CRAN  0.1-50                 /slam
-          sourcetools      0.1.7   CRAN   0.1.7          /sourcetools
-                   sp      1.5-0   CRAN   1.5-0                   /sp
-              SparseM       1.81   CRAN    1.81              /SparseM
-             spelling        2.2   CRAN     2.2             /spelling
-              stringi      1.7.8   CRAN   1.7.8              /stringi
-              stringr      1.4.1   CRAN   1.4.1              /stringr
-               styler      1.7.0   CRAN   1.7.0               /styler
-              svglite      2.1.0   CRAN   2.1.0              /svglite
-                  sys        3.4   CRAN     3.4                  /sys
-             sysfonts      0.8.8   CRAN   0.8.8             /sysfonts
-          systemfonts      1.0.4   CRAN   1.0.4          /systemfonts
-                terra     1.6-17   CRAN  1.6-17                /terra
-               testit       0.13   CRAN    0.13               /testit
-             testthat      3.1.4   CRAN   3.1.4             /testthat
-          textshaping      0.3.6   CRAN   0.3.6          /textshaping
-             thematic 0.1.2.9000 GitHub 3fa742d          rstudio/HEAD
-               tibble      3.1.8   CRAN   3.1.8               /tibble
-                tidyr      1.2.1   CRAN   1.2.1                /tidyr
-           tidyselect      1.1.2   CRAN   1.1.2           /tidyselect
-              tinytex       0.41   CRAN    0.41              /tinytex
-                   tm      0.7-8   CRAN   0.7-8                   /tm
-                  TTR     0.24.3   CRAN  0.24.3                  /TTR
-               tweenr      2.0.2   CRAN   2.0.2               /tweenr
-                 tzdb      0.3.0   CRAN   0.3.0                 /tzdb
-                units      0.8-0   CRAN   0.8-0                /units
-              usethis      2.1.6   CRAN   2.1.6              /usethis
-                 utf8      1.2.2   CRAN   1.2.2                 /utf8
-                 uuid      1.1-0   CRAN   1.1-0                 /uuid
-                vctrs      0.4.1   CRAN   0.4.1                /vctrs
-               vdiffr      1.0.4   CRAN   1.0.4               /vdiffr
-              vembedr      0.1.5   CRAN   0.1.5              /vembedr
-              viridis      0.6.2   CRAN   0.6.2              /viridis
-          viridisLite      0.4.1   CRAN   0.4.1          /viridisLite
-           visNetwork      2.1.0   CRAN   2.1.0           /visNetwork
-                vroom      1.5.7   CRAN   1.5.7                /vroom
-                waldo      0.4.0   CRAN   0.4.0                /waldo
-            webdriver 1.0.6.9001 GitHub 35d3805          rstudio/HEAD
-            websocket 1.4.1.9000 GitHub 2161ee7          rstudio/HEAD
-              whisker        0.4   CRAN     0.4              /whisker
-                withr      2.5.0   CRAN   2.5.0                /withr
-                   wk      0.6.0   CRAN   0.6.0                   /wk
-            wordcloud        2.6   CRAN     2.6            /wordcloud
-              writexl      1.4.0   CRAN   1.4.0              /writexl
-                 xfun       0.33   CRAN    0.33                 /xfun
-              xgboost    1.6.0.1   CRAN 1.6.0.1              /xgboost
-                  XML  3.99-0.10   CRAN 3.99-0.                  /XML
-                 xml2      1.3.3   CRAN   1.3.3                 /xml2
-               xtable      1.8-4   CRAN   1.8-4               /xtable
-                  xts     0.12.1   CRAN  0.12.1                  /xts
-                 yaml      2.3.5   CRAN   2.3.5                 /yaml
-                  zip      2.2.1   CRAN   2.2.1                  /zip
-                  zoo     1.8-11   CRAN  1.8-11                  /zoo
+       shinydashboard      0.7.2   CRAN
+           shinyFiles      0.9.2   CRAN
+              shinyjs      2.1.0   CRAN
+           shinyjster 0.0.0.9010 GitHub 2a94494    schloerke/HEAD
+            shinymeta    0.2.0.3 GitHub 5af8086      rstudio/HEAD
+            shinytest 1.5.1.9000 GitHub 650661d      rstudio/HEAD
+           shinytest2      0.2.0 GitHub 1941033      rstudio/HEAD
+          shinythemes      1.2.0 GitHub 492b6aa      rstudio/HEAD
+        shinyvalidate      0.1.2 GitHub 575f586      rstudio/HEAD
+         shinyWidgets      0.7.4   CRAN
+            showimage      1.0.0   CRAN
+             showtext      0.9-5   CRAN
+           showtextdb        3.0   CRAN
+                 slam     0.1-50   CRAN
+          sourcetools      0.1.7   CRAN
+                   sp      1.5-0   CRAN
+              SparseM       1.81   CRAN
+             spelling        2.2   CRAN
+              stringi      1.7.8   CRAN
+              stringr      1.4.1   CRAN
+               styler      1.7.0   CRAN
+              svglite      2.1.0   CRAN
+                  sys      3.4.1   CRAN
+             sysfonts      0.8.8   CRAN
+          systemfonts      1.0.4   CRAN
+                terra     1.6-17   CRAN
+               testit       0.13   CRAN
+             testthat      3.1.5   CRAN
+          textshaping      0.3.6   CRAN
+             thematic 0.1.2.9000 GitHub 3fa742d      rstudio/HEAD
+               tibble      3.1.8   CRAN
+                tidyr      1.2.1   CRAN
+           tidyselect      1.2.0   CRAN
+              tinytex       0.42   CRAN
+                   tm      0.7-8   CRAN
+                  TTR     0.24.3   CRAN
+               tweenr      2.0.2   CRAN
+                 tzdb      0.3.0   CRAN
+                units      0.8-0   CRAN
+              usethis      2.1.6   CRAN
+                 utf8      1.2.2   CRAN
+                 uuid      1.1-0   CRAN
+                vctrs      0.5.0   CRAN
+               vdiffr      1.0.4   CRAN
+              vembedr      0.1.5   CRAN
+              viridis      0.6.2   CRAN
+          viridisLite      0.4.1   CRAN
+           visNetwork      2.1.0   CRAN
+                vroom      1.5.7   CRAN
+                waldo      0.4.0   CRAN
+            webdriver 1.0.6.9001 GitHub 35d3805      rstudio/HEAD
+            websocket 1.4.1.9000 GitHub 2161ee7      rstudio/HEAD
+              whisker        0.4   CRAN
+                withr      2.5.0   CRAN
+                   wk      0.7.0   CRAN
+            wordcloud        2.6   CRAN
+              writexl      1.4.0   CRAN
+                 xfun       0.34   CRAN
+              xgboost    1.6.0.1   CRAN
+                  XML  3.99-0.10   CRAN
+                 xml2      1.3.3   CRAN
+               xtable      1.8-4   CRAN
+                  xts     0.12.2   CRAN
+                 yaml      2.3.6   CRAN
+                  zip      2.2.1   CRAN
+                  zoo     1.8-11   CRAN
                  boot     1.3-28   CRAN
                 class     7.3-20   CRAN
               cluster      2.1.3   CRAN

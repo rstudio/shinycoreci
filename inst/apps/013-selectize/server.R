@@ -1,5 +1,6 @@
 library(shiny)
 
+
 function(input, output) {
   output$ex_out <- renderPrint({
     str(sapply(sprintf('e%d', 0:7), function(id) {
