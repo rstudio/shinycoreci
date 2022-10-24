@@ -14,8 +14,8 @@ Methods to get and reset the shinyverse \code{libpath}.
 }
 \section{Functions}{
 \itemize{
-\item \code{shinyverse_libpath}: Library path that will persist across installations. But will have a different path for different R versions
+\item \code{shinyverse_libpath()}: Library path that will persist across installations. But will have a different path for different R versions
 
-\item \code{shinyverse_clean_libpath}: Removes the cached R library
+\item \code{shinyverse_clean_libpath()}: Removes the cached R library
+
 }}
-

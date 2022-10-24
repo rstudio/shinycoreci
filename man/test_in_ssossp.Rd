@@ -63,11 +63,11 @@ The docker application will stop when the shiny application exits.
 }
 \section{Functions}{
 \itemize{
-\item \code{test_in_sso}: Test SSO Shiny applications
+\item \code{test_in_sso()}: Test SSO Shiny applications
 
-\item \code{test_in_ssp}: Test SSP Shiny applications
+\item \code{test_in_ssp()}: Test SSP Shiny applications
+
 }}
-
 \examples{
 \dontrun{test_in_sso()}
 \dontrun{test_in_ssp()}
