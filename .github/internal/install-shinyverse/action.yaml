@@ -129,7 +129,7 @@ runs:
       uses: rstudio/shiny-workflows/setup-r-package@v1
       with:
         r-version: ${{ inputs.r-version }}
-        cache-version: ${{ inputs.cache-version }}
+        cache-version: ${{ inputs.cache-version }}-rc-
         http-user-agent: ${{ inputs.http-user-agent }}
         pandoc-version: ${{ inputs.pandoc-version }}
         rtools-version: ${{ steps.rtools-version.outputs.value }}
