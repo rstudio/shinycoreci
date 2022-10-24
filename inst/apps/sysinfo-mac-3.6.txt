@@ -1,4 +1,4 @@
-Image Version:  20220918.1
+Image Version:  20221018.1
 osVersion: macOS  10.16
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-09-23
+ date     2022-10-24
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -27,7 +27,8 @@ osVersion: macOS  10.16
                  blob      1.2.2   CRAN   1.2.2                 /blob
                  brio      1.1.3   CRAN   1.1.3                 /brio
                 broom     0.7.12   CRAN  0.7.12                /broom
-                bslib 0.4.0.9000 GitHub fa2e03c          rstudio/HEAD
+              bsicons 0.0.0.9000 GitHub 9d8d64a          rstudio/HEAD
+                bslib 0.4.0.9900 GitHub d15909c          rstudio/HEAD
                cachem 1.0.6.9000 GitHub 7b9d764            r-lib/HEAD
                 Cairo   1.5-12.2   CRAN 1.5-12.                /Cairo
                 callr      3.7.0   CRAN   3.7.0                /callr
@@ -61,7 +62,7 @@ osVersion: macOS  10.16
                digest     0.6.29   CRAN
            downloader        0.4   CRAN     0.4           /downloader
                 dplyr      1.0.8   CRAN   1.0.8                /dplyr
-                   DT     0.25.1 GitHub 2c1b871          rstudio/HEAD
+                   DT     0.26.1 GitHub e02783c          rstudio/HEAD
              dygraphs    1.1.1.7 GitHub 70b60ab          rstudio/HEAD
                 e1071      1.7-9   CRAN   1.7-9                /e1071
              ellipsis      0.3.2   CRAN   0.3.2             /ellipsis
@@ -71,7 +72,7 @@ osVersion: macOS  10.16
                farver      2.1.0   CRAN   2.1.0               /farver
               fastmap 1.1.0.9000 GitHub d2722e7            r-lib/HEAD
         flexdashboard 0.6.0.9000 GitHub b3cb4a3          rstudio/HEAD
-          fontawesome 0.3.0.9000 GitHub a34bbc1          rstudio/HEAD
+          fontawesome 0.3.0.9000 GitHub 7fcff57          rstudio/HEAD
               forcats      0.5.1   CRAN   0.5.1              /forcats
                    fs      1.5.2   CRAN   1.5.2                   /fs
                future     1.23.0   CRAN  1.23.0               /future
@@ -95,7 +96,7 @@ osVersion: macOS  10.16
           highcharter      0.9.4   CRAN   0.9.4          /highcharter
                 highr        0.9   CRAN     0.9                /highr
                   hms      1.1.1   CRAN   1.1.1                  /hms
-            htmltools 0.5.3.9000 GitHub 5fa01e7          rstudio/HEAD
+            htmltools 0.5.3.9000 GitHub 95f2796          rstudio/HEAD
           htmlwidgets      1.5.4   CRAN   1.5.4          /htmlwidgets
                httpuv      1.6.6 GitHub ab8d702          rstudio/HEAD
                  httr      1.4.2   CRAN   1.4.2                 /httr
@@ -111,7 +112,7 @@ osVersion: macOS  10.16
              labeling      0.4.2   CRAN   0.4.2             /labeling
                 later 1.3.0.9000 GitHub ba70887            r-lib/HEAD
              lazyeval      0.2.2   CRAN   0.2.2             /lazyeval
-              leaflet 2.1.1.9000 GitHub 6d0db38          rstudio/HEAD
+              leaflet 2.1.1.9000 GitHub 69e8c31          rstudio/HEAD
     leaflet.providers      1.9.0   CRAN   1.9.0    /leaflet.providers
             lifecycle      1.0.1   CRAN   1.0.1            /lifecycle
               listenv      0.8.0   CRAN   0.8.0              /listenv
@@ -134,7 +135,7 @@ osVersion: macOS  10.16
                nloptr    1.2.2.3   CRAN 1.2.2.3               /nloptr
                   NLP      0.2-1   CRAN   0.2-1                  /NLP
              numDeriv 2016.8-1.1   CRAN 2016.8-             /numDeriv
-              openssl      2.0.3   CRAN   2.0.3              /openssl
+              openssl      2.0.4   CRAN   2.0.4              /openssl
              openxlsx      4.2.5   CRAN   4.2.5             /openxlsx
               packrat      0.7.0   CRAN   0.7.0              /packrat
                   pak      0.3.0   CRAN
@@ -184,7 +185,7 @@ osVersion: macOS  10.16
          RColorBrewer      1.1-2   CRAN   1.1-2         /RColorBrewer
                  Rcpp      1.0.8   CRAN   1.0.8                 /Rcpp
             reactable      0.3.0   CRAN   0.3.0            /reactable
-             reactlog      1.1.0 GitHub e8f0548          rstudio/HEAD
+             reactlog      1.1.1 GitHub 83a4958          rstudio/HEAD
                reactR      0.4.4   CRAN   0.4.4               /reactR
                 readr      2.1.2   CRAN   2.1.2                /readr
                readxl      1.3.1   CRAN   1.3.1               /readxl
@@ -215,16 +216,16 @@ osVersion: macOS  10.16
                 servr       0.24   CRAN    0.24                /servr
           sessioninfo      1.2.2    any   1.2.2     /any::sessioninfo
                    sf      1.0-5   CRAN   1.0-5                   /sf
-                shiny 1.7.2.9000 GitHub 6e40a3d          rstudio/HEAD
+                shiny 1.7.2.9000 GitHub cda59da          rstudio/HEAD
              shinyAce      0.4.1   CRAN   0.4.1             /shinyAce
           shinycoreci 0.0.0.9007  Local
        shinydashboard      0.7.2   CRAN   0.7.2       /shinydashboard
            shinyFiles      0.9.1   CRAN   0.9.1           /shinyFiles
               shinyjs      2.1.0   CRAN   2.1.0              /shinyjs
-           shinyjster 0.0.0.9010 GitHub 109a1b8        schloerke/HEAD
+           shinyjster 0.0.0.9010 GitHub 28c5e18        schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086          rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d          rstudio/HEAD
-           shinytest2 0.1.1.9000 GitHub 8631c17          rstudio/HEAD
+           shinytest2      0.2.0 GitHub 1941033          rstudio/HEAD
           shinythemes      1.2.0 GitHub 492b6aa          rstudio/HEAD
         shinyvalidate      0.1.2 GitHub 575f586          rstudio/HEAD
          shinyWidgets      0.6.2   CRAN   0.6.2         /shinyWidgets
