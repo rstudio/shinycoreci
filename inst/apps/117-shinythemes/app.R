@@ -37,6 +37,7 @@ shinyApp(
       tabPanel("Navbar 3", "This panel is intentionally left blank")
     )
   ),
+
   server = function(input, output) {
     output$txtout <- renderText({
       paste(input$txt, input$slider, format(input$date), sep = ", ")
