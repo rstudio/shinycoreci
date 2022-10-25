@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.utf8
  ctype    English_United States.utf8
  tz       UTC
- date     2022-10-24
+ date     2022-10-25
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package    Version Source     SHA            Ref
@@ -96,7 +96,7 @@ osVersion: Windows Server x64 (build 20348)
           highcharter      0.9.4   CRAN
                 highr        0.9   RSPM
                   hms      1.1.2   RSPM
-            htmltools 0.5.3.9000 GitHub 95f2796   rstudio/HEAD
+            htmltools 0.5.3.9001 GitHub d73de99   rstudio/HEAD
           htmlwidgets      1.5.4   RSPM
                httpuv      1.6.6 GitHub ab8d702   rstudio/HEAD
                  httr      1.4.4   RSPM
