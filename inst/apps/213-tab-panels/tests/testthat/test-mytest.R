@@ -7,13 +7,11 @@ test_that("Migrated shinytest test: mytest.R", {
   app$expect_values()
   app$expect_screenshot()
 
-  # Add Dynamic-1 and show it
+  # Add Dynamic-1
   app$set_inputs(add = "click")
   app$set_inputs(tabs = "Dynamic-1")
-  app$click(selector = ".dropdown-toggle")
   app$expect_values()
   app$expect_screenshot()
-  app$click(selector = ".dropdown-toggle")
 
   # Remove Foo tabs
   app$set_inputs(removeFoo = "click")
