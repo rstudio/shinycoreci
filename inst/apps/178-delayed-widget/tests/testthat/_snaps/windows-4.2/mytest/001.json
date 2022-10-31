@@ -2205,7 +2205,7 @@
       ]
     },
     "ui": {
-      "html": "<div id=\"map\" class=\"leaflet html-widget html-widget-output\"><\/div>\n<script>\n  HTMLWidgets.addPostRenderHandler(function() {\n  \n        console.log('onStaticRender called');\n        window.leaflet_calls.push('onStaticRender');\n      \n  });\n<\/script>",
+      "html": "<div id=\"map\" style=\"width:100%; height:400px; \" class=\"leaflet html-widget html-widget-output\"><\/div>\n<script>\n  HTMLWidgets.addPostRenderHandler(function() {\n  \n        console.log('onStaticRender called');\n        window.leaflet_calls.push('onStaticRender');\n      \n  });\n<\/script>",
       "deps": [
         {
           "name": "htmlwidgets",
