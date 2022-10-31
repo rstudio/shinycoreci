@@ -134,5 +134,6 @@ runs:
         pandoc-version: ${{ inputs.pandoc-version }}
         rtools-version: ${{ steps.rtools-version.outputs.value }}
         extra-packages:
+          local::.
           ${{ steps.pkgs.outputs.to-install }}
           ${{ inputs.extra-packages }}
