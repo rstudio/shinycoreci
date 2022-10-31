@@ -5,10 +5,7 @@ shinyverse_remotes <- c(
   "r-lib/cachem",
   "r-lib/fastmap",
   "r-lib/later",
-
-  # "rstudio/bslib",
-  "cran/bslib",
-
+  "rstudio/bslib",
   "rstudio/crosstalk",
   "rstudio/DT",
   "rstudio/dygraphs",
