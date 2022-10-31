@@ -10,7 +10,7 @@ osVersion: Ubuntu 18.04.6 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2022-10-25
+ date     2022-10-31
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA            Ref
@@ -30,7 +30,7 @@ osVersion: Ubuntu 18.04.6 LTS
                  brio      1.1.3   RSPM
                 broom      1.0.1   RSPM
               bsicons 0.0.0.9000 GitHub 9d8d64a   rstudio/HEAD
-                bslib 0.4.0.9900 GitHub 0906a9f   rstudio/HEAD
+                bslib 0.4.0.9900 GitHub 0fc418a   rstudio/HEAD
                cachem 1.0.6.9000 GitHub 7b9d764     r-lib/HEAD
                 Cairo      1.6-0   RSPM
                 callr      3.7.2   RSPM
@@ -64,9 +64,9 @@ osVersion: Ubuntu 18.04.6 LTS
                digest     0.6.30   RSPM
            downloader        0.4   RSPM
                 dplyr     1.0.10   RSPM
-                   DT     0.26.1 GitHub e02783c   rstudio/HEAD
+                   DT     0.26.1 GitHub ca57655   rstudio/HEAD
              dygraphs    1.1.1.7 GitHub 70b60ab   rstudio/HEAD
-                e1071     1.7-11   RSPM
+                e1071     1.7-12   RSPM
              ellipsis      0.3.2   RSPM
               english      1.2-6   RSPM
              evaluate       0.17   RSPM
@@ -74,7 +74,7 @@ osVersion: Ubuntu 18.04.6 LTS
                farver      2.1.1   RSPM
               fastmap 1.1.0.9000 GitHub d2722e7     r-lib/HEAD
         flexdashboard 0.6.0.9000 GitHub b3cb4a3   rstudio/HEAD
-          fontawesome 0.3.0.9000 GitHub 7fcff57   rstudio/HEAD
+          fontawesome 0.4.0.9000 GitHub d198866   rstudio/HEAD
               foreach      1.5.2   RSPM
                    fs      1.5.2   RSPM
                future     1.28.0   RSPM
@@ -97,7 +97,7 @@ osVersion: Ubuntu 18.04.6 LTS
           highcharter      0.9.4   RSPM
                 highr        0.9   RSPM
                   hms      1.1.2   RSPM
-            htmltools 0.5.3.9001 GitHub d73de99   rstudio/HEAD
+            htmltools 0.5.3.9001 GitHub c237804   rstudio/HEAD
           htmlwidgets      1.5.4   RSPM
                httpuv      1.6.6 GitHub ab8d702   rstudio/HEAD
                  httr      1.4.4   RSPM
@@ -114,7 +114,7 @@ osVersion: Ubuntu 18.04.6 LTS
              labeling      0.4.2   RSPM
                 later 1.3.0.9000 GitHub ba70887     r-lib/HEAD
              lazyeval      0.2.2   RSPM
-              leaflet 2.1.1.9000 GitHub 69e8c31   rstudio/HEAD
+              leaflet 2.1.1.9000 GitHub 30c285e   rstudio/HEAD
     leaflet.providers      1.9.0   RSPM
             lifecycle      1.0.3   RSPM
               listenv      0.8.0   RSPM
@@ -142,14 +142,13 @@ osVersion: Ubuntu 18.04.6 LTS
              numDeriv 2016.8-1.1   RSPM
               openssl      2.0.4   RSPM
               packrat      0.8.1   RSPM
-                  pak      0.3.0   RSPM
            parallelly     1.32.1   RSPM
-            parsedate      1.3.0   RSPM
+            parsedate      1.3.1   RSPM
             patchwork      1.1.2   RSPM
              pbkrtest      0.5.1   RSPM
                   pdp      0.8.1   RSPM
                pillar      1.8.1   RSPM
-                pingr      2.0.1   RSPM
+                pingr      2.0.2   RSPM
             pkgconfig      2.0.3   RSPM
               pkgload      1.3.0   RSPM
                 plogr      0.2.0   RSPM
@@ -160,12 +159,12 @@ osVersion: Ubuntu 18.04.6 LTS
                  pool 0.1.6.9000 GitHub 203bb12   rstudio/HEAD
                praise      1.0.0   RSPM
           prettyunits      1.1.1   RSPM
-             processx      3.7.0   RSPM
+             processx      3.8.0   RSPM
              progress      1.2.2   RSPM
              promises 1.2.0.9000 GitHub 7979d6c   rstudio/HEAD
                 proxy     0.4-27   RSPM
                  pryr      0.1.5   RSPM
-                   ps      1.7.1   RSPM
+                   ps      1.7.2   RSPM
                 psych      2.2.9   RSPM
                 purrr      0.3.5   RSPM
                   pwr      1.3-0   RSPM
@@ -182,7 +181,7 @@ osVersion: Ubuntu 18.04.6 LTS
        radiant.design      1.4.4   RSPM
         radiant.model      1.4.8   RSPM
  radiant.multivariate      1.4.4   RSPM
-                 ragg      1.2.3   RSPM
+                 ragg      1.2.4   RSPM
             randomizr     0.22.0   RSPM
                ranger     0.14.1   RSPM
              rappdirs      0.3.3   RSPM
@@ -209,7 +208,7 @@ osVersion: Ubuntu 18.04.6 LTS
             rmarkdown       2.17   RSPM
                RMySQL    0.10.24   RSPM
             rprojroot      2.0.3   RSPM
-            rsconnect     0.8.28   CRAN
+            rsconnect     0.8.28   RSPM
               RSQLite     2.2.18   RSPM
            rstudioapi       0.14   RSPM
                  rsvg      2.3.2   RSPM
@@ -221,7 +220,7 @@ osVersion: Ubuntu 18.04.6 LTS
                 servr       0.24   RSPM
           sessioninfo      1.2.2   RSPM
                    sf      1.0-8   RSPM
-                shiny 1.7.2.9000 GitHub 62a95b9   rstudio/HEAD
+                shiny 1.7.3.9001 GitHub 20cc8e2   rstudio/HEAD
              shinyAce      0.4.2   RSPM
           shinycoreci 0.0.0.9007  Local
        shinydashboard      0.7.2   RSPM
@@ -288,8 +287,9 @@ osVersion: Ubuntu 18.04.6 LTS
                xtable      1.8-4   RSPM
                   xts     0.12.2   RSPM
                  yaml      2.3.6   RSPM
-                  zip      2.2.1   RSPM
+                  zip      2.2.2   RSPM
                   zoo     1.8-11   RSPM
+                  pak      0.3.0   RSPM
                  boot     1.3-28   CRAN
                 class     7.3-20   CRAN
               cluster      2.1.2   CRAN

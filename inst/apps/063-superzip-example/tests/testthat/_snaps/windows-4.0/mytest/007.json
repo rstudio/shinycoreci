@@ -675,9 +675,9 @@
   },
   "output": {
     "histCentile": {
-      "src": "[image data hash: af1f75d256fea89f371793c4211b01ff]",
-      "width": 288,
-      "height": 200,
+      "src": "[image data hash: 4c7a90722c56571045dc0d937476cb2a]",
+      "width": 287.777801513672,
+      "height": 200.000015258789,
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -689,10 +689,10 @@
               "top": 1112.8
             },
             "range": {
-              "left": 59.04,
-              "right": 257.76,
-              "bottom": 125.56,
-              "top": 58.04
+              "left": 59.2000048828125,
+              "right": 257.455847793207,
+              "bottom": 125.560009655762,
+              "top": 58.0400045043945
             },
             "log": {
               "x": null,
@@ -704,8 +704,8 @@
           }
         ],
         "dims": {
-          "width": 288,
-          "height": 200
+          "width": 287.777801513672,
+          "height": 200.000015258789
         }
       }
     },
@@ -834,9 +834,9 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data hash: cb6a57be0ed82e03ae334e00200f2f95]",
-      "width": 288,
-      "height": 250,
+      "src": "[image data hash: a1733e131114cb606381f90daf8b5d0d]",
+      "width": 287.777801513672,
+      "height": 250.000015258789,
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -849,8 +849,8 @@
             },
             "range": {
               "left": 0,
-              "right": 288,
-              "bottom": 249,
+              "right": 287.777801513672,
+              "bottom": 249.000015258789,
               "top": -1
             },
             "log": {
@@ -863,8 +863,8 @@
           }
         ],
         "dims": {
-          "width": 288,
-          "height": 250
+          "width": 287.777801513672,
+          "height": 250.000015258789
         }
       }
     },
