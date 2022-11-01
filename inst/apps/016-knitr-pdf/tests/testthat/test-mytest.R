@@ -10,7 +10,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(x = "disp")
   app$expect_values()
   app$expect_screenshot()
-  app$expect_download("downloadReport")
+  app$expect_download("downloadReport", compare = testthat::compare_file_text)
 
   # Note: PDF and Word output are different each time, so we only test HTML
   # output.

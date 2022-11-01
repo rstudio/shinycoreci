@@ -5,7 +5,7 @@ test_that("Migrated shinytest test: mytest.R", {
     seed = 100, shiny_args = list(display.mode = "normal"))
 
   app$set_inputs(slider = 75)
-  app$expect_download("report")
+  app$expect_download("report", compare = testthat::compare_file_text)
   app$expect_values()
   app$expect_screenshot()
 })
