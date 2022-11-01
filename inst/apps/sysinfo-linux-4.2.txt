@@ -2,7 +2,7 @@ Image Version:  20221018.2
 osVersion: Ubuntu 18.04.6 LTS
 --------------------------------------------------------------------------------
  setting  value
- version  R version 4.2.1 (2022-06-23)
+ version  R version 4.2.2 (2022-10-31)
  os       Ubuntu 18.04.6 LTS
  system   x86_64, linux-gnu
  ui       X11
@@ -10,7 +10,7 @@ osVersion: Ubuntu 18.04.6 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2022-10-31
+ date     2022-11-01
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA            Ref
@@ -31,7 +31,7 @@ osVersion: Ubuntu 18.04.6 LTS
                  brio      1.1.3   RSPM
                 broom      1.0.1   RSPM
               bsicons 0.0.0.9000 GitHub 9d8d64a   rstudio/HEAD
-                bslib 0.4.0.9900 GitHub 0fc418a   rstudio/HEAD
+                bslib 0.4.0.9900 GitHub 22ca7d8   rstudio/HEAD
                cachem 1.0.6.9000 GitHub 7b9d764     r-lib/HEAD
                 Cairo      1.6-0   RSPM
                 callr      3.7.2   RSPM
@@ -123,9 +123,8 @@ osVersion: Ubuntu 18.04.6 LTS
                lobstr      1.1.2   RSPM
             lubridate      1.8.0   RSPM
              magrittr      2.0.3   RSPM
-                 maps      3.4.0   RSPM
-             markdown        1.2   RSPM
-               Matrix      1.5-1   RSPM
+                 maps      3.4.1   RSPM
+             markdown        1.3   RSPM
          MatrixModels      0.5-1   RSPM
               memoise      2.0.1   RSPM
                  mime       0.12   RSPM
@@ -148,7 +147,7 @@ osVersion: Ubuntu 18.04.6 LTS
                pillar      1.8.1   RSPM
                 pingr      2.0.2   RSPM
             pkgconfig      2.0.3   RSPM
-              pkgload      1.3.0   RSPM
+              pkgload      1.3.1   RSPM
                 plogr      0.2.0   RSPM
                plotly     4.10.0   RSPM
                  plyr      1.8.7   RSPM
@@ -171,7 +170,7 @@ osVersion: Ubuntu 18.04.6 LTS
               R.cache     0.16.0   RSPM
           R.methodsS3      1.8.2   RSPM
                  R.oo     1.25.0   RSPM
-              R.utils     2.12.0   RSPM
+              R.utils     2.12.1   RSPM
                    R6      2.5.1   RSPM
               radiant      1.4.4   RSPM
        radiant.basics      1.4.4   RSPM
@@ -281,7 +280,7 @@ osVersion: Ubuntu 18.04.6 LTS
               writexl      1.4.1   RSPM
                  xfun       0.34   RSPM
               xgboost    1.6.0.1   RSPM
-                  XML  3.99-0.12   CRAN
+                  XML  3.99-0.12   RSPM
                  xml2      1.3.3   RSPM
                xtable      1.8-4   RSPM
                   xts     0.12.2   RSPM
@@ -291,15 +290,16 @@ osVersion: Ubuntu 18.04.6 LTS
                   pak      0.3.0   RSPM
                  boot     1.3-28   CRAN
                 class     7.3-20   CRAN
-              cluster      2.1.3   CRAN
+              cluster      2.1.4   CRAN
             codetools     0.2-18   CRAN
-              foreign     0.8-82   CRAN
+              foreign     0.8-83   CRAN
            KernSmooth    2.23-20   CRAN
               lattice    0.20-45   CRAN
-                 MASS     7.3-57   CRAN
-                 mgcv     1.8-40   CRAN
-                 nlme    3.1-157   CRAN
-                 nnet     7.3-17   CRAN
-                rpart     4.1.16   CRAN
+                 MASS   7.3-58.1   CRAN
+               Matrix      1.5-1   CRAN
+                 mgcv     1.8-41   CRAN
+                 nlme    3.1-160   CRAN
+                 nnet     7.3-18   CRAN
+                rpart     4.1.19   CRAN
               spatial     7.3-15   CRAN
-             survival      3.3-1   CRAN
+             survival      3.4-0   CRAN

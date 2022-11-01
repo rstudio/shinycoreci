@@ -2,7 +2,7 @@ Image Version:  20221023.1
 osVersion: macOS Big Sur ... 10.16
 --------------------------------------------------------------------------------
  setting  value
- version  R version 4.2.1 (2022-06-23)
+ version  R version 4.2.2 (2022-10-31)
  os       macOS Big Sur ... 10.16
  system   x86_64, darwin17.0
  ui       X11
@@ -10,7 +10,7 @@ osVersion: macOS Big Sur ... 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-10-31
+ date     2022-11-01
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA               Ref
@@ -30,7 +30,7 @@ osVersion: macOS Big Sur ... 10.16
                  brio      1.1.3   CRAN
                 broom      1.0.1   CRAN
               bsicons 0.0.0.9000 GitHub 9d8d64a      rstudio/HEAD
-                bslib 0.4.0.9900 GitHub 0fc418a      rstudio/HEAD
+                bslib 0.4.0.9900 GitHub 22ca7d8      rstudio/HEAD
                cachem 1.0.6.9000 GitHub 7b9d764        r-lib/HEAD
                 Cairo      1.6-0   CRAN
                 callr      3.7.2   CRAN
@@ -123,8 +123,7 @@ osVersion: macOS Big Sur ... 10.16
             lubridate      1.8.0   CRAN
              magrittr      2.0.3   CRAN
                  maps      3.4.0   CRAN
-             markdown        1.2   CRAN
-               Matrix      1.5-1   CRAN
+             markdown        1.3   CRAN
          MatrixModels      0.5-1   CRAN
               memoise      2.0.1   CRAN
                  mime       0.12   CRAN
@@ -278,7 +277,7 @@ osVersion: macOS Big Sur ... 10.16
               writexl      1.4.1   CRAN
                  xfun       0.34   CRAN
               xgboost    1.6.0.1   CRAN
-                  XML  3.99-0.11   CRAN
+                  XML  3.99-0.12   CRAN
                  xml2      1.3.3   CRAN
                xtable      1.8-4   CRAN
                   xts     0.12.2   CRAN
@@ -287,15 +286,16 @@ osVersion: macOS Big Sur ... 10.16
                   zoo     1.8-11   CRAN
                  boot     1.3-28   CRAN
                 class     7.3-20   CRAN
-              cluster      2.1.3   CRAN
+              cluster      2.1.4   CRAN
             codetools     0.2-18   CRAN
-              foreign     0.8-82   CRAN
+              foreign     0.8-83   CRAN
            KernSmooth    2.23-20   CRAN
               lattice    0.20-45   CRAN
-                 MASS     7.3-57   CRAN
-                 mgcv     1.8-40   CRAN
-                 nlme    3.1-157   CRAN
-                 nnet     7.3-17   CRAN
-                rpart     4.1.16   CRAN
+                 MASS   7.3-58.1   CRAN
+               Matrix      1.5-1   CRAN
+                 mgcv     1.8-41   CRAN
+                 nlme    3.1-160   CRAN
+                 nnet     7.3-18   CRAN
+                rpart     4.1.19   CRAN
               spatial     7.3-15   CRAN
-             survival      3.3-1   CRAN
+             survival      3.4-0   CRAN
