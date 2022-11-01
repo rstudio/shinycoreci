@@ -1,7 +1,7 @@
 library(shiny)
 library(promises)
 library(future)
-plan(multiprocess)
+plan(multisession)
 
 ui <- fluidPage(
   tags$style(

@@ -1,7 +1,7 @@
 library(shiny)
 library(future)
 library(promises)
-plan(multiprocess)
+plan(multisession)
 
 ui <- fluidPage(
   h1("renderPrint tests"),
