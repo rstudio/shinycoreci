@@ -16,11 +16,11 @@
     },
     "month": "Mar",
     "plotly_afterplot-A": "\"out6fe48fa3cbd09f9e\"",
-    "plotly_relayout-A": "{\"width\":356,\"height\":199}"
+    "plotly_relayout-A": "{\"width\":356,\"height\":508.296875}"
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: bf9bd17dd7a29d7c109d24a9b7753896e297b158]",
+      "html": "[html data sha1: 2c7fe3f9cc30f707496eaa051c0a13ef98501c64]",
       "deps": [
         {
           "name": "jquery",
@@ -71,9 +71,9 @@
         },
         {
           "name": "value-box-accent-static",
-          "version": "0.5.2.9000",
+          "version": "0.6.0.9000",
           "src": {
-            "href": "value-box-accent-static-0.5.2.9000"
+            "href": "value-box-accent-static-0.6.0.9000"
           },
           "meta": null,
           "script": null,
@@ -84,9 +84,9 @@
         },
         {
           "name": "flexdashboard-css",
-          "version": "0.5.2.9000",
+          "version": "0.6.0.9000",
           "src": {
-            "href": "flexdashboard-css-0.5.2.9000"
+            "href": "flexdashboard-css-0.6.0.9000"
           },
           "meta": null,
           "script": null,
@@ -102,7 +102,7 @@
           "name": "selectize",
           "version": "0.12.4",
           "src": {
-            "href": "shared/selectize"
+            "href": "selectize-0.12.4"
           },
           "meta": null,
           "script": [
@@ -112,14 +112,13 @@
           "stylesheet": "css/selectize.bootstrap3.css",
           "head": null,
           "attachment": null,
-          "package": null,
           "all_files": true
         },
         {
           "name": "shinyjster-assets",
-          "version": "0.0.0.9009",
+          "version": "0.0.0.9010",
           "src": {
-            "href": "shinyjster-assets-0.0.0.9009"
+            "href": "shinyjster-assets-0.0.0.9010"
           },
           "meta": null,
           "script": "js/shinyjster.js",
@@ -143,9 +142,9 @@
         },
         {
           "name": "plotly-binding",
-          "version": "4.10.0",
+          "version": "4.9.2",
           "src": {
-            "href": "plotly-binding-4.10.0"
+            "href": "plotly-binding-4.9.2"
           },
           "meta": null,
           "script": "plotly.js",
@@ -179,9 +178,9 @@
       "deps": [
         {
           "name": "value-box-core",
-          "version": "0.5.2.9000",
+          "version": "0.6.0.9000",
           "src": {
-            "href": "value-box-core-0.5.2.9000"
+            "href": "value-box-core-0.6.0.9000"
           },
           "meta": null,
           "script": null,
@@ -225,10 +224,6 @@
         },
         "source": "A",
         "config": {
-          "modeBarButtonsToAdd": [
-            "hoverclosest",
-            "hovercompare"
-          ],
           "showSendToCloud": false
         },
         "data": [
@@ -433,9 +428,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.1.1.9000",
+          "version": "1.2.0.9000",
           "src": {
-            "href": "crosstalk-1.1.1.9000"
+            "href": "crosstalk-1.2.0.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
@@ -446,9 +441,9 @@
         },
         {
           "name": "plotly-htmlwidgets-css",
-          "version": "2.5.1",
+          "version": "1.52.2",
           "src": {
-            "href": "plotly-htmlwidgets-css-2.5.1"
+            "href": "plotly-htmlwidgets-css-1.52.2"
           },
           "meta": null,
           "script": null,
@@ -459,9 +454,9 @@
         },
         {
           "name": "plotly-main",
-          "version": "2.5.1",
+          "version": "1.52.2",
           "src": {
-            "href": "plotly-main-2.5.1"
+            "href": "plotly-main-1.52.2"
           },
           "meta": null,
           "script": "plotly-latest.min.js",
@@ -478,9 +473,9 @@
       "deps": [
         {
           "name": "value-box-core",
-          "version": "0.5.2.9000",
+          "version": "0.6.0.9000",
           "src": {
-            "href": "value-box-core-0.5.2.9000"
+            "href": "value-box-core-0.6.0.9000"
           },
           "meta": null,
           "script": null,
@@ -505,9 +500,9 @@
       "deps": [
         {
           "name": "value-box-core",
-          "version": "0.5.2.9000",
+          "version": "0.6.0.9000",
           "src": {
-            "href": "value-box-core-0.5.2.9000"
+            "href": "value-box-core-0.6.0.9000"
           },
           "meta": null,
           "script": null,
@@ -522,9 +517,9 @@
     "outd91c9f20549f06ca": "Mar",
     "outf3f8a9f513689642": "Mar",
     "outffbf7f8633805741": {
-      "src": "[image data sha1: aa8ac40eca59c521555b248c9bd605be89b40f9d]",
+      "src": "[image data hash: 52564b2649f5fe22f57fdffdbf47dac1]",
       "width": 356,
-      "height": 199,
+      "height": 508.296875,
       "alt": "Shiny plot alt text: Mar",
       "coordmap": {
         "panels": [
@@ -538,8 +533,8 @@
             "range": {
               "left": 59.04,
               "right": 325.76,
-              "bottom": 124.56,
-              "top": 58.04
+              "bottom": 433.813956692913,
+              "top": 58.0745029527559
             },
             "log": {
               "x": null,
@@ -552,7 +547,7 @@
         ],
         "dims": {
           "width": 356,
-          "height": 199
+          "height": 508.296875
         }
       }
     },

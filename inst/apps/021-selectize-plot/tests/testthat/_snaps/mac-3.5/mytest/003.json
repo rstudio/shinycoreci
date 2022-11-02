@@ -73,13 +73,72 @@
     ],
     "rawdata_rows_selected": null,
     "rawdata_search": "",
-    "rawdata_state": null,
+    "rawdata_state": {
+      "start": 0,
+      "length": 10,
+      "order": [
+
+      ],
+      "search": {
+        "search": "",
+        "smart": true,
+        "regex": false,
+        "caseInsensitive": true
+      },
+      "columns": [
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        },
+        {
+          "visible": true,
+          "search": {
+            "search": "",
+            "smart": true,
+            "regex": false,
+            "caseInsensitive": true
+          }
+        }
+      ]
+    },
     "state": "California"
   },
   "output": {
     "parcoord": {
-      "src": "[image data sha1: cb8df436f8a0eeddb31f74b375e16cad54bd7e1f]",
-      "width": 383,
+      "src": "[image data hash: 9575264ad7edadfa286698a5b89f762f]",
+      "width": 386.65625,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -92,8 +151,8 @@
               "top": 350.448
             },
             "range": {
-              "left": 57.6,
-              "right": 381.56,
+              "left": 57.6979274611399,
+              "right": 385.213801813471,
               "bottom": 370.2,
               "top": 27.7999999999999
             },
@@ -107,7 +166,7 @@
           }
         ],
         "dims": {
-          "width": 383,
+          "width": 386.65625,
           "height": 400
         }
       }
@@ -171,9 +230,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.10.20",
+          "version": "1.12.1",
           "src": {
-            "href": "dt-core-1.10.20"
+            "href": "dt-core-1.12.1"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -188,9 +247,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.1.1.9000",
+          "version": "1.2.0.9000",
           "src": {
-            "href": "crosstalk-1.1.1.9000"
+            "href": "crosstalk-1.2.0.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
