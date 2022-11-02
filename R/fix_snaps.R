@@ -252,7 +252,7 @@ fix_snaps <- function(
 
       # Do not discard whitespace changes
       # File comparisons will find differences in whitespace changes
-      git_cmd_("git apply --whitespace=nowarn '", patch_file, "'")
+      git_cmd_("git apply --whitespace=nowarn --reject '", patch_file, "'")
     }
   )
 
