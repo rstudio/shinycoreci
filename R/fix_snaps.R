@@ -249,7 +249,9 @@ fix_snaps <- function(
     patch_files_sub,
     f = function(branch, patch_file) {
       pb$tick(tokens = list(name = patch_file))
-      git_cmd_("git apply --whitespace=fix '", patch_file, "'")
+      # git_cmd_("git apply --whitespace=fix '", patch_file, "'")
+      git_cmd_("git apply --whitespace=nowarn '", patch_file, "'")
+      # git_cmd_("git apply '", patch_file, "'")
     }
   )
 
