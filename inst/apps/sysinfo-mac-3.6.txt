@@ -1,4 +1,4 @@
-Image Version:  20221023.1
+Image Version:  20221023.1 
 osVersion: macOS  10.16
 --------------------------------------------------------------------------------
  setting  value
@@ -29,7 +29,7 @@ osVersion: macOS  10.16
                  brio      1.1.3   CRAN   1.1.3                 /brio
                 broom     0.7.12   CRAN  0.7.12                /broom
               bsicons 0.0.0.9000 GitHub 9d8d64a          rstudio/HEAD
-                bslib 0.4.0.9900 GitHub 22ca7d8          rstudio/HEAD
+                bslib 0.4.0.9900 GitHub b9d5beb          rstudio/HEAD
                cachem 1.0.6.9000 GitHub 7b9d764            r-lib/HEAD
                 Cairo   1.5-12.2   CRAN 1.5-12.                /Cairo
                 callr      3.7.0   CRAN   3.7.0                /callr
@@ -71,7 +71,7 @@ osVersion: macOS  10.16
              evaluate       0.14   CRAN    0.14             /evaluate
                 fansi      1.0.2   CRAN   1.0.2                /fansi
                farver      2.1.0   CRAN   2.1.0               /farver
-              fastmap 1.1.0.9000 GitHub d2722e7            r-lib/HEAD
+              fastmap 1.1.0.9000 GitHub 9c99965            r-lib/HEAD
         flexdashboard 0.6.0.9000 GitHub b3cb4a3          rstudio/HEAD
           fontawesome 0.4.0.9000 GitHub d198866          rstudio/HEAD
                    fs      1.5.2   CRAN   1.5.2                   /fs
@@ -95,7 +95,7 @@ osVersion: macOS  10.16
           highcharter      0.9.4   CRAN   0.9.4          /highcharter
                 highr        0.9   CRAN     0.9                /highr
                   hms      1.1.1   CRAN   1.1.1                  /hms
-            htmltools 0.5.3.9001 GitHub c237804          rstudio/HEAD
+            htmltools 0.5.3.9002 GitHub 8d1dd6a          rstudio/HEAD
           htmlwidgets      1.5.4   CRAN   1.5.4          /htmlwidgets
                httpuv      1.6.6 GitHub ab8d702          rstudio/HEAD
                  httr      1.4.2   CRAN   1.4.2                 /httr
@@ -135,7 +135,7 @@ osVersion: macOS  10.16
              numDeriv 2016.8-1.1   CRAN 2016.8-             /numDeriv
               openssl      2.0.4   CRAN   2.0.4              /openssl
               packrat      0.7.0   CRAN   0.7.0              /packrat
-                  pak      0.3.0   CRAN
+                  pak      0.3.0   CRAN                              
            parallelly     1.30.0   CRAN  1.30.0           /parallelly
             parsedate      1.2.1   CRAN   1.2.1            /parsedate
             patchwork      1.1.1   CRAN   1.1.1            /patchwork
@@ -214,7 +214,7 @@ osVersion: macOS  10.16
                    sf      1.0-5   CRAN   1.0-5                   /sf
                 shiny 1.7.3.9001 GitHub 20cc8e2          rstudio/HEAD
              shinyAce      0.4.1   CRAN   0.4.1             /shinyAce
-          shinycoreci 0.0.0.9007  Local
+          shinycoreci 0.0.0.9007  Local                              
        shinydashboard      0.7.2   CRAN   0.7.2       /shinydashboard
            shinyFiles      0.9.1   CRAN   0.9.1           /shinyFiles
               shinyjs      2.1.0   CRAN   2.1.0              /shinyjs
@@ -282,18 +282,18 @@ osVersion: macOS  10.16
                  yaml      2.2.2   CRAN   2.2.2                 /yaml
                   zip      2.2.0   CRAN   2.2.0                  /zip
                   zoo      1.8-9   CRAN   1.8-9                  /zoo
-                 boot     1.3-24   CRAN
-                class     7.3-15   CRAN
-              cluster      2.1.0   CRAN
-            codetools     0.2-16   CRAN
-              foreign     0.8-75   CRAN
-           KernSmooth    2.23-16   CRAN
-              lattice    0.20-38   CRAN
-                 MASS   7.3-51.5   CRAN
-               Matrix     1.2-18   CRAN
-                 mgcv     1.8-31   CRAN
-                 nlme    3.1-144   CRAN
-                 nnet     7.3-12   CRAN
-                rpart     4.1-15   CRAN
-              spatial     7.3-11   CRAN
-             survival      3.1-8   CRAN
+                 boot     1.3-24   CRAN                              
+                class     7.3-15   CRAN                              
+              cluster      2.1.0   CRAN                              
+            codetools     0.2-16   CRAN                              
+              foreign     0.8-75   CRAN                              
+           KernSmooth    2.23-16   CRAN                              
+              lattice    0.20-38   CRAN                              
+                 MASS   7.3-51.5   CRAN                              
+               Matrix     1.2-18   CRAN                              
+                 mgcv     1.8-31   CRAN                              
+                 nlme    3.1-144   CRAN                              
+                 nnet     7.3-12   CRAN                              
+                rpart     4.1-15   CRAN                              
+              spatial     7.3-11   CRAN                              
+             survival      3.1-8   CRAN                              
