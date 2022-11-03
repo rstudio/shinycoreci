@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       UTC                         
- date     2022-11-02                  
+ date     2022-11-03                  
 --------------------------------------------------------------------------------
               Package    Version Source     SHA            Ref
                 abind      1.4-5   CRAN                       
@@ -30,7 +30,7 @@ osVersion: macOS  10.16
                 bslib 0.4.0.9900 GitHub b9d5beb   rstudio/HEAD
                cachem 1.0.6.9000 GitHub 7b9d764     r-lib/HEAD
                 Cairo     1.5-11   CRAN                       
-                callr      3.7.2   CRAN                       
+                callr      3.7.3   CRAN                       
                   car      3.0-7   CRAN                       
               carData      3.0-3   CRAN                       
            cellranger      1.1.0   CRAN                       

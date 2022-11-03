@@ -10,7 +10,7 @@ osVersion: macOS Big Sur ... 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-11-02
+ date     2022-11-03
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA               Ref
