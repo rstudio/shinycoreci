@@ -7,13 +7,13 @@ test_that("Migrated shinytest test: mytest.R", {
   # wait some more time just to let the images adjust
   app$wait_for_idle()
   app$expect_values()
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 2)
 
   app$set_inputs(month = "Mar")
   # wait some more time just to let the images adjust
   app$wait_for_idle()
   app$expect_values()
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 2)
 
   # View second page
   app$run_js(script = "$(\"#navbar li a\").last().click();", timeout = 10000)
@@ -21,5 +21,5 @@ test_that("Migrated shinytest test: mytest.R", {
   # wait some more time just to let the images adjust
   app$wait_for_idle()
   app$expect_values()
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 2)
 })
