@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.utf8
  ctype    English_United States.utf8
  tz       UTC
- date     2022-11-04
+ date     2022-11-09
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package    Version Source     SHA            Ref
@@ -68,7 +68,7 @@ osVersion: Windows Server x64 (build 20348)
                 e1071     1.7-12   RSPM                       
              ellipsis      0.3.2   RSPM                       
               english      1.2-6   RSPM                       
-             evaluate       0.17   RSPM                       
+             evaluate       0.18   RSPM                       
                 fansi      1.0.3   RSPM                       
                farver      2.1.1   RSPM                       
               fastmap 1.1.0.9000 GitHub 9c99965     r-lib/HEAD
@@ -76,12 +76,12 @@ osVersion: Windows Server x64 (build 20348)
           fontawesome 0.4.0.9000 GitHub d198866   rstudio/HEAD
               foreach      1.5.2   RSPM                       
                    fs      1.5.2   RSPM                       
-               future     1.28.0   RSPM                       
+               future     1.29.0   RSPM                       
              generics      0.1.3   RSPM                       
                  gert      1.9.1   RSPM                       
             gganimate      1.0.8   RSPM                       
               ggiraph      0.8.3   RSPM                       
-              ggplot2      3.3.6   RSPM                       
+              ggplot2      3.4.0   RSPM                       
               ggrepel      0.9.1   RSPM                       
                 ggvis      0.4.7   RSPM                       
                    gh      1.3.1   RSPM                       
@@ -146,11 +146,11 @@ osVersion: Windows Server x64 (build 20348)
                 pingr      2.0.2   RSPM                       
             pkgconfig      2.0.3   RSPM                       
               pkgload      1.3.1   RSPM                       
-               plotly     4.10.0   RSPM                       
+               plotly     4.10.1   RSPM                       
                  plyr      1.8.7   RSPM                       
                   png      0.1-7   RSPM                       
               polycor      0.8-1   RSPM                       
-                 pool 0.1.6.9000 GitHub 203bb12   rstudio/HEAD
+                 pool 0.1.6.9000 GitHub decb2a1   rstudio/HEAD
                praise      1.0.0   RSPM                       
           prettyunits      1.1.1   RSPM                       
              processx      3.8.0   RSPM                       
@@ -210,7 +210,7 @@ osVersion: Windows Server x64 (build 20348)
              sandwich      3.0-2   RSPM                       
                  sass 0.4.2.9000 GitHub e1a1832   rstudio/HEAD
                scales      1.2.1   RSPM                       
-                servr       0.24   RSPM                       
+                servr       0.25   RSPM                       
           sessioninfo      1.2.2   RSPM                       
                    sf      1.0-8   RSPM                       
                 shiny 1.7.3.9001 GitHub 20cc8e2   rstudio/HEAD
@@ -222,7 +222,7 @@ osVersion: Windows Server x64 (build 20348)
            shinyjster 0.0.0.9010 GitHub 2a94494 schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086   rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d   rstudio/HEAD
-           shinytest2      0.2.0 GitHub 1941033   rstudio/HEAD
+           shinytest2 0.2.0.9000 GitHub 8d0b931   rstudio/HEAD
           shinythemes      1.2.0 GitHub 492b6aa   rstudio/HEAD
         shinyvalidate      0.1.2 GitHub 575f586   rstudio/HEAD
          shinyWidgets      0.7.4   RSPM                       
@@ -231,12 +231,12 @@ osVersion: Windows Server x64 (build 20348)
            showtextdb        3.0   RSPM                       
                  slam     0.1-50   RSPM                       
           sourcetools      0.1.7   RSPM                       
-                   sp      1.5-0   RSPM                       
+                   sp      1.5-1   RSPM                       
               SparseM       1.81   RSPM                       
              spelling        2.2   RSPM                       
               stringi      1.7.8   RSPM                       
               stringr      1.4.1   RSPM                       
-               styler      1.8.0   RSPM                       
+               styler      1.8.1   RSPM                       
               svglite      2.1.0   RSPM                       
                   sys      3.4.1   RSPM                       
              sysfonts      0.8.8   RSPM                       
