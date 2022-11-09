@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       UTC                         
- date     2022-11-04                  
+ date     2022-11-09                  
 --------------------------------------------------------------------------------
               Package    Version Source     SHA            Ref
                 abind      1.4-5   CRAN                       
@@ -66,7 +66,7 @@ osVersion: macOS  10.16
                 e1071      1.7-3   CRAN                       
              ellipsis      0.3.0   CRAN                       
               english      1.2-5   CRAN                       
-             evaluate       0.17   CRAN                       
+             evaluate       0.18   CRAN                       
                 fansi      0.4.1   CRAN                       
                farver      2.0.3   CRAN                       
               fastmap 1.1.0.9000 GitHub 9c99965     r-lib/HEAD
@@ -74,7 +74,7 @@ osVersion: macOS  10.16
           fontawesome 0.4.0.9000 GitHub d198866   rstudio/HEAD
               forcats      0.5.0   CRAN                       
                    fs      1.3.2   CRAN                       
-               future     1.28.0   CRAN                       
+               future     1.29.0   CRAN                       
               gdtools      0.2.1   CRAN                       
              generics      0.0.2   CRAN                       
             gganimate      1.0.5   CRAN                       
@@ -149,7 +149,7 @@ osVersion: macOS  10.16
                  plyr      1.8.6   CRAN                       
                   png      0.1-7   CRAN                       
               polycor     0.7-10   CRAN                       
-                 pool 0.1.6.9000 GitHub 203bb12   rstudio/HEAD
+                 pool 0.1.6.9000 GitHub decb2a1   rstudio/HEAD
                praise      1.0.0   CRAN                       
           prettyunits      1.1.1   CRAN                       
              processx      3.8.0   CRAN                       
@@ -211,7 +211,7 @@ osVersion: macOS  10.16
                scales      1.1.0   CRAN                       
                 servr       0.16   CRAN                       
           sessioninfo      1.1.1   CRAN                       
-                   sf      1.0-8   CRAN                       
+                   sf      1.0-9   CRAN                       
                 shiny 1.7.3.9001 GitHub 20cc8e2   rstudio/HEAD
              shinyAce      0.4.1   CRAN                       
           shinycoreci 0.0.0.9007  Local                       
@@ -221,7 +221,7 @@ osVersion: macOS  10.16
            shinyjster 0.0.0.9010 GitHub 2a94494 schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086   rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d   rstudio/HEAD
-           shinytest2      0.2.0 GitHub 1941033   rstudio/HEAD
+           shinytest2 0.2.0.9000 GitHub 8d0b931   rstudio/HEAD
           shinythemes      1.2.0 GitHub 492b6aa   rstudio/HEAD
         shinyvalidate      0.1.2 GitHub 575f586   rstudio/HEAD
          shinyWidgets      0.5.1   CRAN                       
