@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       UTC                         
- date     2022-11-09                  
+ date     2022-11-14                  
 --------------------------------------------------------------------------------
               Package    Version Source     SHA            Ref
                 abind      1.4-5   CRAN                       
@@ -27,7 +27,7 @@ osVersion: macOS  10.16
                  brio      1.1.3   CRAN                       
                 broom      0.5.5   CRAN                       
               bsicons 0.0.0.9000 GitHub 9d8d64a   rstudio/HEAD
-                bslib 0.4.0.9900 GitHub b9d5beb   rstudio/HEAD
+                bslib 0.4.1.9900 GitHub c99f7cb   rstudio/HEAD
                cachem 1.0.6.9000 GitHub 7b9d764     r-lib/HEAD
                 Cairo     1.5-11   CRAN                       
                 callr      3.7.3   CRAN                       
@@ -195,7 +195,7 @@ osVersion: macOS  10.16
               RJSONIO    1.3-1.4   CRAN                       
                 rlang      1.0.6   CRAN                       
                 rlist    0.4.6.1   CRAN                       
-            rmarkdown       2.17   CRAN                       
+            rmarkdown       2.18   CRAN                       
                RMySQL    0.10.20   CRAN                       
            robustbase     0.93-5   CRAN                       
             rprojroot      1.3-2   CRAN                       
@@ -221,7 +221,7 @@ osVersion: macOS  10.16
            shinyjster 0.0.0.9010 GitHub 2a94494 schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086   rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d   rstudio/HEAD
-           shinytest2 0.2.0.9000 GitHub 8d0b931   rstudio/HEAD
+           shinytest2 0.2.0.9000 GitHub ed38d82   rstudio/HEAD
           shinythemes      1.2.0 GitHub 492b6aa   rstudio/HEAD
         shinyvalidate      0.1.2 GitHub 575f586   rstudio/HEAD
          shinyWidgets      0.5.1   CRAN                       

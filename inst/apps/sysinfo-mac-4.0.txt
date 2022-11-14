@@ -10,7 +10,7 @@ osVersion: macOS Big Sur 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-11-09
+ date     2022-11-14
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -29,7 +29,7 @@ osVersion: macOS Big Sur 10.16
                  brio      1.1.3   CRAN   1.1.3                 /brio
                 broom     0.7.12   CRAN  0.7.12                /broom
               bsicons 0.0.0.9000 GitHub 9d8d64a          rstudio/HEAD
-                bslib 0.4.0.9900 GitHub b9d5beb          rstudio/HEAD
+                bslib 0.4.1.9900 GitHub c99f7cb          rstudio/HEAD
                cachem 1.0.6.9000 GitHub 7b9d764            r-lib/HEAD
                 Cairo     1.5-15   CRAN  1.5-15                /Cairo
                 callr      3.7.0   CRAN   3.7.0                /callr
@@ -222,7 +222,7 @@ osVersion: macOS Big Sur 10.16
            shinyjster 0.0.0.9010 GitHub 2a94494        schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086          rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d          rstudio/HEAD
-           shinytest2 0.2.0.9000 GitHub 8d0b931          rstudio/HEAD
+           shinytest2 0.2.0.9000 GitHub ed38d82          rstudio/HEAD
           shinythemes      1.2.0 GitHub 492b6aa          rstudio/HEAD
         shinyvalidate      0.1.2 GitHub 575f586          rstudio/HEAD
          shinyWidgets      0.6.4   CRAN   0.6.4         /shinyWidgets

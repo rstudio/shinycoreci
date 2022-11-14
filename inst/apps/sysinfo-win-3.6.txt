@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.1252
  ctype    English_United States.1252
  tz       UTC
- date     2022-11-09
+ date     2022-11-14
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package    Version Source     SHA            Ref
@@ -29,7 +29,7 @@ osVersion: Windows Server x64 (build 20348)
                  brio      1.1.3   RSPM                       
                 broom      1.0.1   RSPM                       
               bsicons 0.0.0.9000 GitHub 9d8d64a   rstudio/HEAD
-                bslib 0.4.0.9900 GitHub b9d5beb   rstudio/HEAD
+                bslib 0.4.1.9900 GitHub c99f7cb   rstudio/HEAD
                cachem 1.0.6.9000 GitHub 7b9d764     r-lib/HEAD
                 Cairo      1.6-0   RSPM                       
                 callr      3.7.3   RSPM                       
@@ -197,14 +197,14 @@ osVersion: Windows Server x64 (build 20348)
                  renv     0.16.0   RSPM                       
              reshape2      1.4.4   RSPM                       
                   rex      1.2.1   RSPM                       
-                rgdal     1.5-32   RSPM                       
+                rgdal      1.6-2   RSPM                       
                 rgeos      0.5-9   RSPM                       
                   rio     0.5.29   RSPM                       
                 rjson     0.2.20   CRAN                       
               RJSONIO    1.3-1.6   RSPM                       
                 rlang      1.0.6   RSPM                       
                 rlist    0.4.6.2   RSPM                       
-            rmarkdown       2.17   RSPM                       
+            rmarkdown       2.18   RSPM                       
                RMySQL    0.10.24   RSPM                       
             rprojroot      2.0.3   RSPM                       
             rsconnect     0.8.28   RSPM                       
@@ -218,7 +218,7 @@ osVersion: Windows Server x64 (build 20348)
                scales      1.2.1   RSPM                       
                 servr       0.25   RSPM                       
           sessioninfo      1.2.2   RSPM                       
-                   sf      1.0-8   RSPM                       
+                   sf      1.0-9   RSPM                       
                 shiny 1.7.3.9001 GitHub 20cc8e2   rstudio/HEAD
              shinyAce      0.4.2   RSPM                       
           shinycoreci 0.0.0.9007  Local                       
@@ -228,7 +228,7 @@ osVersion: Windows Server x64 (build 20348)
            shinyjster 0.0.0.9010 GitHub 2a94494 schloerke/HEAD
             shinymeta    0.2.0.3 GitHub 5af8086   rstudio/HEAD
             shinytest 1.5.1.9000 GitHub 650661d   rstudio/HEAD
-           shinytest2 0.2.0.9000 GitHub 8d0b931   rstudio/HEAD
+           shinytest2 0.2.0.9000 GitHub ed38d82   rstudio/HEAD
           shinythemes      1.2.0 GitHub 492b6aa   rstudio/HEAD
         shinyvalidate      0.1.2 GitHub 575f586   rstudio/HEAD
          shinyWidgets      0.7.4   RSPM                       
