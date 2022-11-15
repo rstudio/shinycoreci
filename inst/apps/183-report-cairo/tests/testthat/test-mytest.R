@@ -8,4 +8,5 @@ test_that("Migrated shinytest test: mytest.R", {
 
   app$expect_values()
   app$expect_screenshot()
+
 })
