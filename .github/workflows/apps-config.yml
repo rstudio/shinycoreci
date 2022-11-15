@@ -14,7 +14,7 @@ on:
         value: "windows-latest"
       ubuntu:
         description: ubuntu OS value
-        value: "ubuntu-18.04"
+        value: "ubuntu-20.04"
       cache-version:
         description: cache-version to be used when pulling library cache
         value: "3"
