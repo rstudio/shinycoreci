@@ -114,6 +114,6 @@ for (theme in themes) {
     withr::defer({ app$stop() })
 
     app$expect_values()
-    app$expect_screenshot()
+    app$expect_screenshot(delay = 1) # Try to get the sliders to settle
   })
 }
