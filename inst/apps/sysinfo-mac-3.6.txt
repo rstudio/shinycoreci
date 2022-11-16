@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-11-14
+ date     2022-11-16
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package    Version Source     SHA                   Ref
@@ -29,7 +29,7 @@ osVersion: macOS  10.16
                  brio      1.1.3   CRAN   1.1.3                 /brio
                 broom     0.7.12   CRAN  0.7.12                /broom
               bsicons 0.0.0.9000 GitHub 9d8d64a          rstudio/HEAD
-                bslib 0.4.1.9900 GitHub c99f7cb          rstudio/HEAD
+                bslib 0.4.1.9900 GitHub 5a458d5          rstudio/HEAD
                cachem 1.0.6.9000 GitHub 7b9d764            r-lib/HEAD
                 Cairo   1.5-12.2   CRAN 1.5-12.                /Cairo
                 callr      3.7.0   CRAN   3.7.0                /callr
@@ -207,7 +207,7 @@ osVersion: macOS  10.16
             rversions      2.1.2   CRAN   2.1.2            /rversions
                    s2      1.0.7   CRAN   1.0.7                   /s2
              sandwich      3.0-1   CRAN   3.0-1             /sandwich
-                 sass 0.4.2.9000 GitHub e1a1832          rstudio/HEAD
+                 sass 0.4.2.9000 GitHub 0c3d421          rstudio/HEAD
                scales      1.1.1   CRAN   1.1.1               /scales
                 servr       0.24   CRAN    0.24                /servr
           sessioninfo      1.2.2    any   1.2.2     /any::sessioninfo
