@@ -67,6 +67,7 @@ runs:
         pkgs_to_install <- "${{ steps.shinyverse.outputs.packages }}"
         is_windows <- .Platform$OS.type == "windows"
         is_linux <- Sys.info()[["sysname"]] == "Linux"
+        is_mac <- Sys.info()[["sysname"]] == "Darwin"
         # Get R version like `"4.2"`
         short_r_version <- sub("\\.\\d$", "", "${{ inputs.r-version }}")
 
@@ -77,6 +78,18 @@ runs:
             } else {
               paste0(pkgs_to_install, ",", replace_val)
             }
+        }
+
+        if (is_mac) {
+          switch(short_r_version,
+            "3.5" = {
+              # Apps 181-185
+              replace_or_add(
+                "any::systemfonts",
+                "url::https://cran.r-project.org/src/contrib/Archive/systemfonts/systemfonts_1.0.3.tar.gz"
+              )
+            }
+          )
         }
         if (is_linux) {
           switch(short_r_version,
