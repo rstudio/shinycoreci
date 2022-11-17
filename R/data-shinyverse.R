@@ -8,6 +8,7 @@ shinyverse_remotes <- c(
   "rstudio/bslib",
   "rstudio/bsicons",
   "rstudio/crosstalk",
+  "rstudio/gt",
   "rstudio/DT",
   "rstudio/dygraphs",
   "rstudio/flexdashboard",
