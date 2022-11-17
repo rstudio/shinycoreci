@@ -45,11 +45,11 @@ Automatically runs the next app in a fresh callr::r_bg session.  To stop, close 
 }
 \section{Functions}{
 \itemize{
-\item \code{test_in_connect}: Test connect applications given the server and account
+\item \code{test_in_connect()}: Test connect applications given the server and account
 
-\item \code{test_in_shinyappsio}: Test connect applications given the server and account
+\item \code{test_in_shinyappsio()}: Test connect applications given the server and account
+
 }}
-
 \examples{
 \dontrun{test_in_connect(dir = "apps")}
 \dontrun{test_in_test_in_shinyapps_io(dir = "apps")}
