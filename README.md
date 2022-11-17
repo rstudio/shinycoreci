@@ -32,7 +32,10 @@ These GitHub packages will be installed to make sure the latest package developm
   - [r-lib/fastmap](http://github.com/r-lib/fastmap)
   - [r-lib/later](http://github.com/r-lib/later)
   - [rstudio/bslib](http://github.com/rstudio/bslib)
+  - [rstudio/bsicons](http://github.com/rstudio/bsicons)
+  - [ramnathv/htmlwidgets](http://github.com/ramnathv/htmlwidgets)
   - [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
+  - [rstudio/gt](http://github.com/rstudio/gt)
   - [rstudio/DT](http://github.com/rstudio/DT)
   - [rstudio/dygraphs](http://github.com/rstudio/dygraphs)
   - [rstudio/flexdashboard](http://github.com/rstudio/flexdashboard)
@@ -53,6 +56,7 @@ These GitHub packages will be installed to make sure the latest package developm
   - [rstudio/thematic](http://github.com/rstudio/thematic)
   - [rstudio/webdriver](http://github.com/rstudio/webdriver)
   - [rstudio/websocket](http://github.com/rstudio/websocket)
+  - [ropensci/plotly](http://github.com/ropensci/plotly)
   - [schloerke/shinyjster](http://github.com/schloerke/shinyjster)
 
 Tools for manual and automated testing of shiny apps.
