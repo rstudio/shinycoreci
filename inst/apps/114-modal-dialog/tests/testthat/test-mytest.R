@@ -7,7 +7,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(show = "click")
   Sys.sleep(1) # Wait for modal to appear
   app$expect_values()
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 2)
 
   # Click selectize input - https://github.com/rstudio/shiny/pull/3450
   app$get_js(script = "$('.selectize-input').click()", timeout = 10000)

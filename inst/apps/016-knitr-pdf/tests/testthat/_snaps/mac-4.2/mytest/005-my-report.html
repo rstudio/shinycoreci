@@ -285,8 +285,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -294,16 +294,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -357,23 +350,23 @@ pre code {
 fit &lt;- lm(regFormula(), data = mtcars)
 b   &lt;- coef(fit)
 summary(fit)
-##
+## 
 ## Call:
 ## lm(formula = regFormula(), data = mtcars)
-##
+## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max
-## -4.892 -2.202 -0.963  1.627  7.231
-##
+##    Min     1Q Median     3Q    Max 
+## -4.892 -2.202 -0.963  1.627  7.231 
+## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)
+##             Estimate Std. Error t value Pr(&gt;|t|)    
 ## (Intercept) 29.59985    1.22972   24.07  &lt; 2e-16 ***
 ## disp        -0.04122    0.00471   -8.75  9.4e-10 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-##
+## 
 ## Residual standard error: 3.25 on 30 degrees of freedom
-## Multiple R-squared:  0.718,  Adjusted R-squared:  0.709
+## Multiple R-squared:  0.718,  Adjusted R-squared:  0.709 
 ## F-statistic: 76.5 on 1 and 30 DF,  p-value: 9.38e-10</code></pre>
 <p>The fitting result is <span class="math inline">\(mpg = 29.5999 + -0.0412disp\)</span>. Below is a scatter plot with the regression line.</p>
 <pre class="r"><code>par(mar = c(4, 4, 1, 1))

@@ -16,8 +16,10 @@ test_that("Migrated shinytest test: mytest.R", {
   app$expect_values()
   app$expect_screenshot()
   app$set_inputs(input_type = "checkbox")
+  app$wait_for_idle() # linux 3.6 has some issues; add some delay
   app$set_inputs(dynamic = FALSE)
-  app$expect_values()
+  app$wait_for_idle() # linux 3.6 has some issues; add some delay
+  app$expect_values() # Should be `dynamic = FALSE`
   app$expect_screenshot()
   app$set_inputs(input_type = "checkboxGroup")
   app$set_inputs(dynamic = c("option1", "option2"))

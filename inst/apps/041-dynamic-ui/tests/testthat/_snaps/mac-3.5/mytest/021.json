@@ -13,28 +13,26 @@
           "name": "bootstrap-datepicker-js",
           "version": "1.9.0",
           "src": {
-            "href": "shared/datepicker"
+            "href": "bootstrap-datepicker-js-1.9.0"
           },
           "meta": null,
           "script": "js/bootstrap-datepicker.min.js",
           "stylesheet": null,
           "head": "<script>(function() {\n        var datepicker = $.fn.datepicker.noConflict();\n        $.fn.bsDatepicker = datepicker;\n      })();\n     <\/script>",
           "attachment": null,
-          "package": null,
           "all_files": true
         },
         {
           "name": "bootstrap-datepicker-css",
           "version": "1.9.0",
           "src": {
-            "href": "shared/datepicker"
+            "href": "bootstrap-datepicker-css-1.9.0"
           },
           "meta": null,
           "script": null,
           "stylesheet": "css/bootstrap-datepicker3.min.css",
           "head": null,
           "attachment": null,
-          "package": null,
           "all_files": true
         }
       ]

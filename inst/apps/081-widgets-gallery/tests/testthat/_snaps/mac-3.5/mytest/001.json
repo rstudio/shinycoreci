@@ -1,8 +1,8 @@
 {
   "input": {
     "action": 0,
-    "checkbox": true,
     "checkGroup": "1",
+    "checkbox": true,
     "date": "2014-01-01",
     "dates": [
       "2014-01-01",
@@ -20,9 +20,9 @@
     "text": "Enter text..."
   },
   "output": {
-    "actionOut": "[1] 0\nattr(,\"class\")\n[1] \"integer\"                \"shinyActionButtonValue\"",
-    "checkboxOut": "[1] TRUE",
+    "actionOut": "[1] 0\nattr(,\"class\")\n[1] \"shinyActionButtonValue\" \"integer\"               ",
     "checkGroupOut": "[1] \"1\"",
+    "checkboxOut": "[1] TRUE",
     "dateOut": "[1] \"2014-01-01\"",
     "datesOut": "[1] \"2014-01-01\" \"2014-02-20\"",
     "fileOut": "NULL",

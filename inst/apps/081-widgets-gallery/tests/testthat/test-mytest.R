@@ -4,9 +4,15 @@ test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant(),
     seed = 100, width = 1000, height = 1600, shiny_args = list(display.mode = "normal"))
 
+  expect_screenshot <- function() {
+    # Allow for a 10% difference in the screenshot kernel
+    # 3000 / (3x RGB channels * 100 * 100) = 3000 / 30000 = 10%
+    app$expect_screenshot(threshold = 3000, kernel_size = 100)
+  }
+
   app$wait_for_value(output = "checkboxOut")
   app$expect_values()
-  app$expect_screenshot(threshold = 2)
+  expect_screenshot()
   app$set_inputs(text = "Enter ")
   app$set_inputs(text = "Enter hagjhfafglak")
   app$set_inputs(slider2 = c(25, 87))
@@ -18,7 +24,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(action = "click")
   app$set_inputs(action = "click")
   app$expect_values()
-  app$expect_screenshot(threshold = 2)
+  expect_screenshot()
   app$set_inputs(action = "click")
   app$set_inputs(action = "click")
   app$set_inputs(action = "click")
@@ -32,7 +38,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(checkGroup = character(0))
   app$set_inputs(checkGroup = "1")
   app$expect_values()
-  app$expect_screenshot(threshold = 2)
+  expect_screenshot()
   app$set_inputs(checkGroup = character(0))
   app$set_inputs(checkbox = TRUE)
   app$set_inputs(date = "2014-01-15")
@@ -53,5 +59,5 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(slider2 = c(0, 100))
   app$set_inputs(text = "More text")
   app$expect_values()
-  app$expect_screenshot(threshold = 2)
+  expect_screenshot()
 })

@@ -6,7 +6,7 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: c5c69e0dadbd8da57b3f55589f02cd9854373947]",
+      "html": "[html data sha1: d042ddc189fc0d7bfef2ea02274714b9bd29e270]",
       "deps": [
         {
           "name": "jquery",
@@ -73,7 +73,7 @@
           "name": "selectize",
           "version": "0.12.4",
           "src": {
-            "href": "shared/selectize"
+            "href": "selectize-0.12.4"
           },
           "meta": null,
           "script": [
@@ -83,49 +83,45 @@
           "stylesheet": "css/selectize.bootstrap3.css",
           "head": null,
           "attachment": null,
-          "package": null,
           "all_files": true
         },
         {
           "name": "ionrangeslider-javascript",
           "version": "2.3.1",
           "src": {
-            "href": "shared/ionrangeslider"
+            "href": "ionrangeslider-javascript-2.3.1"
           },
           "meta": null,
           "script": "js/ion.rangeSlider.min.js",
           "stylesheet": null,
           "head": null,
           "attachment": null,
-          "package": null,
           "all_files": true
         },
         {
           "name": "strftime",
           "version": "0.9.2",
           "src": {
-            "href": "shared/strftime"
+            "href": "strftime-0.9.2"
           },
           "meta": null,
           "script": "strftime-min.js",
           "stylesheet": null,
           "head": null,
           "attachment": null,
-          "package": null,
           "all_files": true
         },
         {
           "name": "ionrangeslider-css",
           "version": "2.3.1",
           "src": {
-            "href": "shared/ionrangeslider"
+            "href": "ionrangeslider-css-2.3.1"
           },
           "meta": null,
           "script": null,
           "stylesheet": "css/ion.rangeSlider.css",
           "head": null,
           "attachment": null,
-          "package": null,
           "all_files": true
         },
         {
@@ -146,7 +142,7 @@
     },
     "out4f461eb96152fad3": "A",
     "out588bc784570505a1": {
-      "src": "[image data sha1: fdc9d6ac1ba98f0d83561dcb8591127a7e38b33a]",
+      "src": "[image data hash: ce1405c84518b638be597ab27e05188c]",
       "width": 150,
       "height": 40,
       "alt": "Plot object",
@@ -182,7 +178,7 @@
     },
     "outd713b92a568d73cd": "1",
     "outf944471fabb10bd8": {
-      "src": "[image data sha1: 6a6cde3cd148bae47ad94695554c5c0988a10f42]",
+      "src": "[image data hash: 4ba626f964aad425670181b5fd27baf0]",
       "width": 600,
       "height": 400,
       "alt": "Plot object",

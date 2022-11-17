@@ -37,6 +37,7 @@ for (version in c(4,5)) {
       app$set_inputs(`tabset-tabset` = "A")
       app$set_inputs(`navlist-navlist` = "B")
       app$expect_values()
+      Sys.sleep(1)
       app$expect_screenshot()
 
       app$set_inputs(`navlist-remove` = "click")
@@ -44,10 +45,12 @@ for (version in c(4,5)) {
       app$set_inputs(`tabset-hide` = "click")
       app$set_inputs(`navbar-remove` = "click")
       app$expect_values()
+      Sys.sleep(1)
       app$expect_screenshot()
 
       app$set_inputs(`navbar-navbar` = "A")
       app$expect_values()
+      Sys.sleep(1)
       app$expect_screenshot()
     })
 

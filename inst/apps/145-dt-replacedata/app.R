@@ -25,6 +25,8 @@ dtmod <- function(input, output, session) {
   observeEvent(x(), {
     replaceData(dataTableProxy("table"), x())
   })
+
+  x
 }
 
 ui <- fluidPage(
@@ -116,10 +118,15 @@ server <- function(input, output, session) {
   shinyjster::shinyjster_server(input, output, session)
 
   # Call the module in an un-modular way
-  dtmod(input, output, session)
+  regular_x <- dtmod(input, output, session)
 
   # Regular module invocation
-  callModule(dtmod, "one")
+  module_x <- callModule(dtmod, "one")
+
+  exportTestValues(
+    module_counter = {module_x()},
+    regular_counter = {regular_x()}
+  )
 }
 
 shinyApp(ui, server)

@@ -137,8 +137,8 @@
   },
   "output": {
     "parcoord": {
-      "src": "[image data hash: 11b8456dea78f8ce826dde6951ca306e]",
-      "width": 387,
+      "src": "[image data hash: bdedf3a300bb3e4bc5a40529e7d8fcbc]",
+      "width": 386.65625,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -151,8 +151,8 @@
               "top": 350.448
             },
             "range": {
-              "left": 57.6,
-              "right": 385.56,
+              "left": 57.6979274611399,
+              "right": 385.213801813471,
               "bottom": 370.2,
               "top": 27.7999999999999
             },
@@ -166,7 +166,7 @@
           }
         ],
         "dims": {
-          "width": 387,
+          "width": 386.65625,
           "height": 400
         }
       }

@@ -1,3 +1,4 @@
+
 function(input, output, session) {
   output$out1 <- renderPrint(input$in1)
   output$out2 <- renderPrint(input$in2)

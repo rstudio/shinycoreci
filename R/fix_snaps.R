@@ -249,7 +249,10 @@ fix_snaps <- function(
     patch_files_sub,
     f = function(branch, patch_file) {
       pb$tick(tokens = list(name = patch_file))
-      git_cmd_("git apply --whitespace=fix '", patch_file, "'")
+
+      # Do not discard whitespace changes
+      # File comparisons will find differences in whitespace changes
+      git_cmd_("git apply --whitespace=nowarn --reject '", patch_file, "'")
     }
   )
 

@@ -29,3 +29,33 @@ accept_snaps <- function(
     })
   }
 }
+
+
+remove_cruft <- function(repo_dir = ".", min_r_version = "3.5") {
+  app_paths <- repo_apps_paths(repo_dir)
+
+  pb <- progress_bar(
+    total = length(app_paths),
+    format = ":name [:bar] :current/:total"
+  )
+
+  for (app_path in app_paths) {
+    pb$tick(tokens = list(name = basename(app_path)))
+    withr::with_dir(app_path, {
+      if (!dir.exists(file.path("tests/testthat/_snaps"))) next
+
+      snap_variants <- dir("tests/testthat/_snaps", full.names = TRUE)
+
+      lapply(snap_variants, function(variant_folder) {
+        if (!grepl("\\d\\.\\d$", basename(variant_folder))) {
+          return()
+        }
+        r_version <- strsplit(basename(variant_folder), "-")[[1]][[2]]
+        if (compareVersion(r_version, min_r_version) == -1) {
+          rlang::inform(paste0("Removing ", variant_folder))
+          unlink(variant_folder, recursive = TRUE)
+        }
+      })
+    })
+  }
+}

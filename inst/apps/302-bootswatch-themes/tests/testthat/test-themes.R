@@ -1,6 +1,9 @@
 library(shinytest2)
 library(bslib)
 
+# Increase the error limit to get all the snapshots
+options(testthat.progress.max_fails = Inf)
+
 # Only run these tests on mac + r-release
 # (To reduce the amount of screenshot diffing noise)
 release <- rversions::r_release()$version
@@ -111,6 +114,6 @@ for (theme in themes) {
     withr::defer({ app$stop() })
 
     app$expect_values()
-    app$expect_screenshot()
+    app$expect_screenshot(delay = 1) # Try to get the sliders to settle
   })
 }

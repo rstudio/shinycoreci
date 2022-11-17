@@ -20,5 +20,5 @@ test_that("Migrated shinytest test: mytest.R", {
 
   app$set_inputs(reset = "click")
   app$expect_values()
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 2)
 })

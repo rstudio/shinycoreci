@@ -1,7 +1,7 @@
 library(shiny)
 library(promises)
 library(future)
-plan(multiprocess)
+plan(multisession)
 
 testForMissingRenderFunctions <- function() {
   # If we add any render functions, they should be added to this test app. This test
