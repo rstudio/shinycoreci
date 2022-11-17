@@ -32,6 +32,7 @@ These GitHub packages will be installed to make sure the latest package developm
   - [r-lib/fastmap](http://github.com/r-lib/fastmap)
   - [r-lib/later](http://github.com/r-lib/later)
   - [rstudio/bslib](http://github.com/rstudio/bslib)
+  - [rstudio/bsicons](http://github.com/rstudio/bsicons)
   - [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
   - [rstudio/DT](http://github.com/rstudio/DT)
   - [rstudio/dygraphs](http://github.com/rstudio/dygraphs)
