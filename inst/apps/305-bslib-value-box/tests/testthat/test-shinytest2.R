@@ -45,5 +45,5 @@ test_that("{shinytest2} recording: value_box", {
 
   app$run_js('$(".bslib-full-screen-exit").click()')
   app$set_window_size(width = 500, height = 1600)
-  expect_screenshot(viewport = FALSE)
+  expect_screenshot(wait = 3, viewport = FALSE)
 })
