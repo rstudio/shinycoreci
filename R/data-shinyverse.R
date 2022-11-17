@@ -7,6 +7,7 @@ shinyverse_remotes <- c(
   "r-lib/later",
   "rstudio/bslib",
   "rstudio/bsicons",
+  "ramnathv/htmlwidgets",
   "rstudio/crosstalk",
   "rstudio/gt",
   "rstudio/DT",
@@ -29,6 +30,7 @@ shinyverse_remotes <- c(
   "rstudio/thematic",
   "rstudio/webdriver",
   "rstudio/websocket",
+  "ropensci/plotly",
   "schloerke/shinyjster",
   NULL
 )
