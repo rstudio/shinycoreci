@@ -6,6 +6,7 @@ shinyverse_remotes <- c(
   "r-lib/fastmap",
   "r-lib/later",
   "rstudio/bslib",
+  "rstudio/bsicons",
   "rstudio/crosstalk",
   "rstudio/DT",
   "rstudio/dygraphs",
