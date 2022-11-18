@@ -60,6 +60,10 @@
         },
         "source": "A",
         "config": {
+          "modeBarButtonsToAdd": [
+            "hoverclosest",
+            "hovercompare"
+          ],
           "showSendToCloud": false
         },
         "data": [
@@ -178,9 +182,9 @@
         },
         {
           "name": "plotly-htmlwidgets-css",
-          "version": "1.52.2",
+          "version": "2.11.1",
           "src": {
-            "href": "plotly-htmlwidgets-css-1.52.2"
+            "href": "plotly-htmlwidgets-css-2.11.1"
           },
           "meta": null,
           "script": null,
@@ -191,9 +195,9 @@
         },
         {
           "name": "plotly-main",
-          "version": "1.52.2",
+          "version": "2.11.1",
           "src": {
-            "href": "plotly-main-1.52.2"
+            "href": "plotly-main-2.11.1"
           },
           "meta": null,
           "script": "plotly-latest.min.js",
@@ -246,6 +250,10 @@
         },
         "source": "A",
         "config": {
+          "modeBarButtonsToAdd": [
+            "hoverclosest",
+            "hovercompare"
+          ],
           "showSendToCloud": false
         },
         "data": [
@@ -364,9 +372,9 @@
         },
         {
           "name": "plotly-htmlwidgets-css",
-          "version": "1.52.2",
+          "version": "2.11.1",
           "src": {
-            "href": "plotly-htmlwidgets-css-1.52.2"
+            "href": "plotly-htmlwidgets-css-2.11.1"
           },
           "meta": null,
           "script": null,
@@ -377,9 +385,9 @@
         },
         {
           "name": "plotly-main",
-          "version": "1.52.2",
+          "version": "2.11.1",
           "src": {
-            "href": "plotly-main-1.52.2"
+            "href": "plotly-main-2.11.1"
           },
           "meta": null,
           "script": "plotly-latest.min.js",
@@ -432,6 +440,10 @@
         },
         "source": "A",
         "config": {
+          "modeBarButtonsToAdd": [
+            "hoverclosest",
+            "hovercompare"
+          ],
           "showSendToCloud": false
         },
         "data": [
@@ -550,9 +562,9 @@
         },
         {
           "name": "plotly-htmlwidgets-css",
-          "version": "1.52.2",
+          "version": "2.11.1",
           "src": {
-            "href": "plotly-htmlwidgets-css-1.52.2"
+            "href": "plotly-htmlwidgets-css-2.11.1"
           },
           "meta": null,
           "script": null,
@@ -563,9 +575,9 @@
         },
         {
           "name": "plotly-main",
-          "version": "1.52.2",
+          "version": "2.11.1",
           "src": {
-            "href": "plotly-main-1.52.2"
+            "href": "plotly-main-2.11.1"
           },
           "meta": null,
           "script": "plotly-latest.min.js",
