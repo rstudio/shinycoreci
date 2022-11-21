@@ -27,8 +27,8 @@ test_in_connect <- function(
 
   str(apps)
 
-  urls <- urls[apps]
-  apps_not_deployed <- setdiff(names(urls), app_names)
+  urls <- urls[unname(apps)]
+  apps_not_deployed <- setdiff(names(urls), apps_deploy)
   if (length(apps_not_deployed) > 0) {
     message("Some apps are not found! Removing:")
     utils::str(as.list(apps_not_deployed))
