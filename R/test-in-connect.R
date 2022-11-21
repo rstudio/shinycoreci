@@ -25,6 +25,8 @@ test_in_connect <- function(
   account <- force(account)
   apps <- resolve_app_name(apps)
 
+  str(apps)
+
   urls <- urls[apps]
   apps_not_deployed <- setdiff(names(urls), app_names)
   if (length(apps_not_deployed) > 0) {
