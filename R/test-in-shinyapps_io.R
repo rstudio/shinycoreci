@@ -10,7 +10,7 @@ test_in_shinyappsio <- function(type = c("manual", "all")) {
     "https://testing-apps.shinyapps.io/000-all/"
   )
 
-  browseURL(app_url)
+  utils::browseURL(app_url)
 }
 
 

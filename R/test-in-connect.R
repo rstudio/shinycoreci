@@ -18,7 +18,7 @@ test_in_connect <- function(type = c("manual", "all")) {
     default_connect_urls[["000-all"]]
   )
 
-  browseURL(app_url)
+  utils::browseURL(app_url)
 }
 
 

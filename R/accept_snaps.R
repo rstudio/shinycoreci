@@ -51,8 +51,8 @@ remove_cruft <- function(repo_dir = ".", min_r_version = "3.5") {
           return()
         }
         r_version <- strsplit(basename(variant_folder), "-")[[1]][[2]]
-        if (compareVersion(r_version, min_r_version) == -1) {
-          rlang::inform(paste0("Removing ", variant_folder))
+        if (utils::compareVersion(r_version, min_r_version) == -1) {
+          message(paste0("Removing ", variant_folder))
           unlink(variant_folder, recursive = TRUE)
         }
       })
