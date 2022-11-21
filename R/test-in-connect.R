@@ -44,16 +44,17 @@ test_in_connect_app <- function(
 ) {
   server <- force(server)
   account <- force(account)
-  apps <- resolve_app_name(apps)
+  apps_to_view <- unname(resolve_app_name(apps))
 
-  urls <- urls[unname(apps)]
-  apps_not_deployed <- setdiff(names(urls), apps_deploy)
-  if (length(apps_not_deployed) > 0) {
-    message("Some apps are not found! Removing:")
-    utils::str(as.list(apps_not_deployed))
-    urls <- urls[setdiff(names(urls), apps_not_deployed)]
+  # Only keep apps that are known to be deployed
+  apps_to_remove <- setdiff(apps_to_view, names(urls))
+  if (length(apps_to_remove) > 0) {
+    message("Some apps do not have url information! Removing:")
+    utils::str(apps_to_remove)
+    apps_to_view <- apps_to_view[apps_to_view %in% names(urls)]
   }
 
+  urls <- urls[apps_to_view]
   app_infos <- mapply(urls, names(urls), SIMPLIFY = FALSE, FUN = function(url, app_name) {
     list(
       app_name = app_name,
