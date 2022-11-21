@@ -18,8 +18,8 @@ test_in_shinyappsio <- function(type = c("manual", "all")) {
 test_in_shinyappsio_app <- function(
   app_name = apps[1],
   apps = apps_manual,
-  port = 8080,
-  host = "127.0.0.1",
+  port = NULL,
+  host = NULL,
   account = "testing-apps",
   server = "shinyapps.io"
 ) {

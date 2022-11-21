@@ -39,8 +39,8 @@ test_in_connect_app <- function(
   urls = default_connect_urls,
   server = attr(urls, "server"),
   account = attr(urls, "account"),
-  port = 8080,
-  host = "127.0.0.1"
+  port = NULL,
+  host = NULL
 ) {
   server <- force(server)
   account <- force(account)
