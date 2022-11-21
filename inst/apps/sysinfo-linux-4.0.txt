@@ -10,7 +10,7 @@ osVersion: Ubuntu 20.04.5 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2022-11-18
+ date     2022-11-21
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
@@ -102,7 +102,7 @@ osVersion: Ubuntu 20.04.5 LTS
                 gower       1.0.0   RSPM                       
           GPArotation   2022.10-2   RSPM                       
             gridExtra         2.3   RSPM                       
-                   gt  0.8.0.9000 GitHub 98f71ac   rstudio/HEAD
+                   gt  0.8.0.9000 GitHub 1d3e286   rstudio/HEAD
                gtable       0.3.1   RSPM                       
                  here       1.0.1   RSPM                       
                hexbin      1.28.2   RSPM                       
@@ -124,7 +124,7 @@ osVersion: Ubuntu 20.04.5 LTS
             jquerylib       0.1.4   RSPM                       
              jsonlite       1.8.3   RSPM                       
            juicyjuice       0.1.0   RSPM                       
-                knitr        1.40   RSPM                       
+                knitr        1.41   CRAN                       
              labeling       0.4.2   RSPM                       
                 later  1.3.0.9000 GitHub ba70887     r-lib/HEAD
              lazyeval       0.2.2   RSPM                       
@@ -242,7 +242,7 @@ osVersion: Ubuntu 20.04.5 LTS
                  rsvg       2.3.2   RSPM                       
             rversions       2.1.2   RSPM                       
                 rvest       1.0.3   RSPM                       
-                   s2       1.1.0   RSPM                       
+                   s2       1.1.1   RSPM                       
              sandwich       3.0-2   RSPM                       
                  sass  0.4.2.9000 GitHub 95e5482   rstudio/HEAD
                scales       1.2.1   RSPM                       
@@ -262,7 +262,7 @@ osVersion: Ubuntu 20.04.5 LTS
            shinytest2  0.2.0.9000 GitHub ed38d82   rstudio/HEAD
           shinythemes       1.2.0 GitHub 492b6aa   rstudio/HEAD
         shinyvalidate       0.1.2 GitHub 575f586   rstudio/HEAD
-         shinyWidgets       0.7.5   CRAN                       
+         shinyWidgets       0.7.5   RSPM                       
             showimage       1.0.0   RSPM                       
              showtext       0.9-5   RSPM                       
            showtextdb         3.0   RSPM                       
@@ -325,7 +325,7 @@ osVersion: Ubuntu 20.04.5 LTS
                  yaml       2.3.6   RSPM                       
                   zip       2.2.2   RSPM                       
                   zoo      1.8-11   RSPM                       
-                  pak       0.3.0   RSPM                       
+                  pak       0.3.1   RSPM                       
                  boot      1.3-27   CRAN                       
                 class      7.3-18   CRAN                       
               cluster       2.1.1   CRAN                       
