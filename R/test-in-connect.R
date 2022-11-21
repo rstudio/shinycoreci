@@ -35,6 +35,8 @@ test_in_connect <- function(
     urls <- urls[setdiff(names(urls), apps_not_deployed)]
   }
 
+  str(urls)
+
   app_infos <- mapply(urls, names(urls), SIMPLIFY = FALSE, FUN = function(url, app_name) {
     list(
       app_name = app_name,
