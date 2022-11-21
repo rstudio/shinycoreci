@@ -1,8 +1,21 @@
 #' @export
 #' @describeIn test_in_deployed Test connect applications given the server and account
 #' @examples
-#' \dontrun{test_in_test_in_shinyapps_io(dir = "apps")}
-test_in_shinyappsio <- function(
+#' \dontrun{test_in_test_in_shinyapps_io()}
+test_in_shinyappsio <- function(type = c("manual", "all")) {
+
+  type <- match.arg(type)
+  app_url <- switch(type,
+    "manual" = "https://testing-apps.shinyapps.io/000-manual/",
+    "https://testing-apps.shinyapps.io/000-all/"
+  )
+
+  browseURL(app_url)
+}
+
+
+## Used in `./inst/apps/{000-manual, 000-all}`
+test_in_shinyappsio_app <- function(
   app_name = apps[1],
   apps = apps_manual,
   port = 8080,
@@ -18,7 +31,7 @@ test_in_shinyappsio <- function(
   })
   names(urls) <- apps
 
-  test_in_connect(
+  test_in_connect_app(
     apps = apps,
     urls = urls,
     account = account,

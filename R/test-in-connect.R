@@ -1,17 +1,38 @@
 
 #' Test deployed apps
 #'
+#' Opens an app on the hosted server and runs silbing apps in an iframe.
+#'
+#' @export
+#' @describeIn test_in_deployed Test deployed applications on RStudio Connect
+#' @param type Type of apps to test. `"manual"` (default) will only contain apps
+#' that should be manually tested. `"all"` will contain all apps that have
+#' been deployed. This is every app except for `141-radiant`.
+#' @examples
+#' \dontrun{test_in_connect()}
+test_in_connect <- function(type = c("manual", "all")) {
+
+  type <- match.arg(type)
+  app_url <- switch(type,
+    "manual" = default_connect_urls[["000-manual"]],
+    default_connect_urls[["000-all"]]
+  )
+
+  browseURL(app_url)
+}
+
+
+#' Locally test deployed apps
+#'
 #' Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
 #'
 #' @inheritParams test_in_browser
 #' @param urls Named vector of urls to visit. This should be the output of `[connect_urls]`. By default this will set `server`, `account`, `dir`, and `apps`
 #' @param server,account Parameters that could be supplied to `[rsconnect::deployApp]`
 #' @param host `host` for the foreground app processes
-#' @export
-#' @describeIn test_in_deployed Test connect applications given the server and account
-#' @examples
-#' \dontrun{test_in_connect(dir = "apps")}
-test_in_connect <- function(
+#' @noRd
+## Used in `./inst/apps/{000-manual, 000-all}`
+test_in_connect_app <- function(
   app_name = apps[1],
   apps = apps_manual,
   ...,
