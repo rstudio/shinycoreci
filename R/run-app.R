@@ -2,7 +2,7 @@ resolve_app_name <- function(app, known_apps = NULL) {
   if (is.null(app)) return(NULL)
   if (length(app) > 1) {
     return(
-      vapply(app, resolve_app_name, character(1))
+      vapply(app, resolve_app_name, character(1), known_apps = known_apps)
     )
   }
   if (!is.null(known_apps)) {
