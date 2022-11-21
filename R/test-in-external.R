@@ -345,13 +345,13 @@ test_in_external <- function(
     })
   }
 
-  print(shiny::shinyApp(
+  shiny::shinyApp(
     ui = ui,
     server = server,
     options = list(
+      # launch.browser = interactive(),
       host = host,
-      port = port,
-      launch.browser = TRUE
+      port = port
     )
-  ))
+  )
 }
