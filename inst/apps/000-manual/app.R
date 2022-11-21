@@ -1,3 +1,4 @@
+# This app is very similar to 001-all, any changes here should be made there
 if (grepl("beta.rstudioconnect.com", Sys.getenv("CONNECT_SERVER", "not-found"), fixed = TRUE)) {
   message("On Connect!")
   shinycoreci::test_in_connect(app_name = "001-hello", apps = shinycoreci:::apps_manual, port = NULL)
