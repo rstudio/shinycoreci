@@ -25,8 +25,6 @@ test_in_connect <- function(
   account <- force(account)
   apps <- resolve_app_name(apps)
 
-  str(apps)
-
   urls <- urls[unname(apps)]
   apps_not_deployed <- setdiff(names(urls), apps_deploy)
   if (length(apps_not_deployed) > 0) {
@@ -34,8 +32,6 @@ test_in_connect <- function(
     utils::str(as.list(apps_not_deployed))
     urls <- urls[setdiff(names(urls), apps_not_deployed)]
   }
-
-  str(urls)
 
   app_infos <- mapply(urls, names(urls), SIMPLIFY = FALSE, FUN = function(url, app_name) {
     list(
