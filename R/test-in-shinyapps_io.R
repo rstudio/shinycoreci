@@ -14,7 +14,7 @@ test_in_shinyappsio <- function(
   apps <- resolve_app_name(apps)
 
   urls <- lapply(apps, function(app_name) {
-    paste0("http://", account, ".", server, "/", app_name)
+    paste0("https://", account, ".", server, "/", app_name)
   })
   names(urls) <- apps
 
