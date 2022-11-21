@@ -5,52 +5,26 @@
 \alias{test_in_shinyappsio}
 \title{Test deployed apps}
 \usage{
-test_in_connect(
-  app_name = apps[1],
-  apps = apps_manual,
-  ...,
-  urls = default_connect_urls,
-  server = attr(urls, "server"),
-  account = attr(urls, "account"),
-  port = 8080,
-  host = "127.0.0.1"
-)
+test_in_connect(type = c("manual", "all"))
 
-test_in_shinyappsio(
-  app_name = apps[1],
-  apps = apps_manual,
-  port = 8080,
-  host = "127.0.0.1",
-  account = "testing-apps",
-  server = "shinyapps.io"
-)
+test_in_shinyappsio(type = c("manual", "all"))
 }
 \arguments{
-\item{app_name}{app number or name to start with. If numeric, it will match the leading number in the testing application}
-
-\item{apps}{List of apps to test}
-
-\item{...}{ignored}
-
-\item{urls}{Named vector of urls to visit. This should be the output of \verb{[connect_urls]}. By default this will set \code{server}, \code{account}, \code{dir}, and \code{apps}}
-
-\item{server, account}{Parameters that could be supplied to \verb{[rsconnect::deployApp]}}
-
-\item{port}{\code{port} for the foreground app process}
-
-\item{host}{\code{host} for the foreground app processes}
+\item{type}{Type of apps to test. \code{"manual"} (default) will only contain apps
+that should be manually tested. \code{"all"} will contain all apps that have
+been deployed. This is every app except for \code{141-radiant}.}
 }
 \description{
-Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
+Opens an app on the hosted server and runs silbing apps in an iframe.
 }
 \section{Functions}{
 \itemize{
-\item \code{test_in_connect()}: Test connect applications given the server and account
+\item \code{test_in_connect()}: Test deployed applications on RStudio Connect
 
 \item \code{test_in_shinyappsio()}: Test connect applications given the server and account
 
 }}
 \examples{
-\dontrun{test_in_connect(dir = "apps")}
-\dontrun{test_in_test_in_shinyapps_io(dir = "apps")}
+\dontrun{test_in_connect()}
+\dontrun{test_in_test_in_shinyapps_io()}
 }

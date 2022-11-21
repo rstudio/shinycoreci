@@ -165,7 +165,7 @@ deploy_apps <- function(
         account = account,
         server = server,
         cores = 1,            # simplify it
-        fn_arg("retrying_", TRUE), # no need to update again, still in the original function exec
+        retrying_ = TRUE, # no need to update again, still in the original function exec
         retry = retry - 1     # do not allow for infinite retries
       )
     )
