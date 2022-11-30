@@ -4,7 +4,8 @@ test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant(),
     seed = 8296, shiny_args = list(display.mode = "normal"))
 
-  app$wait_for_idle()
+  app$wait_for_value(input = "asp")
+
   app$expect_values()
   app$expect_screenshot()
 
