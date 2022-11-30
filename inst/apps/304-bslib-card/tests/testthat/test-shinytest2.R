@@ -22,9 +22,9 @@ test_that("{shinytest2} recording: card", {
     view = interactive(),
     options = list(bslib.precompiled = FALSE)
   )
-  expect_screenshot <- function(..., wait = 1, viewport = TRUE) {
+  expect_screenshot <- function(..., wait = 1, viewport = TRUE, tolerance = 3) {
     Sys.sleep(wait)
-    args <- rlang::list2(...)
+    args <- rlang::list2(..., tolerance = tolerance)
     if (viewport) {
       rect <- c(x = 0, y = 0, width = width, height = height)
       new_args <- list(screenshot_args = list(cliprect = rect))
