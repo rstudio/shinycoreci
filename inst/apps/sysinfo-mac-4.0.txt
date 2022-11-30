@@ -1,4 +1,4 @@
-Image Version:  20221028.1 
+Image Version:  20221127.7 
 osVersion: macOS Big Sur 10.16
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: macOS Big Sur 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-11-21
+ date     2022-11-30
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA                   Ref
@@ -31,8 +31,8 @@ osVersion: macOS Big Sur 10.16
                  brew       1.0-7   CRAN   1.0-7                 /brew
                  brio       1.1.3   CRAN   1.1.3                 /brio
                 broom      0.7.12   CRAN  0.7.12                /broom
-              bsicons  0.0.0.9000 GitHub 986e2bb          rstudio/HEAD
-                bslib  0.4.1.9900 GitHub b2c5406          rstudio/HEAD
+              bsicons         0.1 GitHub 1a12bb6          rstudio/HEAD
+                bslib  0.4.1.9900 GitHub 7985b80          rstudio/HEAD
                cachem  1.0.6.9000 GitHub 7b9d764            r-lib/HEAD
                 Cairo      1.5-15   CRAN  1.5-15                /Cairo
                 callr       3.7.0   CRAN   3.7.0                /callr
@@ -99,7 +99,7 @@ osVersion: macOS Big Sur 10.16
                 gower       1.0.0   CRAN   1.0.0                /gower
           GPArotation   2014.11-1   CRAN 2014.11          /GPArotation
             gridExtra         2.3   CRAN     2.3            /gridExtra
-                   gt  0.8.0.9000 GitHub 1d3e286          rstudio/HEAD
+                   gt  0.8.0.9000 GitHub f916280          rstudio/HEAD
                gtable       0.3.0   CRAN   0.3.0               /gtable
                  here       1.0.1   CRAN   1.0.1                 /here
                hexbin      1.28.2   CRAN  1.28.2               /hexbin
@@ -107,7 +107,7 @@ osVersion: macOS Big Sur 10.16
                 highr         0.9   CRAN     0.9                /highr
                   hms       1.1.1   CRAN   1.1.1                  /hms
             htmltools  0.5.3.9002 GitHub 39b3f1f          rstudio/HEAD
-          htmlwidgets  1.5.4.9001 GitHub cb052ac         ramnathv/HEAD
+          htmlwidgets  1.5.4.9001 GitHub d1ca3de         ramnathv/HEAD
                httpuv       1.6.6 GitHub ab8d702          rstudio/HEAD
                  httr       1.4.2   CRAN   1.4.2                 /httr
              hunspell       3.0.1   CRAN   3.0.1             /hunspell
@@ -163,7 +163,7 @@ osVersion: macOS Big Sur 10.16
              pkgbuild       1.3.1   CRAN   1.3.1             /pkgbuild
             pkgconfig       2.0.3   CRAN   2.0.3            /pkgconfig
               pkgload       1.2.4   CRAN   1.2.4              /pkgload
-               plotly 4.10.1.9000 GitHub a69ba8b         ropensci/HEAD
+               plotly 4.10.1.9000 GitHub 3a33b1a         ropensci/HEAD
       plotlyGeoAssets       0.0.2   CRAN   0.0.2      /plotlyGeoAssets
                  plyr       1.8.7   CRAN   1.8.7                 /plyr
                   png       0.1-7   CRAN   0.1-7                  /png
@@ -235,13 +235,13 @@ osVersion: macOS Big Sur 10.16
                 rvest       1.0.2   CRAN   1.0.2                /rvest
                    s2       1.0.7   CRAN   1.0.7                   /s2
              sandwich       3.0-1   CRAN   3.0-1             /sandwich
-                 sass  0.4.2.9000 GitHub 95e5482          rstudio/HEAD
+                 sass  0.4.3.9000 GitHub 3e61ef8          rstudio/HEAD
                scales       1.2.1   CRAN   1.2.1               /scales
               selectr       0.4-2   CRAN   0.4-2              /selectr
                 servr        0.24   CRAN    0.24                /servr
           sessioninfo       1.2.2    any   1.2.2     /any::sessioninfo
                    sf       1.0-7   CRAN   1.0-7                   /sf
-                shiny  1.7.3.9001 GitHub 20cc8e2          rstudio/HEAD
+                shiny  1.7.3.9001 GitHub ed6022e          rstudio/HEAD
              shinyAce       0.4.1   CRAN   0.4.1             /shinyAce
           shinycoreci  0.0.0.9007  Local                              
        shinydashboard       0.7.2   CRAN   0.7.2       /shinydashboard
@@ -249,8 +249,8 @@ osVersion: macOS Big Sur 10.16
               shinyjs       2.1.0   CRAN   2.1.0              /shinyjs
            shinyjster  0.0.0.9010 GitHub 2a94494        schloerke/HEAD
             shinymeta     0.2.0.3 GitHub 5af8086          rstudio/HEAD
-            shinytest  1.5.1.9000 GitHub 650661d          rstudio/HEAD
-           shinytest2  0.2.0.9000 GitHub ed38d82          rstudio/HEAD
+            shinytest  1.5.1.9000 GitHub 0c1357f          rstudio/HEAD
+           shinytest2  0.2.0.9000 GitHub b47a0db          rstudio/HEAD
           shinythemes       1.2.0 GitHub 492b6aa          rstudio/HEAD
         shinyvalidate       0.1.2 GitHub 575f586          rstudio/HEAD
          shinyWidgets       0.6.4   CRAN   0.6.4         /shinyWidgets
