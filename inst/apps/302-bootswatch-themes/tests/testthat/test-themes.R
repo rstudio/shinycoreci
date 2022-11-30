@@ -114,6 +114,13 @@ for (theme in themes) {
     withr::defer({ app$stop() })
 
     app$expect_values()
-    app$expect_screenshot(delay = 1) # Try to get the sliders to settle
+
+    app$expect_screenshot(
+      # Try to get the sliders to settle
+      delay = 1,
+      # 3% tolerance with 10k pixels over 3 channels
+      tolerance = 900,
+      kernel_size = 100
+    )
   })
 }
