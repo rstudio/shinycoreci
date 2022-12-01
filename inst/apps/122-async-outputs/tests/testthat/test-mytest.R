@@ -4,7 +4,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(load_timeout = 15000, seed = 100, shiny_args = list(display.mode = "normal"))
 
   # Wait until an async value is available
-  app$wait_for_value(output = "printa")
+  app$wait_for_value(output = "printa", timeout = 10 * 1000)
 
   info <- app$get_values(output = TRUE)$output
 
