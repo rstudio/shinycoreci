@@ -119,7 +119,7 @@ for (theme in themes) {
       # Try to get the sliders to settle
       delay = 1,
       # 3% tolerance with 10k pixels over 3 channels
-      tolerance = 900,
+      threshold = 900,
       kernel_size = 100
     )
   })
