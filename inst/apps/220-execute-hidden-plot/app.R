@@ -39,6 +39,8 @@ server <- function(input, output, session) {
 
   has_run <- reactiveVal(FALSE)
 
+  # The test in this app before the expression of `renderPlot()` is executed
+  # https://github.com/rstudio/shiny/pull/3740
   output$plot <- renderPlot({
     has_run(TRUE)
     plot(1)
