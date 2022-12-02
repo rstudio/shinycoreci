@@ -32,6 +32,9 @@ fix_snaps <- function(
   repo_dir = "."
 ) {
   original_sys_call <- sys.call()
+  ask_apps <- as.logical(ask_apps)
+  ask_branches <- as.logical(ask_branches)
+  ask_if_not_main <- as.logical(ask_if_not_main)
   # validate_core_pkgs()
 
   apps_folder <- file.path(repo_dir, "inst", "apps")
@@ -208,6 +211,7 @@ fix_snaps <- function(
     )
     if ((length(ans) == 0) || (first_choice %in% ans)) {
       # Do not subset data
+      ask_branches <- FALSE
     } else {
       app_info_dt <- app_info_dt[app_info_dt$branch %in% ans, ]
     }
@@ -228,6 +232,7 @@ fix_snaps <- function(
     )
     if ((length(ans) == 0) || (first_choice %in% ans)) {
       # Do not subset data
+      ask_apps <- FALSE
     } else {
       keep_rows_logical <- app_info_dt$app_name %in% ans
       apps_rejected <- unique(app_info_dt$app_name[!keep_rows_logical])
@@ -236,6 +241,10 @@ fix_snaps <- function(
   }
 
   patch_files_sub <- patch_files
+  if (ask_apps == FALSE && ask_branches == FALSE) {
+    # Merge all patches
+    app_info_dt <- NULL
+  }
   if (!is.null(app_info_dt)) {
     message("\nFinal Apps:")
     print_apps()
