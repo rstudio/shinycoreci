@@ -1,4 +1,4 @@
-Image Version:  20221121.1 
+Image Version:  20221127.7 
 osVersion: macOS Big Sur ... 10.16
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: macOS Big Sur ... 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-11-30
+ date     2022-12-05
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA               Ref
@@ -33,7 +33,7 @@ osVersion: macOS Big Sur ... 10.16
                  brio       1.1.3   CRAN                          
                 broom       1.0.1   CRAN                          
               bsicons         0.1 GitHub 1a12bb6      rstudio/HEAD
-                bslib  0.4.1.9900 GitHub 7985b80      rstudio/HEAD
+                bslib  0.4.1.9900 GitHub 1a07d5e      rstudio/HEAD
                cachem  1.0.6.9000 GitHub 7b9d764        r-lib/HEAD
                 Cairo       1.6-0   CRAN                          
                 callr       3.7.3   CRAN                          
@@ -102,16 +102,16 @@ osVersion: macOS Big Sur ... 10.16
                 gower       1.0.0   CRAN                          
           GPArotation   2022.10-2   CRAN                          
             gridExtra         2.3   CRAN                          
-                   gt  0.8.0.9000 GitHub f916280      rstudio/HEAD
+                   gt  0.8.0.9000 GitHub e877073      rstudio/HEAD
                gtable       0.3.1   CRAN                          
                  here       1.0.1   CRAN                          
                hexbin      1.28.2   CRAN                          
           highcharter       0.9.4   CRAN                          
                 highr         0.9   CRAN                          
                   hms       1.1.2   CRAN                          
-            htmltools  0.5.3.9002 GitHub 39b3f1f      rstudio/HEAD
+            htmltools  0.5.3.9002 GitHub f4a3adf      rstudio/HEAD
           htmlwidgets  1.5.4.9001 GitHub d1ca3de     ramnathv/HEAD
-               httpuv       1.6.6 GitHub ab8d702      rstudio/HEAD
+               httpuv  1.6.6.9000 GitHub 093cffa      rstudio/HEAD
                  httr       1.4.4   CRAN                          
              hunspell       3.0.2   CRAN                          
                igraph       1.3.5   CRAN                          
@@ -172,7 +172,7 @@ osVersion: macOS Big Sur ... 10.16
                plotly 4.10.1.9000 GitHub 3a33b1a     ropensci/HEAD
       plotlyGeoAssets       0.0.2   CRAN                          
                  plyr       1.8.8   CRAN                          
-                  png       0.1-7   CRAN                          
+                  png       0.1-8   CRAN                          
               polycor       0.8-1   CRAN                          
                  pool  0.1.6.9000 GitHub decb2a1      rstudio/HEAD
                praise       1.0.0   CRAN                          
@@ -205,7 +205,7 @@ osVersion: macOS Big Sur ... 10.16
             randomizr      0.22.0   CRAN                          
                ranger      0.14.1   CRAN                          
              rappdirs       0.3.3   CRAN                          
-               raster       3.6-3   CRAN                          
+               raster      3.6-11   CRAN                          
             rcmdcheck       1.4.0   CRAN                          
          RColorBrewer       1.1-3   CRAN                          
                  Rcpp       1.0.9   CRAN                          
@@ -248,7 +248,7 @@ osVersion: macOS Big Sur ... 10.16
                 servr        0.25   CRAN                          
           sessioninfo       1.2.2    any   1.2.2 /any::sessioninfo
                    sf       1.0-9   CRAN                          
-                shiny  1.7.3.9001 GitHub ed6022e      rstudio/HEAD
+                shiny  1.7.3.9001 GitHub ecff638      rstudio/HEAD
              shinyAce       0.4.2   CRAN                          
           shinycoreci  0.0.0.9007  Local                          
        shinydashboard       0.7.2   CRAN                          
@@ -270,13 +270,13 @@ osVersion: macOS Big Sur ... 10.16
               SparseM        1.81   CRAN                          
              spelling         2.2   CRAN                          
               stringi       1.7.8   CRAN                          
-              stringr       1.4.1   CRAN                          
+              stringr       1.5.0   CRAN                          
                styler       1.8.1   CRAN                          
               svglite       2.1.0   CRAN                          
                   sys       3.4.1   CRAN                          
              sysfonts       0.8.8   CRAN                          
           systemfonts       1.0.4   CRAN                          
-                terra      1.6-41   CRAN                          
+                terra      1.6-47   CRAN                          
                testit        0.13   CRAN                          
              testthat       3.1.5   CRAN                          
           textshaping       0.3.6   CRAN                          
