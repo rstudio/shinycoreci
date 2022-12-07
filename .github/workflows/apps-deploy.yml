@@ -51,7 +51,7 @@ jobs:
         uses: ./.github/internal/install-shinyverse
         with:
           r-version: ${{ matrix.config.r }}
-          cache-version: deploy-${{ needs.config.outputs.cache-version }}
+          cache-version: deploy-2-${{ needs.config.outputs.cache-version }}
           extra-packages: any::rsconnect
 
       # Perform as second step to make sure this version is installed
