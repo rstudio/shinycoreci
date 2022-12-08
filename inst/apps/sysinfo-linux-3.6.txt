@@ -10,7 +10,7 @@ osVersion: Ubuntu 20.04.5 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2022-12-05
+ date     2022-12-08
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
@@ -86,11 +86,11 @@ osVersion: Ubuntu 20.04.5 LTS
                    fs       1.5.2   RSPM                       
                future      1.29.0   RSPM                       
              generics       0.1.3   RSPM                       
-                 gert       1.9.1   RSPM                       
+                 gert       1.9.2   RSPM                       
            ggalluvial      0.12.3   RSPM                       
                GGally       2.1.2   RSPM                       
             gganimate       1.0.8   RSPM                       
-              ggiraph       0.8.4   RSPM                       
+              ggiraph       0.8.5   RSPM                       
               ggplot2       3.4.0   RSPM                       
               ggrepel       0.9.2   RSPM                       
              ggthemes       4.2.4   RSPM                       
@@ -102,15 +102,15 @@ osVersion: Ubuntu 20.04.5 LTS
                 gower       1.0.0   RSPM                       
           GPArotation   2022.10-2   RSPM                       
             gridExtra         2.3   RSPM                       
-                   gt  0.8.0.9000 GitHub e877073   rstudio/HEAD
+                   gt  0.8.0.9000 GitHub d638baa   rstudio/HEAD
                gtable       0.3.1   RSPM                       
                  here       1.0.1   RSPM                       
                hexbin      1.28.2   RSPM                       
           highcharter       0.9.4   RSPM                       
                 highr         0.9   RSPM                       
                   hms       1.1.2   RSPM                       
-            htmltools  0.5.3.9002 GitHub f4a3adf   rstudio/HEAD
-          htmlwidgets  1.5.4.9001 GitHub d1ca3de  ramnathv/HEAD
+            htmltools  0.5.4.9000 GitHub f53be17   rstudio/HEAD
+          htmlwidgets  1.5.4.9001 GitHub e375b34  ramnathv/HEAD
                httpuv  1.6.6.9000 GitHub 093cffa   rstudio/HEAD
                  httr       1.4.4   RSPM                       
              hunspell       3.0.2   RSPM                       
@@ -122,7 +122,7 @@ osVersion: Ubuntu 20.04.5 LTS
               isoband       0.2.6   RSPM                       
             iterators      1.0.14   RSPM                       
             jquerylib       0.1.4   RSPM                       
-             jsonlite       1.8.3   RSPM                       
+             jsonlite       1.8.4   RSPM                       
            juicyjuice       0.1.0   RSPM                       
                 knitr        1.41   RSPM                       
              labeling       0.4.2   RSPM                       
@@ -154,7 +154,7 @@ osVersion: Ubuntu 20.04.5 LTS
                nloptr       2.0.3   RSPM                       
                   NLP       0.2-1   RSPM                       
              numDeriv  2016.8-1.1   RSPM                       
-              openssl       2.0.4   RSPM                       
+              openssl       2.0.5   RSPM                       
               packrat       0.8.1   RSPM                       
             paletteer       1.5.0   RSPM                       
        palmerpenguins       0.1.1   RSPM                       
@@ -212,7 +212,7 @@ osVersion: Ubuntu 20.04.5 LTS
                  Rcpp       1.0.9   RSPM                       
             RcppEigen   0.3.3.9.3   RSPM                       
              RcppTOML       0.1.7   RSPM                       
-            reactable       0.3.0   RSPM                       
+            reactable       0.4.0   RSPM                       
              reactlog       1.1.1 GitHub 83a4958   rstudio/HEAD
                reactR       0.4.4   RSPM                       
                 readr       2.1.3   RSPM                       
@@ -233,7 +233,7 @@ osVersion: Ubuntu 20.04.5 LTS
                 rlang       1.0.6   RSPM                       
                 rlist     0.4.6.2   RSPM                       
             rmarkdown        2.18   RSPM                       
-               RMySQL     0.10.24   RSPM                       
+               RMySQL     0.10.25   RSPM                       
              roxygen2       7.2.2   RSPM                       
             rprojroot       2.0.3   RSPM                       
             rsconnect      0.8.28   RSPM                       
@@ -250,7 +250,7 @@ osVersion: Ubuntu 20.04.5 LTS
                 servr        0.25   RSPM                       
           sessioninfo       1.2.2   RSPM                       
                    sf       1.0-9   RSPM                       
-                shiny  1.7.3.9001 GitHub ecff638   rstudio/HEAD
+                shiny  1.7.3.9001 GitHub ffb6736   rstudio/HEAD
              shinyAce       0.4.2   RSPM                       
           shinycoreci  0.0.0.9007  Local                       
        shinydashboard       0.7.2   RSPM                       
@@ -272,13 +272,13 @@ osVersion: Ubuntu 20.04.5 LTS
               SparseM        1.81   RSPM                       
              spelling         2.2   RSPM                       
               stringi       1.7.8   RSPM                       
-              stringr       1.4.1   RSPM                       
+              stringr       1.5.0   RSPM                       
                styler       1.8.1   RSPM                       
               svglite       2.1.0   RSPM                       
                   sys       3.4.1   RSPM                       
              sysfonts       0.8.8   RSPM                       
           systemfonts       1.0.4   RSPM                       
-                terra      1.6-41   RSPM                       
+                terra      1.6-47   RSPM                       
                testit        0.13   RSPM                       
              testthat       3.1.5   RSPM                       
           textshaping       0.3.6   RSPM                       
@@ -310,7 +310,7 @@ osVersion: Ubuntu 20.04.5 LTS
               webshot       0.5.4   RSPM                       
              webshot2       0.1.0   RSPM                       
             websocket  1.4.1.9000 GitHub 2161ee7   rstudio/HEAD
-              whisker         0.4   RSPM                       
+              whisker       0.4.1   RSPM                       
                 withr       2.5.0   RSPM                       
                    wk       0.7.0   RSPM                       
             wordcloud         2.6   RSPM                       

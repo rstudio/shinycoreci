@@ -1,4 +1,4 @@
-Image Version:  20221127.7 
+Image Version:  20221204.1 
 osVersion: macOS  10.16
 --------------------------------------------------------------------------------
  setting  value                       
@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       UTC                         
- date     2022-12-05                  
+ date     2022-12-08                  
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
                 abind       1.4-5   CRAN                       
@@ -99,7 +99,7 @@ osVersion: macOS  10.16
               Gmedian       1.2.5   CRAN                       
           GPArotation   2014.11-1   CRAN                       
             gridExtra         2.3   CRAN                       
-                   gt  0.8.0.9000 GitHub e877073   rstudio/HEAD
+                   gt  0.8.0.9000 GitHub d638baa   rstudio/HEAD
                gtable       0.3.0   CRAN                       
           harrypotter       2.1.1   CRAN                       
                 haven       2.2.0   CRAN                       
@@ -107,8 +107,8 @@ osVersion: macOS  10.16
           highcharter       0.9.4   CRAN                       
                 highr         0.8   CRAN                       
                   hms       0.5.3   CRAN                       
-            htmltools  0.5.3.9002 GitHub f4a3adf   rstudio/HEAD
-          htmlwidgets  1.5.4.9001 GitHub d1ca3de  ramnathv/HEAD
+            htmltools  0.5.4.9000 GitHub f53be17   rstudio/HEAD
+          htmlwidgets  1.5.4.9001 GitHub e375b34  ramnathv/HEAD
                httpuv  1.6.6.9000 GitHub 093cffa   rstudio/HEAD
                  httr       1.4.1   CRAN                       
              hunspell         3.0   CRAN                       
@@ -151,7 +151,7 @@ osVersion: macOS  10.16
                nloptr     1.2.2.1   CRAN                       
                   NLP       0.2-0   CRAN                       
             oompaBase       3.2.9   CRAN                       
-              openssl       2.0.4   CRAN                       
+              openssl       2.0.5   CRAN                       
              openxlsx       4.1.4   CRAN                       
               packrat       0.8.1   CRAN                       
                   pak       0.3.1   CRAN                       
@@ -244,7 +244,7 @@ osVersion: macOS  10.16
                 servr        0.16   CRAN                       
           sessioninfo       1.1.1   CRAN                       
                    sf       1.0-9   CRAN                       
-                shiny  1.7.3.9001 GitHub ecff638   rstudio/HEAD
+                shiny  1.7.3.9001 GitHub ffb6736   rstudio/HEAD
              shinyAce       0.4.1   CRAN                       
           shinycoreci  0.0.0.9007  Local                       
        shinydashboard       0.7.2   CRAN                       
