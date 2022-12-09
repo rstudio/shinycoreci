@@ -141,16 +141,12 @@ jobs:
     name: Cleanup images
 
     steps:
-      - name: Delete untagged images
-        uses: davahome/ghcr-cleanup@v1.1
+      - name: Delete old images
+        uses: snok/container-retention-policy@v1
         with:
+          image-names: shinycoreci
+          untagged-only: true
+          cut-off: 1 week ago UTC
+          keep-at-least: 1
+          account-type: personal
           token: ${{ secrets.DOCKER_DELETE_IMAGES }}
-          package: shinycoreci
-          owner: rstudio/shinycoreci
-
-          # Configure cleanup of tagged versions
-          delete_tagged: 0
-
-          # Configure cleanup of untagged versions
-          delete_untagged: 1
-          keep_versions_untagged: 1
