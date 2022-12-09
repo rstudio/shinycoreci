@@ -133,3 +133,24 @@ jobs:
     #       R_VERSION=${{ steps.short.outputs.r-version }}
     #       RELEASE=${{ matrix.docker.type }}
     #       EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
+
+  docker-cleanup:
+    if: success() || failure()
+    needs: [docker]
+    runs-on: ubuntu-latest
+    name: Cleanup images
+
+    steps:
+      - name: Delete untagged images
+        uses: davahome/ghcr-cleanup@v1.1
+        with:
+          token: ${{ secrets.DOCKER_DELETE_IMAGES }}
+          package: shinycoreci
+          owner: rstudio/shinycoreci
+
+          # Configure cleanup of tagged versions
+          delete_tagged: 0
+
+          # Configure cleanup of untagged versions
+          delete_untagged: 1
+          keep_versions_untagged: 1
