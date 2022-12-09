@@ -152,13 +152,13 @@ jobs:
             // console.log(JSON.stringify(response_list, null, "  "))
 
             const response = await github.request("GET /orgs/rstudio/packages/container/shinycoreci/versions",
-              { per_page: 2 }
+              { per_page: 200 }
             );
-            console.log(JSON.stringify(response, null, "  "))
-            // for(version of response.data) {
-            //     if (version.metadata.container.tags.length == 0) {
-            //         console.log("delete " + version.id)
-            //         const deleteResponse = await github.request("DELETE /orgs/packages/container/shinycoreci/versions/" + version.id, { });
-            //         console.log("status " + deleteResponse.status)
-            //     }
-            // }
+            // console.log(JSON.stringify(response, null, "  "))
+            for(version of response.data) {
+                if (version.metadata.container.tags.length == 0) {
+                    console.log("delete " + version.id)
+                    const deleteResponse = await github.request("DELETE /orgs/packages/container/shinycoreci/versions/" + version.id, { });
+                    console.log("status " + deleteResponse.status)
+                }
+            }
