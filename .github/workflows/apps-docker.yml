@@ -159,6 +159,7 @@ jobs:
                 { per_page: 100 }
               );
               // console.log(JSON.stringify(response, null, "  "))
+              console.log("Found ", response.data.len, " results")
 
               for(version of response.data) {
                   if (version.metadata.container.tags.length == 0) {
@@ -168,7 +169,7 @@ jobs:
                       console.log("status " + deleteResponse.status)
                       if (deleteResponse.status == 204) {
                         // We have less than 100 packages. If 100 is returned, then try again
-                        found = response.len == 100
+                        found = response.data.len == 100
                       }
                   }
               }
