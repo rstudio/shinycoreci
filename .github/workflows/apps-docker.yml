@@ -152,7 +152,7 @@ jobs:
         with:
           github-token: ${{ secrets.DOCKER_DELETE_IMAGES }}
           script: |
-            const response_list = await github.request("GET /user/packages?package_type=container");
+            const response_list = await github.request("GET /orgs/rstudio/packages?package_type=container");
             console.log(JSON.stringify(response_list, null, "  "))
 
             // const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions",
