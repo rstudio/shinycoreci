@@ -165,7 +165,7 @@ jobs:
                 { per_page: n }
               );
               // console.log(JSON.stringify(response, null, "  "))
-              console.log("\n\nRequest count: ", retryCount, "\nVersion count: ", response.data.length)
+              console.log("\n\nRequest count: ", retryCount, "\nVersion count: ", response.data.length, "\n")
 
               for(version of response.data) {
                   if (version.metadata.container.tags.length == 0) {
@@ -174,7 +174,8 @@ jobs:
                       const deleteResponse = await github.request("DELETE /orgs/rstudio/packages/container/shinycoreci/versions/" + version.id, { });
                       console.log("status " + deleteResponse.status)
                       if (deleteResponse.status == 204) {
-                        // We have less than `n` tags. If `n` versions are returned, then try again
+                        // We have less than `n` tags
+                        // If `n` versions are returned, then try again
                         found = response.data.length == n
                       }
                   }
