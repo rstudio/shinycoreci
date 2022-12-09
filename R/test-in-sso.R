@@ -279,10 +279,13 @@ test_in_ssossp <- function(
     )
   })
 
-  test_in_external(
+  app <- test_in_external(
     app_infos = app_infos,
     default_app_name = resolve_app_name(app_name),
     host = host,
     port = port
   )
+
+  # Run right now
+  print(app)
 }
