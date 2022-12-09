@@ -83,53 +83,53 @@ jobs:
     #   run: |
     #     echo "If this step did not run, then we are unable to install this version of R on this Linux distro"
 
-    - uses: actions/checkout@v2
-      if: steps.can-build.conclusion != 'skipped'
+    # - uses: actions/checkout@v2
+    #   if: steps.can-build.conclusion != 'skipped'
 
-    - name: Log in to the Container registry
-      if: steps.can-build.conclusion != 'skipped'
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Log in to the Container registry
+    #   if: steps.can-build.conclusion != 'skipped'
+    #   uses: docker/login-action@v1
+    #   with:
+    #     registry: ghcr.io
+    #     username: ${{ github.actor }}
+    #     password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build Base
-      if: steps.can-build.conclusion != 'skipped'
-      uses: docker/build-push-action@v2
-      with:
-        context: ${{ matrix.docker.workdir }}
-        push: true
-        tags: |
-          ghcr.io/${{ github.repository }}:base-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
-        build-args: |
-          R_VERSION=${{ steps.short.outputs.r-version }}
-          RELEASE=${{ matrix.docker.type }}
-          SHINYCORECI_SHA=${{ matrix.flavor.shinycoreci_sha }}
-          GITHUB_PAT=${{ secrets.GITHUB_TOKEN }}
+    # - name: Build Base
+    #   if: steps.can-build.conclusion != 'skipped'
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     context: ${{ matrix.docker.workdir }}
+    #     push: true
+    #     tags: |
+    #       ghcr.io/${{ github.repository }}:base-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
+    #     build-args: |
+    #       R_VERSION=${{ steps.short.outputs.r-version }}
+    #       RELEASE=${{ matrix.docker.type }}
+    #       SHINYCORECI_SHA=${{ matrix.flavor.shinycoreci_sha }}
+    #       GITHUB_PAT=${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build SSO
-      if: steps.can-build.conclusion != 'skipped'
-      uses: docker/build-push-action@v2
-      with:
-        context: "${{ matrix.docker.workdir }}_sso"
-        push: true
-        tags: |
-          ghcr.io/${{ github.repository }}:sso-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
-        build-args: |
-          R_VERSION=${{ steps.short.outputs.r-version }}
-          RELEASE=${{ matrix.docker.type }}
-          EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
+    # - name: Build SSO
+    #   if: steps.can-build.conclusion != 'skipped'
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     context: "${{ matrix.docker.workdir }}_sso"
+    #     push: true
+    #     tags: |
+    #       ghcr.io/${{ github.repository }}:sso-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
+    #     build-args: |
+    #       R_VERSION=${{ steps.short.outputs.r-version }}
+    #       RELEASE=${{ matrix.docker.type }}
+    #       EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
 
-    - name: Build SSP
-      if: steps.can-build.conclusion != 'skipped'
-      uses: docker/build-push-action@v2
-      with:
-        context: "${{ matrix.docker.workdir }}_ssp"
-        push: true
-        tags: |
-          ghcr.io/${{ github.repository }}:ssp-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
-        build-args: |
-          R_VERSION=${{ steps.short.outputs.r-version }}
-          RELEASE=${{ matrix.docker.type }}
-          EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
+    # - name: Build SSP
+    #   if: steps.can-build.conclusion != 'skipped'
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     context: "${{ matrix.docker.workdir }}_ssp"
+    #     push: true
+    #     tags: |
+    #       ghcr.io/${{ github.repository }}:ssp-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
+    #     build-args: |
+    #       R_VERSION=${{ steps.short.outputs.r-version }}
+    #       RELEASE=${{ matrix.docker.type }}
+    #       EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
