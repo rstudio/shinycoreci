@@ -157,7 +157,7 @@ test_in_ssossp <- function(
   }
 
   docker_proc <- callr::r_bg(
-    function(type_, release_, license_file_, port_, r_version_, tag_, launch_browser_, docker_run_server_) {
+    function(type_, release_, license_file_, port_, r_version_, tag_, launch_browser_, docker_run_server_, user_) {
       docker_run_server_(
         type = type_,
         release = release_,
@@ -165,7 +165,8 @@ test_in_ssossp <- function(
         port = port_,
         r_version = r_version_,
         tag = tag_,
-        launch_browser = launch_browser_
+        launch_browser = launch_browser_,
+        user = user_
       )
     },
     list(
@@ -176,7 +177,7 @@ test_in_ssossp <- function(
       r_version_ = r_version,
       tag_ = tag,
       launch_browser_ = FALSE,
-      user = user,
+      user_ = user,
       docker_run_server_ = docker_run_server
     ),
     supervise = TRUE,

@@ -133,3 +133,50 @@ jobs:
           R_VERSION=${{ steps.short.outputs.r-version }}
           RELEASE=${{ matrix.docker.type }}
           EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
+
+  docker-cleanup:
+    if: success() || failure()
+    needs: [docker]
+    runs-on: ubuntu-latest
+    name: Cleanup images
+
+    steps:
+      # Inspiration: https://github.com/jcansdale-test/ghcr-delete-untagged-images/blob/36e56b47bfb6ee9208b4061959f6d0c615e3c5cc/.github/workflows/delete.yml
+      - name: Delete untagged images
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.DOCKER_DELETE_IMAGES }}
+          script: |
+            // const response_list = await github.request("GET /orgs/rstudio/packages?package_type=container&visibility=public");
+            // console.log(JSON.stringify(response_list, null, "  "))
+
+            let found = true
+            // Don't try forever if something goes wrong
+            let retryCount = 0
+            let n = 100
+            n = Math.min(100, n) // API has max of 100
+            while (found && retryCount < 10) {
+              found = false
+              retryCount += 1
+
+              // GET /orgs/{org}/packages/{package_type}/{package_name}/versions
+              const response = await github.request("GET /orgs/rstudio/packages/container/shinycoreci/versions",
+                { per_page: n }
+              );
+              // console.log(JSON.stringify(response, null, "  "))
+              console.log("\n\nRequest count: ", retryCount, "\nVersion count: ", response.data.length, "\n")
+
+              for(version of response.data) {
+                  if (version.metadata.container.tags.length == 0) {
+                      console.log("delete " + version.id)
+                      // DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}
+                      const deleteResponse = await github.request("DELETE /orgs/rstudio/packages/container/shinycoreci/versions/" + version.id, { });
+                      console.log("status " + deleteResponse.status)
+                      if (deleteResponse.status == 204) {
+                        // We have less than `n` tags
+                        // If `n` versions are returned, then try again
+                        found = response.data.length == n
+                      }
+                  }
+              }
+            }
