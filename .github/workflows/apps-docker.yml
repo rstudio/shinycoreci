@@ -142,20 +142,21 @@ jobs:
     name: Cleanup images
 
     steps:
+      # Inspiration: https://github.com/jcansdale-test/ghcr-delete-untagged-images/blob/36e56b47bfb6ee9208b4061959f6d0c615e3c5cc/.github/workflows/delete.yml
       - name: Delete untagged images
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.DOCKER_DELETE_IMAGES }}
           script: |
-            // https://api.github.com/orgs/rstudio/packages/container/shinycoreci
             // const response_list = await github.request("GET /orgs/rstudio/packages?package_type=container&visibility=public");
             // console.log(JSON.stringify(response_list, null, "  "))
 
             // GET /orgs/{org}/packages/{package_type}/{package_name}/versions
             const response = await github.request("GET /orgs/rstudio/packages/container/shinycoreci/versions",
-              { per_page: 200 }
+              { per_page: 1000 }
             );
             // console.log(JSON.stringify(response, null, "  "))
+
             for(version of response.data) {
                 if (version.metadata.container.tags.length == 0) {
                     console.log("delete " + version.id)
