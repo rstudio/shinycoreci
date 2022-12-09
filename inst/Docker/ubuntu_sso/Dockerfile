@@ -1,9 +1,9 @@
 # To build, cd to this directory, then:
-#   docker build -t rstudio/shinycoreci:sso-4.2-bionic .
-#   docker build --build-arg EXTRA_BASE_TAG="-rc_v1.4.0.1" -t rstudio/shinycoreci:sso-4.2-bionic-rc_v1.4.0.1 .
+#   docker build -t rstudio/shinycoreci:sso-4.2-focal .
+#   docker build --build-arg EXTRA_BASE_TAG="-rc_v1.4.0.1" -t rstudio/shinycoreci:sso-4.2-focal-rc_v1.4.0.1 .
 #
 # To run:
-#   docker run --rm -p 3838:3838 --name sso_bionic rstudio/shinycoreci:sso-4.2-bionic
+#   docker run --rm -p 3838:3838 --name sso_focal rstudio/shinycoreci:sso-4.2-focal
 
 ARG R_VERSION=4.2
 ARG RELEASE=focal
