@@ -38,6 +38,8 @@ docker_run_server <- function(
   release <- match.arg(release)
   r_version <- match.arg(r_version)
 
+  if (release == "centos7") stop("`release='centos7'` is currently disabled. Docker images are not available for this release.")
+
   mount_args <- ""
   if (type == "ssp") {
     if (is.null(license_file)) {

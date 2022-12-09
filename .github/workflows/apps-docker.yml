@@ -44,8 +44,8 @@ jobs:
           - ${{ needs.config.outputs.oldrel4 }}
 
         docker:
-          - workdir: inst/Docker/centos
-            type: centos7
+          # - workdir: inst/Docker/centos
+          #   type: centos7
           - workdir: inst/Docker/ubuntu
             type: focal
           - workdir: inst/Docker/ubuntu
