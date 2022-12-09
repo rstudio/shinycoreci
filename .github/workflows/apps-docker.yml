@@ -141,29 +141,24 @@ jobs:
     runs-on: ubuntu-latest
     name: Cleanup images
 
-    env:
-      OWNER: rstudio
-      PACKAGE_NAME: shinycoreci
-      PER_PAGE: 2
-
     steps:
       - name: Delete untagged images
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.DOCKER_DELETE_IMAGES }}
           script: |
+            https://api.github.com/orgs/rstudio/packages/container/shinycoreci
             // const response_list = await github.request("GET /orgs/rstudio/packages?package_type=container&visibility=public");
             // console.log(JSON.stringify(response_list, null, "  "))
 
-            // const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions",
-            const response = await github.request("GET /user/packages/container/${{ env.PACKAGE_NAME }}/versions",
-              { per_page: ${{ env.PER_PAGE }}
+            const response = await github.request("GET /orgs/rstudio/packages/container/shinycoreci/versions",
+              { per_page: 2
             });
             console.log(JSON.stringify(response, null, "  "))
             // for(version of response.data) {
             //     if (version.metadata.container.tags.length == 0) {
             //         console.log("delete " + version.id)
-            //         const deleteResponse = await github.request("DELETE /${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions/" + version.id, { });
+            //         const deleteResponse = await github.request("DELETE /orgs/packages/container/shinycoreci/versions/" + version.id, { });
             //         console.log("status " + deleteResponse.status)
             //     }
             // }
