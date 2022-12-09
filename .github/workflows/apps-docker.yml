@@ -20,6 +20,7 @@ jobs:
     uses: ./.github/workflows/apps-config.yml
 
   docker:
+    if: false
     needs: config
     name: ${{ matrix.docker.type }}-${{ matrix.r_version }}${{ matrix.flavor.extra_base_tag }}
     runs-on: ubuntu-latest
