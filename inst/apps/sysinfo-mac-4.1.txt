@@ -10,7 +10,7 @@ osVersion: macOS Big Sur/Monterey 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-12-08
+ date     2022-12-09
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA               Ref
@@ -122,7 +122,7 @@ osVersion: macOS Big Sur/Monterey 10.16
               isoband       0.2.6   CRAN                          
             iterators      1.0.14   CRAN                          
             jquerylib       0.1.4   CRAN                          
-             jsonlite       1.8.3   CRAN                          
+             jsonlite       1.8.4   CRAN                          
            juicyjuice       0.1.0   CRAN                          
                 knitr        1.41   CRAN                          
              labeling       0.4.2   CRAN                          
@@ -249,7 +249,7 @@ osVersion: macOS Big Sur/Monterey 10.16
                 servr        0.25   CRAN                          
           sessioninfo       1.2.2    any   1.2.2 /any::sessioninfo
                    sf       1.0-9   CRAN                          
-                shiny  1.7.3.9001 GitHub ffb6736      rstudio/HEAD
+                shiny  1.7.3.9001 GitHub f12334e      rstudio/HEAD
              shinyAce       0.4.2   CRAN                          
           shinycoreci  0.0.0.9007  Local                          
        shinydashboard       0.7.2   CRAN                          

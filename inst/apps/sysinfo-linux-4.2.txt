@@ -1,4 +1,4 @@
-Image Version:  20221125.1 
+Image Version:  20221204.2 
 osVersion: Ubuntu 20.04.5 LTS
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: Ubuntu 20.04.5 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2022-12-08
+ date     2022-12-09
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
@@ -234,7 +234,7 @@ osVersion: Ubuntu 20.04.5 LTS
                 rlist     0.4.6.2   RSPM                       
             rmarkdown        2.18   RSPM                       
                RMySQL     0.10.25   RSPM                       
-             roxygen2       7.2.2   RSPM                       
+             roxygen2       7.2.3   CRAN                       
             rprojroot       2.0.3   RSPM                       
             rsconnect      0.8.28   RSPM                       
               RSQLite      2.2.19   RSPM                       
@@ -250,7 +250,7 @@ osVersion: Ubuntu 20.04.5 LTS
                 servr        0.25   RSPM                       
           sessioninfo       1.2.2   RSPM                       
                    sf       1.0-9   RSPM                       
-                shiny  1.7.3.9001 GitHub ffb6736   rstudio/HEAD
+                shiny  1.7.3.9001 GitHub f12334e   rstudio/HEAD
              shinyAce       0.4.2   RSPM                       
           shinycoreci  0.0.0.9007  Local                       
        shinydashboard       0.7.2   RSPM                       

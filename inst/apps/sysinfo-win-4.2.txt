@@ -1,4 +1,4 @@
-Image Version:  20221127.1 
+Image Version:  20221204.3 
 osVersion: Windows Server x64 (build 20348)
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.utf8
  ctype    English_United States.utf8
  tz       UTC
- date     2022-12-08
+ date     2022-12-09
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
@@ -246,7 +246,7 @@ osVersion: Windows Server x64 (build 20348)
                 servr        0.25   RSPM                       
           sessioninfo       1.2.2   RSPM                       
                    sf       1.0-9   RSPM                       
-                shiny  1.7.3.9001 GitHub ffb6736   rstudio/HEAD
+                shiny  1.7.3.9001 GitHub f12334e   rstudio/HEAD
              shinyAce       0.4.2   RSPM                       
           shinycoreci  0.0.0.9007  Local                       
        shinydashboard       0.7.2   RSPM                       

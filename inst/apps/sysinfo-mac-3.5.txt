@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       UTC                         
- date     2022-12-08                  
+ date     2022-12-09                  
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
                 abind       1.4-5   CRAN                       
@@ -244,7 +244,7 @@ osVersion: macOS  10.16
                 servr        0.16   CRAN                       
           sessioninfo       1.1.1   CRAN                       
                    sf       1.0-9   CRAN                       
-                shiny  1.7.3.9001 GitHub ffb6736   rstudio/HEAD
+                shiny  1.7.3.9001 GitHub f12334e   rstudio/HEAD
              shinyAce       0.4.1   CRAN                       
           shinycoreci  0.0.0.9007  Local                       
        shinydashboard       0.7.2   CRAN                       
