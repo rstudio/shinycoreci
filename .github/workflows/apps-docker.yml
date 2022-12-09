@@ -136,7 +136,7 @@ jobs:
 
   docker-cleanup:
     if: success() || failure()
-    needs: [docker]
+    # needs: [docker]
     runs-on: ubuntu-latest
     name: Cleanup images
 
