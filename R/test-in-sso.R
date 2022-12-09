@@ -152,7 +152,7 @@ test_in_ssossp <- function(
   if (!docker_is_alive()) {
     stop("Cannot connect to the Docker daemon. Is the docker daemon running?")
   }
-  if (!docker_is_logged_in()) {
+  if (!docker_is_logged_in(user = user)) {
     stop("Docker is not logged in. Please run `docker login` in the terminal with your Docker Hub username / password")
   }
 
@@ -176,6 +176,7 @@ test_in_ssossp <- function(
       r_version_ = r_version,
       tag_ = tag,
       launch_browser_ = FALSE,
+      user = user,
       docker_run_server_ = docker_run_server
     ),
     supervise = TRUE,

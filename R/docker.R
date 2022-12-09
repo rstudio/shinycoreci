@@ -31,7 +31,8 @@ docker_run_server <- function(
                 ),
   r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
   tag = NULL,
-  launch_browser = launch_browser
+  launch_browser = launch_browser,
+  user = github_user()
 ) {
   type <- match.arg(type)
   release <- match.arg(release)
@@ -68,7 +69,7 @@ docker_run_server <- function(
   }
 
   tag <- paste0(type, "-", r_version, "-", release, if(!is.null(tag)) paste0("-", tag))
-  if (!docker_is_logged_in()) {
+  if (!docker_is_logged_in(user = user)) {
     stop("Docker is not logged in to the ghcr.io registry")
   }
   message("Pulling Docker image. This may take a minute...")
