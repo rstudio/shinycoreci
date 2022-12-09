@@ -151,17 +151,25 @@ jobs:
             // const response_list = await github.request("GET /orgs/rstudio/packages?package_type=container&visibility=public");
             // console.log(JSON.stringify(response_list, null, "  "))
 
-            // GET /orgs/{org}/packages/{package_type}/{package_name}/versions
-            const response = await github.request("GET /orgs/rstudio/packages/container/shinycoreci/versions",
-              { per_page: 1000 }
-            );
-            // console.log(JSON.stringify(response, null, "  "))
+            let found = true
+            while (found) {
+              found = false
+              // GET /orgs/{org}/packages/{package_type}/{package_name}/versions
+              const response = await github.request("GET /orgs/rstudio/packages/container/shinycoreci/versions",
+                { per_page: 100 }
+              );
+              // console.log(JSON.stringify(response, null, "  "))
 
-            for(version of response.data) {
-                if (version.metadata.container.tags.length == 0) {
-                    console.log("delete " + version.id)
-                    // DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}
-                    const deleteResponse = await github.request("DELETE /orgs/rstudio/packages/container/shinycoreci/versions/" + version.id, { });
-                    console.log("status " + deleteResponse.status)
-                }
+              for(version of response.data) {
+                  if (version.metadata.container.tags.length == 0) {
+                      console.log("delete " + version.id)
+                      // DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}
+                      const deleteResponse = await github.request("DELETE /orgs/rstudio/packages/container/shinycoreci/versions/" + version.id, { });
+                      console.log("status " + deleteResponse.status)
+                      if (deleteResponse.status == 204) {
+                        // We have less than 100 packages. If 100 is returned, then try again
+                        found = response.len == 100
+                      }
+                  }
+              }
             }
