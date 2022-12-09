@@ -141,13 +141,25 @@ jobs:
     runs-on: ubuntu-latest
     name: Cleanup images
 
+    env:
+      OWNER: rstudio/shinycoreci
+      PACKAGE_NAME: shinycoreci
+      PER_PAGE: 2
+
     steps:
-      - name: Delete old images
-        uses: snok/container-retention-policy@v1
+      - name: Delete untagged images
+        uses: actions/github-script@v3
         with:
-          image-names: shinycoreci
-          untagged-only: true
-          cut-off: 1 week ago UTC
-          keep-at-least: 1
-          account-type: personal
-          token: ${{ secrets.DOCKER_DELETE_IMAGES }}
+          github-token: ${{ secrets.DELETE_PACKAGES_TOKEN }}
+          script: |
+            const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions",
+              { per_page: ${{ env.PER_PAGE }}
+            });
+            console.log(JSON.stringify(response, , "  "))
+            for(version of response.data) {
+                if (version.metadata.container.tags.length == 0) {
+                    console.log("delete " + version.id)
+                    const deleteResponse = await github.request("DELETE /${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions/" + version.id, { });
+                    console.log("status " + deleteResponse.status)
+                }
+            }
