@@ -152,6 +152,9 @@ jobs:
         with:
           github-token: ${{ secrets.DOCKER_DELETE_IMAGES }}
           script: |
+            const response_list = await github.request("GET /user/packages");
+            console.log(JSON.stringify(response_list, null, "  "))
+
             // const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions",
             const response = await github.request("GET /user/packages/container/${{ env.PACKAGE_NAME }}/versions",
               { per_page: ${{ env.PER_PAGE }}
