@@ -152,14 +152,20 @@ jobs:
             // console.log(JSON.stringify(response_list, null, "  "))
 
             let found = true
-            while (found) {
+            // Don't try forever if something goes wrong
+            let retryCount = 0
+            let n = 100
+            n = Math.min(100, n) // API has max of 100
+            while (found && retryCount < 10) {
               found = false
+              retryCount += 1
+
               // GET /orgs/{org}/packages/{package_type}/{package_name}/versions
               const response = await github.request("GET /orgs/rstudio/packages/container/shinycoreci/versions",
-                { per_page: 100 }
+                { per_page: n }
               );
               // console.log(JSON.stringify(response, null, "  "))
-              console.log("Found ", response.data.length, " results")
+              console.log("\n\nRequest count: ", retryCount, "\nVersion count: ", response.data.length)
 
               for(version of response.data) {
                   if (version.metadata.container.tags.length == 0) {
@@ -168,8 +174,8 @@ jobs:
                       const deleteResponse = await github.request("DELETE /orgs/rstudio/packages/container/shinycoreci/versions/" + version.id, { });
                       console.log("status " + deleteResponse.status)
                       if (deleteResponse.status == 204) {
-                        // We have less than 100 packages. If 100 is returned, then try again
-                        found = response.data.length == 100
+                        // We have less than `n` tags. If `n` versions are returned, then try again
+                        found = response.data.length == n
                       }
                   }
               }
