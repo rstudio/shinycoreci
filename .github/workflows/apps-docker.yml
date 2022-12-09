@@ -142,7 +142,7 @@ jobs:
     name: Cleanup images
 
     env:
-      OWNER: rstudio/shinycoreci
+      OWNER: rstudio
       PACKAGE_NAME: shinycoreci
       PER_PAGE: 2
 
@@ -152,8 +152,8 @@ jobs:
         with:
           github-token: ${{ secrets.DOCKER_DELETE_IMAGES }}
           script: |
-            const response_list = await github.request("GET /orgs/rstudio/packages?package_type=container");
-            console.log(JSON.stringify(response_list, null, "  "))
+            # const response_list = await github.request("GET /orgs/rstudio/packages?package_type=container&visibility=public");
+            # console.log(JSON.stringify(response_list, null, "  "))
 
             // const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions",
             const response = await github.request("GET /user/packages/container/${{ env.PACKAGE_NAME }}/versions",
