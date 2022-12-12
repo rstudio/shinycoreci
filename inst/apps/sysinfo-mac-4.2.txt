@@ -10,7 +10,7 @@ osVersion: macOS Big Sur ... 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-12-09
+ date     2022-12-12
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA               Ref
@@ -18,7 +18,7 @@ osVersion: macOS Big Sur ... 10.16
                admisc        0.30   CRAN                          
             AlgDesign       1.2.1   CRAN                          
               anytime       0.3.9   CRAN                          
-          AsioHeaders    1.22.1-1   CRAN                          
+          AsioHeaders    1.22.1-2   CRAN                          
               askpass         1.1   CRAN                          
            assertthat       0.2.1   CRAN                          
             backports       1.4.1   CRAN                          
@@ -33,7 +33,7 @@ osVersion: macOS Big Sur ... 10.16
                  brio       1.1.3   CRAN                          
                 broom       1.0.1   CRAN                          
               bsicons         0.1 GitHub 1a12bb6      rstudio/HEAD
-                bslib  0.4.1.9900 GitHub 1a07d5e      rstudio/HEAD
+                bslib  0.4.1.9900 GitHub fc58f54      rstudio/HEAD
                cachem  1.0.6.9000 GitHub 7b9d764        r-lib/HEAD
                 Cairo       1.6-0   CRAN                          
                 callr       3.7.3   CRAN                          
@@ -102,7 +102,7 @@ osVersion: macOS Big Sur ... 10.16
                 gower       1.0.0   CRAN                          
           GPArotation   2022.10-2   CRAN                          
             gridExtra         2.3   CRAN                          
-                   gt  0.8.0.9000 GitHub d638baa      rstudio/HEAD
+                   gt  0.8.0.9000 GitHub 8a7f31e      rstudio/HEAD
                gtable       0.3.1   CRAN                          
                  here       1.0.1   CRAN                          
                hexbin      1.28.2   CRAN                          
@@ -232,7 +232,7 @@ osVersion: macOS Big Sur ... 10.16
                 rlist     0.4.6.2   CRAN                          
             rmarkdown        2.18   CRAN                          
                RMySQL     0.10.25   CRAN                          
-             roxygen2       7.2.2   CRAN                          
+             roxygen2       7.2.3   CRAN                          
             rprojroot       2.0.3   CRAN                          
             rsconnect      0.8.28   CRAN                          
               RSQLite      2.2.19   CRAN                          
@@ -278,7 +278,7 @@ osVersion: macOS Big Sur ... 10.16
           systemfonts       1.0.4   CRAN                          
                 terra      1.6-47   CRAN                          
                testit        0.13   CRAN                          
-             testthat       3.1.5   CRAN                          
+             testthat       3.1.6   CRAN                          
           textshaping       0.3.6   CRAN                          
              thematic  0.1.2.9000 GitHub 3fa742d      rstudio/HEAD
                tibble       3.1.8   CRAN                          
@@ -310,7 +310,7 @@ osVersion: macOS Big Sur ... 10.16
             websocket  1.4.1.9000 GitHub 2161ee7      rstudio/HEAD
               whisker       0.4.1   CRAN                          
                 withr       2.5.0   CRAN                          
-                   wk       0.7.0   CRAN                          
+                   wk       0.7.1   CRAN                          
             wordcloud         2.6   CRAN                          
               writexl       1.4.1   CRAN                          
                  xfun        0.35   CRAN                          

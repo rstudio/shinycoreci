@@ -10,7 +10,7 @@ osVersion: macOS Big Sur 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2022-12-09
+ date     2022-12-12
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA                   Ref
@@ -32,7 +32,7 @@ osVersion: macOS Big Sur 10.16
                  brio       1.1.3   CRAN   1.1.3                 /brio
                 broom      0.7.12   CRAN  0.7.12                /broom
               bsicons         0.1 GitHub 1a12bb6          rstudio/HEAD
-                bslib  0.4.1.9900 GitHub 1a07d5e          rstudio/HEAD
+                bslib  0.4.1.9900 GitHub fc58f54          rstudio/HEAD
                cachem  1.0.6.9000 GitHub 7b9d764            r-lib/HEAD
                 Cairo      1.5-15   CRAN  1.5-15                /Cairo
                 callr       3.7.0   CRAN   3.7.0                /callr
@@ -99,7 +99,7 @@ osVersion: macOS Big Sur 10.16
                 gower       1.0.0   CRAN   1.0.0                /gower
           GPArotation   2014.11-1   CRAN 2014.11          /GPArotation
             gridExtra         2.3   CRAN     2.3            /gridExtra
-                   gt  0.8.0.9000 GitHub d638baa          rstudio/HEAD
+                   gt  0.8.0.9000 GitHub 8a7f31e          rstudio/HEAD
                gtable       0.3.0   CRAN   0.3.0               /gtable
                  here       1.0.1   CRAN   1.0.1                 /here
                hexbin      1.28.2   CRAN  1.28.2               /hexbin

@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.utf8
  ctype    English_United States.utf8
  tz       UTC
- date     2022-12-09
+ date     2022-12-12
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
@@ -18,7 +18,7 @@ osVersion: Windows Server x64 (build 20348)
                admisc        0.30   RSPM                       
             AlgDesign       1.2.1   RSPM                       
               anytime       0.3.9   RSPM                       
-          AsioHeaders    1.22.1-1   RSPM                       
+          AsioHeaders    1.22.1-2   RSPM                       
               askpass         1.1   RSPM                       
            assertthat       0.2.1   RSPM                       
             backports       1.4.1   RSPM                       
@@ -32,7 +32,7 @@ osVersion: Windows Server x64 (build 20348)
                  brio       1.1.3   RSPM                       
                 broom       1.0.1   RSPM                       
               bsicons         0.1 GitHub 1a12bb6   rstudio/HEAD
-                bslib  0.4.1.9900 GitHub 1a07d5e   rstudio/HEAD
+                bslib  0.4.1.9900 GitHub fc58f54   rstudio/HEAD
                cachem  1.0.6.9000 GitHub 7b9d764     r-lib/HEAD
                 Cairo       1.6-0   RSPM                       
                 callr       3.7.3   RSPM                       
@@ -101,7 +101,7 @@ osVersion: Windows Server x64 (build 20348)
                 gower       1.0.0   RSPM                       
           GPArotation   2022.10-2   RSPM                       
             gridExtra         2.3   RSPM                       
-                   gt  0.8.0.9000 GitHub d638baa   rstudio/HEAD
+                   gt  0.8.0.9000 GitHub 8a7f31e   rstudio/HEAD
                gtable       0.3.1   RSPM                       
                  here       1.0.1   RSPM                       
                hexbin      1.28.2   RSPM                       
@@ -230,7 +230,7 @@ osVersion: Windows Server x64 (build 20348)
                 rlist     0.4.6.2   CRAN                       
             rmarkdown        2.18   RSPM                       
                RMySQL     0.10.25   RSPM                       
-             roxygen2       7.2.2   RSPM                       
+             roxygen2       7.2.3   RSPM                       
             rprojroot       2.0.3   RSPM                       
             rsconnect      0.8.28   RSPM                       
               RSQLite      2.2.19   RSPM                       
@@ -276,7 +276,7 @@ osVersion: Windows Server x64 (build 20348)
           systemfonts       1.0.4   RSPM                       
                 terra      1.6-47   RSPM                       
                testit        0.13   RSPM                       
-             testthat       3.1.5   RSPM                       
+             testthat       3.1.6   CRAN                       
           textshaping       0.3.6   RSPM                       
              thematic  0.1.2.9000 GitHub 3fa742d   rstudio/HEAD
                tibble       3.1.8   RSPM                       
@@ -288,7 +288,7 @@ osVersion: Windows Server x64 (build 20348)
                   TTR      0.24.3   RSPM                       
                tweenr       2.0.2   RSPM                       
                  tzdb       0.3.0   RSPM                       
-                units       0.8-0   RSPM                       
+                units       0.8-1   CRAN                       
            urlchecker       1.0.1   RSPM                       
               usethis       2.1.6   RSPM                       
                  utf8       1.2.2   RSPM                       
@@ -308,7 +308,7 @@ osVersion: Windows Server x64 (build 20348)
             websocket  1.4.1.9000 GitHub 2161ee7   rstudio/HEAD
               whisker       0.4.1   RSPM                       
                 withr       2.5.0   RSPM                       
-                   wk       0.7.0   RSPM                       
+                   wk       0.7.1   CRAN                       
             wordcloud         2.6   RSPM                       
               writexl       1.4.1   RSPM                       
                  xfun        0.35   RSPM                       
