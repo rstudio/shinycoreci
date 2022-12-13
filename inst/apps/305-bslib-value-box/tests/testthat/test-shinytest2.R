@@ -30,8 +30,7 @@ test_that("{shinytest2} recording: value_box", {
       new_args <- list(screenshot_args = list(cliprect = rect))
       args <- modifyList(new_args, args)
     }
-    # TODO: !!! doesn't work here?
-    do.call(app$expect_screenshot, args)
+    rlang::inject(app$expect_screenshot(!!!args))
   }
 
   expect_screenshot()
