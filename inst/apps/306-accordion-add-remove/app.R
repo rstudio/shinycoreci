@@ -9,12 +9,12 @@ make_item <- function(x) {
   )
 }
 
-ui <- page_fluid(
+ui <- fluidPage(
   # Don't transition when collapsing (so that we don't have
   # to wait to take screenshots)
   theme = bs_theme("transition-collapse" = "none"),
-  layout_sidebar(
-    list(
+  sidebarLayout(
+    sidebarPanel(
       selectInput(
         "selected", "Selected section(s)",
         LETTERS, multiple = TRUE, selected = "A"
@@ -26,7 +26,7 @@ ui <- page_fluid(
       checkboxInput("autoclose", "Auto closing accordion", FALSE),
       checkboxInput("insert_select", "Show on insert", FALSE)
     ),
-    uiOutput("accordion")
+    mainPanel(uiOutput("accordion"))
   )
 )
 
