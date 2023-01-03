@@ -115,6 +115,10 @@ runs:
                 "any::pdp",
                 "url::https://cran.r-project.org/src/contrib/Archive/pdp/pdp_0.7.0.tar.gz"
               )
+              replace_or_add(
+                "any::RcppEigen",
+                "url::https://cran.r-project.org/src/contrib/Archive/RcppEigen/RcppEigen_0.3.3.9.2.tar.gz"
+              )
             }
           )
         }
