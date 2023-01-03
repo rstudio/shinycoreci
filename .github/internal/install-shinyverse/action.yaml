@@ -111,6 +111,10 @@ runs:
                 "any::radiant",
                 "url::https://cran.r-project.org/src/contrib/Archive/radiant/radiant_1.3.2.tar.gz"
               )
+              replace_or_add(
+                "any::pdp",
+                "url::https://cran.r-project.org/src/contrib/Archive/pdp/pdp_0.7.0.tar.gz"
+              )
             }
           )
         }

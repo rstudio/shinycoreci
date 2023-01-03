@@ -196,10 +196,11 @@ install_troublesome_pkgs <- function(libpath = .libPaths()[1]) {
       },
       "3.5" = {
         install_missing_pkgs(
-          packages = c("rjson", "radiant"),
+          packages = c("rjson", "radiant", "pdp"),
           packages_to_install = c(
             "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz",
-            "url::https://cran.r-project.org/src/contrib/Archive/radiant/radiant_1.3.2.tar.gz"
+            "url::https://cran.r-project.org/src/contrib/Archive/radiant/radiant_1.3.2.tar.gz",
+            "url::https://cran.r-project.org/src/contrib/Archive/pdp/pdp_0.7.0.tar.gz"
           ),
           libpath = libpath
         )
