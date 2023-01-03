@@ -55,7 +55,7 @@ runs:
           package_version("${{ inputs.r-version }}") >= package_version("4.2")
         ) {
           message("Using Rtools v42")
-          cat("::set-output name=value::42\n", sep = "")
+          system("echo 'value=42' >> $GITHUB_OUTPUT")
         } else {
           message("Not setting Rtools version!")
         }
@@ -144,7 +144,7 @@ runs:
           )
         }
         message("Final packages:\n", gsub(",", ",\n", pkgs_to_install))
-        cat("::set-output name=to-install::", pkgs_to_install, "\n", sep = "")
+        system(paste0("echo 'to-install=", pkgs_to_install, "' >> $GITHUB_OUTPUT"))
 
     - name: Install R, shinycoreci, and shinyverse
       uses: rstudio/shiny-workflows/setup-r-package@v1

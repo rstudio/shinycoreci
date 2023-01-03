@@ -62,7 +62,7 @@ jobs:
         # keep only the major.minor values
         RVERSION=`echo '${{ matrix.r_version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
         echo "r-version: $RVERSION"
-        echo "::set-output name=r-version::$RVERSION"
+        echo "r-version=$RVERSION" >> $GITHUB_OUTPUT
 
         SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
         if [[ -z "$SHA" ]]; then
@@ -70,7 +70,7 @@ jobs:
         fi
         SHORT_SHA=${SHA:0:7}
         echo "sha: $SHORT_SHA"
-        echo "::set-output name=sha::$SHORT_SHA"
+        echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
     # - name: Should install
     #   id: can-build
     #   if: |

@@ -72,7 +72,7 @@ jobs:
           # keep only the major.minor values
           RVERSION=`echo '${{ inputs.r-version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
           echo "r-version: $RVERSION"
-          echo "::set-output name=r-version::$RVERSION"
+          echo "r-version=$RVERSION" >> $GITHUB_OUTPUT
 
           SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
           if [[ -z "$SHA" ]]; then
@@ -80,10 +80,10 @@ jobs:
           fi
           SHORT_SHA="${SHA:0:7}"
           echo "sha: $SHORT_SHA"
-          echo "::set-output name=sha::$SHORT_SHA"
+          echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
 
           OS=`Rscript -e 'cat(sessionInfo()$running, "\n", sep = "")'`
-          echo "::set-output name=os-version::$OS"
+          echo "os-version=$OS" >> $GITHUB_OUTPUT
 
       # The `github.sha` value is the commit sha as if the PR was merged. :-(
       # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows#pull-request-event-pull_request
@@ -95,12 +95,12 @@ jobs:
         id: failed_branch
         shell: Rscript {0}
         run: |
-          cat('::set-output name=name::', '${{ steps.short.outputs.sha }}', '${{ inputs.extra-key }}', '-', format(Sys.time(), '%Y_%m_%d_%H_%M'), sep = '')
+          system(paste0("echo 'name=", '${{ steps.short.outputs.sha }}', '${{ inputs.extra-key }}', '-', format(Sys.time(), '%Y_%m_%d_%H_%M'), "' >> $GITHUB_OUTPUT"))
       - name: Create GHA branch name (i.e., test run identifier)
         id: gha_branch
         shell: Rscript {0}
         run: |
-          cat('::set-output name=name::gha-', '${{ steps.failed_branch.outputs.name }}', '-', '${{ steps.short.outputs.r-version }}',  '-', '${{ runner.os }}', sep = '')
+          system(paste0("echo 'name=gha-", '${{ steps.failed_branch.outputs.name }}', '-', '${{ steps.short.outputs.r-version }}',  '-', '${{ runner.os }}', "' >> $GITHUB_OUTPUT"))
 
       - name: Windows git setup
         if: runner.os == 'Windows'
@@ -125,7 +125,7 @@ jobs:
         shell: bash
         run: |
           CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          echo "::set-output name=name::$CURRENT_BRANCH"
+          echo "name=$CURRENT_BRANCH" >> $GITHUB_OUTPUT
 
       - name: Collect changed file names
         if: github.event_name == 'pull_request'

@@ -29,8 +29,8 @@ stopifnot(length(apps_deps) > 0)
 #   shinyverse_remotes
 # )
 
-cat(
-  "::set-output name=packages::",
+system(paste0(
+  "packages=",
   paste0(
     c(
       shinyverse_remotes,
@@ -39,7 +39,5 @@ cat(
       NULL
     ),
     collapse = ","
-  ),
-  "\n",
-  sep = ""
-)
+  )
+))

@@ -65,7 +65,7 @@ jobs:
           # keep only the major.minor values
           RVERSION=`echo '${{ inputs.r-version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
           echo "r-version: $RVERSION"
-          echo "::set-output name=r-version::$RVERSION"
+          echo "r-version=$RVERSION" >> $GITHUB_OUTPUT
 
           SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
           if [[ -z "$SHA" ]]; then
@@ -73,10 +73,10 @@ jobs:
           fi
           SHORT_SHA="${SHA:0:7}"
           echo "sha: $SHORT_SHA"
-          echo "::set-output name=sha::$SHORT_SHA"
+          echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
 
           OS=`Rscript -e 'cat(sessionInfo()$running, "\n", sep = "")'`
-          echo "::set-output name=os-version::$OS"
+          echo "os-version=$OS" >> $GITHUB_OUTPUT
 
       - name: GitHub Pull (PR)
         if: github.event_name == 'pull_request'
