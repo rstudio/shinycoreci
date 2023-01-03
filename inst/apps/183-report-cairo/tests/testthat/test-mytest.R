@@ -5,7 +5,7 @@ test_that("Migrated shinytest test: mytest.R", {
   skip_if_not_installed("systemfonts", "0.3") # systemfonts::register_font
 
 
-  tryCatch(require("Cairo"), error = function(e) {
+  tryCatch(library("Cairo"), error = function(e) {
     ## Error typically seen on macos-latest w/ R 3.6.3:
     # error: unable to load shared object '/Users/runner/work/_temp/Library/Cairo/libs/Cairo.so':
     # dlopen(/Users/runner/work/_temp/Library/Cairo/libs/Cairo.so, 6): Library not loaded: /opt/X11/lib/libcairo.2.dylib
