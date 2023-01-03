@@ -194,7 +194,7 @@ jobs:
 
   build-results:
     uses: ./.github/workflows/build-results.yml
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs:
     - macos-release
     - macos-oldrel-1
