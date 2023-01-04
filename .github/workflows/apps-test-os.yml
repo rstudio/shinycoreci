@@ -95,12 +95,12 @@ jobs:
         id: failed_branch
         shell: Rscript {0}
         run: |
-          system(paste0("echo 'name=", '${{ steps.short.outputs.sha }}', '${{ inputs.extra-key }}', '-', format(Sys.time(), '%Y_%m_%d_%H_%M'), "' >> $GITHUB_OUTPUT"))
+          system(paste0("bash -c \"echo 'name=", '${{ steps.short.outputs.sha }}', '${{ inputs.extra-key }}', '-', format(Sys.time(), '%Y_%m_%d_%H_%M'), "' >> $GITHUB_OUTPUT\""))
       - name: Create GHA branch name (i.e., test run identifier)
         id: gha_branch
         shell: Rscript {0}
         run: |
-          system(paste0("echo 'name=gha-", '${{ steps.failed_branch.outputs.name }}', '-', '${{ steps.short.outputs.r-version }}',  '-', '${{ runner.os }}', "' >> $GITHUB_OUTPUT"))
+          system(paste0("bash -c \"echo 'name=gha-", '${{ steps.failed_branch.outputs.name }}', '-', '${{ steps.short.outputs.r-version }}',  '-', '${{ runner.os }}', "' >> $GITHUB_OUTPUT\""))
 
       - name: Windows git setup
         if: runner.os == 'Windows'
