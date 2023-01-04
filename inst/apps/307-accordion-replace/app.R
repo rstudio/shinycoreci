@@ -6,7 +6,7 @@ ui <- page_fluid(
   tags$style(".accordion {--bs-accordion-active-color: #dc3545; --bs-accordion-active-bg: rgba(220, 53, 69, 0.05)}"),
   accordion(
     id = "acc",
-    accordion_item(
+    accordion_panel(
       title = "Test failed",
       icon = bs_icon("x-circle"),
       value = "test-message",
@@ -31,7 +31,7 @@ server <- function(input, output, session) {
   shinyjster::shinyjster_server(input, output)
 
   observe({
-    accordion_replace(
+    accordion_panel_update(
       id = "acc", target = "test-message",
       title = "Test passed",
       icon = bs_icon("check-circle"),

@@ -1,8 +1,8 @@
 library(shiny)
 library(bslib)
 
-make_item <- function(x) {
-  accordion_item(
+make_panel <- function(x) {
+  accordion_panel(
     paste("Section", x),
     paste("Some narrative for section", x),
     value = x
@@ -23,8 +23,8 @@ ui <- fluidPage(
         "displayed", "Displayed section(s)",
         LETTERS, multiple = TRUE, selected = LETTERS
       ),
-      checkboxInput("autoclose", "Auto closing accordion", FALSE),
-      checkboxInput("insert_select", "Show on insert", FALSE)
+      checkboxInput("multiple", "Allow multiple panels to be open", TRUE),
+      checkboxInput("open_on_insert", "Open on insert", FALSE)
     ),
     mainPanel(uiOutput("accordion"))
   )
@@ -32,27 +32,33 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
 
+  # Allows us to track which panels are entering/exiting
+  # (when input$displayed changes)
+  displayed <- reactiveVal(LETTERS)
+
   output$accordion <- renderUI({
     displayed(LETTERS)
 
     accordion(
-      id = "acc", autoclose = input$autoclose,
-      !!!lapply(LETTERS, make_item)
+      id = "acc", multiple = input$multiple,
+      !!!lapply(LETTERS, make_panel)
     )
   })
 
-  observeEvent(input$selected, {
-    accordion_select("acc", selected = input$selected)
+  observeEvent(input$selected, ignoreInit = TRUE, {
+    accordion_panel_set("acc", input$selected)
   })
 
-  displayed <- reactiveVal(LETTERS)
+  observeEvent(input$acc, ignoreInit = TRUE, {
+    updateSelectInput(inputId = "selected", selected = input$acc)
+  })
 
-  observeEvent(input$displayed, {
+  observeEvent(input$displayed, ignoreInit = TRUE, {
     exit <- setdiff(displayed(), input$displayed)
     enter <- setdiff(input$displayed, displayed())
 
     if (length(exit)) {
-      accordion_remove("acc", target = exit)
+      accordion_panel_remove("acc", target = exit)
     }
 
     if (length(enter)) {
@@ -63,12 +69,12 @@ server <- function(input, output, session) {
         idx_diff <- idx_insert - idx_displayed
         idx_diff[idx_diff < 0] <- NA
         target <- LETTERS[idx_displayed[which.min(idx_diff)]]
-        accordion_insert("acc", item = make_item(x), target = target)
+        accordion_panel_insert("acc", panel = make_panel(x), target = target)
         displayed(c(x, displayed()))
       })
 
-      if (input$insert_select) {
-        accordion_select("acc", enter, close = input$autoclose)
+      if (input$open_on_insert) {
+        accordion_panel_open("acc", enter)
       }
     }
 

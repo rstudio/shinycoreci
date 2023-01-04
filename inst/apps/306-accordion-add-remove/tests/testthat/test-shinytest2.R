@@ -6,7 +6,7 @@ test_that("{shinytest2} recording: accordion-select", {
 
 
   app <- AppDriver$new(
-    variant = platform_variant(), name = "accordion-select", 
+    variant = platform_variant(), name = "accordion-select",
     height = height, width = width,
     view = interactive(),
     options = list(bslib.precompiled = FALSE)
@@ -39,7 +39,7 @@ test_that("{shinytest2} recording: accordion-select", {
 
   # redo tests with accordion(autoclose = TRUE)
   app$set_inputs(insert_select = FALSE)
-  app$set_inputs(autoclose = TRUE)
+  app$set_inputs(multiple = FALSE)
   app$set_inputs(displayed = LETTERS)
 
   # Last one (D) should be selected
