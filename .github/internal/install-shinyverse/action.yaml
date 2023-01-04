@@ -119,6 +119,10 @@ runs:
                 "any::RcppEigen",
                 "url::https://cran.r-project.org/src/contrib/Archive/RcppEigen/RcppEigen_0.3.3.9.2.tar.gz"
               )
+              replace_or_add(
+                "any::MatrixModels",
+                "url::https://cran.r-project.org/src/contrib/Archive/MatrixModels/MatrixModels_0.5-0.tar.gz"
+              )
             }
           )
         }
