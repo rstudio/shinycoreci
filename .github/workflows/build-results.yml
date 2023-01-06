@@ -30,13 +30,13 @@ jobs:
         with:
           all_but_latest: true
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: _test_results
           # Only need current files
           fetch-depth: 0
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: gh-pages
           path: _gh-pages

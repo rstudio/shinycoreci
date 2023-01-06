@@ -83,7 +83,7 @@ jobs:
     #   run: |
     #     echo "If this step did not run, then we are unable to install this version of R on this Linux distro"
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       if: steps.can-build.conclusion != 'skipped'
 
     - name: Log in to the Container registry
@@ -96,7 +96,7 @@ jobs:
 
     - name: Build Base
       if: steps.can-build.conclusion != 'skipped'
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v3
       with:
         context: ${{ matrix.docker.workdir }}
         push: true

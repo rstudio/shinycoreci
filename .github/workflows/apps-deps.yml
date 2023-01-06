@@ -35,14 +35,14 @@ jobs:
     steps:
       - name: GitHub Pull (PR)
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # check out the commit sha, not the merged sha. Avoids the "Merge SHA_A into SHA_B" into commits
           ref: ${{ github.event.pull_request.head.sha }}      # # Ref: https://github.com/actions/checkout/pull/115/files#diff-04c6e90faac2675aa89e2176d2eec7d8R203-R209
           fetch-depth: 0
       - name: GitHub Pull (Branch)
         if: github.event_name != 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
