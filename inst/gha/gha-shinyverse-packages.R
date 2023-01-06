@@ -30,7 +30,7 @@ stopifnot(length(apps_deps) > 0)
 # )
 
 system(paste0(
-  "packages=",
+  "bash -c \"packages=",
   paste0(
     c(
       shinyverse_remotes,
@@ -39,5 +39,6 @@ system(paste0(
       NULL
     ),
     collapse = ","
-  )
+  ),
+  " >> $GITHUB_OUTPUT\""
 ))
