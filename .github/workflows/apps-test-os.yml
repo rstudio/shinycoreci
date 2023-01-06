@@ -64,7 +64,7 @@ jobs:
     # if: ( !( startsWith(inputs.os, 'windows') && startsWith(inputs.r-version, '3.5') ) )
 
     # Temp test on two platform combos
-    if: ( (( startsWith(inputs.os, 'ubuntu') && startsWith(inputs.r-version, '3.5')) || (( startsWith(inputs.os, 'mac') && startsWith(inputs.r-version, '3.6')) )
+    if: ( (startsWith(inputs.os, 'ubuntu') && startsWith(inputs.r-version, '3.5')) || (startsWith(inputs.os, 'mac') && startsWith(inputs.r-version, '3.6')) )
 
     steps:
 
