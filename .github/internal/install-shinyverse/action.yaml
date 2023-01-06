@@ -48,6 +48,8 @@ runs:
         pkgs <- shinyverse_pkgs()
         message("Shinyverse packages:\n", gsub(",", ",\n", pkgs))
         system(paste0("bash -c \"packages=", pkgs, " >> $GITHUB_OUTPUT\""))
+        system(paste0("packages2=", pkgs, " >> $GITHUB_OUTPUT"))
+        system("cat $GITHUB_OUTPUT")
 
     - name: Rtools version
       if: runner.os == 'Windows'
