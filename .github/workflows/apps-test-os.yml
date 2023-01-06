@@ -61,10 +61,7 @@ jobs:
     # * sf: Conflicts with url::https://cran.r-project.org/bin/windows/contrib/3.5/sf_0.9-2.zip
     # * url::https://cran.r-project.org/bin/windows/contrib/3.5/mapview_2.7.8.zip: Can't install dependency leaflet
     # * leaflet: Conflicts with rstudio/leaflet
-    # if: ( !( startsWith(inputs.os, 'windows') && startsWith(inputs.r-version, '3.5') ) )
-
-    # Temp test on two platform combos
-    if: ( (startsWith(inputs.os, 'ubuntu') && startsWith(inputs.r-version, '3.5')) || (startsWith(inputs.os, 'mac') && startsWith(inputs.r-version, '3.6')) )
+    if: ( !( startsWith(inputs.os, 'windows') && startsWith(inputs.r-version, '3.5') ) )
 
     steps:
 
