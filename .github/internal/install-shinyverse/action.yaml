@@ -47,7 +47,7 @@ runs:
         source("inst/gha/gha-shinyverse-packages.R")
         pkgs <- shinyverse_pkgs()
         message("Shinyverse packages:\n", gsub(",", ",\n", pkgs))
-        system(paste0("bash -c \"echo packages=", pkgs, " >> $GITHUB_OUTPUT\""))
+        cat("packages=", pkgs, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
     - name: Rtools version
       if: runner.os == 'Windows'
@@ -62,7 +62,7 @@ runs:
           package_version("${{ inputs.r-version }}") >= package_version("4.2")
         ) {
           message("Using Rtools v42")
-          system("bash -c \"echo 'value=42' >> $GITHUB_OUTPUT\"")
+          cat("value=42\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
         } else {
           message("Not setting Rtools version!")
         }
@@ -77,7 +77,7 @@ runs:
           r_version = "${{ inputs.r-version }}"
         )
         message("Final packages:\n", gsub(",", ",\n", pkgs_to_install))
-        system(paste0("bash -c \"echo 'to-install=", pkgs_to_install, "' >> $GITHUB_OUTPUT\""))
+        cat("to-install=", pkgs_to_install, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
     - name: Install R, shinycoreci, and shinyverse
       uses: rstudio/shiny-workflows/setup-r-package@v1
