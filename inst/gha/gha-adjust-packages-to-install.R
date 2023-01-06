@@ -51,7 +51,8 @@ adjust_pkgs <- function(pkgs_to_install = "rstudio/shiny,rstudio/bslib", r_versi
         )
         replace_or_add(
           "any::RcppEigen",
-          "url::https://cran.r-project.org/src/contrib/Archive/RcppEigen/RcppEigen_0.3.3.9.2.tar.gz"
+          # https://github.com/RcppCore/RcppEigen/issues/107
+          "url::https://cran.r-project.org/src/contrib/Archive/RcppEigen/RcppEigen_0.3.3.9.1.tar.gz"
         )
         replace_or_add(
           "any::MatrixModels",
