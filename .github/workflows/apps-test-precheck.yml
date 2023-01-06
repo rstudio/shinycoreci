@@ -14,7 +14,7 @@ jobs:
       - name: Validate testing files
         shell: Rscript {0}
         run: |
-          source("inst/gha/validate-test-files.R")
+          source("inst/gha/validate-test-files.R", echo = TRUE)
 
       - name: Collect changed file names
         if: github.event_name == 'pull_request'
