@@ -9,17 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: GitHub Pull
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Validate testing files
         shell: Rscript {0}
         run: |
-          source("inst/gha/validate-test-files.R")
+          source("inst/gha/validate-test-files.R", echo = TRUE)
 
       - name: Collect changed file names
         if: github.event_name == 'pull_request'
         id: files_changed
-        uses: Ana06/get-changed-files@v2.0.0
+        uses: Ana06/get-changed-files@v2.2.0
         with:
           format: 'json'
           filter: '*'

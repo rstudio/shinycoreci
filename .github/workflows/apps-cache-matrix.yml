@@ -24,9 +24,8 @@ jobs:
   config:
     uses: ./.github/workflows/apps-config.yml
 
-
   macos-release:
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs: [config, ubuntu-release]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
@@ -34,7 +33,7 @@ jobs:
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
   macos-oldrel-1:
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs: [config, ubuntu-oldrel-1]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
@@ -42,7 +41,7 @@ jobs:
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
   macos-oldrel-2:
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs: [config, ubuntu-oldrel-2]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
@@ -50,7 +49,7 @@ jobs:
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
   macos-oldrel-3:
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs: [config, ubuntu-oldrel-3]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
@@ -58,7 +57,7 @@ jobs:
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
   macos-oldrel-4:
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs: [config, ubuntu-oldrel-4]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
@@ -105,7 +104,7 @@ jobs:
 
 
   windows-release:
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs: [config, macos-release]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
@@ -113,7 +112,7 @@ jobs:
       os: ${{ needs.config.outputs.windows }}
       cache-version: ${{ needs.config.outputs.cache-version }}
   windows-oldrel-1:
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs: [config, macos-oldrel-1]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
@@ -121,7 +120,7 @@ jobs:
       os: ${{ needs.config.outputs.windows }}
       cache-version: ${{ needs.config.outputs.cache-version }}
   windows-oldrel-2:
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs: [config, macos-oldrel-2]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
@@ -129,7 +128,7 @@ jobs:
       os: ${{ needs.config.outputs.windows }}
       cache-version: ${{ needs.config.outputs.cache-version }}
   windows-oldrel-3:
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs: [config, macos-oldrel-3]
     uses: ./.github/workflows/apps-cache-os.yml
     with:
@@ -137,7 +136,7 @@ jobs:
       os: ${{ needs.config.outputs.windows }}
       cache-version: ${{ needs.config.outputs.cache-version }}
   windows-oldrel-4:
-    if: success() || failure()
+    if: ${{ ! cancelled() }}
     needs: [config, macos-oldrel-4]
     uses: ./.github/workflows/apps-cache-os.yml
     with:

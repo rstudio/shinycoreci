@@ -62,7 +62,7 @@ jobs:
         # keep only the major.minor values
         RVERSION=`echo '${{ matrix.r_version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
         echo "r-version: $RVERSION"
-        echo "::set-output name=r-version::$RVERSION"
+        echo "r-version=$RVERSION" >> $GITHUB_OUTPUT
 
         SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
         if [[ -z "$SHA" ]]; then
@@ -70,7 +70,7 @@ jobs:
         fi
         SHORT_SHA=${SHA:0:7}
         echo "sha: $SHORT_SHA"
-        echo "::set-output name=sha::$SHORT_SHA"
+        echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
     # - name: Should install
     #   id: can-build
     #   if: |
@@ -83,7 +83,7 @@ jobs:
     #   run: |
     #     echo "If this step did not run, then we are unable to install this version of R on this Linux distro"
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       if: steps.can-build.conclusion != 'skipped'
 
     - name: Log in to the Container registry
@@ -96,7 +96,7 @@ jobs:
 
     - name: Build Base
       if: steps.can-build.conclusion != 'skipped'
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v3
       with:
         context: ${{ matrix.docker.workdir }}
         push: true

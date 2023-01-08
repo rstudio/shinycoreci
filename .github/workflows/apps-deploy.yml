@@ -30,7 +30,8 @@ jobs:
       matrix:
         config:
         - { os: "${{ needs.config.outputs.ubuntu }}", r: '4.1', type: "shinyappsio", account: "testing-apps", server_name: "shinyapps.io", cores: 5, retry: 3 } #, extra_app_text: ", apps = list('000-all', '000-manual', 1, 2)" }
-        - { os: "${{ needs.config.outputs.ubuntu }}", r: '4.1', type: "connect", account: "barret", server_name: "beta.rstudioconnect.com", server_url: "https://beta.rstudioconnect.com/__api__", rspm: "https://demo.rstudiopm.com/all/__linux__/focal/latest", cores: 1, retry: 3 } #, extra_app_text: ", apps = list('000-all', '000-manual', 1, 2)" }
+        ## Server disabled
+        # - { os: "${{ needs.config.outputs.ubuntu }}", r: '4.1', type: "connect", account: "barret", server_name: "beta.rstudioconnect.com", server_url: "https://beta.rstudioconnect.com/__api__", rspm: "https://demo.rstudiopm.com/all/__linux__/focal/latest", cores: 1, retry: 3 } #, extra_app_text: ", apps = list('000-all', '000-manual', 1, 2)" }
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -38,7 +39,7 @@ jobs:
       RSPM: ${{ matrix.config.rspm }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         name: GitHub Pull
 
       - name: R Options

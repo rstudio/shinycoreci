@@ -46,6 +46,17 @@ jobs:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
+    ## Windows w/ R v3.5 has trouble installing. Removing to avoid constant errors
+    # Error:
+    # ! error in pak subprocess
+    # Caused by error:
+    # ! Cannot install packages:
+    # * rstudio/leaflet: Can't install dependency sf
+    # * sf: Conflicts with url::https://cran.r-project.org/bin/windows/contrib/3.5/sf_0.9-2.zip
+    # * url::https://cran.r-project.org/bin/windows/contrib/3.5/mapview_2.7.8.zip: Can't install dependency leaflet
+    # * leaflet: Conflicts with rstudio/leaflet
+    if: ( !( startsWith(inputs.os, 'windows') && startsWith(inputs.r-version, '3.5') ) )
+
     steps:
       - name: Short R version, SHA, and OS
         id: short
@@ -54,7 +65,7 @@ jobs:
           # keep only the major.minor values
           RVERSION=`echo '${{ inputs.r-version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
           echo "r-version: $RVERSION"
-          echo "::set-output name=r-version::$RVERSION"
+          echo "r-version=$RVERSION" >> $GITHUB_OUTPUT
 
           SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
           if [[ -z "$SHA" ]]; then
@@ -62,21 +73,21 @@ jobs:
           fi
           SHORT_SHA="${SHA:0:7}"
           echo "sha: $SHORT_SHA"
-          echo "::set-output name=sha::$SHORT_SHA"
+          echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
 
           OS=`Rscript -e 'cat(sessionInfo()$running, "\n", sep = "")'`
-          echo "::set-output name=os-version::$OS"
+          echo "os-version=$OS" >> $GITHUB_OUTPUT
 
       - name: GitHub Pull (PR)
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # check out the commit sha, not the merged sha. Avoids the "Merge SHA_A into SHA_B" into commits
           ref: ${{ github.event.pull_request.head.sha }}      # # Ref: https://github.com/actions/checkout/pull/115/files#diff-04c6e90faac2675aa89e2176d2eec7d8R203-R209
           fetch-depth: 0
       - name: GitHub Pull (Branch)
         if: github.event_name != 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 

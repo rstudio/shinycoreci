@@ -29,18 +29,25 @@ runs:
       if: runner.os == 'Linux'
       shell: bash
       # https://unix.stackexchange.com/a/548473
-      run: sudo apt-get install -y fonts-arphic-ukai fonts-arphic-uming
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y fonts-arphic-ukai fonts-arphic-uming
 
     - name: Install system dependencies for igraph
       if: runner.os == 'Linux'
       shell: bash
-      run: sudo apt-get install -y libglpk-dev
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libglpk-dev
 
     - name: Gather remotes and app deps
       id: shinyverse
       shell: Rscript {0}
       run: |
         source("inst/gha/gha-shinyverse-packages.R")
+        pkgs <- shinyverse_pkgs()
+        message("Shinyverse packages:\n", gsub(",", ",\n", pkgs))
+        cat("packages=", pkgs, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
     - name: Rtools version
       if: runner.os == 'Windows'
@@ -55,7 +62,7 @@ runs:
           package_version("${{ inputs.r-version }}") >= package_version("4.2")
         ) {
           message("Using Rtools v42")
-          cat("::set-output name=value::42\n", sep = "")
+          cat("value=42\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
         } else {
           message("Not setting Rtools version!")
         }
@@ -64,79 +71,13 @@ runs:
       id: pkgs
       shell: Rscript {0}
       run: |
-        pkgs_to_install <- "${{ steps.shinyverse.outputs.packages }}"
-        is_windows <- .Platform$OS.type == "windows"
-        is_linux <- Sys.info()[["sysname"]] == "Linux"
-        is_mac <- Sys.info()[["sysname"]] == "Darwin"
-        # Get R version like `"4.2"`
-        short_r_version <- sub("\\.\\d$", "", "${{ inputs.r-version }}")
-
-        replace_or_add <- function(find_val, replace_val) {
-          pkgs_to_install <<-
-            if (grepl(find_val, pkgs_to_install, fixed = TRUE)) {
-              sub(find_val, replace_val, pkgs_to_install, fixed = TRUE)
-            } else {
-              paste0(pkgs_to_install, ",", replace_val)
-            }
-        }
-
-        if (is_mac) {
-          switch(short_r_version,
-            "3.5" = {
-              # Apps 181-185
-              replace_or_add(
-                "any::systemfonts",
-                "url::https://cran.r-project.org/src/contrib/Archive/systemfonts/systemfonts_1.0.3.tar.gz"
-              )
-            }
-          )
-        }
-        if (is_linux) {
-          switch(short_r_version,
-            "4.2" = {
-              replace_or_add("any::XML", "XML")
-            },
-            "3.6" = {
-              replace_or_add(
-                "any::rjson",
-                "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz"
-              )
-            },
-            "3.5" = {
-              replace_or_add(
-                "any::rjson",
-                "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz"
-              )
-              replace_or_add(
-                "any::radiant",
-                "url::https://cran.r-project.org/src/contrib/Archive/radiant/radiant_1.3.2.tar.gz"
-              )
-            }
-          )
-        }
-        if (is_windows) {
-          switch(short_r_version,
-            "3.5" = {
-              replace_or_add(
-                "any::mapview",
-                "url::https://cran.r-project.org/bin/windows/contrib/3.5/mapview_2.7.8.zip"
-              )
-              replace_or_add(
-                "any::sf",
-                "url::https://cran.r-project.org/bin/windows/contrib/3.5/sf_0.9-2.zip"
-              )
-
-              # https://github.com/r-spatial/s2/issues/140
-              # Once s2 > 1.0.7 is released, this can be removed... hopefully
-              replace_or_add(
-                "any::s2",
-                "r-spatial/s2"
-              )
-            }
-          )
-        }
+        source("inst/gha/gha-adjust-packages-to-install.R")
+        pkgs_to_install <- adjust_pkgs(
+          "${{ steps.shinyverse.outputs.packages }}",
+          r_version = "${{ inputs.r-version }}"
+        )
         message("Final packages:\n", gsub(",", ",\n", pkgs_to_install))
-        cat("::set-output name=to-install::", pkgs_to_install, "\n", sep = "")
+        cat("to-install=", pkgs_to_install, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
     - name: Install R, shinycoreci, and shinyverse
       uses: rstudio/shiny-workflows/setup-r-package@v1

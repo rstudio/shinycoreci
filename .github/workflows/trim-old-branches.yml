@@ -18,7 +18,7 @@ jobs:
     name: Trim Old Branches
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         name: GitHub Pull
 
       # https://github.com/actions/checkout/pull/112/files#diff-04c6e90faac2675aa89e2176d2eec7d8R194-R200
