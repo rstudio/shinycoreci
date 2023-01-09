@@ -1,10 +1,10 @@
 {
   "input": {
-    "dynamic": "2020-01-31",
+    "dynamic": "2023-01-09",
     "input_type": "date"
   },
   "output": {
-    "dynamic_value": " Date[1:1], format: \"2020-01-31\"",
+    "dynamic_value": " Date[1:1], format: \"2023-01-09\"",
     "input_type_text": "date",
     "ui": {
       "html": "<div id=\"dynamic\" class=\"shiny-date-input form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"dynamic-label\" for=\"dynamic\">Dynamic<\/label>\n  <input type=\"text\" class=\"form-control\" aria-labelledby=\"dynamic-label\" title=\"Date format: yyyy-mm-dd\" data-date-language=\"en\" data-date-week-start=\"0\" data-date-format=\"yyyy-mm-dd\" data-date-start-view=\"month\" data-date-autoclose=\"true\" data-date-dates-disabled=\"null\" data-date-days-of-week-disabled=\"null\"/>\n<\/div>",

@@ -137,8 +137,8 @@
   },
   "output": {
     "parcoord": {
-      "src": "[image data sha1: 6e40814cf82a6d693f54d8c758495edf2c2338f7]",
-      "width": 383,
+      "src": "[image data hash: 5f9f95ce973d47de04a2796e47af2780]",
+      "width": 386.65625,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -151,8 +151,8 @@
               "top": 350.448
             },
             "range": {
-              "left": 57.6,
-              "right": 381.56,
+              "left": 57.6979274611399,
+              "right": 385.213801813471,
               "bottom": 370.2,
               "top": 27.7999999999999
             },
@@ -166,7 +166,7 @@
           }
         ],
         "dims": {
-          "width": 383,
+          "width": 386.65625,
           "height": 400
         }
       }
@@ -230,9 +230,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.11.3",
+          "version": "1.12.1",
           "src": {
-            "href": "dt-core-1.11.3"
+            "href": "dt-core-1.12.1"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",

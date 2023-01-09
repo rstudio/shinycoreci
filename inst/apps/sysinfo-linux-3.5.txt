@@ -10,7 +10,7 @@ osVersion: Ubuntu 20.04.5 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2023-01-06
+ date     2023-01-09
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
@@ -67,7 +67,7 @@ osVersion: Ubuntu 20.04.5 LTS
                digest      0.6.31   RSPM                       
            downloader         0.4   RSPM                       
                 dplyr      1.0.10   RSPM                       
-                   DT      0.26.3 GitHub ec6060c   rstudio/HEAD
+                   DT      0.26.3 GitHub 744ca23   rstudio/HEAD
              dygraphs     1.1.1.7 GitHub 70b60ab   rstudio/HEAD
                 e1071      1.7-12   RSPM                       
              ellipsis       0.3.2   RSPM                       
@@ -90,6 +90,7 @@ osVersion: Ubuntu 20.04.5 LTS
               ggplot2       3.4.0   RSPM                       
               ggrepel       0.9.2   RSPM                       
              ggthemes       4.2.4   RSPM                       
+                ggvis       0.4.7   RSPM                       
                    gh       1.3.1   RSPM                       
              gitcreds       0.1.2   RSPM                       
               globals      0.16.2   RSPM                       
@@ -97,14 +98,15 @@ osVersion: Ubuntu 20.04.5 LTS
                 gower       1.0.1   RSPM                       
           GPArotation   2022.10-2   RSPM                       
             gridExtra         2.3   RSPM                       
-                   gt  0.8.0.9000 GitHub 930f95a   rstudio/HEAD
+                   gt  0.8.0.9000 GitHub fd7bbbe   rstudio/HEAD
                gtable       0.3.1   RSPM                       
                  here       1.0.1   RSPM                       
                hexbin      1.28.2   RSPM                       
+          highcharter       0.9.4   RSPM                       
                 highr        0.10   RSPM                       
                   hms       1.1.2   RSPM                       
             htmltools  0.5.4.9000 GitHub f07ceba   rstudio/HEAD
-          htmlwidgets  1.6.0.9000 GitHub fa5e8f9  ramnathv/HEAD
+          htmlwidgets  1.6.1.9000 GitHub 843eee9  ramnathv/HEAD
                httpuv  1.6.7.9000 GitHub a1211df   rstudio/HEAD
                  httr       1.4.4   RSPM                       
              hunspell       3.0.2   RSPM                       
@@ -127,6 +129,7 @@ osVersion: Ubuntu 20.04.5 LTS
               listenv       0.9.0   RSPM                       
            listviewer       3.0.0   RSPM                       
                  lme4      1.1-31   RSPM                       
+               lobstr       1.1.2   RSPM                       
             lubridate       1.9.0   RSPM                       
              magrittr       2.0.3   RSPM                       
                  maps       3.4.1   RSPM                       
@@ -139,8 +142,10 @@ osVersion: Ubuntu 20.04.5 LTS
                mnormt       2.1.1   RSPM                       
               munsell       0.5.0   RSPM                       
               mvtnorm       1.1-3   RSPM                       
+            networkD3         0.4   RSPM                       
        NeuralNetTools       1.5.3   RSPM                       
                nloptr       2.0.3   RSPM                       
+                  NLP       0.2-1   RSPM                       
              numDeriv  2016.8-1.1   RSPM                       
               openssl       2.0.5   RSPM                       
               packrat       0.8.1   RSPM                       
@@ -169,10 +174,12 @@ osVersion: Ubuntu 20.04.5 LTS
              progress       1.2.2   RSPM                       
              promises  1.2.0.9000 GitHub 7979d6c   rstudio/HEAD
                 proxy      0.4-27   RSPM                       
+                 pryr       0.1.5   RSPM                       
                    ps       1.7.2   RSPM                       
                 psych       2.2.9   RSPM                       
                 purrr       1.0.0   RSPM                       
                   pwr       1.3-0   RSPM                       
+             quantmod      0.4.20   RSPM                       
              quantreg        5.94   RSPM                       
               R.cache      0.16.0   RSPM                       
           R.methodsS3       1.8.2   RSPM                       
@@ -194,7 +201,9 @@ osVersion: Ubuntu 20.04.5 LTS
                  Rcpp       1.0.9   RSPM                       
             RcppEigen   0.3.3.9.1    URL                       
              RcppTOML       0.1.7   RSPM                       
+            reactable       0.4.3   CRAN                       
              reactlog       1.1.1 GitHub 83a4958   rstudio/HEAD
+               reactR       0.4.4   RSPM                       
                 readr       2.1.3   RSPM                       
                readxl       1.4.1   RSPM                       
               rematch       1.0.1   RSPM                       
@@ -203,13 +212,14 @@ osVersion: Ubuntu 20.04.5 LTS
                  repr       1.1.4   RSPM                       
               reshape       0.8.9   RSPM                       
              reshape2       1.4.4   RSPM                       
-           reticulate        1.26   RSPM                       
+           reticulate        1.27   CRAN                       
                   rex       1.2.1   RSPM                       
                 rgdal       1.6-3   RSPM                       
                 rgeos       0.6-1   RSPM                       
                 rjson      0.2.20    URL                       
               RJSONIO     1.3-1.6   RSPM                       
                 rlang       1.0.6   RSPM                       
+                rlist     0.4.6.2   RSPM                       
             rmarkdown        2.19   RSPM                       
                RMySQL     0.10.25   RSPM                       
             rprojroot       2.0.3   RSPM                       
@@ -227,20 +237,23 @@ osVersion: Ubuntu 20.04.5 LTS
                 servr        0.25   RSPM                       
           sessioninfo       1.2.2   RSPM                       
                    sf       1.0-9   RSPM                       
-                shiny  1.7.4.9000 GitHub 5eb442a   rstudio/HEAD
+                shiny  1.7.4.9001 GitHub e7d62f5   rstudio/HEAD
              shinyAce       0.4.2   RSPM                       
           shinycoreci  0.0.0.9007  Local                       
+       shinydashboard       0.7.2   RSPM                       
            shinyFiles       0.9.3   RSPM                       
+              shinyjs       2.1.0   RSPM                       
            shinyjster  0.0.0.9010 GitHub 2a94494 schloerke/HEAD
             shinymeta     0.2.0.3 GitHub 5af8086   rstudio/HEAD
             shinytest  1.5.1.9000 GitHub 0c1357f   rstudio/HEAD
            shinytest2  0.2.0.9000 GitHub b47a0db   rstudio/HEAD
           shinythemes       1.2.0 GitHub 492b6aa   rstudio/HEAD
         shinyvalidate       0.1.2 GitHub 575f586   rstudio/HEAD
-         shinyWidgets       0.7.5   RSPM                       
+         shinyWidgets       0.7.6   CRAN                       
             showimage       1.0.0   RSPM                       
              showtext       0.9-5   RSPM                       
            showtextdb         3.0   RSPM                       
+                 slam      0.1-50   RSPM                       
           sourcetools       0.1.7   RSPM                       
                    sp       1.5-1   RSPM                       
               SparseM        1.81   RSPM                       
@@ -262,6 +275,8 @@ osVersion: Ubuntu 20.04.5 LTS
            tidyselect       1.2.0   RSPM                       
            timechange       0.1.1   RSPM                       
               tinytex        0.43   RSPM                       
+                   tm      0.7-10   RSPM                       
+                  TTR      0.24.3   RSPM                       
                tweenr       2.0.2   RSPM                       
                  tzdb       0.3.0   RSPM                       
                 units       0.8-1   RSPM                       
@@ -284,9 +299,11 @@ osVersion: Ubuntu 20.04.5 LTS
               whisker       0.4.1   RSPM                       
                 withr       2.5.0   RSPM                       
                    wk       0.7.1   RSPM                       
+            wordcloud         2.6   RSPM                       
               writexl       1.4.1   RSPM                       
                  xfun        0.36   RSPM                       
               xgboost     1.6.0.1   RSPM                       
+                  XML    3.99-0.3   RSPM                       
                  xml2       1.3.3   RSPM                       
                xtable       1.8-4   RSPM                       
                   xts      0.12.2   RSPM                       
