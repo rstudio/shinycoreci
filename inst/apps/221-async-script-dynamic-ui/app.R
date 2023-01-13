@@ -15,7 +15,7 @@ library(shiny)
 # it, it will return `replace_expr`. Notably, `replace_expr` can contain rlang
 # operators like `!!`, and perform rlang substitution on them.
 monkey_patch <- function(
-    expr,
+  expr,
   search_expr,
   replace_expr
 ) {
@@ -29,7 +29,7 @@ monkey_patch <- function(
     removeSource(search_expr),
     removeSource(expr[seq_along(search_expr)])
   )) {
-    result <- eval(rlang::expr(rlang::expr(!!replace_expr)))
+    result <- rlang::inject(rlang::expr(!!replace_expr))
     return(result)
   }
 
