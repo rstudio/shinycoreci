@@ -263,7 +263,7 @@ scripts: a-4.js and b-1.js.
 }
 
 
-app <- shinyApp(
+shinyApp(
   ui = ui,
   server = function(input, output, session) {
     shinyjster::shinyjster_server(input, output, session)
@@ -300,5 +300,3 @@ app <- shinyApp(
   },
   uiPattern = "^/|(/test).*"
 )
-
-runApp(app, launch.browser=F, port=8007)
