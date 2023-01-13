@@ -170,6 +170,7 @@ scripts: a-4.js and b-1.js.
           jst.add(function() {
             Jster.radio.clickOption('type', 'error');
           });
+          jst.add(function(done) { setTimeout(done, 500); });
           jst.add(Jster.shiny.waitUntilIdle);
           jst.add(function() {
             Jster.assert.isEqual(
