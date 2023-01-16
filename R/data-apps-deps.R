@@ -50,10 +50,10 @@ apps_deps_map <- list(`001-hello` = "rsconnect", `012-datatables` = "ggplot2",
     `212-daterangepicker` = "jsonlite", `212-shinymeta` = c("clipr", 
     "dplyr", "shinyAce"), `216-quosures` = c("DiagrammeR", "rlang"
     ), `217-snapshot-info-option` = c("jsonlite", "testthat"), 
-    `217-snapshot-info-url` = c("jsonlite", "testthat"), `300-bs-themer` = c("curl", 
-    "ggplot2", "hexbin", "knitr", "reactable", "rlang", "rprojroot", 
-    "rsconnect"), `301-bs-themes` = c("ggplot2", "rversions", 
-    "sf", "withr"), `302-bootswatch-themes` = c("ggplot2", "progress", 
-    "rversions", "sf", "withr"), `304-bslib-card` = c("rlang", 
+    `217-snapshot-info-url` = c("jsonlite", "testthat"), `221-async-script-dynamic-ui` = "rlang", 
+    `300-bs-themer` = c("curl", "ggplot2", "hexbin", "knitr", 
+    "reactable", "rlang", "rprojroot", "rsconnect"), `301-bs-themes` = c("ggplot2", 
+    "rversions", "sf", "withr"), `302-bootswatch-themes` = c("ggplot2", 
+    "progress", "rversions", "sf", "withr"), `304-bslib-card` = c("rlang", 
     "rversions"), `305-bslib-value-box` = c("rlang", "rversions"
     ))
