@@ -46,7 +46,7 @@ function(input, output, session) {
   # This object is list-like, but it is not a list.
   output$remaining <- renderText({
     # Find the names of all the keys in clientData
-    cnames <- names(session$clientData)
+    cnames <- sort(names(session$clientData), method = "radix")
     cnames <- setdiff(cnames, known_names)
 
     # Apply a function to all keys, to get corresponding values
