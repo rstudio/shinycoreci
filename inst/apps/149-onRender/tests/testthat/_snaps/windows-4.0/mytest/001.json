@@ -14,7 +14,7 @@
 
       ]
     },
-    "plotly_afterplot-A": "\"p3\"",
+    "plotly_afterplot-A": "\"p1\"",
     "plotly_relayout-A": "{\"annotations\":[{\"text\":\"Test passed!\",\"x\":0,\"y\":0,\"showarrow\":false}]}"
   },
   "output": {
