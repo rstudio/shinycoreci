@@ -10,7 +10,7 @@ osVersion: macOS Big Sur ... 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2023-01-09
+ date     2023-01-18
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA               Ref
@@ -32,7 +32,7 @@ osVersion: macOS Big Sur ... 10.16
                  brio       1.1.3   CRAN                          
                 broom       1.0.2   CRAN                          
               bsicons         0.1 GitHub 1a12bb6      rstudio/HEAD
-                bslib  0.4.2.9000 GitHub 014b082      rstudio/HEAD
+                bslib  0.4.2.9000 GitHub 6c83c37      rstudio/HEAD
                cachem  1.0.6.9000 GitHub 7b9d764        r-lib/HEAD
                 Cairo       1.6-0   CRAN                          
                 callr       3.7.3   CRAN                          
@@ -42,7 +42,7 @@ osVersion: macOS Big Sur ... 10.16
             checkmate       2.1.0   CRAN                          
              chromote       0.1.1   CRAN                          
              classInt       0.4-8   CRAN                          
-                  cli       3.5.0   CRAN                          
+                  cli       3.6.0   CRAN                          
                 clipr       0.8.0   CRAN                          
          clustMixType       0.3-9   CRAN                          
            colorspace       2.0-3   CRAN                          
@@ -53,7 +53,7 @@ osVersion: macOS Big Sur ... 10.16
                crayon       1.5.2   CRAN                          
           credentials       1.3.2   CRAN                          
             crosstalk  1.2.0.9000 GitHub 8128ef3      rstudio/HEAD
-                 curl       4.3.3   CRAN                          
+                 curl       5.0.0   CRAN                          
            data.table      1.14.6   CRAN                          
             data.tree       1.0.0   CRAN                          
                   DBI       1.1.3   CRAN                          
@@ -67,7 +67,7 @@ osVersion: macOS Big Sur ... 10.16
                digest      0.6.31   CRAN                          
            downloader         0.4   CRAN                          
                 dplyr      1.0.10   CRAN                          
-                   DT      0.26.3 GitHub 744ca23      rstudio/HEAD
+                   DT      0.27.1 GitHub c1cdbef      rstudio/HEAD
              dygraphs     1.1.1.7 GitHub 70b60ab      rstudio/HEAD
                 e1071      1.7-12   CRAN                          
              ellipsis       0.3.2   CRAN                          
@@ -75,9 +75,9 @@ osVersion: macOS Big Sur ... 10.16
              evaluate        0.19   CRAN                          
                 fansi       1.0.3   CRAN                          
                farver       2.1.1   CRAN                          
-              fastmap  1.1.0.9000 GitHub 285cbb8        r-lib/HEAD
-        flexdashboard  0.6.0.9000 GitHub b3cb4a3      rstudio/HEAD
-          fontawesome  0.4.0.9000 GitHub d198866      rstudio/HEAD
+              fastmap  1.1.0.9000 GitHub 971e98a        r-lib/HEAD
+        flexdashboard  0.6.0.9000 GitHub cd7301d      rstudio/HEAD
+          fontawesome  0.4.0.9000 GitHub 3e78323      rstudio/HEAD
               forcats       0.5.2   CRAN                          
               foreach       1.5.2   CRAN                          
                    fs       1.5.2   CRAN                          
@@ -99,7 +99,7 @@ osVersion: macOS Big Sur ... 10.16
                 gower       1.0.1   CRAN                          
           GPArotation   2022.10-2   CRAN                          
             gridExtra         2.3   CRAN                          
-                   gt  0.8.0.9000 GitHub fd7bbbe      rstudio/HEAD
+                   gt  0.8.0.9000 GitHub 85a76c2      rstudio/HEAD
                gtable       0.3.1   CRAN                          
                  here       1.0.1   CRAN                          
                hexbin      1.28.2   CRAN                          
@@ -108,7 +108,7 @@ osVersion: macOS Big Sur ... 10.16
                   hms       1.1.2   CRAN                          
             htmltools  0.5.4.9000 GitHub f07ceba      rstudio/HEAD
           htmlwidgets  1.6.1.9000 GitHub 843eee9     ramnathv/HEAD
-               httpuv  1.6.7.9000 GitHub a1211df      rstudio/HEAD
+               httpuv  1.6.8.9000 GitHub 650ba73      rstudio/HEAD
                  httr       1.4.4   CRAN                          
              hunspell       3.0.2   CRAN                          
                igraph       1.3.5   CRAN                          
@@ -150,11 +150,11 @@ osVersion: macOS Big Sur ... 10.16
                   NLP       0.2-1   CRAN                          
              numDeriv  2016.8-1.1   CRAN                          
               openssl       2.0.5   CRAN                          
-              packrat       0.8.1   CRAN                          
-                  pak       0.3.1   CRAN                          
+              packrat       0.9.0   CRAN                          
+                  pak       0.4.0   CRAN                          
             paletteer       1.5.0   CRAN                          
        palmerpenguins       0.1.1   CRAN                          
-           parallelly      1.33.0   CRAN                          
+           parallelly      1.34.0   CRAN                          
             parsedate       1.3.1   CRAN                          
             patchwork       1.1.2   CRAN                          
              pbkrtest       0.5.1   CRAN                          
@@ -168,7 +168,7 @@ osVersion: macOS Big Sur ... 10.16
                  plyr       1.8.8   CRAN                          
                   png       0.1-8   CRAN                          
               polycor       0.8-1   CRAN                          
-                 pool  0.1.6.9000 GitHub c8a8673      rstudio/HEAD
+                 pool  0.1.6.9000 GitHub cfe18af      rstudio/HEAD
                praise       1.0.0   CRAN                          
           prettyunits       1.1.1   CRAN                          
             prismatic       1.1.1   CRAN                          
@@ -179,7 +179,7 @@ osVersion: macOS Big Sur ... 10.16
                  pryr       0.1.5   CRAN                          
                    ps       1.7.2   CRAN                          
                 psych       2.2.9   CRAN                          
-                purrr       1.0.0   CRAN                          
+                purrr       1.0.1   CRAN                          
                   pwr       1.3-0   CRAN                          
              quantmod      0.4.20   CRAN                          
              quantreg        5.94   CRAN                          
@@ -188,17 +188,17 @@ osVersion: macOS Big Sur ... 10.16
                  R.oo      1.25.0   CRAN                          
               R.utils      2.12.2   CRAN                          
                    R6       2.5.1   CRAN                          
-              radiant       1.4.4   CRAN                          
-       radiant.basics       1.4.4   CRAN                          
-         radiant.data       1.4.5   CRAN                          
-       radiant.design       1.4.4   CRAN                          
-        radiant.model       1.4.8   CRAN                          
- radiant.multivariate       1.4.4   CRAN                          
-                 ragg       1.2.4   CRAN                          
+              radiant       1.5.0   CRAN                          
+       radiant.basics       1.5.0   CRAN                          
+         radiant.data       1.5.1   CRAN                          
+       radiant.design       1.5.0   CRAN                          
+        radiant.model       1.5.0   CRAN                          
+ radiant.multivariate       1.5.0   CRAN                          
+                 ragg       1.2.5   CRAN                          
             randomizr      0.22.0   CRAN                          
                ranger      0.14.1   CRAN                          
              rappdirs       0.3.3   CRAN                          
-               raster      3.6-11   CRAN                          
+               raster      3.6-13   CRAN                          
          RColorBrewer       1.1-3   CRAN                          
                  Rcpp       1.0.9   CRAN                          
              RcppTOML       0.1.7   CRAN                          
@@ -210,47 +210,47 @@ osVersion: macOS Big Sur ... 10.16
               rematch       1.0.1   CRAN                          
              rematch2       2.1.2   CRAN                          
                  renv      0.16.0   CRAN                          
-                 repr       1.1.4   CRAN                          
+                 repr       1.1.5   CRAN                          
               reshape       0.8.9   CRAN                          
              reshape2       1.4.4   CRAN                          
-           reticulate        1.26   CRAN                          
+           reticulate        1.27   CRAN                          
                   rex       1.2.1   CRAN                          
-                rgdal       1.6-3   CRAN                          
+                rgdal       1.6-4   CRAN                          
                 rgeos       0.6-1   CRAN                          
                 rjson      0.2.21   CRAN                          
-              RJSONIO     1.3-1.6   CRAN                          
+              RJSONIO     1.3-1.7   CRAN                          
                 rlang       1.0.6   CRAN                          
                 rlist     0.4.6.2   CRAN                          
             rmarkdown        2.19   CRAN                          
                RMySQL     0.10.25   CRAN                          
             rprojroot       2.0.3   CRAN                          
-            rsconnect      0.8.28   CRAN                          
+            rsconnect      0.8.29   CRAN                          
               RSQLite      2.2.20   CRAN                          
            rstudioapi        0.14   CRAN                          
                  rsvg       2.4.0   CRAN                          
             rversions       2.1.2   CRAN                          
                 rvest       1.0.3   CRAN                          
-                   s2       1.1.1   CRAN                          
+                   s2       1.1.2   CRAN                          
              sandwich       3.0-2   CRAN                          
-                 sass  0.4.3.9000 GitHub 3e61ef8      rstudio/HEAD
+                 sass  0.4.4.9000 GitHub fe83296      rstudio/HEAD
                scales       1.2.1   CRAN                          
               selectr       0.4-2   CRAN                          
                 servr        0.25   CRAN                          
           sessioninfo       1.2.2    any   1.2.2 /any::sessioninfo
                    sf       1.0-9   CRAN                          
-                shiny  1.7.4.9001 GitHub e7d62f5      rstudio/HEAD
+                shiny  1.7.4.9001 GitHub 0c177d3      rstudio/HEAD
              shinyAce       0.4.2   CRAN                          
           shinycoreci  0.0.0.9007  Local                          
        shinydashboard       0.7.2   CRAN                          
            shinyFiles       0.9.3   CRAN                          
               shinyjs       2.1.0   CRAN                          
-           shinyjster  0.0.0.9010 GitHub 2a94494    schloerke/HEAD
+           shinyjster  0.0.0.9010 GitHub 1807304    schloerke/HEAD
             shinymeta     0.2.0.3 GitHub 5af8086      rstudio/HEAD
             shinytest  1.5.1.9000 GitHub 0c1357f      rstudio/HEAD
-           shinytest2  0.2.0.9000 GitHub b47a0db      rstudio/HEAD
+           shinytest2  0.2.0.9000 GitHub c96ebf5      rstudio/HEAD
           shinythemes       1.2.0 GitHub 492b6aa      rstudio/HEAD
         shinyvalidate       0.1.2 GitHub 575f586      rstudio/HEAD
-         shinyWidgets       0.7.5   CRAN                          
+         shinyWidgets       0.7.6   CRAN                          
             showimage       1.0.0   CRAN                          
              showtext       0.9-5   CRAN                          
            showtextdb         3.0   CRAN                          
@@ -259,10 +259,10 @@ osVersion: macOS Big Sur ... 10.16
                    sp       1.5-1   CRAN                          
               SparseM        1.81   CRAN                          
              spelling         2.2   CRAN                          
-              stringi       1.7.8   CRAN                          
+              stringi      1.7.12   CRAN                          
               stringr       1.5.0   CRAN                          
-               styler       1.8.1   CRAN                          
-              svglite       2.1.0   CRAN                          
+               styler       1.9.0   CRAN                          
+              svglite       2.1.1   CRAN                          
                   sys       3.4.1   CRAN                          
              sysfonts       0.8.8   CRAN                          
           systemfonts       1.0.4   CRAN                          
@@ -274,7 +274,7 @@ osVersion: macOS Big Sur ... 10.16
                tibble       3.1.8   CRAN                          
                 tidyr       1.2.1   CRAN                          
            tidyselect       1.2.0   CRAN                          
-           timechange       0.1.1   CRAN                          
+           timechange       0.2.0   CRAN                          
               tinytex        0.43   CRAN                          
                    tm      0.7-10   CRAN                          
                   TTR      0.24.3   CRAN                          
@@ -288,6 +288,7 @@ osVersion: macOS Big Sur ... 10.16
                 vctrs       0.5.1   CRAN                          
                vdiffr       1.0.4   CRAN                          
               vembedr       0.1.5   CRAN                          
+                  vip       0.3.2   CRAN                          
               viridis       0.6.2   CRAN                          
           viridisLite       0.4.1   CRAN                          
            visNetwork       2.1.2   CRAN                          
@@ -301,7 +302,7 @@ osVersion: macOS Big Sur ... 10.16
                 withr       2.5.0   CRAN                          
                    wk       0.7.1   CRAN                          
             wordcloud         2.6   CRAN                          
-              writexl       1.4.1   CRAN                          
+              writexl       1.4.2   CRAN                          
                  xfun        0.36   CRAN                          
               xgboost     1.6.0.1   CRAN                          
                   XML   3.99-0.13   CRAN                          

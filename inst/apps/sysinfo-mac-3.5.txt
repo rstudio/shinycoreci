@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       UTC                         
- date     2023-01-09                  
+ date     2023-01-18                  
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
                 abind       1.4-5   CRAN                       
@@ -29,7 +29,7 @@ osVersion: macOS  10.16
                  brio       1.1.3   CRAN                       
                 broom       0.5.5   CRAN                       
               bsicons         0.1 GitHub 1a12bb6   rstudio/HEAD
-                bslib  0.4.2.9000 GitHub 014b082   rstudio/HEAD
+                bslib  0.4.2.9000 GitHub 6c83c37   rstudio/HEAD
                cachem  1.0.6.9000 GitHub 7b9d764     r-lib/HEAD
                 Cairo      1.5-11   CRAN                       
                 callr       3.7.3   CRAN                       
@@ -39,7 +39,7 @@ osVersion: macOS  10.16
             checkmate       2.0.0   CRAN                       
              chromote       0.1.1   CRAN                       
              classInt       0.4-2   CRAN                       
-                  cli       3.5.0   CRAN                       
+                  cli       3.6.0   CRAN                       
                 clipr       0.7.0   CRAN                       
            clisymbols       1.2.0   CRAN                       
            colorspace       1.4-1   CRAN                       
@@ -65,17 +65,17 @@ osVersion: macOS  10.16
                digest      0.6.31   CRAN                       
            downloader         0.4   CRAN                       
                 dplyr      1.0.10   CRAN                       
-                   DT      0.26.3 GitHub 744ca23   rstudio/HEAD
+                   DT      0.27.1 GitHub c1cdbef   rstudio/HEAD
              dygraphs     1.1.1.7 GitHub 70b60ab   rstudio/HEAD
                 e1071       1.7-3   CRAN                       
              ellipsis       0.3.0   CRAN                       
               english       1.2-5   CRAN                       
-             evaluate        0.19   CRAN                       
+             evaluate        0.20   CRAN                       
                 fansi       0.4.1   CRAN                       
                farver       2.0.3   CRAN                       
-              fastmap  1.1.0.9000 GitHub 285cbb8     r-lib/HEAD
-        flexdashboard  0.6.0.9000 GitHub b3cb4a3   rstudio/HEAD
-          fontawesome  0.4.0.9000 GitHub d198866   rstudio/HEAD
+              fastmap  1.1.0.9000 GitHub 971e98a     r-lib/HEAD
+        flexdashboard  0.6.0.9000 GitHub cd7301d   rstudio/HEAD
+          fontawesome  0.4.0.9000 GitHub 3e78323   rstudio/HEAD
               forcats       0.5.0   CRAN                       
                    fs       1.5.2   CRAN                       
                future      1.30.0   CRAN                       
@@ -97,7 +97,7 @@ osVersion: macOS  10.16
               Gmedian       1.2.5   CRAN                       
           GPArotation   2014.11-1   CRAN                       
             gridExtra         2.3   CRAN                       
-                   gt  0.8.0.9000 GitHub fd7bbbe   rstudio/HEAD
+                   gt  0.8.0.9000 GitHub 85a76c2   rstudio/HEAD
                gtable       0.3.0   CRAN                       
           harrypotter       2.1.1   CRAN                       
                 haven       2.2.0   CRAN                       
@@ -107,7 +107,7 @@ osVersion: macOS  10.16
                   hms       0.5.3   CRAN                       
             htmltools  0.5.4.9000 GitHub f07ceba   rstudio/HEAD
           htmlwidgets  1.6.1.9000 GitHub 843eee9  ramnathv/HEAD
-               httpuv  1.6.7.9000 GitHub a1211df   rstudio/HEAD
+               httpuv  1.6.8.9000 GitHub 650ba73   rstudio/HEAD
                  httr       1.4.1   CRAN                       
              hunspell         3.0   CRAN                       
                igraph       1.2.5   CRAN                       
@@ -151,13 +151,13 @@ osVersion: macOS  10.16
             oompaBase       3.2.9   CRAN                       
               openssl       2.0.5   CRAN                       
              openxlsx       4.1.4   CRAN                       
-              packrat       0.8.1   CRAN                       
-                  pak       0.3.1   CRAN                       
+              packrat       0.9.0   CRAN                       
+                  pak       0.4.0   CRAN                       
             paletteer       0.2.1   CRAN                       
        palmerpenguins       0.1.1   CRAN                       
                  palr       0.0.6   CRAN                       
                  pals         1.6   CRAN                       
-           parallelly      1.33.0   CRAN                       
+           parallelly      1.34.0   CRAN                       
             parsedate       1.2.0   CRAN                       
              pbkrtest       0.4-7   CRAN                       
                pillar       1.8.1   CRAN                       
@@ -170,7 +170,7 @@ osVersion: macOS  10.16
                  plyr       1.8.6   CRAN                       
                   png       0.1-7   CRAN                       
               polycor      0.7-10   CRAN                       
-                 pool  0.1.6.9000 GitHub c8a8673   rstudio/HEAD
+                 pool  0.1.6.9000 GitHub cfe18af   rstudio/HEAD
                praise       1.0.0   CRAN                       
           prettyunits       1.1.1   CRAN                       
              processx       3.8.0   CRAN                       
@@ -223,32 +223,32 @@ osVersion: macOS  10.16
                RMySQL     0.10.20   CRAN                       
            robustbase      0.93-5   CRAN                       
             rprojroot       1.3-2   CRAN                       
-            rsconnect      0.8.28   CRAN                       
+            rsconnect      0.8.29   CRAN                       
              RSpectra      0.16-0   CRAN                       
               RSQLite       2.2.0   CRAN                       
            rstudioapi        0.11   CRAN                       
                  rsvg         1.3   CRAN                       
             rversions       2.0.1   CRAN                       
                 rvest       0.3.5   CRAN                       
-                   s2       1.1.1   CRAN                       
+                   s2       1.1.2   CRAN                       
              sandwich       2.5-1   CRAN                       
-                 sass  0.4.3.9000 GitHub 3e61ef8   rstudio/HEAD
+                 sass  0.4.4.9000 GitHub fe83296   rstudio/HEAD
                scales       1.2.1   CRAN                       
                 scico       1.1.0   CRAN                       
               selectr       0.4-2   CRAN                       
                 servr        0.16   CRAN                       
           sessioninfo       1.1.1   CRAN                       
                    sf       1.0-9   CRAN                       
-                shiny  1.7.4.9001 GitHub e7d62f5   rstudio/HEAD
+                shiny  1.7.4.9001 GitHub 0c177d3   rstudio/HEAD
              shinyAce       0.4.1   CRAN                       
           shinycoreci  0.0.0.9007  Local                       
        shinydashboard       0.7.2   CRAN                       
            shinyFiles       0.7.5   CRAN                       
               shinyjs       2.1.0   CRAN                       
-           shinyjster  0.0.0.9010 GitHub 2a94494 schloerke/HEAD
+           shinyjster  0.0.0.9010 GitHub 1807304 schloerke/HEAD
             shinymeta     0.2.0.3 GitHub 5af8086   rstudio/HEAD
             shinytest  1.5.1.9000 GitHub 0c1357f   rstudio/HEAD
-           shinytest2  0.2.0.9000 GitHub b47a0db   rstudio/HEAD
+           shinytest2  0.2.0.9000 GitHub c96ebf5   rstudio/HEAD
           shinythemes       1.2.0 GitHub 492b6aa   rstudio/HEAD
         shinyvalidate       0.1.2 GitHub 575f586   rstudio/HEAD
          shinyWidgets       0.5.1   CRAN                       

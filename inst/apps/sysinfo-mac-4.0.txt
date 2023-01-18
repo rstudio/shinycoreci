@@ -10,7 +10,7 @@ osVersion: macOS Big Sur 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2023-01-09
+ date     2023-01-18
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
               Package     Version Source     SHA                   Ref
@@ -31,7 +31,7 @@ osVersion: macOS Big Sur 10.16
                  brio       1.1.3   CRAN   1.1.3                 /brio
                 broom      0.7.12   CRAN  0.7.12                /broom
               bsicons         0.1 GitHub 1a12bb6          rstudio/HEAD
-                bslib  0.4.2.9000 GitHub 014b082          rstudio/HEAD
+                bslib  0.4.2.9000 GitHub 6c83c37          rstudio/HEAD
                cachem  1.0.6.9000 GitHub 7b9d764            r-lib/HEAD
                 Cairo      1.5-15   CRAN  1.5-15                /Cairo
                 callr       3.7.0   CRAN   3.7.0                /callr
@@ -41,7 +41,7 @@ osVersion: macOS Big Sur 10.16
             checkmate       2.0.0   CRAN   2.0.0            /checkmate
              chromote       0.1.1   CRAN   0.1.1             /chromote
              classInt       0.4-3   CRAN   0.4-3             /classInt
-                  cli       3.5.0   CRAN   3.5.0                  /cli
+                  cli       3.6.0   CRAN   3.6.0                  /cli
                 clipr       0.8.0   CRAN   0.8.0                /clipr
          clustMixType      0.2-15   CRAN  0.2-15         /clustMixType
            colorspace       2.0-3   CRAN   2.0-3           /colorspace
@@ -66,7 +66,7 @@ osVersion: macOS Big Sur 10.16
                digest      0.6.29   CRAN  0.6.29               /digest
            downloader         0.4   CRAN     0.4           /downloader
                 dplyr       1.0.8   CRAN   1.0.8                /dplyr
-                   DT      0.26.3 GitHub 744ca23          rstudio/HEAD
+                   DT      0.27.1 GitHub c1cdbef          rstudio/HEAD
              dygraphs     1.1.1.7 GitHub 70b60ab          rstudio/HEAD
                 e1071       1.7-9   CRAN   1.7-9                /e1071
              ellipsis       0.3.2   CRAN   0.3.2             /ellipsis
@@ -74,9 +74,9 @@ osVersion: macOS Big Sur 10.16
              evaluate        0.15   CRAN    0.15             /evaluate
                 fansi       1.0.3   CRAN   1.0.3                /fansi
                farver       2.1.0   CRAN   2.1.0               /farver
-              fastmap  1.1.0.9000 GitHub 285cbb8            r-lib/HEAD
-        flexdashboard  0.6.0.9000 GitHub b3cb4a3          rstudio/HEAD
-          fontawesome  0.4.0.9000 GitHub d198866          rstudio/HEAD
+              fastmap  1.1.0.9000 GitHub 971e98a            r-lib/HEAD
+        flexdashboard  0.6.0.9000 GitHub cd7301d          rstudio/HEAD
+          fontawesome  0.4.0.9000 GitHub 3e78323          rstudio/HEAD
               forcats       0.5.1   CRAN   0.5.1              /forcats
                    fs       1.5.2   CRAN   1.5.2                   /fs
                future      1.24.0   CRAN  1.24.0               /future
@@ -97,7 +97,7 @@ osVersion: macOS Big Sur 10.16
                 gower       1.0.0   CRAN   1.0.0                /gower
           GPArotation   2014.11-1   CRAN 2014.11          /GPArotation
             gridExtra         2.3   CRAN     2.3            /gridExtra
-                   gt  0.8.0.9000 GitHub fd7bbbe          rstudio/HEAD
+                   gt  0.8.0.9000 GitHub 85a76c2          rstudio/HEAD
                gtable       0.3.0   CRAN   0.3.0               /gtable
                  here       1.0.1   CRAN   1.0.1                 /here
                hexbin      1.28.2   CRAN  1.28.2               /hexbin
@@ -106,7 +106,7 @@ osVersion: macOS Big Sur 10.16
                   hms       1.1.1   CRAN   1.1.1                  /hms
             htmltools  0.5.4.9000 GitHub f07ceba          rstudio/HEAD
           htmlwidgets  1.6.1.9000 GitHub 843eee9         ramnathv/HEAD
-               httpuv  1.6.7.9000 GitHub a1211df          rstudio/HEAD
+               httpuv  1.6.8.9000 GitHub 650ba73          rstudio/HEAD
                  httr       1.4.2   CRAN   1.4.2                 /httr
              hunspell       3.0.1   CRAN   3.0.1             /hunspell
                igraph       1.3.0   CRAN   1.3.0               /igraph
@@ -148,7 +148,7 @@ osVersion: macOS Big Sur 10.16
              numDeriv  2016.8-1.1   CRAN 2016.8-             /numDeriv
               openssl       2.0.0   CRAN   2.0.0              /openssl
               packrat       0.7.0   CRAN   0.7.0              /packrat
-                  pak       0.3.1   CRAN                              
+                  pak       0.4.0   CRAN                              
             paletteer       1.4.0   CRAN   1.4.0            /paletteer
        palmerpenguins       0.1.0   CRAN   0.1.0       /palmerpenguins
            parallelly      1.30.0   CRAN  1.30.0           /parallelly
@@ -165,7 +165,7 @@ osVersion: macOS Big Sur 10.16
                  plyr       1.8.7   CRAN   1.8.7                 /plyr
                   png       0.1-7   CRAN   0.1-7                  /png
               polycor       0.8-1   CRAN   0.8-1              /polycor
-                 pool  0.1.6.9000 GitHub c8a8673          rstudio/HEAD
+                 pool  0.1.6.9000 GitHub cfe18af          rstudio/HEAD
                praise       1.0.0   CRAN   1.0.0               /praise
           prettyunits       1.1.1   CRAN   1.1.1          /prettyunits
             prismatic       1.1.0   CRAN   1.1.0            /prismatic
@@ -185,12 +185,12 @@ osVersion: macOS Big Sur 10.16
                  R.oo      1.24.0   CRAN  1.24.0                 /R.oo
               R.utils      2.11.0   CRAN  2.11.0              /R.utils
                    R6       2.5.1   CRAN   2.5.1                   /R6
-              radiant       1.4.4   CRAN   1.4.4              /radiant
-       radiant.basics       1.4.4   CRAN   1.4.4       /radiant.basics
-         radiant.data       1.4.5   CRAN   1.4.5         /radiant.data
-       radiant.design       1.4.4   CRAN   1.4.4       /radiant.design
-        radiant.model       1.4.8   CRAN   1.4.8        /radiant.model
- radiant.multivariate       1.4.4   CRAN   1.4.4 /radiant.multivariate
+              radiant       1.5.0   CRAN   1.5.0              /radiant
+       radiant.basics       1.5.0   CRAN   1.5.0       /radiant.basics
+         radiant.data       1.5.1   CRAN   1.5.1         /radiant.data
+       radiant.design       1.5.0   CRAN   1.5.0       /radiant.design
+        radiant.model       1.5.0   CRAN   1.5.0        /radiant.model
+ radiant.multivariate       1.5.0   CRAN   1.5.0 /radiant.multivariate
                  ragg       1.2.2   CRAN   1.2.2                 /ragg
             randomizr      0.22.0   CRAN  0.22.0            /randomizr
                ranger      0.13.1   CRAN  0.13.1               /ranger
@@ -229,22 +229,22 @@ osVersion: macOS Big Sur 10.16
                 rvest       1.0.2   CRAN   1.0.2                /rvest
                    s2       1.0.7   CRAN   1.0.7                   /s2
              sandwich       3.0-1   CRAN   3.0-1             /sandwich
-                 sass  0.4.3.9000 GitHub 3e61ef8          rstudio/HEAD
+                 sass  0.4.4.9000 GitHub fe83296          rstudio/HEAD
                scales       1.2.1   CRAN   1.2.1               /scales
               selectr       0.4-2   CRAN   0.4-2              /selectr
                 servr        0.24   CRAN    0.24                /servr
           sessioninfo       1.2.2    any   1.2.2     /any::sessioninfo
                    sf       1.0-7   CRAN   1.0-7                   /sf
-                shiny  1.7.4.9001 GitHub e7d62f5          rstudio/HEAD
+                shiny  1.7.4.9001 GitHub 0c177d3          rstudio/HEAD
              shinyAce       0.4.1   CRAN   0.4.1             /shinyAce
           shinycoreci  0.0.0.9007  Local                              
        shinydashboard       0.7.2   CRAN   0.7.2       /shinydashboard
            shinyFiles       0.9.1   CRAN   0.9.1           /shinyFiles
               shinyjs       2.1.0   CRAN   2.1.0              /shinyjs
-           shinyjster  0.0.0.9010 GitHub 2a94494        schloerke/HEAD
+           shinyjster  0.0.0.9010 GitHub 1807304        schloerke/HEAD
             shinymeta     0.2.0.3 GitHub 5af8086          rstudio/HEAD
             shinytest  1.5.1.9000 GitHub 0c1357f          rstudio/HEAD
-           shinytest2  0.2.0.9000 GitHub b47a0db          rstudio/HEAD
+           shinytest2  0.2.0.9000 GitHub c96ebf5          rstudio/HEAD
           shinythemes       1.2.0 GitHub 492b6aa          rstudio/HEAD
         shinyvalidate       0.1.2 GitHub 575f586          rstudio/HEAD
          shinyWidgets       0.6.4   CRAN   0.6.4         /shinyWidgets
@@ -285,6 +285,7 @@ osVersion: macOS Big Sur 10.16
                 vctrs       0.4.0   CRAN   0.4.0                /vctrs
                vdiffr       1.0.4   CRAN   1.0.4               /vdiffr
               vembedr       0.1.5   CRAN   0.1.5              /vembedr
+                  vip       0.3.2   CRAN   0.3.2                  /vip
               viridis       0.6.2   CRAN   0.6.2              /viridis
           viridisLite       0.4.0   CRAN   0.4.0          /viridisLite
            visNetwork       2.1.0   CRAN   2.1.0           /visNetwork
