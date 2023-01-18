@@ -1,6 +1,6 @@
 ---
 title: "getCurrentOutputInfo() test"
-output: 
+output:
   html_document:
     theme: null
 runtime: shiny
@@ -16,69 +16,135 @@ library(shiny)
 library(htmltools)
 source("global.R")
 info2css(info1)
-info2css(info2, "#info2")
+info2css(info2, "#info2_actual")
+info2css(info2, "#info2_expected")
 ```
 
 #### This test makes sure `getCurrentOutputInfo()` returns `bg`+`fg`+`accent`+`font` information. You should see CSS styles displayed as JSON below
 
 ```{r}
-tagAppendAttributes(
-  class = "shiny-report-theme",
-  textOutput("info1")
+tags$table(
+  tags$tr(
+    tags$th("item"),
+    tags$th("actual"),
+    tags$th("expected"),
+  ),
+  tags$tr(
+    tags$td("info1"),
+    tags$td(tagAppendAttributes(
+      class = "shiny-report-theme",
+      textOutput("info1_actual")
+    )),
+    tags$td(tagAppendAttributes(
+      class = "shiny-report-theme",
+      textOutput("info1_expected")
+    )),
+  ),
+  tags$tr(
+    tags$td("info2"),
+    tags$td(tagAppendAttributes(
+      class = "shiny-report-theme",
+      textOutput("info2_actual")
+    )),
+    tags$td(tagAppendAttributes(
+      class = "shiny-report-theme",
+      textOutput("info2_expected")
+    )),
+  ),
 )
 ```
 
 
 ```{r}
-output$info1 <- renderText({
+infoValues <- reactiveValues()
+
+output$info1_expected <- renderText({
+  val <- to_json(info1)
+  infoValues$info1_expected <- val
+  val
+})
+output$info1_actual <- renderText({
   info <- getCurrentOutputInfo()
-  to_json(list(
+  val <- to_json(list(
     bg = info$bg(),
     fg = info$fg(),
     accent = info$accent(),
     font = info$font()
   ))
+  infoValues$info1_actual <- val
+  val
 })
-```
-
-```{r}
-tagAppendAttributes(
-  class = "shiny-report-theme",
-  textOutput("info2")
-)
-```
-
-```{r}
-output$info2 <- renderText({
+output$info2_expected <- renderText({
+  val <- to_json(info2)
+  infoValues$info2_expected <- val
+  val
+})
+output$info2_actual <- renderText({
   info <- getCurrentOutputInfo()
-  to_json(list(
+  val <- to_json(list(
     bg = info$bg(),
     fg = info$fg(),
     accent = info$accent(),
     font = info$font()
   ))
+  infoValues$info2_actual <- val
+  val
 })
 ```
 
+# Status
+```{r}
+uiOutput("status")
+output$status <- renderUI({
+  validate(
+    need(infoValues$info1_expected, "info1_expected not set"),
+    need(infoValues$info2_expected, "info2_expected not set"),
+    need(infoValues$info1_actual, "info1_actual not set"),
+    need(infoValues$info2_actual, "info2_actual not set")
+  )
+
+
+  json_is_equal <- function(x, y) {
+    identical(jsonlite::fromJSON(x), jsonlite::fromJSON(y))
+  }
+
+  fail_msg <- function(name, x, y) {
+    div(
+      p(
+        style = "color:red;",
+        paste0("Fail: ", name, "_actual does not match ", name, "_expected")
+      ),
+      pre(
+        paste0(capture.output(print(
+          waldo::compare(jsonlite::fromJSON(x), jsonlite::fromJSON(y))
+        )), collapse = "\n")
+      )
+    )
+  }
+
+  if (!json_is_equal(infoValues$info1_expected, infoValues$info1_actual)) {
+    fail_msg("info1", infoValues$info1_expected, infoValues$info1_actual)
+  } else if (!json_is_equal(infoValues$info2_expected, infoValues$info2_actual)) {
+    fail_msg("info2", infoValues$info2_expected, infoValues$info2_actual)
+  } else {
+    p(style = "color:green;", "Pass")
+  }
+})
+```
 
 ```{r}
 shinyjster::shinyjster_js(
-  sprintf(
-    "
-    var jst = jster();
-    jst.add(Jster.shiny.waitUntilStable);
-    jst.add(function() {
-      Jster.assert.isEqual(
-        JSON.parse($('#info1').text()), JSON.parse('%s')
-      );
-      Jster.assert.isEqual(
-        JSON.parse($('#info2').text()), JSON.parse('%s')
-      );
-    });
-    
-    jst.test();
-    ", to_json(info1), to_json(info2)
-  )
+  "
+  var jst = jster();
+  jst.add(Jster.shiny.waitUntilStable);
+  jst.add(function() {
+    Jster.assert.isEqual(
+      $('#status').text().trim(),
+      'Pass'
+    )
+  })
+  jst.test();
+  "
 )
 
 shinyjster::shinyjster_server(input, output)
