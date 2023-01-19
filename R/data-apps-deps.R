@@ -7,7 +7,7 @@ apps_deps <- c("base64enc", "Cairo", "clipr", "curl", "dbplyr", "DiagrammeR",
 "ragg", "RColorBrewer", "reactable", "reactR", "rlang", "rmarkdown", 
 "rprojroot", "rsconnect", "RSQLite", "rversions", "scales", "sf", 
 "shinyAce", "shinydashboard", "shinyjs", "showtext", "sysfonts", 
-"systemfonts", "testthat", "tidyr", "tm", "withr", "wordcloud"
+"systemfonts", "testthat", "tidyr", "tm", "waldo", "withr", "wordcloud"
 )
 apps_deps_map <- list(`001-hello` = "rsconnect", `012-datatables` = "ggplot2", 
     `016-knitr-pdf` = "rmarkdown", `020-knit-html` = c("evaluate", 
@@ -42,8 +42,9 @@ apps_deps_map <- list(`001-hello` = "rsconnect", `012-datatables` = "ggplot2",
     "sysfonts", "systemfonts"), `184-report-ragg` = c("Cairo", 
     "jsonlite", "ragg", "showtext", "sysfonts", "systemfonts"
     ), `185-report-theme` = c("Cairo", "jsonlite", "knitr", "ragg", 
-    "rmarkdown"), `193-reactlog-dynamic-ui` = "rversions", `200-flexdashboard-render-text` = c("knitr", 
-    "rmarkdown"), `205-dynamic-tabs-compat` = "withr", `206-freeze-thaw` = "rlang", 
+    "rmarkdown", "waldo"), `193-reactlog-dynamic-ui` = "rversions", 
+    `200-flexdashboard-render-text` = c("knitr", "rmarkdown"), 
+    `205-dynamic-tabs-compat` = "withr", `206-freeze-thaw` = "rlang", 
     `208-bind-cache-event` = "magrittr", `209-datepicker` = c("jsonlite", 
     "magrittr", "rlang"), `210-future_promise` = c("future", 
     "magrittr", "shinyjs"), `211-sv-custom-inputs` = "base64enc", 
