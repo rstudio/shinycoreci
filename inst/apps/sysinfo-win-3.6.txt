@@ -1,4 +1,4 @@
-Image Version:  20230109.1 
+Image Version:  20230118.1 
 osVersion: Windows Server x64 (build 20348)
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.1252
  ctype    English_United States.1252
  tz       UTC
- date     2023-01-18
+ date     2023-01-23
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
@@ -71,7 +71,7 @@ osVersion: Windows Server x64 (build 20348)
                 e1071      1.7-12   RSPM                       
              ellipsis       0.3.2   RSPM                       
               english       1.2-6   RSPM                       
-             evaluate        0.19   RSPM                       
+             evaluate        0.20   RSPM                       
                 fansi       1.0.3   RSPM                       
                farver       2.1.1   RSPM                       
               fastmap  1.1.0.9000 GitHub 971e98a     r-lib/HEAD
@@ -223,7 +223,7 @@ osVersion: Windows Server x64 (build 20348)
               RJSONIO     1.3-1.7   RSPM                       
                 rlang       1.0.6   RSPM                       
                 rlist     0.4.6.2   RSPM                       
-            rmarkdown        2.19   RSPM                       
+            rmarkdown        2.20   RSPM                       
                RMySQL     0.10.25   RSPM                       
             rprojroot       2.0.3   RSPM                       
             rsconnect      0.8.29   RSPM                       
@@ -249,7 +249,7 @@ osVersion: Windows Server x64 (build 20348)
            shinyjster  0.0.0.9010 GitHub 1807304 schloerke/HEAD
             shinymeta     0.2.0.3 GitHub 5af8086   rstudio/HEAD
             shinytest  1.5.1.9000 GitHub 0c1357f   rstudio/HEAD
-           shinytest2  0.2.0.9000 GitHub c96ebf5   rstudio/HEAD
+           shinytest2  0.2.0.9000 GitHub 96a1d28   rstudio/HEAD
           shinythemes       1.2.0 GitHub 492b6aa   rstudio/HEAD
         shinyvalidate       0.1.2 GitHub 575f586   rstudio/HEAD
          shinyWidgets       0.7.6   RSPM                       
@@ -258,7 +258,7 @@ osVersion: Windows Server x64 (build 20348)
            showtextdb         3.0   RSPM                       
                  slam      0.1-50   RSPM                       
           sourcetools       0.1.7   RSPM                       
-                   sp       1.5-1   RSPM                       
+                   sp       1.6-0   RSPM                       
               SparseM        1.81   RSPM                       
              spelling         2.2   RSPM                       
               statmod       1.5.0   RSPM                       
@@ -269,7 +269,7 @@ osVersion: Windows Server x64 (build 20348)
                   sys       3.4.1   RSPM                       
              sysfonts       0.8.8   RSPM                       
           systemfonts       1.0.4   RSPM                       
-                terra      1.6-47   RSPM                       
+                terra      1.6-53   RSPM                       
                testit        0.13   RSPM                       
              testthat       3.1.6   RSPM                       
           textshaping       0.3.6   RSPM                       

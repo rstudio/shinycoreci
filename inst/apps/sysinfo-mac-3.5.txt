@@ -1,4 +1,4 @@
-Image Version:  20221215.1 
+Image Version:  20230117.2 
 osVersion: macOS  10.16
 --------------------------------------------------------------------------------
  setting  value                       
@@ -10,7 +10,7 @@ osVersion: macOS  10.16
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       UTC                         
- date     2023-01-18                  
+ date     2023-01-23                  
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
                 abind       1.4-5   CRAN                       
@@ -176,7 +176,7 @@ osVersion: macOS  10.16
              processx       3.8.0   CRAN                       
              progress       1.2.2   CRAN                       
              promises  1.2.0.9000 GitHub 7979d6c   rstudio/HEAD
-                 pryr       0.1.5   CRAN                       
+                 pryr       0.1.6   CRAN                       
                    ps       1.7.2   CRAN                       
                 psych   1.9.12.31   CRAN                       
                 purrr       0.3.3   CRAN                       
@@ -198,7 +198,7 @@ osVersion: macOS  10.16
              rappdirs       0.3.1   CRAN                       
                raster      3.0-12   CRAN                       
          RColorBrewer       1.1-2   CRAN                       
-                 Rcpp       1.0.9   CRAN                       
+                 Rcpp      1.0.10   CRAN                       
             reactable       0.4.3   CRAN                       
              reactlog       1.1.1 GitHub 83a4958   rstudio/HEAD
                reactR       0.4.4   CRAN                       
@@ -219,7 +219,7 @@ osVersion: macOS  10.16
               RJSONIO     1.3-1.4   CRAN                       
                 rlang       1.0.6   CRAN                       
                 rlist     0.4.6.1   CRAN                       
-            rmarkdown        2.19   CRAN                       
+            rmarkdown        2.20   CRAN                       
                RMySQL     0.10.20   CRAN                       
            robustbase      0.93-5   CRAN                       
             rprojroot       1.3-2   CRAN                       
@@ -248,7 +248,7 @@ osVersion: macOS  10.16
            shinyjster  0.0.0.9010 GitHub 1807304 schloerke/HEAD
             shinymeta     0.2.0.3 GitHub 5af8086   rstudio/HEAD
             shinytest  1.5.1.9000 GitHub 0c1357f   rstudio/HEAD
-           shinytest2  0.2.0.9000 GitHub c96ebf5   rstudio/HEAD
+           shinytest2  0.2.0.9000 GitHub 96a1d28   rstudio/HEAD
           shinythemes       1.2.0 GitHub 492b6aa   rstudio/HEAD
         shinyvalidate       0.1.2 GitHub 575f586   rstudio/HEAD
          shinyWidgets       0.5.1   CRAN                       
