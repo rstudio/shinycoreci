@@ -137,6 +137,17 @@ shinyjster::shinyjster_js(
   "
   var jst = jster();
   jst.add(Jster.shiny.waitUntilStable);
+  jst.add(function(done) {
+    var wait = function() {
+      var txt = $('#status').get(0).textContent;
+      if (txt.length > 0 && txt.match(new RegExp('Pass|Fail')).length > 0) {
+        done();
+      } else {
+        setTimeout(wait, 100)
+      }
+    }
+    wait();
+  })
   jst.add(function() {
     Jster.assert.isEqual(
       $('#status').text().trim(),
