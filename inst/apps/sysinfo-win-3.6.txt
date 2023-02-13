@@ -1,4 +1,4 @@
-Image Version:  20230118.1 
+Image Version:  20230206.1 
 osVersion: Windows Server x64 (build 20348)
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.1252
  ctype    English_United States.1252
  tz       UTC
- date     2023-01-23
+ date     2023-02-13
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
@@ -29,9 +29,9 @@ osVersion: Windows Server x64 (build 20348)
                bitops       1.0-7   RSPM                       
                  blob       1.2.3   RSPM                       
                  brio       1.1.3   RSPM                       
-                broom       1.0.2   RSPM                       
+                broom       1.0.3   RSPM                       
               bsicons         0.1 GitHub 1a12bb6   rstudio/HEAD
-                bslib  0.4.2.9000 GitHub 6c83c37   rstudio/HEAD
+                bslib  0.4.2.9000 GitHub fe41d6d   rstudio/HEAD
                cachem  1.0.6.9000 GitHub 7b9d764     r-lib/HEAD
                 Cairo       1.6-0   RSPM                       
                 callr       3.7.3   RSPM                       
@@ -44,7 +44,7 @@ osVersion: Windows Server x64 (build 20348)
                   cli       3.6.0   RSPM                       
                 clipr       0.8.0   RSPM                       
          clustMixType       0.3-9   RSPM                       
-           colorspace       2.0-3   RSPM                       
+           colorspace       2.1-0   RSPM                       
            commonmark       1.8.1   RSPM                       
                  covr       3.6.1   RSPM                       
                 cpp11       0.4.3   RSPM                       
@@ -65,28 +65,28 @@ osVersion: Windows Server x64 (build 20348)
               diffobj       0.3.5   RSPM                       
                digest      0.6.31   RSPM                       
            downloader         0.4   RSPM                       
-                dplyr      1.0.10   RSPM                       
+                dplyr       1.1.0   RSPM                       
                    DT      0.27.1 GitHub c1cdbef   rstudio/HEAD
              dygraphs     1.1.1.7 GitHub 70b60ab   rstudio/HEAD
-                e1071      1.7-12   RSPM                       
+                e1071      1.7-13   RSPM                       
              ellipsis       0.3.2   RSPM                       
               english       1.2-6   RSPM                       
              evaluate        0.20   RSPM                       
-                fansi       1.0.3   RSPM                       
+                fansi       1.0.4   RSPM                       
                farver       2.1.1   RSPM                       
-              fastmap  1.1.0.9000 GitHub 971e98a     r-lib/HEAD
-        flexdashboard  0.6.0.9000 GitHub cd7301d   rstudio/HEAD
-          fontawesome  0.4.0.9000 GitHub 3e78323   rstudio/HEAD
-              forcats       0.5.2   RSPM                       
+              fastmap  1.1.0.9000 GitHub ac94d6f     r-lib/HEAD
+        flexdashboard  0.6.1.9000 GitHub 2948fe2   rstudio/HEAD
+          fontawesome  0.5.0.9000 GitHub dc1b2fd   rstudio/HEAD
+              forcats       1.0.0   RSPM                       
               foreach       1.5.2   RSPM                       
-                   fs       1.5.2   RSPM                       
-               future      1.30.0   RSPM                       
+                   fs       1.6.1   RSPM                       
+               future      1.31.0   RSPM                       
              generics       0.1.3   RSPM                       
                  gert       1.9.2   RSPM                       
-           ggalluvial      0.12.3   RSPM                       
+           ggalluvial      0.12.4   RSPM                       
                GGally       2.1.2   RSPM                       
             gganimate       1.0.8   RSPM                       
-              ggiraph       0.8.5   RSPM                       
+              ggiraph       0.8.6   RSPM                       
               ggplot2       3.4.0   RSPM                       
               ggrepel       0.9.2   RSPM                       
              ggthemes       4.2.4   RSPM                       
@@ -98,7 +98,7 @@ osVersion: Windows Server x64 (build 20348)
                 gower       1.0.1   RSPM                       
           GPArotation   2022.10-2   RSPM                       
             gridExtra         2.3   RSPM                       
-                   gt  0.8.0.9000 GitHub 85a76c2   rstudio/HEAD
+                   gt  0.8.0.9000 GitHub eb7f883   rstudio/HEAD
                gtable       0.3.1   RSPM                       
                 haven       2.5.1   RSPM                       
                  here       1.0.1   RSPM                       
@@ -108,7 +108,7 @@ osVersion: Windows Server x64 (build 20348)
                   hms       1.1.2   RSPM                       
             htmltools  0.5.4.9000 GitHub f07ceba   rstudio/HEAD
           htmlwidgets  1.6.1.9000 GitHub 843eee9  ramnathv/HEAD
-               httpuv  1.6.8.9000 GitHub 650ba73   rstudio/HEAD
+               httpuv  1.6.8.9000 GitHub 581b289   rstudio/HEAD
                  httr       1.4.4   RSPM                       
              hunspell       3.0.2   RSPM                       
                igraph       1.3.5   RSPM                       
@@ -121,7 +121,7 @@ osVersion: Windows Server x64 (build 20348)
             jquerylib       0.1.4   RSPM                       
              jsonlite       1.8.4   RSPM                       
            juicyjuice       0.1.0   RSPM                       
-                knitr        1.41   RSPM                       
+                knitr        1.42   RSPM                       
              labeling       0.4.2   RSPM                       
                 later  1.3.0.9000 GitHub ba70887     r-lib/HEAD
              lazyeval       0.2.2   RSPM                       
@@ -132,11 +132,11 @@ osVersion: Windows Server x64 (build 20348)
            listviewer       3.0.0   RSPM                       
                  lme4      1.1-26   CRAN                       
                lobstr       1.1.2   RSPM                       
-            lubridate       1.9.0   RSPM                       
+            lubridate       1.9.1   RSPM                       
              magrittr       2.0.3   RSPM                       
                  maps       3.4.1   RSPM                       
              maptools       1.1-6   RSPM                       
-             markdown         1.4   RSPM                       
+             markdown         1.5   RSPM                       
                Matrix       1.5-3   RSPM                       
          MatrixModels       0.5-1   RSPM                       
               memoise       2.0.1   RSPM                       
@@ -169,13 +169,13 @@ osVersion: Windows Server x64 (build 20348)
                  plyr       1.8.8   RSPM                       
                   png       0.1-8   RSPM                       
               polycor       0.8-1   RSPM                       
-                 pool  0.1.6.9000 GitHub cfe18af   rstudio/HEAD
+                 pool  1.0.0.9000 GitHub c6e2e4a   rstudio/HEAD
                praise       1.0.0   RSPM                       
           prettyunits       1.1.1   RSPM                       
             prismatic       1.1.1   RSPM                       
              processx       3.8.0   RSPM                       
              progress       1.2.2   RSPM                       
-             promises  1.2.0.9000 GitHub 7979d6c   rstudio/HEAD
+             promises  1.2.0.9000 GitHub dd2b792   rstudio/HEAD
                 proxy      0.4-27   RSPM                       
                  pryr       0.1.5   RSPM                       
                    ps       1.7.2   RSPM                       
@@ -201,7 +201,7 @@ osVersion: Windows Server x64 (build 20348)
              rappdirs       0.3.3   RSPM                       
                raster      3.6-14   RSPM                       
          RColorBrewer       1.1-3   RSPM                       
-                 Rcpp       1.0.9   RSPM                       
+                 Rcpp      1.0.10   RSPM                       
              RcppTOML       0.1.7   CRAN                       
             reactable       0.4.3   RSPM                       
              reactlog       1.1.1 GitHub 83a4958   rstudio/HEAD
@@ -211,16 +211,16 @@ osVersion: Windows Server x64 (build 20348)
               rematch       1.0.1   RSPM                       
              rematch2       2.1.2   RSPM                       
                  renv      0.16.0   RSPM                       
-                 repr       1.1.5   RSPM                       
+                 repr       1.1.6   RSPM                       
               reshape       0.8.9   RSPM                       
              reshape2       1.4.4   RSPM                       
-           reticulate        1.27   RSPM                       
+           reticulate        1.20   CRAN                       
                   rex       1.2.1   RSPM                       
                 rgdal       1.6-4   RSPM                       
                 rgeos       0.6-1   RSPM                       
                   rio      0.5.29   RSPM                       
                 rjson      0.2.20   CRAN                       
-              RJSONIO     1.3-1.7   RSPM                       
+              RJSONIO     1.3-1.8   RSPM                       
                 rlang       1.0.6   RSPM                       
                 rlist     0.4.6.2   RSPM                       
             rmarkdown        2.20   RSPM                       
@@ -234,13 +234,13 @@ osVersion: Windows Server x64 (build 20348)
                 rvest       1.0.3   RSPM                       
                    s2       1.1.2   RSPM                       
              sandwich       3.0-2   RSPM                       
-                 sass  0.4.4.9000 GitHub fe83296   rstudio/HEAD
+                 sass  0.4.5.9000 GitHub 2f1f152   rstudio/HEAD
                scales       1.2.1   RSPM                       
               selectr       0.4-2   RSPM                       
                 servr        0.25   RSPM                       
           sessioninfo       1.2.2   RSPM                       
                    sf       1.0-9   RSPM                       
-                shiny  1.7.4.9001 GitHub 0c177d3   rstudio/HEAD
+                shiny  1.7.4.9002 GitHub f9ff5c2   rstudio/HEAD
              shinyAce       0.4.2   RSPM                       
           shinycoreci  0.0.0.9007  Local                       
        shinydashboard       0.7.2   RSPM                       
@@ -249,7 +249,7 @@ osVersion: Windows Server x64 (build 20348)
            shinyjster  0.0.0.9010 GitHub 1807304 schloerke/HEAD
             shinymeta     0.2.0.3 GitHub 5af8086   rstudio/HEAD
             shinytest  1.5.1.9000 GitHub 0c1357f   rstudio/HEAD
-           shinytest2  0.2.0.9000 GitHub 96a1d28   rstudio/HEAD
+           shinytest2  0.2.0.9000 GitHub c1e303c   rstudio/HEAD
           shinythemes       1.2.0 GitHub 492b6aa   rstudio/HEAD
         shinyvalidate       0.1.2 GitHub 575f586   rstudio/HEAD
          shinyWidgets       0.7.6   RSPM                       
@@ -257,7 +257,7 @@ osVersion: Windows Server x64 (build 20348)
              showtext       0.9-5   RSPM                       
            showtextdb         3.0   RSPM                       
                  slam      0.1-50   RSPM                       
-          sourcetools       0.1.7   RSPM                       
+          sourcetools     0.1.7-1   RSPM                       
                    sp       1.6-0   RSPM                       
               SparseM        1.81   RSPM                       
              spelling         2.2   RSPM                       
@@ -269,27 +269,27 @@ osVersion: Windows Server x64 (build 20348)
                   sys       3.4.1   RSPM                       
              sysfonts       0.8.8   RSPM                       
           systemfonts       1.0.4   RSPM                       
-                terra      1.6-53   RSPM                       
+                terra       1.7-3   RSPM                       
                testit        0.13   RSPM                       
              testthat       3.1.6   RSPM                       
           textshaping       0.3.6   RSPM                       
              thematic  0.1.2.9000 GitHub ebb4ddf   rstudio/HEAD
                tibble       3.1.8   RSPM                       
-                tidyr       1.2.1   RSPM                       
+                tidyr       1.3.0   RSPM                       
            tidyselect       1.2.0   RSPM                       
            timechange       0.2.0   RSPM                       
-              tinytex        0.43   RSPM                       
+              tinytex        0.44   RSPM                       
                    tm      0.7-10   RSPM                       
                   TTR      0.24.3   RSPM                       
                tweenr       2.0.2   RSPM                       
                  tzdb       0.3.0   RSPM                       
                 units       0.8-1   RSPM                       
               usethis       2.1.6   RSPM                       
-                 utf8       1.2.2   RSPM                       
+                 utf8       1.2.3   RSPM                       
                  uuid       1.1-0   RSPM                       
                    V8       4.2.2   RSPM                       
-                vctrs       0.5.1   RSPM                       
-               vdiffr       1.0.4   RSPM                       
+                vctrs       0.5.2   RSPM                       
+               vdiffr       1.0.5   RSPM                       
               vembedr       0.1.5   RSPM                       
               viridis       0.6.2   RSPM                       
           viridisLite       0.4.1   RSPM                       
@@ -305,13 +305,13 @@ osVersion: Windows Server x64 (build 20348)
                    wk       0.7.1   RSPM                       
             wordcloud         2.6   RSPM                       
               writexl       1.4.2   RSPM                       
-                 xfun        0.36   RSPM                       
+                 xfun        0.37   RSPM                       
               xgboost     1.4.1.1   CRAN                       
                   XML    3.99-0.3   RSPM                       
                  xml2       1.3.3   RSPM                       
                xtable       1.8-4   RSPM                       
                   xts      0.12.2   RSPM                       
-                 yaml       2.3.6   RSPM                       
+                 yaml       2.3.7   RSPM                       
                   zip       2.2.2   RSPM                       
                   zoo      1.8-11   RSPM                       
                   pak       0.4.0   RSPM                       
