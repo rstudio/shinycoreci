@@ -25,6 +25,10 @@ test_that("{shinytest2} recording: card", {
   expect_screenshot <- function(..., wait = 1, viewport = TRUE, threshold = 3) {
     Sys.sleep(wait)
     args <- rlang::list2(..., threshold = threshold)
+    # Make sure the window does not resize when taking screenshots.
+    # We want to make sure the card contents use their natural height and thus
+    # extend beyond the viewport height.
+    args$selector <- "viewport"
     if (viewport) {
       rect <- c(x = 0, y = 0, width = width, height = height)
       new_args <- list(screenshot_args = list(cliprect = rect))
