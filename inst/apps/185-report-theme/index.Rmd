@@ -140,11 +140,15 @@ shinyjster::shinyjster_js(
   jst.add(function(done) {
     var wait = function() {
       var txt = $('#status').get(0).textContent;
-      if (txt.length > 0 && txt.match(new RegExp('Pass|Fail')).length > 0) {
+      if (
+        typeof txt == 'string' &&
+        txt.length > 0 &&
+        (txt.match(new RegExp('Pass|Fail')) ?? '').length > 0
+      ) {
         done();
-      } else {
-        setTimeout(wait, 100)
+        return;
       }
+      setTimeout(wait, 100);
     }
     wait();
   })
