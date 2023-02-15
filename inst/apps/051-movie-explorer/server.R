@@ -3,13 +3,10 @@
 
 library(ggvis)
 library(dplyr)
-if (FALSE) {
-  library(RSQLite)
-  library(dbplyr)
-}
+library(dbplyr)
 
 # Set up handles to database tables on app start
-db <- src_sqlite("movies.db")
+db <- DBI::dbConnect(RSQLite::SQLite(), "movies.db")
 omdb <- tbl(db, "omdb")
 tomatoes <- tbl(db, "tomatoes")
 
