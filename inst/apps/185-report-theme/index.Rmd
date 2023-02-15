@@ -133,34 +133,42 @@ output$status <- renderUI({
 ```
 
 ```{r}
-shinyjster::shinyjster_js(
-  "
-  var jst = jster();
-  jst.add(Jster.shiny.waitUntilStable);
-  jst.add(function(done) {
-    var wait = function() {
-      var txt = $('#status').get(0).textContent;
-      if (
-        typeof txt == 'string' &&
-        txt.length > 0 &&
-        (txt.match(new RegExp('Pass|Fail')) ?? '').length > 0
-      ) {
-        done();
-        return;
+## `{shinyjster}` note:
+# From https://github.com/rstudio/shiny/issues/3780, we must delay the underlying initial
+# call to `Shiny.setInputValue("jster_initialized", true)` due to changes in https://github.com/rstudio/shiny/pull/3666.
+# Current stance is that https://github.com/rstudio/shiny/issues/3780 will not be resolved, so we must make a work around.
+# This is done by delaying the initial call to `Shiny.setInputValue("jster_initialized", true)`
+# by using a dynamic UI that is invalidated on the first draw, and then actually rendered on the second draw.
+renderUI({
+  shinyjster::shinyjster_js(
+    "
+    var jst = jster();
+    jst.add(Jster.shiny.waitUntilStable);
+    jst.add(function(done) {
+      var wait = function() {
+        var txt = $('#status').get(0).textContent;
+        if (
+          typeof txt == 'string' &&
+          txt.length > 0 &&
+          (txt.match(new RegExp('Pass|Fail')) ?? '').length > 0
+        ) {
+          done();
+          return;
+        }
+        setTimeout(wait, 100);
       }
-      setTimeout(wait, 100);
-    }
-    wait();
-  })
-  jst.add(function() {
-    Jster.assert.isEqual(
-      $('#status').text().trim(),
-      'Pass'
-    )
-  })
-  jst.test();
-  "
-)
+      wait();
+    })
+    jst.add(function() {
+      Jster.assert.isEqual(
+        $('#status').text().trim(),
+        'Pass'
+      )
+    })
+    jst.test();
+    "
+  )
+})
 
 shinyjster::shinyjster_server(input, output)
 ```
