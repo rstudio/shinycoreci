@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.1252
  ctype    English_United States.1252
  tz       UTC
- date     2023-02-13
+ date     2023-02-15
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
@@ -87,7 +87,7 @@ osVersion: Windows Server x64 (build 20348)
                GGally       2.1.2   RSPM                       
             gganimate       1.0.8   RSPM                       
               ggiraph       0.8.6   RSPM                       
-              ggplot2       3.4.0   RSPM                       
+              ggplot2       3.4.1   RSPM                       
               ggrepel       0.9.2   RSPM                       
              ggthemes       4.2.4   RSPM                       
                 ggvis       0.4.7   RSPM                       
@@ -98,7 +98,7 @@ osVersion: Windows Server x64 (build 20348)
                 gower       1.0.1   RSPM                       
           GPArotation   2022.10-2   RSPM                       
             gridExtra         2.3   RSPM                       
-                   gt  0.8.0.9000 GitHub eb7f883   rstudio/HEAD
+                   gt  0.8.0.9000 GitHub 187b2dc   rstudio/HEAD
                gtable       0.3.1   RSPM                       
                 haven       2.5.1   RSPM                       
                  here       1.0.1   RSPM                       
@@ -108,7 +108,7 @@ osVersion: Windows Server x64 (build 20348)
                   hms       1.1.2   RSPM                       
             htmltools  0.5.4.9000 GitHub f07ceba   rstudio/HEAD
           htmlwidgets  1.6.1.9000 GitHub 843eee9  ramnathv/HEAD
-               httpuv  1.6.8.9000 GitHub 581b289   rstudio/HEAD
+               httpuv  1.6.9.9000 GitHub 9fdbe22   rstudio/HEAD
                  httr       1.4.4   RSPM                       
              hunspell       3.0.2   RSPM                       
                igraph       1.3.5   RSPM                       
@@ -132,7 +132,7 @@ osVersion: Windows Server x64 (build 20348)
            listviewer       3.0.0   RSPM                       
                  lme4      1.1-26   CRAN                       
                lobstr       1.1.2   RSPM                       
-            lubridate       1.9.1   RSPM                       
+            lubridate       1.9.2   RSPM                       
              magrittr       2.0.3   RSPM                       
                  maps       3.4.1   RSPM                       
              maptools       1.1-6   RSPM                       
@@ -164,7 +164,7 @@ osVersion: Windows Server x64 (build 20348)
                 pingr       2.0.2   RSPM                       
             pkgconfig       2.0.3   RSPM                       
               pkgload       1.3.2   RSPM                       
-               plotly 4.10.1.9000 GitHub 7fb95ed  ropensci/HEAD
+               plotly 4.10.1.9000 GitHub 9ee5480  ropensci/HEAD
       plotlyGeoAssets       0.0.2   RSPM                       
                  plyr       1.8.8   RSPM                       
                   png       0.1-8   RSPM                       
