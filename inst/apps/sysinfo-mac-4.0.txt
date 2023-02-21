@@ -1,4 +1,4 @@
-Image Version:  20230205.1 
+Image Version:  20230214.1 
 osVersion: macOS Big Sur 10.16
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: macOS Big Sur 10.16
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       UTC
- date     2023-02-15
+ date     2023-02-21
  pandoc   2.7.3 @ /usr/local/bin/pandoc
 --------------------------------------------------------------------------------
            Package     Version Source     SHA                Ref
@@ -68,7 +68,7 @@ osVersion: macOS Big Sur 10.16
             farver       2.1.0   CRAN   2.1.0            /farver
            fastmap  1.1.0.9000 GitHub ac94d6f         r-lib/HEAD
      flexdashboard  0.6.1.9000 GitHub 2948fe2       rstudio/HEAD
-       fontawesome  0.5.0.9000 GitHub dc1b2fd       rstudio/HEAD
+       fontawesome  0.5.0.9000 GitHub caf44a0       rstudio/HEAD
            forcats       0.5.1   CRAN   0.5.1           /forcats
                 fs       1.5.2   CRAN   1.5.2                /fs
             future      1.24.0   CRAN  1.24.0            /future
@@ -86,14 +86,14 @@ osVersion: macOS Big Sur 10.16
            globals      0.14.0   CRAN  0.14.0           /globals
               glue       1.6.2   CRAN   1.6.2              /glue
          gridExtra         2.3   CRAN     2.3         /gridExtra
-                gt  0.8.0.9000 GitHub 187b2dc       rstudio/HEAD
+                gt  0.8.0.9000 GitHub 1abf723       rstudio/HEAD
             gtable       0.3.0   CRAN   0.3.0            /gtable
               here       1.0.1   CRAN   1.0.1              /here
             hexbin      1.28.2   CRAN  1.28.2            /hexbin
        highcharter       0.9.4   CRAN   0.9.4       /highcharter
              highr         0.9   CRAN     0.9             /highr
                hms       1.1.1   CRAN   1.1.1               /hms
-         htmltools  0.5.4.9000 GitHub f07ceba       rstudio/HEAD
+         htmltools  0.5.4.9000 GitHub b32417e       rstudio/HEAD
        htmlwidgets  1.6.1.9000 GitHub 843eee9      ramnathv/HEAD
             httpuv  1.6.9.9000 GitHub 9fdbe22       rstudio/HEAD
               httr       1.4.2   CRAN   1.4.2              /httr
@@ -141,7 +141,7 @@ osVersion: macOS Big Sur 10.16
    plotlyGeoAssets       0.0.2   CRAN   0.0.2   /plotlyGeoAssets
               plyr       1.8.7   CRAN   1.8.7              /plyr
                png       0.1-7   CRAN   0.1-7               /png
-              pool  1.0.0.9000 GitHub c6e2e4a       rstudio/HEAD
+              pool  1.0.0.9000 GitHub a719f31       rstudio/HEAD
             praise       1.0.0   CRAN   1.0.0            /praise
        prettyunits       1.1.1   CRAN   1.1.1       /prettyunits
          prismatic       1.1.0   CRAN   1.1.0         /prismatic
