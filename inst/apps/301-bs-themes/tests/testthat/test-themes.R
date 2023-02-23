@@ -112,6 +112,7 @@ for (theme_name in names(themes)) {
     appshot()
 
     app$set_inputs(navbar = "Tables", timeout_ = 10 * 1000)
+    app$wait_for_value(output = "DT_rows_current")
     appshot()
 
     app$set_inputs(navbar = "Fonts")

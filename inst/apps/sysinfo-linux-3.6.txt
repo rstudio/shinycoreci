@@ -10,7 +10,7 @@ osVersion: Ubuntu 20.04.5 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2023-02-21
+ date     2023-02-23
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
            Package     Version Source     SHA            Ref
@@ -68,7 +68,7 @@ osVersion: Ubuntu 20.04.5 LTS
              fansi       1.0.4   RSPM                       
             farver       2.1.1   RSPM                       
            fastmap  1.1.0.9000 GitHub ac94d6f     r-lib/HEAD
-     flexdashboard  0.6.1.9000 GitHub 2948fe2   rstudio/HEAD
+     flexdashboard  0.6.1.9000 GitHub ddcfd7e   rstudio/HEAD
        fontawesome  0.5.0.9000 GitHub caf44a0   rstudio/HEAD
            forcats       1.0.0   RSPM                       
                 fs       1.6.1   RSPM                       
@@ -87,14 +87,14 @@ osVersion: Ubuntu 20.04.5 LTS
            globals      0.16.2   RSPM                       
               glue       1.6.2   RSPM                       
          gridExtra         2.3   RSPM                       
-                gt  0.8.0.9000 GitHub 7b547e7   rstudio/HEAD
+                gt  0.8.0.9000 GitHub ebf7040   rstudio/HEAD
             gtable       0.3.1   RSPM                       
               here       1.0.1   RSPM                       
             hexbin      1.28.2   RSPM                       
        highcharter       0.9.4   RSPM                       
              highr        0.10   RSPM                       
                hms       1.1.2   RSPM                       
-         htmltools  0.5.4.9000 GitHub b32417e   rstudio/HEAD
+         htmltools  0.5.4.9000 GitHub 48c46ed   rstudio/HEAD
        htmlwidgets  1.6.1.9000 GitHub 843eee9  ramnathv/HEAD
             httpuv  1.6.9.9000 GitHub 9fdbe22   rstudio/HEAD
               httr       1.4.4   RSPM                       
@@ -142,7 +142,7 @@ osVersion: Ubuntu 20.04.5 LTS
    plotlyGeoAssets       0.0.2   RSPM                       
               plyr       1.8.8   RSPM                       
                png       0.1-8   RSPM                       
-              pool  1.0.0.9000 GitHub a719f31   rstudio/HEAD
+              pool  1.0.1.9000 GitHub 11ef163   rstudio/HEAD
             praise       1.0.0   RSPM                       
        prettyunits       1.1.1   RSPM                       
          prismatic       1.1.1   RSPM                       
@@ -206,7 +206,7 @@ osVersion: Ubuntu 20.04.5 LTS
         shinyjster  0.0.0.9010 GitHub 1807304 schloerke/HEAD
          shinymeta     0.2.0.3 GitHub 5af8086   rstudio/HEAD
          shinytest  1.5.1.9000 GitHub 0c1357f   rstudio/HEAD
-        shinytest2  0.2.0.9000 GitHub c1e303c   rstudio/HEAD
+        shinytest2  0.2.1.9000 GitHub b8fdce6   rstudio/HEAD
        shinythemes       1.2.0 GitHub 492b6aa   rstudio/HEAD
      shinyvalidate       0.1.2 GitHub 575f586   rstudio/HEAD
       shinyWidgets       0.7.6   RSPM                       
@@ -263,7 +263,7 @@ osVersion: Ubuntu 20.04.5 LTS
                XML    3.99-0.3   RSPM                       
               xml2       1.3.3   RSPM                       
             xtable       1.8-4   RSPM                       
-               xts      0.12.2   RSPM                       
+               xts      0.13.0   RSPM                       
               yaml       2.3.7   RSPM                       
                zip       2.2.2   RSPM                       
                zoo      1.8-11   RSPM                       
