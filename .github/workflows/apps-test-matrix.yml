@@ -25,7 +25,7 @@ jobs:
 
 
   macos-release:
-    if: ${{ ! cancelled() }}
+    if: success() || failure()
     needs: [config, ubuntu-release]
     uses: ./.github/workflows/apps-test-os.yml
     with:
@@ -36,7 +36,7 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   macos-oldrel-1:
-    if: ${{ ! cancelled() }}
+    if: success() || failure()
     needs: [config, ubuntu-oldrel-1]
     uses: ./.github/workflows/apps-test-os.yml
     with:
@@ -47,7 +47,7 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   macos-oldrel-2:
-    if: ${{ ! cancelled() }}
+    if: success() || failure()
     needs: [config, ubuntu-oldrel-2]
     uses: ./.github/workflows/apps-test-os.yml
     with:
@@ -58,7 +58,7 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   macos-oldrel-3:
-    if: ${{ ! cancelled() }}
+    if: success() || failure()
     needs: [config, ubuntu-oldrel-3]
     uses: ./.github/workflows/apps-test-os.yml
     with:
@@ -138,7 +138,7 @@ jobs:
 
 
   windows-release:
-    if: ${{ ! cancelled() }}
+    if: success() || failure()
     needs: [config, macos-release]
     uses: ./.github/workflows/apps-test-os.yml
     with:
@@ -149,7 +149,7 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-1:
-    if: ${{ ! cancelled() }}
+    if: success() || failure()
     needs: [config, macos-oldrel-1]
     uses: ./.github/workflows/apps-test-os.yml
     with:
@@ -160,7 +160,7 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-2:
-    if: ${{ ! cancelled() }}
+    if: success() || failure()
     needs: [config, macos-oldrel-2]
     uses: ./.github/workflows/apps-test-os.yml
     with:
@@ -171,7 +171,7 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-3:
-    if: ${{ ! cancelled() }}
+    if: success() || failure()
     needs: [config, macos-oldrel-3]
     uses: ./.github/workflows/apps-test-os.yml
     with:
