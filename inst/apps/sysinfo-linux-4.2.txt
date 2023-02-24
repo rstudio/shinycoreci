@@ -10,7 +10,7 @@ osVersion: Ubuntu 20.04.5 LTS
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2023-02-23
+ date     2023-02-24
  pandoc   2.7.3 @ /usr/bin/pandoc
 --------------------------------------------------------------------------------
            Package     Version Source     SHA            Ref
@@ -67,7 +67,7 @@ osVersion: Ubuntu 20.04.5 LTS
           evaluate        0.20   RSPM                       
              fansi       1.0.4   RSPM                       
             farver       2.1.1   RSPM                       
-           fastmap  1.1.0.9000 GitHub ac94d6f     r-lib/HEAD
+           fastmap  1.1.0.9000 GitHub 5eba951     r-lib/HEAD
      flexdashboard  0.6.1.9000 GitHub ddcfd7e   rstudio/HEAD
        fontawesome  0.5.0.9000 GitHub caf44a0   rstudio/HEAD
            forcats       1.0.0   RSPM                       
@@ -87,7 +87,7 @@ osVersion: Ubuntu 20.04.5 LTS
            globals      0.16.2   RSPM                       
               glue       1.6.2   RSPM                       
          gridExtra         2.3   RSPM                       
-                gt  0.8.0.9000 GitHub ebf7040   rstudio/HEAD
+                gt  0.8.0.9000 GitHub 1679d7b   rstudio/HEAD
             gtable       0.3.1   RSPM                       
               here       1.0.1   RSPM                       
             hexbin      1.28.2   RSPM                       

@@ -1,4 +1,4 @@
-Image Version:  20230214.1 
+Image Version:  20230219.1 
 osVersion: Windows Server x64 (build 20348)
 --------------------------------------------------------------------------------
  setting  value
@@ -10,7 +10,7 @@ osVersion: Windows Server x64 (build 20348)
  collate  English_United States.utf8
  ctype    English_United States.utf8
  tz       UTC
- date     2023-02-23
+ date     2023-02-24
  pandoc   2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 --------------------------------------------------------------------------------
               Package     Version Source     SHA            Ref
@@ -74,7 +74,7 @@ osVersion: Windows Server x64 (build 20348)
              evaluate        0.20   RSPM                       
                 fansi       1.0.4   RSPM                       
                farver       2.1.1   RSPM                       
-              fastmap  1.1.0.9000 GitHub ac94d6f     r-lib/HEAD
+              fastmap  1.1.0.9000 GitHub 5eba951     r-lib/HEAD
         flexdashboard  0.6.1.9000 GitHub ddcfd7e   rstudio/HEAD
           fontawesome  0.5.0.9000 GitHub caf44a0   rstudio/HEAD
               forcats       1.0.0   RSPM                       
@@ -98,7 +98,7 @@ osVersion: Windows Server x64 (build 20348)
                 gower       1.0.1   RSPM                       
           GPArotation   2022.10-2   RSPM                       
             gridExtra         2.3   RSPM                       
-                   gt  0.8.0.9000 GitHub ebf7040   rstudio/HEAD
+                   gt  0.8.0.9000 GitHub 1679d7b   rstudio/HEAD
                gtable       0.3.1   RSPM                       
                  here       1.0.1   RSPM                       
                hexbin      1.28.2   RSPM                       
