@@ -14,7 +14,6 @@ ui <- page_fill(
     border_radius = FALSE,
     border = FALSE,
     bg = "lightgray",
-    # TODO: put an accordion in here, just to test the layout_sidebar() CSS?
     sidebar(
       bg = "#1E1E1E",
       accordion(
