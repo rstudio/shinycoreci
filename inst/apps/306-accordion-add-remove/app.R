@@ -1,36 +1,52 @@
 library(shiny)
 library(bslib)
 
-make_panel <- function(x) {
-  accordion_panel(
-    paste("Section", x),
-    paste("Some narrative for section", x),
-    value = x
-  )
-}
-
-ui <- fluidPage(
-  # Don't transition when collapsing (so that we don't have
-  # to wait to take screenshots)
-  theme = bs_theme("transition-collapse" = "none"),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput(
-        "selected", "Selected section(s)",
-        LETTERS, multiple = TRUE, selected = "A"
-      ),
-      selectInput(
-        "displayed", "Displayed section(s)",
-        LETTERS, multiple = TRUE, selected = LETTERS
-      ),
-      checkboxInput("multiple", "Allow multiple panels to be open", TRUE),
-      checkboxInput("open_on_insert", "Open on insert", FALSE)
+ui <- page_fill(
+  theme = bs_theme(
+    # Don't transition when collapsing (so screenshot timing is less of an issue)
+    "transition-collapse" = "none",
+    "accordion-bg" = "#1E1E1E",
+    "accordion-color" = "white",
+    "accordion-icon-color" = "white",
+    "accordion-icon-active-color" = "white"
+  ),
+  layout_sidebar(
+    border_radius = FALSE,
+    border = FALSE,
+    bg = "lightgray",
+    # TODO: put an accordion in here, just to test the layout_sidebar() CSS?
+    sidebar(
+      bg = "#1E1E1E",
+      accordion(
+        open = TRUE,
+        accordion_panel(
+          "Selected section(s)",
+          selectInput("selected", NULL, LETTERS, multiple = TRUE, selected = "A"),
+        ),
+        accordion_panel(
+          "Displayed section(s)",
+          selectInput("displayed", NULL, LETTERS, multiple = TRUE, selected = LETTERS)
+        ),
+        accordion_panel(
+          "Parameters",
+          checkboxInput("multiple", "Allow multiple panels to be open", TRUE),
+          checkboxInput("open_on_insert", "Open on insert", FALSE)
+        )
+      )
     ),
-    mainPanel(uiOutput("accordion"))
+    uiOutput("accordion")
   )
 )
 
 server <- function(input, output, session) {
+
+  make_panel <- function(x) {
+    accordion_panel(
+      paste("Section", x),
+      paste("Some narrative for section", x),
+      value = x
+    )
+  }
 
   # Allows us to track which panels are entering/exiting
   # (when input$displayed changes)
@@ -63,13 +79,25 @@ server <- function(input, output, session) {
 
     if (length(enter)) {
       lapply(enter, function(x) {
-        # Find the next lowest currently displayed letter (to insert after)
-        idx_displayed <- which(LETTERS %in% displayed())
-        idx_insert <- match(x, LETTERS)
-        idx_diff <- idx_insert - idx_displayed
-        idx_diff[idx_diff < 0] <- NA
-        target <- LETTERS[idx_displayed[which.min(idx_diff)]]
-        accordion_panel_insert("acc", panel = make_panel(x), target = target)
+        panel <- make_panel(x)
+        if (identical("A", x)) {
+
+          # Can always be inserted at the top (no target required)
+          accordion_panel_insert("acc", panel = panel, position = "before")
+
+        } else {
+
+          # Other letters require us to find the closest _currently displayed_
+          # letter (to insert after)
+          idx_displayed <- which(LETTERS %in% displayed())
+          idx_insert <- match(x, LETTERS)
+          idx_diff <- idx_insert - idx_displayed
+          idx_diff[idx_diff < 0] <- NA
+          target <- LETTERS[idx_displayed[which.min(idx_diff)]]
+          accordion_panel_insert("acc", panel = panel, target = target, position = "after")
+
+        }
+
         displayed(c(x, displayed()))
       })
 

@@ -24,21 +24,23 @@ test_that("{shinytest2} recording: accordion-select", {
     do.call(app$expect_screenshot, args)
   }
 
-  # Test accordion_select()
+  # Test accordion_panel_set()
+  app$set_inputs(selected = c("A", "D"))
   app$set_inputs(selected = c("A", "D", "H"))
   expect_screenshot()
 
-  # Test accordion_remove()
+  # Test accordion_panel_remove()
   app$set_inputs(displayed = c("A", "D", "F"))
-  # Test accordion_insert()
+  # Test accordion_panel_insert()
   app$set_inputs(displayed = c("A", "D", "F", "Z"))
-  # Test accordion_insert(select = TRUE)
-  app$set_inputs(insert_select = TRUE)
+  # Test accordion_panel_insert() + accordion_panel_open()
+  app$set_inputs(open_on_insert = TRUE)
+  app$set_inputs(displayed = c("A", "D", "F", "J", "Z"))
   app$set_inputs(displayed = c("A", "D", "F", "J", "K", "Z"))
   expect_screenshot()
 
   # redo tests with accordion(autoclose = TRUE)
-  app$set_inputs(insert_select = FALSE)
+  app$set_inputs(open_on_insert = FALSE)
   app$set_inputs(multiple = FALSE)
   app$set_inputs(displayed = LETTERS)
 
@@ -47,7 +49,8 @@ test_that("{shinytest2} recording: accordion-select", {
   app$set_inputs(selected = c("C", "D"))
 
   app$set_inputs(displayed = c("A", "D", "F", "Z"))
-  app$set_inputs(insert_select = TRUE)
+  app$set_inputs(open_on_insert = TRUE)
+  app$set_inputs(displayed = c("A", "D", "F", "J", "Z"))
   app$set_inputs(displayed = c("A", "D", "F", "J", "K", "Z"))
   expect_screenshot()
 })
