@@ -18,7 +18,7 @@ ui <- page_fluid(
     jst.add(Jster.shiny.waitUntilStable);
     jst.add(function() {
       Jster.assert.isEqual(
-        $('#acc .accordion-button').text(), 'Test passed',
+        $('#acc .accordion-button').text().trim(), 'Test passed',
         'accordion_mutate() did not update the accordion()'
       );
     });
