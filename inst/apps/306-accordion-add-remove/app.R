@@ -106,9 +106,12 @@ server <- function(input, output, session) {
     }
 
     displayed(input$displayed)
+  })
 
+  observeEvent(displayed(), ignoreInit = TRUE, {
+    updateSelectInput(inputId = "displayed", selected = displayed())
     updateSelectInput(
-      inputId = "selected", choices = input$displayed,
+      inputId = "selected", choices = displayed(),
       selected = input$selected
     )
   })
