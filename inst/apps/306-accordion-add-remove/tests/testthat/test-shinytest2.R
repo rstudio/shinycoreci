@@ -12,8 +12,8 @@ test_that("{shinytest2} recording: accordion-select", {
     options = list(bslib.precompiled = FALSE)
   )
 
-  expect_screenshot <- function(..., wait = 1, viewport = TRUE, threshold = 3) {
-    Sys.sleep(wait)
+  expect_screenshot <- function(..., duration = 500, viewport = TRUE, threshold = 3) {
+    app$wait_for_idle(duration = duration)
     args <- rlang::list2(..., threshold = threshold)
     if (viewport) {
       rect <- c(x = 0, y = 0, width = width, height = height)
