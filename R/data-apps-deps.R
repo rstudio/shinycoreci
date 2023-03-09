@@ -58,4 +58,4 @@ apps_deps_map <- list(`001-hello` = "rsconnect", `012-datatables` = "ggplot2",
     "rversions", "sf", "withr"), `302-bootswatch-themes` = c("ggplot2", 
     "progress", "rversions", "sf", "withr"), `304-bslib-card` = c("rlang", 
     "rversions"), `305-bslib-value-box` = c("rlang", "rversions"
-    ), `306-accordion-add-remove` = "rlang")
+    ))
