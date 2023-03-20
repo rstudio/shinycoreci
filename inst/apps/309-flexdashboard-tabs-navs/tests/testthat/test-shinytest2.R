@@ -1,13 +1,7 @@
 library(shinytest2)
 
 is_element_visible <- function(selector) {
-  sprintf(
-    "(function() {
-const br = document.querySelector('%s').getBoundingClientRect()
-return br.width > 0 && br.height > 0 && (br.x > 0 || br.y > 0)
-})()",
-    selector
-  )
+  sprintf("$('%s:visible').length > 0", selector)
 }
 
 is_test_element_visible <- function(test_id) {
