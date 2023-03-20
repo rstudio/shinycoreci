@@ -1,0 +1,58 @@
+---
+title: 309
+output:
+  flexdashboard::flex_dashboard:
+    orientation: row
+runtime: shiny
+---
+
+Page 1 {data-test-id="Page 1"}
+===================================
+
+## Box 1-1 {.tabset data-test-id="Box 1-1"}
+
+### Tab 1-1a {data-test-id="Tab 1-1a"}
+
+Tab content, page 1, box 1, tab a
+
+### Tab 1-1b {data-test-id="Tab 1-1b"}
+
+Tab content, page 1, box 1, tab b
+
+## Box 1-2 {.tabset data-test-id="Box 1-2"}
+
+### Tab 1-2a {data-test-id="Tab 1-2a"}
+
+Tab content, page 1, box 2, tab a
+
+### Tab 1-2b {data-test-id="Tab 1-2b"}
+
+Tab content, page 1, box 2, tab b
+
+
+Page 2 {data-navmenu="Other" data-test-id="Page 2"}
+===================================
+
+## Row
+
+### Box 2-1 {data-test-id="Box 2-1"}
+
+Content, page 2, box 1
+
+### Box 2-2 {data-test-id="Box 2-2"}
+
+Content, page 2, box 2
+
+
+Page 3 {data-navmenu="Other" data-test-id="Page 3"}
+===================================
+
+## Row
+
+### Box 3-1 {data-test-id="Box 3-1"}
+
+Content, page 3, box 1
+
+### Box 3-2 {data-test-id="Box 3-2"}
+
+Content, page 3, box 2
