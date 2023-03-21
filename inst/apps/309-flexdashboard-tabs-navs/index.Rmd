@@ -5,6 +5,7 @@ output:
     theme:
       version: 3  #<< set to 3, 4, 5, ...
     orientation: row
+    resize_reload: false
 params:
   bs_version: ""
 runtime: shiny
