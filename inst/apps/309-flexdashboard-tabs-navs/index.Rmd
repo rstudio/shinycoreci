@@ -5,6 +5,8 @@ output:
     theme:
       version: 3  #<< set to 3, 4, 5, ...
     orientation: row
+params:
+  bs_version: ""
 runtime: shiny
 ---
 
@@ -24,6 +26,8 @@ Test this app in all major versions of Bootstrap.
 
 Verify that only the expected pages are visible
 and that the active navbar menu state is correctly shown.
+
+This is Bootstrap `r params$bs_version`.
 
 ### Tab 1-1b {data-test-id="Tab 1-1b"}
 

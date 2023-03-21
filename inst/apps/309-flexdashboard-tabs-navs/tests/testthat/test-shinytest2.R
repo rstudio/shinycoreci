@@ -26,7 +26,10 @@ for (bs_version in 3:5) {
       height = 1292,
       width = 798,
       view = interactive(),
-      render_args = list(output_options = list(theme = list(version = bs_version)))
+      render_args = list(
+        params = list(bs_version = bs_version),
+        output_options = list(theme = list(version = bs_version))
+      )
     )
 
     app$wait_for_idle()
@@ -97,5 +100,7 @@ for (bs_version in 3:5) {
     for (box in c("Box 1-1", "Box 1-2", "Box 2-1", "Box 2-2")) {
       expect_test_element_hidden(app, box)
     }
+
+    app$stop()
   })
 }
