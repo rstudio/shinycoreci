@@ -182,8 +182,6 @@ deploy_apps <- function(
 
 
 validate_rsconnect_account <- function(account, server) {
-  check_installed("rsconnect")
-
   accts <- rsconnect::accounts()
   accts_found <- sum(
     (account %in% accts$name) &

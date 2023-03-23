@@ -4,7 +4,6 @@
 #' @param libpath Library path to find installaed packages.
 #' @export
 write_sysinfo <- function(file = stdout(), libpath = shinyverse_libpath()) {
-  check_installed("sessioninfo")
 
   opts <- options()
   on.exit(options(opts))
