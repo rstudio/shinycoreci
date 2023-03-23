@@ -28,9 +28,9 @@
       "deps": [
         {
           "name": "htmlwidgets",
-          "version": "1.6.1.9000",
+          "version": "1.6.2.9000",
           "src": {
-            "href": "htmlwidgets-1.6.1.9000"
+            "href": "htmlwidgets-1.6.2.9000"
           },
           "meta": null,
           "script": "htmlwidgets.js",
