@@ -9,7 +9,7 @@ write_sysinfo(file = stdout(), libpath = shinyverse_libpath())
 \arguments{
 \item{file}{Name of file, or file object to write to (defaults to stdout).}
 
-\item{libpath}{Library path to find installaed packages.}
+\item{libpath}{Library path to find installed packages.}
 }
 \description{
 Write system information to a file

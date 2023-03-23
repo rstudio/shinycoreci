@@ -1,9 +1,10 @@
 #' Write system information to a file
 #'
 #' @param file Name of file, or file object to write to (defaults to stdout).
-#' @param libpath Library path to find installaed packages.
+#' @param libpath Library path to find installed packages.
 #' @export
 write_sysinfo <- function(file = stdout(), libpath = shinyverse_libpath()) {
+  withr::local_libpaths(libpath, action = "prefix")
 
   opts <- options()
   on.exit(options(opts))
