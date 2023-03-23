@@ -22,26 +22,6 @@ is_sha <- function(x) {
     sub("[0-9a-f]*", "", x) == ""
 }
 
-# Given a d3-format list and the name of an item in each sublist, return a
-# vector containing the corresponding item from each sublist. If the value is
-# not present or NULL, it will be filled in with NA.
-extract_vector <- function(x, name) {
-  vecs <- lapply(x, function(y) {
-    value <- y[[name]]
-    if (is.null(value)) value <- NA
-    value
-  })
-  do.call(c, vecs)
-}
-
-# Convert d3-format nested list to data frame. The column names must be
-# supplied by the caller.
-d3_to_df <- function(x, colnames) {
-  names(colnames) <- colnames
-  res <- lapply(colnames, function(colname) extract_vector(x, colname))
-  as.data.frame(res, stringsAsFactors = FALSE)
-}
-
 
 # Ask a yes no question defaulting to 'no'
 ask_yes_no <- function(..., default = FALSE) {
