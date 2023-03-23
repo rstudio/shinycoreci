@@ -6,10 +6,6 @@
 write_sysinfo <- function(file = stdout(), libpath = shinyverse_libpath()) {
   withr::local_libpaths(libpath, action = "prefix")
 
-  opts <- options()
-  on.exit(options(opts))
-  options(width = 1000)
-
   platform_info <- sessioninfo::platform_info()
   platform_info_cls <- class(platform_info)
   # Shim in the GitHub Actions image version
