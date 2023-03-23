@@ -1,39 +1,3 @@
-#' Find package dependencies installed
-#'
-#' @noRd
-# ' @export
-find_deps_installed <- function(libpath = shinyverse_libpath()) {
-  deps <- renv__renv_snapshot_r_packages(c(libpath, .libPaths()))
-  cols <- c(
-    "Package",
-    "Version",
-    "Source",
-    "Repository",
-    "RemoteSha",
-    "RemoteUsername",
-    "RemoteRef"
-  )
-  df <- d3_to_df(deps, cols)
-
-  # Massage the data frame into something that prints nicely.
-  rownames(df) <- NULL
-  repo_idx <- df$Source == "Repository"
-  df$Source[repo_idx] <- df$Repository[repo_idx]
-  df$RemoteUsername[repo_idx| is.na(df$RemoteUsername)] <- ""
-  df$RemoteSha[repo_idx | is.na(df$RemoteSha)] <- ""
-  df$RemoteRef[repo_idx | is.na(df$RemoteRef)] <- ""
-  df$Ref <- paste(df$RemoteUsername, df$RemoteRef, sep = "/")
-  df$Ref[df$Ref == "/"] <- ""
-  df$RemoteSha <- substr(df$RemoteSha, 1, 7)
-  names(df)[names(df) == "RemoteSha"] <- "SHA"
-
-  df$Repository <- NULL
-  df$RemoteUsername <- NULL
-  df$RemoteRef <- NULL
-
-  df
-}
-
 #' Write system information to a file
 #'
 #' @param file Name of file, or file object to write to (defaults to stdout).
@@ -46,15 +10,19 @@ write_sysinfo <- function(file = stdout(), libpath = shinyverse_libpath()) {
   on.exit(options(opts))
   options(width = 1000)
 
+  platform_info <- sessioninfo::platform_info()
+  platform_info_cls <- class(platform_info)
+  # Shim in the GitHub Actions image version
+  platform_info <- c(gha_image = gha_image_version(), platform_info)
+  class(platform_info) <- platform_info_cls
+
+  pkg_info <- sessioninfo::package_info("installed", include_base = FALSE)
+
   cat(
-    utils::capture.output({
-      cat("Image Version: ", gha_image_version(), "\n")
-      cat("osVersion: ", utils::sessionInfo()$running, "\n", sep = "")
-      cat(rep("-", 80), "\n", sep = "")
-      print(sessioninfo::platform_info())
-      cat(rep("-", 80), "\n", sep = "")
-      print(find_deps_installed(libpath = libpath), max = 10000, row.names = FALSE)
-    }),
+    format(cli::rule("Session info")),
+    format(platform_info),
+    format(cli::rule("Packages")),
+    format(pkg_info),
     sep = "\n",
     file = file
   )

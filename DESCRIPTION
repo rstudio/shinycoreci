@@ -16,7 +16,8 @@ Imports:
     progress,
     callr,
     sessioninfo,
-    rstudioapi (>= 0.11)
+    rstudioapi (>= 0.11),
+    cli
 Suggests:
     renv,
     httpuv,
