@@ -14,10 +14,6 @@ triple_colon <- function(pkg, name) {
 # }
 
 
-renv__renv_snapshot_r_packages <- function(...) {
-  triple_colon("renv", "renv_snapshot_r_packages")(...)
-}
-
 base__library <- function(...) {
   triple_colon("base", "library")(...)
 }

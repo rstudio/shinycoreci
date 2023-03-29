@@ -27,16 +27,18 @@ test_in_ide <- function(
   sys_call <- match.call()
   apps <- resolve_app_name(apps)
 
-  local_libpath <- if (isTRUE(refresh_)) {
-    if (isTRUE(local_pkgs)) {
-      install_shinyverse(install = FALSE)
+  local_libpath <-
+    if (isTRUE(refresh_)) {
+      if (isTRUE(local_pkgs)) {
+        install_shinyverse(install = FALSE)
+      } else {
+        shinyverse_libpath()
+      }
     } else {
-      shinyverse_libpath()
+      # First time though
+      install_shinyverse(install = !isTRUE(local_pkgs), validate_loaded = TRUE)
     }
-  } else {
-    # First time though
-    install_shinyverse(install = !isTRUE(local_pkgs), validate_loaded = TRUE)
-  }
+  withr::local_libpaths(local_libpath, action = "prefix")
 
   app_name <- resolve_app_name(app_name)
 

@@ -1,10 +1,8 @@
-is_installed <- function(package, libpath = .libPaths()[1]) {
+# This method should **not** be used outside of this file
+# Only check if the package is installed in the `libpath`.
+# `package` may be installed in another libpath
+is_installed <- function(package, libpath) {
   nzchar(system.file(package = package, lib.loc = libpath))
-}
-check_installed <- function(package, libpath = .libPaths()[1]) {
-  if (!is_installed(package, libpath = libpath)) {
-    stop(package, " is not installed and is required by `shinycoreci`")
-  }
 }
 
 
