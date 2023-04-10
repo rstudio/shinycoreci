@@ -76,7 +76,8 @@ for (theme_name in names(themes)) {
 
     appshot <- function() {
       app$expect_values()
-      app$expect_screenshot()
+      # Allow for some slight differences in the slider
+      app$expect_screenshot(threshold = 2)
     }
     appshot()
 
