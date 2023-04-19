@@ -1,6 +1,6 @@
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20230402.1
+ gha_image 20230409.1
  version   R version 4.2.3 (2023-03-15)
  os        Ubuntu 20.04.6 LTS
  system    x86_64, linux-gnu
@@ -9,7 +9,7 @@
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2023-04-10
+ date      2023-04-18
  pandoc    2.7.3 @ /usr/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -29,8 +29,8 @@
  brio                1.1.3       2021-11-30 [1] RSPM
  broom               1.0.4       2023-03-11 [1] RSPM
  bsicons             0.1         2023-03-23 [1] Github (rstudio/bsicons@1a12bb6)
- bslib               0.4.2.9000  2023-04-10 [1] Github (rstudio/bslib@cb941bb)
- cachem              1.0.7.9000  2023-03-23 [1] Github (r-lib/cachem@39ac3e6)
+ bslib               0.4.2.9000  2023-04-17 [1] Github (rstudio/bslib@4c3073a)
+ cachem              1.0.7.9000  2023-04-11 [1] Github (r-lib/cachem@46b8621)
  Cairo               1.6-0       2022-07-05 [1] RSPM
  callr               3.7.3       2022-11-02 [1] RSPM
  checkmate           2.1.0       2022-04-21 [1] RSPM
@@ -62,7 +62,7 @@
  digest              0.6.31      2022-12-11 [1] RSPM
  downloader          0.4         2015-07-09 [1] RSPM
  dplyr               1.1.1       2023-03-22 [1] RSPM
- DT                  0.27.1      2023-03-27 [1] Github (rstudio/DT@1d6d768)
+ DT                  0.27.1      2023-04-17 [1] Github (rstudio/DT@6073c02)
  dygraphs            1.1.1.7     2023-03-23 [1] Github (rstudio/dygraphs@b096395)
  e1071               1.7-13      2023-02-01 [1] RSPM
  ellipsis            0.3.2       2021-04-29 [1] RSPM
@@ -104,7 +104,7 @@
  httr                1.4.5       2023-02-24 [1] RSPM
  httr2               0.2.2       2022-09-25 [1] RSPM
  hunspell            3.0.2       2022-09-04 [1] RSPM
- igraph              1.4.1       2023-02-24 [1] RSPM
+ igraph              1.4.2       2023-04-07 [1] RSPM
  influenceR          0.1.0.1     2021-09-25 [1] RSPM
  ini                 0.3.1       2018-05-20 [1] RSPM
  IRdisplay           1.1         2022-01-04 [1] RSPM
@@ -128,7 +128,7 @@
  magrittr            2.0.3       2022-03-30 [1] RSPM
  maps                3.4.1       2022-10-30 [1] RSPM
  maptools            1.1-6       2022-12-14 [1] RSPM
- markdown            1.5         2023-01-31 [1] RSPM
+ markdown            1.6         2023-04-07 [1] RSPM
  MASS                7.3-58.2    2023-01-23 [3] CRAN (R 4.2.3)
  Matrix              1.5-3       2022-11-11 [3] CRAN (R 4.2.3)
  memoise             2.0.1       2021-11-26 [1] RSPM
@@ -166,7 +166,7 @@
  pryr                0.1.6       2023-01-17 [1] RSPM
  ps                  1.7.4       2023-04-02 [1] RSPM
  purrr               1.0.1       2023-01-10 [1] RSPM
- quantmod            0.4.22      2023-04-07 [1] CRAN (R 4.2.3)
+ quantmod            0.4.22      2023-04-07 [1] RSPM
  R.cache             0.16.0      2022-07-21 [1] RSPM
  R.methodsS3         1.8.2       2022-06-13 [1] RSPM
  R.oo                1.25.0      2022-06-12 [1] RSPM
@@ -212,9 +212,9 @@
  servr               0.26        2023-03-19 [1] RSPM
  sessioninfo         1.2.2       2021-12-06 [1] RSPM
  sf                  1.0-12      2023-03-19 [1] RSPM
- shiny               1.7.4.9002  2023-04-03 [1] Github (rstudio/shiny@611e517)
+ shiny               1.7.4.9002  2023-04-17 [1] Github (rstudio/shiny@62bb21d)
  shinyAce            0.4.2       2022-05-06 [1] RSPM
- shinycoreci         0.0.0.9007  2023-04-10 [1] local
+ shinycoreci         0.0.0.9007  2023-04-18 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] RSPM
  shinyjs             2.1.0       2021-12-23 [1] RSPM
  shinyjster          0.0.0.9010  2023-03-23 [1] Github (schloerke/shinyjster@1807304)
@@ -240,7 +240,7 @@
  sys                 3.4.1       2022-10-18 [1] RSPM
  sysfonts            0.8.8       2022-03-13 [1] RSPM
  systemfonts         1.0.4       2022-02-11 [1] RSPM
- terra               1.7-18      2023-03-06 [1] RSPM
+ terra               1.7-23      2023-04-08 [1] RSPM
  testit              0.13        2021-04-14 [1] RSPM
  testthat            3.1.7       2023-03-12 [1] RSPM
  textshaping         0.3.6       2021-10-13 [1] RSPM
@@ -258,7 +258,7 @@
  usethis             2.1.6       2022-05-25 [1] RSPM
  utf8                1.2.3       2023-01-31 [1] RSPM
  uuid                1.1-0       2022-04-19 [1] RSPM
- V8                  4.2.2       2022-11-03 [1] RSPM
+ V8                  4.3.0       2023-04-08 [1] RSPM
  vctrs               0.6.1       2023-03-22 [1] RSPM
  vdiffr              1.0.5       2023-01-23 [1] RSPM
  vembedr             0.1.5       2021-12-11 [1] RSPM
@@ -279,10 +279,10 @@
  XML                 3.99-0.14   2023-03-19 [1] RSPM
  xml2                1.3.3       2021-11-30 [1] RSPM
  xtable              1.8-4       2019-04-21 [1] RSPM
- xts                 0.13.0      2023-02-20 [1] RSPM
+ xts                 0.13.1      2023-04-16 [1] RSPM
  yaml                2.3.7       2023-01-23 [1] RSPM
  zip                 2.2.2       2022-10-26 [1] RSPM
- zoo                 1.8-11      2022-09-17 [1] RSPM
+ zoo                 1.8-12      2023-04-13 [1] RSPM
 
  [1] /home/runner/work/_temp/Library
  [2] /opt/R/4.2.3/lib/R/site-library
