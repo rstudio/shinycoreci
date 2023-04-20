@@ -9,7 +9,7 @@
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2023-04-19
+ date      2023-04-20
  pandoc    2.7.3 @ /usr/local/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -210,7 +210,7 @@
  sf                  1.0-7       2022-03-07 [1] CRAN (R 4.0.5)
  shiny               1.7.4.9002  2023-04-17 [1] Github (rstudio/shiny@62bb21d)
  shinyAce            0.4.1       2019-09-24 [1] CRAN (R 4.0.2)
- shinycoreci         0.0.0.9007  2023-04-19 [1] local
+ shinycoreci         0.0.0.9007  2023-04-20 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.0.2)
  shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.0.2)
  shinyjster          0.0.0.9010  2023-03-22 [1] Github (schloerke/shinyjster@1807304)
@@ -254,7 +254,7 @@
  utf8                1.2.2       2021-07-24 [1] CRAN (R 4.0.2)
  uuid                1.0-4       2022-03-16 [1] CRAN (R 4.0.5)
  V8                  4.3.0       2023-04-08 [1] CRAN (R 4.0.5)
- vctrs               0.6.1       2023-03-22 [1] CRAN (R 4.0.5)
+ vctrs               0.6.2       2023-04-19 [1] CRAN (R 4.0.5)
  vdiffr              1.0.4       2022-03-15 [1] CRAN (R 4.0.5)
  vembedr             0.1.5       2021-12-11 [1] CRAN (R 4.0.2)
  viridis             0.6.2       2021-10-13 [1] CRAN (R 4.0.2)

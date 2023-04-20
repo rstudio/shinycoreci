@@ -1,6 +1,6 @@
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20230417.1
+ gha_image 20230407.1
  version   R version 4.2.3 (2023-03-15 ucrt)
  os        Windows Server x64 (build 20348)
  system    x86_64, mingw32
@@ -9,7 +9,7 @@
  collate   English_United States.utf8
  ctype     English_United States.utf8
  tz        UTC
- date      2023-04-19
+ date      2023-04-20
  pandoc    2.7.3 @ C:\\HOSTED~1\\windows\\pandoc\\270C81~1.3\\x64\\PANDOC~1.3-W\\pandoc.exe
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -157,12 +157,12 @@
  praise              1.0.0       2015-08-11 [1] RSPM
  prettyunits         1.1.1       2020-01-24 [1] RSPM
  prismatic           1.1.1       2022-08-15 [1] RSPM
- processx            3.8.0       2022-10-26 [1] RSPM
+ processx            3.8.1       2023-04-18 [1] RSPM
  progress            1.2.2       2019-05-16 [1] RSPM
  promises            1.2.0.9000  2023-03-22 [1] Github (rstudio/promises@dd2b792)
  proxy               0.4-27      2022-06-09 [1] RSPM
  pryr                0.1.6       2023-01-17 [1] RSPM
- ps                  1.7.4       2023-04-02 [1] RSPM
+ ps                  1.7.5       2023-04-18 [1] RSPM
  purrr               1.0.1       2023-01-10 [1] RSPM
  quantmod            0.4.22      2023-04-07 [1] RSPM
  R.cache             0.16.0      2022-07-21 [1] RSPM
@@ -211,7 +211,7 @@
  sf                  1.0-12      2023-03-19 [1] RSPM
  shiny               1.7.4.9002  2023-04-17 [1] Github (rstudio/shiny@62bb21d)
  shinyAce            0.4.2       2022-05-06 [1] RSPM
- shinycoreci         0.0.0.9007  2023-04-19 [1] local
+ shinycoreci         0.0.0.9007  2023-04-20 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] RSPM
  shinyjs             2.1.0       2021-12-23 [1] RSPM
  shinyjster          0.0.0.9010  2023-03-22 [1] Github (schloerke/shinyjster@1807304)
@@ -246,7 +246,7 @@
  tidyr               1.3.0       2023-01-24 [1] RSPM
  tidyselect          1.2.0       2022-10-10 [1] RSPM
  timechange          0.2.0       2023-01-11 [1] RSPM
- tinytex             0.44        2023-02-01 [1] RSPM
+ tinytex             0.45        2023-04-18 [1] RSPM
  tm                  0.7-11      2023-02-05 [1] RSPM
  translations        4.2.3       2023-03-15 [3] local
  TTR                 0.24.3      2021-12-12 [1] RSPM
@@ -257,7 +257,7 @@
  utf8                1.2.3       2023-01-31 [1] RSPM
  uuid                1.1-0       2022-04-19 [1] RSPM
  V8                  4.3.0       2023-04-08 [1] RSPM
- vctrs               0.6.1       2023-03-22 [1] RSPM
+ vctrs               0.6.2       2023-04-19 [1] CRAN (R 4.2.3)
  vdiffr              1.0.5       2023-01-23 [1] RSPM
  vembedr             0.1.5       2021-12-11 [1] RSPM
  viridis             0.6.2       2021-10-13 [1] RSPM
