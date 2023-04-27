@@ -45,15 +45,17 @@ test_that("{shinytest2} recording: card", {
   app$set_inputs(fixed_height = TRUE)
   expect_screenshot()
 
-  app$run_js('$($(".bslib-full-screen-enter")[0]).click()')
+  app$click(selector = "#card-dt .bslib-full-screen-enter")
   expect_screenshot()
 
-  app$run_js('$(".bslib-full-screen-exit").click()')
-  app$run_js('$($(".bslib-full-screen-enter")[3]).click()')
+  app$
+    click(selector = ".bslib-full-screen-exit")$
+    click(selector = "#card-plotly .bslib-full-screen-enter")
   expect_screenshot()
 
-  app$run_js('$(".bslib-full-screen-exit").click()')
-  app$set_inputs(fixed_height = FALSE)
-  app$set_window_size(width = 500, height = 1600)
+  app$
+    click(selector = ".bslib-full-screen-exit")$
+    set_inputs(fixed_height = FALSE)$
+    set_window_size(width = 500, height = 1600)
   expect_screenshot(viewport = FALSE)
 })
