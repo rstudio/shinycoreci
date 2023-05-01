@@ -42,7 +42,6 @@ on:
 name: Test apps - single
 
 jobs:
-
   test:
     runs-on: ${{ inputs.os }}
 
@@ -64,7 +63,6 @@ jobs:
     if: ( !( startsWith(inputs.os, 'windows') && startsWith(inputs.r-version, '3.5') ) )
 
     steps:
-
       - name: Short R version, SHA, and OS
         id: short
         shell: bash
@@ -104,15 +102,14 @@ jobs:
 
       - name: Windows git setup
         if: runner.os == 'Windows'
-        run:
-          git config --global core.autocrlf false
+        run: git config --global core.autocrlf false
 
       - name: GitHub Pull (PR)
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v3
         with:
           # check out the commit sha, not the merged sha. Avoids the "Merge SHA_A into SHA_B" into commits
-          ref: ${{ github.event.pull_request.head.sha }}      # # Ref: https://github.com/actions/checkout/pull/115/files#diff-04c6e90faac2675aa89e2176d2eec7d8R203-R209
+          ref: ${{ github.event.pull_request.head.sha }} # # Ref: https://github.com/actions/checkout/pull/115/files#diff-04c6e90faac2675aa89e2176d2eec7d8R203-R209
           fetch-depth: 0
       - name: GitHub Pull (Branch)
         if: github.event_name != 'pull_request'
@@ -132,8 +129,8 @@ jobs:
         id: files_changed
         uses: Ana06/get-changed-files@v2.2.0
         with:
-          format: 'json'
-          filter: '*'
+          format: "json"
+          filter: "*"
 
       - name: R Options
         shell: bash
@@ -302,7 +299,6 @@ jobs:
           done
 
           git checkout ${{ steps.current_branch.outputs.name }}
-
 
       - name: Notify slack SUCCESS
         if: success()

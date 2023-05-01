@@ -21,8 +21,8 @@ jobs:
         id: files_changed
         uses: Ana06/get-changed-files@v2.2.0
         with:
-          format: 'json'
-          filter: '*'
+          format: "json"
+          filter: "*"
 
       - name: Validate >= 1 Shiny app file is altered
         if: github.event_name == 'pull_request'

@@ -6,31 +6,31 @@ on:
   push:
     branches: [main, rc-**]
     paths:
-    - ".github/workflows/R-CMD-check.yaml"
-    - "DESCRIPTION"
-    - "NAMESPACE"
-    - "LICENSE"
-    - "LICENSE.md"
-    - ".Rbuildignore"
-    - "_pkgdown.yml"
-    - "man/**"
-    - "R/**"
-    - "tests/**"
+      - ".github/workflows/R-CMD-check.yaml"
+      - "DESCRIPTION"
+      - "NAMESPACE"
+      - "LICENSE"
+      - "LICENSE.md"
+      - ".Rbuildignore"
+      - "_pkgdown.yml"
+      - "man/**"
+      - "R/**"
+      - "tests/**"
   pull_request:
     branches: [main]
     paths:
-    - ".github/workflows/R-CMD-check.yaml"
-    - "DESCRIPTION"
-    - "NAMESPACE"
-    - "LICENSE"
-    - "LICENSE.md"
-    - ".Rbuildignore"
-    - "_pkgdown.yml"
-    - "man/**"
-    - "R/**"
-    - "tests/**"
+      - ".github/workflows/R-CMD-check.yaml"
+      - "DESCRIPTION"
+      - "NAMESPACE"
+      - "LICENSE"
+      - "LICENSE.md"
+      - ".Rbuildignore"
+      - "_pkgdown.yml"
+      - "man/**"
+      - "R/**"
+      - "tests/**"
   schedule:
-    - cron: '0 11 * * 1' # every monday
+    - cron: "0 11 * * 1" # every monday
 
 name: Package checks
 
