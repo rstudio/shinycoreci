@@ -32,7 +32,7 @@
     
     <a class="navbar-brand me-2" href="index.html">shinycoreci</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9008</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -156,11 +156,7 @@
 <h2 id="view-the-latest-test-results">View the latest test results<a class="anchor" aria-label="anchor" href="#view-the-latest-test-results"></a>
 </h2>
 <p>To view the latest test results, please visit <a href="https://rstudio.github.io/shinycoreci/results/" class="uri">https://rstudio.github.io/shinycoreci/results/</a>. This link will update to the latest results when they are pushed.</p>
-<!-- Use `shinycoreci::view_test_results()` to obtain an overview of the most recent test runs (it should prompt a **shiny** app that looks similar to this):
-
-<div align="center">
-  <img src="README_files/view-test-results.png" />
-</div> --><p>If you see failures, this indicates that a test has failed. If it is related to a <a href="https://rstudio.github.io/shinytest2/" class="external-link">shinytest2</a> snapshot failure, we can view and approve these failures with <code><a href="reference/fix_snaps.html">shinycoreci::fix_snaps()</a></code>. Your working directory must be in a local checkout of the <code>rstudio/shinycoreci</code> repo. Once <code><a href="reference/fix_snaps.html">shinycoreci::fix_snaps()</a></code> has finished running, use <a href="https://desktop.github.com/" class="external-link">GitHub Desktop</a> to view the changes.</p>
+<p>If you see failures, this indicates that a test has failed. If it is related to a <a href="https://rstudio.github.io/shinytest2/" class="external-link">shinytest2</a> snapshot failure, we can view and approve these failures with <code><a href="reference/fix_snaps.html">shinycoreci::fix_snaps()</a></code>. Your working directory must be in a local checkout of the <code>rstudio/shinycoreci</code> repo. Once <code><a href="reference/fix_snaps.html">shinycoreci::fix_snaps()</a></code> has finished running, use <a href="https://desktop.github.com/" class="external-link">GitHub Desktop</a> to view the changes.</p>
 <p>If you receive the error <code>No information found for sha: ABC1234 . Do you have a valid sha?</code>, you may have to provide the git sha value directly: <code>shinycoreci::fix_snaps(sha = "XYZ5678")</code>.</p>
 <p>In the event that all testing failures can not be addressed by updating <a href="https://rstudio.github.io/shinytest2/" class="external-link">shinytest2</a> baselines, have a look at the <a href="https://github.com/rstudio/shinycoreci/actions" class="external-link">GHA actions</a> build log and keep the following troubleshooting tips in mind:</p>
 <div class="section level3">
@@ -214,8 +210,6 @@
 <a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml" class="external-link"><strong>Deploy</strong></a>: Deploy all testing apps to <a href="shinyapps.io">shinyapps.io</a> and <a href="https://beta.rstudioconnect.com" class="external-link">beta.rstudioconnect.com</a>
 </li>
 <li>
-<a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-cache-matrix.yml" class="external-link"><strong>Warm Library Cache</strong></a>: Install and cache <a href="https://github.com/rstudio/shinycoreci" class="external-link">shinycoreci</a> and the shinyverse. Does not test any applications. Makes installations for testing <strong>much</strong> faster.</li>
-<li>
 <a href="https://github.com/rstudio/shinycoreci/actions/workflows/build-results.yml" class="external-link"><strong>Build results website</strong></a>: Builds results for <strong>Test apps</strong> workflow. This workflow is called from within <strong>Test apps</strong>. After all tests have completed, this workflow will process all results in <code>_test_results</code> branch into static files, storing the results in <code>gh-pages</code> branch. Final website location of results: <a href="https://rstudio.github.io/shinycoreci/results/" class="uri">https://rstudio.github.io/shinycoreci/results/</a>
 </li>
 <li>
@@ -243,8 +237,6 @@
 <li>
 <code><a href="reference/trigger.html">shinycoreci::trigger_deploy()</a></code>: Trigger the <strong>Deploy</strong> workflow.</li>
 <li>
-<code><a href="reference/trigger.html">shinycoreci::trigger_cache()</a></code>: Trigger the <strong>Warm library cache</strong> workflow.</li>
-<li>
 <code><a href="reference/trigger.html">shinycoreci::trigger_results()</a></code>: Trigger the <strong>Build results website</strong> workflow.</li>
 <li>
 <code>shinycoreci::trigger(event_type=)</code>: Sends a custom event to the GHA workflow. For example, this can be used to trigger <strong>Trim old branches</strong> with <code>shinycoreci::trigger("trim")</code>.</li>
@@ -262,7 +254,6 @@
 <ul>
 <li>12am UTC, S-S: <strong>Trim old branches</strong>; &lt; 1 min</li>
 <li>12am UTC, M-F: <strong>Update app deps</strong>; &lt; 5 mins</li>
-<li>12:30am UTC, M-F: <strong>Warm library cache</strong>; 1 - 2 hrs</li>
 <li>2am UTC, M-F: <strong>Deploy apps</strong>; ~ 2 hrs</li>
 <li>3am UTC, M-F: <strong>Docker</strong>; ~ 1 hr</li>
 <li>5am UTC, M-F: <strong>Test apps</strong> (Internally calls <strong>Build results website</strong>); ~ 4 hrs</li>
@@ -369,7 +360,6 @@
 <ul class="list-unstyled">
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle Experimental"></a></li>
 <li><a href="https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R CMD check"></a></li>
-<li><a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-cache-matrix.yml" class="external-link"><img src="https://github.com/rstudio/shinycoreci/actions/workflows/apps-cache-matrix.yml/badge.svg" alt="Warm library cache"></a></li>
 <li><a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml" class="external-link"><img src="https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml/badge.svg" alt="Test"></a></li>
 <li><a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml" class="external-link"><img src="https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml/badge.svg" alt="Deploy"></a></li>
 <li><a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml" class="external-link"><img src="https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml/badge.svg" alt="Docker"></a></li>
