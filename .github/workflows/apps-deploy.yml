@@ -37,6 +37,7 @@ jobs:
             cores: 5
             retry: 3
             # extra_app_text: ", apps = list('000-all', '000-manual', 1, 2)"
+            extra_app_text: ", apps = list(51, 82, 93)"
 
           ## Deployment server has been disabled
           # - os: "${{ needs.config.outputs.ubuntu }}"
