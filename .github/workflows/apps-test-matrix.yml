@@ -10,7 +10,7 @@ on:
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
   schedule:
-    - cron:  '0 5 * * 1-5' # every work night (delayed 2 hrs)
+    - cron: "0 5 * * 1-5" # every work night (delayed 2 hrs)
   repository_dispatch:
     types:
       - all
@@ -23,7 +23,6 @@ jobs:
   config:
     needs: [precheck]
     uses: ./.github/workflows/apps-config.yml
-
 
   macos-release:
     if: ${{ ! cancelled() }}
@@ -83,7 +82,6 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-
   ubuntu-release:
     needs: [precheck, config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -136,7 +134,6 @@ jobs:
     secrets:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
 
   windows-release:
     if: ${{ ! cancelled() }}
@@ -196,27 +193,26 @@ jobs:
       SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-
   build-results:
     uses: ./.github/workflows/build-results.yml
     if: ${{ (! cancelled()) && (github.event_name != 'pull_request') }}
     needs:
-    ## Comment for now to reduce requirements as we know the last round is windows
-    # - macos-release
-    # - macos-oldrel-1
-    # - macos-oldrel-2
-    # - macos-oldrel-3
-    # - macos-oldrel-4
+      ## Comment for now to reduce requirements as we know the last round is windows
+      # - macos-release
+      # - macos-oldrel-1
+      # - macos-oldrel-2
+      # - macos-oldrel-3
+      # - macos-oldrel-4
 
-    # - ubuntu-release
-    # - ubuntu-oldrel-1
-    # - ubuntu-oldrel-2
-    # - ubuntu-oldrel-3
-    # - ubuntu-oldrel-4
+      # - ubuntu-release
+      # - ubuntu-oldrel-1
+      # - ubuntu-oldrel-2
+      # - ubuntu-oldrel-3
+      # - ubuntu-oldrel-4
 
-    - windows-release
-    - windows-oldrel-1
-    - windows-oldrel-2
-    - windows-oldrel-3
+      - windows-release
+      - windows-oldrel-1
+      - windows-oldrel-2
+      - windows-oldrel-3
     # TODO-future: re-enable this when R 3.6 is oldrel4
     # - windows-oldrel-4

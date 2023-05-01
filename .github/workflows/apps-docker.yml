@@ -6,16 +6,14 @@ on:
       - docker**
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   schedule:
-    - cron:  '0 3 * * 1-5' # every work night (delayed 1 hr)
+    - cron: "0 3 * * 1-5" # every work night (delayed 1 hr)
   repository_dispatch:
     types:
       - all
       # Trigger with `shinycoreci::trigger_docker()`
       - docker
 
-
 jobs:
-
   config:
     uses: ./.github/workflows/apps-config.yml
 
@@ -28,7 +26,6 @@ jobs:
       max-parallel: 5
       fail-fast: false
       matrix:
-
         flavor:
           # - shinycoreci_sha: main
           - shinycoreci_sha: main
@@ -41,8 +38,7 @@ jobs:
           - ${{ needs.config.outputs.oldrel1 }}
           - ${{ needs.config.outputs.oldrel2 }}
           - ${{ needs.config.outputs.oldrel3 }}
-          # TODO-future; Re-enable this when R 3.6 is `oldrel4`
-          # - ${{ needs.config.outputs.oldrel4 }}
+          - ${{ needs.config.outputs.oldrel4 }}
 
         docker:
           # - workdir: inst/Docker/centos
@@ -51,89 +47,74 @@ jobs:
             type: focal
           - workdir: inst/Docker/ubuntu
             type: bionic
-          # # Xenial has trouble installing R 3.5
-          # - workdir: inst/Docker/ubuntu
-          #   type: xenial
 
     steps:
+      - name: Short R version and SHA
+        id: short
+        run: |
+          # keep only the major.minor values
+          RVERSION=`echo '${{ matrix.r_version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
+          echo "r-version: $RVERSION"
+          echo "r-version=$RVERSION" >> $GITHUB_OUTPUT
 
-    - name: Short R version and SHA
-      id: short
-      run: |
-        # keep only the major.minor values
-        RVERSION=`echo '${{ matrix.r_version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
-        echo "r-version: $RVERSION"
-        echo "r-version=$RVERSION" >> $GITHUB_OUTPUT
+          SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
+          if [[ -z "$SHA" ]]; then
+            SHA=${{ github.sha }}
+          fi
+          SHORT_SHA=${SHA:0:7}
+          echo "sha: $SHORT_SHA"
+          echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
 
-        SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
-        if [[ -z "$SHA" ]]; then
-          SHA=${{ github.sha }}
-        fi
-        SHORT_SHA=${SHA:0:7}
-        echo "sha: $SHORT_SHA"
-        echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
-    # - name: Should install
-    #   id: can-build
-    #   if: |
-    #     !(
-    #       ( steps.short.outputs.r-version == '3.5' && matrix.docker.type == 'bionic' ) ||
-    #       ( matrix.docker.type == 'focal' &&
-    #         ( steps.short.outputs.r-version == '3.4' || steps.short.outputs.r-version == '3.5' )
-    #       )
-    #     )
-    #   run: |
-    #     echo "If this step did not run, then we are unable to install this version of R on this Linux distro"
+      - uses: actions/checkout@v3
+        if: steps.can-build.conclusion != 'skipped'
 
-    - uses: actions/checkout@v3
-      if: steps.can-build.conclusion != 'skipped'
+      - name: Log in to the Container registry
+        if: steps.can-build.conclusion != 'skipped'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Log in to the Container registry
-      if: steps.can-build.conclusion != 'skipped'
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Base
+        if: steps.can-build.conclusion != 'skipped'
+        uses: docker/build-push-action@v3
+        with:
+          context: ${{ matrix.docker.workdir }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:base-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
+          build-args: |
+            R_VERSION=${{ steps.short.outputs.r-version }}
+            RELEASE=${{ matrix.docker.type }}
+            SHINYCORECI_SHA=${{ matrix.flavor.shinycoreci_sha }}
+            GITHUB_PAT=${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build Base
-      if: steps.can-build.conclusion != 'skipped'
-      uses: docker/build-push-action@v3
-      with:
-        context: ${{ matrix.docker.workdir }}
-        push: true
-        tags: |
-          ghcr.io/${{ github.repository }}:base-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
-        build-args: |
-          R_VERSION=${{ steps.short.outputs.r-version }}
-          RELEASE=${{ matrix.docker.type }}
-          SHINYCORECI_SHA=${{ matrix.flavor.shinycoreci_sha }}
-          GITHUB_PAT=${{ secrets.GITHUB_TOKEN }}
+      - name: Build SSO
+        if: steps.can-build.conclusion != 'skipped'
+        uses: docker/build-push-action@v2
+        with:
+          context: "${{ matrix.docker.workdir }}_sso"
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:sso-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
+          build-args: |
+            R_VERSION=${{ steps.short.outputs.r-version }}
+            RELEASE=${{ matrix.docker.type }}
+            EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
 
-    - name: Build SSO
-      if: steps.can-build.conclusion != 'skipped'
-      uses: docker/build-push-action@v2
-      with:
-        context: "${{ matrix.docker.workdir }}_sso"
-        push: true
-        tags: |
-          ghcr.io/${{ github.repository }}:sso-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
-        build-args: |
-          R_VERSION=${{ steps.short.outputs.r-version }}
-          RELEASE=${{ matrix.docker.type }}
-          EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
-
-    - name: Build SSP
-      if: steps.can-build.conclusion != 'skipped'
-      uses: docker/build-push-action@v2
-      with:
-        context: "${{ matrix.docker.workdir }}_ssp"
-        push: true
-        tags: |
-          ghcr.io/${{ github.repository }}:ssp-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
-        build-args: |
-          R_VERSION=${{ steps.short.outputs.r-version }}
-          RELEASE=${{ matrix.docker.type }}
-          EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
+      - name: Build SSP
+        if: steps.can-build.conclusion != 'skipped'
+        uses: docker/build-push-action@v2
+        with:
+          context: "${{ matrix.docker.workdir }}_ssp"
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:ssp-${{ steps.short.outputs.r-version }}-${{ matrix.docker.type }}${{ matrix.flavor.extra_base_tag }}
+          build-args: |
+            R_VERSION=${{ steps.short.outputs.r-version }}
+            RELEASE=${{ matrix.docker.type }}
+            EXTRA_BASE_TAG=${{ matrix.flavor.extra_base_tag }}
 
   docker-cleanup:
     if: success() || failure()
