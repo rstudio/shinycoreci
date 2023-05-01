@@ -6,7 +6,6 @@
 
 [![Lifecycle Experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![R CMD check](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml)
-[![Warm library cache](https://github.com/rstudio/shinycoreci/actions/workflows/apps-cache-matrix.yml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/apps-cache-matrix.yml)
 [![Test](https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml)
 [![Deploy](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml)
 [![Docker](https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml/badge.svg)](https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml)
@@ -14,7 +13,6 @@
 <!-- badges: end -->
 
 <!-- This is an R package to install all dependencies to test the bleeding edge of all relevant packages to the Shiny team. -->
-
 <!-- For more direct usage examples, see [`rstudio/shinycoreci-apps`](https://github.com/rstudio/shinycoreci-apps). -->
 
 ## Installation
@@ -28,36 +26,36 @@ pak::pkg_install("rstudio/shinycoreci")
 
 These GitHub packages will be installed to make sure the latest package development is working as expected:
 
-  - [r-lib/cachem](http://github.com/r-lib/cachem)
-  - [r-lib/fastmap](http://github.com/r-lib/fastmap)
-  - [r-lib/later](http://github.com/r-lib/later)
-  - [rstudio/bslib](http://github.com/rstudio/bslib)
-  - [rstudio/bsicons](http://github.com/rstudio/bsicons)
-  - [ramnathv/htmlwidgets](http://github.com/ramnathv/htmlwidgets)
-  - [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
-  - [rstudio/gt](http://github.com/rstudio/gt)
-  - [rstudio/DT](http://github.com/rstudio/DT)
-  - [rstudio/dygraphs](http://github.com/rstudio/dygraphs)
-  - [rstudio/flexdashboard](http://github.com/rstudio/flexdashboard)
-  - [rstudio/fontawesome](http://github.com/rstudio/fontawesome)
-  - [rstudio/htmltools](http://github.com/rstudio/htmltools)
-  - [rstudio/httpuv](http://github.com/rstudio/httpuv)
-  - [rstudio/leaflet](http://github.com/rstudio/leaflet)
-  - [rstudio/pool](http://github.com/rstudio/pool)
-  - [rstudio/promises](http://github.com/rstudio/promises)
-  - [rstudio/reactlog](http://github.com/rstudio/reactlog)
-  - [rstudio/sass](http://github.com/rstudio/sass)
-  - [rstudio/shiny](http://github.com/rstudio/shiny)
-  - [rstudio/shinymeta](http://github.com/rstudio/shinymeta)
-  - [rstudio/shinytest](http://github.com/rstudio/shinytest)
-  - [rstudio/shinytest2](http://github.com/rstudio/shinytest2)
-  - [rstudio/shinythemes](http://github.com/rstudio/shinythemes)
-  - [rstudio/shinyvalidate](http://github.com/rstudio/shinyvalidate)
-  - [rstudio/thematic](http://github.com/rstudio/thematic)
-  - [rstudio/webdriver](http://github.com/rstudio/webdriver)
-  - [rstudio/websocket](http://github.com/rstudio/websocket)
-  - [ropensci/plotly](http://github.com/ropensci/plotly)
-  - [schloerke/shinyjster](http://github.com/schloerke/shinyjster)
+- [r-lib/cachem](http://github.com/r-lib/cachem)
+- [r-lib/fastmap](http://github.com/r-lib/fastmap)
+- [r-lib/later](http://github.com/r-lib/later)
+- [rstudio/bslib](http://github.com/rstudio/bslib)
+- [rstudio/bsicons](http://github.com/rstudio/bsicons)
+- [ramnathv/htmlwidgets](http://github.com/ramnathv/htmlwidgets)
+- [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
+- [rstudio/gt](http://github.com/rstudio/gt)
+- [rstudio/DT](http://github.com/rstudio/DT)
+- [rstudio/dygraphs](http://github.com/rstudio/dygraphs)
+- [rstudio/flexdashboard](http://github.com/rstudio/flexdashboard)
+- [rstudio/fontawesome](http://github.com/rstudio/fontawesome)
+- [rstudio/htmltools](http://github.com/rstudio/htmltools)
+- [rstudio/httpuv](http://github.com/rstudio/httpuv)
+- [rstudio/leaflet](http://github.com/rstudio/leaflet)
+- [rstudio/pool](http://github.com/rstudio/pool)
+- [rstudio/promises](http://github.com/rstudio/promises)
+- [rstudio/reactlog](http://github.com/rstudio/reactlog)
+- [rstudio/sass](http://github.com/rstudio/sass)
+- [rstudio/shiny](http://github.com/rstudio/shiny)
+- [rstudio/shinymeta](http://github.com/rstudio/shinymeta)
+- [rstudio/shinytest](http://github.com/rstudio/shinytest)
+- [rstudio/shinytest2](http://github.com/rstudio/shinytest2)
+- [rstudio/shinythemes](http://github.com/rstudio/shinythemes)
+- [rstudio/shinyvalidate](http://github.com/rstudio/shinyvalidate)
+- [rstudio/thematic](http://github.com/rstudio/thematic)
+- [rstudio/webdriver](http://github.com/rstudio/webdriver)
+- [rstudio/websocket](http://github.com/rstudio/websocket)
+- [ropensci/plotly](http://github.com/ropensci/plotly)
+- [schloerke/shinyjster](http://github.com/schloerke/shinyjster)
 
 Tools for manual and automated testing of shiny apps.
 
@@ -67,17 +65,17 @@ First, install the `{shinycoreci}` repo via {pak} (from instructions above). Bef
 
 Commands used to test in different situations:
 
-  - [RStudio IDE](https://rstudio.com/products/rstudio/download/#download) - `shinycoreci::test_in_ide()`
-  - [RStudio Cloud](http://rstudio.cloud) - `shinycoreci::test_in_ide()`
-  - [RStudio Server Pro](https://colorado.rstudio.com) - `shinycoreci::test_in_ide()`
-  - R Terminal / R GUI - `shinycoreci::test_in_browser()`
-  - (Any) Web Browser - `shinycoreci::test_in_browser()`
-  - [shinyapps.io](http://shinyapps.io) - `shinycoreci::test_in_shinyappsio()`
-  - [RStudio Connect](http://beta.rstudioconnect.com) - `shinycoreci::test_in_connect()`
-  - SSO - `shinycoreci::test_in_sso(release = "focal")`
-    \> Requires `Docker` application to be running
-  - SSP - `shinycoreci::test_in_ssp(release = "centos7")`
-    \> Requires `Docker` application to be running
+- [RStudio IDE](https://rstudio.com/products/rstudio/download/#download) - `shinycoreci::test_in_ide()`
+- [RStudio Cloud](http://rstudio.cloud) - `shinycoreci::test_in_ide()`
+- [RStudio Server Pro](https://colorado.rstudio.com) - `shinycoreci::test_in_ide()`
+- R Terminal / R GUI - `shinycoreci::test_in_browser()`
+- (Any) Web Browser - `shinycoreci::test_in_browser()`
+- [shinyapps.io](http://shinyapps.io) - `shinycoreci::test_in_shinyappsio()`
+- [RStudio Connect](http://beta.rstudioconnect.com) - `shinycoreci::test_in_connect()`
+- SSO - `shinycoreci::test_in_sso(release = "focal")`
+  \> Requires `Docker` application to be running
+- SSP - `shinycoreci::test_in_ssp(release = "centos7")`
+  \> Requires `Docker` application to be running
 
 All testing functions may be run from within the IDE (except for R Terminal / R GUI).
 
@@ -99,8 +97,7 @@ shinycoreci::test_in_ide()
 To view the latest test results, please visit <https://rstudio.github.io/shinycoreci/results/>. This link will update to the latest results when they are pushed.
 
 <!-- Use `shinycoreci::view_test_results()` to obtain an overview of the most recent test runs (it should prompt a **shiny** app that looks similar to this):
-
-<div align="center">
+&#10;<div align="center">
   <img src="README_files/view-test-results.png" />
 </div> -->
 
@@ -128,10 +125,10 @@ When Windows virtual images update on GitHub Actions, the graphics device may be
 
 When contributing a testing app, try to do the following:
 
-  - Capture all the functionality with automated tests.
-      - Also, where possible, write “light-weight” tests (that is, try and avoid **shinytest2** `$expect_screenshot()` where possible since they are prone to false positive differences and thus have a maintenance cost).
-      - If the app does need manual testing, flag the testing app for manual testing with `shinycoreci::use_manual_app()`.
-  - Add a description to the app’s UI that makes it clear what the app is testing for.
+- Capture all the functionality with automated tests.
+  - Also, where possible, write “light-weight” tests (that is, try and avoid **shinytest2** `$expect_screenshot()` where possible since they are prone to false positive differences and thus have a maintenance cost).
+  - If the app does need manual testing, flag the testing app for manual testing with `shinycoreci::use_manual_app()`.
+- Add a description to the app’s UI that makes it clear what the app is testing for.
 
 Note that **shinycoreci** only supports `{testthat}` testing framework. Call `shinytest2::use_shinytest2(APP_DIR)` to use `{shinytest2}` and `{testthat}`
 
@@ -141,9 +138,7 @@ Note that **shinycoreci** only supports `{testthat}` testing framework. Call `sh
 
 3.  **testthat**: primarily useful in combination with `shiny::testServer()` to test server-side reactive logic of the application.
 
-<!-- end list -->
-
-  - [See here](https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/001-hello/tests/testthat/tests.R#L4) for an example.
+- [See here](https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/001-hello/tests/testthat/tests.R#L4) for an example.
 
 ## Pruning old git branches
 
@@ -157,28 +152,26 @@ git fetch --prune
 
 This repo contains several [GitHub Actions](https://github.com/features/actions) workflows:
 
-  - [**Test apps:**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml) Run all automated tests (via `shiny::runTests()`). If on `main` branch, test results will be saved to `_test_results` branch.
-  - [**Docker:**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml) Create all SSO and SSP docker images. Docker images are hosted on [`rstudio/shinycoreci` via GitHub Packages](https://github.com/rstudio/shinycoreci/pkgs/container/shinycoreci).
-  - [**Deploy**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml): Deploy all testing apps to [shinyapps.io](shinyapps.io) and [beta.rstudioconnect.com](https://beta.rstudioconnect.com)
-  - [**Warm Library Cache**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-cache-matrix.yml): Install and cache `{shinycoreci}` and the shinyverse. Does not test any applications. Makes installations for testing **much** faster.
-  - [**Build results website**](https://github.com/rstudio/shinycoreci/actions/workflows/build-results.yml): Builds results for **Test apps** workflow. This workflow is called from within **Test apps**. After all tests have completed, this workflow will process all results in `_test_results` branch into static files, storing the results in `gh-pages` branch. Final website location of results: <https://rstudio.github.io/shinycoreci/results/>
-  - [**Package checks**](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml): There are three main tasks that this workflow achieves:
-    1.  Creates the `website` via `{pkgdown}`
-    2.  Performs `routine` procedures like making sure all documentation and README.md is up to date
-    3.  Performs `R CMD check` on `{shinycoreci}`, across macOS, Windows, and Ubuntu (multiple R versions).
-  - [**Update app deps**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deps.yml): Updates known dependencies of all Shiny applications in `./inst/apps`.
-  - [**Trim old branches**](https://github.com/rstudio/shinycoreci/actions/workflows/trim-old-branches.yml): The current data model of **Test apps** workflow is to create many `gha-**` branches containing the changes of each test run on `main`. `gha-**` branches that have been stale for more than a week are removed.
+- [**Test apps:**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml) Run all automated tests (via `shiny::runTests()`). If on `main` branch, test results will be saved to `_test_results` branch.
+- [**Docker:**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml) Create all SSO and SSP docker images. Docker images are hosted on [`rstudio/shinycoreci` via GitHub Packages](https://github.com/rstudio/shinycoreci/pkgs/container/shinycoreci).
+- [**Deploy**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml): Deploy all testing apps to [shinyapps.io](shinyapps.io) and [beta.rstudioconnect.com](https://beta.rstudioconnect.com)
+- [**Build results website**](https://github.com/rstudio/shinycoreci/actions/workflows/build-results.yml): Builds results for **Test apps** workflow. This workflow is called from within **Test apps**. After all tests have completed, this workflow will process all results in `_test_results` branch into static files, storing the results in `gh-pages` branch. Final website location of results: <https://rstudio.github.io/shinycoreci/results/>
+- [**Package checks**](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml): There are three main tasks that this workflow achieves:
+  1.  Creates the `website` via `{pkgdown}`
+  2.  Performs `routine` procedures like making sure all documentation and README.md is up to date
+  3.  Performs `R CMD check` on `{shinycoreci}`, across macOS, Windows, and Ubuntu (multiple R versions).
+- [**Update app deps**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deps.yml): Updates known dependencies of all Shiny applications in `./inst/apps`.
+- [**Trim old branches**](https://github.com/rstudio/shinycoreci/actions/workflows/trim-old-branches.yml): The current data model of **Test apps** workflow is to create many `gha-**` branches containing the changes of each test run on `main`. `gha-**` branches that have been stale for more than a week are removed.
 
 ### Trigger
 
 There are a handful of methods that can be called to trigger the GHA actions.
 
-  - `shinycoreci::trigger_tests()`: Trigger the **Test apps** workflow.
-  - `shinycoreci::trigger_docker()`: Trigger the **Docker** workflow.
-  - `shinycoreci::trigger_deploy()`: Trigger the **Deploy** workflow.
-  - `shinycoreci::trigger_cache()`: Trigger the **Warm library cache** workflow.
-  - `shinycoreci::trigger_results()`: Trigger the **Build results website** workflow.
-  - `shinycoreci::trigger(event_type=)`: Sends a custom event to the GHA workflow. For example, this can be used to trigger **Trim old branches** with `shinycoreci::trigger("trim")`.
+- `shinycoreci::trigger_tests()`: Trigger the **Test apps** workflow.
+- `shinycoreci::trigger_docker()`: Trigger the **Docker** workflow.
+- `shinycoreci::trigger_deploy()`: Trigger the **Deploy** workflow.
+- `shinycoreci::trigger_results()`: Trigger the **Build results website** workflow.
+- `shinycoreci::trigger(event_type=)`: Sends a custom event to the GHA workflow. For example, this can be used to trigger **Trim old branches** with `shinycoreci::trigger("trim")`.
 
 A triggered workflow will run without having to push to the repo. Anyone with repo write access can call this command.
 
@@ -195,12 +188,11 @@ Example schedule where the workflow is run at 2am UTC Monday through Friday:
 
 Schedule of `rstudio/shinycoreci` workflows:
 
-  - 12am UTC, S-S: **Trim old branches**; \< 1 min
-  - 12am UTC, M-F: **Update app deps**; \< 5 mins
-  - 12:30am UTC, M-F: **Warm library cache**; 1 - 2 hrs
-  - 2am UTC, M-F: **Deploy apps**; \~ 2 hrs
-  - 3am UTC, M-F: **Docker**; \~ 1 hr
-  - 5am UTC, M-F: **Test apps** (Internally calls **Build results website**); \~ 4 hrs
+- 12am UTC, S-S: **Trim old branches**; \< 1 min
+- 12am UTC, M-F: **Update app deps**; \< 5 mins
+- 2am UTC, M-F: **Deploy apps**; ~ 2 hrs
+- 3am UTC, M-F: **Docker**; ~ 1 hr
+- 5am UTC, M-F: **Test apps** (Internally calls **Build results website**); ~ 4 hrs
 
 ### `build-results.yml`
 
@@ -208,29 +200,27 @@ Breakdown of what happens in the **Build results website** workflow:
 
 On completion of `apps-test-matrix.yml`…
 
-  - GHA will check out the latest `_test_results` branch into the local folder.
-  - GHA will check out the latest `gh-pages` branch into the `./_gh-pages` folder.
-  - GHA will install R and necessary package dependencies.
-  - Run `./build_site.R`
-      - Read the *modify times* of each file in `_test_results` and processing files
-      - Compare *modify times* to *modify times* of output files
-      - If any input file is newer than the output file, reprocess the documen
-      - If reprocessing, render `./render-results.Rmd` given proper subset of data
-          - Save output to \`./\_gh-pages/results/YEAR/MONTH/DAY/index.html
-      - Update `./_gh-pages/results/index.html` to redirect to the most recent results
-  - Within the `./_gh-pages` directory
-      - Add any files that have been altered
-      - Commit and push back any changes to the `gh-pages` website
+- GHA will check out the latest `_test_results` branch into the local folder.
+- GHA will check out the latest `gh-pages` branch into the `./_gh-pages` folder.
+- GHA will install R and necessary package dependencies.
+- Run `./build_site.R`
+  - Read the *modify times* of each file in `_test_results` and processing files
+  - Compare *modify times* to *modify times* of output files
+  - If any input file is newer than the output file, reprocess the documen
+  - If reprocessing, render `./render-results.Rmd` given proper subset of data
+    - Save output to \`./\_gh-pages/results/YEAR/MONTH/DAY/index.html
+  - Update `./_gh-pages/results/index.html` to redirect to the most recent results
+- Within the `./_gh-pages` directory
+  - Add any files that have been altered
+  - Commit and push back any changes to the `gh-pages` website
 
 Final results are available at: <https://rstudio.github.io/shinycoreci/results/>
 
 # FAQ:
 
-  - If you run into an odd `{pak}` installation issue:
-      - Run `pak::cache_clean()` to clear the cache and try your original command again
-  - Installing on fresh linux? Run these commands before testing:
-
-<!-- end list -->
+- If you run into an odd `{pak}` installation issue:
+  - Run `pak::cache_clean()` to clear the cache and try your original command again
+- Installing on fresh linux? Run these commands before testing:
 
 ``` r
 pkgs <- c('base64enc', 'bslib', 'Cairo', 'clipr', 'curl', 'dbplyr', 'DiagrammeR',
