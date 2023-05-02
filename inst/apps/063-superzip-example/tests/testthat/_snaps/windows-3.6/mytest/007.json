@@ -934,9 +934,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.12.1",
+          "version": "1.13.4",
           "src": {
-            "href": "dt-core-1.12.1"
+            "href": "dt-core-1.13.4"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
