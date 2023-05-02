@@ -190,39 +190,6 @@ install_troublesome_pkgs <- function(libpath = .libPaths()[1]) {
           packages_to_install = "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz",
           libpath = libpath
         )
-      },
-      "3.5" = {
-        install_missing_pkgs(
-          packages = c("rjson", "radiant", "pdp", "RcppEigen", "MatrixModels"),
-          packages_to_install = c(
-            "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz",
-            "url::https://cran.r-project.org/src/contrib/Archive/radiant/radiant_1.3.2.tar.gz",
-            "url::https://cran.r-project.org/src/contrib/Archive/pdp/pdp_0.7.0.tar.gz",
-            "url::https://cran.r-project.org/src/contrib/Archive/RcppEigen/RcppEigen_0.3.3.9.1.tar.gz",
-            "url::https://cran.r-project.org/src/contrib/Archive/MatrixModels/MatrixModels_0.5-0.tar.gz"
-          ),
-          libpath = libpath
-        )
-      }
-    )
-  }
-  if (is_windows()) {
-    switch(short_r_version,
-      "3.5" = {
-        # https://github.com/r-spatial/s2/issues/140
-        # Once s2 > 1.0.7 is released, s2 install can be removed... hopefully
-        # Can't install sf from source on windows; Missing many libraries
-        # Can't install mapview from source; Latest version requires R 3.6
-        install_missing_pkgs(
-          packages = c("s2", "mapview", "sf"),
-          packages_to_install = c(
-            "r-spatial/s2",
-            "url::https://cran.r-project.org/bin/windows/contrib/3.5/mapview_2.7.8.zip",
-            "url::https://cran.r-project.org/bin/windows/contrib/3.5/sf_0.9-2.zip"
-          ),
-          libpath = libpath
-        )
-
       }
     )
   }
