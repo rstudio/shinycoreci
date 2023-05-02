@@ -1,7 +1,8 @@
 library(shiny)
 library(bslib)
 
-ui <- page_fill(
+ui <- page_fillable(
+  padding = 0,
   theme = bs_theme(
     # Don't transition when collapsing (so screenshot timing is less of an issue)
     "transition-collapse" = "none",
