@@ -1,0 +1,15 @@
+{
+  "input": {
+    "x": "hp"
+  },
+  "output": {
+    "report": {
+      "message": "unused argument (fragment.only = TRUE)",
+      "call": "mark(..., format = \"html\", template = template)",
+      "type": null
+    }
+  },
+  "export": {
+
+  }
+}

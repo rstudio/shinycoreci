@@ -31,7 +31,8 @@ accept_snaps <- function(
 }
 
 
-remove_cruft <- function(repo_dir = ".", min_r_version = "3.5") {
+# Removes all snaps that are below the minimum R version
+remove_snaps_cruft <- function(repo_dir = ".", min_r_version = "3.6") {
   app_paths <- repo_apps_paths(repo_dir)
 
   pb <- progress_bar(

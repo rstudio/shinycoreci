@@ -2,6 +2,9 @@
 library(tm)
 library(wordcloud)
 library(memoise)
+if (FALSE) {
+  library(BH)
+}
 
 # The list of valid books
 books <<- list("A Mid Summer Night's Dream" = "summer",
