@@ -3,25 +3,35 @@
 #' @param repo_dir directory to the shinycoreci repo
 #' @export
 view_test_images <- function(repo_dir = ".") {
-  repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
-  apps_folder <- file.path(repo_dir, "inst/apps")
+  app_folders <- Filter(repo_apps_paths(repo_dir), f = function(app_folder) {
+    dir.exists(file.path(app_folder, "tests/testthat/_snaps"))
+  })
 
-  all_files <- dir(apps_folder, recursive = TRUE, full.names = TRUE)
+  png_dt <-
+    dplyr::bind_rows(lapply(app_folders, function(app_folder) {
+      app_files <- dir(app_folder, recursive = TRUE, full.names = TRUE)
 
-  # Only keep snapshot files
-  all_files <- all_files[grepl("tests/testthat/_snaps/", all_files)]
-  # Only png files
-  # No debug snapshots
-  all_pngs <- all_files[grepl("[^_]\\.png", all_files)]
-  # Not new png files
-  all_pngs <- all_pngs[!grepl("\\.new\\.png", all_pngs)]
+      # Only png files
+      app_pngs <- app_files[grepl("\\.png$", app_files)]
+      # No debug snapshots
+      # Not new png files
+      app_pngs <- app_pngs[!grepl("(_|\\.new)\\.png$", app_pngs)]
 
-  m <- regexec(file.path(apps_folder, "(.*)", "tests"), all_pngs)
-  all_png_app_names <- vapply(regmatches(all_pngs, m), function(x) x[2], character(1))
+      test_name = dirname(app_pngs)
+      variant = dirname(test_name)
+
+      dplyr::tibble(
+        app_name = basename(app_folder),
+        variant = basename(variant),
+        png_name = basename(app_pngs),
+        test_name = basename(test_name),
+        path = app_pngs
+      )
+    }))
 
   ui <- shiny::fluidPage(
     shiny::wellPanel(
-      shiny::selectInput("app_name", "Choose a testing app", unique(all_png_app_names))
+      shiny::selectInput("app_name", "Choose a testing app", unique(png_dt$app_name))
     ),
     shiny::uiOutput("images")
   )
@@ -29,9 +39,10 @@ view_test_images <- function(repo_dir = ".") {
   server <- function(input, output, session) {
     app_png_idx <- shiny::reactive({
       shiny::req(input$app_name)
-      grep(input$app_name, all_pngs)
+      input$app_name == png_dt$app_name
     })
-    app_pngs <- shiny::reactive(all_pngs[app_png_idx()])
+    app_png_info <- shiny::reactive(png_dt[app_png_idx(), ])
+    app_pngs <- shiny::reactive(app_png_info()$path)
 
     shiny::observe({
       lapply(app_pngs(), function(x) {
@@ -41,27 +52,36 @@ view_test_images <- function(repo_dir = ".") {
       })
     })
     output$images <- shiny::renderUI({
-      png_names <- app_pngs()
-      row_names <- unique(basename(png_names))
-      row_tags <- lapply(row_names, function(row) {
-        row_pngs <- png_names[basename(png_names) %in% row]
-        row_images <- lapply(row_pngs, function(png) {
-          test_name <- basename(dirname(png))
-          test_name <- sub("-expected", "", test_name)
-          img_tag <- shiny::div(
-            shiny::tags$p(test_name),
-            shiny::imageOutput(png, height = "auto")
+      app_png_dt <- app_png_info()
+      test_names <- unique(app_png_dt[, c("png_name", "test_name")])
+      images <- Map(
+        test_names$png_name,
+        test_names$test_name,
+        f = function(png_name_, test_name_) {
+          test_dt <- dplyr::filter(app_png_dt, png_name == png_name_, test_name == test_name_)
+          # row_pngs <- png_names[basename(png_names) %in% row]
+          row_images <-
+            Map(
+              test_dt$variant,
+              test_dt$path,
+              f = function(variant, png_path) {
+                shiny::column(
+                  max(3, round(12 / nrow(test_dt))),
+                  shiny::div(
+                    shiny::tags$p(paste0(variant, "/", test_name_)),
+                    shiny::imageOutput(png_path, height = "auto")
+                  )
+                )
+              }
+            )
+          row_images <- unname(row_images)
+          shiny::wellPanel(
+            shiny::h3(paste("Screenshot", png_name_)),
+            shiny::br(), shiny::fluidRow(!!!row_images)
           )
-          shiny::column(
-            max(3, round(12 / length(row_pngs))),
-            img_tag
-          )
-        })
-        shiny::wellPanel(
-          shiny::h3(paste("Screenshot", english::english(match(row, row_names)))),
-          shiny::br(), shiny::fluidRow(!!!row_images)
-        )
-      })
+        }
+      )
+      unname(images)
     })
   }
 
