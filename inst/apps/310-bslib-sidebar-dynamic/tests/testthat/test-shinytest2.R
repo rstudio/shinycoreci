@@ -109,6 +109,7 @@ js_sidebar_state <- function(id, which = c("inner", "outer")) {
   )
 }
 
+# 310-bslib-sidebar-dynamic: dynamically added sidebars -----------------------
 test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully functional", {
   app <- AppDriver$new(
     name = "310-bslib-sidebar-dynamic",
@@ -277,6 +278,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   app$expect_screenshot(selector = "#layout_3")
 })
 
+# 310-bslib-sidebar-dynamic: test all sidebar toggling methods ----------------
 test_that("310-bslib-sidebar-dynamic: test all sidebar toggling methods", {
   withr::local_envvar(list(INCLUDE_INITIAL_SIDEBAR = TRUE))
 
