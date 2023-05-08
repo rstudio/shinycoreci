@@ -1,7 +1,6 @@
 library(shinytest2)
 
-# Only run these tests on mac + r-release
-# (To reduce the amount of screenshot diffing noise)
+# Only take screenshots on mac + r-release to reduce diff noise
 release <- rversions::r_release()$version
 release <- paste0(
   strsplit(release, ".", fixed = TRUE)[[1]][1:2],
@@ -11,9 +10,7 @@ release <- paste0(
 is_testing_on_ci <- identical(Sys.getenv("CI"), "true") && testthat::is_testing()
 is_mac_release <- identical(paste0("mac-", release), platform_variant())
 
-if (is_testing_on_ci && !is_mac_release) {
-  skip("Not mac + r-release")
-}
+DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
 
 key_press_factory <- function(app) {
   brwsr <- app$get_chromote_session()
@@ -135,7 +132,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
     wait_for_js("document.getElementById('layout_1') ? true : false")$
     expect_values()
 
-  app$expect_screenshot(selector = "#layout_1")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_1")
   expect_sidebar_main_text(1, "cuddly giraffe")
 
   # First sidebar starts open = "open"
@@ -155,7 +152,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # Only inner sidebar is hidden
   expect_sidebar_hidden(id = 1, "inner")
   expect_sidebar_shown(id = 1, "outer")
-  app$expect_screenshot(selector = "#layout_1")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_1")
 
   # Collapse the outer sidebar
   app$
@@ -166,7 +163,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # both sidebars are collapsed
   expect_sidebar_hidden(id = 1, "inner")
   expect_sidebar_hidden(id = 1, "outer")
-  app$expect_screenshot(selector = "#layout_1")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_1")
 
   # Expand inner sidebar
   app$
@@ -177,7 +174,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # Only inner sidebar is hidden
   expect_sidebar_shown(id = 1, "inner")
   expect_sidebar_hidden(id = 1, "outer")
-  app$expect_screenshot(selector = "#layout_1")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_1")
 
   # Expand the outer sidebar
   app$
@@ -188,7 +185,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # both sidebars are shown
   expect_sidebar_shown(id = 1, "inner")
   expect_sidebar_shown(id = 1, "outer")
-  app$expect_screenshot(selector = "#layout_1")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_1")
 
   # Update both inputs
   app$set_inputs(animal_1 = "panda", adjective_1 = "silly")
@@ -204,7 +201,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # both sidebars are hidden because open = "closed"
   expect_sidebar_hidden(id = 2, "inner")
   expect_sidebar_hidden(id = 2, "outer")
-  app$expect_screenshot(selector = "#layout_2")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_2")
 
   # Change an input while it's hidden
   app$set_inputs(animal_2 = "zebra")
@@ -219,14 +216,14 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # Outer sidebar is revealed
   expect_sidebar_hidden(id = 2, "inner")
   expect_sidebar_shown(id = 2, "outer")
-  app$expect_screenshot(selector = "#layout_2")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_2")
 
   # Switch to mobile app size, using iPhone 13 width, extra long to ensure that
   # all layouts are fully visible
   app$set_window_size(390, 1600)
 
 
-  app$expect_screenshot(selector = "#layout_2")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_2")
 
   # Add third sidebar -----
   app$
@@ -241,7 +238,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # both sidebars are hidden because open = "closed"
   expect_sidebar_hidden(id = 3, "inner")
   expect_sidebar_hidden(id = 3, "outer")
-  app$expect_screenshot(selector = "#layout_3")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_3")
 
   # reveal inner sidebar
   app$
@@ -256,7 +253,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # change the input value
   app$set_inputs(animal_3 = "lemur")
   expect_sidebar_main_text(3, "fierce lemur")
-  app$expect_screenshot(selector = "#layout_3")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_3")
 
   # swap expanded sidebars
   app$
@@ -272,7 +269,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # change the input value
   app$set_inputs(adjective_3 = "quirky")
   expect_sidebar_main_text(3, "quirky lemur")
-  app$expect_screenshot(selector = "#layout_3")
+  if (DO_SCREENSHOT) app$expect_screenshot(selector = "#layout_3")
 })
 
 # 310-bslib-sidebar-dynamic: test all sidebar toggling methods ----------------
