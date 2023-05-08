@@ -7,7 +7,10 @@ plotly_bars <- plot_ly(x = LETTERS[1:3], y = 1:3) %>%
   add_bars()
 
 sidebar_long <- sidebar(lorem::ipsum(3, 3))
-sidebar_short <- sidebar(p("A simple sidebar"))
+sidebar_short <- sidebar(
+  p("A simple sidebar"),
+  actionButton("foo", "This button does nothing")
+)
 
 ui <- page_navbar(
   title = "Sidebar kitchen sink",
