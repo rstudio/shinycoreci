@@ -1,8 +1,10 @@
 
 library(shiny)
-# pak::pak("rstudio/bslib#555")
 library(bslib)
 
+# If TRUE, the app starts with a sidebar present, which means that the sidebar
+# javascript is available on page load. Use this option for debugging the js.
+# In the first test, we don't include sidebars to test dynamic dep loading.
 INCLUDE_INITIAL_SIDEBAR <- Sys.getenv("INCLUDE_INITIAL_SIDEBAR", FALSE)
 
 color_pairs <- list(
@@ -11,7 +13,6 @@ color_pairs <- list(
   list(dark = "#4B0082", light = "#E6E6FA"),
   list(dark = "#006D5B", light = "#A2D5C6")
 )
-
 adjectives <- c(
   "charming", "cuddly", "elegant", "fierce", "graceful",
   "majestic", "playful", "quirky", "silly", "witty"
@@ -21,6 +22,8 @@ animals <- c(
   "otter", "panda", "panther", "penguin", "zebra"
 )
 
+# Creates a nested sidebar layout with 2 left-aligned sidebars. Each sidebar has
+# one input and the main content area has one output that combines the inputs.
 nested_sidebar <- function(idx = 0L) {
   colors <- color_pairs[[idx %% length(color_pairs) + 1]]
   open <- c("open", "closed", "desktop")[(idx - 1) %% 3 + 1]
@@ -82,9 +85,10 @@ ui <- page_fixed(
   p(
     "Test dynamically added sidebars.",
     "Each new layout is a nested layout with two sidebars.",
-    "The sidebar collapse toggles should not overlap when collapsed",
-    "and if you add the sidebar while in mobile screen width the sidebars",
-    "will be closed when added."
+    "The sidebar collapse toggles should not overlap when collapsed.",
+    "Added sidebars rotate through open, closed, and desktop initial states.",
+    "If you add a \"desktop\" sidebar while in mobile screen width",
+    "(every 3rd addition), the sidebars will be closed when added."
   ),
   layout_column_wrap(
     width = 500,
