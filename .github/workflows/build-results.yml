@@ -14,7 +14,6 @@ name: Build results website
 
 jobs:
   build:
-
     if: github.repository == 'rstudio/shinycoreci'
 
     name: Build results website

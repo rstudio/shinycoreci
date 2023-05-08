@@ -29,7 +29,7 @@ docker_run_server <- function(
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
-  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.3", "4.2", "4.1", "4.0", "3.6"),
   tag = NULL,
   launch_browser = launch_browser,
   user = github_user()

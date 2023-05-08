@@ -32,7 +32,7 @@ test_in_sso <- function(
   ...,
   user = github_user(),
   release = c("focal", "bionic", "centos7"),
-  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.3", "4.2", "4.1", "4.0", "3.6"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 7878, 3838),
@@ -63,7 +63,7 @@ test_in_ssp <- function(
   license_file = NULL,
   user = github_user(),
   release = c("focal", "bionic", "centos7"),
-  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.3", "4.2", "4.1", "4.0", "3.6"),
   tag = NULL,
   port = 8080,
   port_background = switch(release, "centos7" = 8989, 4949),
@@ -88,16 +88,6 @@ test_in_ssp <- function(
 
 
 
-  # type = c("sso", "ssp"),
-  # release = c("focal", "bionic", "centos7"),
-  # port = switch(type,
-  #               sso = switch(release, "centos7" = 7878, 3838),
-  #               ssp = switch(release, "centos7" = 8989, 4949)
-  #               ),
-  # r_version = c("3.6", "3.5"),
-  # tag = NULL,
-  # launch_browser = launch_browser
-
 
 test_in_ssossp <- function(
   user = github_user(),
@@ -110,7 +100,7 @@ test_in_ssossp <- function(
                 sso = switch(release, "centos7" = 7878, 3838),
                 ssp = switch(release, "centos7" = 8989, 4949)
                 ),
-  r_version = c("4.2", "4.1", "4.0", "3.6", "3.5"),
+  r_version = c("4.3", "4.2", "4.1", "4.0", "3.6"),
   tag = NULL,
   host = "127.0.0.1",
   port = 8080
