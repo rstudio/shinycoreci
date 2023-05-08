@@ -70,7 +70,7 @@ ui <- page_navbar(
     # the row height the same (even when switch tabs)
     layout_column_wrap(
       width = 1,
-      navs_pill_card(
+      navs_tab_card(
         title = "Global sidebar",
         id = "card_tab_sidebar",
         sidebar = sidebar_long,
