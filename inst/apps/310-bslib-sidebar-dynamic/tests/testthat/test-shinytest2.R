@@ -109,23 +109,6 @@ js_sidebar_state <- function(id, which = c("inner", "outer")) {
   )
 }
 
-js_element_fully_visible <- function(id) {
-  # checks that an element with `id` is fully contained within the viewport
-  sprintf(
-    "(function() {
-      var el = document.getElementById('%s');
-      var rect = el.getBoundingClientRect();
-      return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= window.innerHeight &&
-        rect.right <= window.innerWidth
-      );
-    })();",
-    id
-  )
-}
-
 # 310-bslib-sidebar-dynamic: dynamically added sidebars -----------------------
 test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully functional", {
   app <- AppDriver$new(
@@ -238,14 +221,12 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   expect_sidebar_shown(id = 2, "outer")
   app$expect_screenshot(selector = "#layout_2")
 
-  # Switch to mobile app size, using iPhone 13 dimensions
-  app$set_window_size(390, 844)
+  # Switch to mobile app size, using iPhone 13 width, extra long to ensure that
+  # all layouts are fully visible
+  app$set_window_size(390, 1600)
 
-  # Scroll to add_sidebar to ensure that the last layout is completely visible
-  app$
-    run_js("document.getElementById('layout_2').scrollIntoView(true)")$
-    wait_for_js(js_element_fully_visible("layout_2"))$
-    expect_screenshot(selector = "#layout_2")
+
+  app$expect_screenshot(selector = "#layout_2")
 
   # Add third sidebar -----
   app$
@@ -260,10 +241,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # both sidebars are hidden because open = "closed"
   expect_sidebar_hidden(id = 3, "inner")
   expect_sidebar_hidden(id = 3, "outer")
-  app$
-    run_js("document.getElementById('layout_3').scrollIntoView(true)")$
-    wait_for_js(js_element_fully_visible("layout_3"))$
-    expect_screenshot(selector = "#layout_3")
+  app$expect_screenshot(selector = "#layout_3")
 
   # reveal inner sidebar
   app$
@@ -278,10 +256,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # change the input value
   app$set_inputs(animal_3 = "lemur")
   expect_sidebar_main_text(3, "fierce lemur")
-  app$
-    run_js("document.getElementById('layout_3').scrollIntoView(true)")$
-    wait_for_js(js_element_fully_visible("layout_3"))$
-    expect_screenshot(selector = "#layout_3")
+  app$expect_screenshot(selector = "#layout_3")
 
   # swap expanded sidebars
   app$
@@ -297,10 +272,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # change the input value
   app$set_inputs(adjective_3 = "quirky")
   expect_sidebar_main_text(3, "quirky lemur")
-  app$
-    run_js("document.getElementById('layout_3').scrollIntoView(true)")$
-    wait_for_js(js_element_fully_visible("layout_3"))$
-    expect_screenshot(selector = "#layout_3")
+  app$expect_screenshot(selector = "#layout_3")
 })
 
 # 310-bslib-sidebar-dynamic: test all sidebar toggling methods ----------------
