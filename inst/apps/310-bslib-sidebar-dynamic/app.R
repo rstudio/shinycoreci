@@ -26,7 +26,7 @@ animals <- c(
 # one input and the main content area has one output that combines the inputs.
 nested_sidebar <- function(idx = 0L) {
   colors <- color_pairs[[idx %% length(color_pairs) + 1]]
-  open <- c("open", "closed", "desktop")[(idx - 1) %% 3 + 1]
+  open <- c("desktop", "open", "closed")[idx %% 3 + 1]
 
   select_adjective <- function() {
     selectInput(
