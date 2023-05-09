@@ -60,4 +60,4 @@ apps_deps_map <- list(`001-hello` = "rsconnect", `012-datatables` = "ggplot2",
     "rversions"), `305-bslib-value-box` = c("rlang", "rversions"
     ), `310-bslib-sidebar-dynamic` = c("rversions", "testthat"
     ), `311-bslib-sidebar-toggle-methods` = c("rversions", "testthat"
-    ))
+    ), `312-bslib-sidebar-resize` = "ggplot2")
