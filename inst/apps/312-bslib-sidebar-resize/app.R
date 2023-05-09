@@ -18,9 +18,12 @@ lorem2 <- p(
 
 ui <- page_navbar(
   title = "312 | bslib-sidebar-resize",
-  theme = bs_theme("bslib-sidebar-transition-duration" = "3s"),
+  theme = bs_theme(
+    "bslib-sidebar-transition-duration" = Sys.getenv("SIDEBAR_TRANSITION_TIME", "0.5s")
+  ),
   sidebar = sidebar(
     title = "Shared Sidebar",
+    id = "sidebar-shared",
     open = "open",
     p("The plots should resize smoothly when this sidebar or the local sidebar are toggled.")
   ),
@@ -33,9 +36,13 @@ ui <- page_navbar(
       "update the plot with the final dimensions."
     ),
     layout_sidebar(
-      sidebar = sidebar(title = "Toggle me", lorem1, lorem2, lorem1),
+      sidebar = sidebar(
+        title = "Toggle me",
+        id = "sidebar-local-static",
+        lorem1, lorem2, lorem1
+      ),
       lorem1,
-      plotOutput("plot_static1"),
+      plotOutput("plot_static_local"),
       lorem2
     ),
     h2("Shared only", class = "my-3"),
@@ -44,8 +51,8 @@ ui <- page_navbar(
     ),
     div(
       class = "row",
-      div(class = "col", plotOutput("plot_static2")),
-      div(class = "col", p(lorem2, lorem1))
+      div(class = "col-6", plotOutput("plot_static_shared")),
+      div(class = "col-6", lorem2, lorem1)
     )
   ),
   nav(
@@ -57,9 +64,13 @@ ui <- page_navbar(
       "complete."
     ),
     layout_sidebar(
-      sidebar = sidebar(title = "Toggle me", lorem1, lorem2, lorem1),
+      sidebar = sidebar(
+        title = "Toggle me",
+        id = "sidebar-local-widget",
+        lorem1, lorem2, lorem1
+      ),
       lorem1,
-      plotlyOutput("plot_widget1"),
+      plotlyOutput("plot_widget_local"),
       lorem2
     ),
     h2("Shared only", class = "my-3"),
@@ -68,8 +79,8 @@ ui <- page_navbar(
     ),
     div(
       class = "row",
-      div(class = "col", plotlyOutput("plot_widget2")),
-      div(class = "col", p(lorem2, lorem1))
+      div(class = "col-6", plotlyOutput("plot_widget_shared")),
+      div(class = "col-6", lorem2, lorem1)
     )
   ),
   footer = div(style = "min-height: 100vh")
@@ -88,11 +99,11 @@ server <- function(input, output, session) {
       theme_gray(base_size = 16)
   })
 
-  output$plot_static1 <- renderPlot(plot())
-  output$plot_static2 <- renderPlot(plot())
+  output$plot_static_local <- renderPlot(plot())
+  output$plot_static_shared <- renderPlot(plot())
 
-  output$plot_widget1 <- renderPlotly(ggplotly(plot()))
-  output$plot_widget2 <- renderPlotly(ggplotly(plot()))
+  output$plot_widget_local <- renderPlotly(ggplotly(plot()))
+  output$plot_widget_shared <- renderPlotly(ggplotly(plot()))
 }
 
 shinyApp(ui, server)
