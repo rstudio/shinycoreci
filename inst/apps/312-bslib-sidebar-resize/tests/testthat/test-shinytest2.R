@@ -110,6 +110,10 @@ window.updatedOutputs = [];
     shared = app$get_js(js_element_width(sel_plot_img_shared))
   )
 
+  # we only need unique observations between initial and final
+  during$local <- unique(during$local)
+  during$shared <- unique(during$shared)
+
   list(
     initial = initial,
     during = during,
@@ -135,7 +139,7 @@ test_that("312-bslib-sidebar-resize", {
 
   # STATIC PAGE ================================================================
 
-  # collapse static shared sidebar --------
+  # collapse static shared sidebar --------------------------------------------
   close_static_shared <- watch_sidebar_transition(
     app,
     sidebar = "shared",
@@ -145,17 +149,57 @@ test_that("312-bslib-sidebar-resize", {
   expect_sidebar_hidden("sidebar-shared")
 
   # plot output image size changed during collapse for both plots
-  expect_gt(length(unique(close_static_shared$during$local)), 1)
-  expect_gt(length(unique(close_static_shared$during$shared)), 1)
+  expect_gt(
+    length(close_static_shared$during$local),
+    expected = 1,
+    label = "local plot output size changes during transition"
+  )
+  expect_gt(
+    length(close_static_shared$during$shared),
+    expected = 1,
+    label = "shared plot output size changes during transition"
+  )
 
   # plot output image size was growing during transition
-  expect_gt(min(close_static_shared$during$local), close_static_shared$initial$local)
-  expect_gt(min(close_static_shared$during$shared), close_static_shared$initial$shared)
+  expect_gt(
+    min(close_static_shared$during$local),
+    close_static_shared$initial$local,
+    label = "minimum local plot output size during transition"
+  )
+  has_local_size_changes <- expect_true(
+    length(close_static_shared$during$local) > 1,
+    label = "has local plot output size changes during transition"
+  )
+  if (has_local_size_changes) {
+    expect_true(
+      all(diff(close_static_shared$during$local) > 0),
+      label = "local plot output size was growing during transition"
+    )
+  }
+
+  expect_gt(
+    min(close_static_shared$during$shared),
+    close_static_shared$initial$shared,
+    label = "shared plot output size during transition"
+  )
+  has_shared_size_changes <- expect_true(
+    length(close_static_shared$during$shared) > 1,
+    label = "has shared plot output size changes during transition"
+  )
+  if (has_shared_size_changes) {
+    expect_true(
+      all(diff(close_static_shared$during$shared) > 0),
+      label = "shared plot output size was growing during transition"
+    )
+  }
 
   # both plots updated at the end of the transition
-  expect_setequal(close_static_shared$outputs, c("plot_static_local", "plot_static_shared"))
+  expect_setequal(
+    close_static_shared$outputs,
+    c("plot_static_local", "plot_static_shared")
+  )
 
-  # collapse static local sidebar --------
+  # collapse static local sidebar ---------------------------------------------
   close_static_local <- watch_sidebar_transition(
     app,
     sidebar = "local",
@@ -165,17 +209,48 @@ test_that("312-bslib-sidebar-resize", {
   expect_sidebar_hidden("sidebar-local-static")
 
   # plot output image size changed during collapse for local plot only
-  expect_gt(length(unique(close_static_local$during$local)), 1)
-  expect_equal(length(unique(close_static_local$during$shared)), 1)
+  expect_gt(
+    length(close_static_local$during$local),
+    expected = 1,
+    label = "local plot output size changes during transition"
+  )
+  expect_equal(
+    length(close_static_local$during$shared),
+    expected = 1,
+    label = "shared plot output size changes during transition"
+  )
 
   # plot output image size was growing during transition for local only
-  expect_gt(min(close_static_local$during$local), close_static_local$initial$local)
-  expect_equal(unique(close_static_local$during$shared), close_static_local$initial$shared)
+  expect_gt(
+    min(close_static_local$during$local),
+    close_static_local$initial$local,
+    label = "local plot output size was growing during transition"
+  )
+  has_local_size_changes <- expect_true(
+    length(close_static_local$during$local) > 1,
+    label = "has local plot output size changes during transition"
+  )
+  if (has_local_size_changes) {
+    expect_true(
+      all(diff(close_static_local$during$local) > 0),
+      label = "local plot output size changes"
+    )
+  }
+
+  expect_equal(
+    close_static_local$during$shared,
+    close_static_local$initial$shared,
+    label = "shared plot output size during transition"
+  )
 
   # local plot updated at the end of the transition
-  expect_equal(close_static_local$outputs, "plot_static_local")
+  expect_equal(
+    close_static_local$outputs,
+    "plot_static_local",
+    label = "plot updates at end of transition"
+  )
 
-  # expand static shared sidebar --------
+  # expand static shared sidebar ----------------------------------------------
   open_static_shared <- watch_sidebar_transition(
     app,
     sidebar = "shared",
@@ -185,15 +260,55 @@ test_that("312-bslib-sidebar-resize", {
   expect_sidebar_shown("sidebar-shared")
 
   # plot output image size changed during expand for both plots
-  expect_gt(length(unique(open_static_shared$during$local)), 1)
-  expect_gt(length(unique(open_static_shared$during$shared)), 1)
+  expect_gt(
+    length(open_static_shared$during$local),
+    expected = 1,
+    label = "local plot output size changes"
+  )
+  expect_gt(
+    length(open_static_shared$during$shared),
+    expected = 1,
+    label = "shared plot output size changes"
+  )
 
   # plot output image size was shrinking during transition
-  expect_lt(max(open_static_shared$during$local), open_static_shared$initial$local)
-  expect_lt(max(open_static_shared$during$shared), open_static_shared$initial$shared)
+  expect_lt(
+    max(open_static_shared$during$local),
+    open_static_shared$initial$local,
+    label = "local plot output image size changes during transition"
+  )
+  has_local_size_changes <- expect_true(
+    length(open_static_shared$during$local) > 1,
+    label = "has local plot output image size changes during transition"
+  )
+  if (has_local_size_changes) {
+    expect_true(
+      all(diff(open_static_shared$during$local) < 0),
+      label = "local plot output image size was shrinking during transition"
+    )
+  }
+
+  expect_lt(
+    max(open_static_shared$during$shared),
+    open_static_shared$initial$shared,
+    label = "shared plot output image size changes during transition"
+  )
+  has_shared_size_changes <- expect_true(
+    length(open_static_shared$during$shared) > 1,
+    label = "has shared plot output image size changes during transition"
+  )
+  if (has_shared_size_changes) {
+    expect_true(
+      all(diff(open_static_shared$during$shared) < 0),
+      label = "shared plot output image size was shrinking during transition"
+    )
+  }
 
   # both plots updated at the end of the transition
-  expect_setequal(open_static_shared$outputs, c("plot_static_local", "plot_static_shared"))
+  expect_setequal(
+    open_static_shared$outputs,
+    c("plot_static_local", "plot_static_shared")
+  )
 
   # SWITCH TO WIDGET PAGE ======================================================
   app$
@@ -203,7 +318,7 @@ test_that("312-bslib-sidebar-resize", {
   # now we repeat all of the same tests above, except that the widget resizing
   # won't trigger a 'shiny:value' event.
 
-  # collapse widget shared sidebar --------
+  # collapse widget shared sidebar --------------------------------------------
   close_widget_shared <- watch_sidebar_transition(
     app,
     sidebar = "shared",
@@ -213,14 +328,52 @@ test_that("312-bslib-sidebar-resize", {
   expect_sidebar_hidden("sidebar-shared")
 
   # plot output image size changed during collapse for both plots
-  expect_gt(length(unique(close_widget_shared$during$local)), 1)
-  expect_gt(length(unique(close_widget_shared$during$shared)), 1)
+  expect_gt(
+    length(close_widget_shared$during$local),
+    expected = 1,
+    label = "local plot output size changes during transition"
+  )
+  expect_gt(
+    length(close_widget_shared$during$shared),
+    expected = 1,
+    label = "shared plot output size changes during transition"
+  )
 
   # plot output image size was growing during transition
-  expect_gt(min(close_widget_shared$during$local), close_widget_shared$initial$local)
-  expect_gt(min(close_widget_shared$during$shared), close_widget_shared$initial$shared)
+  expect_gt(
+    min(close_widget_shared$during$local),
+    expected = close_widget_shared$initial$local,
+    label = "local plot output size changes during transition"
+  )
 
-  # collapse widget local sidebar --------
+  has_local_size_changes <- expect_true(
+    length(close_widget_shared$during$local) > 1,
+    label = "has local plot output size changes during transition"
+  )
+  if (has_local_size_changes) {
+    expect_true(
+      all(diff(close_widget_shared$during$local) > 0),
+      label = "local plot output size was growing during transition"
+    )
+  }
+
+  expect_gt(
+    min(close_widget_shared$during$shared),
+    expected = close_widget_shared$initial$shared,
+    label = "shared plot output size changes during transition"
+  )
+  has_shared_size_changes <- expect_true(
+    length(close_widget_shared$during$shared) > 1,
+    label = "has shared plot output size changes during transition"
+  )
+  if (has_shared_size_changes) {
+    expect_true(
+      all(diff(close_widget_shared$during$shared) > 0),
+      label = "shared plot output size changes during transition"
+    )
+  }
+
+  # collapse widget local sidebar ---------------------------------------------
   close_widget_local <- watch_sidebar_transition(
     app,
     sidebar = "local",
@@ -230,14 +383,41 @@ test_that("312-bslib-sidebar-resize", {
   expect_sidebar_hidden("sidebar-local-widget")
 
   # plot output image size changed during collapse for local plot only
-  expect_gt(length(unique(close_widget_local$during$local)), 1)
-  expect_equal(length(unique(close_widget_local$during$shared)), 1)
+  expect_gt(
+    length(close_widget_local$during$local),
+    expected = 1,
+    label = "local plot output size changes during collapse"
+  )
+  expect_equal(
+    length(close_widget_local$during$shared),
+    expected = 1,
+    label = "shared plot output size changes during collapse"
+  )
 
   # plot output image size was growing during transition for local only
-  expect_gt(min(close_widget_local$during$local), close_widget_local$initial$local)
-  expect_equal(unique(close_widget_local$during$shared), close_widget_local$initial$shared)
+  expect_gt(
+    min(close_widget_local$during$local),
+    close_widget_local$initial$local,
+    label = "local plot output size changes during transition"
+  )
+  has_local_size_changes <- expect_true(
+    length(close_widget_local$during$local) > 1,
+    label = "has local plot output size changes during transition"
+  )
+  if (has_local_size_changes) {
+    expect_true(
+      all(diff(close_widget_local$during$local) > 0),
+      label = "local plot output size changes are increasing"
+    )
+  }
 
-  # expand widget shared sidebar --------
+  expect_equal(
+    close_widget_local$during$shared,
+    close_widget_local$initial$shared,
+    label = "shared plot output size during transition"
+  )
+
+  # expand widget shared sidebar ----------------------------------------------
   open_widget_shared <- watch_sidebar_transition(
     app,
     sidebar = "shared",
@@ -247,11 +427,47 @@ test_that("312-bslib-sidebar-resize", {
   expect_sidebar_shown("sidebar-shared")
 
   # plot output image size changed during expand for both plots
-  expect_gt(length(unique(open_widget_shared$during$local)), 1)
-  expect_gt(length(unique(open_widget_shared$during$shared)), 1)
+  expect_gt(
+    length(open_widget_shared$during$local),
+    expected = 1,
+    label = "local plot output size changes"
+  )
+  expect_gt(
+    length(open_widget_shared$during$shared),
+    expected = 1,
+    label = "shared plot output size changes"
+  )
 
   # plot output image size was shrinking during transition
-  expect_lt(max(open_widget_shared$during$local), open_widget_shared$initial$local)
-  expect_lt(max(open_widget_shared$during$shared), open_widget_shared$initial$shared)
+  expect_lt(
+    max(open_widget_shared$during$local),
+    open_widget_shared$initial$local,
+    label = "local plot output size during transition"
+  )
+  has_local_size_changes <- expect_true(
+    length(open_widget_shared$during$local) > 1,
+    label = "has local plot output size changes during transition"
+  )
+  if (has_local_size_changes) {
+    expect_true(
+      all(diff(open_widget_shared$during$local) < 0),
+      label = "local plot output size changes are decreasing"
+    )
+  }
 
+  expect_lt(
+    max(open_widget_shared$during$shared),
+    open_widget_shared$initial$shared,
+    label = "shared plot output size during transition"
+  )
+  has_shared_size_changes <- expect_true(
+    length(open_widget_shared$during$shared) > 1,
+    label = "has shared plot output size changes during transition"
+  )
+  if (has_shared_size_changes) {
+    expect_true(
+      all(diff(open_widget_shared$during$shared) < 0),
+      label = "shared plot output size changes are decreasing"
+    )
+  }
 })
