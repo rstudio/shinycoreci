@@ -132,10 +132,8 @@ expect_sidebar_transition <- function(
   page <- match.arg(page)
   open_end <- match.arg(open_end)
 
-  will_transition <- c("local", if (sidebar == "shared") "shared")
-  change_dir <- if (open_end == "open") "expand" else "collapse"
-
-  res <- watch_sidebar_transition(app, sidebar = sidebar, page = page)
+  expect_sidebar_shown <- expect_sidebar_shown_factory(app)
+  expect_sidebar_hidden <- expect_sidebar_hidden_factory(app)
 
   sidebar_id <-
     if (sidebar == "shared") {
@@ -143,11 +141,26 @@ expect_sidebar_transition <- function(
     } else {
       paste0("sidebar-local-", page)
     }
-  if (open_end == "open") {
-    expect_sidebar_shown_factory(app)(sidebar_id)
-  } else {
-    expect_sidebar_hidden_factory(app)(sidebar_id)
-  }
+
+  will_transition <- c("local", if (sidebar == "shared") "shared")
+  change_dir <- if (open_end == "open") "expand" else "collapse"
+
+  # test sidebar state before transition
+  switch(
+    open_end,
+    open = expect_sidebar_hidden(sidebar_id),
+    closed = expect_sidebar_shown(sidebar_id)
+  )
+
+  # toggle the sidebar and measure the transition
+  res <- watch_sidebar_transition(app, sidebar = sidebar, page = page)
+
+  # test sidebar state after transition
+  switch(
+    open_end,
+    open = expect_sidebar_shown(sidebar_id),
+    closed = expect_sidebar_hidden(sidebar_id)
+  )
 
   # Plot output size changes during the transition
   if ("local" %in% will_transition) {
@@ -166,47 +179,55 @@ expect_sidebar_transition <- function(
     )
   }
 
-  expect_grows_or_shrinks <- function(plot = c("local", "shared")) {
-    if (open_end == "closed") {
-      # initial size is a lower bound, plots grow as sidebar collapses
-      expect_gt(
-        min(res$during[[plot]]),
-        res$initial[[plot]],
-        label = sprintf("minimum %s plot output size during transition", plot)
+  expect_plot_grows <- function(plot = c("local", "shared")) {
+    plot <- match.arg(plot)
+
+    # initial size is a lower bound, plots grow as sidebar collapses
+    expect_gt(
+      min(res$during[[plot]]),
+      res$initial[[!!plot]],
+      label = sprintf("minimum %s plot output size during transition", plot)
+    )
+    has_size_changes <- expect_true(
+      length(res$during[[plot]]) > 1,
+      label = sprintf("has %s plot output size changes during transition", plot)
+    )
+    if (has_size_changes) {
+      expect_true(
+        all(diff(res$during[[plot]]) > 0),
+        label = sprintf("%s plot output size was growing during transition", plot)
       )
-      has_size_changes <- expect_true(
-        length(res$during[[plot]]) > 1,
-        label = sprintf("has %s plot output size changes during transition", plot)
+    }
+  }
+
+  expect_plot_shrinks <- function(plot = c("local", "shared")) {
+    plot <- match.arg(plot)
+
+    # initial size is the upper bound, plots shrink as sidebar expands
+    expect_lt(
+      max(res$during[[plot]]),
+      res$initial[[!!plot]],
+      label = sprintf("maximum %s plot output size during transition", plot)
+    )
+    has_size_changes <- expect_true(
+      length(res$during[[plot]]) > 1,
+      label = sprintf("has %s plot output size changes during transition", plot)
+    )
+    if (has_size_changes) {
+      expect_true(
+        all(diff(res$during[[plot]]) < 0),
+        label = sprintf("%s plot output size was growing during transition", plot)
       )
-      if (has_size_changes) {
-        expect_true(
-          all(diff(res$during[[plot]]) > 0),
-          label = sprintf("%s plot output size was growing during transition", plot)
-        )
-      }
-    } else {
-      # initial size is the upper bound, plots shrink as sidebar expands
-      expect_lt(
-        max(res$during[[plot]]),
-        res$initial[[plot]],
-        label = sprintf("maximum %s plot output size during transition", plot)
-      )
-      has_size_changes <- expect_true(
-        length(res$during[[plot]]) > 1,
-        label = sprintf("has %s plot output size changes during transition", plot)
-      )
-      if (has_size_changes) {
-        expect_true(
-          all(diff(res$during[[plot]]) < 0),
-          label = sprintf("%s plot output size was growing during transition", plot)
-        )
-      }
     }
   }
 
   # plot output image size was growing/shrinking during transition
   if ("local" %in% will_transition) {
-    expect_grows_or_shrinks("local")
+    switch(
+      open_end,
+      open = expect_plot_shrinks("local"),
+      closed = expect_plot_grows("local")
+    )
   } else {
     expect_equal(
       res$during$local,
@@ -216,7 +237,11 @@ expect_sidebar_transition <- function(
   }
 
   if ("shared" %in% will_transition) {
-    expect_grows_or_shrinks("shared")
+    switch(
+      open_end,
+      open = expect_plot_shrinks("shared"),
+      closed = expect_plot_grows("shared")
+    )
   } else {
     expect_equal(
       res$during$shared,
