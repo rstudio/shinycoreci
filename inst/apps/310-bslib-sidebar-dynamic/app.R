@@ -46,7 +46,7 @@ nested_sidebar <- function(idx = 0L) {
     )
   }
 
-  layout_sidebar(
+  sb <- layout_sidebar(
     id = paste0("main_outer_", idx),
     sidebar = sidebar(
       "Outer Sidebar",
@@ -75,8 +75,9 @@ nested_sidebar <- function(idx = 0L) {
       h2("Sidebar Layout", idx),
       uiOutput(paste0("ui_content_", idx)),
     )
-  ) |>
-  tagAppendAttributes(class = "mb-4", id = paste0("layout_", idx))
+  )
+
+  tagAppendAttributes(sb, class = "mb-4", id = paste0("layout_", idx))
 }
 
 ui <- page_fixed(

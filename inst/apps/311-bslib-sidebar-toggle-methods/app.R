@@ -17,14 +17,7 @@ animals <- c(
   "otter", "panda", "panther", "penguin", "zebra"
 )
 
-ui <- page_fixed(
-  h1("Dynamic Sidebars"),
-  tags$head(tags$title("bslib | Tests | Dynamic Sidebars")),
-  p(
-    "Test tab focus order: main, inner sidebar, outer sidebar.",
-    "Test server-side open and close of sidebars."
-  ),
-  layout_column_wrap(
+sb <- layout_column_wrap(
     width = 500,
     id = "sidebar-here",
     layout_sidebar(
@@ -66,8 +59,16 @@ ui <- page_fixed(
       h2("Sidebar Layout"),
       uiOutput("ui_content", tabindex = 0),
     )
-  ) |>
-  tagAppendAttributes(class = "mb-4", id = "layout")
+  )
+
+ui <- page_fixed(
+  h1("Dynamic Sidebars"),
+  tags$head(tags$title("bslib | Tests | Dynamic Sidebars")),
+  p(
+    "Test tab focus order: main, inner sidebar, outer sidebar.",
+    "Test server-side open and close of sidebars."
+  ),
+  tagAppendAttributes(sb, class = "mb-4", id = "layout")
   ),
   div(
     class = "my-2",
