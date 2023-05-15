@@ -55,19 +55,24 @@ js_element_width <- function(selector) {
 watch_sidebar_transition <- function(
   app,
   sidebar = c("shared", "local"),
-  page = c("static", "widget")
+  page = c("static", "widget", "client")
 ) {
   sidebar <- match.arg(sidebar)
   page <- match.arg(page)
 
-  id_sidebar <- if (sidebar == "shared") "sidebar-shared" else paste0("sidebar-local-", page)
-  sel_plot <- function(which = c("shared", "local")) {
-    plot_container <-
-      if (page == "static") {
-        "img"
-      } else {
-        ".plot-container > .svg-container"
-      }
+  id_sidebar <- switch(
+    sidebar,
+    shared = "sidebar-shared",
+    paste0("sidebar-local-", page)
+  )
+
+  sel_plot <- function(which = c("shared", "local" , "client")) {
+    plot_container <- switch(
+      page,
+      static = "img",
+      widget = ".plot-container > .svg-container",
+      client = ".plotly > .plot-container > .svg-container"
+    )
     paste0("#plot_", page, "_", which, " > ", plot_container)
   }
   sel_plot_img_local <- sel_plot("local")
@@ -125,7 +130,7 @@ window.updatedOutputs = [];
 expect_sidebar_transition <- function(
   app,
   sidebar = c("shared", "local"),
-  page = c("static", "widget"),
+  page = c("static", "widget", "client"),
   open_end = c("open", "closed")
 ) {
   sidebar <- match.arg(sidebar)
@@ -181,6 +186,8 @@ expect_sidebar_transition <- function(
 
   expect_plot_grows <- function(plot = c("local", "shared")) {
     plot <- match.arg(plot)
+
+    browser(expr = length(res$initial[[plot]]) != 1)
 
     # initial size is a lower bound, plots grow as sidebar collapses
     expect_gt(
@@ -269,9 +276,6 @@ test_that("312-bslib-sidebar-resize", {
     expect_values_screenshot_args = FALSE
   )
 
-  expect_sidebar_hidden <- expect_sidebar_hidden_factory(app)
-  expect_sidebar_shown <- expect_sidebar_shown_factory(app)
-
   # STATIC PAGE ================================================================
 
   # collapse static shared sidebar --------------------------------------------
@@ -286,7 +290,7 @@ test_that("312-bslib-sidebar-resize", {
   # SWITCH TO WIDGET PAGE ======================================================
   app$
     click(selector = '.nav-link[data-value="Widget"]')$
-    wait_for_js("document.getElementById('js-plotly-tester') ? true : false")
+    wait_for_js("$('#plot_widget_local:visible .svg-container').length > 0")
 
   # now we repeat all of the same tests above, except that the widget resizing
   # won't trigger a 'shiny:value' event.
@@ -299,4 +303,21 @@ test_that("312-bslib-sidebar-resize", {
 
   # expand widget shared sidebar ----------------------------------------------
   expect_sidebar_transition(app, "shared", "widget", open_end = "open")
+
+  # SWITCH TO CLIENT PAGE ======================================================
+  app$
+    click(selector = '.nav-link[data-value="Client"]')$
+    wait_for_js("$('#plot_client_local:visible .svg-container').length > 0")
+
+  # now we repeat all of the same tests above, except that the widget resizing
+  # won't trigger a 'shiny:value' event.
+
+  # collapse widget shared sidebar --------------------------------------------
+  expect_sidebar_transition(app, "shared", "client", open_end = "closed")
+
+  # collapse widget local sidebar ---------------------------------------------
+  expect_sidebar_transition(app, "local", "client", open_end = "closed")
+
+  # expand widget shared sidebar ----------------------------------------------
+  expect_sidebar_transition(app, "shared", "client", open_end = "open")
 })

@@ -57,7 +57,7 @@ ui <- page_navbar(
   ),
   nav(
     "Widget",
-    h2("Widget plot resizing", class = "mt-4 mb-2"),
+    h2("Widget plot resizing"),
     p(
       "The plot in the layout below should stretch while the sidebar is opening",
       "or closing. There should be no layout shift after the transition is",
@@ -80,6 +80,37 @@ ui <- page_navbar(
     div(
       class = "row",
       div(class = "col-6", plotlyOutput("plot_widget_shared")),
+      div(class = "col-6", lorem2, lorem1)
+    )
+  ),
+  nav(
+    "Client",
+    h2("Client-side htmlwidget resizing"),
+    p(
+      "The plot in the layout below should stretch while the sidebar is opening",
+      "or closing. There should be no layout shift after the transition is",
+      "complete."
+    ),
+    layout_sidebar(
+      sidebar = sidebar(
+        title = "Toggle me",
+        id = "sidebar-local-client",
+        lorem1, lorem2, lorem1
+      ),
+      lorem1,
+      div(id = "plot_client_local", plot_ly(x = rnorm(100))),
+      lorem2
+    ),
+    h2("Shared only", class = "my-3"),
+    p(
+      "The next plot should resize smoothly only when the shared sidebar is transitioning."
+    ),
+    div(
+      class = "row",
+      div(
+        class = "col-6",
+        div(id = "plot_client_shared", plot_ly(x = rnorm(100)))
+      ),
       div(class = "col-6", lorem2, lorem1)
     )
   ),
