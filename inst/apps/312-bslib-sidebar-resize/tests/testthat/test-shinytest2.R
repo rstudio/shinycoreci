@@ -187,7 +187,6 @@ expect_sidebar_transition <- function(
   expect_plot_grows <- function(plot = c("local", "shared")) {
     plot <- match.arg(plot)
 
-    browser(expr = length(res$initial[[plot]]) != 1)
 
     # initial size is a lower bound, plots grow as sidebar collapses
     expect_gt(
