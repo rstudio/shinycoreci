@@ -73,7 +73,7 @@ nested_sidebar <- function(idx = 0L) {
       border = FALSE,
       border_radius = FALSE,
       h2("Sidebar Layout", idx),
-      uiOutput(paste0("ui_content_", idx)),
+      uiOutput(paste0("ui_content_", idx))
     )
   )
 
