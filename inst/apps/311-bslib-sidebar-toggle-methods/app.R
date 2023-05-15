@@ -57,7 +57,7 @@ sb <- layout_column_wrap(
       border = FALSE,
       border_radius = FALSE,
       h2("Sidebar Layout"),
-      uiOutput("ui_content", tabindex = 0),
+      uiOutput("ui_content", tabindex = 0)
     )
   )
 
