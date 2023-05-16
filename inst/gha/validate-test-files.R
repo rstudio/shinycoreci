@@ -1,6 +1,15 @@
 # Execute with `source("inst/gha/validate-test-files.R")`
 
 errors_found <- list()
+
+app_folders <- basename(list.dirs("inst/apps", recursive = FALSE))
+app_folder_nums <- sub("^(\\d\\d\\d)-.*$", "\\1", app_folders)
+# Can not call `setdiff()`. This internally calls `unique()`
+app_folder_nums <- app_folder_nums[!(app_folder_nums %in% c("000"))]
+if (any(duplicated(app_folder_nums))) {
+  stop("Duplicate app numbers found: ", paste0(app_folder_nums[duplicated(app_folder_nums)], collapse = ", "))
+}
+
 for (app_path in list.dirs("inst/apps", recursive = FALSE)) {
   tryCatch({
 
