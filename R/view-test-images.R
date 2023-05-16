@@ -16,6 +16,8 @@ view_test_images <- function(repo_dir = ".") {
       # No debug snapshots
       # Not new png files
       app_pngs <- app_pngs[!grepl("(_|\\.new)\\.png$", app_pngs)]
+      # Has _snaps folder
+      app_pngs <- app_pngs[grepl("/_snaps/", app_pngs)]
 
       test_name = dirname(app_pngs)
       variant = dirname(test_name)
@@ -59,25 +61,36 @@ view_test_images <- function(repo_dir = ".") {
         test_names$test_name,
         f = function(png_name_, test_name_) {
           test_dt <- dplyr::filter(app_png_dt, png_name == png_name_, test_name == test_name_)
-          # row_pngs <- png_names[basename(png_names) %in% row]
-          row_images <-
-            Map(
-              test_dt$variant,
-              test_dt$path,
-              f = function(variant, png_path) {
-                shiny::column(
-                  max(3, round(12 / nrow(test_dt))),
-                  shiny::div(
-                    shiny::tags$p(paste0(variant, "/", test_name_)),
-                    shiny::imageOutput(png_path, height = "auto")
-                  )
+          test_dt <- dplyr::arrange(test_dt, variant)
+          platform_and_version <- strsplit(test_dt$variant, "-")
+          test_dt$platform <- sapply(platform_and_version, "[", 1)
+          test_dt$r_version <- sapply(platform_and_version, "[", 2)
+
+          rows <-
+            lapply(unique(test_dt$platform), function(platform_) {
+              p_dt <- dplyr::filter(test_dt, platform == platform_)
+              row_images <-
+                Map(
+                  p_dt$variant,
+                  p_dt$path,
+                  f = function(variant, png_path) {
+                    shiny::div(
+                      style="padding-right: 5px;",
+                      shiny::tags$p(variant, style="margin-bottom: 5px;margin-top: 5px;"),
+                      shiny::imageOutput(png_path, height = "auto", width = "100%")
+                    )
+                  }
                 )
-              }
-            )
-          row_images <- unname(row_images)
+              row_images <- unname(row_images)
+              shiny::div(
+                style="display: flex;",
+                !!!row_images
+              )
+            })
           shiny::wellPanel(
-            shiny::h3(paste("Screenshot", png_name_)),
-            shiny::br(), shiny::fluidRow(!!!row_images)
+            shiny::h3(paste("Screenshot:", paste0(test_name_, "/", png_name_)), style="margin-top:0"),
+            # shiny::br(),
+            rows
           )
         }
       )
