@@ -4,6 +4,7 @@ library(thematic)
 library(ggplot2)
 library(sf)
 library(DT)
+library(reshape2)
 
 # Get the 'original' version of this app from the bslib package
 # (so we don't have to update tests/screenshots)
