@@ -9,12 +9,28 @@ color_pairs <- list(
   list(dark = "#006D5B", light = "#A2D5C6")
 )
 adjectives <- c(
-  "charming", "cuddly", "elegant", "fierce", "graceful",
-  "majestic", "playful", "quirky", "silly", "witty"
+  "charming",
+  "cuddly",
+  "elegant",
+  "fierce",
+  "graceful",
+  "majestic",
+  "playful",
+  "quirky",
+  "silly",
+  "witty"
 )
 animals <- c(
-  "elephant", "giraffe", "jaguar", "koala", "lemur",
-  "otter", "panda", "panther", "penguin", "zebra"
+  "elephant",
+  "giraffe",
+  "jaguar",
+  "koala",
+  "lemur",
+  "otter",
+  "panda",
+  "panther",
+  "penguin",
+  "zebra"
 )
 
 ui <- page_fixed(
@@ -37,11 +53,11 @@ ui <- page_fixed(
         open = "desktop",
         max_height_mobile = "300px",
         selectInput(
-        "adjective",
-        "Adjective",
-        choices = adjectives,
-        selected = adjectives[1]
-      )
+          "adjective",
+          "Adjective",
+          choices = adjectives,
+          selected = adjectives[1]
+        )
       ),
       height = 300,
       class = "p-0",

@@ -36,14 +36,29 @@ server <- function(input, output, session) {
   # into a notification and optionally call the function
   # again to return the results (use `return = FALSE` if
   # function produces side effects)
-  catchWarning <- function(f, ..., return = TRUE) {
-    tryCatch(f(...), warning = function(w) {
+  catchCount <- 0
+  catchWarning <- function(f, ..., return = TRUE, has_warning = TRUE) {
+    found = FALSE
+    if (has_warning) {
+      catchCount <<- catchCount + 1
+    }
+    ret <- tryCatch(f(...), warning = function(w) {
+      found <<- TRUE
       isolate({
         msgs <- c(warn_messages(), w$message)
         warn_messages(msgs)
       })
       if (return) f(...)
     })
+
+    if (!found && has_warning) {
+      stop("Did not produce expected warning for `", capture.output(sys.call()), "`")
+    }
+    if (found && !has_warning) {
+      stop("Produced unexpected warning for `", capture.output(sys.call()), "`")
+    }
+
+    ret
   }
 
   output$inputs <- renderUI({
@@ -54,7 +69,7 @@ server <- function(input, output, session) {
       catchWarning(dateRangeInput, "x4", "Mis-specified `start`", start = "null"),
       catchWarning(dateRangeInput, "x5", "Mis-specified `end`", end = "NA"),
       catchWarning(dateRangeInput, "x6", "Mis-specified `min`", min = "21380-03-10"),
-      catchWarning(dateRangeInput, "x7", "Mis-specified `max`", max = 12)
+      catchWarning(dateRangeInput, "x7", "Mis-specified `max`", max = 12, has_warning = getRversion() < "4.3.0")
     )
   })
 
@@ -74,7 +89,7 @@ server <- function(input, output, session) {
 
   output$res <- renderUI({
     n <- length(warn_messages())
-    status <- if (n == 14)
+    status <- if (n == catchCount)
       tags$b("Test passed (it's OK if you see warnings in your R console)", style = "color: green")
     else
       p(tags$b("Fail:", style = "color: red"), "expected 14 warnings, but got", n)
