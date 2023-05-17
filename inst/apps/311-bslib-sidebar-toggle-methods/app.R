@@ -9,28 +9,12 @@ color_pairs <- list(
   list(dark = "#006D5B", light = "#A2D5C6")
 )
 adjectives <- c(
-  "charming",
-  "cuddly",
-  "elegant",
-  "fierce",
-  "graceful",
-  "majestic",
-  "playful",
-  "quirky",
-  "silly",
-  "witty"
+  "charming", "cuddly", "elegant", "fierce", "graceful",
+  "majestic", "playful", "quirky", "silly", "witty"
 )
 animals <- c(
-  "elephant",
-  "giraffe",
-  "jaguar",
-  "koala",
-  "lemur",
-  "otter",
-  "panda",
-  "panther",
-  "penguin",
-  "zebra"
+  "elephant", "giraffe", "jaguar", "koala", "lemur",
+  "otter", "panda", "panther", "penguin", "zebra"
 )
 
 ui <- page_fixed(
