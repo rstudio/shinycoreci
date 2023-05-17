@@ -28,46 +28,45 @@ ui <- page_fixed(
     width = 500,
     id = "sidebar-here",
     layout_sidebar(
-    id = "main_outer",
-    sidebar = sidebar(
-      "Outer Sidebar",
-      id = "sidebar_outer",
-      width = 150,
-      bg = color_pairs[[1]]$dark,
-      open = "desktop",
-      max_height_mobile = "300px",
-      selectInput(
-      "adjective",
-      "Adjective",
-      choices = adjectives,
-      selected = adjectives[1]
-    )
-    ),
-    height = 300,
-    class = "p-0",
-    fillable = TRUE,
-    layout_sidebar(
-      id = "main_inner",
+      id = "main_outer",
       sidebar = sidebar(
-        "Inner Sidebar",
-        id = "sidebar_inner",
+        "Outer Sidebar",
+        id = "sidebar_outer",
         width = 150,
-        bg = color_pairs[[1]]$light,
+        bg = color_pairs[[1]]$dark,
         open = "desktop",
+        max_height_mobile = "300px",
         selectInput(
-          "animal",
-          "Animal",
-          choices = animals,
-          selected = animals[1]
-        )
+        "adjective",
+        "Adjective",
+        choices = adjectives,
+        selected = adjectives[1]
+      )
       ),
-      border = FALSE,
-      border_radius = FALSE,
-      h2("Sidebar Layout"),
-      uiOutput("ui_content", tabindex = 0),
+      height = 300,
+      class = "p-0",
+      fillable = TRUE,
+      layout_sidebar(
+        id = "main_inner",
+        sidebar = sidebar(
+          "Inner Sidebar",
+          id = "sidebar_inner",
+          width = 150,
+          bg = color_pairs[[1]]$light,
+          open = "desktop",
+          selectInput(
+            "animal",
+            "Animal",
+            choices = animals,
+            selected = animals[1]
+          )
+        ),
+        border = FALSE,
+        border_radius = FALSE,
+        h2("Sidebar Layout"),
+        uiOutput("ui_content", tabindex = 0),
+      )
     )
-  ) |>
-  tagAppendAttributes(class = "mb-4", id = "layout")
   ),
   div(
     class = "my-2",
