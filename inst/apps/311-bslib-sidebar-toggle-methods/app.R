@@ -18,9 +18,9 @@ animals <- c(
 )
 
 sb <- layout_column_wrap(
-    width = 500,
-    id = "sidebar-here",
-    layout_sidebar(
+  width = 500,
+  id = "sidebar-here",
+  layout_sidebar(
     id = "main_outer",
     sidebar = sidebar(
       "Outer Sidebar",
@@ -30,11 +30,11 @@ sb <- layout_column_wrap(
       open = "desktop",
       max_height_mobile = "300px",
       selectInput(
-      "adjective",
-      "Adjective",
-      choices = adjectives,
-      selected = adjectives[1]
-    )
+        "adjective",
+        "Adjective",
+        choices = adjectives,
+        selected = adjectives[1]
+      )
     ),
     height = 300,
     class = "p-0",
@@ -60,6 +60,7 @@ sb <- layout_column_wrap(
       uiOutput("ui_content", tabindex = 0)
     )
   )
+)
 
 ui <- page_fixed(
   h1("Dynamic Sidebars"),
@@ -68,8 +69,7 @@ ui <- page_fixed(
     "Test tab focus order: main, inner sidebar, outer sidebar.",
     "Test server-side open and close of sidebars."
   ),
-  tagAppendAttributes(sb, class = "mb-4", id = "layout")
-  ),
+  tagAppendAttributes(sb, class = "mb-4", id = "layout"),
   div(
     class = "my-2",
     actionButton("show_all", "Show all"),
