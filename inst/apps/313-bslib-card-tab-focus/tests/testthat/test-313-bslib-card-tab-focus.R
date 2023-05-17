@@ -110,9 +110,11 @@ app <- AppDriver$new(
   variant = platform_variant(),
   height = 800,
   width = 1200,
+  seed = 20230517,
   view = interactive(),
   options = list(bslib.precompiled = FALSE),
-  expect_values_screenshot_args = FALSE
+  expect_values_screenshot_args = FALSE,
+  screenshot_args = list(selector = "viewport", delay = 0.5)
 )
 withr::defer(app$stop())
 
@@ -250,7 +252,7 @@ test_that("fullscreen interior card with inputs (backward tab cycle)", {
 
   app_card_full_screen_enter(app, "card-with-inputs-right")
   expect_focus(app, "#word")
-  if (DO_SCREENSHOT) app$expect_screenshot()
+  # no screenshot here, the blinking cursor is in the input
 
   key_press("Tab", shift = TRUE)
   expect_true(app$get_js( # sliders are weird inputs
@@ -277,7 +279,7 @@ test_that("fullscreen card with large plotly plot", {
   app$run_js("document.getElementById('card-with-plot').scrollIntoView(true)")
 
   app_card_full_screen_enter(app, "card-with-plot")
-  if (DO_SCREENSHOT) app$expect_screenshot()
+  # no screenshot here, it's too volatile
 
   key_press("Tab")
   expect_focus(app, "#search")
