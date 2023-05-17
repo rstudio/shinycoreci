@@ -104,23 +104,28 @@ expect_display <- function(app, value, selector) {
   invisible(app)
 }
 
-# 313-bslib-card-tab-focus: test all sidebar toggling methods -------
-test_that("313-bslib-card-tab-focus", {
-  app <- AppDriver$new(
-    name = "313-bslib-card-tab-focus",
-    variant = platform_variant(),
-    height = 800,
-    width = 1200,
-    view = interactive(),
-    options = list(bslib.precompiled = FALSE),
-    expect_values_screenshot_args = FALSE
-  )
-  key_press <- key_press_factory(app)
+# Setup App  -----------------------------------------------------------
+app <- AppDriver$new(
+  name = "313-bslib-card-tab-focus",
+  variant = platform_variant(),
+  height = 800,
+  width = 1200,
+  view = interactive(),
+  options = list(bslib.precompiled = FALSE),
+  expect_values_screenshot_args = FALSE
+)
+withr::defer(app$stop())
 
-  # Initial state ----------------------------------------------------
+key_press <- key_press_factory(app)
+
+test_that("initial state, no cards are expanded", {
+  expect_no_full_screen(app)
+})
+
+# First card, no inputs --------------------------------------------
+test_that("fullscreen card without internal focusable elements", {
   expect_no_full_screen(app)
 
-  # First card, no inputs --------------------------------------------
   app_card_full_screen_enter(app, "card-no-inputs")
   if (DO_SCREENSHOT) app$expect_screenshot()
 
@@ -139,8 +144,12 @@ test_that("313-bslib-card-tab-focus", {
   # Exit full screen
   key_press("Enter")
   expect_no_full_screen(app)
+})
 
-  # Test enter/exit methods ------------------------------------------
+# Test enter/exit methods ------------------------------------------
+test_that("fullscreen card all exit methods", {
+  expect_no_full_screen(app)
+
   app_card_full_screen_enter(app, "card-no-inputs")
   app_card_full_screen_exit(app, "click overlay")
 
@@ -155,8 +164,12 @@ test_that("313-bslib-card-tab-focus", {
 
   app_card_full_screen_enter(app, "card-no-inputs")
   app_card_full_screen_exit(app, "enter button")
+})
 
-  # Second card with inputs ------------------------------------------
+# Second card with inputs ------------------------------------------
+test_that("fullscreen card with inputs and interior cards", {
+  expect_no_full_screen(app)
+
   app_card_full_screen_enter(app, "card-with-inputs")
   if (DO_SCREENSHOT) app$expect_screenshot()
 
@@ -188,8 +201,12 @@ test_that("313-bslib-card-tab-focus", {
 
   # Exit full screen
   app_card_full_screen_exit(app, "escape")
+})
 
-  # Interior card with inputs left (Tab forwards) --------------------
+# Interior card with inputs left (Tab forwards) --------------------
+test_that("fullscreen interior card with inputs (forward tab cycle)", {
+  expect_no_full_screen(app
+  )
   app_card_full_screen_enter(app, "card-with-inputs-left")
   if (DO_SCREENSHOT) app$expect_screenshot()
 
@@ -208,8 +225,12 @@ test_that("313-bslib-card-tab-focus", {
   expect_focus(app, "#letter-selectized")
 
   app_card_full_screen_exit(app, "click overlay")
+})
 
-  # Interior focus is retained ----------------------------------
+# Interior focus is retained ----------------------------------
+test_that("interior focus is retains when entering full screen", {
+  expect_no_full_screen(app)
+
   # focus on an interior element should be maintained. This happens because
   # we are triggering the full screen programmatically, in practice focus moves
   # when users click. This test is still valuable for future server-side methods
@@ -221,8 +242,12 @@ test_that("313-bslib-card-tab-focus", {
 
   app_card_full_screen_exit(app)
   expect_focus(app, "#word")
+})
 
-  # Interior card with inputs right (Tab backwards) --------------
+# Interior card with inputs right (Tab backwards) --------------
+test_that("fullscreen interior card with inputs (backward tab cycle)", {
+  expect_no_full_screen(app)
+
   app_card_full_screen_enter(app, "card-with-inputs-right")
   expect_focus(app, "#word")
   if (DO_SCREENSHOT) app$expect_screenshot()
@@ -243,8 +268,12 @@ test_that("313-bslib-card-tab-focus", {
 
   app_card_full_screen_exit(app, "click button")
   expect_focus(app, "#word")
+})
 
-  # Final card ------------------------------------------------------
+# Final card ------------------------------------------------------
+test_that("fullscreen card with large plotly plot", {
+  expect_no_full_screen(app)
+
   app$run_js("document.getElementById('card-with-plot').scrollIntoView(true)")
 
   app_card_full_screen_enter(app, "card-with-plot")
