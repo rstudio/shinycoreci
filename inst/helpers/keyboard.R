@@ -46,7 +46,7 @@ key_press_factory <- function(app) {
         key = key,
         modifiers = modifiers,
         wait_ = FALSE
-      )$then(
+      )$then(function(value) {
         brwsr$Input$dispatchKeyEvent(
           "keyUp",
           windowsVirtualKeyCode = virtual_code,
@@ -55,7 +55,7 @@ key_press_factory <- function(app) {
           modifiers = modifiers,
           wait_ = FALSE
         )
-      )
+      })
 
     brwsr$wait_for(events)
 
