@@ -28,7 +28,7 @@
  brio                1.1.3       2021-11-30 [1] RSPM
  broom               1.0.4       2023-03-11 [1] RSPM
  bsicons             0.1         2023-05-16 [1] Github (rstudio/bsicons@1a12bb6)
- bslib               0.4.2.9000  2023-05-16 [1] Github (rstudio/bslib@adf7337)
+ bslib               0.4.2.9000  2023-05-17 [1] Github (rstudio/bslib@adf7337)
  cachem              1.0.8       2023-05-16 [1] Github (r-lib/cachem@62051fe)
  Cairo               1.6-0       2022-07-05 [1] RSPM
  callr               3.7.3       2022-11-02 [1] RSPM
@@ -95,7 +95,7 @@
  hms                 1.1.3       2023-03-21 [1] RSPM
  htmltools           0.5.5.9000  2023-05-16 [1] Github (rstudio/htmltools@73fd307)
  htmlwidgets         1.6.2.9000  2023-05-16 [1] Github (ramnathv/htmlwidgets@e234c0e)
- httpuv              1.6.11.9000 2023-05-16 [1] Github (rstudio/httpuv@4b8dc26)
+ httpuv              1.6.11.9000 2023-05-17 [1] Github (rstudio/httpuv@4b8dc26)
  httr                1.4.6       2023-05-08 [1] RSPM
  httr2               0.2.3       2023-05-08 [1] RSPM
  hunspell            3.0.2       2022-09-04 [1] RSPM
@@ -120,7 +120,7 @@
  magrittr            2.0.3       2022-03-30 [1] RSPM
  maps                3.4.1       2022-10-30 [1] RSPM
  maptools            1.1-6       2022-12-14 [1] RSPM
- markdown            1.6         2023-04-07 [1] RSPM
+ markdown            1.7         2023-05-16 [1] RSPM
  MASS                7.3-53.1    2021-02-12 [3] CRAN (R 4.0.5)
  Matrix              1.3-2       2021-01-06 [3] CRAN (R 4.0.5)
  memoise             2.0.1       2021-11-26 [1] RSPM
@@ -173,7 +173,6 @@
  renv                0.17.3      2023-04-06 [1] RSPM
  repr                1.1.6       2023-01-26 [1] RSPM
  reshape             0.8.9       2022-04-12 [1] RSPM
- reshape2            1.4.4       2020-04-09 [1] RSPM
  reticulate          1.28        2023-01-27 [1] RSPM
  rex                 1.2.1       2021-11-26 [1] RSPM
  rgeos               0.6-2       2023-03-02 [1] RSPM
@@ -196,7 +195,7 @@
  servr               0.27        2023-05-02 [1] RSPM
  sessioninfo         1.2.2       2021-12-06 [1] RSPM
  sf                  1.0-12      2023-03-19 [1] RSPM
- shiny               1.7.4.9002  2023-05-16 [1] Github (rstudio/shiny@90539bf)
+ shiny               1.7.4.9002  2023-05-17 [1] Github (rstudio/shiny@90539bf)
  shinyAce            0.4.2       2022-05-06 [1] RSPM
  shinycoreci         0.0.0.9008  2023-05-17 [1] local
  shinyjster          0.0.0.9010  2023-05-16 [1] Github (schloerke/shinyjster@1807304)
