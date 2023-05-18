@@ -115,6 +115,19 @@ window.updatedOutputs = [];
     shared = app$get_js(js_element_width(sel_plot_img_shared))
   )
 
+  cat("\n----- Recording", sidebar, "sidebar on", page, "page transition -----")
+  cat_item <- function(which) {
+    value <- get(which)
+    cat("\n", which, ":")
+    cat("\n  shared: ", paste(value[["shared"]], collapse = ", "))
+    cat("\n  local:  ", paste(value[["local"]], collapse = ", "))
+  }
+  cat_item("initial")
+  cat_item("during")
+  cat_item("final")
+  cat_item("outputs")
+  cat("\n----------------------------------------------\n\n")
+
   # we only need unique observations between initial and final
   during$local <- unique(during$local)
   during$shared <- unique(during$shared)
@@ -321,12 +334,12 @@ test_that("312-bslib-sidebar-resize", {
   # expand widget shared sidebar ----------------------------------------------
   expect_sidebar_transition(app, "shared", "client", open_end = "open")
   }, error = function(err) {
-    message("TEST FAILED --------------------------------")
-    message("Error received: ", conditionMessage(err))
-    message("Printing logs...")
+    cat("\n\n\n==== TEST FAILED ================================")
+    cat("\nError received: ", conditionMessage(err))
+    cat("\nPrinting logs...")
     print(app$get_logs())
-    message("saving screenshot...")
+    cat("\nsaving screenshot...")
     app$expect_screenshot(selector = "viewport")
-    message("screenshot saved...")
+    cat("\nscreenshot saved...")
   })
 })
