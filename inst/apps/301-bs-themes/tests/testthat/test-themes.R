@@ -55,7 +55,7 @@ for (theme_name in names(themes)) {
       name = theme_name,
       variant = NULL,
       seed = 101,
-      options = list(bslib_theme = theme)
+      options = list(bslib_theme = theme, "shiny.json.digits" = 4)
     )
     withr::defer({ app$stop() })
 
