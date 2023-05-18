@@ -133,7 +133,7 @@ jobs:
 
   windows-release:
     if: ${{ ! cancelled() }}
-    needs: [config]
+    needs: [precheck, config]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.release }}
@@ -144,7 +144,7 @@ jobs:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-1:
     if: ${{ ! cancelled() }}
-    needs: [config, macos-oldrel-1]
+    needs: [precheck, config]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel1 }}
@@ -155,7 +155,7 @@ jobs:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-2:
     if: ${{ ! cancelled() }}
-    needs: [config, macos-oldrel-2]
+    needs: [precheck, config]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel2 }}
@@ -166,7 +166,7 @@ jobs:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-3:
     if: ${{ ! cancelled() }}
-    needs: [config, macos-oldrel-3]
+    needs: [precheck, config]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel3 }}
@@ -177,7 +177,7 @@ jobs:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
   windows-oldrel-4:
     if: ${{ ! cancelled() }}
-    needs: [config, macos-oldrel-4]
+    needs: [precheck, config]
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel4 }}
