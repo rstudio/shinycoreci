@@ -277,6 +277,7 @@ test_that("312-bslib-sidebar-resize", {
 
   # STATIC PAGE ================================================================
 
+  withCallingHandlers({
   # collapse static shared sidebar --------------------------------------------
   expect_sidebar_transition(app, "shared", "static", open_end = "closed")
 
@@ -319,4 +320,13 @@ test_that("312-bslib-sidebar-resize", {
 
   # expand widget shared sidebar ----------------------------------------------
   expect_sidebar_transition(app, "shared", "client", open_end = "open")
+  }, error = function(err) {
+    message("TEST FAILED --------------------------------")
+    message("Error received: ", conditionMessage(err))
+    message("Printing logs...")
+    print(app$get_logs())
+    message("saving screenshot...")
+    app$expect_screenshot(selector = "viewport")
+    message("screenshot saved...")
+  })
 })
