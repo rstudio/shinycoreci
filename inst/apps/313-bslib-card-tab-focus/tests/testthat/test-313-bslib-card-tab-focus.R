@@ -60,6 +60,21 @@ expect_no_full_screen <- function(app) {
   invisible(app)
 }
 
+app_reset_no_full_screen <- function(app) {
+  # reset focus to "neutral focus zone" (just an uninvolved element)
+  withr::defer(app$run_js("document.getElementById('neutral-focus-zone').focus()"))
+
+  is_full_screen <- app$get_js("document.body.matches('.bslib-has-full-screen')")
+
+  if (!is_full_screen) {
+    return(invisible(app))
+  }
+
+  app$
+    click(selector = "#bslib-full-screen-overlay")$
+    wait_for_js('!document.body.matches(".bslib-has-full-screen")')
+}
+
 app_card_full_screen_enter <- function(app, id) {
   id <- sub("^#", "", id)
   app$click(selector = sprintf("#%s > .bslib-full-screen-enter", id))
@@ -126,7 +141,7 @@ test_that("initial state, no cards are expanded", {
 
 # First card, no inputs --------------------------------------------
 test_that("fullscreen card without internal focusable elements", {
-  expect_no_full_screen(app)
+  app_reset_no_full_screen(app)
 
   app_card_full_screen_enter(app, "card-no-inputs")
   if (DO_SCREENSHOT) app$expect_screenshot()
@@ -150,7 +165,7 @@ test_that("fullscreen card without internal focusable elements", {
 
 # Test enter/exit methods ------------------------------------------
 test_that("fullscreen card all exit methods", {
-  expect_no_full_screen(app)
+  app_reset_no_full_screen(app)
 
   app_card_full_screen_enter(app, "card-no-inputs")
   app_card_full_screen_exit(app, "click overlay")
@@ -170,7 +185,7 @@ test_that("fullscreen card all exit methods", {
 
 # Second card with inputs ------------------------------------------
 test_that("fullscreen card with inputs and interior cards", {
-  expect_no_full_screen(app)
+  app_reset_no_full_screen(app)
 
   app_card_full_screen_enter(app, "card-with-inputs")
   if (DO_SCREENSHOT) app$expect_screenshot()
@@ -207,8 +222,8 @@ test_that("fullscreen card with inputs and interior cards", {
 
 # Interior card with inputs left (Tab forwards) --------------------
 test_that("fullscreen interior card with inputs (forward tab cycle)", {
-  expect_no_full_screen(app
-  )
+  app_reset_no_full_screen(app)
+
   app_card_full_screen_enter(app, "card-with-inputs-left")
   if (DO_SCREENSHOT) app$expect_screenshot()
 
@@ -226,12 +241,56 @@ test_that("fullscreen interior card with inputs (forward tab cycle)", {
   key_press("Tab")
   expect_focus(app, "#letter-selectized")
 
+  # Go back to date input to ensure popup is closed
+  # FIXME: We should fix this in {bslib} (tab handlers too aggressive)
+  key_press("Tab")
+  key_press("Tab")
+  key_press("Tab")
+  key_press("Escape")
+  expect_focus(app, "#dates input:last-child")
+  expect_card_full_screen(app, "card-with-inputs-left")
+
+  app_card_full_screen_exit(app, "click overlay")
+})
+
+# Escape while select box is open -----------------------------------
+test_that("escape while select box open exits select, not full screen", {
+  app_reset_no_full_screen(app)
+
+  app_card_full_screen_enter(app, "card-with-inputs-left")
+
+  # Tab to expand select box
+  key_press("Tab")
+  expect_focus(app, "#letter-selectized")
+
+  # Escape doesn't leave full screen
+  key_press("Escape")
+
+  if (app$get_js("document.activeElement.tagName === 'BODY'")) {
+    # In this browser, the select box is closed, but focus is lost
+    expect_true(
+      app$get_js('document.body.classList.contains("bslib-has-full-screen")')
+    )
+    key_press("Tab")
+    expect_card_full_screen(app, "card-with-inputs-left")
+    skip("Escape on selectize closes select box, but focus moves to body")
+  }
+
+  expect_card_full_screen(app, "card-with-inputs-left")
+
+  # Tab to expand next select box
+  key_press("Tab")
+  expect_focus(app, "#letter2-selectized")
+  # Escape doesn't leave full screen here either
+  key_press("Escape")
+  expect_card_full_screen(app, "card-with-inputs-left")
+
   app_card_full_screen_exit(app, "click overlay")
 })
 
 # Interior focus is retained ----------------------------------
 test_that("interior focus is retains when entering full screen", {
-  expect_no_full_screen(app)
+  app_reset_no_full_screen(app)
 
   # focus on an interior element should be maintained. This happens because
   # we are triggering the full screen programmatically, in practice focus moves
@@ -248,11 +307,16 @@ test_that("interior focus is retains when entering full screen", {
 
 # Interior card with inputs right (Tab backwards) --------------
 test_that("fullscreen interior card with inputs (backward tab cycle)", {
-  expect_no_full_screen(app)
+  app_reset_no_full_screen(app)
 
+  app$run_js("document.body.focus()")
   app_card_full_screen_enter(app, "card-with-inputs-right")
+  expect_focus(app, "#card-with-inputs-right")
+  if (DO_SCREENSHOT) app$expect_screenshot()
+
+  key_press("Tab")
+  key_press("Tab")
   expect_focus(app, "#word")
-  # no screenshot here, the blinking cursor is in the input
 
   key_press("Tab", shift = TRUE)
   expect_true(app$get_js( # sliders are weird inputs
@@ -274,7 +338,7 @@ test_that("fullscreen interior card with inputs (backward tab cycle)", {
 
 # Final card ------------------------------------------------------
 test_that("fullscreen card with large plotly plot", {
-  expect_no_full_screen(app)
+  app_reset_no_full_screen(app)
 
   app$run_js("document.getElementById('card-with-plot').scrollIntoView(true)")
 
