@@ -60,4 +60,5 @@ apps_deps_map <- list(`001-hello` = "rsconnect", `012-datatables` = "ggplot2",
     "rversions"), `305-bslib-value-box` = c("rlang", "rversions"
     ), `309-flexdashboard-tabs-navs` = "rmarkdown", `310-bslib-sidebar-dynamic` = c("rversions", 
     "testthat"), `311-bslib-sidebar-toggle-methods` = c("rversions", 
-    "testthat"))
+    "testthat"), `313-bslib-card-tab-focus` = c("rversions", 
+    "testthat", "withr"))
