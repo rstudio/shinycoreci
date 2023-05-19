@@ -18,6 +18,7 @@ if (length(dir("_snaps")) > 1) {
   stop("More than 1 _snaps folder found!")
 }
 
+
 themes <-
   list(
     list(version = 5L, bootswatch = "cerulean"),

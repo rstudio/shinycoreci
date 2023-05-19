@@ -10,6 +10,10 @@ release <- paste0(
 if (!identical(paste0("mac-", release), platform_variant())) {
   skip("Not mac + r-release")
 }
+if (length(dir("_snaps")) > 1) {
+  stop("More than 1 _snaps folder found!")
+}
+
 
 test_that("{shinytest2} recording: value_box", {
 
