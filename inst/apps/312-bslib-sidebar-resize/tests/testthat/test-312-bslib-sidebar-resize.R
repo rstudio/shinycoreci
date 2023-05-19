@@ -167,6 +167,21 @@ expect_sidebar_transition <- function(
     closed = expect_sidebar_hidden(sidebar_id)
   )
 
+  # test plot output size changes during the transition
+  if (shinycoreci::platform() != "win") {
+    # NOTE: transition isn't animated on Windows in CI, test manually
+    expect_sidebar_changes_during_transition(res, open_end, will_transition)
+  }
+
+  if (page == "static") {
+    # plots update at the end of the transition
+    expected_updates <- paste0("plot_static_", will_transition)
+    expect_setequal(res$outputs, !!expected_updates)
+  }
+}
+
+expect_sidebar_changes_during_transition <- function(res, open_end, will_transition) {
+
   # Plot output size changes during the transition
   if ("local" %in% will_transition) {
     expect_gt(
@@ -254,12 +269,6 @@ expect_sidebar_transition <- function(
       res$initial$shared,
       label = "shared plot output size did not change during transition"
     )
-  }
-
-  if (page == "static") {
-    # plots update at the end of the transition
-    expected_updates <- paste0("plot_static_", will_transition)
-    expect_setequal(res$outputs, !!expected_updates)
   }
 }
 
