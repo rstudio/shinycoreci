@@ -186,7 +186,7 @@
 <ol style="list-style-type: decimal">
 <li><p><strong>shinytest2</strong>: primarily useful for taking screenshots of shiny output binding(s) (before or after interacting with <strong>shiny</strong> input bindings). <a href="https://github.com/rstudio/shinycoreci/blob/d8f627bea573cf7bb7a53788522f04d90aeb557f/inst/apps/001-hello/tests/testthat/test-mytest.R" class="external-link">See here</a> for an example (note that <code>shinytest2::record_test()</code> can be used to generate shinytest2 testing scripts).</p></li>
 <li><p><strong>shinyjster</strong>: primarily useful for asserting certain expectations about the DOM (in JavaScript). <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f/apps/001-hello/app.R#L37-L61" class="external-link">See here</a> for an example (note that <code>shinyjster::shinyjster_js()</code> needs to be placed in the UI and <code>shinyjster::shinyjster_server(input, output)</code> needs to be placed in the server).</p></li>
-<li><p><strong>testthat</strong>: primarily useful in combination with <code><a href="https://shiny.rstudio.com/reference/shiny/latest/testServer.html" class="external-link">shiny::testServer()</a></code> to test server-side reactive logic of the application.</p></li>
+<li><p><strong>testthat</strong>: primarily useful in combination with <code><a href="https://rdrr.io/pkg/shiny/man/testServer.html" class="external-link">shiny::testServer()</a></code> to test server-side reactive logic of the application.</p></li>
 </ol>
 <!-- end list --><ul><li>
 <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/001-hello/tests/testthat/tests.R#L4" class="external-link">See here</a> for an example.</li></ul>
@@ -203,7 +203,7 @@
 <p>This repo contains several <a href="https://github.com/features/actions" class="external-link">GitHub Actions</a> workflows:</p>
 <ul>
 <li>
-<a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml" class="external-link"><strong>Test apps:</strong></a> Run all automated tests (via <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runTests.html" class="external-link">shiny::runTests()</a></code>). If on <code>main</code> branch, test results will be saved to <code>_test_results</code> branch.</li>
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml" class="external-link"><strong>Test apps:</strong></a> Run all automated tests (via <code><a href="https://rdrr.io/pkg/shiny/man/runTests.html" class="external-link">shiny::runTests()</a></code>). If on <code>main</code> branch, test results will be saved to <code>_test_results</code> branch.</li>
 <li>
 <a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml" class="external-link"><strong>Docker:</strong></a> Create all SSO and SSP docker images. Docker images are hosted on <a href="https://github.com/rstudio/shinycoreci/pkgs/container/shinycoreci" class="external-link"><code>rstudio/shinycoreci</code> via GitHub Packages</a>.</li>
 <li>
