@@ -122,9 +122,13 @@ expect_sidebar_transition <- function(
     closed = expect_sidebar_hidden(sidebar_id)
   )
 
+  # NOTE: transition isn't animated on Windows in CI, test manually
+  is_windows_on_ci <-
+    identical(.Platform$OS.type, "windows") &&
+    identical(Sys.getenv("CI"), "true")
+
   # test plot output size changes during the transition
-  if (shinycoreci::platform() != "win") {
-    # NOTE: transition isn't animated on Windows in CI, test manually
+  if (!is_windows_on_ci) {
     expect_sidebar_changes_during_transition(res, open_end, will_transition)
   }
 
