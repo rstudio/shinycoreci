@@ -27,7 +27,7 @@ ui <- page_navbar(
     open = "open",
     p("The plots should resize smoothly when this sidebar or the local sidebar are toggled.")
   ),
-  nav(
+  nav_panel(
     "Static",
     h2("Static plot resizing"),
     p(
@@ -55,7 +55,7 @@ ui <- page_navbar(
       div(class = "col-6", lorem2, lorem1)
     )
   ),
-  nav(
+  nav_panel(
     "Widget",
     h2("Widget plot resizing"),
     p(
@@ -83,7 +83,7 @@ ui <- page_navbar(
       div(class = "col-6", lorem2, lorem1)
     )
   ),
-  nav(
+  nav_panel(
     "Client",
     h2("Client-side htmlwidget resizing"),
     p(
