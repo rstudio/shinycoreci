@@ -118,6 +118,10 @@ ui <- page_navbar(
 )
 
 server <- function(input, output, session) {
+  observeEvent(input$open_sidebar_shared, {
+    sidebar_toggle("sidebar-shared", open = "open")
+  })
+
   plot <- reactive({
     ggplot(mtcars, aes(mpg, wt)) +
       geom_point(aes(color = factor(cyl))) +
