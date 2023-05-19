@@ -12,58 +12,7 @@ is_mac_release <- identical(paste0("mac-", release), platform_variant())
 
 DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
 
-key_press_factory <- function(app) {
-  brwsr <- app$get_chromote_session()
-
-  function(which = "Tab", shift = FALSE) {
-    virtual_code <- switch(
-      which,
-      Tab = 9,
-      Enter = 13,
-      Escape = 27,
-      ArrowLeft = 37,
-      ArrowUp = 38,
-      ArrowRight = 39,
-      ArrowDown = 40,
-      Backspace = 8,
-      Delete = 46,
-      Home = 36,
-      End = 35,
-      PageUp = 33,
-      PageDown = 34,
-      Space = 32
-    )
-
-    modifiers <- 0
-    if (shift) modifiers <- modifiers + 8
-    # if (command) modifiers <- modifiers + 4
-    # if (control) modifiers <- modifiers + 2
-    # if (alt) modifiers <- modifiers + 1
-
-    events <-
-      brwsr$Input$dispatchKeyEvent(
-        "rawKeyDown",
-        windowsVirtualKeyCode = virtual_code,
-        code = which,
-        key = which,
-        modifiers = modifiers,
-        wait_ = FALSE
-      )$then(
-        brwsr$Input$dispatchKeyEvent(
-          "keyUp",
-          windowsVirtualKeyCode = virtual_code,
-          code = which,
-          key = which,
-          modifiers = modifiers,
-          wait_ = FALSE
-        )
-      )
-
-    brwsr$wait_for(events)
-
-    invisible(app)
-  }
-}
+source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
 expect_sidebar_hidden_factory <- function(app) {
   function(which = c("inner", "outer")) {
