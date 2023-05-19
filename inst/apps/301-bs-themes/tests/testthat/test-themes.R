@@ -10,6 +10,9 @@ release <- paste0(
 if (!identical(paste0("mac-", release), shinytest2::platform_variant())) {
   skip("Not mac + r-release")
 }
+if (length(dir("_snaps")) > 1) {
+  stop("More than 1 _snaps folder found!")
+}
 
 themes <- list(
   default4 = list(version = 5),
@@ -53,7 +56,7 @@ for (theme_name in names(themes)) {
   test_that(paste0("theme: ", theme_name), {
     app <- AppDriver$new(
       name = theme_name,
-      variant = NULL,
+      variant = shinytest2::platform_variant(),
       seed = 101,
       options = list(bslib_theme = theme, "shiny.json.digits" = 4)
     )
