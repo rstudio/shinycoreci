@@ -17,51 +17,6 @@ animals <- c(
   "otter", "panda", "panther", "penguin", "zebra"
 )
 
-sb <- layout_column_wrap(
-  width = 500,
-  id = "sidebar-here",
-  layout_sidebar(
-    id = "main_outer",
-    sidebar = sidebar(
-      "Outer Sidebar",
-      id = "sidebar_outer",
-      width = 150,
-      bg = color_pairs[[1]]$dark,
-      open = "desktop",
-      max_height_mobile = "300px",
-      selectInput(
-        "adjective",
-        "Adjective",
-        choices = adjectives,
-        selected = adjectives[1]
-      )
-    ),
-    height = 300,
-    class = "p-0",
-    fillable = TRUE,
-    layout_sidebar(
-      id = "main_inner",
-      sidebar = sidebar(
-        "Inner Sidebar",
-        id = "sidebar_inner",
-        width = 150,
-        bg = color_pairs[[1]]$light,
-        open = "desktop",
-        selectInput(
-          "animal",
-          "Animal",
-          choices = animals,
-          selected = animals[1]
-        )
-      ),
-      border = FALSE,
-      border_radius = FALSE,
-      h2("Sidebar Layout"),
-      uiOutput("ui_content", tabindex = 0)
-    )
-  )
-)
-
 ui <- page_fixed(
   h1("Dynamic Sidebars"),
   tags$head(tags$title("bslib | Tests | Dynamic Sidebars")),
@@ -69,7 +24,50 @@ ui <- page_fixed(
     "Test tab focus order: main, inner sidebar, outer sidebar.",
     "Test server-side open and close of sidebars."
   ),
-  tagAppendAttributes(sb, class = "mb-4", id = "layout"),
+  layout_column_wrap(
+    width = 500,
+    id = "sidebar-here",
+    layout_sidebar(
+      id = "main_outer",
+      sidebar = sidebar(
+        "Outer Sidebar",
+        id = "sidebar_outer",
+        width = 150,
+        bg = color_pairs[[1]]$dark,
+        open = "desktop",
+        max_height_mobile = "300px",
+        selectInput(
+          "adjective",
+          "Adjective",
+          choices = adjectives,
+          selected = adjectives[1]
+        )
+      ),
+      height = 300,
+      class = "p-0",
+      fillable = TRUE,
+      layout_sidebar(
+        id = "main_inner",
+        sidebar = sidebar(
+          "Inner Sidebar",
+          id = "sidebar_inner",
+          width = 150,
+          bg = color_pairs[[1]]$light,
+          open = "desktop",
+          selectInput(
+            "animal",
+            "Animal",
+            choices = animals,
+            selected = animals[1]
+          )
+        ),
+        border = FALSE,
+        border_radius = FALSE,
+        h2("Sidebar Layout"),
+        uiOutput("ui_content", tabindex = 0),
+      )
+    )
+  ),
   div(
     class = "my-2",
     actionButton("show_all", "Show all"),
