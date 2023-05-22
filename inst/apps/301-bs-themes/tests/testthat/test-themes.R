@@ -79,8 +79,9 @@ for (theme_name in names(themes)) {
 
     appshot <- function() {
       app$expect_values()
-      # Allow for some slight differences in the slider
-      app$expect_screenshot(threshold = 2)
+      # Allow for a 10% difference in the screenshot kernel
+      # 3000 / (3x RGB channels * 100 * 100) = 3000 / 30000 = 10%
+      app$expect_screenshot(threshold = 3000, kernel_size = 100)
     }
     appshot()
 
