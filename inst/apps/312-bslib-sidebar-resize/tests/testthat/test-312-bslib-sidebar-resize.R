@@ -1,5 +1,7 @@
 library(shinytest2)
 
+withr::local_envvar(list(SIDEBAR_TRANSITION_TIME = "1s"))
+
 app <- AppDriver$new(
   name = "312-bslib-sidebar-resize",
   variant = platform_variant(),
