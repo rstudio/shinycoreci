@@ -35,7 +35,12 @@ ui <- page_fixed(
           card_title("Left Column", class = "mb-3"),
           shiny::selectInput("letter", "Letter", letters, selected = "a"),
           shiny::selectizeInput("letter2", "Letter 2", letters, selected = "b", multiple = TRUE),
-          shiny::dateRangeInput("dates", "Pick a Date")
+          shiny::dateRangeInput(
+            inputId = "dates",
+            label = "Pick a Date",
+            start = "2023-05-01",
+            end = "2023-05-31"
+          )
         ),
         card(
           id = "card-with-inputs-right",
