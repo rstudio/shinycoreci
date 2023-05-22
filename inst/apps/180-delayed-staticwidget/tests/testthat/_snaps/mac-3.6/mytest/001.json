@@ -28,9 +28,9 @@
       "deps": [
         {
           "name": "htmlwidgets",
-          "version": "1.6.1.9000",
+          "version": "1.6.2.9000",
           "src": {
-            "href": "htmlwidgets-1.6.1.9000"
+            "href": "htmlwidgets-1.6.2.9000"
           },
           "meta": null,
           "script": "htmlwidgets.js",
@@ -119,9 +119,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.1.1.9000",
+          "version": "2.1.2.9000",
           "src": {
-            "href": "leaflet-binding-2.1.1.9000"
+            "href": "leaflet-binding-2.1.2.9000"
           },
           "meta": null,
           "script": "leaflet.js",
