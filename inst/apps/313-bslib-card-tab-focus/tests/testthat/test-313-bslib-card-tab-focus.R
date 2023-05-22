@@ -12,6 +12,14 @@ is_mac_release <- identical(paste0("mac-", release), platform_variant())
 
 DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
 
+if (
+  is_mac_release &&
+  length(dir("_snaps")) > 0 &&
+  !identical(dir("_snaps"), platform_variant())
+) {
+  stop("Outdated snaps folder found!")
+}
+
 source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
 expect_focus <- function(app, selector) {
