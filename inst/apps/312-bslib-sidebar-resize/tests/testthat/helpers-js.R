@@ -1,6 +1,10 @@
 js_sidebar_transition_complete <- function(id) {
+  paste0("!", js_sidebar_is_transitioning(id))
+}
+
+js_sidebar_is_transitioning <- function(id) {
   sprintf(
-    "!document.getElementById('%s').parentElement.classList.contains('transitioning');",
+    "document.getElementById('%s').parentElement.classList.contains('transitioning');",
     id
   )
 }

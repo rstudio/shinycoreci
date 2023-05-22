@@ -48,7 +48,9 @@ if (!window.updatedOutputs) {
 }
 window.updatedOutputs = [];
 ")
-  app$click(selector = sprintf("#%s + .collapse-toggle", id_sidebar))
+  app$
+    click(selector = sprintf("#%s + .collapse-toggle", id_sidebar))$
+    wait_for_js(js_sidebar_is_transitioning(id_sidebar))
 
   while (!app$get_js(js_sidebar_transition_complete(id_sidebar))) {
     Sys.sleep(0.1)
