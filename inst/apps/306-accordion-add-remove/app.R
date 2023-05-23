@@ -1,5 +1,6 @@
 library(shiny)
 library(bslib)
+library(magrittr)
 
 ui <- page_sidebar(
   theme = bs_theme(
