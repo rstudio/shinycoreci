@@ -675,7 +675,7 @@
   },
   "output": {
     "histCentile": {
-      "src": "[image data hash: 346072e4c8d6fe50afeb1d5477945f81]",
+      "src": "[image data hash: 03a9779ff3677c95ad9378ea5d475b0f]",
       "width": 287.777801513672,
       "height": 200.000015258789,
       "alt": "Plot object",
@@ -820,9 +820,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.1.1.9000",
+          "version": "2.1.2.9000",
           "src": {
-            "href": "leaflet-binding-2.1.1.9000"
+            "href": "leaflet-binding-2.1.2.9000"
           },
           "meta": null,
           "script": "leaflet.js",
@@ -834,7 +834,7 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data hash: ccf8f98d49bbf328c5452ade87866279]",
+      "src": "[image data hash: ac80e2c3f9fcda755ef2b93c5b0520bf]",
       "width": 287.777801513672,
       "height": 250.000015258789,
       "alt": "Plot object",
@@ -934,9 +934,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.12.1",
+          "version": "1.13.4",
           "src": {
-            "href": "dt-core-1.12.1"
+            "href": "dt-core-1.13.4"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",

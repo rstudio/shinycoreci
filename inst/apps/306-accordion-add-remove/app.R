@@ -1,8 +1,8 @@
 library(shiny)
 library(bslib)
+library(magrittr)
 
-ui <- page_fillable(
-  padding = 0,
+ui <- page_sidebar(
   theme = bs_theme(
     # Don't transition when collapsing (so screenshot timing is less of an issue)
     "transition-collapse" = "none",
@@ -10,32 +10,28 @@ ui <- page_fillable(
     "accordion-color" = "white",
     "accordion-icon-color" = "white",
     "accordion-icon-active-color" = "white"
-  ),
-  layout_sidebar(
-    border_radius = FALSE,
-    border = FALSE,
-    bg = "lightgray",
-    sidebar(
-      bg = "#1E1E1E",
-      accordion(
-        open = TRUE,
-        accordion_panel(
-          "Selected section(s)",
-          selectInput("selected", NULL, LETTERS, multiple = TRUE, selected = "A"),
-        ),
-        accordion_panel(
-          "Displayed section(s)",
-          selectInput("displayed", NULL, LETTERS, multiple = TRUE, selected = LETTERS)
-        ),
-        accordion_panel(
-          "Parameters",
-          checkboxInput("multiple", "Allow multiple panels to be open", TRUE),
-          checkboxInput("open_on_insert", "Open on insert", FALSE)
-        )
+  ) %>%
+    bs_add_rules(".bslib-sidebar-layout .main { background-color: lightgray; }"),
+  sidebar = sidebar(
+    bg = "#1E1E1E",
+    accordion(
+      open = TRUE,
+      accordion_panel(
+        "Selected section(s)",
+        selectInput("selected", NULL, LETTERS, multiple = TRUE, selected = "A"),
+      ),
+      accordion_panel(
+        "Displayed section(s)",
+        selectInput("displayed", NULL, LETTERS, multiple = TRUE, selected = LETTERS)
+      ),
+      accordion_panel(
+        "Parameters",
+        checkboxInput("multiple", "Allow multiple panels to be open", TRUE),
+        checkboxInput("open_on_insert", "Open on insert", FALSE)
       )
-    ),
-    uiOutput("accordion")
-  )
+    )
+  ),
+  uiOutput("accordion")
 )
 
 server <- function(input, output, session) {
