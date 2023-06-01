@@ -34,45 +34,45 @@ ui <- page_navbar(
     span("footer", class = "bg-dark"),
     span("content", class = "bg-dark")
   ),
-  nav(
+  nav_panel(
     "Fill",
     plotly_bars,
     br(),
-    layout_sidebar(sidebar_short, plotly_bars, fillable = TRUE),
+    layout_sidebar(plotly_bars, sidebar = sidebar_short),
     br(),
     card(
       card_header("Depth"),
-      layout_sidebar(sidebar_short, plotly_bars, fillable = TRUE)
+      layout_sidebar(plotly_bars, sidebar = sidebar_short)
     )
   ),
-  nav(
+  nav_panel(
     "Fill+Scroll",
     plotly_bars,
     br(),
-    layout_sidebar(sidebar_long, plotly_bars),
+    layout_sidebar(plotly_bars, sidebar = sidebar_long),
     br(),
     card(
       card_header("Depth"),
-      layout_sidebar(sidebar_long, plotly_bars)
+      layout_sidebar(plotly_bars, sidebar = sidebar_long)
     )
   ),
-  nav(
+  nav_panel(
     "Scroll",
     plotly_bars,
     br(),
-    layout_sidebar(sidebar_long, plotly_bars),
+    layout_sidebar(plotly_bars, sidebar = sidebar_long),
     br(),
     card(
       card_header("Depth"),
-      layout_sidebar(sidebar_long, plotly_bars)
+      layout_sidebar(plotly_bars, sidebar = sidebar_long)
     )
   ),
-  nav(
+  nav_panel(
     "Global card sidebar",
     # Wrapping this up with layout_column_wrap() should keep
     # the row height the same (even when switch tabs)
-    layout_column_wrap(
-      width = 1,
+    layout_columns(
+      col_widths = 12,
       navs_tab_card(
         title = "Global sidebar",
         id = "card_tab_sidebar",
