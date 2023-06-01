@@ -37,9 +37,7 @@ ui <- page_navbar(
   nav_panel(
     "Fill",
     plotly_bars,
-    br(),
     layout_sidebar(plotly_bars, sidebar = sidebar_short),
-    br(),
     card(
       card_header("Depth"),
       layout_sidebar(plotly_bars, sidebar = sidebar_short)
@@ -48,24 +46,20 @@ ui <- page_navbar(
   nav_panel(
     "Fill+Scroll",
     plotly_bars,
-    br(),
-    layout_sidebar(plotly_bars, sidebar = sidebar_long),
-    br(),
     card(
       card_header("Depth"),
       layout_sidebar(plotly_bars, sidebar = sidebar_long)
-    )
+    ),
+    layout_sidebar(plotly_bars, sidebar = sidebar_long)
   ),
   nav_panel(
     "Scroll",
     plotly_bars,
-    br(),
-    layout_sidebar(plotly_bars, sidebar = sidebar_long),
-    br(),
     card(
       card_header("Depth"),
       layout_sidebar(plotly_bars, sidebar = sidebar_long)
-    )
+    ),
+    layout_sidebar(plotly_bars, sidebar = sidebar_long)
   ),
   nav_panel(
     "Global card sidebar",
