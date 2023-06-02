@@ -5,8 +5,8 @@ ui <- page_fixed(
   h1("Dynamic Sidebars"),
   tags$head(tags$title("bslib | Tests | Dynamic Sidebars")),
   div(id = "neutral-focus-zone", tabindex = "-1"),
-  layout_column_wrap(
-    width = 1 / 2,
+  layout_columns(
+    col_widths = c(6, 6, 6),
     card(
       id = "card-no-inputs",
       full_screen = TRUE,
@@ -28,11 +28,10 @@ ui <- page_fixed(
       ),
       layout_column_wrap(
         width = "200px",
-        class = "mb-3",
         card(
           id = "card-with-inputs-left",
           full_screen = TRUE,
-          card_title("Left Column", class = "mb-3"),
+          card_title("Left Column"),
           selectInput("letter", "Letter", letters, selected = "a"),
           selectizeInput("letter2", "Letter 2", letters, selected = "b", multiple = TRUE),
           dateRangeInput(
@@ -45,7 +44,7 @@ ui <- page_fixed(
         card(
           id = "card-with-inputs-right",
           full_screen = TRUE,
-          card_title("Right Column", class = "mb-3"),
+          card_title("Right Column"),
           sliderInput("slider", "Pick a Number", min = 1, max = 10, value = 5),
           textInput("word", "Word", "hello"),
           textAreaInput("sentence", "Sentence", "hello world")

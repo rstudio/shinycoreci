@@ -3,15 +3,15 @@ library(bslib)
 
 nav_items <- function(prefix) {
   list(
-    nav("a", paste(prefix, ": tab a content")),
-    nav("b", paste(prefix, ": tab b content")),
+    nav_panel("a", paste(prefix, ": tab a content")),
+    nav_panel("b", paste(prefix, ": tab b content")),
     nav_item(
       tags$a(icon("github"), "Shiny", href = "https://github.com/rstudio/shiny", target = "_blank")
     ),
     nav_spacer(),
     nav_menu(
       "Other links", align = "right",
-      nav("c", paste(prefix, ": tab c content")),
+      nav_panel("c", paste(prefix, ": tab c content")),
       nav_item(
         tags$a(icon("r-project"), "RStudio", href = "https://rstudio.com", target = "_blank")
       )
@@ -28,6 +28,7 @@ shinyApp(
     theme = bs_theme(),
     title = "page_navbar()",
     bg = "#0062cc",
+    fillable = FALSE,
     !!!nav_items("page_navbar()"),
     header = markdown("Testing app for `bslib::nav_spacer()` and `bslib::nav_item()` [#319](https://github.com/rstudio/bslib/pull/319)."),
     footer = div(
