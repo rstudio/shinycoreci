@@ -3,8 +3,8 @@
     "adjective": "charming",
     "animal": "elephant",
     "show_all": 1,
-    "sidebar_inner": true,
-    "sidebar_outer": false,
+    "sidebar_inner": false,
+    "sidebar_outer": true,
     "toggle_inner": 1,
     "toggle_outer": 0
   },
