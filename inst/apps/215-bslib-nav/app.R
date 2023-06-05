@@ -21,8 +21,6 @@ nav_items <- function(prefix) {
 
 
 
-
-
 shinyApp(
   page_navbar(
     theme = bs_theme(),
@@ -34,15 +32,15 @@ shinyApp(
     footer = div(
       style = "width:80%; margin: 0 auto",
       h4("navs_tab()"),
-      navs_tab(!!!nav_items("navs_tab()")),
+      navset_tab(!!!nav_items("navs_tab()")),
       h4("navs_pill()"),
-      navs_pill(!!!nav_items("navs_pill()")),
+      navset_pill(!!!nav_items("navs_pill()")),
       h4("navs_tab_card()"),
-      navs_tab_card(!!!nav_items("navs_tab_card()")),
+      navset_card_tab(!!!nav_items("navs_tab_card()")),
       h4("navs_pill_card()"),
-      navs_pill_card(!!!nav_items("navs_pill_card()")),
+      navset_card_pill(!!!nav_items("navs_pill_card()")),
       h4("navs_pill_list()"),
-      navs_pill_list(!!!nav_items("navs_pill_list()")),
+      navset_pill_list(!!!nav_items("navs_pill_list()")),
 
       # Make sure body height does not change when taking screenshots
       tags$style("body { min-height: 100vh; }"),
