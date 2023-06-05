@@ -20,6 +20,7 @@ test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
     variant = platform_variant(),
     name = "308-sidebar-kitchen-sink",
     view = interactive(),
+    seed = 101,
     height = height,
     width = width
   )
