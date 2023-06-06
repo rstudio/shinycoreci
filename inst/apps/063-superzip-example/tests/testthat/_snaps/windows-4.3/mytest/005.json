@@ -3,14 +3,14 @@
     "cities": null,
     "color": "college",
     "map_bounds": {
-      "north": 67.067433351083,
-      "east": -27.94921875,
-      "south": -10.4013775545435,
-      "west": -159.78515625
+      "north": 67.0674,
+      "east": -27.9492,
+      "south": -10.4014,
+      "west": -159.7852
     },
     "map_center": {
-      "lng": -93.8671875,
-      "lat": 37.474858084971
+      "lng": -93.8672,
+      "lat": 37.4749
     },
     "map_zoom": 4,
     "maxScore": 100,
@@ -31892,23 +31892,23 @@
   "output": {
     "histCentile": {
       "src": "[image data hash: 4c7a90722c56571045dc0d937476cb2a]",
-      "width": 287.777801513672,
-      "height": 200.000015258789,
+      "width": 287.7778,
+      "height": 200,
       "alt": "Plot object",
       "coordmap": {
         "panels": [
           {
             "domain": {
-              "left": -3.999931064,
-              "right": 103.999986964,
+              "left": -3.9999,
+              "right": 104,
               "bottom": -42.8,
               "top": 1112.8
             },
             "range": {
-              "left": 59.2000048828125,
-              "right": 257.455847793207,
-              "bottom": 125.560009655762,
-              "top": 58.0400045043945
+              "left": 59.2,
+              "right": 257.4558,
+              "bottom": 125.56,
+              "top": 58.04
             },
             "log": {
               "x": null,
@@ -31920,8 +31920,8 @@
           }
         ],
         "dims": {
-          "width": 287.777801513672,
-          "height": 200.000015258789
+          "width": 287.7778,
+          "height": 200
         }
       }
     },
@@ -32051,8 +32051,8 @@
     },
     "scatterCollegeIncome": {
       "src": "[image data hash: 642c51f16deb6b90dc8bf1d9a0132b77]",
-      "width": 287.777801513672,
-      "height": 250.000015258789,
+      "width": 287.7778,
+      "height": 250,
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -32065,8 +32065,8 @@
             },
             "range": {
               "left": 0,
-              "right": 287.777801513672,
-              "bottom": 249.000015258789,
+              "right": 287.7778,
+              "bottom": 249,
               "top": -1
             },
             "log": {
@@ -32079,8 +32079,8 @@
           }
         ],
         "dims": {
-          "width": 287.777801513672,
-          "height": 250.000015258789
+          "width": 287.7778,
+          "height": 250
         }
       }
     },

@@ -1,8 +1,13 @@
 library(shinytest2)
 
 test_that("Migrated shinytest test: mytest.R", {
-  app <- AppDriver$new(variant = shinytest2::platform_variant(),
-    seed = 100, height = 700, width = 1000, shiny_args = list(display.mode = "normal"))
+  app <- AppDriver$new(
+    variant = shinytest2::platform_variant(),
+    seed = 100,
+    height = 700, width = 1000,
+    shiny_args = list(display.mode = "normal"),
+    options = list("shiny.json.digits" = 4)
+  )
 
   # Wait until the DT table is fully initialized
   init_parcoord <- app$wait_for_value(output = "parcoord", ignore = list(NULL,
