@@ -183,6 +183,8 @@ jobs:
             unique_changed_apps <- unique(unlist(lapply(changed_app_folders, `[[`, 3)))
             if (length(unique_changed_apps) > 10) {
               message("More than ten apps were altered. Testing all apps!")
+            } else if (length(changed_app_folders) > 250) {
+              message("More than 250 app files were altered. Testing all apps!")
             } else {
               apps <- apps[apps %in% unique_changed_apps]
               if (length(apps) == 0) stop("No apps to check")
