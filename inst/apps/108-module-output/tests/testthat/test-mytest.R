@@ -7,6 +7,9 @@ test_that("Migrated shinytest test: mytest.R", {
     options = list("shiny.json.digits" = 4)
   )
 
+  # Give extra wait time for brush input to be processed
+  app$wait_for_idle()
+
   app$expect_values()
   app$expect_screenshot()
 })
