@@ -22,4 +22,5 @@ fluidPage(
       plotOutput("plot")
     )
   )
+
 )
