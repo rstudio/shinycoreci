@@ -55,7 +55,9 @@ test_that("Migrated shinytest test: mytest.R", {
   app$expect_screenshot()
 
   app$set_inputs(input_type = "date")
+  app$wait_for_idle() # linux 4.0 has some issues; add some delay
   app$set_inputs(dynamic = "2020-01-31")
+  app$wait_for_idle() # linux 4.0 has some issues; add some delay
   app$expect_values()
   app$expect_screenshot()
 
