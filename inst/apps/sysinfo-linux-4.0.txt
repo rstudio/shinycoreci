@@ -1,6 +1,6 @@
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20230611.1
+ gha_image 20230619.1.0
  version   R version 4.0.5 (2021-03-31)
  os        Ubuntu 20.04.6 LTS
  system    x86_64, linux-gnu
@@ -9,7 +9,7 @@
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2023-06-16
+ date      2023-06-28
  pandoc    2.7.3 @ /usr/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -29,7 +29,7 @@
  brio                1.1.3       2021-11-30 [1] RSPM
  broom               1.0.5       2023-06-09 [1] RSPM
  bsicons             0.1         2023-06-07 [1] Github (rstudio/bsicons@1a12bb6)
- bslib               0.5.0.9000  2023-06-15 [1] Github (rstudio/bslib@f1efd83)
+ bslib               0.5.0.9000  2023-06-27 [1] Github (rstudio/bslib@10dddd0)
  cachem              1.0.8       2023-06-07 [1] Github (r-lib/cachem@62051fe)
  Cairo               1.6-0       2022-07-05 [1] RSPM
  callr               3.7.3       2022-11-02 [1] RSPM
@@ -59,7 +59,7 @@
  deSolve             1.35        2023-03-12 [1] RSPM
  DiagrammeR          1.0.10      2023-05-18 [1] RSPM
  diffobj             0.3.5       2021-10-05 [1] RSPM
- digest              0.6.31      2022-12-11 [1] RSPM
+ digest              0.6.32      2023-06-26 [1] RSPM
  downloader          0.4         2015-07-09 [1] RSPM
  dplyr               1.1.2       2023-04-20 [1] RSPM
  DT                  0.28.1      2023-06-07 [1] Github (rstudio/DT@6a82b6d)
@@ -91,7 +91,7 @@
  globals             0.16.2      2022-11-21 [1] RSPM
  glue                1.6.2       2022-02-24 [1] RSPM
  gridExtra           2.3         2017-09-09 [1] RSPM
- gt                  0.9.0.9000  2023-06-12 [1] Github (rstudio/gt@4f9b9fe)
+ gt                  0.9.0.9000  2023-06-22 [1] Github (rstudio/gt@769d713)
  gtable              0.3.3       2023-03-21 [1] RSPM
  here                1.0.1       2020-12-13 [1] RSPM
  hexbin              1.28.3      2023-03-21 [1] RSPM
@@ -104,7 +104,7 @@
  httr                1.4.6       2023-05-08 [1] RSPM
  httr2               0.2.3       2023-05-08 [1] RSPM
  hunspell            3.0.2       2022-09-04 [1] RSPM
- igraph              1.4.3       2023-05-22 [1] RSPM
+ igraph              1.5.0       2023-06-16 [1] RSPM
  ini                 0.3.1       2018-05-20 [1] RSPM
  IRdisplay           1.1         2022-01-04 [1] RSPM
  isoband             0.2.7       2022-12-20 [1] RSPM
@@ -166,7 +166,7 @@
  pryr                0.1.6       2023-01-17 [1] RSPM
  ps                  1.7.5       2023-04-18 [1] RSPM
  purrr               1.0.1       2023-01-10 [1] RSPM
- quantmod            0.4.22      2023-04-07 [1] RSPM
+ quantmod            0.4.23      2023-06-15 [1] RSPM
  R.cache             0.16.0      2022-07-21 [1] RSPM
  R.methodsS3         1.8.2       2022-06-13 [1] RSPM
  R.oo                1.25.0      2022-06-12 [1] RSPM
@@ -212,9 +212,9 @@
  servr               0.27        2023-05-02 [1] RSPM
  sessioninfo         1.2.2       2021-12-06 [1] RSPM
  sf                  1.0-13      2023-05-24 [1] RSPM
- shiny               1.7.4.9002  2023-06-13 [1] Github (rstudio/shiny@2b48aa0)
+ shiny               1.7.4.9002  2023-06-19 [1] Github (rstudio/shiny@1b77094)
  shinyAce            0.4.2       2022-05-06 [1] RSPM
- shinycoreci         0.0.0.9008  2023-06-16 [1] local
+ shinycoreci         0.0.0.9008  2023-06-28 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] RSPM
  shinyjs             2.1.0       2021-12-23 [1] RSPM
  shinyjster          0.0.0.9010  2023-06-07 [1] Github (schloerke/shinyjster@1807304)
@@ -229,7 +229,7 @@
  showtextdb          3.0         2020-06-04 [1] RSPM
  slam                0.1-50      2022-01-08 [1] RSPM
  sourcetools         0.1.7-1     2023-02-01 [1] RSPM
- sp                  1.6-1       2023-05-31 [1] RSPM
+ sp                  2.0-0       2023-06-22 [1] RSPM
  spatial             7.3-13      2021-01-24 [3] CRAN (R 4.0.5)
  spelling            2.2.1       2023-03-22 [1] RSPM
  stringi             1.7.12      2023-01-11 [1] RSPM
@@ -240,9 +240,9 @@
  sys                 3.4.2       2023-05-23 [1] RSPM
  sysfonts            0.8.8       2022-03-13 [1] RSPM
  systemfonts         1.0.4       2022-02-11 [1] RSPM
- terra               1.7-29      2023-04-22 [1] RSPM
+ terra               1.7-39      2023-06-23 [1] RSPM
  testit              0.13        2021-04-14 [1] RSPM
- testthat            3.1.8       2023-05-04 [1] RSPM
+ testthat            3.1.9       2023-06-15 [1] RSPM
  textshaping         0.3.6       2021-10-13 [1] RSPM
  thematic            0.1.2.9000  2023-06-07 [1] Github (rstudio/thematic@3183244)
  tibble              3.2.1       2023-03-20 [1] RSPM
@@ -255,11 +255,11 @@
  tweenr              2.0.2       2022-09-06 [1] RSPM
  tzdb                0.4.0       2023-05-12 [1] RSPM
  units               0.8-2       2023-04-27 [1] RSPM
- usethis             2.2.0       2023-06-06 [1] RSPM
+ usethis             2.2.1       2023-06-23 [1] RSPM
  utf8                1.2.3       2023-01-31 [1] RSPM
  uuid                1.1-0       2022-04-19 [1] RSPM
  V8                  4.3.0       2023-04-08 [1] RSPM
- vctrs               0.6.2       2023-04-19 [1] RSPM
+ vctrs               0.6.3       2023-06-14 [1] RSPM
  vdiffr              1.0.5       2023-01-23 [1] RSPM
  vembedr             0.1.5       2021-12-11 [1] RSPM
  viridis             0.6.3       2023-05-03 [1] RSPM
@@ -268,7 +268,7 @@
  vroom               1.6.3       2023-04-28 [1] RSPM
  waldo               0.5.1       2023-05-08 [1] RSPM
  webdriver           1.0.6.9001  2023-06-07 [1] Github (rstudio/webdriver@35d3805)
- webshot             0.5.4       2022-09-26 [1] RSPM
+ webshot             0.5.5       2023-06-26 [1] RSPM
  webshot2            0.1.0       2022-05-18 [1] RSPM
  websocket           1.4.1.9000  2023-06-07 [1] Github (rstudio/websocket@2161ee7)
  whisker             0.4.1       2022-12-05 [1] RSPM
