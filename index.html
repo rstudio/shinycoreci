@@ -67,7 +67,10 @@
 <div class="page-header"><h1 id="shinycoreci">shinycoreci<a class="anchor" aria-label="anchor" href="#shinycoreci"></a>
 </h1></div>
 <!-- badges: start -->
-<!-- This is an R package to install all dependencies to test the bleeding edge of all relevant packages to the Shiny team. --><!-- For more direct usage examples, see [`rstudio/shinycoreci-apps`](https://github.com/rstudio/shinycoreci-apps). --><div class="section level2">
+
+<!-- This is an R package to install all dependencies to test the bleeding edge of all relevant packages to the Shiny team. -->
+<!-- For more direct usage examples, see [`rstudio/shinycoreci-apps`](https://github.com/rstudio/shinycoreci-apps). -->
+<div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>Install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
@@ -162,11 +165,17 @@
 <div class="section level3">
 <h3 id="troubleshooting-test-failures">Troubleshooting test failures<a class="anchor" aria-label="anchor" href="#troubleshooting-test-failures"></a>
 </h3>
-<ol style="list-style-type: decimal"><li>Failures on old versions of R</li></ol>
+<ol style="list-style-type: decimal">
+<li>Failures on old versions of R</li>
+</ol>
 <p>If a testing app passes on recent version(s) of R, but fails in a suprising way on old R version(s), it may be due to an old R package version. In that case, modify the tests to run only if a sufficient version of the relevant package is available (<a href="https://github.com/rstudio/shinycoreci/blob/d8f627bea573cf7bb7a53788522f04d90aeb557f/inst/apps/145-dt-replacedata/tests/testthat/test-mytest.R" class="external-link">for example</a>).</p>
-<ol start="2" style="list-style-type: decimal"><li>Other failures that can’t replicated locally</li></ol>
+<ol start="2" style="list-style-type: decimal">
+<li>Other failures that can’t replicated locally</li>
+</ol>
 <p>Other surprising failures are often the result of timing issues (which can be difficult, if not impossible, to replicate locally). If your testing app uses dynamic UI and/or doesn’t have proper input/output bindings, <strong>shinytest2</strong> probably needs to know how long to wait for value(s) to update (in this case, use <code>app$wait_for_idle()</code>, <a href="https://github.com/rstudio/shinycoreci/blob/46cdf9df12ee665d5ac77f85eb22f511ce8a4fe6/inst/apps/135-bookmark-uioutput/tests/testthat/test-mytest.R#L6" class="external-link">for example</a>). Somewhat similarly, when checking DOM values with <strong>shinyjster</strong>, you may need to wait for an update to DOM element(s) before checking value(s), in which case you can write a recursive function that keeps calling itself until the DOM is ready (<a href="https://github.com/rstudio/shinycoreci/blob/46cdf9df12ee665d5ac77f85eb22f511ce8a4fe6/inst/apps/187-navbar-collapse/app.R#L27-L36" class="external-link">for example</a>).</p>
-<ol start="3" style="list-style-type: decimal"><li>All of the windows shinytest plots have failed</li></ol>
+<ol start="3" style="list-style-type: decimal">
+<li>All of the windows shinytest plots have failed</li>
+</ol>
 <p>When Windows virtual images update on GitHub Actions, the graphics device may behave exactly as the prior graphics device. Check to see if your windows <code>Image Version</code> has updated. (To view this, inspect the top lines in <code>./inst/apps/sys-info-win-XX.txt</code> for a change.) You should accept the updated shinytest output for the build with the higher <code>Image Version</code>.</p>
 </div>
 </div>
@@ -175,7 +184,8 @@
 </h2>
 <p>When contributing a testing app, try to do the following:</p>
 <ul>
-<li>Capture all the functionality with automated tests.<ul>
+<li>Capture all the functionality with automated tests.
+<ul>
 <li>Also, where possible, write “light-weight” tests (that is, try and avoid <strong>shinytest2</strong> <code>$expect_screenshot()</code> where possible since they are prone to false positive differences and thus have a maintenance cost).</li>
 <li>If the app does need manual testing, flag the testing app for manual testing with <code><a href="reference/use_manual_app.html">shinycoreci::use_manual_app()</a></code>.</li>
 </ul>
@@ -188,14 +198,16 @@
 <li><p><strong>shinyjster</strong>: primarily useful for asserting certain expectations about the DOM (in JavaScript). <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f/apps/001-hello/app.R#L37-L61" class="external-link">See here</a> for an example (note that <code>shinyjster::shinyjster_js()</code> needs to be placed in the UI and <code>shinyjster::shinyjster_server(input, output)</code> needs to be placed in the server).</p></li>
 <li><p><strong>testthat</strong>: primarily useful in combination with <code><a href="https://rdrr.io/pkg/shiny/man/testServer.html" class="external-link">shiny::testServer()</a></code> to test server-side reactive logic of the application.</p></li>
 </ol>
-<!-- end list --><ul><li>
-<a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/001-hello/tests/testthat/tests.R#L4" class="external-link">See here</a> for an example.</li></ul>
+<!-- end list --><ul>
+<li>
+<a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/001-hello/tests/testthat/tests.R#L4" class="external-link">See here</a> for an example.</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="pruning-old-git-branches">Pruning old git branches<a class="anchor" aria-label="anchor" href="#pruning-old-git-branches"></a>
 </h2>
 <p>To help us store and manage the test results, git branches are automatically created for each test run. These branches are automatically removed on GitHub after 1 week of no activity, but you may want to periodically remove them on your local machine as well:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">git</span> fetch --prune</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">git</span> fetch <span class="at">--prune</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="what-workflows-are-available">What workflows are available?<a class="anchor" aria-label="anchor" href="#what-workflows-are-available"></a>
@@ -213,7 +225,8 @@
 <a href="https://github.com/rstudio/shinycoreci/actions/workflows/build-results.yml" class="external-link"><strong>Build results website</strong></a>: Builds results for <strong>Test apps</strong> workflow. This workflow is called from within <strong>Test apps</strong>. After all tests have completed, this workflow will process all results in <code>_test_results</code> branch into static files, storing the results in <code>gh-pages</code> branch. Final website location of results: <a href="https://rstudio.github.io/shinycoreci/results/" class="uri">https://rstudio.github.io/shinycoreci/results/</a>
 </li>
 <li>
-<a href="https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml" class="external-link"><strong>Package checks</strong></a>: There are three main tasks that this workflow achieves:<ol style="list-style-type: decimal">
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml" class="external-link"><strong>Package checks</strong></a>: There are three main tasks that this workflow achieves:
+<ol style="list-style-type: decimal">
 <li>Creates the <code>website</code> via <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>
 </li>
 <li>Performs <code>routine</code> procedures like making sure all documentation and README.md is up to date</li>
@@ -248,8 +261,8 @@
 </h3>
 <p>Most of the workflows are run on schedule.</p>
 <p>Example schedule where the workflow is run at 2am UTC Monday through Friday:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at">  </span><span class="st">'0 2 * * 1-5'</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at">  </span><span class="st">'0 2 * * 1-5'</span></span></code></pre></div>
 <p>Schedule of <code>rstudio/shinycoreci</code> workflows:</p>
 <ul>
 <li>12am UTC, S-S: <strong>Trim old branches</strong>; &lt; 1 min</li>
@@ -269,16 +282,21 @@
 <li>GHA will check out the latest <code>_test_results</code> branch into the local folder.</li>
 <li>GHA will check out the latest <code>gh-pages</code> branch into the <code>./_gh-pages</code> folder.</li>
 <li>GHA will install R and necessary package dependencies.</li>
-<li>Run <code>./build_site.R</code><ul>
+<li>Run <code>./build_site.R</code>
+<ul>
 <li>Read the <em>modify times</em> of each file in <code>_test_results</code> and processing files</li>
 <li>Compare <em>modify times</em> to <em>modify times</em> of output files</li>
 <li>If any input file is newer than the output file, reprocess the documen</li>
-<li>If reprocessing, render <code>./render-results.Rmd</code> given proper subset of data<ul><li>Save output to `./_gh-pages/results/YEAR/MONTH/DAY/index.html</li></ul>
+<li>If reprocessing, render <code>./render-results.Rmd</code> given proper subset of data
+<ul>
+<li>Save output to `./_gh-pages/results/YEAR/MONTH/DAY/index.html</li>
+</ul>
 </li>
 <li>Update <code>./_gh-pages/results/index.html</code> to redirect to the most recent results</li>
 </ul>
 </li>
-<li>Within the <code>./_gh-pages</code> directory<ul>
+<li>Within the <code>./_gh-pages</code> directory
+<ul>
 <li>Add any files that have been altered</li>
 <li>Commit and push back any changes to the <code>gh-pages</code> website</li>
 </ul>
@@ -292,7 +310,10 @@
 <h1 id="faq">FAQ:<a class="anchor" aria-label="anchor" href="#faq"></a>
 </h1>
 <ul>
-<li>If you run into an odd <a href="https://pak.r-lib.org/" class="external-link">pak</a> installation issue:<ul><li>Run <code><a href="http://pak.r-lib.org/reference/cache.html" class="external-link">pak::cache_clean()</a></code> to clear the cache and try your original command again</li></ul>
+<li>If you run into an odd <a href="https://pak.r-lib.org/" class="external-link">pak</a> installation issue:
+<ul>
+<li>Run <code><a href="http://pak.r-lib.org/reference/cache.html" class="external-link">pak::cache_clean()</a></code> to clear the cache and try your original command again</li>
+</ul>
 </li>
 <li>Installing on fresh linux? Run these commands before testing:</li>
 </ul>
