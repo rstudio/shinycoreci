@@ -14,6 +14,18 @@ adjust_pkgs <- function(pkgs_to_install = "rstudio/shiny,rstudio/bslib", r_versi
       }
   }
 
+  if (is_windows) {
+    switch(short_r_version,
+      "4.0" = {
+        replace_or_add("any::terra", "url::https://packagemanager.posit.co/cran/latest/bin/windows/contrib/4.0/terra_1.7-29.zip")
+      },
+      "3.6" = {
+        replace_or_add("any::terra", "url::https://packagemanager.posit.co/cran/latest/bin/windows/contrib/3.6/terra_1.7-29.zip")
+      }
+    )
+
+  }
+
   if (is_linux) {
     switch(short_r_version,
       "4.2" = {

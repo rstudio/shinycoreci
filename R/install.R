@@ -193,5 +193,25 @@ install_troublesome_pkgs <- function(libpath = .libPaths()[1]) {
       }
     )
   }
+
+  if (is_windows()) {
+    switch(short_r_version,
+      "4.0" = {
+        install_missing_pkgs(
+          packages = "terra",
+          packages_to_install = "url::https://packagemanager.posit.co/cran/latest/bin/windows/contrib/4.0/terra_1.7-29.zip",
+          libpath = libpath
+        )
+      },
+      "3.6" = {
+        install_missing_pkgs(
+          packages = "terra",
+          packages_to_install = "url::https://packagemanager.posit.co/cran/latest/bin/windows/contrib/3.6/terra_1.7-29.zip",
+          libpath = libpath
+        )
+      }
+    )
+  }
+
   invisible()
 }
