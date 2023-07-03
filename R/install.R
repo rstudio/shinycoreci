@@ -199,14 +199,14 @@ install_troublesome_pkgs <- function(libpath = .libPaths()[1]) {
       "4.0" = {
         install_missing_pkgs(
           packages = "terra",
-          packages_to_install = "url::https://packagemanager.posit.co/cran/latest/bin/windows/contrib/4.0/terra_1.7-29.zip",
+          packages_to_install = "url::https://cloud.r-project.org/bin/windows/contrib/4.0/terra_1.5-21.zip",
           libpath = libpath
         )
       },
       "3.6" = {
         install_missing_pkgs(
           packages = "terra",
-          packages_to_install = "url::https://packagemanager.posit.co/cran/latest/bin/windows/contrib/3.6/terra_1.7-29.zip",
+          packages_to_install = "url::https://cloud.r-project.org/bin/windows/contrib/3.6/terra_1.2-5.zip",
           libpath = libpath
         )
       }
