@@ -90,7 +90,6 @@ server <- function(input, output, session) {
   # snapshots. (This URL won't actually work for restoring a bookmark.)
   if (isTRUE(getOption("shiny.testmode"))) {
     onBookmarked(function(url) {
-      browser()
       url <- sub(":\\d+/", ":9999/", url)
       showBookmarkUrlModal(url)
     })
