@@ -2,7 +2,7 @@
   "input": {
     "empty": 1,
     "radio": null,
-    "radio2": "d",
+    "radio2": null,
     "rerender": 1
   },
   "output": {
@@ -13,7 +13,7 @@
       ]
     },
     "txt": "NULL",
-    "txt2": "[1] \"d\""
+    "txt2": "NULL"
   },
   "export": {
 
