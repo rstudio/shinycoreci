@@ -34,14 +34,20 @@ expect_focus <- function(app, selector) {
 expect_card_full_screen <- function(app, id) {
   id <- sub("^#", "", id)
   app$wait_for_js('document.body.matches(".bslib-has-full-screen")')
+  # The expected card is expanded in full screen mode
   expect_equal(
-    app$get_js('document.querySelector(".bslib-full-screen").id'),
-    id
+    app$get_js(sprintf(
+     "document.getElementById('%s').getAttribute('data-full-screen')",
+      id
+    )),
+    "true"
   )
+  # Only one card is expanded to full screen
   expect_equal(
-    app$get_js("document.querySelectorAll('.bslib-full-screen').length"),
+    app$get_js("document.querySelectorAll('.bslib-card[data-full-screen=\"true\"]').length"),
     1
   )
+  # The overlay (behind card and above UI) is present
   expect_equal(
     app$get_js("document.querySelectorAll('#bslib-full-screen-overlay').length"),
     1
@@ -59,12 +65,22 @@ expect_card_full_screen <- function(app, id) {
   invisible(app)
 }
 
-expect_no_full_screen <- function(app) {
+expect_no_full_screen <- function(app, id = NULL) {
   app$wait_for_js('!document.body.matches(".bslib-has-full-screen")')
   expect_equal(
-    app$get_js("document.querySelectorAll('.bslib-full-screen').length"),
+    app$get_js("document.querySelectorAll('.bslib-card[data-full-screen=\"true\"]').length"),
     0
   )
+  if (is.null(id)) return(invisible(app))
+
+  expect_equal(
+    app$get_js(sprintf(
+      "document.getElementById('%s').getAttribute('data-full-screen')",
+      id
+    )),
+    "false"
+  )
+
   invisible(app)
 }
 
@@ -168,7 +184,7 @@ test_that("fullscreen card without internal focusable elements", {
 
   # Exit full screen
   key_press("Enter")
-  expect_no_full_screen(app)
+  expect_no_full_screen(app, id = "card-no-inputs")
 })
 
 # Test enter/exit methods ------------------------------------------
