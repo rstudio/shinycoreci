@@ -65,12 +65,22 @@ expect_card_full_screen <- function(app, id) {
   invisible(app)
 }
 
-expect_no_full_screen <- function(app) {
+expect_no_full_screen <- function(app, id = NULL) {
   app$wait_for_js('!document.body.matches(".bslib-has-full-screen")')
   expect_equal(
     app$get_js("document.querySelectorAll('.bslib-card[data-full-screen=\"true\"]').length"),
     0
   )
+  if (is.null(id)) return(invisible(app))
+
+  expect_equal(
+    app$get_js(sprintf(
+      "document.getElementById('%s').getAttribute('data-full-screen')",
+      id
+    )),
+    "false"
+  )
+
   invisible(app)
 }
 
@@ -174,7 +184,7 @@ test_that("fullscreen card without internal focusable elements", {
 
   # Exit full screen
   key_press("Enter")
-  expect_no_full_screen(app)
+  expect_no_full_screen(app, id = "card-no-inputs")
 })
 
 # Test enter/exit methods ------------------------------------------
