@@ -101,7 +101,7 @@ app_reset_no_full_screen <- function(app) {
 
 app_card_full_screen_enter <- function(app, id) {
   id <- sub("^#", "", id)
-  app$click(selector = sprintf("#%s > .bslib-full-screen-enter", id))
+  app$click(selector = sprintf("#%s > * > .bslib-full-screen-enter", id))
   expect_card_full_screen(app, id)
   invisible(app)
 }
