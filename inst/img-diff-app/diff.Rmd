@@ -1,0 +1,234 @@
+---
+title: Image diffs
+output:
+  html_document:
+    self_contained: true
+    style: style.css
+---
+
+# Latest shinytest2 snapshot diffs
+
+```{css, echo = FALSE}
+/* barret */
+body .main-container {
+  max-width: 100%;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+```
+
+
+```{r, include=FALSE}
+# library(bslib)
+library(shiny)
+
+png_dt <- jsonlite::unserializeJSON(paste0(readLines("data.json"), collapse = "\n"))
+png_dt <- png_dt[order(png_dt$diff_count, decreasing = TRUE), ]
+```
+
+
+```{r, echo = FALSE}
+library(gt)
+gt_dt <- png_dt
+gt_dt$diff_img_w_anchor <- Map(
+  gt_dt$anchor,
+  gt_dt$diff_png,
+  f = function(anchor, diff_png) {
+    gt::html(as.character(shiny::a(
+      href=paste0("#", anchor),
+      shiny::img(
+        src = file.path("image_diffs", basename(diff_png)),
+        height = 100
+      )
+    )))
+  }
+)
+gt_dt$app <- Map(
+  gt_dt$app,
+  gt_dt$anchor,
+  f = function(app, anchor) {
+    gt::html(as.character(shiny::a(
+      href=paste0("https://github.com/rstudio/shinycoreci/tree/main/inst/apps/", app),
+      app
+    )))
+  }
+)
+gt_dt$snap <- Map(
+  gt_dt$snap,
+  gt_dt$anchor,
+  f = function(snap, anchor) {
+    gt::html(as.character(shiny::a(
+      href=paste0("#", anchor),
+      snap
+    )))
+  }
+)
+gt_dt %>%
+  gt() %>%
+  # gt::tab_header(
+  #   title = "Latest shinytest2 snapshot diffs",
+  #   subtitle = "Ordered by number of diffs"
+  # ) %>%
+  gt::cols_label(
+    app = "App",
+    snap = "Snap",
+    platform_combo = "Platform",
+    diff_count = "Diff count",
+    diff_img_w_anchor = "Diff file"
+  ) %>%
+  gt::tab_spanner(
+    label = "App",
+    columns = c(app, snap, platform_combo)
+  ) %>%
+  gt::tab_spanner(
+    label = "Diff",
+    columns = c(diff_count, diff_img_w_anchor)
+  ) %>%
+  gt::tab_options(
+    table.width = "100%",
+    column_labels.font.size = 14,
+    column_labels.font.weight = "bold",
+    heading.title.font.size = 18,
+    heading.title.font.weight = "bold",
+    heading.subtitle.font.size = 16,
+    heading.subtitle.font.weight = "bold"
+  ) %>%
+  # gt::tab_style(
+  #   style = gt::cell_text(weight = "bold"),
+  #   locations = gt::cells_body(
+  #     columns = c(app, snap, platform_combo, diff_count, diff_file)
+  #   )
+  # ) %>%
+  # gt::tab_style(
+  #   style = gt::cell_text(weight = "normal"),
+  #   locations = gt::cells_body(
+  #     columns = c(diff_count, diff_file)
+  #   )
+  # ) %>%
+  # gt::tab_style(
+  #   style = gt::cell_text(weight = "normal"),
+  #   locations = gt::cells_body(
+  #     columns = c(app, snap, platform_combo)
+  #   )
+  # ) %>%
+  # gt::tab_style(
+  #   style = gt::cell_text(weight = "normal"),
+  #   locations = gt::cells_body(
+  #     columns = c(diff_count, diff_img_w_anchor)
+  #   )
+  # ) %>%
+  # text_transform(
+  #   locations = cells_body(c(diff_file)),
+  #   fn = function(x) {
+  #     # loop over the elements of the column
+  #     Map(
+  #       x,
+  #       f = function(.x) {
+
+  #         shiny::a(
+  #           href =
+  #           local_image(
+  #             filename = file.path("image_diffs", basename(.x)),
+  #             height = 100
+  #           )
+  #         )
+  #       }
+  #     )
+  #   }
+  # ) %>%
+  gt::cols_hide(
+    columns = c(anchor, platform, Rver, file, diff_file, diff_png, orig_png, new_png)
+  ) %>%
+  gt::cols_move_to_end(
+    columns = c(diff_count)
+  )
+```
+
+```{r, results='asis', echo = FALSE}
+shiny::tagList(Map(
+  seq_len(nrow(png_dt)),
+  png_dt$app,
+  png_dt$anchor,
+  png_dt$file,
+  png_dt$diff_count,
+  png_dt$diff_png,
+  png_dt$orig_png,
+  png_dt$new_png,
+  f = function(i, app, anchor, file, diff_count, diff_png, orig_png, new_png) {
+    shiny::tagList(
+      shiny::h1(
+        id= anchor,
+        shiny::a(
+          target="_blank",
+          href=paste0("https://github.com/rstudio/shinycoreci/tree/main/inst/apps/", app),
+          app
+        ),
+        shiny::code("/"),
+        shiny::a(
+          target="_blank",
+          href=paste0("https://github.com/rstudio/shinycoreci/tree/main/", file),
+          paste0(tail(strsplit(file, "/")[[1]], 3), collapse = "/")
+        ),
+        shiny::HTML(" &mdash; "),
+        shiny::code(diff_count)
+      ),
+      # shiny::p(
+      #   "App: ",
+      #   shiny::a(
+      #     target="_blank",
+      #     href=paste0("https://testing-apps.shinyapps.io/", app),
+      #     "shinyapps.io"
+      #   )
+      # ),
+      # shiny::p(
+      #   "Diff: ",
+
+      # ),
+      shiny::div(
+        onclick="change_image(this);",
+        shiny::div("diff", style="position: absolute; bottom: 3px; right: 3px; color: grey;"),
+        shiny::img(
+          src = file.path("image_diffs", basename(diff_png)),
+          width = "100%",
+          style="border: 1px solid black;"
+        )
+      ),
+      shiny::div(
+        onclick="change_image(this);",
+        shiny::div("old", style="position: absolute; bottom: 3px; right: 3px; color: grey;"),
+        shiny::img(
+          src = file.path("image_diffs", basename(orig_png)),
+          width = "100%",
+          style="border: 1px solid black;"
+        )
+      ),
+      shiny::div(
+        onclick="change_image(this);",
+        shiny::div("new", style="position: absolute; bottom: 3px; right: 3px; color: grey;"),
+        shiny::img(
+          src = file.path("image_diffs", basename(new_png)),
+          width = "100%",
+          style="border: 1px solid black;"
+        )
+      )
+    )
+  }
+),
+shiny::tags$script(shiny::HTML(
+  '
+  function change_image(img) {
+    if (img.src.endsWidth(".new.png")) {
+      img.src = img.src.replace(".new.png", ".png");
+    } else {
+      img.src = img.src.replace(".png", ".new.png");
+    }
+    if (img.src.includes("diff")) {
+      img.src = img.src.replace("diff", "snap");
+    } else {
+      img.src = img.src.replace("snap", "diff");
+    }
+  }
+  '
+) )
+)
+```
