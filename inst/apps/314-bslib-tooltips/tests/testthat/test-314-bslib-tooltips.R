@@ -17,7 +17,7 @@ source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
 expect_focus <- function(app, selector) {
   js <- sprintf(
-    "document.activeElement == document.querySelector('%s')",
+    "document.activeElement === document.querySelector('%s')",
     selector
   )
   expect_true(app$get_js(!!js))
@@ -40,6 +40,23 @@ withr::defer(app$stop())
 
 key_press <- key_press_factory(app)
 
+# Before focusing any tooltips, set up an event handler to keep track of
+# the last tooltip shown
+app$run_js(
+  '$(document).on("shown.bs.tooltip", function(e) { window.lastShown = e.target; });'
+)
+
+# lastShown should contain the trigger element, which we can use to find the
+# actual tooltip (we just make sure it's visible).
+expect_visible_tip <- function(app, selector) {
+  app$wait_for_js(
+    sprintf("window.lastShown === document.querySelector('%s')", selector)
+  )
+  app$wait_for_js(
+    "var tipId = window.lastShown.getAttribute('aria-describedby');
+      $(`#${tipId}:visible`).length > 0;"
+  )
+}
 
 # Tests for the 1st tab (Tooltip cases)
 test_that("Can tab focus various cases/options", {
@@ -47,24 +64,6 @@ test_that("Can tab focus various cases/options", {
 
   key_press("Tab")
   expect_focus(app, ".nav-link.active")
-
-  # Before focusing any tooltips, set up an event handler to keep track of
-  # the last tooltip shown
-  app$run_js(
-    '$(document).on("shown.bs.tooltip", function(e) { window.lastShown = e.target; });'
-  )
-
-  # lastShown should contain the trigger element, which we can use to find the
-  # actual tooltip (we just make sure it's visible).
-  expect_visible_tip <- function(app, selector) {
-    app$wait_for_js(
-      sprintf("window.lastShown === document.querySelector('%s')", selector)
-    )
-    app$wait_for_js(
-      "var tipId = window.lastShown.getAttribute('aria-describedby');
-      $(`#${tipId}:visible`).length > 0;"
-    )
-  }
 
   # Placement ----------------------------------
   key_press("Tab")
