@@ -51,7 +51,7 @@ test_that("toggle_switch()", {
 })
 
 test_that("toggle_switch(value = )", {
-  withr::local_options(list(value_update_type = "toggle"))
+  app$run_js("Shiny.setInputValue('value_update_type', 'toggle')")
 
   set_input_if_not("auto_correction", FALSE)
   app$click("enable_auto_correct")
@@ -63,7 +63,7 @@ test_that("toggle_switch(value = )", {
 })
 
 test_that("update_switch(value = )", {
-  withr::local_options(list(value_update_type = "update"))
+  app$run_js("Shiny.setInputValue('value_update_type', 'update')")
 
   set_input_if_not("auto_correction", FALSE)
   app$click("enable_auto_correct")

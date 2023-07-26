@@ -30,12 +30,23 @@ server <- function(input, output, session) {
   test_value_update <- function(...) {
     fn <- switch(
       getOption("value_update_type", "update"),
-      update = update_switch,
-      toggle_switch
+      update = {
+        rlang::inform("testing using `update_switch()`")
+        update_switch
+      },
+      {
+        rlang::inform("testing using `toggle_switch()`")
+        toggle_switch
+      }
     )
 
     eval(rlang::call2(fn, ...))
   }
+
+  observe({
+    req(input$value_update_type)
+    options(value_update_type = input$value_update_type)
+  })
 
   observeEvent(input$toggle_spelling, {
     toggle_switch("check_spelling")
