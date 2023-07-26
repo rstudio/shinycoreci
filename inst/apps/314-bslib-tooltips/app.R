@@ -87,14 +87,14 @@ ui <- page_navbar(
     layout_sidebar(
       card(
         card_header(
-          span(
-            "Card title with tooltip",
-            bsicons::bs_icon("question-circle-fill")
-          ) |>
-            tooltip(
-              "Tooltip message", id = "tooltip",
-              placement = "right"
-            )
+          tooltip(
+            span(
+              "Card title with tooltip",
+              bsicons::bs_icon("question-circle-fill")
+            ),
+            "Tooltip message", id = "tooltip",
+            placement = "right"
+          )
         ),
         plotlyOutput("bars")
       ),
