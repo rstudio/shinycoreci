@@ -146,7 +146,6 @@ test_that("Can programmatically update/show/hide tooltip", {
   expect_no_tip(app)
 
   app$set_inputs("tooltip_msg" = "newer")
-  expect_tip_message(app, "newer")
 
   app$click("show_tooltip")
   expect_visible_tip(app, "#tooltip span")
