@@ -75,7 +75,9 @@ test_that("update_switch(value = )", {
 })
 
 test_that("update_switch(label = )", {
-  app$set_inputs(smart_punct_label = "Awesome Punctuation")
-  label <- app$get_text('label[for="smart_punctuation"]')
-  expect_equal(trimws(label), "Awesome Punctuation")
+  app$
+    set_inputs(smart_punct_label = "Awesome Punctuation")$
+    wait_for_js(
+      "document.querySelector('label[for=\"smart_punctuation\"]').innerText === 'Awesome Punctuation'"
+    )
 })
