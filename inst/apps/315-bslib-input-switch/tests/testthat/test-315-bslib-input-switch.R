@@ -78,6 +78,14 @@ test_that("update_switch(label = )", {
   app$
     set_inputs(smart_punct_label = "Awesome Punctuation")$
     wait_for_js(
-      "document.querySelector('label[for=\"smart_punctuation\"]').innerText === 'Awesome Punctuation'"
+      "document
+        .querySelector('label[for=\"smart_punctuation\"]')
+        .innerText
+        .includes('Awesome')"
+    )
+
+    expect_equal(
+      app$get_js('document.querySelector("label[for=\\"smart_punctuation\\"]").innerText'),
+      "Awesome Punctuation"
     )
 })
