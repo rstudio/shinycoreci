@@ -342,9 +342,9 @@
         },
         {
           "name": "Open_Sans",
-          "version": "0.4.6.9000",
+          "version": "0.4.7.9000",
           "src": {
-            "href": "Open_Sans-0.4.6.9000"
+            "href": "Open_Sans-0.4.7.9000"
           },
           "meta": null,
           "script": null,
@@ -356,9 +356,9 @@
         },
         {
           "name": "Fira_Code",
-          "version": "0.4.6.9000",
+          "version": "0.4.7.9000",
           "src": {
-            "href": "Fira_Code-0.4.6.9000"
+            "href": "Fira_Code-0.4.7.9000"
           },
           "meta": null,
           "script": null,
@@ -370,9 +370,9 @@
         },
         {
           "name": "Proza_Libre",
-          "version": "0.4.6.9000",
+          "version": "0.4.7.9000",
           "src": {
-            "href": "Proza_Libre-0.4.6.9000"
+            "href": "Proza_Libre-0.4.7.9000"
           },
           "meta": null,
           "script": null,
