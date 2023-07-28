@@ -26,7 +26,7 @@ expect_focus <- function(app, selector) {
 
 # Setup App  --------------------------------------------------
 app <- AppDriver$new(
-  name = "315-bslib-popovers",
+  name = "316-bslib-popovers",
   variant = platform_variant(),
   height = 800,
   width = 1200,
