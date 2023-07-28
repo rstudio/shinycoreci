@@ -3,17 +3,25 @@ library(bslib)
 
 ui <- page_fixed(
   title = "Keyboard Settings",
+
   h2("Keyboard Settings"),
   input_switch("auto_capitalization", "Auto-Capitalization", TRUE),
   input_switch("auto_correction", "Auto-Correction", FALSE),
   input_switch("check_spelling", "Check Spelling", TRUE),
   input_switch("smart_punctuation", "Smart Punctuation"),
+
   h2("Preview"),
   verbatimTextOutput("preview"),
-  h2("Update Methods"),
+
+  h2("toggle_switch()"),
   actionButton("toggle_spelling", "Toggle Spell Check"),
-  actionButton("enable_auto_correct", "Enable Auto correct"),
-  actionButton("disable_capitalization", "Disable Capitalization"),
+  actionButton("toggle_enable_auto_correct", "Enable Auto correct"),
+  actionButton("toggle_disable_capitalization", "Disable Capitalization"),
+
+  h2("update_switch()"),
+  actionButton("update_toggle_spelling", "Toggle Spell Check"),
+  actionButton("update_enable_auto_correct", "Enable Auto correct"),
+  actionButton("update_disable_capitalization", "Disable Capitalization"),
   textInput("smart_punct_label", "Smart Punctuation Label", "Smart Punctuation")
 )
 
@@ -27,37 +35,32 @@ server <- function(input, output, session) {
     )
   })
 
-  test_value_update <- function(...) {
-    fn <- switch(
-      getOption("value_update_type", "update"),
-      update = {
-        rlang::inform("testing using `update_switch()`")
-        update_switch
-      },
-      {
-        rlang::inform("testing using `toggle_switch()`")
-        toggle_switch
-      }
-    )
-
-    eval(rlang::call2(fn, ...))
-  }
-
-  observe({
-    req(input$value_update_type)
-    options(value_update_type = input$value_update_type)
-  })
+  # toggle_switch() -----------------------------------------------------------
 
   observeEvent(input$toggle_spelling, {
     toggle_switch("check_spelling")
   })
 
-  observeEvent(input$enable_auto_correct, {
-    test_value_update("auto_correction", value = TRUE)
+  observeEvent(input$toggle_enable_auto_correct, {
+    toggle_switch("auto_correction", value = TRUE)
   })
 
-  observeEvent(input$disable_capitalization, {
-    test_value_update("auto_capitalization", value = FALSE)
+  observeEvent(input$toggle_disable_capitalization, {
+    toggle_switch("auto_capitalization", value = FALSE)
+  })
+
+  # update_switch() -----------------------------------------------------------
+
+  observeEvent(input$update_toggle_spelling, {
+    update_switch("check_spelling", value = !input$check_spelling)
+  })
+
+  observeEvent(input$update_enable_auto_correct, {
+    update_switch("auto_correction", value = TRUE)
+  })
+
+  observeEvent(input$update_disable_capitalization, {
+    update_switch("auto_capitalization", value = FALSE)
   })
 
   observeEvent(input$smart_punct_label, {

@@ -51,26 +51,26 @@ test_that("toggle_switch()", {
 })
 
 test_that("toggle_switch(value = )", {
-  app$run_js("Shiny.setInputValue('value_update_type', 'toggle')")
-
   set_input_if_not("auto_correction", FALSE)
-  app$click("enable_auto_correct")
+  app$click("toggle_enable_auto_correct")
   expect_true(app$get_value(input = "auto_correction"))
 
   set_input_if_not("auto_capitalization", TRUE)
-  app$click("disable_capitalization")
+  app$click("toggle_disable_capitalization")
   expect_false(app$get_value(input = "auto_capitalization"))
 })
 
 test_that("update_switch(value = )", {
-  app$run_js("Shiny.setInputValue('value_update_type', 'update')")
+  spelling_current <- app$get_value(input = "check_spelling")
+  app$click("update_toggle_spelling")
+  expect_equal(app$get_value(input = "check_spelling"), !spelling_current)
 
   set_input_if_not("auto_correction", FALSE)
-  app$click("enable_auto_correct")
+  app$click("update_enable_auto_correct")
   expect_true(app$get_value(input = "auto_correction"))
 
   set_input_if_not("auto_capitalization", TRUE)
-  app$click("disable_capitalization")
+  app$click("update_disable_capitalization")
   expect_false(app$get_value(input = "auto_capitalization"))
 })
 
