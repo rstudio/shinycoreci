@@ -6,6 +6,7 @@ ui <- page_navbar(
   title = "Popover tests",
   fillable = FALSE,
   id = "navbar",
+  theme = bs_theme("enable-transitions" = interactive()),
 
   nav_panel(
     "Popover cases",

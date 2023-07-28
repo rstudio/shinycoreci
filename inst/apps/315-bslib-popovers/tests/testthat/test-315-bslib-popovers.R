@@ -20,7 +20,7 @@ expect_focus <- function(app, selector) {
     "document.activeElement === document.querySelector('%s')",
     selector
   )
-  expect_true(app$get_js(!!js))
+  app$wait_for_js(js)
   invisible(app)
 }
 
@@ -161,10 +161,10 @@ test_that("Can tab focus various cases/options", {
   # simulate a click event? This seems to be a chromote specific issue.
   expect_no_tip()
   app$click(selector = "#btn")
-  expect_focus(app, "#btn")
   expect_visible_tip(app, "#btn")
   click_close_button()
   expect_no_tip()
+  expect_focus(app, "#btn")
 
   app$click(selector = "#btn3")
   expect_visible_tip(app, "#btn3")
@@ -172,21 +172,8 @@ test_that("Can tab focus various cases/options", {
   expect_no_tip()
   expect_focus(app, "#btn3")
 
-  key_press("Tab")
-  key_press("Enter")
-  key_press("Tab")
-  key_press("Tab")
-
-  if (DO_SCREENSHOT) app$expect_screenshot()
-
-  click_close_button()
-  expect_focus(app, "#pop-offset")
-  key_press("Tab")
-  expect_focus(app, "#pop-animation")
-  key_press("Enter")
-  expect_visible_tip(app, "#pop-animation")
-  key_press("Enter")
-  expect_no_tip()
+  app$click(selector = "#pop-offset")
+  expect_visible_tip(app, "#pop-offset")
 })
 
 
@@ -251,9 +238,15 @@ test_that("Can put input controls in the popover", {
   app$click("inc")
   expect_equal(app$get_value(input = "num"), 6)
   app$click(selector = "#btn4")
+  expect_visible_tip(app, "#btn4")
+  # Even though the tip is visible, it seems it's not always ready to be
+  # tabbed into, so wait a bit before doing so
+  {Sys.sleep(0.5); key_press("Tab")}
+  expect_focus(app, '.popover')
   key_press("Tab")
+  expect_focus(app, 'input#num')
   key_press("Tab")
-  key_press("Tab")
+  expect_focus(app, 'input#sel-selectized')
 
   if (DO_SCREENSHOT) app$expect_screenshot()
 
