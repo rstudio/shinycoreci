@@ -72,6 +72,14 @@ jobs:
           cache-version: deploy-2-${{ needs.config.outputs.cache-version }}
           extra-packages: any::rsconnect
 
+      # Temporarily downgrade rsconnect
+      # (rsconnect 1.0 introduced an issue with deploying from CI
+      # TODO: Once a proper fix is CRAN, we can remove this step)
+      - name: Downgrade rsconnect
+        shell: Rscript {0}
+        run: |
+          pak::pkg_install("rsconnect@0.8.29")
+
       # Perform as second step to make sure this version is installed
       - name: Install shinycoreci from GitHub
         shell: Rscript {0}
