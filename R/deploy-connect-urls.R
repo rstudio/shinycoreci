@@ -1,4 +1,4 @@
-# testShinyExamples::set_public("barret", "beta.rstudioconnect.com", "APIKEY")
+# shinycoreci::connect_set_public("barret", "connect.posit.it", "APIKEY")
 
 
 #' Make Connect Shiny applications publically available
@@ -19,7 +19,7 @@
 connect_set_public <- function(
   apps = apps_shiny,
   account = "barret",
-  server = "beta.rstudioconnect.com"
+  server = "connect.posit.it"
 ) {
   apps <- vapply(apps, resolve_app_name, character(1))
 
@@ -73,7 +73,7 @@ connect_set_public <- function(
 connect_urls <- function(
   apps = apps_deploy,
   account = "barret",
-  server = "beta.rstudioconnect.com"
+  server = "connect.posit.it"
 ) {
   # apps_dirs <- file.path(dir, apps)
   apps <- vapply(apps, resolve_app_name, character(1))

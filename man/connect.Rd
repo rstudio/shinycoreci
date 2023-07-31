@@ -8,13 +8,13 @@
 connect_set_public(
   apps = apps_shiny,
   account = "barret",
-  server = "beta.rstudioconnect.com"
+  server = "connect.posit.it"
 )
 
 connect_urls(
   apps = apps_deploy,
   account = "barret",
-  server = "beta.rstudioconnect.com"
+  server = "connect.posit.it"
 )
 }
 \arguments{
