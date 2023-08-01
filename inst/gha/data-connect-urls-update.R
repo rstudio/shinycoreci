@@ -1,6 +1,6 @@
 update_connect_urls <- function(
   apps = shinycoreci:::apps_deploy,
-  account = "barret",
+  account = "carson",
   server = "connect.posit.it",
   repo_dir = "."
 ) {
