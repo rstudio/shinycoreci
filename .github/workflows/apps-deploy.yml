@@ -102,7 +102,7 @@ jobs:
         shell: Rscript {0}
         run: |
           # Add server info
-          rsconnect::addConnectServer(
+          rsconnect::addServer(
             url = '${{ matrix.config.server_url }}',
             name = '${{ matrix.config.server_name }}'
           )
@@ -110,7 +110,7 @@ jobs:
           rsconnect::connectApiUser(
             '${{ matrix.config.account }}',
             '${{ matrix.config.server_name }}',
-            apiKey = '${{ secrets.BARRET_BETA_RSTUDIOCONNECT_COM_API_KEY }}'
+            apiKey = '${{ secrets.BARRET_CONNECT_API_KEY }}'
           )
 
           # Deploy
