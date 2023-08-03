@@ -28,15 +28,15 @@ jobs:
 
       matrix:
         config:
-          # - os: "${{ needs.config.outputs.ubuntu }}"
-          #   # Use `oldrel1` to avoid the bleeding edge when creating manifest files. Ex: `{MASS}` version can not be satisfied when bundling on R4.3 (2023-05-01)
-          #   r: "${{ needs.config.outputs.oldrel1 }}"
-          #   type: "shinyappsio"
-          #   account: "testing-apps"
-          #   server_name: "shinyapps.io"
-          #   cores: 5
-          #   retry: 3
-          #   # extra_app_text: ", apps = list('000-all', '000-manual', 1, 2)"
+          - os: "${{ needs.config.outputs.ubuntu }}"
+            # Use `oldrel1` to avoid the bleeding edge when creating manifest files. Ex: `{MASS}` version can not be satisfied when bundling on R4.3 (2023-05-01)
+            r: "${{ needs.config.outputs.oldrel1 }}"
+            type: "shinyappsio"
+            account: "testing-apps"
+            server_name: "shinyapps.io"
+            cores: 5
+            retry: 3
+            # extra_app_text: ", apps = list('000-all', '000-manual', 1, 2)"
 
           ## Deployment server has been disabled
           - os: "${{ needs.config.outputs.ubuntu }}"
