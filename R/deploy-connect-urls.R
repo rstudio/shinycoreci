@@ -43,7 +43,7 @@ connect_set_public <- function(
         paste0("/applications/", app$id),
         list(
           id = app$id,
-          access_type = "all"
+          access_type = "logged_in"
         )
       )
     }
