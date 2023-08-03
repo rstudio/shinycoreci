@@ -137,7 +137,7 @@ gt_dt %>%
   #   }
   # ) %>%
   gt::cols_hide(
-    columns = c(anchor, platform, Rver, file, diff_file, diff_png, orig_png, new_png)
+    columns = c(anchor, platform, Rver, file, diff_png, orig_png, new_png)
   ) %>%
   gt::cols_move_to_end(
     columns = c(diff_count)
