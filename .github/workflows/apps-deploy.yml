@@ -70,7 +70,7 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           cache-version: deploy-2-${{ needs.config.outputs.cache-version }}
-          extra-packages: any::rsconnect
+          extra-packages: rstudio/rsconnect
 
       # Perform as second step to make sure this version is installed
       - name: Install shinycoreci from GitHub
