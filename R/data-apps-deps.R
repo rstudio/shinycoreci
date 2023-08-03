@@ -63,4 +63,5 @@ apps_deps_map <- list(`001-hello` = "rsconnect", `012-datatables` = "ggplot2",
     `310-bslib-sidebar-dynamic` = c("rversions", "testthat"), 
     `311-bslib-sidebar-toggle-methods` = c("rversions", "testthat"
     ), `313-bslib-card-tab-focus` = c("rversions", "testthat", 
-    "withr"))
+    "withr"), `314-bslib-tooltips` = c("rversions", "testthat", 
+    "withr"), `315-bslib-input-switch` = "withr")
