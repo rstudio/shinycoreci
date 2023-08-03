@@ -23,7 +23,7 @@ Suggests:
     httpuv,
     rappdirs,
     rmarkdown (>= 2.9),
-    rsconnect (>= 0.8.16-9001),
+    rsconnect (>= 1.0.1),
     testthat,
     httr,
     tibble,
