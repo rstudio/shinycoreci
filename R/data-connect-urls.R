@@ -170,6 +170,8 @@ default_connect_urls <- structure(c(`000-all` = "https://rsc.radixu.com/content/
 `310-bslib-sidebar-dynamic` = "https://rsc.radixu.com/content/29c55ae6-2595-4925-99b4-ab4c5eaa907b/", 
 `311-bslib-sidebar-toggle-methods` = "https://rsc.radixu.com/content/0de064c2-c811-4597-85a7-43e912102406/", 
 `313-bslib-card-tab-focus` = "https://rsc.radixu.com/content/39f75ee5-bb95-48ca-882f-37ade905ef0f/", 
+`314-bslib-tooltips` = "https://rsc.radixu.com/content/b6bccfe7-df7b-4c7e-9c54-feabc91e5de5/", 
+`315-bslib-input-switch` = "https://rsc.radixu.com/content/f84a60dd-0e47-45b9-b505-7abb8dddcca6/", 
 `900-text-jster` = "https://rsc.radixu.com/content/d759246b-23c8-4fd5-8fd1-dd075ef3163b/", 
 `901-button-jster` = "https://rsc.radixu.com/content/398f50fe-528a-452c-b515-b4b7c6783f38/"
 ), account = "barret", server = "rsc.radixu.com")
