@@ -86,12 +86,12 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
     wait_for_js("document.getElementById('layout_1') ? true : false")$
     expect_values()
 
-  expect_screenshot_mac_release(app, selector = "#layout_1")
   expect_sidebar_main_text(1, "cuddly giraffe")
 
   # First sidebar starts open = "open"
   expect_sidebar_shown(id = 1, "inner")
   expect_sidebar_shown(id = 1, "outer")
+  expect_screenshot_mac_release(app, selector = "#layout_1")
 
   # Update an input in the sidebar to test that the output is updated
   app$set_inputs(adjective_1 = "elegant")
