@@ -8,7 +8,7 @@ ui <- page_navbar(
   id = "navbar",
   theme = bs_theme(
     "tooltip-bg" = "#232529",
-    "enable-transitions" = interactive()
+    "enable-transitions" = FALSE
   ),
 
   nav_panel(
@@ -131,4 +131,3 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
-
