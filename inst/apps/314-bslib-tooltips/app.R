@@ -6,7 +6,10 @@ ui <- page_navbar(
   title = "Tooltip tests",
   fillable = FALSE,
   id = "navbar",
-  theme = bs_theme("tooltip-bg" = "#232529"),
+  theme = bs_theme(
+    "tooltip-bg" = "#232529",
+    "enable-transitions" = FALSE
+  ),
 
   nav_panel(
     "Tooltip cases",
