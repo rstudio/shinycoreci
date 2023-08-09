@@ -109,6 +109,7 @@ test_that("Can tab focus various cases/options", {
   expect_focus(app, "#tip-offset")
   expect_visible_tip(app, "#tip-offset")
 
+  Sys.sleep(1)
   if (DO_SCREENSHOT) app$expect_screenshot()
 
   key_press("Tab")
