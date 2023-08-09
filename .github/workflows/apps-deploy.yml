@@ -82,6 +82,7 @@ jobs:
         if: matrix.config.type == 'shinyappsio'
         shell: Rscript {0}
         run: |
+          Sys.setenv("RSCONNECT_PACKRAT" = TRUE)
           rsconnect::setAccountInfo(
             name = '${{ matrix.config.account }}',
             token = '${{ secrets.SHINYAPPS_IO_TESTING_APPS_TOKEN }}',
