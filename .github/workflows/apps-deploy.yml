@@ -70,12 +70,12 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           cache-version: deploy-2-${{ needs.config.outputs.cache-version }}
-          extra-packages: rstudio/rsconnect
 
       # Perform as second step to make sure this version is installed
       - name: Install shinycoreci from GitHub
         shell: Rscript {0}
         run: |
+          remotes::install_version("rsconnect", "0.8.29")
           pak::pkg_install("rstudio/shinycoreci@${{ github.sha }}")
 
       - name: Deploy Apps to Shinyapps.io
