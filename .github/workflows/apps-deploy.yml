@@ -75,6 +75,7 @@ jobs:
       - name: Install shinycoreci from GitHub
         shell: Rscript {0}
         run: |
+          if (!require("remotes")) install.packages("remotes")
           remotes::install_version("rsconnect", "0.8.29")
           pak::pkg_install("rstudio/shinycoreci@${{ github.sha }}")
 
