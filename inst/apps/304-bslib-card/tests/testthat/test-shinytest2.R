@@ -25,7 +25,7 @@ test_that("{shinytest2} recording: card", {
     view = interactive(),
     options = list(bslib.precompiled = FALSE)
   )
-  expect_screenshot <- function(..., wait = 1, viewport = TRUE, threshold = 3) {
+  expect_screenshot <- function(..., wait = 2, viewport = TRUE, threshold = 3) {
     Sys.sleep(wait)
     args <- rlang::list2(..., threshold = threshold)
     # Make sure the window does not resize when taking screenshots.
