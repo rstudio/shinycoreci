@@ -36,7 +36,7 @@ jobs:
             server_name: "shinyapps.io"
             cores: 5
             retry: 3
-            # extra_app_text: ", apps = list('000-all', '000-manual', 1, 2)"
+            extra_app_text: ", apps = c('000-all', '000-manual', '300-bs-themer')"
 
           ## Deployment server has been disabled
           - os: "${{ needs.config.outputs.ubuntu }}"
@@ -48,7 +48,7 @@ jobs:
             # rspm: "https://demo.rstudiopm.com/all/__linux__/focal/latest"
             cores: 1
             retry: 3
-            # extra_app_text: ", apps = list('000-all', '000-manual', 1, 2)"
+            extra_app_text: ", apps = c('000-all', '000-manual', '300-bs-themer')"
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -76,12 +76,17 @@ jobs:
       - name: Install shinycoreci from GitHub
         shell: Rscript {0}
         run: |
+          if (!require("remotes")) install.packages("remotes")
+          # remotes::install_version("rsconnect", "0.8.29")
           pak::pkg_install("rstudio/shinycoreci@${{ github.sha }}")
 
       - name: Deploy Apps to Shinyapps.io
         if: matrix.config.type == 'shinyappsio'
         shell: Rscript {0}
         run: |
+          # Temporary/experimental workaround for renv throwing esoteric error on deploy
+          # Sys.setenv("RSCONNECT_PACKRAT" = TRUE)
+
           rsconnect::setAccountInfo(
             name = '${{ matrix.config.account }}',
             token = '${{ secrets.SHINYAPPS_IO_TESTING_APPS_TOKEN }}',
@@ -100,6 +105,9 @@ jobs:
         if: matrix.config.type == 'connect'
         shell: Rscript {0}
         run: |
+          # Temporary/experimental workaround for renv throwing esoteric error on deploy
+          # Sys.setenv("RSCONNECT_PACKRAT" = TRUE)
+
           # Add server info
           rsconnect::addServer(
             url = '${{ matrix.config.server_url }}',
