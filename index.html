@@ -198,7 +198,7 @@
 <li><p><strong>shinyjster</strong>: primarily useful for asserting certain expectations about the DOM (in JavaScript). <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f/apps/001-hello/app.R#L37-L61" class="external-link">See here</a> for an example (note that <code>shinyjster::shinyjster_js()</code> needs to be placed in the UI and <code>shinyjster::shinyjster_server(input, output)</code> needs to be placed in the server).</p></li>
 <li><p><strong>testthat</strong>: primarily useful in combination with <code><a href="https://rdrr.io/pkg/shiny/man/testServer.html" class="external-link">shiny::testServer()</a></code> to test server-side reactive logic of the application.</p></li>
 </ol>
-<!-- end list --><ul>
+<ul>
 <li>
 <a href="https://github.com/rstudio/shinycoreci-apps/blob/5691d1f4/apps/001-hello/tests/testthat/tests.R#L4" class="external-link">See here</a> for an example.</li>
 </ul>
@@ -317,7 +317,7 @@
 </li>
 <li>Installing on fresh linux? Run these commands before testing:</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'base64enc'</span>, <span class="st">'bslib'</span>, <span class="st">'Cairo'</span>, <span class="st">'clipr'</span>, <span class="st">'curl'</span>, <span class="st">'dbplyr'</span>, <span class="st">'DiagrammeR'</span>,</span>
 <span>  <span class="st">'dplyr'</span>, <span class="st">'DT'</span>, <span class="st">'evaluate'</span>, <span class="st">'flexdashboard'</span>, <span class="st">'future'</span>, <span class="st">'ggplot2'</span>,</span>
 <span>  <span class="st">'ggvis'</span>, <span class="st">'hexbin'</span>, <span class="st">'htmltools'</span>, <span class="st">'htmlwidgets'</span>,</span>
