@@ -114,7 +114,7 @@ deploy_apps <- function(
         if (inherits(deployment_worked, 'try-error')) {
           return(1)
         } else {
-          return(as.numeric(!deployment_worked))
+          return(as.numeric(!isTRUE(deployment_worked)))
         }
       }
 
@@ -137,7 +137,7 @@ deploy_apps <- function(
     }
   )
 
-  if (all(deploy_res == 0)) {
+  if ((!any(deploy_res == 1)) && length(deploy_res) == length(app_dirs)) {
     # success!
     message("No errors found when deploying apps")
     return(invisible(NULL))
