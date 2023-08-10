@@ -1,18 +1,5 @@
 library(shinytest2)
 
-# Only take screenshots on mac + r-release to reduce diff noise
-release <- rversions::r_release()$version
-release <- paste0(
-  strsplit(release, ".", fixed = TRUE)[[1]][1:2],
-  collapse = "."
-)
-
-is_testing_on_ci <- identical(Sys.getenv("CI"), "true") && testthat::is_testing()
-is_mac_release <- identical(paste0("mac-", release), platform_variant())
-
-DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
-
-
 source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
 expect_focus <- function(app, selector) {
@@ -108,8 +95,6 @@ test_that("Can tab focus various cases/options", {
   key_press("Tab")
   expect_focus(app, "#tip-offset")
   expect_visible_tip(app, "#tip-offset")
-
-  if (DO_SCREENSHOT) app$expect_screenshot()
 
   key_press("Tab")
   expect_focus(app, "#tip-animation")

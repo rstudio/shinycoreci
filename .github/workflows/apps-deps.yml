@@ -3,8 +3,8 @@ name: Update app deps
 on:
   push:
     paths:
-      - "inst/apps/*"
-      - "inst/apps/R/*"
+      - "inst/apps/*" # new app added
+      - "inst/apps/*/**/*.R" # any app/test files change
       - "inst/gha/gha-apps-deps-update.R"
       - ".github/workflows/apps-deps.yml"
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
