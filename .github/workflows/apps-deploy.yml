@@ -76,17 +76,12 @@ jobs:
       - name: Install shinycoreci from GitHub
         shell: Rscript {0}
         run: |
-          if (!require("remotes")) install.packages("remotes")
-          # remotes::install_version("rsconnect", "0.8.29")
           pak::pkg_install("rstudio/shinycoreci@${{ github.sha }}")
 
       - name: Deploy Apps to Shinyapps.io
         if: matrix.config.type == 'shinyappsio'
         shell: Rscript {0}
         run: |
-          # Temporary/experimental workaround for renv throwing esoteric error on deploy
-          # Sys.setenv("RSCONNECT_PACKRAT" = TRUE)
-
           rsconnect::setAccountInfo(
             name = '${{ matrix.config.account }}',
             token = '${{ secrets.SHINYAPPS_IO_TESTING_APPS_TOKEN }}',
@@ -105,9 +100,6 @@ jobs:
         if: matrix.config.type == 'connect'
         shell: Rscript {0}
         run: |
-          # Temporary/experimental workaround for renv throwing esoteric error on deploy
-          # Sys.setenv("RSCONNECT_PACKRAT" = TRUE)
-
           # Add server info
           rsconnect::addServer(
             url = '${{ matrix.config.server_url }}',
