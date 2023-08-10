@@ -3,10 +3,10 @@ name: Update app deps
 on:
   push:
     paths:
-      - "inst/apps/*"
-      - "inst/apps/R/*"
+      - "inst/apps/*" # new app added
+      - "inst/apps/*/**.R" # any app/test files change
       - "inst/gha/gha-apps-deps-update.R"
-      - ".github/workflows/*"
+      #- ".github/workflows/*"
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
   schedule:
