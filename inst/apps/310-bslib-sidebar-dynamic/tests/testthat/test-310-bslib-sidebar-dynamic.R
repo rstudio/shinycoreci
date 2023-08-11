@@ -84,6 +84,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   app$
     click("add_sidebar")$
     wait_for_js("document.getElementById('layout_1') ? true : false")$
+    wait_for_js(js_sidebar_transition_complete(id = 1))$
     expect_values()
 
   expect_sidebar_main_text(1, "cuddly giraffe")
