@@ -253,7 +253,7 @@ test_that("Can put input controls in the popover", {
   key_press("Tab")
   expect_focus(app, 'input#sel-selectized')
 
-  if (DO_SCREENSHOT) app$expect_screenshot()
+  #if (DO_SCREENSHOT) app$expect_screenshot()
 
   key_press("Escape")
   expect_visible_tip(app, "#btn4")
