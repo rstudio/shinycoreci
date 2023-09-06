@@ -14,9 +14,9 @@
       "deps": [
         {
           "name": "selectize",
-          "version": "0.12.4",
+          "version": "0.15.2",
           "src": {
-            "href": "selectize-0.12.4"
+            "href": "selectize-0.15.2"
           },
           "meta": null,
           "script": [
