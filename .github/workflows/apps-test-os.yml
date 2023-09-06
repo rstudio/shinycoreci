@@ -121,6 +121,11 @@ jobs:
           format: "json"
           filter: "*"
 
+      - name: Install ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+        with:
+          chromedriver-version: '116.0.5845.96'
+
       - name: R Options
         shell: bash
         run: |
