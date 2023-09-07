@@ -41,6 +41,7 @@ These GitHub packages will be installed to make sure the latest package developm
 - [rstudio/htmltools](http://github.com/rstudio/htmltools)
 - [rstudio/httpuv](http://github.com/rstudio/httpuv)
 - [rstudio/leaflet](http://github.com/rstudio/leaflet)
+- [rspatial/terra](http://github.com/rspatial/terra)
 - [rstudio/pool](http://github.com/rstudio/pool)
 - [rstudio/promises](http://github.com/rstudio/promises)
 - [rstudio/reactlog](http://github.com/rstudio/reactlog)
