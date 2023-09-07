@@ -14,6 +14,10 @@ adjust_pkgs <- function(pkgs_to_install = "rstudio/shiny,rstudio/bslib", r_versi
       }
   }
 
+  if (as.package_version(r_version) < as.package_version("4.1")) {
+    replace_or_add("any::terra", "rspatial/terra")
+  }
+
   if (is_linux) {
     switch(short_r_version,
       "4.2" = {

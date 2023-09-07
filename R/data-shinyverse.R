@@ -17,8 +17,6 @@ shinyverse_remotes <- c(
   "rstudio/htmltools",
   "rstudio/httpuv",
   "rstudio/leaflet",
-  # Temporary fix for install issues with terra on old versions of R
-  "rspatial/terra",
   "rstudio/pool",
   "rstudio/promises",
   "rstudio/reactlog",
