@@ -9,6 +9,7 @@ ui <- page_sidebar(
     "accordion-bg" = "#1E1E1E",
     "accordion-button-active-bg" = "#1E1E1E",
     "accordion-color" = "white",
+    "accordion-button-color" = "white",
     "accordion-button-active-color" = "white",
     "accordion-icon-color" = "white",
     "accordion-icon-active-color" = "white"
