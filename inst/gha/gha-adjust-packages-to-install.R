@@ -14,6 +14,7 @@ adjust_pkgs <- function(pkgs_to_install = "rstudio/shiny,rstudio/bslib", r_versi
       }
   }
 
+  # Current dev version of terra has a fix that makes it installable on R<4.1
   if (as.package_version(r_version) < as.package_version("4.1")) {
     replace_or_add("any::terra", "rspatial/terra")
   }
