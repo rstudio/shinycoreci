@@ -7,7 +7,10 @@ ui <- page_sidebar(
     # Don't transition when collapsing (so screenshot timing is less of an issue)
     "transition-collapse" = "none",
     "accordion-bg" = "#1E1E1E",
+    "accordion-button-active-bg" = "#1E1E1E",
     "accordion-color" = "white",
+    "accordion-button-color" = "white",
+    "accordion-button-active-color" = "white",
     "accordion-icon-color" = "white",
     "accordion-icon-active-color" = "white"
   ) %>%
