@@ -121,31 +121,6 @@ jobs:
           format: "json"
           filter: "*"
 
-      # Temporarily install Chrome 114.0.5735.134 since shinyjster's webdrivermanager doesn't seem
-      # able to find and use an appropriate version of ChromeDriver
-      - name: Install Legacy Chrome
-        if: runner.os == 'Linux'
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: 1135561
-
-      - name: Install Legacy Chrome
-        if: runner.os == 'macOS'
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: 1135562
-
-      - name: Install Legacy Chrome
-        if: runner.os == 'Windows'
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: 1135559
-
-      #- name: Install ChromeDriver
-      #  uses: nanasess/setup-chromedriver@v2
-      #  with:
-      #    chromedriver-version: '116.0.5845.96'
-
       - name: R Options
         shell: bash
         run: |
