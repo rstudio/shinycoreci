@@ -14,16 +14,9 @@ adjust_pkgs <- function(pkgs_to_install = "rstudio/shiny,rstudio/bslib", r_versi
       }
   }
 
-  if (is_windows) {
-    switch(short_r_version,
-      "4.0" = {
-        replace_or_add("any::terra", "url::https://cloud.r-project.org/bin/windows/contrib/4.0/terra_1.5-21.zip")
-      },
-      "3.6" = {
-        replace_or_add("any::terra", "url::https://cloud.r-project.org/bin/windows/contrib/3.6/terra_1.2-5.zip")
-      }
-    )
-
+  # Current dev version of terra has a fix that makes it installable on R<4.1
+  if (as.package_version(r_version) < as.package_version("4.1")) {
+    replace_or_add("any::terra", "rspatial/terra")
   }
 
   if (is_linux) {
