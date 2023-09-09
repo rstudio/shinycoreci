@@ -9,7 +9,7 @@
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2023-09-07
+ date      2023-09-09
  pandoc    2.7.3 @ /usr/local/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -29,7 +29,7 @@
  brio                1.1.3       2021-11-30 [1] CRAN (R 4.3.0)
  broom               1.0.5       2023-06-09 [1] CRAN (R 4.3.0)
  bsicons             0.1.1.9000  2023-08-18 [1] Github (rstudio/bsicons@1ee68f3)
- bslib               0.5.1.9000  2023-09-06 [1] Github (rstudio/bslib@512ad57)
+ bslib               0.5.1.9000  2023-09-09 [1] Github (rstudio/bslib@bb648bc)
  cachem              1.0.8       2023-08-04 [1] Github (r-lib/cachem@62051fe)
  Cairo               1.6-1       2023-08-18 [1] CRAN (R 4.3.0)
  callr               3.7.3       2022-11-02 [1] CRAN (R 4.3.0)
@@ -91,14 +91,14 @@
  globals             0.16.2      2022-11-21 [1] CRAN (R 4.3.0)
  glue                1.6.2       2022-02-24 [1] CRAN (R 4.3.0)
  gridExtra           2.3         2017-09-09 [1] CRAN (R 4.3.0)
- gt                  0.9.0.9000  2023-09-06 [1] Github (rstudio/gt@c73eece)
+ gt                  0.9.0.9000  2023-09-09 [1] Github (rstudio/gt@cfddae4)
  gtable              0.3.4       2023-08-21 [1] CRAN (R 4.3.0)
  here                1.0.1       2020-12-13 [1] CRAN (R 4.3.0)
  hexbin              1.28.3      2023-03-21 [1] CRAN (R 4.3.0)
  highcharter         0.9.4       2022-01-03 [1] CRAN (R 4.3.0)
  highr               0.10        2022-12-22 [1] CRAN (R 4.3.0)
  hms                 1.1.3       2023-03-21 [1] CRAN (R 4.3.0)
- htmltools           0.5.6.9000  2023-08-15 [1] Github (rstudio/htmltools@251526c)
+ htmltools           0.5.6.9000  2023-09-09 [1] Github (rstudio/htmltools@f8ef163)
  htmlwidgets         1.6.2.9000  2023-08-15 [1] Github (ramnathv/htmlwidgets@d31dd27)
  httpgd              1.3.1       2023-01-30 [1] CRAN (R 4.3.0)
  httpuv              1.6.11.9000 2023-08-17 [1] Github (rstudio/httpuv@99bfe9b)
@@ -214,12 +214,12 @@
  servr               0.27        2023-05-02 [1] CRAN (R 4.3.0)
  sessioninfo         1.2.2       2021-12-06 [1] any (@1.2.2)
  sf                  1.0-14      2023-07-11 [1] CRAN (R 4.3.0)
- shiny               1.7.5.9000  2023-09-06 [1] Github (rstudio/shiny@d21f949)
+ shiny               1.7.5.9000  2023-09-09 [1] Github (rstudio/shiny@eddc304)
  shinyAce            0.4.2       2022-05-06 [1] CRAN (R 4.3.0)
- shinycoreci         0.0.0.9008  2023-09-07 [1] local
+ shinycoreci         0.0.0.9008  2023-09-09 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.3.0)
  shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.3.0)
- shinyjster          0.0.0.9010  2023-09-06 [1] Github (schloerke/shinyjster@57cd42f)
+ shinyjster          0.0.0.9010  2023-09-07 [1] Github (schloerke/shinyjster@20c1325)
  shinymeta           0.2.0.3     2023-08-04 [1] Github (rstudio/shinymeta@5af8086)
  shinytest           1.5.3       2023-08-04 [1] Github (rstudio/shinytest@22322f4)
  shinytest2          0.3.1       2023-08-29 [1] Github (rstudio/shinytest2@176131d)
