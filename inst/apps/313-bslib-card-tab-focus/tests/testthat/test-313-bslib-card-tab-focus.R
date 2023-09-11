@@ -267,14 +267,6 @@ test_that("fullscreen interior card with inputs (forward tab cycle)", {
   key_press("Tab")
   expect_focus(app, "#letter-selectized")
 
-  # Go back to date input to ensure popup is closed
-  # FIXME: We should fix this in {bslib} (tab handlers too aggressive)
-  key_press("Tab")
-  key_press("Escape")
-  key_press("Tab")
-  key_press("Tab")
-  key_press("Escape")
-  expect_focus(app, "#dates input:last-child")
   expect_card_full_screen(app, "card-with-inputs-left")
 
   app_card_full_screen_exit(app, "click overlay")
