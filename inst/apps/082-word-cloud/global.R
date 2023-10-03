@@ -7,7 +7,7 @@ if (FALSE) {
 }
 
 # The list of valid books
-books <<- list("A Mid Summer Night's Dream" = "summer",
+books <<- list("A Midsummer Night's Dream" = "summer",
               "The Merchant of Venice" = "merchant",
               "Romeo and Juliet" = "romeo")
 

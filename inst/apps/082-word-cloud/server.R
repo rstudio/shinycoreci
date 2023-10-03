@@ -1,5 +1,5 @@
 # Text of the books downloaded from:
-# A Mid Summer Night's Dream:
+# A Midsummer Night's Dream:
 #  http://www.gutenberg.org/cache/epub/2242/pg2242.txt
 # The Merchant of Venice:
 #  http://www.gutenberg.org/cache/epub/2243/pg2243.txt
