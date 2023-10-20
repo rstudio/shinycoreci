@@ -50,7 +50,7 @@
     "inputPanelOutput": "List of 5\n $ sliderInput        : int [1:2] 14 83\n $ selectizeInput     : chr \"AK\"\n $ selectizeMultiInput: chr [1:3] \"AK\" \"AR\" \"CO\"\n $ dateInput          : Date[1:1], format: \"2020-12-21\"\n $ dateRangeInput     : Date[1:2], format: \"2020-12-24\" \"2020-12-26\"",
     "inputPanelOutputHeader": "Below are the values bound to each input widget above",
     "plot": {
-      "src": "[image data hash: db81955fca7a65e3ad43c3a9d3d4bc9b]",
+      "src": "[image data hash: 06e2ad78bf52f54340c82fddcf5530e1]",
       "width": 968,
       "height": 400,
       "alt": "Plot object",
@@ -79,10 +79,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 82.5257,
-              "right": 372.2043,
-              "bottom": 190.666,
-              "top": 58.7399
+              "left": 84.4632,
+              "right": 373.496,
+              "bottom": 190.166,
+              "top": 60.7406
             }
           },
           {
@@ -108,10 +108,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 377.6838,
-              "right": 667.3624,
-              "bottom": 190.666,
-              "top": 58.7399
+              "left": 378.9755,
+              "right": 668.0083,
+              "bottom": 190.166,
+              "top": 60.7406
             }
           },
           {
@@ -137,10 +137,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 672.8419,
+              "left": 673.4877,
               "right": 962.5205,
-              "bottom": 190.666,
-              "top": 58.7399
+              "bottom": 190.166,
+              "top": 60.7406
             }
           },
           {
@@ -166,10 +166,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 82.5257,
-              "right": 372.2043,
-              "bottom": 351.844,
-              "top": 219.9179
+              "left": 84.4632,
+              "right": 373.496,
+              "bottom": 349.8436,
+              "top": 220.4182
             }
           },
           {
@@ -195,10 +195,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 377.6838,
-              "right": 667.3624,
-              "bottom": 351.844,
-              "top": 219.9179
+              "left": 378.9755,
+              "right": 668.0083,
+              "bottom": 349.8436,
+              "top": 220.4182
             }
           }
         ],
