@@ -23,8 +23,8 @@ for (bs_version in 3:5) {
     app <- AppDriver$new(
       name = "309-flexdashboard-tabs-navs",
       seed = 62868,
-      height = 1292,
-      width = 798,
+      height = 600,
+      width = 1200,
       view = interactive(),
       render_args = list(
         params = list(bs_version = bs_version),
