@@ -15,6 +15,8 @@ sidebar_short <- sidebar(
 ui <- page_navbar(
   title = "Sidebar kitchen sink",
   fillable = c("Fill", "Fill+Scroll", "Global card sidebar"),
+  # Disable sidebar transitions for tests
+  tags$style(".bslib-sidebar-layout {--bslib-sidebar-transition-duration: 0};"),
   id = "navbar",
   sidebar = sidebar(
     open = FALSE,
