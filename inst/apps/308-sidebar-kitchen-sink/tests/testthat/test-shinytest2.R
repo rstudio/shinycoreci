@@ -24,7 +24,7 @@ test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
     height = height,
     width = width,
     # Set a delay to screenshot after layout is settled
-    screenshot_args = list(delay = 0.25)
+    screenshot_args = list(delay = 1)
   )
 
   expect_screenshot <- function() {
