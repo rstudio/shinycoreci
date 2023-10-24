@@ -21,8 +21,6 @@ sidebar_short <- local({
 ui <- page_navbar(
   title = "Sidebar kitchen sink",
   fillable = c("Fill", "Fill+Scroll", "Global card sidebar"),
-  # Disable sidebar transitions for tests
-  tags$style(".bslib-sidebar-layout {--bslib-sidebar-transition-duration: 5ms};"),
   id = "navbar",
   sidebar = sidebar(
     open = FALSE,
@@ -34,6 +32,11 @@ ui <- page_navbar(
     )
   ),
   header = tagList(
+    # Disable sidebar transitions for tests
+    tags$style(
+      id = "disable-sidebar-transition",
+      ".bslib-sidebar-layout {--bslib-sidebar-transition-duration: 0};"
+    ),
     tags$style(HTML(".plotly .modebar-container { display: none; }")),
     span("header", class = "bg-dark"),
     span("content", class = "bg-dark")

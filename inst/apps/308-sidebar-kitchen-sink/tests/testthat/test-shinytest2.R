@@ -10,7 +10,8 @@ release <- paste0(
 is_testing_on_ci <- identical(Sys.getenv("CI"), "true") && testthat::is_testing()
 is_mac_release <- identical(paste0("mac-", release), platform_variant())
 
-DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
+DO_SCREENSHOT <- (is_testing_on_ci && is_mac_release) ||
+  identical(Sys.getenv("SHINYTEST2_SCREENSHOT"), "true")
 
 test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
   height <- 1200
@@ -49,7 +50,10 @@ test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
   Sys.sleep(1) # Wait for the tab to receive focus
   expect_screenshot()
 
+  app$run_js("document.getElementById('disable-sidebar-transition').remove()")
   app$click("toggle_sidebar")
-  Sys.sleep(1) # Wait for transition to complete
+  app$wait_for_js("
+    document.querySelector('.bslib-sidebar-layout.transitioning') === null
+  ")
   expect_screenshot()
 })
