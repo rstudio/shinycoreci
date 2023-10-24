@@ -368,7 +368,6 @@ bad_app_tags <-
           display_logs$r_version[[1]]
         )
         tags$details(
-          open = NA,
           tags$summary(platform, id = id),
           tags$code(tags$pre(res))
         )
