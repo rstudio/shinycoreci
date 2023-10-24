@@ -22,7 +22,9 @@ test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
     view = interactive(),
     seed = 101,
     height = height,
-    width = width
+    width = width,
+    # Set a delay to screenshot after layout is settled
+    screenshot_args = list(delay = 0.25)
   )
 
   expect_screenshot <- function() {
