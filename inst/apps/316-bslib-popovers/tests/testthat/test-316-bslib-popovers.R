@@ -15,13 +15,20 @@ DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
 
 source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
+expect_js <- function(app, js, label = NULL) {
+  expect_true(
+    app$wait_for_js(!!js)$get_js(!!js),
+    label = label
+  )
+  invisible(app)
+}
+
 expect_focus <- function(app, selector) {
   js <- sprintf(
     "document.activeElement === document.querySelector('%s')",
     selector
   )
-  app$wait_for_js(js)
-  invisible(app)
+  expect_js(app, js, label = paste("Focus is on:", selector))
 }
 
 # Setup App  --------------------------------------------------
@@ -51,35 +58,50 @@ key_press <- key_press_factory(app)
 
 # lastShown should contain the trigger element, which we can use to find the
 # actual tooltip (we just make sure it's visible).
-expect_visible_tip <- function(app, selector) {
-  app$wait_for_js(
+expect_visible_tip <- function(app, selector, expect_tabbable = FALSE) {
+  expect_js(
+    app,
     sprintf("window.lastShown === document.querySelector('%s')", selector)
   )
-  app$wait_for_js(
+
+  expect_js(
+    app,
     "var tipId = window.lastShown.getAttribute('aria-describedby');
       $(`#${tipId}:visible`).length > 0;"
   )
+
+  if (expect_tabbable) {
+    expect_js(app, sprintf(
+      "document.querySelector('%s').tabIndex === 0",
+      selector
+    ))
+  }
 }
 
-expect_no_tip <- function() {
-  app$wait_for_js("$('.popover:visible').length === 0;")
+expect_no_tip <- function(app) {
+  expect_js(app, "$('.popover:visible').length === 0;")
 }
 
-click_close_button <- function() {
+click_close_button <- function(app) {
   app$click(selector = ".popover .btn-close")
 }
 
 expect_popover_content <- function(app, body = NULL, header = NULL) {
-  body_js <- sprintf(
-    "document.querySelector('.popover-body').innerText === '%s'",
-    body
-  )
-  header_js <- sprintf(
-    "document.querySelector('.popover-header').innerText === '%s'",
-    header
-  )
-  if (!is.null(body)) app$wait_for_js(body_js)
-  if (!is.null(header)) app$wait_for_js(header_js)
+  if (!is.null(body)) {
+    body_actual <- app$
+      wait_for_js("document.querySelector('.popover-body') !== null")$
+      get_text(".popover-body")
+
+    expect_equal(trimws(body_actual), body)
+  }
+
+  if (!is.null(header)) {
+    header_actual <- app$
+      wait_for_js("document.querySelector('.popover-header')")$
+      get_text(".popover-header")
+
+    expect_equal(trimws(header_actual), header)
+  }
 }
 
 
@@ -98,7 +120,7 @@ test_that("Can tab focus various cases/options", {
   expect_focus(app, "#pop-hello span")
   expect_visible_tip(app, "#pop-hello span")
   key_press("Enter")
-  expect_no_tip()
+  expect_no_tip(app)
   expect_focus(app, "#pop-hello span")
 
   # Make sure the popover is focusable via keyboard
@@ -118,16 +140,16 @@ test_that("Can tab focus various cases/options", {
   expect_focus(app, "#pop-hello span")
   expect_visible_tip(app, "#pop-hello span")
 
-  click_close_button()
+  click_close_button(app)
   expect_focus(app, "#pop-hello span")
-  expect_no_tip()
+  expect_no_tip(app)
 
   key_press("Enter")
   expect_focus(app, "#pop-hello span")
   expect_visible_tip(app, "#pop-hello span")
   key_press("Escape")
   expect_focus(app, "#pop-hello span")
-  expect_no_tip()
+  expect_no_tip(app)
   key_press("Enter")
   expect_focus(app, "#pop-hello span")
   expect_visible_tip(app, "#pop-hello span")
@@ -135,45 +157,48 @@ test_that("Can tab focus various cases/options", {
   key_press("Tab")
   key_press("Escape")
   expect_focus(app, "#pop-hello span")
-  expect_no_tip()
+  expect_no_tip(app)
 
   key_press("Tab")
   key_press("Enter")
   expect_focus(app, "#pop-inline span")
   expect_visible_tip(app, "#pop-inline span")
   key_press("Enter")
-  expect_no_tip()
+  expect_no_tip(app)
 
   key_press("Tab")
   expect_focus(app, "#pop-hyperlink a")
   expect_visible_tip(app, "#pop-hyperlink a")
 
   key_press("Tab")
-  expect_no_tip()
+  expect_no_tip(app)
   key_press("Enter")
   expect_focus(app, "#btn_link")
   expect_visible_tip(app, "#btn_link")
   key_press("Enter")
-  expect_no_tip()
+  expect_no_tip(app)
   expect_true(app$get_value(input = "btn_link") == 2)
 
   # For some odd reason it seems a key_press("Enter") on a <button> doesn't
   # simulate a click event? This seems to be a chromote specific issue.
-  expect_no_tip()
+  expect_no_tip(app)
   app$click(selector = "#btn")
   expect_visible_tip(app, "#btn")
-  click_close_button()
-  expect_no_tip()
+  click_close_button(app)
+  expect_no_tip(app)
   expect_focus(app, "#btn")
 
   app$click(selector = "#btn3")
   expect_visible_tip(app, "#btn3")
-  click_close_button()
-  expect_no_tip()
+  click_close_button(app)
+  expect_no_tip(app)
   expect_focus(app, "#btn3")
 
   app$click(selector = "#pop-offset")
   expect_visible_tip(app, "#pop-offset")
+
+  click_close_button(app)
+  expect_no_tip(app)
 })
 
 
@@ -190,7 +215,7 @@ test_that("Can programmatically update/show/hide tooltip", {
   expect_popover_content(app, "new")
 
   app$click("hide_popover")
-  expect_no_tip()
+  expect_no_tip(app)
 
   app$set_inputs("popover_msg" = "newer")
 
@@ -198,7 +223,7 @@ test_that("Can programmatically update/show/hide tooltip", {
   expect_popover_content(app, "newer")
 
   app$set_inputs("navbar" = "Popover cases")
-  expect_no_tip()
+  expect_no_tip(app)
   app$set_inputs("navbar" = "Popover updates")
 
   app$set_inputs("show_title" = TRUE)
@@ -208,6 +233,8 @@ test_that("Can programmatically update/show/hide tooltip", {
   app$set_inputs("show_title" = FALSE)
   expect_popover_content(app, "newer", "")
 
+  click_close_button(app)
+  expect_no_tip(app)
 })
 
 
@@ -216,10 +243,12 @@ test_that("Can put input controls in the popover", {
 
   app$set_inputs("navbar" = "Popover inputs")
 
-  key_press("Tab")
-  key_press("Tab")
+  app$run_js("$('#inc').focus()")
+  expect_focus(app, "#inc")
+
   app$click(selector = "#btn4")
-  expect_visible_tip(app, "#btn4")
+  expect_visible_tip(app, "#btn4", expect_tabbable = TRUE)
+
   key_press("Tab")
   expect_focus(app, ".popover")
   key_press("Tab")
@@ -236,17 +265,17 @@ test_that("Can put input controls in the popover", {
   expect_equal(app$wait_for_value(input = "num", ignore = 5), 4)
   key_press("Escape")
   expect_focus(app, "#btn4")
-  expect_no_tip()
+  expect_no_tip(app)
+
+  # The UI is hidden, but we can still update the numeric input
   app$click("inc")
   expect_equal(app$wait_for_value(input = "num", ignore = 4), 5)
   app$click("inc")
   expect_equal(app$wait_for_value(input = "num", ignore = 5), 6)
 
   app$click(selector = "#btn4")
-  expect_visible_tip(app, "#btn4")
-  # Even though the tip is visible, it seems it's not always ready to be
-  # tabbed into, so wait a bit before doing so
-  {Sys.sleep(0.5); key_press("Tab")}
+  expect_visible_tip(app, "#btn4", expect_tabbable = TRUE)
+  key_press("Tab")
   expect_focus(app, '.popover')
   key_press("Tab")
   expect_focus(app, 'input#num')
@@ -257,6 +286,6 @@ test_that("Can put input controls in the popover", {
 
   key_press("Escape")
   expect_visible_tip(app, "#btn4")
-  click_close_button()
-  expect_no_tip()
+  click_close_button(app)
+  expect_no_tip(app)
 })
