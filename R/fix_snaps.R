@@ -38,6 +38,9 @@ fix_snaps <- function(
   # validate_core_pkgs()
 
   apps_folder <- file.path(repo_dir, "inst", "apps")
+  if (!dir.exists(apps_folder)) {
+    stop("Error: ", apps_folder, " does not exist")
+  }
 
   verify_if_not_main_branch(ask_if_not_main, repo_dir = repo_dir)
   verify_no_git_changes(repo_dir = repo_dir, apps_folder = apps_folder)
