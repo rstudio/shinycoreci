@@ -7,10 +7,16 @@ plotly_bars <- plot_ly(x = LETTERS[1:3], y = 1:3) %>%
   add_bars()
 
 sidebar_long <- sidebar(lorem::ipsum(3, 3))
-sidebar_short <- sidebar(
-  p("A simple sidebar"),
-  actionButton("foo", "This button does nothing")
-)
+sidebar_short <- local({
+  i <- 0
+  function() {
+    i <<- i + 1
+    sidebar(
+      p("A simple sidebar"),
+      actionButton(sprintf("foo-%d", i), "This button does nothing")
+    )
+  }
+})
 
 ui <- page_navbar(
   title = "Sidebar kitchen sink",
@@ -39,10 +45,10 @@ ui <- page_navbar(
   nav_panel(
     "Fill",
     plotly_bars,
-    layout_sidebar(plotly_bars, sidebar = sidebar_short),
+    layout_sidebar(plotly_bars, sidebar = sidebar_short()),
     card(
       card_header("Depth"),
-      layout_sidebar(plotly_bars, sidebar = sidebar_short)
+      layout_sidebar(plotly_bars, sidebar = sidebar_short())
     )
   ),
   nav_panel(
