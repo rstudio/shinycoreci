@@ -97,7 +97,7 @@ expect_popover_content <- function(app, body = NULL, header = NULL) {
 
   if (!is.null(header)) {
     header_actual <- app$
-      wait_for_js("document.querySelector('.popover-header')")$
+      wait_for_js("document.querySelector('.popover-header') !== null")$
       get_text(".popover-header")
 
     expect_equal(trimws(header_actual), header)
