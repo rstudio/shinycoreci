@@ -35,7 +35,7 @@ ui <- page_navbar(
     # Disable sidebar transitions for tests
     tags$style(
       id = "disable-sidebar-transition",
-      ".bslib-sidebar-layout {--bslib-sidebar-transition-duration: 0};"
+      ":root {--bslib-sidebar-transition-duration: 0ms};"
     ),
     tags$style(HTML(".plotly .modebar-container { display: none; }")),
     span("header", class = "bg-dark"),
