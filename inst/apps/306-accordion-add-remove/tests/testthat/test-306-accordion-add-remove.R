@@ -8,7 +8,8 @@ test_that("{shinytest2} recording: accordion-select", {
     variant = platform_variant(), name = "accordion-select",
     height = height, width = width,
     view = interactive(),
-    options = list(bslib.precompiled = FALSE)
+    options = list(bslib.precompiled = FALSE),
+    screenshot_args = list(delay = 0.5)
   )
 
   # Make sure the set_input() calls complete in order
