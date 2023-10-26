@@ -84,7 +84,7 @@ ui <- page_fixed(
   h1("Dynamic Sidebars"),
   tags$head(tags$title("bslib | Tests | Dynamic Sidebars")),
   # Disable sidebar transitions for tests
-  tags$style(".bslib-sidebar-layout {--bslib-sidebar-transition-duration: 5ms};"),
+  tags$style(":root {--bslib-sidebar-transition-duration: 0ms};"),
   p(
     "Test dynamically added sidebars.",
     "Each new layout is a nested layout with two sidebars.",
