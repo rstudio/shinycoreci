@@ -10,7 +10,7 @@ fix_snaps(
   ask_apps = FALSE,
   ask_branches = TRUE,
   ask_if_not_main = TRUE,
-  repo_dir = "."
+  repo_dir = rprojroot::find_package_root_file()
 )
 }
 \arguments{
