@@ -23,7 +23,7 @@ test_in_local <- function(
   assert = TRUE,
   timeout = 10 * 60,
   retries = 2,
-  repo_dir = "."
+  repo_dir = rprojroot::find_package_root_file()
 ) {
   retries <- as.numeric(retries)
   repo_dir <- normalizePath(repo_dir, mustWork = TRUE)

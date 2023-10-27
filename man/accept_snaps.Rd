@@ -4,7 +4,7 @@
 \alias{accept_snaps}
 \title{Accept all snapshot changes}
 \usage{
-accept_snaps(repo_dir = ".")
+accept_snaps(repo_dir = rprojroot::find_package_root_file())
 }
 \arguments{
 \item{repo_dir}{Root repo folder path}

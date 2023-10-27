@@ -5,7 +5,7 @@
 #' @inheritParams fix_snaps
 #' @export
 accept_snaps <- function(
-  repo_dir = "."
+  repo_dir = rprojroot::find_package_root_file()
 ) {
 
   app_paths <- repo_apps_paths(repo_dir)
@@ -32,7 +32,7 @@ accept_snaps <- function(
 
 
 # Removes all snaps that are below the minimum R version
-remove_snaps_cruft <- function(repo_dir = ".", min_r_version = "3.6") {
+remove_snaps_cruft <- function(repo_dir = rprojroot::find_package_root_file(), min_r_version = "3.6") {
   app_paths <- repo_apps_paths(repo_dir)
 
   pb <- progress_bar(

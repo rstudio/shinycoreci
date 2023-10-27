@@ -29,7 +29,7 @@ fix_snaps <- function(
   ask_apps = FALSE,
   ask_branches = TRUE,
   ask_if_not_main = TRUE,
-  repo_dir = "."
+  repo_dir = rprojroot::find_package_root_file()
 ) {
   original_sys_call <- sys.call()
   ask_apps <- as.logical(ask_apps)
@@ -38,6 +38,9 @@ fix_snaps <- function(
   # validate_core_pkgs()
 
   apps_folder <- file.path(repo_dir, "inst", "apps")
+  if (!dir.exists(apps_folder)) {
+    stop("Apps folder does not exist: ", apps_folder)
+  }
 
   verify_if_not_main_branch(ask_if_not_main, repo_dir = repo_dir)
   verify_no_git_changes(repo_dir = repo_dir, apps_folder = apps_folder)
@@ -275,7 +278,7 @@ fix_snaps <- function(
       f = function(app_name) {
         pb$tick(tokens = list(name = app_name))
         # Use `.` as `git_cmd_` runs within `repo_dir`
-        app_path <- repo_app_path(repo_dir = ".", app_name = app_name)
+        app_path <- repo_app_path(repo_dir = rprojroot::find_package_root_file(), app_name = app_name)
         git_cmd_("git checkout -- ", app_path)
         git_cmd_("git clean -df -- ", app_path)
       }
@@ -291,7 +294,7 @@ fix_snaps <- function(
 
 
 # Note: Logic should be duplicated in pre-check GHA workflow
-verify_no_new_snaps <- function(repo_dir = ".", folder = "inst/apps") {
+verify_no_new_snaps <- function(repo_dir = rprojroot::find_package_root_file(), folder = "inst/apps") {
   new_snaps <- dir(file.path(repo_dir, folder), pattern = "\\.new", recursive = TRUE, include.dirs = FALSE)
   if (length(new_snaps) > 0) {
     message("There should be no `.new` _snaps in `", folder, "`. Found: \n", paste0("* ", new_snaps, collapse = "\n"))
