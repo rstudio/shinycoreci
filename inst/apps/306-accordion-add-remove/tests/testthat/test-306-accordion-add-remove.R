@@ -9,7 +9,11 @@ test_that("{shinytest2} recording: accordion-select", {
     height = height, width = width,
     view = interactive(),
     options = list(bslib.precompiled = FALSE),
-    screenshot_args = list(delay = 0.5)
+    screenshot_args = list(
+      delay = 0.5,
+      selector = "viewport",
+      options = list(captureBeyondViewport = FALSE)
+    )
   )
 
   # Make sure the set_input() calls complete in order

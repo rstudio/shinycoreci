@@ -15,9 +15,7 @@ ui <- page_sidebar(
     "accordion-icon-active-color" = "white"
   ) %>%
     bs_add_rules(
-      ".bslib-sidebar-layout .main { background-color: lightgray; }
-      /* Disable transition time for correct layout in screenshots */
-      :root { --bslib-sidebar-transition-duration: 0ms; }"
+      ".bslib-sidebar-layout .main { background-color: lightgray; }"
     ),
   sidebar = sidebar(
     bg = "#1E1E1E",
