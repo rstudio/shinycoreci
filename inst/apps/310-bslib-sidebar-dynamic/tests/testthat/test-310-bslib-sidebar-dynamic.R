@@ -2,7 +2,7 @@ library(shinytest2)
 
 # Only take screenshots on mac + r-release to reduce diff noise
 expect_screenshot_mac_release <- local({
-  release <- rversions::r_release()$version
+  release <- jsonlite::fromJSON("https://api.r-hub.io/rversions/resolve/release")$version
   release <- paste0(
     strsplit(release, ".", fixed = TRUE)[[1]][1:2],
     collapse = "."
@@ -69,7 +69,12 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
     width = 1200,
     view = interactive(),
     options = list(bslib.precompiled = FALSE),
-    expect_values_screenshot_args = FALSE
+    expect_values_screenshot_args = FALSE,
+    screenshot_args = list(
+      selector = "viewport",
+      delay = 0.5,
+      options = list(captureBeyondViewport = FALSE)
+    )
   )
 
   expect_sidebar_hidden <- expect_sidebar_hidden_factory(app)
