@@ -1,7 +1,7 @@
 library(shinytest2)
 
 # Only take screenshots on mac + r-release to reduce diff noise
-release <- rversions::r_release()$version
+release <- jsonlite::fromJSON("https://api.r-hub.io/rversions/resolve/release")$version
 release <- paste0(
   strsplit(release, ".", fixed = TRUE)[[1]][1:2],
   collapse = "."
@@ -24,8 +24,12 @@ test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
     seed = 101,
     height = height,
     width = width,
-    # Set a delay to screenshot after layout is settled
-    screenshot_args = list(delay = 1)
+    # TODO: rstudio/shinytest2#367
+    screenshot_args = list(
+      selector = "viewport",
+      delay = 0.5,
+      options = list(captureBeyondViewport = FALSE)
+    )
   )
 
   expect_screenshot <- function() {
@@ -38,7 +42,7 @@ test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
   expect_screenshot()
 
   # Contents should render to their natural height on mobile
-  app$set_window_size(width = 500, height = 1000)
+  app$set_window_size(width = 500, height = 2000)
   expect_screenshot()
   app$set_window_size(width = width, height = height)
 
@@ -50,7 +54,6 @@ test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
   Sys.sleep(1) # Wait for the tab to receive focus
   expect_screenshot()
 
-  app$run_js("document.getElementById('disable-sidebar-transition').remove()")
   app$click("toggle_sidebar")
   app$wait_for_js("
     document.querySelector('.bslib-sidebar-layout.transitioning') === null

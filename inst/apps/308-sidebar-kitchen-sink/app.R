@@ -12,8 +12,10 @@ sidebar_short <- local({
   function() {
     i <<- i + 1
     sidebar(
-      p("A simple sidebar"),
-      actionButton(sprintf("foo-%d", i), "This button does nothing")
+      p("A simple", code("sidebar")),
+      actionButton(sprintf("foo-%d", i), "This button does nothing"),
+      bg = "#1F77B4",
+      `data-bs-theme` = "dark"
     )
   }
 })
@@ -27,17 +29,15 @@ ui <- page_navbar(
     position = "right",
     id = "global_sidebar",
     bg = "#1E1E1E",
+    `data-bs-theme` = "dark",
     shiny::markdown(
       "Learn more about `bslib::sidebar()` [here](https://rstudio.github.io/bslib/articles/sidebars.html)"
     )
   ),
   header = tagList(
-    # Disable sidebar transitions for tests
-    tags$style(
-      id = "disable-sidebar-transition",
-      ":root {--bslib-sidebar-transition-duration: 0ms};"
-    ),
-    tags$style(HTML(".plotly .modebar-container { display: none; }")),
+    tags$style(HTML("
+      .plotly .modebar-container { display: none; }
+    ")),
     span("header", class = "bg-dark"),
     span("content", class = "bg-dark")
   ),
