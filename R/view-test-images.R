@@ -2,7 +2,7 @@
 #'
 #' @param repo_dir directory to the shinycoreci repo
 #' @export
-view_test_images <- function(repo_dir = rprojroot::find_package_root_file()) {
+view_test_images <- function(repo_dir = ".") {
   app_folders <- Filter(repo_apps_paths(repo_dir), f = function(app_folder) {
     dir.exists(file.path(app_folder, "tests/testthat/_snaps"))
   })

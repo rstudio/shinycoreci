@@ -4,13 +4,7 @@
 \alias{save_test_results}
 \title{View (and save) \code{test_in_local()} output}
 \usage{
-save_test_results(
-  output,
-  gha_branch_name,
-  pr_number,
-  username,
-  repo_dir = rprojroot::find_package_root_file()
-)
+save_test_results(output, gha_branch_name, pr_number, username, repo_dir = ".")
 }
 \arguments{
 \item{output}{output from \code{test_in_local()}.}

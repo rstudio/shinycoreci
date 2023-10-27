@@ -46,16 +46,16 @@ is_manual_app <- function(app_dir) {
 
 
 ### Start GHA
-apps_with_tests <- function(repo_dir = rprojroot::find_package_root_file()) {
+apps_with_tests <- function(repo_dir = ".") {
   basename(Filter(x = repo_apps_paths(repo_dir), has_tests_folder))
 }
-repo_apps_path <- function(repo_dir = rprojroot::find_package_root_file()) {
+repo_apps_path <- function(repo_dir = ".") {
   file.path(repo_dir, "inst", "apps")
 }
-repo_apps_paths <- function(repo_dir = rprojroot::find_package_root_file()) {
+repo_apps_paths <- function(repo_dir = ".") {
   dir(repo_apps_path(repo_dir), pattern = "^\\d\\d\\d-", full.names = TRUE)
 }
-repo_app_path <- function(app_name, repo_dir = rprojroot::find_package_root_file()) {
+repo_app_path <- function(app_name, repo_dir = ".") {
   file.path(repo_apps_path(repo_dir), app_name)
 }
 

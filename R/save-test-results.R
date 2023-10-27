@@ -10,7 +10,7 @@
 #' @inheritParams test_in_local
 #' @rdname test-results
 #' @export
-save_test_results <- function(output, gha_branch_name, pr_number, username, repo_dir = rprojroot::find_package_root_file()) {
+save_test_results <- function(output, gha_branch_name, pr_number, username, repo_dir = ".") {
   if (!inherits(output, "shinycoreci_test_output")) {
     stop("`output` must be an object returned by test_in_local()", call. = FALSE)
   }

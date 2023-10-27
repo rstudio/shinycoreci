@@ -11,7 +11,7 @@ test_in_local(
   assert = TRUE,
   timeout = 10 * 60,
   retries = 2,
-  repo_dir = rprojroot::find_package_root_file()
+  repo_dir = "."
 )
 }
 \arguments{
