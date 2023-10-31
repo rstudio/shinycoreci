@@ -48,6 +48,7 @@ These GitHub packages will be installed to make sure the latest package developm
 - [rstudio/shiny](http://github.com/rstudio/shiny)
 - [rstudio/shinymeta](http://github.com/rstudio/shinymeta)
 - [rstudio/shinytest](http://github.com/rstudio/shinytest)
+- [rstudio/chromote](http://github.com/rstudio/chromote)
 - [rstudio/shinytest2](http://github.com/rstudio/shinytest2)
 - [rstudio/shinythemes](http://github.com/rstudio/shinythemes)
 - [rstudio/shinyvalidate](http://github.com/rstudio/shinyvalidate)
