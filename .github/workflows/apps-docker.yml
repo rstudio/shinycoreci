@@ -44,9 +44,9 @@ jobs:
           # - workdir: inst/Docker/centos
           #   type: centos7
           - workdir: inst/Docker/ubuntu
-            type: focal
+            type: jammy
           - workdir: inst/Docker/ubuntu
-            type: bionic
+            type: focal
 
     steps:
       - name: Short R version and SHA
