@@ -7,10 +7,18 @@ plotly_bars <- plot_ly(x = LETTERS[1:3], y = 1:3) %>%
   add_bars()
 
 sidebar_long <- sidebar(lorem::ipsum(3, 3))
-sidebar_short <- sidebar(
-  p("A simple sidebar"),
-  actionButton("foo", "This button does nothing")
-)
+sidebar_short <- local({
+  i <- 0
+  function() {
+    i <<- i + 1
+    sidebar(
+      p("A simple", code("sidebar")),
+      actionButton(sprintf("foo-%d", i), "This button does nothing"),
+      bg = "#1F77B4",
+      `data-bs-theme` = "dark"
+    )
+  }
+})
 
 ui <- page_navbar(
   title = "Sidebar kitchen sink",
@@ -21,12 +29,15 @@ ui <- page_navbar(
     position = "right",
     id = "global_sidebar",
     bg = "#1E1E1E",
+    `data-bs-theme` = "dark",
     shiny::markdown(
       "Learn more about `bslib::sidebar()` [here](https://rstudio.github.io/bslib/articles/sidebars.html)"
     )
   ),
   header = tagList(
-    tags$style(HTML(".plotly .modebar-container { display: none; }")),
+    tags$style(HTML("
+      .plotly .modebar-container { display: none; }
+    ")),
     span("header", class = "bg-dark"),
     span("content", class = "bg-dark")
   ),
@@ -37,10 +48,10 @@ ui <- page_navbar(
   nav_panel(
     "Fill",
     plotly_bars,
-    layout_sidebar(plotly_bars, sidebar = sidebar_short),
+    layout_sidebar(plotly_bars, sidebar = sidebar_short()),
     card(
       card_header("Depth"),
-      layout_sidebar(plotly_bars, sidebar = sidebar_short)
+      layout_sidebar(plotly_bars, sidebar = sidebar_short())
     )
   ),
   nav_panel(

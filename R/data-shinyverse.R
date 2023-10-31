@@ -24,6 +24,7 @@ shinyverse_remotes <- c(
   "rstudio/shiny",
   "rstudio/shinymeta",
   "rstudio/shinytest",
+  "rstudio/chromote",
   "rstudio/shinytest2",
   "rstudio/shinythemes",
   "rstudio/shinyvalidate",
