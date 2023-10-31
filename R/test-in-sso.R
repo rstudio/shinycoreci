@@ -197,7 +197,7 @@ test_in_ssossp <- function(
       return("")
     }
     out <- docker_proc$read_output_lines()
-    if (length(out) > 0 && nchar(out) > 0) {
+    if (length(out) > 0 && any(nzchar(out))) {
       paste0(out, collapse = "\n")
     } else {
       ""
@@ -218,7 +218,7 @@ test_in_ssossp <- function(
       Sys.sleep(0.5) # arbitrary, but it'll be a while till the docker is launched
       # display all docker output
       out <- get_docker_output()
-      if (nchar(out) > 0) {
+      if (any(nzchar(out))) {
         cat(out, "\n", sep = "")
       }
       invisible()
@@ -248,10 +248,10 @@ test_in_ssossp <- function(
           return("(dead)")
         }
         docker_proc_output_lines <- docker_proc$read_output_lines()
-        if (any(nchar(docker_proc_output_lines) > 0)) {
+        if (any(nzchar(docker_proc_output_lines))) {
           output_lines <<- paste0(
             output_lines,
-            if (nchar(output_lines) > 0) "\n",
+            if (nzchar(output_lines)) "\n",
             paste0(docker_proc_output_lines, collapse = "\n")
           )
         }
