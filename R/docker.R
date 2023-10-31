@@ -23,7 +23,7 @@ docker_clean <- function(stopped_containers = TRUE, untagged_images = TRUE) {
 
 docker_run_server <- function(
   type = c("sso", "ssp"),
-  release = c("focal", "bionic", "centos7"),
+  release = c("jammy", "focal", "centos7"),
   license_file = NULL,
   port = switch(type,
                 sso = switch(release, "centos7" = 7878, 3838),
