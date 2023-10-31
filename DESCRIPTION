@@ -16,6 +16,7 @@ Imports:
     progress,
     callr,
     sessioninfo,
+    rprojroot,
     rstudioapi (>= 0.11),
     cli
 Suggests:
