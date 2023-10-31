@@ -38,10 +38,10 @@ test_in_browser <- function(
         return()
       }
       proc_output_lines <- app_proc$read_output_lines()
-      if (any(nchar(proc_output_lines) > 0)) {
+      if (any(nzchar(proc_output_lines))) {
         output_lines_val <<- paste0(
           output_lines_val,
-          if (nchar(output_lines_val) > 0) "\n",
+          if (nzchar(output_lines_val)) "\n",
           paste0(proc_output_lines, collapse = "\n")
         )
       }
