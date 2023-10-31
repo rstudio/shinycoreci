@@ -27,7 +27,9 @@ ARG EXTRA_BASE_TAG=
 RUN apt-get install -y gdebi-core && \
   case "${RELEASE}" in \
     xenial) AWS_BUILD_MACHINE=ubuntu-16.04 ;; \
-    *)      AWS_BUILD_MACHINE=ubuntu-18.04 ;; \
+    bionic) AWS_BUILD_MACHINE=ubuntu-18.04 ;; \
+    focal)  AWS_BUILD_MACHINE=ubuntu-20.04 ;; \
+    *)      AWS_BUILD_MACHINE=ubuntu-22.04 ;; \
   esac && \
   wget --no-verbose "https://s3.amazonaws.com/rstudio-shiny-server-pro-build/${AWS_BUILD_MACHINE}/x86_64/VERSION" -O "version.txt" && \
   VERSION=$(cat version.txt)  && \
