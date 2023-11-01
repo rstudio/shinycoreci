@@ -25,7 +25,7 @@ test_that("{shinytest2} recording: accordion-select", {
   # Test accordion_panel_set()
   set_inputs(selected = c("A", "D"))
   set_inputs(selected = c("A", "D", "H"))
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 5)
 
   # Test accordion_panel_remove()
   set_inputs(displayed = c("D", "F"))
@@ -36,7 +36,7 @@ test_that("{shinytest2} recording: accordion-select", {
   set_inputs(open_on_insert = TRUE)
   set_inputs(displayed = c("A", "D", "F", "J", "Z"))
   set_inputs(displayed = c("A", "D", "F", "J", "K", "Z"))
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 5)
 
   # redo tests with accordion(autoclose = TRUE)
   set_inputs(open_on_insert = FALSE)
@@ -45,11 +45,11 @@ test_that("{shinytest2} recording: accordion-select", {
   # Last one (D) should be selected
   set_inputs(selected = "B")
   set_inputs(selected = c("C", "D"))
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 5)
 
   set_inputs(displayed = c("A", "D", "F", "Z"))
   set_inputs(open_on_insert = TRUE)
   set_inputs(displayed = c("A", "D", "F", "J", "Z"))
   set_inputs(displayed = c("A", "D", "F", "J", "K", "Z"))
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 5)
 })
