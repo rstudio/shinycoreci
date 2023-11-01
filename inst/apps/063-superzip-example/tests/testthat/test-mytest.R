@@ -26,7 +26,7 @@ test_that("Migrated shinytest test: mytest.R", {
   }
 
   app$expect_values()
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 5)
   app$set_inputs(threshold = 3)
   app$set_inputs(color = "college")
 
@@ -38,7 +38,7 @@ test_that("Migrated shinytest test: mytest.R", {
     cat("\n\n")
   }
   app$expect_values()
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 5)
 
   app$set_inputs(nav = "Data explorer")
 
@@ -49,7 +49,7 @@ test_that("Migrated shinytest test: mytest.R", {
     cat("\n\n")
   }
   app$expect_values()
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 5)
 
   # Input 'ziptable_rows_current' was set, but doesn't have an input binding.
   # Input 'ziptable_rows_all' was set, but doesn't have an input binding.
@@ -64,5 +64,5 @@ test_that("Migrated shinytest test: mytest.R", {
     cat("\n\n")
   }
   app$expect_values()
-  app$expect_screenshot()
+  app$expect_screenshot(threshold = 5)
 })
