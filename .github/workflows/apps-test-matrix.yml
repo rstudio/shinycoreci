@@ -29,7 +29,7 @@ jobs:
     needs: [config, ubuntu-release]
     uses: ./.github/workflows/apps-test-os.yml
     with:
-      r-version: 4.3.1
+      r-version: ${{ needs.config.outputs.release }}
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
     secrets:
