@@ -8,7 +8,7 @@ on:
     outputs:
       macos:
         description: macos OS value
-        value: "macos-11"
+        value: "macos-12"
       windows:
         description: windows OS value
         value: "windows-latest"
