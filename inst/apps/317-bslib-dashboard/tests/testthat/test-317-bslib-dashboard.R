@@ -13,15 +13,13 @@ resolve_r_version <- function(name) {
 }
 
 r_release <- resolve_r_version("release")
-r_devel <- resolve_r_version("devel")
 
-if (!platform_variant(os_name = FALSE) %in% c(r_release, r_devel)) {
-  skip(glue("Screenshots with R release and devel only"))
+if (platform_variant(os_name = FALSE) != r_release) {
+  skip(glue("Screenshots with R release only"))
 }
 
 this_platform <- platform_variant()
 this_platform <- sub(r_release, "release", this_platform, fixed = TRUE)
-this_platform <- sub(r_devel,     "devel", this_platform, fixed = TRUE)
 
 # Setup App  --------------------------------------------------
 app <- AppDriver$new(
