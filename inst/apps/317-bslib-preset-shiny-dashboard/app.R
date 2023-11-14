@@ -138,6 +138,40 @@ ui_navbar <- function(enable_dashboard = TRUE) {
   )
 }
 
+ui_navbar_fillable <- function(...) {
+  page_navbar(
+    title = "Dashboard",
+    theme = bs_global_get(),
+    fillable = TRUE,
+    nav_spacer(),
+    nav_item(input_dark_mode(id = "dark_mode")),
+    nav_item(
+      popover(
+        bsicons::bs_icon("gear-fill"),
+        toggle_class_buttons
+      )
+    ),
+    nav_panel(
+      "Dash",
+      row_value_boxes,
+      row_cards
+    ),
+    nav_panel(
+      "About",
+      layout_columns(
+        card(
+          card_title("About this"),
+          lorem::ipsum(3, 2)
+        ),
+        card(
+          card_title("About that"),
+          lorem::ipsum(4, c(2, 1, 3, 2))
+        )
+      )
+    )
+  )
+}
+
 ui_sidebar <- function(enable_dashboard = TRUE) {
   page_sidebar(
     title = "Dashboard",
@@ -319,7 +353,8 @@ ui <- function(req) {
     fillable_sidebar = ui_fillable_sidebar(enable_dashboard = q$dashboard_class),
     flow_dash = ui_flow_dash(enable_dashboard = q$dashboard_class),
     flow_sidebar = ui_flow_sidebar(enable_dashboard = q$dashboard_class),
-    fillable_nested = ui_fillable_nested(enable_dashboard = q$dashboard_class)
+    fillable_nested = ui_fillable_nested(enable_dashboard = q$dashboard_class),
+    navbar_fillable = ui_navbar_fillable()
   )
 }
 
