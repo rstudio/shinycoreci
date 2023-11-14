@@ -4,6 +4,7 @@ library(bslib)
 options(
   sass.cache = FALSE,
   shiny.autoreload = TRUE,
+  shiny.testmode = TRUE,
   bslib.precompiled = FALSE
 )
 
@@ -62,7 +63,7 @@ global_sidebar <- function(..., fg = NULL, bg = NULL) {
     title = "Sidebar",
     fg = fg,
     bg = bg,
-    selectInput("letter1", "Letter", LETTERS),
+    "Shared sidebar",
     input_dark_mode(id = "dark_mode"),
     ...,
     toggle_class_buttons
@@ -76,8 +77,7 @@ card_a_nav <-
       title = "Sidebar A",
       width = "200px",
       position = "left",
-      "Left sidebar",
-      selectInput("letter2", "Letter", LETTERS)
+      "Left sidebar"
     ),
     nav_panel("One", plotly::plotlyOutput("bars")),
     nav_panel("Two", "Second panel in the nav card")
@@ -92,8 +92,7 @@ card_a <-
         title = "Sidebar A",
         width = "200px",
         position = "left",
-        "Left sidebar",
-        selectInput("letter2", "Letter", LETTERS)
+        "Left sidebar"
       ),
       plotly::plotlyOutput("bars")
     ),
@@ -108,8 +107,7 @@ card_b <-
         title = "Sidebar B",
         width = "200px",
         position = "right",
-        "Right sidebar",
-        sliderInput("number", "Range", 0, 100, c(33, 66), ticks = FALSE)
+        "Right sidebar"
       ),
       plotly::plotlyOutput("line")
     ),

@@ -32,7 +32,7 @@ app <- AppDriver$new(
   options = list(bslib.precompiled = FALSE),
   screenshot_args = list(
     selector = "viewport",
-    delay = 0.5,
+    delay = 1,
     options = list(captureBeyondViewport = FALSE)
   )
 )
@@ -72,6 +72,51 @@ app_types <- c(
   "fillable-nested"
 )
 
+app_get_toggle_state <- function(app, id) {
+  app$get_js(glue("document.getElementById('{id}').checked"))
+}
+
+app_set_toggle_state <- function(app, ...) {
+  states <- list(...)
+  for (id in names(states)) {
+    state <- tolower(states[[id]])
+    app$run_js(glue(.open = "{{", .close = "}}", "
+      const toggle = document.getElementById('{{id}}')
+      const changed = toggle.checked !== {{state}}
+      if (changed) {
+        toggle.checked = {{state}}
+        toggle.onchange.call(toggle)
+      }
+    "))
+
+    app$wait_for_js(glue("document.getElementById('{id}').checked === {state}"))
+  }
+}
+
+variant_settings <- function(
+  app,
+  dashboard_toggle = FALSE,
+  shadow_toggle = FALSE,
+  shadow_sm_toggle = FALSE,
+  shadow_lg_toggle = FALSE
+) {
+  # Both enables desired toggles, while ensuring others are disabled. This
+  # doesn't go through `app$set_inputs()` or `app$get_values()` because those
+  # don't currently work when the app is reloaded (missing testmode js).
+  app_set_toggle_state(
+    app,
+    dashboard_toggle = dashboard_toggle,
+    shadow_toggle = shadow_toggle,
+    shadow_sm_toggle = shadow_sm_toggle,
+    shadow_lg_toggle = shadow_lg_toggle
+  )
+
+  expect_equal(dashboard_toggle, app_get_toggle_state(app, "dashboard_toggle"))
+  expect_equal(shadow_toggle,    app_get_toggle_state(app, "shadow_toggle"))
+  expect_equal(shadow_sm_toggle, app_get_toggle_state(app, "shadow_sm_toggle"))
+  expect_equal(shadow_lg_toggle, app_get_toggle_state(app, "shadow_lg_toggle"))
+}
+
 for (app_type in app_types) {
   expect_screenshot <- function(variant) {
     app$expect_screenshot(
@@ -81,38 +126,52 @@ for (app_type in app_types) {
   }
 
   describe(app_type, {
-    nav_to_variant(app, ui = app_type)
+    loaded <- FALSE
 
-    is_flow <- grepl("^flow", app_type)
-    app$set_window_size(
-      width = if (is_flow)  1000 else 1200,
-      height = if (is_flow) 1200 else 800
-    )
+    it("loads the app UI variant", {
+      nav_to_variant(app, ui = app_type)
+
+      is_flow <- grepl("^flow", app_type)
+      app$set_window_size(
+        width = if (is_flow)  1000 else 1200,
+        height = if (is_flow) 1200 else 800
+      )
+
+      loaded <<- TRUE
+      expect_true(loaded)
+    })
+
+    skip_if_not(loaded)
 
     it("light mode", {
+      variant_settings(app) # ensure toggles are all off
       expect_screenshot("mode_light")
     })
 
-    if (!app_type %in% c("navbar", "sidebar")) {
+    add_dashboard <- !app_type %in% c("navbar", "sidebar")
+
+    if (add_dashboard) {
       it("with bslib-page-dashboard class", {
-        app$set_inputs(dashboard_toggle = TRUE)
+        variant_settings(app, dashboard_toggle = add_dashboard)
         expect_screenshot("class_dashboard")
       })
     }
 
     it("no shadows", {
-      app$set_inputs(shadow_toggle = TRUE)
+      variant_settings(app, shadow_toggle = TRUE, dashboard_toggle = add_dashboard)
       expect_screenshot("class_no-shadow")
     })
 
     it("small shadows", {
-      app$set_inputs(shadow_sm_toggle = TRUE, shadow_toggle = FALSE)
+      variant_settings(app, shadow_sm_toggle = TRUE, dashboard_toggle = add_dashboard)
       expect_screenshot("class_small-shadow")
     })
 
     it("dark mode", {
-      app$set_inputs(shadow_sm_toggle = FALSE)
+      variant_settings(app, dashboard_toggle = add_dashboard)
       app$run_js("document.documentElement.dataset.bsTheme='dark'")
+      app$wait_for_js("document.documentElement.dataset.bsTheme === 'dark'")
+      Sys.sleep(1) # wait for transition
       expect_screenshot("mode_dark")
     })
 
