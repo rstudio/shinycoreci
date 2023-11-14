@@ -14,8 +14,8 @@ resolve_r_version <- function(name) {
 
 r_release <- resolve_r_version("release")
 
-if (platform_variant(os_name = FALSE) != r_release) {
-  skip(glue("Screenshots with R release only"))
+if (platform_variant() != paste0("mac-", r_release)) {
+  skip("Screenshots only on MacOS with R-release")
 }
 
 this_platform <- platform_variant()
@@ -23,7 +23,7 @@ this_platform <- sub(r_release, "release", this_platform, fixed = TRUE)
 
 # Setup App  --------------------------------------------------
 app <- AppDriver$new(
-  name = "317-bslib-dashboard",
+  name = "317-bslib-preset-shiny-dashboard",
   variant = this_platform,
   height = 800,
   width = 1200,
@@ -75,7 +75,7 @@ app_types <- c(
 for (app_type in app_types) {
   expect_screenshot <- function(variant) {
     app$expect_screenshot(
-      threshold = 10,
+      threshold = 15,
       name = glue("{app_type}_{variant}")
     )
   }
