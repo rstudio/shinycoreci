@@ -3,7 +3,7 @@ library(bslib)
 
 options(
   sass.cache = FALSE,
-  ahiny.autoreload = TRUE,
+  shiny.autoreload = TRUE,
   bslib.precompiled = FALSE
 )
 
@@ -218,7 +218,6 @@ ui_flow_sidebar <- function(enable_dashboard = TRUE) {
       h2("Fixed Dashboard Page"),
       layout_sidebar(
         sidebar = global_sidebar(),
-        # class = if (enable_dashboard) "bslib-dashboard-main",
         row_value_boxes,
         lorem::ipsum(2, 2),
         row_cards
@@ -291,14 +290,10 @@ server <- function(input, output, session) {
 }
 
 ui <- function(req) {
-  # browser()
-
   q <- parseQueryString(req$QUERY_STRING)
   if (is.null(q$ui)) q$ui <- "navbar"
   q$ui <- gsub("-", "_", q$ui)
   if (is.null(q$preset)) q$preset <- "shiny"
-  # if (is.null(q$dashboard)) q$dashboard <- TRUE
-  # if (is.null(q$shadows)) q$shadows <- TRUE
   if (is.null(q$dashboard_class)) q$dashboard_class <- FALSE
 
   args <- list(
