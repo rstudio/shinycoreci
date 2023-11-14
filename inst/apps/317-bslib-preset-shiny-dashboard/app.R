@@ -196,34 +196,39 @@ abs_dark_mode <- input_dark_mode(
 )
 
 ui_flow_dash <- function(enable_dashboard = TRUE) {
-  tags$body(
-    class = if (enable_dashboard) "bslib-page-dashboard",
-    page_fluid(
-      theme = bs_global_get(),
-      h2("Fluid Dashboard Page", class = "my-4"),
-      row_value_boxes,
-      lorem::ipsum(2, 2),
-      row_cards,
-      abs_dark_mode,
-      toggle_class_buttons
-    )
+  p <- page_fluid(
+    theme = bs_global_get(),
+    h2("Fluid Dashboard Page", class = "my-4"),
+    row_value_boxes,
+    lorem::ipsum(2, 2),
+    row_cards,
+    abs_dark_mode,
+    toggle_class_buttons
   )
+
+  if (!enable_dashboard) return(p)
+
+  # In the tests, the dashboard class is added w/ client-side JS, but it could
+  # be done manually by directly calling body. This path is not directly tested,
+  # but is included for symmetry with the other UIs and for manual testing.
+  tags$body(class = "bslib-page-dashboard", p)
 }
 
 ui_flow_sidebar <- function(enable_dashboard = TRUE) {
-  tags$body(
-    class = if (enable_dashboard) "bslib-page-dashboard",
-    page_fixed(
-      theme = bs_global_get(),
-      h2("Fixed Dashboard Page"),
-      layout_sidebar(
-        sidebar = global_sidebar(),
-        row_value_boxes,
-        lorem::ipsum(2, 2),
-        row_cards
-      )
+  p <- page_fixed(
+    theme = bs_global_get(),
+    h2("Fixed Dashboard Page"),
+    layout_sidebar(
+      sidebar = global_sidebar(),
+      row_value_boxes,
+      lorem::ipsum(2, 2),
+      row_cards
     )
   )
+
+  if (!enable_dashboard) return(p)
+
+  tags$body(class = "bslib-page-dashboard", p)
 }
 
 ui_fillable_nested <- function(enable_dashboard = TRUE) {
