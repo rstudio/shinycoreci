@@ -118,10 +118,15 @@ variant_settings <- function(
 }
 
 for (app_type in app_types) {
+  screenshot_counter <- 0
+
   expect_screenshot <- function(variant) {
+    screenshot_counter <<- screenshot_counter + 1
+    count <- sprintf("%02d", screenshot_counter)
+
     app$expect_screenshot(
       threshold = 15,
-      name = glue("{app_type}_{variant}")
+      name = glue("{app_type}_{count}_{variant}")
     )
   }
 
