@@ -225,6 +225,8 @@ abs_dark_mode <- input_dark_mode(
 )
 
 ui_flow_dash <- function(enable_dashboard = TRUE) {
+  set.seed(2023*11*15)
+
   p <- page_fluid(
     theme = bs_global_get(),
     h2("Fluid Dashboard Page", class = "my-4"),
@@ -244,6 +246,8 @@ ui_flow_dash <- function(enable_dashboard = TRUE) {
 }
 
 ui_flow_sidebar <- function(enable_dashboard = TRUE) {
+  set.seed(2023*11*15)
+
   p <- page_fixed(
     theme = bs_global_get(),
     h2("Fixed Dashboard Page"),
