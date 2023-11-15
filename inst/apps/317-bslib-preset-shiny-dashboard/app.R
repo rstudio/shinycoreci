@@ -52,9 +52,6 @@ toggle_class_buttons <- HTML('
     <label class="form-check-label" for="shadow_lg_toggle">Large Shadow Class</label>
 </div>
 </fieldset>
-<script>document.querySelectorAll(".body-class-toggle").forEach((el) => {
-  el.checked = document.body.classList.contains(el.dataset.class)
-})</script>
 ')
 
 

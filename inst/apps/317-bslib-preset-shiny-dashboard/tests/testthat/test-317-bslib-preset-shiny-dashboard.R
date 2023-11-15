@@ -53,11 +53,11 @@ nav_to_variant <- function(app, ...) {
   url <- sprintf("%s?%s", app$get_url(), params)
   chrm <- app$get_chromote_session()
 
-  p <- chrm$Page$navigate(url, wait_ = FALSE)$
-    then(function(...) chrm$Page$loadEventFired(wait_ = FALSE))$
+  p <- chrm$Page$loadEventFired(wait_ = FALSE)$
     then(function(...) chrm$Runtime$evaluate(shinytest2_js, wait_ = FALSE))$
     then(function(...) app$wait_for_idle())
 
+  chrm$Page$navigate(url, wait_ = FALSE)
   chrm$wait_for(p)
   invisible(app)
 }
