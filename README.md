@@ -15,6 +15,16 @@
 <!-- This is an R package to install all dependencies to test the bleeding edge of all relevant packages to the Shiny team. -->
 <!-- For more direct usage examples, see [`rstudio/shinycoreci-apps`](https://github.com/rstudio/shinycoreci-apps). -->
 
+## Github Runner Images
+
+shinycoreci [uses the following GitHub Runnner Images](https://github.com/rstudio/shinycoreci/blob/main/.github/workflows/apps-config.yml).
+
+| Image               | Details                                                                                                 |                                                                                                            Status                                                                                                             |
+|:--------------------|:--------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Ubuntu 20.04        | [ubuntu-20.04](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2004-Readme.md)   |      [![status20](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=ubuntu20&badge=1)](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=ubuntu20&redirect=1)       |
+| macOS 12            | [macos-12](https://github.com/actions/runner-images/blob/main/images/macos/macos-12-Readme.md)          |    [![statusumac12](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=macos-12&badge=1)](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=macos-12&redirect=1)     |
+| Windows Server 2022 | [windows-2022](https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md) | [![statuswin22](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=windows-2022&badge=1)](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=windows-2022&redirect=1) |
+
 ## Installation
 
 Install the development version from [GitHub](https://github.com/) with:

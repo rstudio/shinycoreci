@@ -6,12 +6,13 @@ on:
     #     default: release
     #     required: false
     outputs:
+      # NOTE: Update badges and table in README when changing runner OS versions
       macos:
         description: macos OS value
         value: "macos-12"
       windows:
         description: windows OS value
-        value: "windows-latest"
+        value: "windows-2022"
       ubuntu:
         description: ubuntu OS value
         value: "ubuntu-20.04"
