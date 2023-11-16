@@ -32036,9 +32036,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.2.0.9000",
+          "version": "2.2.1.9000",
           "src": {
-            "href": "leaflet-binding-2.2.0.9000"
+            "href": "leaflet-binding-2.2.1.9000"
           },
           "meta": null,
           "script": "leaflet.js",
@@ -32111,6 +32111,58 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "City",
+              "targets": 1
+            },
+            {
+              "name": "State",
+              "targets": 2
+            },
+            {
+              "name": "Zipcode",
+              "targets": 3
+            },
+            {
+              "name": "Rank",
+              "targets": 4
+            },
+            {
+              "name": "Score",
+              "targets": 5
+            },
+            {
+              "name": "Superzip",
+              "targets": 6
+            },
+            {
+              "name": "Population",
+              "targets": 7
+            },
+            {
+              "name": "College",
+              "targets": 8
+            },
+            {
+              "name": "Income",
+              "targets": 9
+            },
+            {
+              "name": "Lat",
+              "targets": 10
+            },
+            {
+              "name": "Long",
+              "targets": 11
+            },
+            {
+              "name": "Action",
+              "targets": 12
             }
           ],
           "order": [

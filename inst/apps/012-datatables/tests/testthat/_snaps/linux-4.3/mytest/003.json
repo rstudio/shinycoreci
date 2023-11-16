@@ -1152,6 +1152,42 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "carat",
+              "targets": 1
+            },
+            {
+              "name": "cut",
+              "targets": 2
+            },
+            {
+              "name": "color",
+              "targets": 3
+            },
+            {
+              "name": "clarity",
+              "targets": 4
+            },
+            {
+              "name": "price",
+              "targets": 5
+            },
+            {
+              "name": "x",
+              "targets": 6
+            },
+            {
+              "name": "y",
+              "targets": 7
+            },
+            {
+              "name": "z",
+              "targets": 8
             }
           ],
           "order": [

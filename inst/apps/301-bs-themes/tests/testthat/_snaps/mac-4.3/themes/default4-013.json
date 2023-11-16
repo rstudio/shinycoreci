@@ -275,6 +275,54 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "mpg",
+              "targets": 1
+            },
+            {
+              "name": "cyl",
+              "targets": 2
+            },
+            {
+              "name": "disp",
+              "targets": 3
+            },
+            {
+              "name": "hp",
+              "targets": 4
+            },
+            {
+              "name": "drat",
+              "targets": 5
+            },
+            {
+              "name": "wt",
+              "targets": 6
+            },
+            {
+              "name": "qsec",
+              "targets": 7
+            },
+            {
+              "name": "vs",
+              "targets": 8
+            },
+            {
+              "name": "am",
+              "targets": 9
+            },
+            {
+              "name": "gear",
+              "targets": 10
+            },
+            {
+              "name": "carb",
+              "targets": 11
             }
           ],
           "order": [
@@ -345,41 +393,6 @@
           },
           "script": "bootstrap.bundle.min.js",
           "stylesheet": "bootstrap.min.css",
-          "head": null,
-          "attachment": null,
-          "package": null,
-          "all_files": true
-        },
-        {
-          "name": "bslib-component-js",
-          "version": "0.5.1.9000",
-          "src": {
-            "href": "bslib-component-js-0.5.1.9000"
-          },
-          "meta": null,
-          "script": [
-            {
-              "src": "components.min.js"
-            },
-            {
-              "src": "web-components.min.js",
-              "type": "module"
-            }
-          ],
-          "stylesheet": null,
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        },
-        {
-          "name": "bslib-component-css",
-          "version": "0.5.1.9000",
-          "src": {
-            "href": "bslib-component-css-0.5.1.9000"
-          },
-          "meta": null,
-          "script": null,
-          "stylesheet": "bslib-component-css.min.css",
           "head": null,
           "attachment": null,
           "package": null,

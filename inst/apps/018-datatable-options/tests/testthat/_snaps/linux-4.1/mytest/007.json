@@ -1151,6 +1151,30 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Sepal.Length",
+              "targets": 1
+            },
+            {
+              "name": "Sepal.Width",
+              "targets": 2
+            },
+            {
+              "name": "Petal.Length",
+              "targets": 3
+            },
+            {
+              "name": "Petal.Width",
+              "targets": 4
+            },
+            {
+              "name": "Species",
+              "targets": 5
             }
           ],
           "order": [
@@ -1256,6 +1280,30 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Sepal.Length",
+              "targets": 1
+            },
+            {
+              "name": "Sepal.Width",
+              "targets": 2
+            },
+            {
+              "name": "Petal.Length",
+              "targets": 3
+            },
+            {
+              "name": "Petal.Width",
+              "targets": 4
+            },
+            {
+              "name": "Species",
+              "targets": 5
             }
           ],
           "order": [
@@ -1349,6 +1397,30 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Sepal.Length",
+              "targets": 1
+            },
+            {
+              "name": "Sepal.Width",
+              "targets": 2
+            },
+            {
+              "name": "Petal.Length",
+              "targets": 3
+            },
+            {
+              "name": "Petal.Width",
+              "targets": 4
+            },
+            {
+              "name": "Species",
+              "targets": 5
             }
           ],
           "order": [
@@ -1442,6 +1514,30 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Sepal.Length",
+              "targets": 1
+            },
+            {
+              "name": "Sepal.Width",
+              "targets": 2
+            },
+            {
+              "name": "Petal.Length",
+              "targets": 3
+            },
+            {
+              "name": "Petal.Width",
+              "targets": 4
+            },
+            {
+              "name": "Species",
+              "targets": 5
             }
           ],
           "order": [

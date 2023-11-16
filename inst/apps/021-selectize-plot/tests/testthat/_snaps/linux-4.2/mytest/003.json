@@ -187,6 +187,26 @@
                 3,
                 4
               ]
+            },
+            {
+              "name": "State",
+              "targets": 0
+            },
+            {
+              "name": "Murder",
+              "targets": 1
+            },
+            {
+              "name": "Assault",
+              "targets": 2
+            },
+            {
+              "name": "UrbanPop",
+              "targets": 3
+            },
+            {
+              "name": "Rape",
+              "targets": 4
             }
           ],
           "order": [
