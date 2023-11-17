@@ -1,5 +1,6 @@
 library(shiny)
 library(bslib)
+library(htmltools)
 
 options(
   sass.cache = FALSE,
@@ -115,9 +116,17 @@ row_cards <- layout_columns(card_a_nav, card_b)
 
 row_value_boxes <-
   layout_columns(
-    style = "max-height: 200px",
-    value_box("First", "Thing One", showcase = bsicons::bs_icon("pin-angle-fill")),
-    value_box("Second", "Thing Two", showcase = bsicons::bs_icon("boombox-fill"))
+    row_heights = "minmax(100px, 1fr)",
+    value_box(
+      "First",
+      "Thing One",
+      showcase = bsicons::bs_icon("pin-angle-fill")
+    ),
+    value_box(
+      "Second",
+      "Thing Two",
+      showcase = bsicons::bs_icon("boombox-fill")
+    )
   )
 
 ui_navbar <- function(enable_dashboard = TRUE) {
