@@ -9,7 +9,7 @@
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2023-11-20
+ date      2023-11-22
  pandoc    2.7.3 @ /usr/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -29,7 +29,7 @@
  brio                1.1.3       2021-11-30 [1] CRAN (R 4.1.3)
  broom               1.0.5       2023-06-09 [1] CRAN (R 4.1.3)
  bsicons             0.1.2.9000  2023-11-16 [1] Github (rstudio/bsicons@f7dca31)
- bslib               0.5.1.9000  2023-11-20 [1] Github (rstudio/bslib@ecada4b)
+ bslib               0.6.0.9000  2023-11-22 [1] Github (rstudio/bslib@21821c1)
  cachem              1.0.8       2023-11-16 [1] Github (r-lib/cachem@62051fe)
  Cairo               1.6-1       2023-08-18 [1] CRAN (R 4.1.3)
  callr               3.7.3       2022-11-02 [1] CRAN (R 4.1.3)
@@ -84,14 +84,14 @@
  gganimate           1.0.8       2022-09-08 [1] CRAN (R 4.1.3)
  ggiraph             0.8.7       2023-03-17 [1] CRAN (R 4.1.3)
  ggplot2             3.4.4       2023-10-12 [1] CRAN (R 4.1.3)
- ggthemes            4.2.4       2021-01-20 [1] CRAN (R 4.1.3)
+ ggthemes            5.0.0       2023-11-21 [1] CRAN (R 4.1.3)
  ggvis               0.4.8       2023-03-08 [1] CRAN (R 4.1.3)
  gh                  1.4.0       2023-02-22 [1] CRAN (R 4.1.3)
  gitcreds            0.1.2       2022-09-08 [1] CRAN (R 4.1.3)
  globals             0.16.2      2022-11-21 [1] CRAN (R 4.1.3)
  glue                1.6.2       2022-02-24 [1] CRAN (R 4.1.3)
  gridExtra           2.3         2017-09-09 [1] CRAN (R 4.1.3)
- gt                  0.10.0.9000 2023-11-16 [1] Github (rstudio/gt@1ccdbbb)
+ gt                  0.10.0.9000 2023-11-22 [1] Github (rstudio/gt@f03adb5)
  gtable              0.3.4       2023-08-21 [1] CRAN (R 4.1.3)
  here                1.0.1       2020-12-13 [1] CRAN (R 4.1.3)
  hexbin              1.28.3      2023-03-21 [1] CRAN (R 4.1.3)
@@ -213,9 +213,9 @@
  servr               0.27        2023-05-02 [1] CRAN (R 4.1.3)
  sessioninfo         1.2.2       2021-12-06 [1] CRAN (R 4.1.3)
  sf                  1.0-14      2023-07-11 [1] CRAN (R 4.1.3)
- shiny               1.7.5.9001  2023-11-16 [1] Github (rstudio/shiny@b129739)
+ shiny               1.8.0.9000  2023-11-21 [1] Github (rstudio/shiny@61a51a8)
  shinyAce            0.4.2       2022-05-06 [1] CRAN (R 4.1.3)
- shinycoreci         0.0.0.9008  2023-11-20 [1] local
+ shinycoreci         0.0.0.9008  2023-11-22 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.1.3)
  shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.1.3)
  shinyjster          0.0.0.9010  2023-11-16 [1] Github (schloerke/shinyjster@20c1325)
