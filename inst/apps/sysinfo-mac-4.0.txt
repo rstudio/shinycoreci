@@ -9,7 +9,7 @@
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2023-11-27
+ date      2023-11-28
  pandoc    2.7.3 @ /usr/local/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -28,7 +28,7 @@
  brio                1.1.3       2021-11-30 [1] CRAN (R 4.0.2)
  broom               0.7.12      2022-01-28 [1] CRAN (R 4.0.5)
  bsicons             0.1.2.9000  2023-11-24 [1] Github (rstudio/bsicons@f7dca31)
- bslib               0.6.0.9000  2023-11-24 [1] Github (rstudio/bslib@56e8bea)
+ bslib               0.6.0.9000  2023-11-28 [1] Github (rstudio/bslib@8bf974d)
  cachem              1.0.8       2023-11-24 [1] Github (r-lib/cachem@62051fe)
  Cairo               1.5-15      2022-03-16 [1] CRAN (R 4.0.5)
  callr               3.7.3       2022-11-02 [1] CRAN (R 4.0.5)
@@ -47,7 +47,7 @@
  cranlogs            2.1.1       2019-04-29 [1] CRAN (R 4.0.2)
  crayon              1.5.1       2022-03-26 [1] CRAN (R 4.0.5)
  credentials         1.3.2       2021-11-29 [1] CRAN (R 4.0.2)
- crosstalk           1.2.0.9000  2023-11-24 [1] Github (rstudio/crosstalk@d754a21)
+ crosstalk           1.2.1.9000  2023-11-28 [1] Github (rstudio/crosstalk@4f76bd6)
  curl                4.3.2       2021-06-23 [1] CRAN (R 4.0.2)
  data.table          1.14.2      2021-09-27 [1] CRAN (R 4.0.2)
  DBI                 1.1.2       2021-12-20 [1] CRAN (R 4.0.2)
@@ -91,7 +91,7 @@
  globals             0.14.0      2020-11-22 [1] CRAN (R 4.0.2)
  glue                1.6.2       2022-02-24 [1] CRAN (R 4.0.5)
  gridExtra           2.3         2017-09-09 [1] CRAN (R 4.0.2)
- gt                  0.10.0.9000 2023-11-24 [1] Github (rstudio/gt@1dc0c4e)
+ gt                  0.10.0.9000 2023-11-28 [1] Github (rstudio/gt@21215cd)
  gtable              0.3.0       2019-03-25 [1] CRAN (R 4.0.2)
  here                1.0.1       2020-12-13 [1] CRAN (R 4.0.2)
  hexbin              1.28.2      2021-01-08 [1] CRAN (R 4.0.2)
@@ -99,7 +99,7 @@
  highr               0.9         2021-04-16 [1] CRAN (R 4.0.2)
  hms                 1.1.1       2021-09-26 [1] CRAN (R 4.0.2)
  htmltools           0.5.7.9000  2023-11-24 [1] Github (rstudio/htmltools@7efa2d8)
- htmlwidgets         1.6.3.9000  2023-11-24 [1] Github (ramnathv/htmlwidgets@b0f3d56)
+ htmlwidgets         1.6.3.9000  2023-11-28 [1] Github (ramnathv/htmlwidgets@dec6c30)
  httpgd              1.3.0       2022-02-02 [1] CRAN (R 4.0.5)
  httpuv              1.6.12.9000 2023-11-24 [1] Github (rstudio/httpuv@0d8de2e)
  httr                1.4.2       2020-07-20 [1] CRAN (R 4.0.2)
@@ -117,7 +117,7 @@
  later               1.3.1.9000  2023-11-24 [1] Github (r-lib/later@6ebc304)
  lattice             0.20-41     2020-04-02 [3] CRAN (R 4.0.5)
  lazyeval            0.2.2       2019-03-15 [1] CRAN (R 4.0.2)
- leaflet             2.2.1.9000  2023-11-24 [1] Github (rstudio/leaflet@d8c9794)
+ leaflet             2.2.1.9000  2023-11-28 [1] Github (rstudio/leaflet@e15a997)
  leaflet.providers   2.0.0       2023-10-17 [1] CRAN (R 4.0.5)
  lifecycle           1.0.4       2023-11-07 [1] CRAN (R 4.0.5)
  listenv             0.8.0       2019-12-05 [1] CRAN (R 4.0.2)
@@ -213,9 +213,9 @@
  servr               0.24        2021-11-16 [1] CRAN (R 4.0.2)
  sessioninfo         1.2.2       2021-12-06 [1] any (@1.2.2)
  sf                  1.0-7       2022-03-07 [1] CRAN (R 4.0.5)
- shiny               1.8.0.9000  2023-11-24 [1] Github (rstudio/shiny@61a51a8)
+ shiny               1.8.0.9000  2023-11-28 [1] Github (rstudio/shiny@dbbe7f9)
  shinyAce            0.4.1       2019-09-24 [1] CRAN (R 4.0.2)
- shinycoreci         0.0.0.9008  2023-11-27 [1] local
+ shinycoreci         0.0.0.9008  2023-11-28 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.0.2)
  shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.0.2)
  shinyjster          0.0.0.9010  2023-11-24 [1] Github (schloerke/shinyjster@20c1325)
