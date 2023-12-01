@@ -1,6 +1,6 @@
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20231115.8.0
+ gha_image 20231126.1.0
  version   R version 4.3.2 (2023-10-31)
  os        Ubuntu 20.04.6 LTS
  system    x86_64, linux-gnu
@@ -9,7 +9,7 @@
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2023-11-28
+ date      2023-12-01
  pandoc    2.7.3 @ /usr/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -30,9 +30,9 @@
  broom               1.0.5       2023-06-09 [1] CRAN (R 4.3.2)
  broom.helpers       1.14.0      2023-08-07 [1] CRAN (R 4.3.2)
  bsicons             0.1.2.9000  2023-11-16 [1] Github (rstudio/bsicons@f7dca31)
- bslib               0.6.0.9000  2023-11-28 [1] Github (rstudio/bslib@8bf974d)
+ bslib               0.6.1.9000  2023-12-01 [1] Github (rstudio/bslib@9dc0ba4)
  cachem              1.0.8       2023-11-16 [1] Github (r-lib/cachem@62051fe)
- Cairo               1.6-1       2023-08-18 [1] CRAN (R 4.3.2)
+ Cairo               1.6-2       2023-11-28 [1] CRAN (R 4.3.2)
  callr               3.7.3       2022-11-02 [1] CRAN (R 4.3.2)
  checkmate           2.3.0       2023-10-25 [1] CRAN (R 4.3.2)
  chromote            0.1.2.9000  2023-11-16 [1] Github (rstudio/chromote@e21c70c)
@@ -93,9 +93,9 @@
  globals             0.16.2      2022-11-21 [1] CRAN (R 4.3.2)
  glue                1.6.2       2022-02-24 [1] CRAN (R 4.3.2)
  gridExtra           2.3         2017-09-09 [1] CRAN (R 4.3.2)
- gt                  0.10.0.9000 2023-11-28 [1] Github (rstudio/gt@21215cd)
+ gt                  0.10.0.9000 2023-11-30 [1] Github (rstudio/gt@3238e37)
  gtable              0.3.4       2023-08-21 [1] CRAN (R 4.3.2)
- haven               2.5.3       2023-06-30 [1] CRAN (R 4.3.2)
+ haven               2.5.4       2023-11-30 [1] CRAN (R 4.3.2)
  here                1.0.1       2020-12-13 [1] CRAN (R 4.3.2)
  hexbin              1.28.3      2023-03-21 [1] CRAN (R 4.3.2)
  highcharter         0.9.4       2022-01-03 [1] CRAN (R 4.3.2)
@@ -104,7 +104,7 @@
  htmltools           0.5.7.9000  2023-11-16 [1] Github (rstudio/htmltools@7efa2d8)
  htmlwidgets         1.6.3.9000  2023-11-28 [1] Github (ramnathv/htmlwidgets@dec6c30)
  httpgd              1.3.1       2023-01-30 [1] CRAN (R 4.3.2)
- httpuv              1.6.12.9000 2023-11-16 [1] Github (rstudio/httpuv@0d8de2e)
+ httpuv              1.6.12.9000 2023-11-30 [1] Github (rstudio/httpuv@289ad5c)
  httr                1.4.7       2023-08-15 [1] CRAN (R 4.3.2)
  httr2               1.0.0       2023-11-14 [1] CRAN (R 4.3.2)
  hunspell            3.0.3       2023-10-06 [1] CRAN (R 4.3.2)
@@ -119,7 +119,7 @@
  knitr               1.45        2023-10-30 [1] CRAN (R 4.3.2)
  labeling            0.4.3       2023-08-29 [1] CRAN (R 4.3.2)
  labelled            2.12.0      2023-06-21 [1] CRAN (R 4.3.2)
- later               1.3.1.9000  2023-11-16 [1] Github (r-lib/later@6ebc304)
+ later               1.3.1.9000  2023-11-30 [1] Github (r-lib/later@478b0c6)
  lattice             0.21-9      2023-10-01 [3] CRAN (R 4.3.2)
  lazyeval            0.2.2       2019-03-15 [1] CRAN (R 4.3.2)
  leaflet             2.2.1.9000  2023-11-28 [1] Github (rstudio/leaflet@e15a997)
@@ -212,15 +212,15 @@
  rversions           2.1.2       2022-08-31 [1] CRAN (R 4.3.2)
  rvest               1.0.3       2022-08-19 [1] CRAN (R 4.3.2)
  s2                  1.1.4       2023-05-17 [1] CRAN (R 4.3.2)
- sass                0.4.7.9000  2023-11-16 [1] Github (rstudio/sass@4f42680)
- scales              1.2.1       2022-08-20 [1] CRAN (R 4.3.2)
+ sass                0.4.7.9000  2023-11-29 [1] Github (rstudio/sass@11fd452)
+ scales              1.3.0       2023-11-28 [1] CRAN (R 4.3.2)
  selectr             0.4-2       2019-11-20 [1] CRAN (R 4.3.2)
  servr               0.27        2023-05-02 [1] CRAN (R 4.3.2)
  sessioninfo         1.2.2       2021-12-06 [1] CRAN (R 4.3.2)
  sf                  1.0-14      2023-07-11 [1] CRAN (R 4.3.2)
- shiny               1.8.0.9000  2023-11-28 [1] Github (rstudio/shiny@dbbe7f9)
+ shiny               1.8.0.9000  2023-12-01 [1] Github (rstudio/shiny@59b1c46)
  shinyAce            0.4.2       2022-05-06 [1] CRAN (R 4.3.2)
- shinycoreci         0.0.0.9008  2023-11-28 [1] local
+ shinycoreci         0.0.0.9008  2023-12-01 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.3.2)
  shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.3.2)
  shinyjster          0.0.0.9010  2023-11-16 [1] Github (schloerke/shinyjster@20c1325)
@@ -257,10 +257,10 @@
  timechange          0.2.0       2023-01-11 [1] CRAN (R 4.3.2)
  tinytex             0.49        2023-11-22 [1] CRAN (R 4.3.2)
  tm                  0.7-11      2023-02-05 [1] CRAN (R 4.3.2)
- TTR                 0.24.3      2021-12-12 [1] CRAN (R 4.3.2)
+ TTR                 0.24.4      2023-11-28 [1] CRAN (R 4.3.2)
  tweenr              2.0.2       2022-09-06 [1] CRAN (R 4.3.2)
  tzdb                0.4.0       2023-05-12 [1] CRAN (R 4.3.2)
- units               0.8-4       2023-09-13 [1] CRAN (R 4.3.2)
+ units               0.8-5       2023-11-28 [1] CRAN (R 4.3.2)
  usethis             2.2.2       2023-07-06 [1] CRAN (R 4.3.2)
  utf8                1.2.4       2023-10-22 [1] CRAN (R 4.3.2)
  uuid                1.1-1       2023-08-17 [1] CRAN (R 4.3.2)
@@ -279,10 +279,10 @@
  websocket           1.4.1.9000  2023-11-16 [1] Github (rstudio/websocket@2161ee7)
  whisker             0.4.1       2022-12-05 [1] CRAN (R 4.3.2)
  withr               2.5.2       2023-10-30 [1] CRAN (R 4.3.2)
- wk                  0.9.0       2023-10-22 [1] CRAN (R 4.3.2)
+ wk                  0.9.1       2023-11-29 [1] CRAN (R 4.3.2)
  wordcloud           2.6         2018-08-24 [1] CRAN (R 4.3.2)
  xfun                0.41        2023-11-01 [1] CRAN (R 4.3.2)
- XML                 3.99-0.15   2023-11-02 [1] CRAN (R 4.3.2)
+ XML                 3.99-0.16   2023-11-29 [1] CRAN (R 4.3.2)
  xml2                1.3.5       2023-07-06 [1] CRAN (R 4.3.2)
  xtable              1.8-4       2019-04-21 [1] CRAN (R 4.3.2)
  xts                 0.13.1      2023-04-16 [1] CRAN (R 4.3.2)
