@@ -273,20 +273,25 @@ jobs:
           git add __test_results/
           git commit -m "Add test results for ${{steps.gha_branch.outputs.name}}"
 
-          # attempt to push until success. Allow for 15 attempts
+          # Attempt to push until success. Allow for 15 attempts
           counter=0
-          git pull origin _test_results
-          until git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" _test_results
-          do
-            # wait 5-15 seconds to avoid deadlock
+          while true; do
+            git pull --rebase origin _test_results
+
+            # Capture push status and do not exit action
+            PUSH_STATUS=0
+            output=$(git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" _test_results) && PUSH_STATUS=$? || PUSH_STATUS=$?
+
+            # If push was successful, exit loop
+            if [ "$PUSH_STATUS" = 0 ]; then
+                break; # break `while true` loop
+            fi
+
+            # Wait 5-15 seconds to avoid deadlock
             sleep $[ ($RANDOM % 10) + 5 ]s
-
-            [[ counter -gt 15 ]] && echo "Too many attempts!" && exit 1
             ((counter++))
+            [[ counter -gt 15 ]] && echo "Too many attempts!" && exit 1
             echo "Push failed. Trying again. Try #$counter"
-
-            # pull again to have the latest
-            git pull origin _test_results
           done
 
           git checkout ${{ steps.current_branch.outputs.name }}
