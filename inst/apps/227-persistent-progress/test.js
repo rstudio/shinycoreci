@@ -72,14 +72,14 @@ testcase(
 testcase(
   jst,
   "Abort stops recalculation",
-  [abort, error],
+  [progress, abort],
   ":not(.recalculating)"
 );
 
 testcase(
   jst,
   "Can stack recalculation",
-  [progress, (done) => setTimeout(done, 100), progress],
+  [recalc, progress, (done) => setTimeout(done, 100), progress],
   ".recalculating"
 );
 
