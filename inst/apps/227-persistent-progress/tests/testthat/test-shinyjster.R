@@ -1,0 +1,1 @@
+shinyjster::testthat_shinyjster()
