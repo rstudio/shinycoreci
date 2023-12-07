@@ -355,3 +355,42 @@ verify_no_untracked_files <- function(repo_dir, apps_folder) {
     stop("Make sure there are no untracked files. Please remove the files or commit the changes.")
   }
 }
+
+
+inform_latest_results <- function() {
+  if (!requireNamespace("chromote", quietly = TRUE)) {
+    stop("Please install `chromote` to use this function")
+  }
+
+  url <- "https://rstudio.github.io/shinycoreci/results/"
+
+  b <- chromote::ChromoteSession$new()
+  withr::defer(b$close())
+
+  p <- b$Page$loadEventFired(wait_ = FALSE)
+  b$Page$navigate(url = url, wait_ = FALSE)
+  b$wait_for(p)
+
+  # Wait for the page to follow the redirect
+  Sys.sleep(1)
+
+  failed <- b$Runtime$evaluate(
+    "[...document.querySelectorAll('#app_summary h3')].map(el => el.innerText)",
+    returnByValue = TRUE
+  )$result$value
+  failed <- unlist(failed)
+
+  history <- b$Page$getNavigationHistory()
+  current_url <- history$entries[[history$currentIndex + 1]]
+  cli::cli_inform("{.url {current_url$url}}")
+
+  if (length(failed) == 0) {
+    cli::cli_alert_success("All tests passed!")
+    return(invisible())
+  }
+
+  cli::cli_alert_danger("{length(failed)} test{?s} failed:")
+  cli::cli_verbatim(sprintf("- `%s`", failed))
+
+  invisible(unlist(failed))
+}
