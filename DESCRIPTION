@@ -36,7 +36,8 @@ Suggests:
     tidyr,
     later,
     shinytest,
-    waldo
+    waldo,
+    chromote
 Config/Needs/website: tidyverse/tidytemplate
 URL: https://github.com/rstudio/shinycoreci
 BugReports: https://github.com/rstudio/shinycoreci/issues
