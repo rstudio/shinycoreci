@@ -14,8 +14,16 @@ dtmod_ui <- function(id) {
 dtmod <- function(input, output, session) {
   x <- reactiveVal(0L)
 
+  df  <- reactive({
+    data.frame(value = x())
+  })
+
   output$table <- renderDT({
-    DT::datatable(data.frame(value = isolate(x())), rownames = FALSE, options = list(dom = "t", ordering = FALSE))
+    DT::datatable(
+      isolate(df()),
+      rownames = FALSE,
+      options = list(dom = "t", ordering = FALSE)
+    )
   })
 
   observeEvent(input$inc, {
@@ -23,7 +31,11 @@ dtmod <- function(input, output, session) {
   })
 
   observeEvent(x(), {
-    replaceData(dataTableProxy("table"), x())
+    replaceData(
+      dataTableProxy("table"),
+      df(),
+      rownames = FALSE
+    )
   })
 
   x
