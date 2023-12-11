@@ -1,6 +1,6 @@
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20231126.1.0
+ gha_image 20231204.1.0
  version   R version 4.2.3 (2023-03-15)
  os        Ubuntu 20.04.6 LTS
  system    x86_64, linux-gnu
@@ -9,7 +9,7 @@
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2023-12-07
+ date      2023-12-11
  pandoc    2.7.3 @ /usr/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -26,11 +26,11 @@
  bitops              1.0-7       2021-04-24 [1] CRAN (R 4.2.3)
  blob                1.2.4       2023-03-17 [1] CRAN (R 4.2.3)
  boot                1.3-28.1    2022-11-22 [3] CRAN (R 4.2.3)
- brio                1.1.3       2021-11-30 [1] CRAN (R 4.2.3)
+ brio                1.1.4       2023-12-10 [1] CRAN (R 4.2.3)
  broom               1.0.5       2023-06-09 [1] CRAN (R 4.2.3)
  broom.helpers       1.14.0      2023-08-07 [1] CRAN (R 4.2.3)
  bsicons             0.1.2.9000  2023-11-16 [1] Github (rstudio/bsicons@f7dca31)
- bslib               0.6.1.9000  2023-12-04 [1] Github (rstudio/bslib@148908a)
+ bslib               0.6.1.9000  2023-12-11 [1] Github (rstudio/bslib@b33bb34)
  cachem              1.0.8       2023-12-06 [1] Github (r-lib/cachem@9886ec1)
  Cairo               1.6-2       2023-11-28 [1] CRAN (R 4.2.3)
  callr               3.7.3       2022-11-02 [1] CRAN (R 4.2.3)
@@ -50,26 +50,26 @@
  crayon              1.5.2       2022-09-29 [1] CRAN (R 4.2.3)
  credentials         2.0.1       2023-09-06 [1] CRAN (R 4.2.3)
  crosstalk           1.2.1.9000  2023-11-28 [1] Github (rstudio/crosstalk@4f76bd6)
- curl                5.1.0       2023-10-02 [1] CRAN (R 4.2.3)
- data.table          1.14.8      2023-02-17 [1] CRAN (R 4.2.3)
+ curl                5.2.0       2023-12-08 [1] CRAN (R 4.2.3)
+ data.table          1.14.10     2023-12-08 [1] CRAN (R 4.2.3)
  DBI                 1.1.3       2022-06-18 [1] CRAN (R 4.2.3)
  dbplyr              2.4.0       2023-10-26 [1] CRAN (R 4.2.3)
  debugme             1.1.0       2017-10-22 [1] CRAN (R 4.2.3)
  dendextend          1.17.1      2023-03-25 [1] CRAN (R 4.2.3)
- desc                1.4.2       2022-09-08 [1] CRAN (R 4.2.3)
+ desc                1.4.3       2023-12-10 [1] CRAN (R 4.2.3)
  deSolve             1.40        2023-11-27 [1] CRAN (R 4.2.3)
  DiagrammeR          1.0.10      2023-05-18 [1] CRAN (R 4.2.3)
  diffobj             0.3.5       2021-10-05 [1] CRAN (R 4.2.3)
  digest              0.6.33      2023-07-07 [1] CRAN (R 4.2.3)
  downloader          0.4         2015-07-09 [1] CRAN (R 4.2.3)
  dplyr               1.1.4       2023-11-17 [1] CRAN (R 4.2.3)
- DT                  0.30.3      2023-11-16 [1] Github (rstudio/DT@b42dd91)
+ DT                  0.31.1      2023-12-11 [1] Github (rstudio/DT@487dc08)
  dygraphs            1.1.1.7     2023-11-16 [1] Github (rstudio/dygraphs@b096395)
  e1071               1.7-14      2023-12-06 [1] CRAN (R 4.2.3)
  ellipsis            0.3.2       2021-04-29 [1] CRAN (R 4.2.3)
  english             1.2-6       2021-08-21 [1] CRAN (R 4.2.3)
  evaluate            0.23        2023-11-01 [1] CRAN (R 4.2.3)
- fansi               1.0.5       2023-10-08 [1] CRAN (R 4.2.3)
+ fansi               1.0.6       2023-12-08 [1] CRAN (R 4.2.3)
  farver              2.1.1       2022-07-06 [1] CRAN (R 4.2.3)
  fastmap             1.1.1.9000  2023-11-16 [1] Github (r-lib/fastmap@bf75700)
  flexdashboard       0.6.2.9000  2023-11-16 [1] Github (rstudio/flexdashboard@2a481f9)
@@ -83,7 +83,7 @@
  ggalluvial          0.12.5      2023-02-22 [1] CRAN (R 4.2.3)
  GGally              2.2.0       2023-11-22 [1] CRAN (R 4.2.3)
  gganimate           1.0.8       2022-09-08 [1] CRAN (R 4.2.3)
- ggiraph             0.8.7       2023-03-17 [1] CRAN (R 4.2.3)
+ ggiraph             0.8.8       2023-12-09 [1] CRAN (R 4.2.3)
  ggplot2             3.4.4       2023-10-12 [1] CRAN (R 4.2.3)
  ggstats             0.5.1       2023-11-21 [1] CRAN (R 4.2.3)
  ggthemes            5.0.0       2023-11-21 [1] CRAN (R 4.2.3)
@@ -153,8 +153,8 @@
  parsedate           1.3.1       2022-10-27 [1] CRAN (R 4.2.3)
  patchwork           1.1.3       2023-08-14 [1] CRAN (R 4.2.3)
  pillar              1.9.0       2023-03-22 [1] CRAN (R 4.2.3)
- pingr               2.0.2       2022-10-26 [1] CRAN (R 4.2.3)
- pkgbuild            1.4.2       2023-06-26 [1] CRAN (R 4.2.3)
+ pingr               2.0.3       2023-12-10 [1] CRAN (R 4.2.3)
+ pkgbuild            1.4.3       2023-12-10 [1] CRAN (R 4.2.3)
  pkgconfig           2.0.3       2019-09-22 [1] CRAN (R 4.2.3)
  pkgload             1.3.3       2023-09-22 [1] CRAN (R 4.2.3)
  plogr               0.2.0       2018-03-25 [1] CRAN (R 4.2.3)
@@ -166,7 +166,7 @@
  praise              1.0.0       2015-08-11 [1] CRAN (R 4.2.3)
  prettyunits         1.2.0       2023-09-24 [1] CRAN (R 4.2.3)
  prismatic           1.1.1       2022-08-15 [1] CRAN (R 4.2.3)
- processx            3.8.2       2023-06-30 [1] CRAN (R 4.2.3)
+ processx            3.8.3       2023-12-10 [1] CRAN (R 4.2.3)
  progress            1.2.3       2023-12-06 [1] CRAN (R 4.2.3)
  promises            1.2.1.9000  2023-11-16 [1] Github (rstudio/promises@e4499d7)
  proxy               0.4-27      2022-06-09 [1] CRAN (R 4.2.3)
@@ -207,12 +207,12 @@
  rpart               4.1.19      2022-10-21 [3] CRAN (R 4.2.3)
  rprojroot           2.0.4       2023-11-05 [1] CRAN (R 4.2.3)
  rsconnect           1.1.1       2023-10-04 [1] CRAN (R 4.2.3)
- RSQLite             2.3.3       2023-11-04 [1] CRAN (R 4.2.3)
+ RSQLite             2.3.4       2023-12-08 [1] CRAN (R 4.2.3)
  rstudioapi          0.15.0      2023-07-07 [1] CRAN (R 4.2.3)
  rsvg                2.6.0       2023-10-08 [1] CRAN (R 4.2.3)
  rversions           2.1.2       2022-08-31 [1] CRAN (R 4.2.3)
  rvest               1.0.3       2022-08-19 [1] CRAN (R 4.2.3)
- s2                  1.1.4       2023-05-17 [1] CRAN (R 4.2.3)
+ s2                  1.1.5       2023-12-10 [1] CRAN (R 4.2.3)
  sass                0.4.8.9000  2023-12-07 [1] Github (rstudio/sass@ae93a9a)
  scales              1.3.0       2023-11-28 [1] CRAN (R 4.2.3)
  selectr             0.4-2       2019-11-20 [1] CRAN (R 4.2.3)
@@ -221,7 +221,7 @@
  sf                  1.0-14      2023-07-11 [1] CRAN (R 4.2.3)
  shiny               1.8.0.9000  2023-12-01 [1] Github (rstudio/shiny@59b1c46)
  shinyAce            0.4.2       2022-05-06 [1] CRAN (R 4.2.3)
- shinycoreci         0.0.0.9008  2023-12-07 [1] local
+ shinycoreci         0.0.0.9008  2023-12-11 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.2.3)
  shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.2.3)
  shinyjster          0.0.0.9010  2023-11-16 [1] Github (schloerke/shinyjster@20c1325)
@@ -243,7 +243,7 @@
  stringr             1.5.1       2023-11-14 [1] CRAN (R 4.2.3)
  styler              1.10.2      2023-08-29 [1] CRAN (R 4.2.3)
  survival            3.5-3       2023-02-12 [3] CRAN (R 4.2.3)
- svglite             2.1.2       2023-10-11 [1] CRAN (R 4.2.3)
+ svglite             2.1.3       2023-12-08 [1] CRAN (R 4.2.3)
  sys                 3.4.2       2023-05-23 [1] CRAN (R 4.2.3)
  sysfonts            0.8.8       2022-03-13 [1] CRAN (R 4.2.3)
  systemfonts         1.0.5       2023-10-09 [1] CRAN (R 4.2.3)
