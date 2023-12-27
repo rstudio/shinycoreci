@@ -54,11 +54,11 @@ nested_sidebar <- function(idx = 0L) {
       width = 150,
       bg = colors$dark,
       open = open,
-      max_height_mobile = "300px",
+      max_height_mobile = if (open == "desktop") "300px",
       select_adjective()
     ),
-    height = 300,
     class = "p-0",
+    style = htmltools::css(min_height = "300px"),
     fillable = TRUE,
     layout_sidebar(
       id = paste0("main_inner_", idx),
@@ -93,6 +93,7 @@ ui <- page_fixed(
   ),
   layout_column_wrap(
     width = 500,
+    heights_equal = "row",
     id = "sidebar-here",
     if (INCLUDE_INITIAL_SIDEBAR) nested_sidebar()
   ),
