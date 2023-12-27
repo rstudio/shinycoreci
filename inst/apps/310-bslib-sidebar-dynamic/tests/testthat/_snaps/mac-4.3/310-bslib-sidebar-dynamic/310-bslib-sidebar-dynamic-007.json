@@ -1,28 +1,18 @@
 {
   "input": {
-    "add_sidebar": 2,
-    "adjective_1": "silly",
-    "adjective_2": "elegant",
-    "animal_1": "panda",
-    "animal_2": "zebra",
+    "add_sidebar": 1,
+    "adjective_1": "elegant",
+    "animal_1": "giraffe",
     "remove_sidebar": 0,
     "show_all": 0,
     "sidebar_inner_1": true,
-    "sidebar_inner_2": false,
-    "sidebar_outer_1": true,
-    "sidebar_outer_2": true,
+    "sidebar_outer_1": false,
     "toggle_last_inner": 0,
     "toggle_last_outer": 0
   },
   "output": {
     "ui_content_1": {
-      "html": "<p>Hello, silly panda!<\/p>",
-      "deps": [
-
-      ]
-    },
-    "ui_content_2": {
-      "html": "<p>Hello, elegant zebra!<\/p>",
+      "html": "<p>Hello, elegant giraffe!<\/p>",
       "deps": [
 
       ]
