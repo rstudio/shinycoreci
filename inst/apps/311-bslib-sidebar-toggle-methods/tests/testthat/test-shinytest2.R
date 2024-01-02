@@ -75,8 +75,8 @@ test_that("311-bslib-sidebar-toggle-methods", {
   # First tab press enters the main content before sidebars
   key_press("Tab")
   expect_equal(
-    app$get_js("document.activeElement.firstChildElement.id"),
-    "ui_content"
+    app$get_js("document.activeElement.dataset.testId"),
+    "main-content-area"
   )
 
   # Next tab enters the input in the inner sidebar
@@ -150,8 +150,8 @@ test_that("311-bslib-sidebar-toggle-methods", {
   # Then into the sidebar main area
   key_press("Tab", shift = TRUE)
   expect_equal(
-    app$get_js("document.activeElement.firstChildElement.id"),
-    "ui_content"
+    app$get_js("document.activeElement.dataset.testId"),
+    "main-content-area"
   )
 
   # Trigger server-side expansion of all sidebars
