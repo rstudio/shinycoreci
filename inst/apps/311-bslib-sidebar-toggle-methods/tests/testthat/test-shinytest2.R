@@ -75,7 +75,7 @@ test_that("311-bslib-sidebar-toggle-methods", {
   # First tab press enters the main content before sidebars
   key_press("Tab")
   expect_equal(
-    app$get_js("document.activeElement.id"),
+    app$get_js("document.activeElement.firstChildElement.id"),
     "ui_content"
   )
 
@@ -150,7 +150,7 @@ test_that("311-bslib-sidebar-toggle-methods", {
   # Then into the sidebar main area
   key_press("Tab", shift = TRUE)
   expect_equal(
-    app$get_js("document.activeElement.id"),
+    app$get_js("document.activeElement.firstChildElement.id"),
     "ui_content"
   )
 
