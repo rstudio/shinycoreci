@@ -64,7 +64,7 @@ ui <- page_fixed(
         border = FALSE,
         border_radius = FALSE,
         h2("Sidebar Layout"),
-        uiOutput("ui_content", tabindex = 0),
+        div(uiOutput("ui_content"), tabindex = 0),
       )
     )
   ),
