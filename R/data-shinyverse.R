@@ -33,7 +33,6 @@ shinyverse_remotes <- c(
   "rstudio/websocket",
   "ropensci/plotly",
   "schloerke/shinyjster",
-  "nx10/httpgd", # hack until httpgd is back on CRAN
   NULL
 )
 
