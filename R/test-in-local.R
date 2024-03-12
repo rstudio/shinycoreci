@@ -14,7 +14,7 @@ ci_status <- list(
 #' @param retries number of attempts to retry before declaring the test a failure
 #' @param repo_dir Location of local shinycoreci repo
 #' @param ... ignored
-#' @param install If \code{TRUE}, installs shinyverse in the default libpath before running tests. App dependencies will always be installed if missing.
+#' @param local_pkgs If `TRUE`, the local `.libPaths()[1]` will be used. If `FALSE`, a persistent shinycoreci libpath will be used. Only when `local_pkgs=FALSE` will app dependencies be installed.
 #' @export
 test_in_local <- function(
     apps = apps_with_tests(repo_dir),
