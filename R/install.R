@@ -113,7 +113,8 @@ install_missing_app_deps <- function(
 
 
 
-installed_pkgs <- base::list2env(list())
+installed_pkgs <- new.env(parent = emptyenv())
+
 
 # packages_to_install is what is really installed given the value of packages
 install_missing_pkgs <- function(
@@ -136,7 +137,7 @@ install_missing_pkgs <- function(
       upgrade = upgrade,
       dependencies = dependencies
     )
-    # Update the installed status
+    # Update the installed status as an install error was not thrown
     for (package in pkgs_to_install) {
       # Set in environment
       installed_pkgs[[package]] <- TRUE
@@ -187,60 +188,60 @@ install_pkgs_with_callr <- function(
 
 
 
-# This logic should mimic `./gihub/internal/install-shinyvers/action.yaml` logic
-install_troublesome_pkgs_old <- function(libpath = .libPaths()[1]) {
-  # Get R version like `"4.2"`
-  short_r_version <- sub("\\.\\d$", "", as.character(getRversion()))
+# # This logic should mimic `./gihub/internal/install-shinyvers/action.yaml` logic
+# install_troublesome_pkgs_old <- function(libpath = .libPaths()[1]) {
+#   # Get R version like `"4.2"`
+#   short_r_version <- sub("\\.\\d$", "", as.character(getRversion()))
 
-  if (is_mac()) {
-    switch(short_r_version,
-      "4.2" = {
-        install_missing_pkgs(
-          packages = "XML",
-          packages_to_install = "XML",
-          libpath = libpath
-        )
-      }
-    )
-  }
+#   if (is_mac()) {
+#     switch(short_r_version,
+#       "4.2" = {
+#         install_missing_pkgs(
+#           packages = "XML",
+#           packages_to_install = "XML",
+#           libpath = libpath
+#         )
+#       }
+#     )
+#   }
 
-  if (is_linux()) {
-    switch(short_r_version,
-      "4.2" = {
-        install_missing_pkgs(
-          packages = "XML",
-          packages_to_install = "XML",
-          libpath = libpath
-        )
-      },
-      "3.6" = {
-        install_missing_pkgs(
-          packages = "rjson",
-          packages_to_install = "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz",
-          libpath = libpath
-        )
-      }
-    )
-  }
+#   if (is_linux()) {
+#     switch(short_r_version,
+#       "4.2" = {
+#         install_missing_pkgs(
+#           packages = "XML",
+#           packages_to_install = "XML",
+#           libpath = libpath
+#         )
+#       },
+#       "3.6" = {
+#         install_missing_pkgs(
+#           packages = "rjson",
+#           packages_to_install = "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz",
+#           libpath = libpath
+#         )
+#       }
+#     )
+#   }
 
-  if (is_windows()) {
-    switch(short_r_version,
-      "4.0" = {
-        install_missing_pkgs(
-          packages = "terra",
-          packages_to_install = "url::https://cloud.r-project.org/bin/windows/contrib/4.0/terra_1.5-21.zip",
-          libpath = libpath
-        )
-      },
-      "3.6" = {
-        install_missing_pkgs(
-          packages = "terra",
-          packages_to_install = "url::https://cloud.r-project.org/bin/windows/contrib/3.6/terra_1.2-5.zip",
-          libpath = libpath
-        )
-      }
-    )
-  }
+#   if (is_windows()) {
+#     switch(short_r_version,
+#       "4.0" = {
+#         install_missing_pkgs(
+#           packages = "terra",
+#           packages_to_install = "url::https://cloud.r-project.org/bin/windows/contrib/4.0/terra_1.5-21.zip",
+#           libpath = libpath
+#         )
+#       },
+#       "3.6" = {
+#         install_missing_pkgs(
+#           packages = "terra",
+#           packages_to_install = "url::https://cloud.r-project.org/bin/windows/contrib/3.6/terra_1.2-5.zip",
+#           libpath = libpath
+#         )
+#       }
+#     )
+#   }
 
-  invisible()
-}
+#   invisible()
+# }

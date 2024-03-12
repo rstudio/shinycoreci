@@ -148,7 +148,7 @@ test_in_local <- function(
 
     pb <- progress_bar(
       total = length(to_test_positions),
-      format = "[:current/:total;:elapsed;:eta] :app\n",
+      format = "[:current/:total; :elapsed; :eta] :app\n",
       clear = FALSE,
       show_after = 0
     )
