@@ -29,12 +29,7 @@ test_in_ide <- function(
   apps <- resolve_app_name(apps)
 
   should_install <- !isTRUE(local_pkgs)
-  libpath <-
-    if (should_install) {
-      shinycoreci_libpath()
-    } else {
-      .libPaths()[1]
-    }
+  libpath <- resolve_libpath(local_pkgs = local_pkgs)
   withr::local_libpaths(libpath, action = "prefix")
 
   app_name <- resolve_app_name(app_name)

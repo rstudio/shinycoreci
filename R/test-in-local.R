@@ -14,7 +14,7 @@ ci_status <- list(
 #' @param retries number of attempts to retry before declaring the test a failure
 #' @param repo_dir Location of local shinycoreci repo
 #' @param ... ignored
-#' @param local_pkgs If `TRUE`, the local `.libPaths()[1]` will be used. If `FALSE`, a persistent shinycoreci libpath will be used. Only when `local_pkgs=FALSE` will app dependencies be installed.
+#' @inheritParams resolve_libpath
 #' @export
 test_in_local <- function(
     apps = apps_with_tests(repo_dir),
@@ -28,12 +28,7 @@ test_in_local <- function(
   repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
 
   should_install <- !isTRUE(local_pkgs)
-  libpath <-
-    if (should_install) {
-      shinycoreci_libpath()
-    } else {
-      .libPaths()[1]
-    }
+  libpath <- resolve_libpath(local_pkgs = local_pkgs)
 
   stopifnot(length(apps_with_tests(repo_dir)) > 0)
   apps <- resolve_app_name(apps, known_apps = apps_with_tests(repo_dir))

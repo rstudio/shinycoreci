@@ -7,18 +7,18 @@
 #' @param apps A character vector of fully defined shiny application folders
 #' @param account,server args supplied to `[rsconnect::deployApp]`
 #' @param ... ignored
-#' @param install If TRUE, will install all of shinyverse into the default libpath
 #' @param extra_packages A character vector of extra packages to install
 #' @param cores number of cores to use when deploying
 #' @param retry If \code{TRUE}, try failure apps again. (Only happens once.)
 #' @param retrying_ For internal use only
+#' @inheritParams resolve_libpath
 #' @export
 deploy_apps <- function(
     apps = apps_deploy,
     account = "testing-apps",
     server = "shinyapps.io",
     ...,
-    install = TRUE,
+    local_pkgs = TRUE,
     extra_packages = NULL,
     cores = 1,
     retry = 2,
@@ -32,7 +32,7 @@ deploy_apps <- function(
 
   apps <- resolve_app_name(apps)
 
-  libpath <- shinycoreci_libpath()
+  libpath <- resolve_libpath(local_pkgs = local_pkgs)
 
   if (!retrying_) {
     # Always make sure the app dependencies are available

@@ -27,7 +27,7 @@ test_in_local(
 
 \item{repo_dir}{Location of local shinycoreci repo}
 
-\item{local_pkgs}{If \code{TRUE}, the local \code{.libPaths()[1]} will be used. If \code{FALSE}, a persistent shinycoreci libpath will be used. Only when \code{local_pkgs=FALSE} will app dependencies be installed.}
+\item{local_pkgs}{If \code{TRUE}, local packages will be used instead of the isolated shinyverse installation.}
 }
 \description{
 Test apps using \code{shiny::runTests()} using local libpath

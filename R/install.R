@@ -36,7 +36,7 @@ shinycoreci_is_local <- function() {
 #     dependencies = NA, # pak::pkg_install(dependencies = NA)
 #     extra_packages = NULL,
 #     install_apps_deps = TRUE,
-#     libpath = shinycoreci_libpath()) {
+#     libpath = resolve_libpath()) {
 #   if (!isTRUE(install)) {
 #     return(.libPaths()[1])
 #   }

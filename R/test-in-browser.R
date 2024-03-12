@@ -7,7 +7,7 @@
 #' @param port `port` for the foreground app process
 #' @param port_background `port` for the background app process
 #' @param host `host` for the foreground and background app processes
-#' @param local_pkgs If `TRUE`, local packages will be used instead of the isolated shinyverse installation.
+#' @inheritParams resolve_libpath
 #' @param ... ignored
 #' @export
 #' @examples
@@ -23,7 +23,7 @@ test_in_browser <- function(
     host = "127.0.0.1",
     local_pkgs = FALSE) {
   should_install <- !isTRUE(local_pkgs)
-  libpath <- if (should_install) shinycoreci_libpath() else .libPaths()[1]
+  libpath <- resolve_libpath(local_pkgs = local_pkgs)
 
   app_infos <- lapply(apps, function(app_name) {
     app_proc <- NULL
@@ -108,7 +108,7 @@ test_in_browser <- function(
         if (should_install) {
           install_missing_app_deps(
             app_name,
-            libpath = shinycoreci_libpath(),
+            libpath = libpath,
           )
         }
 
