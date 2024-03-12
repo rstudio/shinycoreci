@@ -33,11 +33,6 @@ on:
       #   type: boolean
       #   default: true
       #   required: false
-    secrets:
-      SLACK_CHANNEL_ID:
-        required: true
-      SLACK_BOT_TOKEN:
-        required: true
 
 name: Test apps - single
 
@@ -126,17 +121,6 @@ jobs:
         run: |
           echo 'MAKEFLAGS=-j2' >> .Renviron
 
-      - name: Notify slack INSTALL
-        uses: voxmedia/github-action-slack-notify-build@v1
-        if: success()
-        id: slack
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          status: INSTALL (${{ steps.short.outputs.sha }} ${{ matrix.config.os }} - ${{ steps.short.outputs.r-version }})
-          color: warning
-
       - name: Install R, shinycoreci, and shinyverse
         timeout-minutes: 100 # windows may take a while
         uses: ./.github/internal/install-shinyverse
@@ -146,16 +130,6 @@ jobs:
           http-user-agent: ${{ inputs.http-user-agent }}
           pandoc-version: ${{ inputs.pandoc-version }}
           extra-packages: ${{ inputs.extra-packages }}
-
-      - name: Notify slack TEST
-        uses: voxmedia/github-action-slack-notify-build@v1
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          message_id: ${{ steps.slack.outputs.message_id }}
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          status: TEST (${{ steps.short.outputs.sha }} ${{ inputs.os }} - ${{ steps.short.outputs.r-version }})
-          color: warning
 
       # Install packages as necessary!
       - name: Run tests
@@ -294,25 +268,3 @@ jobs:
           done
 
           git checkout ${{ steps.current_branch.outputs.name }}
-
-      - name: Notify slack SUCCESS
-        if: success()
-        uses: voxmedia/github-action-slack-notify-build@v1
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          message_id: ${{ steps.slack.outputs.message_id }}
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          status: SUCCESS (${{ steps.short.outputs.sha }} ${{ inputs.os }} - ${{ steps.short.outputs.r-version }})
-          color: good
-
-      - name: Notify slack FAILED
-        if: failure()
-        uses: voxmedia/github-action-slack-notify-build@v1
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          message_id: ${{ steps.slack.outputs.message_id }}
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          status: FAILED (${{ steps.short.outputs.sha }} ${{ inputs.os }} - ${{ steps.short.outputs.r-version }})
-          color: danger
