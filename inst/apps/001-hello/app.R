@@ -15,12 +15,13 @@ ui <- fluidPage(
     sidebarPanel(
 
       # Input: Slider for the number of bins ----
-      sliderInput(inputId = "bins",
-                  label = "Number of bins:",
-                  min = 1,
-                  max = 50,
-                  value = 30)
-
+      sliderInput(
+        inputId = "bins",
+        label = "Number of bins:",
+        min = 1,
+        max = 50,
+        value = 30
+      )
     ),
 
     # Main panel for displaying outputs ----
@@ -28,7 +29,6 @@ ui <- fluidPage(
 
       # Output: Histogram ----
       plotOutput(outputId = "distPlot")
-
     )
   ),
 
@@ -62,7 +62,6 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram ----
 server <- function(input, output, session) {
-
   # include shinyjster_server call at top of server definition
   shinyjster::shinyjster_server(input, output)
 
@@ -73,14 +72,14 @@ server <- function(input, output, session) {
   })
 
   output$distPlot <- renderPlot({
-
-    hist(x, breaks = bins(), col = "#75AADB", border = "white",
-         xlab = "Waiting time to next eruption (in mins)",
-         main = "Histogram of waiting times")
-
-    })
-
+    hist(x,
+      breaks = bins(), col = "#75AADB", border = "white",
+      xlab = "Waiting time to next eruption (in mins)",
+      main = "Histogram of waiting times"
+    )
+  })
 }
+
 
 
 # Create Shiny app ----

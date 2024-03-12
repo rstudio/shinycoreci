@@ -1,4 +1,4 @@
-adjust_pkgs <- function(pkgs_to_install = "rstudio/shiny,rstudio/bslib", r_version = "4.2.1") {
+adjust_pkgs <- function(pkgs_to_install = "shiny,shinytest2", r_version = "4.2.1") {
   is_windows <- .Platform$OS.type == "windows"
   is_linux <- Sys.info()[["sysname"]] == "Linux"
   is_mac <- Sys.info()[["sysname"]] == "Darwin"

@@ -46,34 +46,34 @@ shinycoreci [uses the following GitHub Runnner Images](https://github.com/rstudi
 [windows-2022]: https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
 [macOS-12]: https://github.com/actions/runner-images/blob/main/images/macos/macos-12-Readme.md
 
+
 ## Installation
 
 Install the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))
-pak::pkg_install("rstudio/shinycoreci")
+pak::pak("rstudio/shinycoreci")
 ```
 
 These GitHub packages will be installed to make sure the latest package development is working as expected:
 
 ```{r, echo = FALSE, results = "asis"}
-pkgs <- shinycoreci:::shinyverse_remotes
-
-# remove branches, sha, and commas
-github_pkgs <- sub("[, (@#].*$", "", pkgs)
+urls <- shinycoreci:::shinyverse_urls
 
 # print as links to repos
 cat(
   paste0(
-    "* [", pkgs, "](http://github.com/", github_pkgs, ")",
+    "* [", sub("https://github.com/", "", shinyverse_urls), "](", shinyverse_urls, ")",
     collapse = "\n"
   )
 )
 ```
 
+#### R-Universe
 
-Tools for manual and automated testing of shiny apps.
+`{shinycoreci}` testing leverages rOpenScie [`r-universe`](https://r-universe.dev/search/), specifically the [`posit-dev-shinycoreci`](https://posit-dev-shinycoreci.r-universe.dev/builds) universe. This universe is used to install the latest development versions of the Shiny related packages (updated hourly) used in the testing apps without the need for a GitHub token. This last detail is important, as it allows GitHub Actions to install packages freely without the worry of being rate limited. This gives us the ability to attempt to install each app's dependencies independently, leading to higher test coverage as a single dependencies does not block the entire test execution.
+
+
 
 ## Running manual tests
 

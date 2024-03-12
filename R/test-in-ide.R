@@ -12,35 +12,36 @@
 #' @param refresh_ For internal use. If TRUE, packages will not be reinstalled.
 #' @export
 #' @examples
-#' \dontrun{test_in_ide(dir = "apps")}
+#' \dontrun{
+#' test_in_ide(dir = "apps")
+#' }
 test_in_ide <- function(
-  app_name = apps[1],
-  apps = apps_manual,
-  ...,
-  port = 8000,
-  host = "127.0.0.1",
-  delay = 1,
-  local_pkgs = FALSE,
-  viewer = NULL,
-  refresh_ = FALSE
-) {
+    app_name = apps[1],
+    apps = apps_manual,
+    ...,
+    port = 8000,
+    host = "127.0.0.1",
+    delay = 1,
+    local_pkgs = FALSE,
+    viewer = NULL,
+    refresh_ = FALSE) {
   sys_call <- match.call()
   apps <- resolve_app_name(apps)
 
-  local_libpath <-
-    if (isTRUE(refresh_)) {
-      if (isTRUE(local_pkgs)) {
-        install_shinyverse(install = FALSE)
-      } else {
-        shinyverse_libpath()
-      }
+  should_install <- !isTRUE(local_pkgs)
+  libpath <-
+    if (should_install) {
+      shinycoreci_libpath()
     } else {
-      # First time though
-      install_shinyverse(install = !isTRUE(local_pkgs), validate_loaded = TRUE)
+      .libPaths()[1]
     }
-  withr::local_libpaths(local_libpath, action = "prefix")
+  withr::local_libpaths(libpath, action = "prefix")
 
   app_name <- resolve_app_name(app_name)
+
+  if (should_install) {
+    install_missing_app_deps(app_name, libpath = libpath)
+  }
 
   if (rstudioapi::isAvailable()) {
     # stop("This function should only be run within the RStudio IDE")
@@ -52,9 +53,12 @@ test_in_ide <- function(
         viewer <- rstudioapi::readRStudioPreference("shiny_viewer_type", "pane")
       }
       shiny_viewer_type <- force(viewer)
-      on.exit({
-        rstudioapi::writeRStudioPreference("shiny_viewer_type", shiny_viewer_type)
-      }, add = TRUE)
+      on.exit(
+        {
+          rstudioapi::writeRStudioPreference("shiny_viewer_type", shiny_viewer_type)
+        },
+        add = TRUE
+      )
 
       if (is.null(viewer)) {
         message("!! Setting `shiny_viewer_type` to `'pane'` !!")
@@ -66,7 +70,6 @@ test_in_ide <- function(
       }
       # viewer supplied
       rstudioapi::writeRStudioPreference("shiny_viewer_type", viewer)
-
     } else {
       # RStudio, but early version
       # This feels hacky, but is necessary
@@ -77,18 +80,18 @@ test_in_ide <- function(
         message("!! Setting `shiny_viewer_type` to `'pane'` !!")
         viewer <- "pane"
       }
-      runPane <- get(".rs.invokeShinyPaneViewer", envir = as.environment("tools:rstudio"))
-      runWindow <- get(".rs.invokeShinyWindowViewer", envir = as.environment("tools:rstudio"))
-      runFn <- switch(
-        match.arg(viewer, c("pane", "window")),
-        "pane" = runPane,
-        "window" = runWindow
-      )
-      old_option <- options(shiny.launch.browser = runFn)
-      on.exit({
-        options(old_option)
+      try({
+        runPane <- get(".rs.invokeShinyPaneViewer", envir = as.environment("tools:rstudio"))
+        runWindow <- get(".rs.invokeShinyWindowViewer", envir = as.environment("tools:rstudio"))
+        runFn <- switch(match.arg(viewer, c("pane", "window")),
+          "pane" = runPane,
+          "window" = runWindow
+        )
+        old_option <- options(shiny.launch.browser = runFn)
+        on.exit({
+          options(old_option)
+        })
       })
-
     }
   }
 
@@ -99,15 +102,21 @@ test_in_ide <- function(
   # app_status_init(dir, user_agent = app_status_user_agent_ide())
 
   old_ops <- options(width = 100)
-  on.exit({
-    options(old_ops)
-  }, add = TRUE)
+  on.exit(
+    {
+      options(old_ops)
+    },
+    add = TRUE
+  )
 
   increment_app_and_wait <- function() {
-
     next_app_name <- next_app_name(app_name)
 
-    if (is.null(next_app_name)) {
+    restart_with_app(next_app_name)
+  }
+
+  restart_with_app <- function(app_name) {
+    if (is.null(app_name)) {
       message("All done testing!")
       return(invisible(NULL))
     }
@@ -115,12 +124,13 @@ test_in_ide <- function(
     # do not try to update apps again. Set the next app. Keep all existing arguments.
     next_sys_call_list <- as.list(sys_call)
     next_sys_call_list[[1]] <- substitute(shinycoreci::test_in_ide)
-    next_sys_call_list$app_name <- next_app_name
+    next_sys_call_list$app_name <- app_name
     next_sys_call_list$refresh_ <- TRUE
     next_sys_call <- as.call(next_sys_call_list)
 
     message("Restarting RStudio and launching next app in ", delay, " second... (interrupt again to stop)")
     Sys.sleep(delay)
+    message("Restarting RStudio with next app!")
 
     # # if this section of code is reached, it is considered a pass!
     # app_status_save(
@@ -144,7 +154,13 @@ test_in_ide <- function(
         eval(parse(text = next_sys_call_txt))
       })
     }
-    return(invisible(next_app_name))
+    return(invisible(app_name))
+  }
+
+  # If not in a fresh session, restart!
+  if (!isTRUE(refresh_)) {
+    restart_with_app(app_name)
+    return()
   }
 
 

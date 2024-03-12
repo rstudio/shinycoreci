@@ -44,5 +44,7 @@ Kill testing by hitting \verb{esc} in RStudio.
 If \code{options()} need to be set, set them in your \preformatted{.Rprofile} file.  See \code{usethis::edit_r_profile()}
 }
 \examples{
-\dontrun{test_in_ide(dir = "apps")}
+\dontrun{
+test_in_ide(dir = "apps")
+}
 }

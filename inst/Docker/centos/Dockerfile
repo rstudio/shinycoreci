@@ -137,25 +137,26 @@ RUN R --quiet -e 'install.packages("pak", repos = sprintf("https://r-lib.github.
 # Install shinycoreci then install shinyverse; Do not install apps deps as they have been installed via binary in prior step
 RUN R --quiet \
   -e " \
-  pkgs <- c('base64enc', 'bslib', 'Cairo', 'clipr', 'curl', 'dbplyr', 'DiagrammeR', \
-  'dplyr', 'DT', 'evaluate', 'flexdashboard', 'future', 'ggplot2', \
-  'ggvis', 'hexbin', 'htmltools', 'htmlwidgets', \
-  'httpuv', 'jsonlite', 'knitr', 'later', 'leaflet', 'magrittr', \
-  'maps', 'markdown', 'memoise', 'networkD3', 'plotly', 'png', \
-  'progress', 'promises', 'pryr', 'radiant', 'ragg', 'RColorBrewer', \
-  'reactable', 'reactlog', 'reactR', 'rlang', 'rmarkdown', 'rprojroot', \
-  'rsconnect', 'RSQLite', 'rversions', 'scales', 'sf', 'shiny', \
-  'shinyAce', 'shinydashboard', 'shinyjs', 'shinymeta', \
-  'shinytest2', 'shinythemes', 'shinyvalidate', 'showtext', 'sysfonts', \
-  'systemfonts', 'testthat', 'thematic', 'tidyr', 'tm', 'websocket', \
-  'withr', 'wordcloud', \
-  'sessioninfo', \
-  'debugme', 'highcharter', 'parsedate', 'quantmod', 'rjson', 'rlist', 'showimage', 'TTR', 'XML', 'xts' \
-  ); \
+  # pkgs <- c('base64enc', 'bslib', 'Cairo', 'clipr', 'curl', 'dbplyr', 'DiagrammeR', \
+  # 'dplyr', 'DT', 'evaluate', 'flexdashboard', 'future', 'ggplot2', \
+  # 'ggvis', 'hexbin', 'htmltools', 'htmlwidgets', \
+  # 'httpuv', 'jsonlite', 'knitr', 'later', 'leaflet', 'magrittr', \
+  # 'maps', 'markdown', 'memoise', 'networkD3', 'plotly', 'png', \
+  # 'progress', 'promises', 'pryr', 'radiant', 'ragg', 'RColorBrewer', \
+  # 'reactable', 'reactlog', 'reactR', 'rlang', 'rmarkdown', 'rprojroot', \
+  # 'rsconnect', 'RSQLite', 'rversions', 'scales', 'sf', 'shiny', \
+  # 'shinyAce', 'shinydashboard', 'shinyjs', 'shinymeta', \
+  # 'shinytest2', 'shinythemes', 'shinyvalidate', 'showtext', 'sysfonts', \
+  # 'systemfonts', 'testthat', 'thematic', 'tidyr', 'tm', 'websocket', \
+  # 'withr', 'wordcloud', \
+  # 'sessioninfo', \
+  # 'debugme', 'highcharter', 'parsedate', 'quantmod', 'rjson', 'rlist', 'showimage', 'TTR', 'XML', 'xts' \
+  # ); \
   # NOTE! System requirements must be updated by hand. :-(
   # pak::pkg_system_requirements(pkgs, execute = TRUE); \
-  install.packages(pkgs); \
+  # install.packages(pkgs); \
   pak::pkg_install('rstudio/shinycoreci@${SHINYCORECI_SHA}');\
+  # TODO-barret; Shouldn't this handle it automatically?
   shinycoreci:::install_shinyverse_local(upgrade = FALSE, install_apps_deps = FALSE);\
   "
 

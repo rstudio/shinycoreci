@@ -1,10 +1,20 @@
+on_ci <- function() {
+  isTRUE(as.logical(Sys.getenv("CI")))
+}
+
+
 #' Shinyverse libpath
 #'
 #' Methods to get and reset the shinyverse `libpath`.
 #'
 #' @export
-#' @describeIn shinyverse_libpath Library path that will persist across installations. But will have a different path for different R versions
-shinyverse_libpath <- function() {
+#' @describeIn shinycoreci_libpath Library path that will persist across installations. But will have a different path for different R versions
+shinycoreci_libpath <- function() {
+  if (on_ci()) {
+    # Use standard libpath location
+    return(.libPaths()[1])
+  }
+
   # Dir location inspration from learnr:
   # https://github.com/rstudio/learnr/blob/1c01ac258230cbe217eee16c77cc71924faab1d3/R/storage.R#L275
   dir <- file.path(
@@ -22,7 +32,11 @@ shinyverse_libpath <- function() {
   dir
 }
 #' @export
-#' @describeIn shinyverse_libpath Removes the cached R library
-shinyverse_clean_libpath <- function() {
-  unlink(shinyverse_libpath(), recursive = TRUE)
+#' @describeIn shinycoreci_libpath Removes the cached R library
+shinycoreci_clean_libpaths <- function() {
+  if (on_ci()) {
+    stop("Cannot clean libpaths on CI")
+  }
+
+  unlink(dirname(shinycoreci_libpath()), recursive = TRUE)
 }

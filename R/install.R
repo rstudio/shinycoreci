@@ -18,118 +18,148 @@ shinycoreci_is_local <- function() {
 }
 
 
-# Used in GHA workflow
-install_shinyverse_local <- function(
-  ...,
-  # Install into normal libpath so caching is automatically handled
-  libpath = .libPaths()[1],
-  install_apps_deps = FALSE
-) {
-  install_shinyverse(..., libpath = libpath, install_apps_deps = install_apps_deps)
-}
+# # Used in GHA workflow
+# install_shinyverse_local <- function(
+#     ...,
+#     # Install into normal libpath so caching is automatically handled
+#     libpath = .libPaths()[1],
+#     install_apps_deps = FALSE) {
+#   install_shinyverse(..., libpath = libpath, install_apps_deps = install_apps_deps)
+# }
 
-#' @noRd
-#' @return lib path being used
-install_shinyverse <- function(
-  install = TRUE,
-  validate_loaded = TRUE,
-  upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
-  dependencies = NA, # pak::pkg_install(dependencies = NA)
-  extra_packages = NULL,
-  install_apps_deps = TRUE,
-  libpath = shinyverse_libpath()
-) {
-  if (!isTRUE(install)) return(.libPaths()[1])
+# #' @noRd
+# #' @return lib path being used
+# install_shinyverse_old <- function(
+#     install = TRUE,
+#     validate_loaded = TRUE,
+#     upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
+#     dependencies = NA, # pak::pkg_install(dependencies = NA)
+#     extra_packages = NULL,
+#     install_apps_deps = TRUE,
+#     libpath = shinycoreci_libpath()) {
+#   if (!isTRUE(install)) {
+#     return(.libPaths()[1])
+#   }
 
-  # Make sure none of the shinyverse is loaded into namespace
-  if (isTRUE(validate_loaded)) {
-    shiny_search <- paste0("package:", shinyverse_pkgs)
-    if (any(shiny_search %in% search())) {
-      bad_namespaces <- shinyverse_pkgs[shiny_search %in% search()]
-      stop(
-        "The following packages are already loaded:\n",
-        paste0("* ", bad_namespaces, "\n", collapse = ""),
-        "Please restart and try again"
-      )
-    }
-  }
+#   # Make sure none of the shinyverse is loaded into namespace
+#   if (isTRUE(validate_loaded)) {
+#     shiny_search <- paste0("package:", shinyverse_pkgs)
+#     if (any(shiny_search %in% search())) {
+#       bad_namespaces <- shinyverse_pkgs[shiny_search %in% search()]
+#       stop(
+#         "The following packages are already loaded:\n",
+#         paste0("* ", bad_namespaces, "\n", collapse = ""),
+#         "Please restart and try again"
+#       )
+#     }
+#   }
 
-  # Remove shinyverse
-  pak_apps_deps <-
-    if (isTRUE(install_apps_deps)) {
-      paste0("any::", apps_deps[!(apps_deps %in% c(shinyverse_pkgs, "shinycoreci", "shinycoreciapps"))])
-    } else {
-      NULL
-    }
+#   # Remove shinyverse
+#   pak_apps_deps <-
+#     if (isTRUE(install_apps_deps)) {
+#       apps_deps[!(apps_deps %in% c("shinycoreci"))]
+#     } else {
+#       NULL
+#     }
 
-  # Load pak into current namespace
-  pkgs <- c(shinyverse_remotes, pak_apps_deps, extra_packages)
-  message("Installing shinyverse and app deps: ", libpath)
-  if (!is.null(extra_packages)) {
-    message("Extra packages:\n", paste0("* ", extra_packages, collapse = "\n"))
-  }
+#   # Load pak into current namespace
+#   pkgs <- c(pak_apps_deps, extra_packages)
+#   message("Install libpath: ", libpath)
+#   message("Installing pkgs:\n", paste0("* ", pkgs, collapse = "\n"))
+#   # if (!is.null(extra_packages)) {
+#   #   message("Extra packages:\n", paste0("* ", extra_packages, collapse = "\n"))
+#   # }
 
-  install_pkgs_with_callr(pkgs, libpath = libpath, upgrade = upgrade, dependencies = dependencies)
-  return(libpath)
-}
+#   install_pkgs_with_callr(pkgs, libpath = libpath, upgrade = upgrade, dependencies = dependencies)
+#   return(libpath)
+# }
 
-
+## Used in GHA workflow
 # Install missing dependencies given an app name
 # If more than one app name is provided, run through all of them individually
-install_missing_app_deps <- function(app_name = names(apps_deps_map), libpath = .libPaths()[1], upgrade = FALSE, dependencies = NA, ..., recursing = FALSE) {
-  if (!isTRUE(recursing)) {
-    install_troublesome_pkgs(libpath = libpath)
-  }
-  if (length(app_name) > 1) {
-    for (app_name_val in app_name) {
-      install_missing_app_deps(app_name_val, libpath = libpath, upgrade = upgrade, dependencies = dependencies, recursing = TRUE)
+install_missing_app_deps <- function(
+    app_name = names(apps_deps_map),
+    libpath = .libPaths()[1],
+    upgrade = FALSE,
+    dependencies = NA
+    # ,
+    # ...,
+    # recursing = FALSE
+    ) {
+  # if (!isTRUE(recursing)) {
+  #   install_troublesome_pkgs_old(libpath = libpath)
+  # }
+  app_deps <-
+    if (length(app_name) > 1) {
+      unique(unlist(
+        lapply(app_name, function(app_name_val) {
+          apps_deps_map[[resolve_app_name(app_name_val)]]
+        })
+      ))
+    } else {
+      apps_deps_map[[resolve_app_name(app_name)]]
     }
-    return(invisible())
-  }
 
-  app_name <- resolve_app_name(app_name)
 
-  app_deps <- apps_deps_map[[app_name]]
-
-  install_missing_pkgs(app_deps, libpath = libpath, upgrade = upgrade, dependencies = dependencies)
-  deps <- Filter(app_deps, f = function(dep) !is_installed(dep, libpath = libpath))
-  if (length(deps) > 0) {
-    message("Installing missing packages: ", paste0(deps, collapse = ", "))
-    install_pkgs_with_callr(deps, libpath = libpath, upgrade = upgrade, dependencies = dependencies)
-  }
+  install_missing_pkgs(
+    app_deps,
+    libpath = libpath,
+    upgrade = upgrade,
+    dependencies = dependencies
+  )
 
   invisible()
 }
 
+
+
+installed_pkgs <- base::list2env(list())
+
 # packages_to_install is what is really installed given the value of packages
-install_missing_pkgs <- function(packages, libpath = .libPaths()[1], upgrade = FALSE, dependencies = NA, packages_to_install = packages) {
-  packages_to_install <- unlist(Map(
+install_missing_pkgs <- function(
     packages,
-    packages_to_install,
-    f = function(package, value) {
-      if (!is_installed(package, libpath = libpath)) {
-        value
-      } else {
-        NULL
-      }
+    libpath = .libPaths()[1],
+    upgrade = FALSE,
+    dependencies = NA,
+    packages_to_install = packages) {
+
+  pkgs_to_install <- packages_to_install[!(packages_to_install %in% names(installed_pkgs))]
+
+  if (length(pkgs_to_install) > 0) {
+    message(
+      "Installing missing packages: ",
+      paste0(pkgs_to_install, collapse = ", ")
+    )
+    install_pkgs_with_callr(
+      pkgs_to_install,
+      libpath = libpath,
+      upgrade = upgrade,
+      dependencies = dependencies
+    )
+    # Update the installed status
+    for (package in pkgs_to_install) {
+      # Set in environment
+      installed_pkgs[[package]] <- TRUE
     }
-  ))
-  if (length(packages_to_install) > 0) {
-    message("Installing missing packages: ", paste0(packages_to_install, collapse = ", "))
-    install_pkgs_with_callr(packages_to_install, libpath = libpath, upgrade = upgrade, dependencies = dependencies)
   }
 
   invisible()
 }
 
 install_pkgs_with_callr <- function(
-  packages,
-  libpath = .libPaths()[1],
-  upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
-  dependencies = NA # pak::pkg_install(dependencies = NA)
-) {
+    packages,
+    libpath = .libPaths()[1],
+    upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
+    dependencies = NA # pak::pkg_install(dependencies = NA)
+    ) {
   callr::r(
     function(packages, lib, upgrade, dependencies) {
+      options(repos = c(
+        # Use the shinycoreci universe to avoid GH rate limits!
+        "AAA" = "https://posit-dev-shinycoreci.r-universe.dev",
+        getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
+      ))
+
       # Performing a leap of faith that pak is installed.
       # Avoids weird installs when using pak to install shinycoreci
       stopifnot(utils::packageVersion("pak") >= "0.3.0")
@@ -158,8 +188,7 @@ install_pkgs_with_callr <- function(
 
 
 # This logic should mimic `./gihub/internal/install-shinyvers/action.yaml` logic
-install_troublesome_pkgs <- function(libpath = .libPaths()[1]) {
-
+install_troublesome_pkgs_old <- function(libpath = .libPaths()[1]) {
   # Get R version like `"4.2"`
   short_r_version <- sub("\\.\\d$", "", as.character(getRversion()))
 

@@ -157,8 +157,7 @@ jobs:
           status: TEST (${{ steps.short.outputs.sha }} ${{ inputs.os }} - ${{ steps.short.outputs.r-version }})
           color: warning
 
-      # do not update pkgs, as they were installed above
-      # do update app pkgs, as they have NOT been installed
+      # Install packages as necessary!
       - name: Run tests
         timeout-minutes: 180 # 3 hrs
         env:

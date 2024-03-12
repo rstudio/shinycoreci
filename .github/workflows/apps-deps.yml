@@ -53,6 +53,7 @@ jobs:
           options(repos = c(CRAN="https://cran.rstudio.com/"))
           source("inst/gha/data-apps-deps-update.R")
           update_apps_deps()
+          update_shinyverse()
 
       - name: Display file contents
         run: |

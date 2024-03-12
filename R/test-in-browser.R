@@ -11,17 +11,19 @@
 #' @param ... ignored
 #' @export
 #' @examples
-#' \dontrun{test_in_browser()}
+#' \dontrun{
+#' test_in_browser()
+#' }
 test_in_browser <- function(
-  app_name = apps[1],
-  apps = apps_manual,
-  ...,
-  port = 8080,
-  port_background = NULL,
-  host = "127.0.0.1",
-  local_pkgs = FALSE
-) {
-  libpath <- install_shinyverse(install = !isTRUE(local_pkgs))
+    app_name = apps[1],
+    apps = apps_manual,
+    ...,
+    port = 8080,
+    port_background = NULL,
+    host = "127.0.0.1",
+    local_pkgs = FALSE) {
+  should_install <- !isTRUE(local_pkgs)
+  libpath <- if (should_install) shinycoreci_libpath() else .libPaths()[1]
 
   app_infos <- lapply(apps, function(app_name) {
     app_proc <- NULL
@@ -53,7 +55,7 @@ test_in_browser <- function(
         return()
       }
 
-      message("Killing background Shiny Session...", appendLF = FALSE)
+      message("Killing background ", app_name, " Shiny Session...", appendLF = FALSE)
       if (app_proc$is_alive()) {
         app_proc$kill()
       }
@@ -101,6 +103,13 @@ test_in_browser <- function(
             stop("Port ", port_background_val, " was not available within ", total_wait, " seconds")
           }
           message(" OK")
+        }
+
+        if (should_install) {
+          install_missing_app_deps(
+            app_name,
+            libpath = shinycoreci_libpath(),
+          )
         }
 
 
@@ -166,9 +175,9 @@ test_in_browser <- function(
 
   test_in_external(
     app_infos = app_infos,
+    default_output_lines = "(Loading next app...)",
     default_app_name = resolve_app_name(app_name),
     host = host,
     port = port
   )
-
 }
