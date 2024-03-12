@@ -56,7 +56,7 @@ jobs:
       # RSPM: ${{ matrix.config.rspm }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: GitHub Pull
 
       - name: R Options

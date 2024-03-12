@@ -1,6 +1,7 @@
 if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
 if (!requireNamespace("yaml", quietly = TRUE)) install.packages("yaml")
 if (!requireNamespace("withr", quietly = TRUE)) install.packages("withr")
+if (!requireNamespace("jsonlite", quietly = TRUE)) install.packages("jsonlite")
 
 update_apps_deps <- function(repo_dir = ".") {
   withr::local_dir(repo_dir)

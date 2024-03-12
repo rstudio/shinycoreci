@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: GitHub Pull
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Validate testing files
         shell: Rscript {0}
