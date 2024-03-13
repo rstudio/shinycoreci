@@ -35,6 +35,9 @@ test_in_ide <- function(
   app_name <- resolve_app_name(app_name)
 
   if (should_install) {
+    if (!refresh_) {
+      attempt_to_install_universe(libpath = libpath)
+    }
     install_missing_app_deps(app_name, libpath = libpath)
   }
 
