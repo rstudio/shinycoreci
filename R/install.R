@@ -74,6 +74,37 @@ shinycoreci_is_local <- function() {
 #   return(libpath)
 # }
 
+# Attempt to set up all the packages in the shinyverse, even if they are not directly depended upon.
+attempt_to_install_universe <- function(
+  ...,
+  libpath = .libPaths()[1]
+) {
+  stopifnot(length(list(...)) == 0)
+
+  tryCatch(
+    {
+      install_missing_pkgs(shinyverse_pkgs, libpath = libpath)
+    },
+    error = function(e) {
+      # Couldn't install all at once, Installing individually
+      message("Failed to install shinyverse packages in a single attempt. Trying individually.")
+      lapply(shinyverse_pkgs, function(pkg) {
+        tryCatch(
+          {
+            install_missing_pkgs(pkg, libpath = libpath)
+          },
+          error = function(e) {
+            message("Failed to install ", pkg, " from universe")
+          }
+        )
+      })
+    }
+  )
+
+}
+
+
+
 ## Used in GHA workflow
 # Install missing dependencies given an app name
 # If more than one app name is provided, run through all of them individually
@@ -116,15 +147,14 @@ install_missing_app_deps <- function(
 installed_pkgs <- new.env(parent = emptyenv())
 
 
-# packages_to_install is what is really installed given the value of packages
+# packages is what is really installed given the value of packages
 install_missing_pkgs <- function(
     packages,
     libpath = .libPaths()[1],
     upgrade = FALSE,
-    dependencies = NA,
-    packages_to_install = packages) {
+    dependencies = NA) {
 
-  pkgs_to_install <- packages_to_install[!(packages_to_install %in% names(installed_pkgs))]
+  pkgs_to_install <- packages[!(packages %in% names(installed_pkgs))]
 
   if (length(pkgs_to_install) > 0) {
     message(
@@ -183,65 +213,3 @@ install_pkgs_with_callr <- function(
     spinner = TRUE # helps with CI from timing out
   )
 }
-
-
-
-
-
-# # This logic should mimic `./gihub/internal/install-shinyvers/action.yaml` logic
-# install_troublesome_pkgs_old <- function(libpath = .libPaths()[1]) {
-#   # Get R version like `"4.2"`
-#   short_r_version <- sub("\\.\\d$", "", as.character(getRversion()))
-
-#   if (is_mac()) {
-#     switch(short_r_version,
-#       "4.2" = {
-#         install_missing_pkgs(
-#           packages = "XML",
-#           packages_to_install = "XML",
-#           libpath = libpath
-#         )
-#       }
-#     )
-#   }
-
-#   if (is_linux()) {
-#     switch(short_r_version,
-#       "4.2" = {
-#         install_missing_pkgs(
-#           packages = "XML",
-#           packages_to_install = "XML",
-#           libpath = libpath
-#         )
-#       },
-#       "3.6" = {
-#         install_missing_pkgs(
-#           packages = "rjson",
-#           packages_to_install = "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz",
-#           libpath = libpath
-#         )
-#       }
-#     )
-#   }
-
-#   if (is_windows()) {
-#     switch(short_r_version,
-#       "4.0" = {
-#         install_missing_pkgs(
-#           packages = "terra",
-#           packages_to_install = "url::https://cloud.r-project.org/bin/windows/contrib/4.0/terra_1.5-21.zip",
-#           libpath = libpath
-#         )
-#       },
-#       "3.6" = {
-#         install_missing_pkgs(
-#           packages = "terra",
-#           packages_to_install = "url::https://cloud.r-project.org/bin/windows/contrib/3.6/terra_1.2-5.zip",
-#           libpath = libpath
-#         )
-#       }
-#     )
-#   }
-
-#   invisible()
-# }
