@@ -23,7 +23,7 @@
   },
   "output": {
     "histCentile": {
-      "src": "[image data hash: 1cf52d209249ee72ff2e32f10bf5cd8e]",
+      "src": "[image data hash: b9b57eff26567c24a0eaf690eac1b6fc]",
       "width": 287.7778,
       "height": 200,
       "alt": "Plot object",
@@ -168,9 +168,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.2.0.9000",
+          "version": "2.2.1.9000",
           "src": {
-            "href": "leaflet-binding-2.2.0.9000"
+            "href": "leaflet-binding-2.2.1.9000"
           },
           "meta": null,
           "script": "leaflet.js",
@@ -182,7 +182,7 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data hash: 27aaef0d4fc6b0e7a33555203e7ac3bc]",
+      "src": "[image data hash: d2912c37dea1c80686ad470f39e4505b]",
       "width": 287.7778,
       "height": 250,
       "alt": "Plot object",
