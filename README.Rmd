@@ -58,7 +58,7 @@ pak::pak("rstudio/shinycoreci")
 These GitHub packages will be installed to make sure the latest package development is working as expected:
 
 ```{r, echo = FALSE, results = "asis"}
-urls <- shinycoreci:::shinyverse_urls
+shinyverse_urls <- shinycoreci:::shinyverse_urls
 
 # print as links to repos
 cat(
