@@ -9,124 +9,167 @@
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2024-03-12
+ date      2024-03-13
  pandoc    2.7.3 @ /usr/local/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
- ! package     * version     date (UTC) lib source
- 1 AsioHeaders   1.22.1-2    2022-12-08 [1] CRAN (R 3.6.3)
- 1 askpass       1.2.0       2023-09-03 [1] CRAN (R 3.6.3)
- 1 assertthat    0.2.1       2019-03-21 [2] CRAN (R 3.6.3)
- 1 backports     1.4.1       2021-12-13 [1] CRAN (R 3.6.3)
- 1 base64enc     0.1-3       2015-07-28 [1] CRAN (R 3.6.3)
- 1 boot          1.3-24      2019-12-20 [4] CRAN (R 3.6.3)
- 1 brio          1.1.4       2023-12-10 [1] CRAN (R 3.6.3)
- 1 bslib         0.6.1.9001  2024-03-12 [1] https://p~
- 1 cachem        1.0.8       2023-05-01 [1] CRAN (R 3.6.3)
- 2 callr         3.7.5       2024-02-19 [2] CRAN (R 3.6.3)
- 1 checkmate     2.3.1       2023-12-04 [1] CRAN (R 3.6.3)
- 1 chromote      0.2.0.9000  2024-03-12 [1] https://p~
- 1 class         7.3-15      2019-01-01 [4] CRAN (R 3.6.3)
- 2 cli           3.6.2       2023-12-11 [2] CRAN (R 3.6.3)
- 1 cluster       2.1.0       2019-06-19 [4] CRAN (R 3.6.3)
- 1 codetools     0.2-16      2018-12-24 [4] CRAN (R 3.6.3)
- 1 commonmark    1.9.1       2024-01-30 [1] CRAN (R 3.6.3)
- 1 cpp11         0.4.7       2023-12-02 [1] CRAN (R 3.6.3)
- 2 crayon        1.5.2       2022-09-29 [2] CRAN (R 3.6.3)
- 1 curl          5.2.1       2024-03-01 [1] CRAN (R 3.6.3)
- 1 debugme       1.1.0       2017-10-22 [2] CRAN (R 3.6.3)
- 1 desc          1.4.3       2023-12-10 [1] CRAN (R 3.6.3)
- 1 diffobj       0.3.5       2021-10-05 [1] CRAN (R 3.6.3)
- 1 digest        0.6.35      2024-03-11 [1] CRAN (R 3.6.3)
- 1 dplyr         1.1.4       2023-11-17 [2] CRAN (R 3.6.3)
- 1 ellipsis      0.3.2       2021-04-29 [1] CRAN (R 3.6.3)
- 1 english       1.2-6       2021-08-21 [2] CRAN (R 3.6.3)
- 1 evaluate      0.23        2023-11-01 [1] CRAN (R 3.6.3)
- 2 fansi         1.0.6       2023-12-08 [2] CRAN (R 3.6.3)
- 1 fastmap       1.1.1.9000  2024-03-12 [1] https://p~
- 1 fontawesome   0.5.2.9000  2024-03-12 [1] https://p~
- 1 foreign       0.8-75      2020-01-20 [4] CRAN (R 3.6.3)
- 1 fs            1.6.3       2023-07-20 [1] CRAN (R 3.6.3)
- 1 generics      0.1.3       2022-07-05 [2] CRAN (R 3.6.3)
- 1 globals       0.16.3      2024-03-08 [1] CRAN (R 3.6.3)
- 2 glue          1.7.0       2024-01-09 [2] CRAN (R 3.6.3)
- 1 highr         0.10        2022-12-22 [1] CRAN (R 3.6.3)
- 1 hms           1.1.3       2023-03-21 [2] CRAN (R 3.6.3)
- 1 htmltools     0.5.7       2023-11-03 [1] CRAN (R 3.6.3)
- 1 htmlwidgets   1.6.4       2023-12-06 [2] CRAN (R 3.6.3)
- 1 httpuv        1.6.14.9000 2024-03-12 [1] https://p~
- 1 httr          1.4.7       2023-08-15 [1] CRAN (R 3.6.3)
- 1 jquerylib     0.1.4       2021-04-26 [1] CRAN (R 3.6.3)
- 2 jsonlite      1.8.8       2023-12-04 [2] CRAN (R 3.6.3)
- 1 KernSmooth    2.23-16     2019-10-15 [4] CRAN (R 3.6.3)
- 1 knitr         1.45        2023-10-30 [1] CRAN (R 3.6.3)
- 1 later         1.3.2.9000  2024-03-12 [1] https://p~
- 1 lattice       0.20-38     2018-11-04 [4] CRAN (R 3.6.3)
- 2 lifecycle     1.0.4       2023-11-07 [2] CRAN (R 3.6.3)
- 2 magrittr      2.0.3       2022-03-30 [2] CRAN (R 3.6.3)
- 1 MASS          7.3-51.5    2019-12-20 [4] CRAN (R 3.6.3)
- 1 Matrix        1.2-18      2019-11-27 [4] CRAN (R 3.6.3)
- 1 memoise       2.0.1       2021-11-26 [1] CRAN (R 3.6.3)
- 1 mgcv          1.8-31      2019-11-09 [4] CRAN (R 3.6.3)
- 1 mime          0.12        2021-09-28 [1] CRAN (R 3.6.3)
- 1 nlme          3.1-144     2020-02-06 [4] CRAN (R 3.6.3)
- 1 nnet          7.3-12      2016-02-02 [4] CRAN (R 3.6.3)
- 1 openssl       2.1.1       2023-09-25 [1] CRAN (R 3.6.3)
- 1 packrat       0.9.2       2023-09-05 [1] CRAN (R 3.6.3)
- 1 pak           0.7.1       2023-12-12 [2] local
- 1 parsedate     1.3.1       2022-10-27 [2] CRAN (R 3.6.3)
- 2 pillar        1.9.0       2023-03-22 [2] CRAN (R 3.6.3)
- 1 pingr         2.0.3       2023-12-10 [1] CRAN (R 3.6.3)
- 1 pkgbuild      1.4.3       2023-12-10 [1] CRAN (R 3.6.3)
- 2 pkgconfig     2.0.3       2019-09-22 [2] CRAN (R 3.6.3)
- 1 pkgload       1.3.4       2024-01-16 [1] CRAN (R 3.6.3)
- 1 png           0.1-8       2022-11-29 [2] CRAN (R 3.6.3)
- 1 praise        1.0.0       2015-08-11 [1] CRAN (R 3.6.3)
- 1 prettyunits   1.2.0       2023-09-24 [2] CRAN (R 3.6.3)
- 2 processx      3.8.3       2023-12-10 [2] CRAN (R 3.6.3)
- 1 progress      1.2.3       2023-12-06 [2] CRAN (R 3.6.3)
- 1 promises      1.2.1.9000  2024-03-12 [1] https://p~
- 2 ps            1.7.6       2024-01-18 [2] CRAN (R 3.6.3)
- 1 purrr         1.0.2       2023-08-10 [2] CRAN (R 3.6.3)
- 2 R6            2.5.1       2021-08-19 [2] CRAN (R 3.6.3)
- 2 rappdirs      0.3.3       2021-01-31 [2] CRAN (R 3.6.3)
- 1 Rcpp          1.0.12      2024-01-09 [1] CRAN (R 3.6.3)
- 1 rematch       2.0.0       2023-08-30 [2] CRAN (R 3.6.3)
- 1 rematch2      2.1.2       2020-05-01 [1] CRAN (R 3.6.3)
- 1 renv          1.0.5       2024-02-29 [1] CRAN (R 3.6.3)
- 2 rlang         1.1.3       2024-01-10 [2] CRAN (R 3.6.3)
- 1 rmarkdown     2.26        2024-03-05 [1] CRAN (R 3.6.3)
- 1 rpart         4.1-15      2019-04-12 [4] CRAN (R 3.6.3)
- 2 rprojroot     2.0.4       2023-11-05 [2] CRAN (R 3.6.3)
- 1 rsconnect     1.2.1       2024-01-31 [1] CRAN (R 3.6.3)
- 1 rstudioapi    0.15.0      2023-07-07 [1] CRAN (R 3.6.3)
- 1 sass          0.4.8.9000  2024-03-12 [1] https://p~
- 1 sessioninfo   1.2.2       2021-12-06 [2] any (@1.2.2)
- 1 shiny         1.8.0.9000  2024-03-12 [1] https://p~
- 1 shinycoreci   0.0.0.9008  2024-03-12 [2] local
- 1 shinyjster    0.0.0.9010  2024-03-12 [1] https://p~
- 1 shinytest     1.5.4       2024-03-02 [2] CRAN (R 3.6.3)
- 1 shinytest2    0.3.1       2024-03-12 [1] https://p~
- 1 showimage     1.0.0       2018-01-24 [2] CRAN (R 3.6.3)
- 1 sourcetools   0.1.7-1     2023-02-01 [1] CRAN (R 3.6.3)
- 1 spatial       7.3-11      2015-08-30 [4] CRAN (R 3.6.3)
- 1 stringi       1.8.3       2023-12-11 [2] CRAN (R 3.6.3)
- 1 stringr       1.5.1       2023-11-14 [2] CRAN (R 3.6.3)
- 1 survival      3.1-8       2019-12-03 [4] CRAN (R 3.6.3)
- 1 sys           3.4.2       2023-05-23 [1] CRAN (R 3.6.3)
- 1 testthat      3.2.1       2023-12-02 [1] CRAN (R 3.6.3)
- 2 tibble        3.2.1       2023-03-20 [2] CRAN (R 3.6.3)
- 1 tidyr         1.3.1       2024-01-24 [2] CRAN (R 3.6.3)
- 1 tidyselect    1.2.1       2024-03-11 [2] CRAN (R 3.6.3)
- 1 tinytex       0.49        2023-11-22 [1] CRAN (R 3.6.3)
- 2 utf8          1.2.4       2023-10-22 [2] CRAN (R 3.6.3)
- 2 vctrs         0.6.5       2023-12-01 [2] CRAN (R 3.6.3)
- 1 waldo         0.5.2       2023-11-02 [1] CRAN (R 3.6.3)
- 1 webdriver     1.0.6       2021-01-12 [2] CRAN (R 3.6.3)
- 1 websocket     1.4.1.9000  2024-03-12 [1] https://p~
- 2 withr         3.0.0       2024-01-16 [2] CRAN (R 3.6.3)
- 1 xfun          0.42        2024-02-08 [1] CRAN (R 3.6.3)
- 1 xtable        1.8-4       2019-04-21 [1] CRAN (R 3.6.3)
- 1 yaml          2.3.8       2023-12-11 [1] CRAN (R 3.6.3)
+ ! package           * version     date (UTC) lib source
+ 1 AsioHeaders         1.22.1-2    2022-12-08 [1] CRAN (R 3.6.3)
+ 1 askpass             1.2.0       2023-09-03 [1] CRAN (R 3.6.3)
+ 1 assertthat          0.2.1       2019-03-21 [1] CRAN (R 3.6.3)
+ 1 backports           1.4.1       2021-12-13 [1] CRAN (R 3.6.3)
+ 1 base64enc           0.1-3       2015-07-28 [1] CRAN (R 3.6.3)
+ 1 bigD                0.2.0       2022-09-05 [1] CRAN (R 3.6.3)
+ 1 bitops              1.0-7       2021-04-24 [1] CRAN (R 3.6.3)
+ 1 boot                1.3-24      2019-12-20 [4] CRAN (R 3.6.3)
+ 1 brio                1.1.4       2023-12-10 [1] CRAN (R 3.6.3)
+ 1 bsicons             0.1.2.9000  2024-03-13 [1] https://p~
+ 1 bslib               0.6.1.9001  2024-03-13 [1] https://p~
+ 1 cachem              1.0.8       2024-03-13 [1] https://p~
+ 2 callr               3.7.5       2024-02-19 [2] CRAN (R 3.6.3)
+ 1 checkmate           2.3.1       2023-12-04 [1] CRAN (R 3.6.3)
+ 1 chromote            0.2.0.9000  2024-03-13 [1] https://p~
+ 1 class               7.3-15      2019-01-01 [4] CRAN (R 3.6.3)
+ 2 cli                 3.6.2       2023-12-11 [2] CRAN (R 3.6.3)
+ 1 cluster             2.1.0       2019-06-19 [4] CRAN (R 3.6.3)
+ 1 codetools           0.2-16      2018-12-24 [4] CRAN (R 3.6.3)
+ 1 colorspace          2.1-0       2023-01-23 [1] CRAN (R 3.6.3)
+ 1 commonmark          1.9.1       2024-01-30 [1] CRAN (R 3.6.3)
+ 1 cpp11               0.4.7       2023-12-02 [1] CRAN (R 3.6.3)
+ 2 crayon              1.5.2       2022-09-29 [2] CRAN (R 3.6.3)
+ 1 crosstalk           1.2.1.9000  2024-03-13 [1] https://p~
+ 1 curl                5.2.1       2024-03-01 [1] CRAN (R 3.6.3)
+ 1 data.table          1.15.2      2024-02-29 [1] CRAN (R 3.6.3)
+ 1 DBI                 1.2.2       2024-02-16 [1] CRAN (R 3.6.3)
+ 1 debugme             1.1.0       2017-10-22 [1] CRAN (R 3.6.3)
+ 1 desc                1.4.3       2023-12-10 [1] CRAN (R 3.6.3)
+ 1 diffobj             0.3.5       2021-10-05 [1] CRAN (R 3.6.3)
+ 1 digest              0.6.35      2024-03-11 [1] CRAN (R 3.6.3)
+ 1 dplyr               1.1.4       2023-11-17 [1] CRAN (R 3.6.3)
+ 1 DT                  0.32.1      2024-03-13 [1] https://p~
+ 1 dygraphs            1.1.1.7     2024-03-13 [1] https://p~
+ 1 ellipsis            0.3.2       2021-04-29 [1] CRAN (R 3.6.3)
+ 1 english             1.2-6       2021-08-21 [2] CRAN (R 3.6.3)
+ 1 evaluate            0.23        2023-11-01 [1] CRAN (R 3.6.3)
+ 2 fansi               1.0.6       2023-12-08 [2] CRAN (R 3.6.3)
+ 1 farver              2.1.1       2022-07-06 [1] CRAN (R 3.6.3)
+ 1 fastmap             1.1.1.9000  2024-03-13 [1] https://p~
+ 1 flexdashboard       0.6.2.9000  2024-03-13 [1] https://p~
+ 1 fontawesome         0.5.2.9000  2024-03-13 [1] https://p~
+ 1 foreign             0.8-75      2020-01-20 [4] CRAN (R 3.6.3)
+ 1 fs                  1.6.3       2023-07-20 [1] CRAN (R 3.6.3)
+ 1 generics            0.1.3       2022-07-05 [1] CRAN (R 3.6.3)
+ 1 ggplot2             3.5.0       2024-02-23 [1] CRAN (R 3.6.3)
+ 1 globals             0.16.3      2024-03-08 [1] CRAN (R 3.6.3)
+ 2 glue                1.7.0       2024-01-09 [2] CRAN (R 3.6.3)
+ 1 gt                  0.10.1.9000 2024-03-13 [1] https://p~
+ 1 gtable              0.3.4       2023-08-21 [1] CRAN (R 3.6.3)
+ 1 highr               0.10        2022-12-22 [1] CRAN (R 3.6.3)
+ 2 hms                 1.1.3       2023-03-21 [2] CRAN (R 3.6.3)
+ 1 htmltools           0.5.7.9000  2024-03-13 [1] https://p~
+ 1 htmlwidgets         1.6.4       2024-03-13 [1] https://p~
+ 1 httpuv              1.6.14.9000 2024-03-13 [1] https://p~
+ 1 httr                1.4.7       2023-08-15 [1] CRAN (R 3.6.3)
+ 1 isoband             0.2.7       2022-12-20 [1] CRAN (R 3.6.3)
+ 1 jquerylib           0.1.4       2021-04-26 [1] CRAN (R 3.6.3)
+ 2 jsonlite            1.8.8       2023-12-04 [2] CRAN (R 3.6.3)
+ 1 juicyjuice          0.1.0       2022-11-10 [1] CRAN (R 3.6.3)
+ 1 KernSmooth          2.23-16     2019-10-15 [4] CRAN (R 3.6.3)
+ 1 knitr               1.45        2023-10-30 [1] CRAN (R 3.6.3)
+ 1 labeling            0.4.3       2023-08-29 [1] CRAN (R 3.6.3)
+ 1 later               1.3.2.9000  2024-03-13 [1] https://p~
+ 1 lattice             0.20-38     2018-11-04 [4] CRAN (R 3.6.3)
+ 1 lazyeval            0.2.2       2019-03-15 [1] CRAN (R 3.6.3)
+ 1 leaflet.providers   2.0.0       2023-10-17 [1] CRAN (R 3.6.3)
+ 2 lifecycle           1.0.4       2023-11-07 [2] CRAN (R 3.6.3)
+ 2 magrittr            2.0.3       2022-03-30 [2] CRAN (R 3.6.3)
+ 1 markdown            1.12        2023-12-06 [1] CRAN (R 3.6.3)
+ 1 MASS                7.3-51.5    2019-12-20 [4] CRAN (R 3.6.3)
+ 1 Matrix              1.2-18      2019-11-27 [4] CRAN (R 3.6.3)
+ 1 memoise             2.0.1       2021-11-26 [1] CRAN (R 3.6.3)
+ 1 mgcv                1.8-31      2019-11-09 [4] CRAN (R 3.6.3)
+ 1 mime                0.12        2021-09-28 [1] CRAN (R 3.6.3)
+ 1 munsell             0.5.0       2018-06-12 [1] CRAN (R 3.6.3)
+ 1 nlme                3.1-144     2020-02-06 [4] CRAN (R 3.6.3)
+ 1 nnet                7.3-12      2016-02-02 [4] CRAN (R 3.6.3)
+ 1 openssl             2.1.1       2023-09-25 [1] CRAN (R 3.6.3)
+ 1 packrat             0.9.2       2023-09-05 [1] CRAN (R 3.6.3)
+ 1 pak                 0.7.1       2023-12-12 [2] local
+ 1 parsedate           1.3.1       2022-10-27 [1] CRAN (R 3.6.3)
+ 2 pillar              1.9.0       2023-03-22 [2] CRAN (R 3.6.3)
+ 1 pingr               2.0.3       2023-12-10 [1] CRAN (R 3.6.3)
+ 1 pkgbuild            1.4.3       2023-12-10 [1] CRAN (R 3.6.3)
+ 2 pkgconfig           2.0.3       2019-09-22 [2] CRAN (R 3.6.3)
+ 1 pkgload             1.3.4       2024-01-16 [1] CRAN (R 3.6.3)
+ 1 plotly              4.10.4.9000 2024-03-13 [1] https://p~
+ 1 png                 0.1-8       2022-11-29 [1] CRAN (R 3.6.3)
+ 1 pool                1.0.3.9000  2024-03-13 [1] https://p~
+ 1 praise              1.0.0       2015-08-11 [1] CRAN (R 3.6.3)
+ 2 prettyunits         1.2.0       2023-09-24 [2] CRAN (R 3.6.3)
+ 2 processx            3.8.3       2023-12-10 [2] CRAN (R 3.6.3)
+ 2 progress            1.2.3       2023-12-06 [2] CRAN (R 3.6.3)
+ 1 promises            1.2.1.9000  2024-03-13 [1] https://p~
+ 2 ps                  1.7.6       2024-01-18 [2] CRAN (R 3.6.3)
+ 1 purrr               1.0.2       2023-08-10 [1] CRAN (R 3.6.3)
+ 1 R.cache             0.16.0      2022-07-21 [1] CRAN (R 3.6.3)
+ 1 R.methodsS3         1.8.2       2022-06-13 [1] CRAN (R 3.6.3)
+ 1 R.oo                1.26.0      2024-01-24 [1] CRAN (R 3.6.3)
+ 1 R.utils             2.12.3      2023-11-18 [1] CRAN (R 3.6.3)
+ 2 R6                  2.5.1       2021-08-19 [2] CRAN (R 3.6.3)
+ 2 rappdirs            0.3.3       2021-01-31 [2] CRAN (R 3.6.3)
+ 1 RColorBrewer        1.1-3       2022-04-03 [1] CRAN (R 3.6.3)
+ 1 Rcpp                1.0.12      2024-01-09 [1] CRAN (R 3.6.3)
+ 1 reactable           0.4.4       2023-03-12 [1] CRAN (R 3.6.3)
+ 1 reactlog            1.1.1       2024-03-13 [1] https://p~
+ 1 reactR              0.5.0       2023-10-11 [1] CRAN (R 3.6.3)
+ 1 rematch             2.0.0       2023-08-30 [1] CRAN (R 3.6.3)
+ 1 rematch2            2.1.2       2020-05-01 [1] CRAN (R 3.6.3)
+ 1 renv                1.0.5       2024-02-29 [1] CRAN (R 3.6.3)
+ 2 rlang               1.1.3       2024-01-10 [2] CRAN (R 3.6.3)
+ 1 rmarkdown           2.26        2024-03-05 [1] CRAN (R 3.6.3)
+ 1 rpart               4.1-15      2019-04-12 [4] CRAN (R 3.6.3)
+ 2 rprojroot           2.0.4       2023-11-05 [2] CRAN (R 3.6.3)
+ 1 rsconnect           1.2.1       2024-01-31 [1] CRAN (R 3.6.3)
+ 1 rstudioapi          0.15.0      2023-07-07 [1] CRAN (R 3.6.3)
+ 1 sass                0.4.8.9000  2024-03-13 [1] https://p~
+ 1 scales              1.3.0       2023-11-28 [1] CRAN (R 3.6.3)
+ 1 sessioninfo         1.2.2       2021-12-06 [1] CRAN (R 3.6.3)
+ 1 shiny               1.8.0.9000  2024-03-13 [1] https://p~
+ 2 shinycoreci         0.0.0.9008  2024-03-13 [2] Custom
+ 1 shinyjster          0.0.0.9010  2024-03-13 [1] https://p~
+ 1 shinymeta           0.2.0.3     2024-03-13 [1] https://p~
+ 1 shinytest           1.5.4       2024-03-13 [1] https://p~
+ 1 shinytest2          0.3.1       2024-03-13 [1] https://p~
+ 1 shinythemes         1.2.0       2024-03-13 [1] https://p~
+ 1 shinyvalidate       0.1.3.9000  2024-03-13 [1] https://p~
+ 1 showimage           1.0.0       2018-01-24 [1] CRAN (R 3.6.3)
+ 1 sourcetools         0.1.7-1     2023-02-01 [1] CRAN (R 3.6.3)
+ 1 sp                  2.1-3       2024-01-30 [1] CRAN (R 3.6.3)
+ 1 spatial             7.3-11      2015-08-30 [4] CRAN (R 3.6.3)
+ 1 stringi             1.8.3       2023-12-11 [1] CRAN (R 3.6.3)
+ 1 stringr             1.5.1       2023-11-14 [1] CRAN (R 3.6.3)
+ 1 styler              1.10.2      2023-08-29 [1] CRAN (R 3.6.3)
+ 1 survival            3.1-8       2019-12-03 [4] CRAN (R 3.6.3)
+ 1 sys                 3.4.2       2023-05-23 [1] CRAN (R 3.6.3)
+ 1 testthat            3.2.1       2023-12-02 [1] CRAN (R 3.6.3)
+ 1 thematic            0.1.5.9000  2024-03-13 [1] https://p~
+ 2 tibble              3.2.1       2023-03-20 [2] CRAN (R 3.6.3)
+ 1 tidyr               1.3.1       2024-01-24 [1] CRAN (R 3.6.3)
+ 1 tidyselect          1.2.1       2024-03-11 [1] CRAN (R 3.6.3)
+ 1 tinytex             0.49        2023-11-22 [1] CRAN (R 3.6.3)
+ 2 utf8                1.2.4       2023-10-22 [2] CRAN (R 3.6.3)
+ 1 V8                  4.4.2       2024-02-15 [1] CRAN (R 3.6.3)
+ 2 vctrs               0.6.5       2023-12-01 [2] CRAN (R 3.6.3)
+ 1 viridisLite         0.4.2       2023-05-02 [1] CRAN (R 3.6.3)
+ 1 waldo               0.5.2       2023-11-02 [1] CRAN (R 3.6.3)
+ 1 webdriver           1.0.6.9001  2024-03-13 [1] https://p~
+ 1 websocket           1.4.1.9000  2024-03-13 [1] https://p~
+ 2 withr               3.0.0       2024-01-16 [2] CRAN (R 3.6.3)
+ 1 xfun                0.42        2024-02-08 [1] CRAN (R 3.6.3)
+ 1 xml2                1.3.6       2023-12-04 [1] CRAN (R 3.6.3)
+ 1 xtable              1.8-4       2019-04-21 [1] CRAN (R 3.6.3)
+ 1 xts                 0.13.2      2024-01-21 [1] CRAN (R 3.6.3)
+ 1 yaml                2.3.8       2023-12-11 [1] CRAN (R 3.6.3)
+ 1 zoo                 1.8-12      2023-04-13 [1] CRAN (R 3.6.3)
 
  [1] /Users/runner/Library/Application Support/R/shinycoreci/R-3_6_3
  [2] /Users/runner/work/_temp/Library
