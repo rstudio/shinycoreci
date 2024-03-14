@@ -22,6 +22,18 @@ inputs:
     description: Pandoc version to pass through
     default: "2.7.3"
     required: false
+  packagemanager-cran-url:
+    description: packagemanager url to be used for CRAN installations
+    default: "https://packagemanager.posit.co/cran/latest"
+    required: false
+  shinyverse-cran-url:
+    description: CRAN url to be used for shinyverse installations via r-universe
+    default: "https://posit-dev-shinycoreci.r-universe.dev"
+    required: false
+  cran-url:
+    description: CRAN url to be used for CRAN installations
+    default: "https://cran.rstudio.com"
+    required: false
 runs:
   using: "composite"
   steps:
@@ -58,19 +70,36 @@ runs:
     #       message("Not setting Rtools version!")
     #     }
 
+    # We need to have the first repo to be `shinyverse` repo, then RSPM, then cran-url
+    # Recreate logic from https://github.com/r-lib/actions/blob/413b6a4ba22b7bcaa726df1c8f88dcd574fbc8c4/setup-r/src/installer.ts#L598-L670
+    # * Do not set RSPM input (use-public-rspm: false) to make `CRAN` repo the first repo
+    # * Set CRAN env so that `shinyuniverse` repo is first
+    # * Append `RSPM` repo in `extra-repositories`; Add backup of `cran-url` in `extra-repositories`
+    # * Set RSPM envvar pointing to `packagemanager-cran-url`
     - name: Install R and shinycoreci
       uses: rstudio/shiny-workflows/setup-r-package@v1
+      env:
+        CRAN: ${{ inputs.shinyverse-cran-url }}
+        RSPM: ${{ inputs.packagemanager-cran-url }}
       with:
         r-version: ${{ inputs.r-version }}
         cache-version: ${{ inputs.cache-version }}
         http-user-agent: ${{ inputs.http-user-agent }}
         pandoc-version: ${{ inputs.pandoc-version }}
         # # rtools-version: ${{ steps.rtools-version.outputs.value }}
-        packages: |
-          any::sessioninfo
         extra-packages:
           ${{ inputs.extra-packages }}
+        use-public-rspm: false
+        extra-repositories: |
+          RSPM= "${{ inputs.packagemanager-cran-url }}"
+          ZZZ = "${{ inputs.cran-url }}"
 
-    - name: Install shinyverse
-      shell: bash
-      run: Rscript inst/gha/install-shinyverse.R
+    - name: Show repos
+      shell: Rscript {0}
+      run: |
+        print(getOption("repos"))
+
+
+    # - name: Install shinyverse
+    #   shell: bash
+    #   run: Rscript inst/gha/install-shinyverse.R
