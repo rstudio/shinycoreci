@@ -54,7 +54,7 @@ jobs:
           cache-version: results-1
           extra-packages: |
             rstudio/shiny
-            any::bslib
+            rstudio/bslib
             any::dplyr
             any::DT
             any::fontawesome
