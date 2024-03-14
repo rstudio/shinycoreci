@@ -21,20 +21,21 @@ ui <- fluidPage(
 
   verbatimTextOutput("all_pkg_info"),
 
-  # include shinyjster JS at end of UI definition
-  shinyjster::shinyjster_js("
-    var jst = jster();
-    jst.add(Jster.shiny.waitUntilIdle);
-    jst.add(function() { Jster.assert.isEqual($('#pkg_from_universe').text().trim(), 'Pass!') });
-    jst.test();
-  ")
+  # # Do not test with shinyjster as there is no way to verify all pkgs have been installed successfuly
+  # # Leave as manual app only
+  # shinyjster::shinyjster_js("
+  #   var jst = jster();
+  #   jst.add(Jster.shiny.waitUntilIdle);
+  #   jst.add(function() { Jster.assert.isEqual($('#pkg_from_universe').text().trim(), 'Pass!') });
+  #   jst.test();
+  # ")
 
 )
 
 server <- function(input, output, session) {
 
-  # include shinyjster_server call at top of server definition
-  shinyjster::shinyjster_server(input, output, session)
+  # # Do not test on CI; See note above
+  # shinyjster::shinyjster_server(input, output, session)
 
   pkg_infos <- jsonlite::read_json("https://posit-dev-shinycoreci.r-universe.dev/api/packages/")
   pkgs <- vapply(pkg_infos, `[[`, character(1), "Package")
