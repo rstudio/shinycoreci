@@ -167,8 +167,7 @@ jobs:
           test_output <- shinycoreci::test_in_local(
             apps = apps,
             retries = 1,
-            assert = FALSE,
-            install = FALSE
+            assert = FALSE
           )
           shinycoreci::save_test_results(
             test_output,
