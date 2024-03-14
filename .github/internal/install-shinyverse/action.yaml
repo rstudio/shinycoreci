@@ -52,23 +52,33 @@ runs:
         sudo apt-get update
         sudo apt-get install -y libglpk-dev
 
-    # - name: Rtools version
-    #   if: runner.os == 'Windows'
-    #   id: rtools-version
-    #   shell: Rscript {0}
-    #   run: |
-    #     # Get R version like `"4.2"`
-    #     short_r_version <- sub("\\.\\d$", "", "${{ inputs.r-version }}")
-    #     # For R versions >= 4.2, use Rtools v42
-    #     # Otherwise leave blank
-    #     if (
-    #       package_version("${{ inputs.r-version }}") >= package_version("4.2")
-    #     ) {
-    #       message("Using Rtools v42")
-    #       cat("value=42\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
-    #     } else {
-    #       message("Not setting Rtools version!")
-    #     }
+    - name: Rtools version
+      if: runner.os == 'Windows'
+      id: rtools-version
+      shell: Rscript {0}
+      run: |
+        # Get R version like `"4.2"`
+        short_r_version <- sub("\\.\\d$", "", "${{ inputs.r-version }}")
+        r_version <- package_version("${{ inputs.r-version }}")
+        # For R versions >= 4.4.*, use Rtools v44
+        # For R versions == 4.3.*, use Rtools v43
+        # For R versions == 4.2.*, use Rtools v42
+        # Otherwise leave blank
+
+        # R version >= 4.2
+        value <-
+          if (short_r_version == "4.4") {
+            "44"
+          } else if (short_r_version == "4.3") {
+            "43"
+          } else if (short_r_version == "4.2") {
+            "42"
+          } else {
+            message("Not setting Rtools version!")
+            return()
+          }
+        message("Using Rtools v", value)
+        cat("value=", value, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
     # We need to have the first repo to be `shinyverse` repo, then RSPM, then cran-url
     # Recreate logic from https://github.com/r-lib/actions/blob/413b6a4ba22b7bcaa726df1c8f88dcd574fbc8c4/setup-r/src/installer.ts#L598-L670
@@ -85,7 +95,7 @@ runs:
         cache-version: ${{ inputs.cache-version }}
         http-user-agent: ${{ inputs.http-user-agent }}
         pandoc-version: ${{ inputs.pandoc-version }}
-        # # rtools-version: ${{ steps.rtools-version.outputs.value }}
+        rtools-version: ${{ steps.rtools-version.outputs.value }}
         extra-packages:
           ${{ inputs.extra-packages }}
         use-public-rspm: false
