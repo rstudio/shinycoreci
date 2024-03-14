@@ -30,7 +30,7 @@ for (file in c("R/data-shinyverse.R", "R/install-path.R", "R/install.R")) {
   source(file, local = FALSE)
 }
 
-attempt_to_install_universe(libpath = shinycoreci_libpath())
+attempt_to_install_universe(libpath = resolve_libpath())
 
 
 # withr::with_options(
