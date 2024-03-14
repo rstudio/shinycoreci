@@ -27,10 +27,12 @@ attempt_to_install_universe <- function(
 ) {
   stopifnot(length(list(...)) == 0)
 
+  pkgs <- paste0(shinyverse_pkgs, "?source")
+
   tryCatch(
     {
       install_missing_pkgs(
-        shinyverse_pkgs,
+        pkgs,
         libpath = libpath,
         upgrade = TRUE,
         prompt = "Installing shinyverse packages: ",
@@ -41,14 +43,14 @@ attempt_to_install_universe <- function(
       # Couldn't install all at once, Installing individually
       message("Failed to install shinyverse packages in a single attempt. Error: ", e)
       message("Installing shinyverse packages individually!")
-      Map(seq_along(shinyverse_pkgs), shinyverse_pkgs, f = function(i, pkg) {
+      Map(seq_along(pkgs), pkgs, f = function(i, pkg) {
         tryCatch(
           {
             install_missing_pkgs(
               pkg,
               libpath = libpath,
               upgrade = TRUE,
-              prompt = paste0("[", i, "/", length(shinyverse_pkgs), "] Installing shinyverse package: "),
+              prompt = paste0("[", i, "/", length(pkgs), "] Installing shinyverse package: "),
               verbose = verbose
             )
           },
