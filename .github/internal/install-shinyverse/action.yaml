@@ -75,12 +75,11 @@ runs:
     # * Do not set RSPM input (use-public-rspm: false) to make `CRAN` repo the first repo
     # * Set CRAN env so that `shinyuniverse` repo is first
     # * Append `RSPM` repo in `extra-repositories`; Add backup of `cran-url` in `extra-repositories`
-    # * Set RSPM envvar pointing to `packagemanager-cran-url`
+    # * Do not set RSPM envvar pointing to `packagemanager-cran-url` as it will make `RSPM` repo the first repo
     - name: Install R and shinycoreci
       uses: rstudio/shiny-workflows/setup-r-package@v1
       env:
         CRAN: ${{ inputs.shinyverse-cran-url }}
-        RSPM: ${{ inputs.packagemanager-cran-url }}
       with:
         r-version: ${{ inputs.r-version }}
         cache-version: ${{ inputs.cache-version }}
