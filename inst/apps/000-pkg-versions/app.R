@@ -6,7 +6,6 @@ library(shiny)
 library(sessioninfo)
 library(dplyr)
 
-pkgload::load_all()
 pkgs <- shinycoreci:::shinyverse_pkgs
 universe_url <- "https://posit-dev-shinycoreci.r-universe.dev"
 
@@ -43,6 +42,8 @@ get_pkg_info <- function(pkg) {
 }
 
 dt <- bind_rows(lapply(pkgs, get_pkg_info))
+
+print(dt, n = Inf, width = 1000)
 
 
 ui <- fluidPage(
