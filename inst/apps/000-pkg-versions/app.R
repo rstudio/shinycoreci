@@ -61,7 +61,7 @@ ui <- fluidPage(
   shinyjster::shinyjster_js("
     var jst = jster();
     jst.add(Jster.shiny.waitUntilIdle);
-    jst.add(function() { Jster.assert.isEqual($('#pkg_from_universe').text(), 'Pass!') });
+    jst.add(function() { Jster.assert.isEqual($('#pkg_from_universe').text().trim(), 'Pass!') });
     jst.test();
   ")
 
