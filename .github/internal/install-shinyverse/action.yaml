@@ -97,8 +97,3 @@ runs:
       shell: Rscript {0}
       run: |
         print(getOption("repos"))
-
-
-    # - name: Install shinyverse
-    #   shell: bash
-    #   run: Rscript inst/gha/install-shinyverse.R
