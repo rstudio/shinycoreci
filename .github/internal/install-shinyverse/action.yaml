@@ -58,18 +58,6 @@ runs:
     #       message("Not setting Rtools version!")
     #     }
 
-    # - name: Adjust packages to install
-    #   id: pkgs
-    #   shell: Rscript {0}
-    #   run: |
-    #     source("inst/gha/gha-adjust-packages-to-install.R")
-    #     pkgs_to_install <- adjust_pkgs(
-    #       "",
-    #       r_version = "${{ inputs.r-version }}"
-    #     )
-    #     message("Final packages:\n", gsub(",", ",\n", pkgs_to_install))
-    #     cat("to-install=", pkgs_to_install, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
-
     - name: Install R and shinycoreci
       uses: rstudio/shiny-workflows/setup-r-package@v1
       with:
@@ -77,8 +65,10 @@ runs:
         cache-version: ${{ inputs.cache-version }}
         http-user-agent: ${{ inputs.http-user-agent }}
         pandoc-version: ${{ inputs.pandoc-version }}
-        # rtools-version: ${{ steps.rtools-version.outputs.value }}
+        # # rtools-version: ${{ steps.rtools-version.outputs.value }}
         extra-packages:
-          local::.
-          ${{ steps.pkgs.outputs.to-install }}
           ${{ inputs.extra-packages }}
+
+    # - name: Install shinyverse
+    #   shell: bash
+    #   run: Rscript inst/gha/install-shinyverse.R
