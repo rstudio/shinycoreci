@@ -35,7 +35,6 @@ deploy_apps <- function(
   libpath <- resolve_libpath(local_pkgs = local_pkgs)
 
   if (!retrying_) {
-    attempt_to_install_universe(libpath = libpath)
     # Always make sure the app dependencies are available
     install_missing_app_deps(apps, libpath = libpath)
   }

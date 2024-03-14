@@ -30,10 +30,6 @@ test_in_local <- function(
   should_install <- !isTRUE(local_pkgs)
   libpath <- resolve_libpath(local_pkgs = local_pkgs)
 
-  if (should_install) {
-    attempt_to_install_universe(libpath = libpath)
-  }
-
   stopifnot(length(apps_with_tests(repo_dir)) > 0)
   apps <- resolve_app_name(apps, known_apps = apps_with_tests(repo_dir))
 

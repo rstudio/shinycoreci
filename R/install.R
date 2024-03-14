@@ -19,50 +19,49 @@ shinycoreci_is_local <- function() {
 
 
 
-# Attempt to set up all the packages in the shinyverse, even if they are not directly depended upon.
-attempt_to_install_universe <- function(
-  ...,
-  libpath = .libPaths()[1],
-  verbose = TRUE
-) {
-  stopifnot(length(list(...)) == 0)
+# # Attempt to set up all the packages in the shinyverse, even if they are not directly depended upon.
+# attempt_to_install_universe <- function(
+#   ...,
+#   libpath = .libPaths()[1],
+#   verbose = TRUE
+# ) {
+#   return()
+#   stopifnot(length(list(...)) == 0)
 
-  pkgs <- paste0(shinyverse_pkgs, "?source")
+#   # pkgs <- paste0(shinyverse_pkgs, "?source")
 
-  tryCatch(
-    {
-      install_missing_pkgs(
-        pkgs,
-        libpath = libpath,
-        upgrade = TRUE,
-        prompt = "Installing shinyverse packages: ",
-        verbose = verbose
-      )
-    },
-    error = function(e) {
-      # Couldn't install all at once, Installing individually
-      message("Failed to install shinyverse packages in a single attempt. Error: ", e)
-      message("Installing shinyverse packages individually!")
-      Map(seq_along(pkgs), pkgs, f = function(i, pkg) {
-        tryCatch(
-          {
-            install_missing_pkgs(
-              pkg,
-              libpath = libpath,
-              upgrade = TRUE,
-              prompt = paste0("[", i, "/", length(pkgs), "] Installing shinyverse package: "),
-              verbose = verbose
-            )
-          },
-          error = function(e) {
-            message("Failed to install ", pkg, " from universe")
-          }
-        )
-      })
-    }
-  )
+#   tryCatch(
+#     {
+#       install_missing_pkgs(
+#         pkgs,
+#         libpath = libpath,
+#         prompt = "Installing shinyverse packages: ",
+#         verbose = verbose
+#       )
+#     },
+#     error = function(e) {
+#       # Couldn't install all at once, Installing individually
+#       message("Failed to install shinyverse packages in a single attempt. Error: ", e)
+#       message("Installing shinyverse packages individually!")
+#       Map(seq_along(pkgs), pkgs, f = function(i, pkg) {
+#         tryCatch(
+#           {
+#             install_missing_pkgs(
+#               pkg,
+#               libpath = libpath,
+#               prompt = paste0("[", i, "/", length(pkgs), "] Installing shinyverse package: "),
+#               verbose = verbose
+#             )
+#           },
+#           error = function(e) {
+#             message("Failed to install ", pkg, " from universe")
+#           }
+#         )
+#       })
+#     }
+#   )
 
-}
+# }
 
 
 
@@ -106,6 +105,52 @@ install_missing_app_deps <- function(
 
 installed_pkgs <- new.env(parent = emptyenv())
 
+pak_deps_map <- new.env(parent = emptyenv())
+
+
+get_extra_shinyverse_deps <- function(packages) {
+
+  pkgs <- packages[packages %in% shinyverse_pkgs]
+
+  if (length(pkgs) == 0) return(NULL)
+
+  ret <- c()
+  queue <- pkgs
+  while (TRUE) {
+    pkg <- queue[1]
+    queue <- queue[-1]
+
+    if (is.null(pkg)) break
+    if (is.na(pkg) && length(queue) == 0) break
+    if (is.na(pkg)) next
+    if (pkg %in% ret) next
+
+
+    pkg_dep_packages <- pak_deps_map[[pkg]]
+    if (is.null(pkg_dep_packages)) {
+      withr::with_options(list(
+        repos = c(
+            # Use the shinycoreci universe to avoid GH rate limits!
+            "AAA" = shinyverse_cran_url,
+            getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
+          )
+      ), {
+        pkg_dep_packages <- pak::pkg_deps(pkg)$package
+      })
+      # Store in env does not need `<<-`
+      pak_deps_map[[pkg]] <- pkg_dep_packages
+    }
+
+
+    queue <- c(queue, pkg_dep_packages[pkg_dep_packages %in% shinyverse_pkgs])
+
+    ret <- c(ret, pkg)
+  }
+
+  ret
+
+}
+
 
 # packages is what is really installed given the value of packages
 install_missing_pkgs <- function(
@@ -118,6 +163,9 @@ install_missing_pkgs <- function(
     verbose = TRUE
 ) {
   stopifnot(length(list(...)) == 0)
+
+  # Make sure to get underlying html dependencies
+  packages <- unique(c(packages, get_extra_shinyverse_deps(packages)))
 
   pkgs_to_install <- packages[!(packages %in% names(installed_pkgs))]
 

@@ -24,9 +24,6 @@ test_in_browser <- function(
     local_pkgs = FALSE) {
   should_install <- !isTRUE(local_pkgs)
   libpath <- resolve_libpath(local_pkgs = local_pkgs)
-  if (should_install) {
-    attempt_to_install_universe(libpath = libpath)
-  }
 
   app_infos <- lapply(apps, function(app_name) {
     app_proc <- NULL
