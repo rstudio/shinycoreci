@@ -135,7 +135,9 @@ get_extra_shinyverse_deps <- function(packages) {
             getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
           )
       ), {
-        pkg_dep_packages <- pak::pkg_deps(pkg)$package
+        stopifnot(utils::packageVersion("pak") >= "0.3.0")
+        pak__pkg_deps <- utils::getFromNamespace("pkg_deps", "pak")
+        pkg_dep_packages <- pak__pkg_deps(pkg)$package
       })
       # Store in env does not need `<<-`
       pak_deps_map[[pkg]] <- pkg_dep_packages
