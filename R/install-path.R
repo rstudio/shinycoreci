@@ -7,11 +7,11 @@ on_ci <- function() {
 #' @keywords internal
 resolve_libpath <- function(..., local_pkgs = FALSE) {
   stopifnot(length(list(...)) == 0)
-  # CI cache location; Use standard libpath on CI to avoid installing the shinyverse twice
-  if (on_ci()) {
-    # Use standard libpath location
-    return(.libPaths()[1])
-  }
+  # # CI cache location; Use standard libpath on CI to avoid installing the shinyverse twice
+  # if (on_ci()) {
+  #   # Use standard libpath location
+  #   return(.libPaths()[1])
+  # }
 
   # If using local_pkgs, use the standard libpath location
   libpath <- if (isTRUE(local_pkgs)) .libPaths()[1] else shinycoreci_libpath()
