@@ -91,8 +91,8 @@ runs:
           ${{ inputs.extra-packages }}
         use-public-rspm: false
         extra-repositories: |
-          RSPM= "${{ inputs.packagemanager-cran-url }}"
-          ZZZ = "${{ inputs.cran-url }}"
+          ${{ inputs.packagemanager-cran-url }}
+          ${{ inputs.cran-url }}
 
     - name: Show repos
       shell: Rscript {0}
