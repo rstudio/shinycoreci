@@ -111,7 +111,7 @@ test_in_browser <- function(
         if (should_install) {
           install_missing_app_deps(
             app_name,
-            libpath = libpath,
+            libpath = libpath
           )
         }
 
