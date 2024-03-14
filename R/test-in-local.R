@@ -55,7 +55,7 @@ test_in_local <- function(
   run_test <- function(app_name, show_output = TRUE) {
     if (should_install) {
       install_result <- try({
-        install_missing_app_deps(app_name, libpath = libpath)
+        install_missing_app_deps(app_name, libpath = libpath, verbose = show_output)
       })
       # Check for installation results
       if (inherits(install_result, "try-error")) {
@@ -105,7 +105,8 @@ test_in_local <- function(
           timeout = timeout,
           stdout = log_file,
           stderr = "2>&1",
-          show = show_output
+          show = show_output,
+          supervise = TRUE
         )
         result <- test_result$result[[1]]
         status <-
