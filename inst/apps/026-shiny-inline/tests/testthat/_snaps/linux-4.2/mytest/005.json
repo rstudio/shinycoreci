@@ -125,6 +125,19 @@
           "all_files": true
         },
         {
+          "name": "htmltools-fill",
+          "version": "0.5.7.9000",
+          "src": {
+            "href": "htmltools-fill-0.5.7.9000"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "fill.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
           "name": "rmarkdown-performance",
           "version": "0.1",
           "src": {
