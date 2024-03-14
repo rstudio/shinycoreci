@@ -29,7 +29,13 @@ attempt_to_install_universe <- function(
 
   tryCatch(
     {
-      install_missing_pkgs(shinyverse_pkgs, libpath = libpath, prompt = "Installing shinyverse packages: ", verbose = verbose)
+      install_missing_pkgs(
+        shinyverse_pkgs,
+        libpath = libpath,
+        upgrade = TRUE,
+        prompt = "Installing shinyverse packages: ",
+        verbose = verbose
+      )
     },
     error = function(e) {
       # Couldn't install all at once, Installing individually
@@ -41,6 +47,7 @@ attempt_to_install_universe <- function(
             install_missing_pkgs(
               pkg,
               libpath = libpath,
+              upgrade = TRUE,
               prompt = paste0("[", i, "/", length(shinyverse_pkgs), "] Installing shinyverse package: "),
               verbose = verbose
             )
