@@ -6,44 +6,7 @@ library(shiny)
 library(sessioninfo)
 library(dplyr)
 
-pkgs <- shinycoreci:::shinyverse_pkgs
-universe_url <- "https://posit-dev-shinycoreci.r-universe.dev"
 
-
-
-get_pkg_info <- function(pkg) {
-  desc <- packageDescription(pkg)
-
-  get_field <- function(field) {
-    if (!is.list(desc)) {
-      return(NA_character_)
-    }
-    val <- desc[[field]]
-    if (is.null(val)) {
-      return(NA_character_)
-    }
-    val
-  }
-
-  tibble::tibble(
-    package = pkg,
-    version = get_field("Version"),
-    repository = get_field("Repository"),
-    packaged = get_field("Packaged"),
-    built = get_field("Built"),
-    remoteUrl = get_field("RemoteUrl"),
-    remoteRef = get_field("RemoteRef"),
-    remoteSha = get_field("RemoteSha"),
-    remoteType = get_field("RemoteType"),
-    remotePkgRef = get_field("RemotePkgRef"),
-    remoteRepos = get_field("RemoteRepos"),
-    remotePkgPlatform = get_field("RemotePkgPlatform"),
-  )
-}
-
-dt <- bind_rows(lapply(pkgs, get_pkg_info))
-
-print(dt, n = Inf, width = 1000)
 
 
 ui <- fluidPage(
@@ -73,15 +36,52 @@ server <- function(input, output, session) {
   # include shinyjster_server call at top of server definition
   shinyjster::shinyjster_server(input, output, session)
 
+  pkg_infos <- jsonlite::read_json("https://posit-dev-shinycoreci.r-universe.dev/api/packages/")
+  pkgs <- vapply(pkg_infos, `[[`, character(1), "Package")
+  universe_url <- "https://posit-dev-shinycoreci.r-universe.dev"
+
+  get_pkg_info <- function(pkg) {
+    desc <- packageDescription(pkg)
+
+    get_field <- function(field) {
+      if (!is.list(desc)) {
+        return(NA_character_)
+      }
+      val <- desc[[field]]
+      if (is.null(val)) {
+        return(NA_character_)
+      }
+      val
+    }
+
+    tibble::tibble(
+      package = pkg,
+      version = get_field("Version"),
+      repository = get_field("Repository"),
+      packaged = get_field("Packaged"),
+      built = get_field("Built"),
+      remoteUrl = get_field("RemoteUrl"),
+      remoteRef = get_field("RemoteRef"),
+      remoteSha = get_field("RemoteSha"),
+      remoteType = get_field("RemoteType"),
+      remotePkgRef = get_field("RemotePkgRef"),
+      remoteRepos = get_field("RemoteRepos"),
+      remotePkgPlatform = get_field("RemotePkgPlatform"),
+    )
+  }
+
+  dt <- bind_rows(lapply(pkgs, get_pkg_info))
+
+  print(dt, n = Inf, width = 1000)
+
+  # ----------------------------
+
+  bad_dt <- dt %>% filter(!is.na(remoteRepos)) %>% filter(remoteRepos != universe_url)
+
   output$pkg_from_universe <- renderUI({
-    repos <- dt$repository
-    repos <- repos[!is.na(repos)]
-    repos <- unique(repos)
-    all_from_universe <- identical(repos, universe_url)
-    if (all_from_universe) {
+    if (nrow(bad_dt) == 0) {
       tags$h4(tags$span("Pass!", style = "background-color: #7be092;"))
     } else {
-      bad_dt <- dt %>% filter(!is.na(repository)) %>% filter(repository != universe_url)
       tagList(
         tags$h4(tags$span("Fail!", style = "background-color: #e68a8a;")),
         tags$ul(
@@ -100,17 +100,7 @@ server <- function(input, output, session) {
   })
 
   output$bad_pkg_info <- renderPrint({
-    # pkg_info <- sessioninfo::package_info("installed", include_base = FALSE)
-
-    # pkg_info %>%
-    #   dplyr::filter(package %in% pkgs, ) %>%
-    #   dplyr::filter
-    #   dplyr::select(package, version, loaded, attached, libPath)
-
-    # sub_pkg_info <- pkg_info[pkg_info$package %in% pkgs, ]
-
-    dt %>%
-      filter(repository != universe_url) %>%
+    bad_dt %>%
       print(n = Inf, width = 1000)
   })
 

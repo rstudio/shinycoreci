@@ -146,10 +146,10 @@ install_pkgs_with_callr <- function(
     ) {
   stopifnot(length(list(...)) == 0)
   callr::r(
-    function(packages, upgrade, dependencies) {
+    function(shinyverse_cran_url, packages, upgrade, dependencies) {
       options(repos = c(
         # Use the shinycoreci universe to avoid GH rate limits!
-        "AAA" = "https://posit-dev-shinycoreci.r-universe.dev",
+        "AAA" = shinyverse_cran_url,
         getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
       ))
 
@@ -165,6 +165,7 @@ install_pkgs_with_callr <- function(
       )
     },
     list(
+      shinyverse_cran_url = shinyverse_cran_url,
       packages = packages,
       upgrade = upgrade,
       dependencies = dependencies
