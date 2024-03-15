@@ -110,12 +110,11 @@ pak_deps_map <- new.env(parent = emptyenv())
 
 get_extra_shinyverse_deps <- function(packages) {
 
-  pkgs <- packages[packages %in% shinyverse_pkgs]
+  if (length(packages) == 0) return(NULL)
 
-  if (length(pkgs) == 0) return(NULL)
-
+  # Recursively find all shinycoreci packages as dependencies from `packages`
   ret <- c()
-  queue <- pkgs
+  queue <- packages
   while (TRUE) {
     pkg <- queue[1]
     queue <- queue[-1]
@@ -124,7 +123,6 @@ get_extra_shinyverse_deps <- function(packages) {
     if (is.na(pkg) && length(queue) == 0) break
     if (is.na(pkg)) next
     if (pkg %in% ret) next
-
 
     pkg_dep_packages <- pak_deps_map[[pkg]]
     if (is.null(pkg_dep_packages)) {
@@ -138,19 +136,20 @@ get_extra_shinyverse_deps <- function(packages) {
         stopifnot(utils::packageVersion("pak") >= "0.3.0")
         pak__pkg_deps <- utils::getFromNamespace("pkg_deps", "pak")
         pkg_dep_packages <- pak__pkg_deps(pkg)$package
+        # str(list(pkg = pkg, pkg_dep_packages = pkg_dep_packages))
       })
       # Store in env does not need `<<-`
       pak_deps_map[[pkg]] <- pkg_dep_packages
     }
 
+    queue <- unique(c(queue, pkg_dep_packages[pkg_dep_packages %in% shinyverse_pkgs]))
 
-    queue <- c(queue, pkg_dep_packages[pkg_dep_packages %in% shinyverse_pkgs])
-
-    ret <- c(ret, pkg)
+    if (pkg %in% shinyverse_pkgs) {
+      ret <- c(ret, pkg)
+    }
   }
 
   ret
-
 }
 
 
@@ -161,13 +160,14 @@ install_missing_pkgs <- function(
     libpath = .libPaths()[1],
     upgrade = FALSE,
     dependencies = NA,
-    prompt = "Installing missing packages: ",
+    prompt = "Installing packages: ",
     verbose = TRUE
 ) {
   stopifnot(length(list(...)) == 0)
 
-  # Make sure to get underlying html dependencies
-  packages <- unique(c(packages, get_extra_shinyverse_deps(packages)))
+  # Make sure to get underlying dependencies
+  # Always add shiny as it is always needed
+  packages <- unique(c(packages, get_extra_shinyverse_deps(c(packages, "shiny"))))
 
   pkgs_to_install <- packages[!(packages %in% names(installed_pkgs))]
 
