@@ -19,11 +19,11 @@ Imports:
     rprojroot,
     rstudioapi (>= 0.11),
     withr,
+    rappdirs,
     cli
 Suggests:
     renv,
     httpuv,
-    rappdirs,
     rmarkdown (>= 2.9),
     rsconnect (>= 1.0.1),
     testthat,
