@@ -3,17 +3,17 @@
 # To add / update a package, make a PR here: https://github.com/posit-dev-shinycoreci/posit-dev-shinycoreci.r-universe.dev/blob/main/packages.json
 shinyverse_cran_url <- "https://posit-dev-shinycoreci.r-universe.dev"
 
-shinyverse_pkgs <- c("htmlwidgets", "shinycoreci", "shiny", "bslib", "htmltools", 
-"sass", "DT", "gt", "shinytest", "shinyjster", "leaflet", "thematic", 
+shinyverse_pkgs <- c("DT", "htmlwidgets", "shinycoreci", "shiny", "bslib", "htmltools", 
+"sass", "gt", "shinytest", "shinyjster", "leaflet", "thematic", 
 "pool", "chromote", "httpuv", "cachem", "plotly", "later", "crosstalk", 
 "bsicons", "fastmap", "shinymeta", "shinytest2", "shinyvalidate", 
 "flexdashboard", "fontawesome", "promises", "dygraphs", "reactlog", 
 "shinythemes", "webdriver", "websocket")
 
-shinyverse_urls <- c("https://github.com/ramnathv/htmlwidgets", "https://github.com/rstudio/shinycoreci", 
-"https://github.com/rstudio/shiny", "https://github.com/rstudio/bslib", 
-"https://github.com/rstudio/htmltools", "https://github.com/rstudio/sass", 
-"https://github.com/rstudio/DT", "https://github.com/rstudio/gt", 
+shinyverse_urls <- c("https://github.com/rstudio/DT", "https://github.com/ramnathv/htmlwidgets", 
+"https://github.com/rstudio/shinycoreci", "https://github.com/rstudio/shiny", 
+"https://github.com/rstudio/bslib", "https://github.com/rstudio/htmltools", 
+"https://github.com/rstudio/sass", "https://github.com/rstudio/gt", 
 "https://github.com/rstudio/shinytest", "https://github.com/schloerke/shinyjster", 
 "https://github.com/rstudio/leaflet", "https://github.com/rstudio/thematic", 
 "https://github.com/rstudio/pool", "https://github.com/rstudio/chromote", 
