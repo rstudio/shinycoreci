@@ -65,7 +65,7 @@ jobs:
           echo 'MAKEFLAGS=-j2' >> .Renviron
 
       - name: Install R, shinycoreci, and shinyverse
-        timeout-minutes: 45
+        timeout-minutes: 30 # Should be < 10 mins
         uses: ./.github/internal/install-shinyverse
         with:
           r-version: ${{ matrix.config.r }}
@@ -78,7 +78,6 @@ jobs:
       - name: Install shinycoreci from GitHub
         shell: Rscript {0}
         run: |
-
           pak::pkg_install("rstudio/shinycoreci@${{ github.sha }}")
 
       - name: Deploy Apps to Shinyapps.io
