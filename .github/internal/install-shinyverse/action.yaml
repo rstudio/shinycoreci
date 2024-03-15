@@ -61,7 +61,7 @@ runs:
         cat("pkgs=", apps_deps, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
     # Must be done as packages are installed freely during testing
     - name: Install macOS brew dependencies for all apps
-      uses: shiny-workflows/setup-macOS-dependencies@v1
+      uses: rstudio/shiny-workflows/setup-macOS-dependencies@v1
       if: ${{ runner.os == 'macOS' }}
       with:
         extra-packages: |
