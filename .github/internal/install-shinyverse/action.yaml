@@ -52,6 +52,22 @@ runs:
         sudo apt-get update
         sudo apt-get install -y libglpk-dev
 
+    - name: Get app packages dependencies
+      id: app-deps
+      if: runner.os == 'macOS'
+      shell: Rscript {0}
+      run: |
+        source("R/data-apps-deps.R")
+        cat("pkgs=", apps_deps, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
+    # Must be done as packages are installed freely during testing
+    - name: Install macOS brew dependencies for all apps
+      uses: shiny-workflows/setup-macOS-dependencies@v1
+      if: ${{ runner.os == 'macOS' }}
+      working-directory: R # something other than `.`
+      with:
+        extra-packages: |
+          ${{ steps.app-deps.outputs.pkgs }}
+
     - name: Rtools version
       if: runner.os == 'Windows'
       id: rtools-version
