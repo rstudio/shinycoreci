@@ -45,8 +45,13 @@ base_packages <- function() {
 
 update_shinyverse <- function() {
   pkg_infos <- jsonlite::read_json("https://posit-dev-shinycoreci.r-universe.dev/api/packages/")
+
   pkgs <- vapply(pkg_infos, `[[`, character(1), "Package")
   urls <- vapply(pkg_infos, `[[`, character(1), "RemoteUrl")
+
+  # Sort according to pkg name
+  urls <- urls[order(pkgs)]
+  pkgs <- pkgs[order(pkgs)]
 
   universe_txt <- '"https://posit-dev-shinycoreci.r-universe.dev"'
   pkgs_txt <- utils::capture.output(dput(pkgs))
