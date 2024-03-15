@@ -166,8 +166,8 @@ install_missing_pkgs <- function(
   stopifnot(length(list(...)) == 0)
 
   # Make sure to get underlying dependencies
-  # Always add shiny as it is always needed
-  packages <- unique(c(packages, get_extra_shinyverse_deps(c(packages, "shiny"))))
+  # Always add shiny/shinycoreci as it is always needed
+  packages <- unique(c(packages, get_extra_shinyverse_deps(c(packages, "shiny", "local::."))))
 
   pkgs_to_install <- packages[!(packages %in% names(installed_pkgs))]
 
