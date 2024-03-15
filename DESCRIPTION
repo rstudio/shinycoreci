@@ -18,6 +18,7 @@ Imports:
     sessioninfo,
     rprojroot,
     rstudioapi (>= 0.11),
+    withr,
     cli
 Suggests:
     renv,
@@ -33,7 +34,6 @@ Suggests:
     dplyr,
     tidyr,
     later,
-    withr,
     shinytest
 Config/Needs/website: tidyverse/tidytemplate
 URL: https://github.com/rstudio/shinycoreci
