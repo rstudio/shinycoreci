@@ -3,7 +3,7 @@
 #' @param file Name of file, or file object to write to (defaults to stdout).
 #' @param libpath Library path to find installed packages.
 #' @export
-write_sysinfo <- function(file = stdout(), libpath = shinyverse_libpath()) {
+write_sysinfo <- function(file = stdout(), libpath = resolve_libpath()) {
   withr::local_libpaths(libpath, action = "prefix")
 
   platform_info <- sessioninfo::platform_info()

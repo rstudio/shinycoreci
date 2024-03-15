@@ -11,6 +11,7 @@
 ^todo\.md$
 
 ^inst/apps/.*/tests/.*
+^inst/apps/\.renvignore$
 \.jshintrc$
 www/nvd3/deprecated
 ^_pkgdown\.yml$

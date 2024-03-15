@@ -14,24 +14,24 @@ ci_status <- list(
 #' @param retries number of attempts to retry before declaring the test a failure
 #' @param repo_dir Location of local shinycoreci repo
 #' @param ... ignored
-#' @param install If \code{TRUE}, installs shinyverse in the default libpath before running tests. App dependencies will always be installed if missing.
+#' @inheritParams resolve_libpath
 #' @export
 test_in_local <- function(
-  apps = apps_with_tests(repo_dir),
-  ...,
-  install = TRUE,
-  assert = TRUE,
-  timeout = 10 * 60,
-  retries = 2,
-  repo_dir = rprojroot::find_package_root_file()
-) {
+    apps = apps_with_tests(repo_dir),
+    ...,
+    assert = TRUE,
+    timeout = 10 * 60,
+    retries = 2,
+    repo_dir = rprojroot::find_package_root_file(),
+    local_pkgs = FALSE) {
   retries <- as.numeric(retries)
   repo_dir <- normalizePath(repo_dir, mustWork = TRUE)
 
+  should_install <- !isTRUE(local_pkgs)
+  libpath <- resolve_libpath(local_pkgs = local_pkgs)
+
   stopifnot(length(apps_with_tests(repo_dir)) > 0)
   apps <- resolve_app_name(apps, known_apps = apps_with_tests(repo_dir))
-
-  libpath <- install_shinyverse_local(install = install, install_apps_deps = FALSE)
 
   withr::defer({
     # Record platform info and package versions (after everything has been installed)
@@ -49,24 +49,25 @@ test_in_local <- function(
   )
 
   run_test <- function(app_name, show_output = TRUE) {
-
-    install_result <- try({
-      install_missing_app_deps(app_name, libpath = libpath)
-    })
-    # Check for installation results
-    if (inherits(install_result, "try-error")) {
-      tmpfile <- tempfile()
-      app_deps <- apps_deps_map[[app_name]]
-      cat(
-        file = tmpfile,
-        "Failed to install:\n", paste0("* ", app_deps, "\n"),
-        "\nError:\n", as.character(install_result), "\n"
-      )
-      return(list(
-        status = ci_status$no_install,
-        result = as.character(install_result),
-        log_file = tmpfile
-      ))
+    if (should_install) {
+      install_result <- try({
+        install_missing_app_deps(app_name, libpath = libpath, verbose = show_output)
+      })
+      # Check for installation results
+      if (inherits(install_result, "try-error")) {
+        tmpfile <- tempfile()
+        app_deps <- apps_deps_map[[app_name]]
+        cat(
+          file = tmpfile,
+          "Failed to install:\n", paste0("* ", app_deps, "\n"),
+          "\nError:\n", as.character(install_result), "\n"
+        )
+        return(list(
+          status = ci_status$no_install,
+          result = as.character(install_result),
+          log_file = tmpfile
+        ))
+      }
     }
 
     log_file <- tempfile("coreci-log-", fileext = ".log")
@@ -79,9 +80,12 @@ test_in_local <- function(
               list(NOT_CRAN = "true"),
               {
                 message("\n###\nRunning tests for app: ", basename(app_path_), "\n")
-                on.exit({
-                  message("\nStopping tests for app: ", basename(app_path_), "\n###")
-                }, add = TRUE)
+                on.exit(
+                  {
+                    message("\nStopping tests for app: ", basename(app_path_), "\n###")
+                  },
+                  add = TRUE
+                )
 
                 shiny::runTests(
                   appDir = app_path_,
@@ -97,7 +101,8 @@ test_in_local <- function(
           timeout = timeout,
           stdout = log_file,
           stderr = "2>&1",
-          show = show_output
+          show = show_output,
+          supervise = TRUE
         )
         result <- test_result$result[[1]]
         status <-
@@ -130,7 +135,6 @@ test_in_local <- function(
   # (break statements at beginning and end of while loop)
   show_output <- FALSE
   while (TRUE) {
-
     # get all positions that should be tested
     to_test_positions <- which(test_dt$status %in% c(ci_status$fail, ci_status$default))
     if (length(to_test_positions) == 0) {
@@ -140,11 +144,12 @@ test_in_local <- function(
 
     pb <- progress_bar(
       total = length(to_test_positions),
-      format = "[:current/:total;:elapsed;:eta] :app"
+      format = "[:current/:total; :elapsed; :eta] :app\n",
+      clear = FALSE,
+      show_after = 0
     )
     # for each file position...
     for (to_test_position in to_test_positions) {
-
       # get the failure test file
       app_name <- test_dt$app_name[to_test_position]
 
@@ -184,6 +189,7 @@ test_in_local <- function(
       # can not retry anymore; stop testing
       break
     }
+    message("\n\nRetrying failed tests... (Displaying test output from now on)")
     retries <- retries - 1
     show_output <- TRUE
   }
@@ -211,7 +217,6 @@ assert_test_output <- function(output) {
   test_dt <- output
 
   concat_info <- function(title, statuses, include_result = TRUE) {
-
     sub_rows <- test_dt$status %in% statuses
     sub_test_dt <- test_dt[sub_rows, ]
     sub_app_name <- sub_test_dt$app_name
@@ -247,8 +252,8 @@ assert_test_output <- function(output) {
   }
   # display_message("App test successes",                 ci_status$pass,                  include_result = FALSE)
   display_message("Apps which did not return a result", ci_status$did_not_return_result, include_result = FALSE)
-  display_message("App test failures",                  ci_status$fail,                  include_result = TRUE)
-  display_message("Apps which could NOT be tested",     ci_status$no_install,            include_result = TRUE)
+  display_message("App test failures", ci_status$fail, include_result = TRUE)
+  display_message("Apps which could NOT be tested", ci_status$no_install, include_result = TRUE)
 
   if (any(test_dt$status %in% ci_status$fail)) {
     stop(

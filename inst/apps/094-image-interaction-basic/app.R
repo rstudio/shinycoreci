@@ -56,9 +56,10 @@ server <- function(input, output, session) {
   # Generate an image with black lines every 10 pixels
   output$image1 <- renderImage({
     # Get width and height of image output
-    width  <- session$clientData$output_image1_width
-    height <- session$clientData$output_image1_height
+    width  <- round(session$clientData$output_image1_width)
+    height <- round(session$clientData$output_image1_height)
     npixels <- width * height
+
 
     # Fill the pixels for R, G, B
     m <- matrix(1, nrow = height, ncol = width)

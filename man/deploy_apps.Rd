@@ -9,7 +9,7 @@ deploy_apps(
   account = "testing-apps",
   server = "shinyapps.io",
   ...,
-  install = TRUE,
+  local_pkgs = TRUE,
   extra_packages = NULL,
   cores = 1,
   retry = 2,
@@ -23,7 +23,7 @@ deploy_apps(
 
 \item{...}{ignored}
 
-\item{install}{If TRUE, will install all of shinyverse into the default libpath}
+\item{local_pkgs}{If \code{TRUE}, local packages will be used instead of the isolated shinyverse installation.}
 
 \item{extra_packages}{A character vector of extra packages to install}
 

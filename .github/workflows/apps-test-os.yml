@@ -29,15 +29,20 @@ on:
         type: string
         default: "2.7.3"
         required: false
+      packagemanager-cran-url:
+        type: string
+        description: packagemanager url to be used for CRAN installations
+        default: "https://packagemanager.posit.co/cran/latest"
+        required: false
+      shinyverse-cran-url:
+        type: string
+        description: CRAN url to be used for shinyverse installations via r-universe
+        default: "https://posit-dev-shinycoreci.r-universe.dev"
+        required: false
       # rtools-35:
       #   type: boolean
       #   default: true
       #   required: false
-    secrets:
-      SLACK_CHANNEL_ID:
-        required: true
-      SLACK_BOT_TOKEN:
-        required: true
 
 name: Test apps - single
 
@@ -95,14 +100,14 @@ jobs:
 
       - name: GitHub Pull (PR)
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # check out the commit sha, not the merged sha. Avoids the "Merge SHA_A into SHA_B" into commits
           ref: ${{ github.event.pull_request.head.sha }} # # Ref: https://github.com/actions/checkout/pull/115/files#diff-04c6e90faac2675aa89e2176d2eec7d8R203-R209
           fetch-depth: 0
       - name: GitHub Pull (Branch)
         if: github.event_name != 'pull_request'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -116,7 +121,7 @@ jobs:
       - name: Collect changed file names
         if: github.event_name == 'pull_request'
         id: files_changed
-        uses: Ana06/get-changed-files@v2.2.0
+        uses: Ana06/get-changed-files@v2.3.0
         with:
           format: "json"
           filter: "*"
@@ -126,19 +131,8 @@ jobs:
         run: |
           echo 'MAKEFLAGS=-j2' >> .Renviron
 
-      - name: Notify slack INSTALL
-        uses: voxmedia/github-action-slack-notify-build@v1
-        if: success()
-        id: slack
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          status: INSTALL (${{ steps.short.outputs.sha }} ${{ matrix.config.os }} - ${{ steps.short.outputs.r-version }})
-          color: warning
-
       - name: Install R, shinycoreci, and shinyverse
-        timeout-minutes: 100 # windows may take a while
+        timeout-minutes: 30 # Should be < 10 mins
         uses: ./.github/internal/install-shinyverse
         with:
           r-version: ${{ inputs.r-version }}
@@ -146,19 +140,10 @@ jobs:
           http-user-agent: ${{ inputs.http-user-agent }}
           pandoc-version: ${{ inputs.pandoc-version }}
           extra-packages: ${{ inputs.extra-packages }}
+          packagemanager-cran-url: ${{ inputs.packagemanager-cran-url }}
+          shinyverse-cran-url: ${{ inputs.shinyverse-cran-url }}
 
-      - name: Notify slack TEST
-        uses: voxmedia/github-action-slack-notify-build@v1
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          message_id: ${{ steps.slack.outputs.message_id }}
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          status: TEST (${{ steps.short.outputs.sha }} ${{ inputs.os }} - ${{ steps.short.outputs.r-version }})
-          color: warning
-
-      # do not update pkgs, as they were installed above
-      # do update app pkgs, as they have NOT been installed
+      # Install packages as necessary!
       - name: Run tests
         timeout-minutes: 180 # 3 hrs
         env:
@@ -194,8 +179,7 @@ jobs:
           test_output <- shinycoreci::test_in_local(
             apps = apps,
             retries = 1,
-            assert = FALSE,
-            install = FALSE
+            assert = FALSE
           )
           shinycoreci::save_test_results(
             test_output,
@@ -295,25 +279,3 @@ jobs:
           done
 
           git checkout ${{ steps.current_branch.outputs.name }}
-
-      - name: Notify slack SUCCESS
-        if: success()
-        uses: voxmedia/github-action-slack-notify-build@v1
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          message_id: ${{ steps.slack.outputs.message_id }}
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          status: SUCCESS (${{ steps.short.outputs.sha }} ${{ inputs.os }} - ${{ steps.short.outputs.r-version }})
-          color: good
-
-      - name: Notify slack FAILED
-        if: failure()
-        uses: voxmedia/github-action-slack-notify-build@v1
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          message_id: ${{ steps.slack.outputs.message_id }}
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          status: FAILED (${{ steps.short.outputs.sha }} ${{ inputs.os }} - ${{ steps.short.outputs.r-version }})
-          color: danger

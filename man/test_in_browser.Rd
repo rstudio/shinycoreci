@@ -33,5 +33,7 @@ test_in_browser(
 Automatically runs the next app in a fresh callr::r_bg session.  To stop, close the shiny application window.
 }
 \examples{
-\dontrun{test_in_browser()}
+\dontrun{
+test_in_browser()
+}
 }

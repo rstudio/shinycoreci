@@ -1,3 +1,5 @@
+utils::globalVariables(c("png_name", "test_name", "variant"))
+
 #' View Shinytest Images
 #'
 #' @param repo_dir directory to the shinycoreci repo

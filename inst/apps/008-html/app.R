@@ -44,5 +44,6 @@ server <- function(input, output) {
 }
 
 
+
 # Create Shiny app ----
 shinyApp(ui = htmlTemplate("www/index.html"), server)

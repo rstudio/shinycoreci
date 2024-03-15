@@ -1,0 +1,26 @@
+# File used by renv::dependencies() to ignore files to inspect
+_snaps/
+fonts/
+www/
+data/
+rsconnect/
+*.db
+*.ttc
+*.js
+*.png
+*.jpg
+*.json
+*.md
+*.txt
+.DS_Store
+.gitignore
+.Renviron
+*.html
+*.css
+*.csv
+*.tsv
+*.gz
+*.Rproj
+*.rds
+*.xls
+*.sh
