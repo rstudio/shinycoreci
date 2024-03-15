@@ -9,7 +9,7 @@ row <- function(w1, w2) {
   fluidRow(column2(w1), column2(w2))
 }
 
-label_initial <- "An <i>escaped</i> Label"
+label_initial <- HTML("An <i>escaped</i> Label")
 
 ui <- fluidPage(
   p("Everytime you click on the button below, it should add labels to the column that doesn't (currently) have labels, and remove labels from the column that does (currently) have labels. Every label should say: '", tags$b(label_initial, .noWS = "outside"), "'."),
@@ -135,7 +135,7 @@ server <- function(input, output, session) {
   shinyjster::shinyjster_server(input, output, session)
 
   observeEvent(input$update, {
-    label1 <- if (isTRUE(input$update %% 2 == 0)) character(0) else "An <i>escaped</i> Label"
+    label1 <- if (isTRUE(input$update %% 2 == 0)) character(0) else HTML("An <i>escaped</i> Label")
     updateTextInput(session, "textInput1", label = label1)
     updateTextAreaInput(session, "textAreaInput1", label = label1)
     updateNumericInput(session, "numericInput1", label = label1)
@@ -149,7 +149,7 @@ server <- function(input, output, session) {
     updateCheckboxGroupInput(session, "checkboxGroupInput1", label = label1)
     updateDateInput(session, "dateInput1", label = label1)
 
-    label2 <- if (isTRUE(input$update %% 2 > 0)) character(0) else "An <i>escaped</i> Label"
+    label2 <- if (isTRUE(input$update %% 2 > 0)) character(0) else HTML("An <i>escaped</i> Label")
     updateTextInput(session, "textInput2", label = label2)
     updateTextAreaInput(session, "textAreaInput2", label = label2)
     updateNumericInput(session, "numericInput2", label = label2)
