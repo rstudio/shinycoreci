@@ -63,7 +63,8 @@ runs:
     - name: Install macOS brew dependencies for all apps
       uses: shiny-workflows/setup-macOS-dependencies@v1
       if: ${{ runner.os == 'macOS' }}
-      working-directory: R # something other than `.`
+      # something other than `.`
+      working-directory: R
       with:
         extra-packages: |
           ${{ steps.app-deps.outputs.pkgs }}
