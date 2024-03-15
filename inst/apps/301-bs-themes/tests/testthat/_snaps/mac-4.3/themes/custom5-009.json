@@ -490,7 +490,7 @@
     "inputPanelOutput": "List of 5\n $ sliderInput        : int [1:2] 14 83\n $ selectizeInput     : chr \"AK\"\n $ selectizeMultiInput: chr [1:3] \"AK\" \"AR\" \"CO\"\n $ dateInput          : Date[1:1], format: \"2020-12-21\"\n $ dateRangeInput     : Date[1:2], format: \"2020-12-24\" \"2020-12-26\"",
     "inputPanelOutputHeader": "Below are the values bound to each input widget above",
     "plot": {
-      "src": "[image data hash: db76f4f5fa577af61e0739dbe1084bf3]",
+      "src": "[image data hash: 07c5cacfa5a992b27cbdf910133a576f]",
       "width": 968,
       "height": 400,
       "alt": "Plot object",

@@ -41,9 +41,9 @@
         },
         {
           "name": "htmlwidgets",
-          "version": "1.6.4",
+          "version": "1.6.4.9000",
           "src": {
-            "href": "htmlwidgets-1.6.4"
+            "href": "htmlwidgets-1.6.4.9000"
           },
           "meta": null,
           "script": "htmlwidgets.js",

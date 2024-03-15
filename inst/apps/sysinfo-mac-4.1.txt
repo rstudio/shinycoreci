@@ -9,7 +9,7 @@
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2024-03-06
+ date      2024-03-15
  pandoc    2.7.3 @ /usr/local/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -29,7 +29,7 @@
  brio                1.1.3       2021-11-30 [1] CRAN (R 4.1.0)
  broom               1.0.4       2023-03-11 [1] CRAN (R 4.1.2)
  bsicons             0.1.2.9000  2024-01-03 [1] Github (rstudio/bsicons@f7dca31)
- bslib               0.6.1.9001  2024-03-06 [1] Github (rstudio/bslib@fb94eba)
+ bslib               0.6.1.9001  2024-03-14 [1] Github (rstudio/bslib@7fe3a97)
  cachem              1.0.8       2024-02-15 [1] Github (r-lib/cachem@52faec3)
  Cairo               1.6-0       2022-07-05 [1] CRAN (R 4.1.2)
  callr               3.7.3       2022-11-02 [1] CRAN (R 4.1.2)
@@ -59,9 +59,9 @@
  deSolve             1.35        2023-03-12 [1] CRAN (R 4.1.2)
  DiagrammeR          1.0.11      2024-02-02 [1] CRAN (R 4.1.3)
  diffobj             0.3.5       2021-10-05 [1] CRAN (R 4.1.0)
- digest              0.6.34      2024-01-11 [1] CRAN (R 4.1.3)
+ digest              0.6.35      2024-03-11 [1] CRAN (R 4.1.3)
  dplyr               1.1.2       2023-04-20 [1] CRAN (R 4.1.2)
- DT                  0.32.1      2024-02-20 [1] Github (rstudio/DT@06d3ae6)
+ DT                  0.32.1      2024-03-15 [1] Github (rstudio/DT@63517cb)
  dygraphs            1.1.1.7     2024-01-03 [1] Github (rstudio/dygraphs@b096395)
  e1071               1.7-13      2023-02-01 [1] CRAN (R 4.1.2)
  ellipsis            0.3.2       2021-04-29 [1] CRAN (R 4.1.0)
@@ -90,15 +90,15 @@
  globals             0.16.2      2022-11-21 [1] CRAN (R 4.1.2)
  glue                1.6.2       2022-02-24 [1] CRAN (R 4.1.2)
  gridExtra           2.3         2017-09-09 [1] CRAN (R 4.1.0)
- gt                  0.10.1.9000 2024-03-06 [1] Github (rstudio/gt@3e4b2d1)
+ gt                  0.10.1.9000 2024-03-11 [1] Github (rstudio/gt@411328c)
  gtable              0.3.3       2023-03-21 [1] CRAN (R 4.1.2)
  here                1.0.1       2020-12-13 [1] CRAN (R 4.1.0)
  hexbin              1.28.3      2023-03-21 [1] CRAN (R 4.1.2)
  highcharter         0.9.4       2022-01-03 [1] CRAN (R 4.1.2)
  highr               0.10        2022-12-22 [1] CRAN (R 4.1.2)
  hms                 1.1.3       2023-03-21 [1] CRAN (R 4.1.2)
- htmltools           0.5.7.9000  2024-01-03 [1] Github (rstudio/htmltools@a8a3559)
- htmlwidgets         1.6.4       2024-01-03 [1] Github (ramnathv/htmlwidgets@7928dc2)
+ htmltools           0.5.7.9000  2024-03-14 [1] Github (rstudio/htmltools@480ccdd)
+ htmlwidgets         1.6.4.9000  2024-03-14 [1] Github (ramnathv/htmlwidgets@373eede)
  httpuv              1.6.14.9000 2024-02-15 [1] Github (rstudio/httpuv@ac79a51)
  httr                1.4.6       2023-05-08 [1] CRAN (R 4.1.2)
  httr2               0.2.3       2023-05-08 [1] CRAN (R 4.1.2)
@@ -206,15 +206,15 @@
  rversions           2.1.2       2022-08-31 [1] CRAN (R 4.1.2)
  rvest               1.0.3       2022-08-19 [1] CRAN (R 4.1.2)
  s2                  1.1.3       2023-04-27 [1] CRAN (R 4.1.2)
- sass                0.4.8.9000  2024-01-03 [1] Github (rstudio/sass@ae93a9a)
+ sass                0.4.8.9000  2024-03-14 [1] Github (rstudio/sass@650b27c)
  scales              1.2.1       2022-08-20 [1] CRAN (R 4.1.2)
  selectr             0.4-2       2019-11-20 [1] CRAN (R 4.1.0)
  servr               0.27        2023-05-02 [1] CRAN (R 4.1.2)
  sessioninfo         1.2.2       2021-12-06 [1] any (@1.2.2)
  sf                  1.0-12      2023-03-19 [1] CRAN (R 4.1.2)
- shiny               1.8.0.9000  2024-02-15 [1] Github (rstudio/shiny@6760c31)
+ shiny               1.8.0.9000  2024-03-14 [1] Github (rstudio/shiny@c1a1542)
  shinyAce            0.4.2       2022-05-06 [1] CRAN (R 4.1.2)
- shinycoreci         0.0.0.9008  2024-03-06 [1] local
+ shinycoreci         0.0.0.9008  2024-03-15 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.1.0)
  shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.1.0)
  shinyjster          0.0.0.9010  2024-02-23 [1] Github (schloerke/shinyjster@865ea25)
@@ -250,7 +250,7 @@
  tidyselect          1.2.0       2022-10-10 [1] CRAN (R 4.1.2)
  timechange          0.2.0       2023-01-11 [1] CRAN (R 4.1.2)
  tinytex             0.45        2023-04-18 [1] CRAN (R 4.1.2)
- tm                  0.7-11      2023-02-05 [1] CRAN (R 4.1.3)
+ tm                  0.7-12      2024-03-11 [1] CRAN (R 4.1.3)
  TTR                 0.24.3      2021-12-12 [1] CRAN (R 4.1.0)
  tweenr              2.0.2       2022-09-06 [1] CRAN (R 4.1.2)
  tzdb                0.3.0       2022-03-28 [1] CRAN (R 4.1.2)
