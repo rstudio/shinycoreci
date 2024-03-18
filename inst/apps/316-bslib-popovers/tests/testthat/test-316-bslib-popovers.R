@@ -210,31 +210,36 @@ test_that("Can programmatically update/show/hide tooltip", {
 
   app$click("show_popover")
   expect_popover_content(app, "Popover message")
+  app$click("hide_popover")
+  expect_no_tip(app)
 
-  app$set_inputs("popover_msg" = "new")
-  expect_popover_content(app, "new")
+  app$click("show_popover")
+  app$set_inputs("popover_title" = "title 1")
+  expect_popover_content(app, "Popover message", "title 1")
+  app$set_inputs("popover_msg" = "msg 1")
+  expect_popover_content(app, "msg 1", "title 1")
 
   app$click("hide_popover")
   expect_no_tip(app)
 
-  app$set_inputs("popover_msg" = "newer")
+  app$set_inputs("popover_title" = "title 2")
+  app$click("show_popover")
+  expect_popover_content(app, "msg 1", "title 2")
+  app$click("hide_popover")
+  app$click("show_popover")
+  app$set_inputs("popover_msg" = "msg 2")
+  expect_popover_content(app, "msg 2", "title 2")
+  click_close_button(app)
+  expect_no_tip(app)
 
   app$click("show_popover")
-  expect_popover_content(app, "newer")
-
+  expect_popover_content(app, "msg 2", "title 2")
   app$set_inputs("navbar" = "Popover cases")
   expect_no_tip(app)
   app$set_inputs("navbar" = "Popover updates")
 
-  app$set_inputs("show_title" = TRUE)
   app$click("show_popover")
-  expect_popover_content(app, "newer", "Popover title")
-
-  app$set_inputs("show_title" = FALSE)
-  expect_popover_content(app, "newer", "")
-
-  click_close_button(app)
-  expect_no_tip(app)
+  expect_popover_content(app, "msg 2", "title 2")
 })
 
 
