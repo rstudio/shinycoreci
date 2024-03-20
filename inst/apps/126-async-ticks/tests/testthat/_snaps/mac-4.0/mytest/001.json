@@ -3,22 +3,16 @@
 
   },
   "output": {
-    "datatable": {
-      "message": "OK",
-      "call": "NULL",
-      "type": [
-        "shiny.silent.error",
-        "validation"
-      ]
-    },
-    "datatablea": {
-      "message": "OK",
-      "call": "NULL",
-      "type": [
-        "shiny.silent.error",
-        "validation"
-      ]
-    },
+    "datatable": [
+      "OK",
+      "NULL",
+      "c(\"shiny.silent.error\", \"validation\")"
+    ],
+    "datatablea": [
+      "OK",
+      "NULL",
+      "c(\"shiny.silent.error\", \"validation\")"
+    ],
     "image": {
       "message": "OK",
       "call": "NULL",
