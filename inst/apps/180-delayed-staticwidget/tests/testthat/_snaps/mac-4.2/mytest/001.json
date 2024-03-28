@@ -28,9 +28,9 @@
       "deps": [
         {
           "name": "htmltools-fill",
-          "version": "0.5.7.9000",
+          "version": "0.5.8.9000",
           "src": {
-            "href": "htmltools-fill-0.5.7.9000"
+            "href": "htmltools-fill-0.5.8.9000"
           },
           "meta": null,
           "script": null,
@@ -132,9 +132,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.2.1.9000",
+          "version": "2.2.2.9000",
           "src": {
-            "href": "leaflet-binding-2.2.1.9000"
+            "href": "leaflet-binding-2.2.2.9000"
           },
           "meta": null,
           "script": "leaflet.js",
