@@ -103,7 +103,7 @@ fix_snaps <- function(
 
       # Make patch file given diff
       # git_cmd_(paste0("git format-patch '", original_git_branch, "' --stdout > ", patch_file))
-      git_cmd_("git diff --binary ", original_git_branch, " > ", patch_file)
+      git_cmd_("git diff --binary ", original_git_branch, " -- inst/apps > ", patch_file)
     }
 
     patch_file
