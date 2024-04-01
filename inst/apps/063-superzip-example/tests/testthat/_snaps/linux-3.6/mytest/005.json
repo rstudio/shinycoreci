@@ -31891,7 +31891,7 @@
   },
   "output": {
     "histCentile": {
-      "src": "[image data hash: b9b57eff26567c24a0eaf690eac1b6fc]",
+      "src": "[image data hash: 1cf52d209249ee72ff2e32f10bf5cd8e]",
       "width": 287.7778,
       "height": 200,
       "alt": "Plot object",
@@ -32036,9 +32036,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.2.1.9000",
+          "version": "2.2.0.9000",
           "src": {
-            "href": "leaflet-binding-2.2.1.9000"
+            "href": "leaflet-binding-2.2.0.9000"
           },
           "meta": null,
           "script": "leaflet.js",
@@ -32050,7 +32050,7 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data hash: d2912c37dea1c80686ad470f39e4505b]",
+      "src": "[image data hash: 27aaef0d4fc6b0e7a33555203e7ac3bc]",
       "width": 287.7778,
       "height": 250,
       "alt": "Plot object",
@@ -32111,58 +32111,6 @@
             {
               "orderable": false,
               "targets": 0
-            },
-            {
-              "name": " ",
-              "targets": 0
-            },
-            {
-              "name": "City",
-              "targets": 1
-            },
-            {
-              "name": "State",
-              "targets": 2
-            },
-            {
-              "name": "Zipcode",
-              "targets": 3
-            },
-            {
-              "name": "Rank",
-              "targets": 4
-            },
-            {
-              "name": "Score",
-              "targets": 5
-            },
-            {
-              "name": "Superzip",
-              "targets": 6
-            },
-            {
-              "name": "Population",
-              "targets": 7
-            },
-            {
-              "name": "College",
-              "targets": 8
-            },
-            {
-              "name": "Income",
-              "targets": 9
-            },
-            {
-              "name": "Lat",
-              "targets": 10
-            },
-            {
-              "name": "Long",
-              "targets": 11
-            },
-            {
-              "name": "Action",
-              "targets": 12
             }
           ],
           "order": [
@@ -32202,9 +32150,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.13.6",
+          "version": "1.13.4",
           "src": {
-            "href": "dt-core-1.13.6"
+            "href": "dt-core-1.13.4"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -32219,9 +32167,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.1.9000",
+          "version": "1.2.0.9000",
           "src": {
-            "href": "crosstalk-1.2.1.9000"
+            "href": "crosstalk-1.2.0.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",

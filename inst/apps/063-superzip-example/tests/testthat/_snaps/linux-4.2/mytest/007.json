@@ -675,7 +675,7 @@
   },
   "output": {
     "histCentile": {
-      "src": "[image data hash: b9b57eff26567c24a0eaf690eac1b6fc]",
+      "src": "[image data hash: 1cf52d209249ee72ff2e32f10bf5cd8e]",
       "width": 287.7778,
       "height": 200,
       "alt": "Plot object",
@@ -834,7 +834,7 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data hash: 323e274936d3d5978422725718360cf4]",
+      "src": "[image data hash: 5d9597d059daaef34ad33b837bcc9a3c]",
       "width": 287.7778,
       "height": 250,
       "alt": "Plot object",
