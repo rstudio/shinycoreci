@@ -20,7 +20,7 @@ inputs:
     required: false
   pandoc-version:
     description: Pandoc version to pass through
-    default: "2.7.3"
+    default: "3.x"
     required: false
   packagemanager-cran-url:
     description: packagemanager url to be used for CRAN installations
