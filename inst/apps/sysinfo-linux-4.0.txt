@@ -9,7 +9,7 @@
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2024-03-29
+ date      2024-04-01
  pandoc    2.7.3 @ /opt/hostedtoolcache/pandoc/2.7.3/x64/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -30,7 +30,7 @@
  broom               1.0.5       2023-06-09 [1] CRAN (R 4.0.5)
  broom.helpers       1.14.0      2023-08-07 [1] CRAN (R 4.0.5)
  bsicons             0.1.2.9000  2024-03-21 [1] Github (rstudio/bsicons@f7dca31)
- bslib               0.6.2.9000  2024-03-28 [1] Github (rstudio/bslib@5e974fd)
+ bslib               0.7.0       2024-04-01 [1] Github (rstudio/bslib@74ec375)
  cachem              1.0.8       2024-03-21 [1] Github (r-lib/cachem@52faec3)
  Cairo               1.6-2       2023-11-28 [1] CRAN (R 4.0.5)
  callr               3.7.6       2024-03-25 [1] CRAN (R 4.0.5)
@@ -51,7 +51,7 @@
  credentials         2.0.1       2023-09-06 [1] CRAN (R 4.0.5)
  crosstalk           1.2.1.9000  2024-03-21 [1] Github (rstudio/crosstalk@4f76bd6)
  curl                5.2.1       2024-03-01 [1] CRAN (R 4.0.5)
- data.table          1.15.2      2024-02-29 [1] CRAN (R 4.0.5)
+ data.table          1.15.4      2024-03-30 [1] CRAN (R 4.0.5)
  DBI                 1.2.2       2024-02-16 [1] CRAN (R 4.0.5)
  dbplyr              2.5.0       2024-03-19 [1] CRAN (R 4.0.5)
  debugme             1.1.0       2017-10-22 [1] CRAN (R 4.0.5)
@@ -207,7 +207,7 @@
  rpart               4.1-15      2019-04-12 [3] CRAN (R 4.0.5)
  rprojroot           2.0.4       2023-11-05 [1] CRAN (R 4.0.5)
  rsconnect           1.2.1       2024-01-31 [1] CRAN (R 4.0.5)
- RSQLite             2.3.5       2024-01-21 [1] CRAN (R 4.0.5)
+ RSQLite             2.3.6       2024-03-31 [1] CRAN (R 4.0.5)
  rstudioapi          0.16.0      2024-03-24 [1] CRAN (R 4.0.5)
  rsvg                2.6.0       2023-10-08 [1] CRAN (R 4.0.5)
  rversions           2.1.2       2022-08-31 [1] CRAN (R 4.0.5)
@@ -219,9 +219,9 @@
  servr               0.30        2024-03-23 [1] CRAN (R 4.0.5)
  sessioninfo         1.2.2       2021-12-06 [1] CRAN (R 4.0.5)
  sf                  1.0-16      2024-03-24 [1] CRAN (R 4.0.5)
- shiny               1.8.1.9000  2024-03-28 [1] Github (rstudio/shiny@47526a7)
+ shiny               1.8.1.9000  2024-04-01 [1] Github (rstudio/shiny@edd1db7)
  shinyAce            0.4.2       2022-05-06 [1] CRAN (R 4.0.5)
- shinycoreci         0.0.0.9008  2024-03-29 [1] local
+ shinycoreci         0.0.0.9008  2024-04-01 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.0.5)
  shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.0.5)
  shinyjster          0.0.0.9010  2024-03-21 [1] Github (schloerke/shinyjster@865ea25)
@@ -247,7 +247,7 @@
  sys                 3.4.2       2023-05-23 [1] CRAN (R 4.0.5)
  sysfonts            0.8.9       2024-03-02 [1] CRAN (R 4.0.5)
  systemfonts         1.0.6       2024-03-07 [1] CRAN (R 4.0.5)
- terra               1.7-74      2024-03-28 [1] Github (rspatial/terra@c4996f8)
+ terra               1.7-74      2024-04-01 [1] Github (rspatial/terra@7bd392c)
  testit              0.13        2021-04-14 [1] CRAN (R 4.0.5)
  testthat            3.2.1       2023-12-02 [1] CRAN (R 4.0.5)
  textshaping         0.3.7       2023-10-09 [1] CRAN (R 4.0.5)
