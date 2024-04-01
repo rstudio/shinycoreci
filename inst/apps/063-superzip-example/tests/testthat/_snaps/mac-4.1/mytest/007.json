@@ -820,9 +820,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.2.1.9000",
+          "version": "2.2.2.9000",
           "src": {
-            "href": "leaflet-binding-2.2.1.9000"
+            "href": "leaflet-binding-2.2.2.9000"
           },
           "meta": null,
           "script": "leaflet.js",

@@ -82,15 +82,10 @@ ui <- page_navbar(
         plotlyOutput("bars")
       ),
       sidebar = list(
-        textInput("popover_msg", "Enter a popover message", "Popover message"),
+        textInput("popover_msg", "Popover message", "Popover message"),
+        textInput("popover_title", "Popover title", ""),
         actionButton("show_popover", "Show popover", class = "mb-3"),
-        actionButton("hide_popover", "Hide popover"),
-        br(),
-        input_switch("show_title", "Add a popover title"),
-        conditionalPanel(
-          "input.show_title",
-          textInput("popover_title", "Enter a title", "Popover title"),
-        )
+        actionButton("hide_popover", "Hide popover")
       )
     )
   ),
@@ -112,11 +107,13 @@ ui <- page_navbar(
 )
 
 server <- function(input, output, session) {
+
   observe({
-    update_popover(
-      "popover", input$popover_msg,
-      title = if (input$show_title) input$popover_title
-    )
+    update_popover("popover", input$popover_msg)
+  })
+
+  observe({
+    update_popover("popover", title = input$popover_title)
   })
 
   observeEvent(input$show_popover, {

@@ -3,6 +3,9 @@ library(promises)
 library(future)
 plan(multisession)
 
+opts <- options(shiny.legacy.datatable = TRUE)
+onStop(function() options(opts))
+
 testForMissingRenderFunctions <- function() {
   # If we add any render functions, they should be added to this test app. This test
   # will make it obvious if we forget.
