@@ -1,6 +1,6 @@
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20240329.1
+ gha_image 20240406.2
  version   R version 4.1.3 (2022-03-10)
  os        macOS Big Sur/Monterey 10.16
  system    x86_64, darwin17.0
@@ -9,7 +9,7 @@
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2024-04-05
+ date      2024-04-12
  pandoc    2.7.3 @ /usr/local/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  package           * version     date (UTC) lib source
@@ -29,7 +29,7 @@
  brio                1.1.3       2021-11-30 [1] CRAN (R 4.1.0)
  broom               1.0.4       2023-03-11 [1] CRAN (R 4.1.2)
  bsicons             0.1.2.9000  2024-03-21 [1] Github (rstudio/bsicons@f7dca31)
- bslib               0.7.0.9000  2024-04-05 [1] Github (rstudio/bslib@2e6b202)
+ bslib               0.7.0.9000  2024-04-12 [1] Github (rstudio/bslib@2c87d0c)
  cachem              1.0.8       2024-03-21 [1] Github (r-lib/cachem@52faec3)
  Cairo               1.6-0       2022-07-05 [1] CRAN (R 4.1.2)
  callr               3.7.3       2022-11-02 [1] CRAN (R 4.1.2)
@@ -61,7 +61,7 @@
  diffobj             0.3.5       2021-10-05 [1] CRAN (R 4.1.0)
  digest              0.6.35      2024-03-11 [1] CRAN (R 4.1.3)
  dplyr               1.1.2       2023-04-20 [1] CRAN (R 4.1.2)
- DT                  0.33.1      2024-04-05 [1] Github (rstudio/DT@4e63a46)
+ DT                  0.33.1      2024-04-08 [1] Github (rstudio/DT@4e63a46)
  dygraphs            1.1.1.7     2024-03-21 [1] Github (rstudio/dygraphs@b096395)
  e1071               1.7-13      2023-02-01 [1] CRAN (R 4.1.2)
  ellipsis            0.3.2       2021-04-29 [1] CRAN (R 4.1.0)
@@ -71,7 +71,7 @@
  farver              2.1.1       2022-07-06 [1] CRAN (R 4.1.2)
  fastmap             1.1.1.9000  2024-03-21 [1] Github (r-lib/fastmap@bf75700)
  flexdashboard       0.6.2.9000  2024-03-21 [1] Github (rstudio/flexdashboard@2a481f9)
- fontawesome         0.5.2.9000  2024-03-21 [1] Github (rstudio/fontawesome@b056eca)
+ fontawesome         0.5.2.9000  2024-04-12 [1] Github (rstudio/fontawesome@32617f7)
  forcats             1.0.0       2023-01-29 [1] CRAN (R 4.1.2)
  foreign             0.8-82      2022-01-16 [3] CRAN (R 4.1.3)
  fs                  1.6.2       2023-04-25 [1] CRAN (R 4.1.2)
@@ -117,7 +117,7 @@
  later               1.3.2.9000  2024-03-21 [1] Github (r-lib/later@771b884)
  lattice             0.20-45     2021-09-22 [3] CRAN (R 4.1.3)
  lazyeval            0.2.2       2019-03-15 [1] CRAN (R 4.1.0)
- leaflet             2.2.2.9000  2024-04-03 [1] Github (rstudio/leaflet@a2b7636)
+ leaflet             2.2.2.9000  2024-04-12 [1] Github (rstudio/leaflet@92bc272)
  leaflet.providers   2.0.0       2023-10-17 [1] CRAN (R 4.1.3)
  lifecycle           1.0.3       2022-10-07 [1] CRAN (R 4.1.2)
  listenv             0.9.0       2022-12-16 [1] CRAN (R 4.1.2)
@@ -163,7 +163,7 @@
  prismatic           1.1.1       2022-08-15 [1] CRAN (R 4.1.2)
  processx            3.8.4       2024-03-16 [1] CRAN (R 4.1.3)
  progress            1.2.2       2019-05-16 [1] CRAN (R 4.1.0)
- promises            1.2.1.9001  2024-04-05 [1] Github (rstudio/promises@e46a498)
+ promises            1.2.1.9001  2024-04-08 [1] Github (rstudio/promises@e46a498)
  proxy               0.4-27      2022-06-09 [1] CRAN (R 4.1.2)
  pryr                0.1.6       2023-01-17 [1] CRAN (R 4.1.2)
  ps                  1.7.5       2023-04-18 [1] CRAN (R 4.1.2)
@@ -186,7 +186,7 @@
  readr               2.1.4       2023-02-10 [1] CRAN (R 4.1.2)
  rematch             1.0.1       2016-04-21 [1] CRAN (R 4.1.0)
  rematch2            2.1.2       2020-05-01 [1] CRAN (R 4.1.0)
- renv                1.0.5       2024-02-29 [1] CRAN (R 4.1.3)
+ renv                1.0.7       2024-04-11 [1] CRAN (R 4.1.3)
  repr                1.1.6       2023-01-26 [1] CRAN (R 4.1.2)
  reshape             0.8.9       2022-04-12 [1] CRAN (R 4.1.2)
  reshape2            1.4.4       2020-04-09 [1] CRAN (R 4.1.0)
@@ -213,15 +213,15 @@
  servr               0.27        2023-05-02 [1] CRAN (R 4.1.2)
  sessioninfo         1.2.2       2021-12-06 [1] any (@1.2.2)
  sf                  1.0-12      2023-03-19 [1] CRAN (R 4.1.2)
- shiny               1.8.1.9000  2024-04-05 [1] Github (rstudio/shiny@420a2c0)
+ shiny               1.8.1.9000  2024-04-12 [1] Github (rstudio/shiny@3edf9bf)
  shinyAce            0.4.2       2022-05-06 [1] CRAN (R 4.1.2)
- shinycoreci         0.0.0.9008  2024-04-05 [1] local
+ shinycoreci         0.0.0.9008  2024-04-12 [1] local
  shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.1.0)
  shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.1.0)
  shinyjster          0.0.0.9010  2024-03-21 [1] Github (schloerke/shinyjster@865ea25)
  shinymeta           0.2.0.3     2024-03-21 [1] Github (rstudio/shinymeta@85fc1ce)
  shinytest           1.5.4       2024-03-21 [1] Github (rstudio/shinytest@7ab4e61)
- shinytest2          0.3.1       2024-03-21 [1] Github (rstudio/shinytest2@799b11c)
+ shinytest2          0.3.1.9000  2024-04-12 [1] Github (rstudio/shinytest2@436535d)
  shinythemes         1.2.0       2024-03-21 [1] Github (rstudio/shinythemes@492b6aa)
  shinyvalidate       0.1.3.9000  2024-03-21 [1] Github (rstudio/shinyvalidate@1c64265)
  shinyWidgets        0.7.6       2023-01-08 [1] CRAN (R 4.1.2)
