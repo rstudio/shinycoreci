@@ -72,7 +72,7 @@ Tools for manual and automated testing of shiny apps.
 
 ## Running manual tests
 
-First, install the `{shinycoreci}` repo via {pak} (from instructions above). Before running any tests, you may need to add your `GITHUB_PAT` to your R Environ file (See `?usethis::edit_r_environ` and `?usethis::browse_github_pat`)
+First, install the `{shinycoreci}` repo via {pak} (from instructions above). Before running any tests, you may need to add your `GITHUB_PAT` to your R Environ file (See `?usethis::edit_r_environ` and `?usethis::create_github_token`)
 
 Commands used to test in different situations:
 
