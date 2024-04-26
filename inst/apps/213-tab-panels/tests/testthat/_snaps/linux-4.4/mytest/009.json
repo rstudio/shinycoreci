@@ -1,0 +1,14 @@
+{
+  "input": {
+    "add": 1,
+    "addFoo": 1,
+    "removeFoo": 1,
+    "tabs": "Hello"
+  },
+  "output": {
+
+  },
+  "export": {
+
+  }
+}
