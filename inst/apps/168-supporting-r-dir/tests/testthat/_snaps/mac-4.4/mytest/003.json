@@ -1,0 +1,11 @@
+{
+  "input": {
+    "counter1-button": 2
+  },
+  "output": {
+    "counter1-out": "2"
+  },
+  "export": {
+
+  }
+}
