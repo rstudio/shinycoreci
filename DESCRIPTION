@@ -34,7 +34,8 @@ Suggests:
     tidyr,
     later,
     withr,
-    shinytest
+    shinytest,
+    chromote
 Config/Needs/website: tidyverse/tidytemplate
 URL: https://github.com/rstudio/shinycoreci
 BugReports: https://github.com/rstudio/shinycoreci/issues
