@@ -81,8 +81,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel2 }}
       os: ${{ needs.config.outputs.ubuntu }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.ubuntu-packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   ubuntu-oldrel-3:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
