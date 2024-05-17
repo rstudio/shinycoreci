@@ -16,15 +16,6 @@ on:
       ubuntu:
         description: ubuntu OS value
         value: "ubuntu-20.04"
-      ubuntu-packagemanager-cran-url:
-        description: ubuntu packagemanager url to be used for CRAN installations
-        value: "https://packagemanager.posit.co/cran/__linux__/focal/latest"
-      packagemanager-cran-url:
-        description: packagemanager url to be used for CRAN installations
-        value: "https://packagemanager.posit.co/cran/latest"
-      shinyverse-cran-url:
-        description: CRAN url to be used for shinyverse installations via r-universe
-        value: "https://posit-dev-shinycoreci.r-universe.dev"
       cache-version:
         description: cache-version to be used when pulling library cache
         value: "5"

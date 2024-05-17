@@ -31,8 +31,6 @@ jobs:
       r-version: ${{ needs.config.outputs.release }}
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   macos-oldrel-1:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -40,8 +38,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel1 }}
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   macos-oldrel-2:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -49,8 +45,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel2 }}
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   macos-oldrel-3:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -58,8 +52,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel3 }}
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   macos-oldrel-4:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -67,8 +59,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel4 }}
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
 
   ubuntu-release:
     needs: [config]
@@ -77,8 +67,6 @@ jobs:
       r-version: ${{ needs.config.outputs.release }}
       os: ${{ needs.config.outputs.ubuntu }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.ubuntu-packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   ubuntu-oldrel-1:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -86,8 +74,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel1 }}
       os: ${{ needs.config.outputs.ubuntu }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.ubuntu-packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   ubuntu-oldrel-2:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -104,8 +90,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel3 }}
       os: ${{ needs.config.outputs.ubuntu }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.ubuntu-packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   ubuntu-oldrel-4:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -113,8 +97,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel4 }}
       os: ${{ needs.config.outputs.ubuntu }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.ubuntu-packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
 
   windows-release:
     needs: [config]
@@ -123,8 +105,6 @@ jobs:
       r-version: ${{ needs.config.outputs.release }}
       os: ${{ needs.config.outputs.windows }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   windows-oldrel-1:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -132,8 +112,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel1 }}
       os: ${{ needs.config.outputs.windows }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   windows-oldrel-2:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -141,8 +119,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel2 }}
       os: ${{ needs.config.outputs.windows }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   windows-oldrel-3:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -150,8 +126,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel3 }}
       os: ${{ needs.config.outputs.windows }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
   windows-oldrel-4:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml
@@ -159,8 +133,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel4 }}
       os: ${{ needs.config.outputs.windows }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      packagemanager-cran-url: ${{ needs.config.outputs.packagemanager-cran-url }}
-      shinyverse-cran-url: ${{ needs.config.outputs.shinyverse-cran-url }}
 
   build-results:
     uses: ./.github/workflows/build-results.yml

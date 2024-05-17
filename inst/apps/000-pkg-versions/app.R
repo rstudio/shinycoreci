@@ -77,6 +77,8 @@ server <- function(input, output, session) {
 
   # ----------------------------
 
+  # Packages inside `dt` are in the shinyverse so if there remote location is 
+  # not the universe url, then they're not properly installed.
   bad_dt <- dt %>% filter(!is.na(remoteRepos)) %>% filter(remoteRepos != universe_url)
 
   output$pkg_from_universe <- renderUI({

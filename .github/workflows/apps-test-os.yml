@@ -29,11 +29,6 @@ on:
         type: string
         default: "3.x"
         required: false
-      packagemanager-cran-url:
-        type: string
-        description: packagemanager url to be used for CRAN installations
-        default: "https://packagemanager.posit.co/cran/latest"
-        required: false
       # rtools-35:
       #   type: boolean
       #   default: true
@@ -135,7 +130,6 @@ jobs:
           http-user-agent: ${{ inputs.http-user-agent }}
           pandoc-version: ${{ inputs.pandoc-version }}
           extra-packages: ${{ inputs.extra-packages }}
-          packagemanager-cran-url: ${{ inputs.packagemanager-cran-url }}
 
       # Install packages as necessary!
       - name: Run tests
