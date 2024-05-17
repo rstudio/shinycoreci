@@ -11,6 +11,7 @@ on:
   # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
   schedule:
     - cron: "0 5 * * 1-5" # every work night (delayed 2 hrs)
+  workflow_dispatch:
   repository_dispatch:
     types:
       - all
