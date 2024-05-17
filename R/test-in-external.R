@@ -1,32 +1,38 @@
-
-
-
 test_in_external <- function(
-  app_infos,
-  default_app_name = 1,
-  host = "127.0.0.1",
-  port = 8080
-) {
-
+    app_infos,
+    ...,
+    default_output_lines = "",
+    default_app_name = 1,
+    host = "127.0.0.1",
+    port = 8080) {
+  stopifnot(length(list(...)) == 0)
   # run shiny app in the browser
   if (rstudioapi::isAvailable()) {
     if (rstudioapi::isAvailable("1.3.387")) {
       # browser, window, pane
       shiny_viewer_type <- rstudioapi::readRStudioPreference("shiny_viewer_type", "not-correct")
       if (!identical(shiny_viewer_type, "browser")) {
-        on.exit({
-          rstudioapi::writeRStudioPreference("shiny_viewer_type", shiny_viewer_type)
-        }, add = TRUE)
+        on.exit(
+          {
+            rstudioapi::writeRStudioPreference("shiny_viewer_type", shiny_viewer_type)
+          },
+          add = TRUE
+        )
         rstudioapi::writeRStudioPreference("shiny_viewer_type", "browser")
       }
     } else {
       # RStudio, but early version
       # This feels hacky, but is necessary
-      runExternal <- get(".rs.invokeShinyWindowExternal", envir = as.environment("tools:rstudio"))
-      old_option <- options(shiny.launch.browser = runExternal)
-      on.exit({
-        options(old_option)
-      })
+      try(
+        {
+          runExternal <- get(".rs.invokeShinyWindowExternal", envir = as.environment("tools:rstudio"))
+          old_option <- options(shiny.launch.browser = runExternal)
+          on.exit({
+            options(old_option)
+          })
+        },
+        silent = TRUE
+      )
     }
   }
 
@@ -93,12 +99,10 @@ test_in_external <- function(
       #   })
       # ")
     ),
-
     shiny::fixedPanel(
       class = "background_app",
       shiny::uiOutput("app_iframe", class = "iframe_container")
     ),
-
     shiny::tags$head(
       shiny::tags$style(paste0("
         .apps_dir {
@@ -180,18 +184,22 @@ test_in_external <- function(
   )
 
   server <- function(input, output, session) {
+    app_name <- shiny::eventReactive(
+      {
+        input$app_name
+      },
+      {
+        if (identical(input$app_name, "")) {
+          shiny::req(FALSE)
+        }
+        if (!input$app_name %in% external_app_names) {
+          message("incorrect app name: '", input$app_name, "'")
+          shiny::req(FALSE)
+        }
 
-    app_name <- shiny::eventReactive({input$app_name}, {
-      if (identical(input$app_name, "")) {
-        shiny::req(FALSE)
+        input$app_name
       }
-      if (! input$app_name %in% external_app_names) {
-        message("incorrect app name: '", input$app_name, "'")
-        shiny::req(FALSE)
-      }
-
-      input$app_name
-    })
+    )
 
     app_info <- shiny::reactive({
       app_infos[[app_name()]]
@@ -201,7 +209,7 @@ test_in_external <- function(
       app_info()$header()
     })
 
-    output_lines <- shiny::reactiveVal()
+    output_lines <- shiny::reactiveVal(default_output_lines)
 
     # user_agent <- shiny::reactive({
     #   shiny::req(input$user_agent)
@@ -215,11 +223,19 @@ test_in_external <- function(
     go_to_next_app <- function() {
       # get next app
       app_pos <- which(external_app_names == app_name()) + 1
+      if (app_pos > length(external_app_names)) {
+        shiny::showModal(shiny::modalDialog(
+          title = "Testing complete!",
+          easyClose = TRUE,
+        ))
+        app_pos <- 1
+      }
       shiny::updateSelectizeInput(
         session,
         "app_name",
         selected = external_app_names[app_pos]
       )
+      output_lines(default_output_lines)
     }
 
     # shiny::observeEvent({input$accept}, {
@@ -244,16 +260,21 @@ test_in_external <- function(
     #   go_to_next_app()
     # })
 
-    shiny::observeEvent({input[["next"]]}, {
-      # message("CLOSE APP: ", app_name(), "\n")
-      # app_status_save(
-      #   app_dir = file.path(dir, app_name()),
-      #   pass = FALSE,
-      #   log = output_lines(),
-      #   user_agent = user_agent()
-      # )
-      go_to_next_app()
-    })
+    shiny::observeEvent(
+      {
+        input[["next"]]
+      },
+      {
+        # message("CLOSE APP: ", app_name(), "\n")
+        # app_status_save(
+        #   app_dir = file.path(dir, app_name()),
+        #   pass = FALSE,
+        #   log = output_lines(),
+        #   user_agent = user_agent()
+        # )
+        go_to_next_app()
+      }
+    )
 
     # Can not call app_info()$on_session_ended() directly as it requires a reactive context
     # That is not allowed in session$onSessionEnded
@@ -268,7 +289,7 @@ test_in_external <- function(
       on_session_ended <<- app_info()$on_session_ended
     })
     session$onSessionEnded(function() {
-      if (! is.function(on_session_ended)) {
+      if (!is.function(on_session_ended)) {
         return()
       }
       on_session_ended()
@@ -295,10 +316,15 @@ test_in_external <- function(
       output_lines(ret)
     })
     # reset the output on refresh
-    shiny::observeEvent({input$refresh}, {
-      app_info()$output_lines(reset = TRUE)
-      output_lines("")
-    })
+    shiny::observeEvent(
+      {
+        input$refresh
+      },
+      {
+        app_info()$output_lines(reset = TRUE)
+        output_lines("")
+      }
+    )
     output$server_output <- shiny::renderText({
       app_has_started()
       output_lines()

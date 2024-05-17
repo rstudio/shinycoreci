@@ -20,7 +20,7 @@ inputs:
     required: false
   pandoc-version:
     description: Pandoc version to pass through
-    default: "2.7.3"
+    default: "3.x"
     required: false
 runs:
   using: "composite"
@@ -40,54 +40,12 @@ runs:
         sudo apt-get update
         sudo apt-get install -y libglpk-dev
 
-    - name: Gather remotes and app deps
-      id: shinyverse
-      shell: Rscript {0}
-      run: |
-        source("inst/gha/gha-shinyverse-packages.R")
-        pkgs <- shinyverse_pkgs()
-        message("Shinyverse packages:\n", gsub(",", ",\n", pkgs))
-        cat("packages=", pkgs, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
-
-    - name: Rtools version
-      if: runner.os == 'Windows'
-      id: rtools-version
-      shell: Rscript {0}
-      run: |
-        # Get R version like `"4.2"`
-        short_r_version <- sub("\\.\\d$", "", "${{ inputs.r-version }}")
-        # For R versions >= 4.2, use Rtools v42
-        # Otherwise leave blank
-        if (
-          package_version("${{ inputs.r-version }}") >= package_version("4.2")
-        ) {
-          message("Using Rtools v42")
-          cat("value=42\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
-        } else {
-          message("Not setting Rtools version!")
-        }
-
-    - name: Adjust packages to install
-      id: pkgs
-      shell: Rscript {0}
-      run: |
-        source("inst/gha/gha-adjust-packages-to-install.R")
-        pkgs_to_install <- adjust_pkgs(
-          "${{ steps.shinyverse.outputs.packages }}",
-          r_version = "${{ inputs.r-version }}"
-        )
-        message("Final packages:\n", gsub(",", ",\n", pkgs_to_install))
-        cat("to-install=", pkgs_to_install, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
-
-    - name: Install R, shinycoreci, and shinyverse
+    - name: Install R and shinycoreci
       uses: rstudio/shiny-workflows/setup-r-package@v1
       with:
         r-version: ${{ inputs.r-version }}
         cache-version: ${{ inputs.cache-version }}
         http-user-agent: ${{ inputs.http-user-agent }}
         pandoc-version: ${{ inputs.pandoc-version }}
-        rtools-version: ${{ steps.rtools-version.outputs.value }}
         extra-packages:
-          local::.
-          ${{ steps.pkgs.outputs.to-install }}
           ${{ inputs.extra-packages }}

@@ -18,200 +18,221 @@ shinycoreci_is_local <- function() {
 }
 
 
-# Used in GHA workflow
-install_shinyverse_local <- function(
-  ...,
-  # Install into normal libpath so caching is automatically handled
-  libpath = .libPaths()[1],
-  install_apps_deps = FALSE
-) {
-  install_shinyverse(..., libpath = libpath, install_apps_deps = install_apps_deps)
-}
 
-#' @noRd
-#' @return lib path being used
-install_shinyverse <- function(
-  install = TRUE,
-  validate_loaded = TRUE,
-  upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
-  dependencies = NA, # pak::pkg_install(dependencies = NA)
-  extra_packages = NULL,
-  install_apps_deps = TRUE,
-  libpath = shinyverse_libpath()
-) {
-  if (!isTRUE(install)) return(.libPaths()[1])
+# # Attempt to set up all the packages in the shinyverse, even if they are not directly depended upon.
+# attempt_to_install_universe <- function(
+#   ...,
+#   libpath = .libPaths()[1],
+#   verbose = TRUE
+# ) {
+#   return()
+#   stopifnot(length(list(...)) == 0)
 
-  # Make sure none of the shinyverse is loaded into namespace
-  if (isTRUE(validate_loaded)) {
-    shiny_search <- paste0("package:", shinyverse_pkgs)
-    if (any(shiny_search %in% search())) {
-      bad_namespaces <- shinyverse_pkgs[shiny_search %in% search()]
-      stop(
-        "The following packages are already loaded:\n",
-        paste0("* ", bad_namespaces, "\n", collapse = ""),
-        "Please restart and try again"
-      )
-    }
-  }
+#   # pkgs <- paste0(shinyverse_pkgs, "?source")
 
-  # Remove shinyverse
-  pak_apps_deps <-
-    if (isTRUE(install_apps_deps)) {
-      paste0("any::", apps_deps[!(apps_deps %in% c(shinyverse_pkgs, "shinycoreci", "shinycoreciapps"))])
-    } else {
-      NULL
-    }
+#   tryCatch(
+#     {
+#       install_missing_pkgs(
+#         pkgs,
+#         libpath = libpath,
+#         prompt = "Installing shinyverse packages: ",
+#         verbose = verbose
+#       )
+#     },
+#     error = function(e) {
+#       # Couldn't install all at once, Installing individually
+#       message("Failed to install shinyverse packages in a single attempt. Error: ", e)
+#       message("Installing shinyverse packages individually!")
+#       Map(seq_along(pkgs), pkgs, f = function(i, pkg) {
+#         tryCatch(
+#           {
+#             install_missing_pkgs(
+#               pkg,
+#               libpath = libpath,
+#               prompt = paste0("[", i, "/", length(pkgs), "] Installing shinyverse package: "),
+#               verbose = verbose
+#             )
+#           },
+#           error = function(e) {
+#             message("Failed to install ", pkg, " from universe")
+#           }
+#         )
+#       })
+#     }
+#   )
 
-  # Load pak into current namespace
-  pkgs <- c(shinyverse_remotes, pak_apps_deps, extra_packages)
-  message("Installing shinyverse and app deps: ", libpath)
-  if (!is.null(extra_packages)) {
-    message("Extra packages:\n", paste0("* ", extra_packages, collapse = "\n"))
-  }
-
-  install_pkgs_with_callr(pkgs, libpath = libpath, upgrade = upgrade, dependencies = dependencies)
-  return(libpath)
-}
+# }
 
 
+
+## Used in GHA workflow
 # Install missing dependencies given an app name
 # If more than one app name is provided, run through all of them individually
-install_missing_app_deps <- function(app_name = names(apps_deps_map), libpath = .libPaths()[1], upgrade = FALSE, dependencies = NA, ..., recursing = FALSE) {
-  if (!isTRUE(recursing)) {
-    install_troublesome_pkgs(libpath = libpath)
-  }
-  if (length(app_name) > 1) {
-    for (app_name_val in app_name) {
-      install_missing_app_deps(app_name_val, libpath = libpath, upgrade = upgrade, dependencies = dependencies, recursing = TRUE)
+install_missing_app_deps <- function(
+    app_name = names(apps_deps_map),
+    ...,
+    libpath = .libPaths()[1],
+    upgrade = FALSE,
+    dependencies = NA,
+    verbose = TRUE
+    ) {
+  stopifnot(length(list(...)) == 0)
+
+  app_deps <-
+    if (length(app_name) > 1) {
+      unique(unlist(
+        lapply(app_name, function(app_name_val) {
+          apps_deps_map[[resolve_app_name(app_name_val)]]
+        })
+      ))
+    } else {
+      apps_deps_map[[resolve_app_name(app_name)]]
     }
-    return(invisible())
-  }
 
-  app_name <- resolve_app_name(app_name)
 
-  app_deps <- apps_deps_map[[app_name]]
-
-  install_missing_pkgs(app_deps, libpath = libpath, upgrade = upgrade, dependencies = dependencies)
-  deps <- Filter(app_deps, f = function(dep) !is_installed(dep, libpath = libpath))
-  if (length(deps) > 0) {
-    message("Installing missing packages: ", paste0(deps, collapse = ", "))
-    install_pkgs_with_callr(deps, libpath = libpath, upgrade = upgrade, dependencies = dependencies)
-  }
+  install_missing_pkgs(
+    app_deps,
+    libpath = libpath,
+    upgrade = upgrade,
+    dependencies = dependencies,
+    verbose = verbose
+  )
 
   invisible()
 }
 
-# packages_to_install is what is really installed given the value of packages
-install_missing_pkgs <- function(packages, libpath = .libPaths()[1], upgrade = FALSE, dependencies = NA, packages_to_install = packages) {
-  packages_to_install <- unlist(Map(
-    packages,
-    packages_to_install,
-    f = function(package, value) {
-      if (!is_installed(package, libpath = libpath)) {
-        value
-      } else {
-        NULL
-      }
+
+
+installed_pkgs <- new.env(parent = emptyenv())
+
+pak_deps_map <- new.env(parent = emptyenv())
+
+
+get_extra_shinyverse_deps <- function(packages) {
+
+  if (length(packages) == 0) return(NULL)
+
+  # Recursively find all shinycoreci packages as dependencies from `packages`
+  ret <- c()
+  queue <- packages
+  while (TRUE) {
+    pkg <- queue[1]
+    queue <- queue[-1]
+
+    if (is.null(pkg)) break
+    if (is.na(pkg) && length(queue) == 0) break
+    if (is.na(pkg)) next
+    if (pkg %in% ret) next
+
+    pkg_dep_packages <- pak_deps_map[[pkg]]
+    if (is.null(pkg_dep_packages)) {
+      withr::with_options(list(
+        repos = c(
+            # Use the shinycoreci universe to avoid GH rate limits!
+            "AAA" = shinyverse_cran_url,
+            getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
+          )
+      ), {
+        stopifnot(utils::packageVersion("pak") >= "0.3.0")
+        pak__pkg_deps <- utils::getFromNamespace("pkg_deps", "pak")
+        pkg_dep_packages <- pak__pkg_deps(pkg)$package
+        # str(list(pkg = pkg, pkg_dep_packages = pkg_dep_packages))
+      })
+      # Store in env does not need `<<-`
+      pak_deps_map[[pkg]] <- pkg_dep_packages
     }
-  ))
-  if (length(packages_to_install) > 0) {
-    message("Installing missing packages: ", paste0(packages_to_install, collapse = ", "))
-    install_pkgs_with_callr(packages_to_install, libpath = libpath, upgrade = upgrade, dependencies = dependencies)
+
+    queue <- unique(c(queue, pkg_dep_packages[pkg_dep_packages %in% shinyverse_pkgs]))
+
+    if (pkg %in% shinyverse_pkgs) {
+      ret <- c(ret, pkg)
+    }
+  }
+
+  ret
+}
+
+
+# packages is what is really installed given the value of packages
+install_missing_pkgs <- function(
+    packages,
+    ...,
+    libpath = .libPaths()[1],
+    upgrade = FALSE,
+    dependencies = NA,
+    prompt = "Installing packages: ",
+    verbose = TRUE
+) {
+  stopifnot(length(list(...)) == 0)
+
+  # Make sure to get underlying dependencies
+  # Always add shiny as it is always needed
+  # Only install shinycoreci if the libpath is shinycoreci_libpath()
+  packages <- unique(c(packages, get_extra_shinyverse_deps(c(packages, "shiny", if (libpath == shinycoreci_libpath()) "shinycoreci" ))))
+
+  pkgs_to_install <- packages[!(packages %in% names(installed_pkgs))]
+
+  if (length(pkgs_to_install) > 0) {
+    message(
+      prompt,
+      paste0(pkgs_to_install, collapse = ", ")
+    )
+    message("libpath: ", libpath)
+
+    install_pkgs_with_callr(
+      pkgs_to_install,
+      libpath = libpath,
+      upgrade = upgrade,
+      dependencies = dependencies,
+      verbose = verbose
+    )
+    # Update the installed status as an install error was not thrown
+    for (package in pkgs_to_install) {
+      # Set in environment
+      installed_pkgs[[package]] <- TRUE
+    }
   }
 
   invisible()
 }
 
 install_pkgs_with_callr <- function(
-  packages,
-  libpath = .libPaths()[1],
-  upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
-  dependencies = NA # pak::pkg_install(dependencies = NA)
-) {
+    packages,
+    ...,
+    libpath = .libPaths()[1],
+    upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
+    dependencies = NA, # pak::pkg_install(dependencies = NA)
+    verbose = TRUE
+    ) {
+  stopifnot(length(list(...)) == 0)
   callr::r(
-    function(packages, lib, upgrade, dependencies) {
+    function(shinyverse_cran_url, packages, upgrade, dependencies) {
+      options(repos = c(
+        # Use the shinycoreci universe to avoid GH rate limits!
+        "AAA" = shinyverse_cran_url,
+        getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
+      ))
+
       # Performing a leap of faith that pak is installed.
       # Avoids weird installs when using pak to install shinycoreci
       stopifnot(utils::packageVersion("pak") >= "0.3.0")
       pak__pkg_install <- utils::getFromNamespace("pkg_install", "pak")
       pak__pkg_install(
         packages,
-        lib = lib,
         ask = FALSE, # Not interactive, so don't ask
         upgrade = upgrade,
         dependencies = dependencies
       )
     },
     list(
+      shinyverse_cran_url = shinyverse_cran_url,
       packages = packages,
-      lib = libpath,
       upgrade = upgrade,
       dependencies = dependencies
     ),
-    show = TRUE,
+    show = verbose,
+    libpath = libpath,
+    supervise = TRUE,
     spinner = TRUE # helps with CI from timing out
   )
-}
-
-
-
-
-
-# This logic should mimic `./gihub/internal/install-shinyvers/action.yaml` logic
-install_troublesome_pkgs <- function(libpath = .libPaths()[1]) {
-
-  # Get R version like `"4.2"`
-  short_r_version <- sub("\\.\\d$", "", as.character(getRversion()))
-
-  if (is_mac()) {
-    switch(short_r_version,
-      "4.2" = {
-        install_missing_pkgs(
-          packages = "XML",
-          packages_to_install = "XML",
-          libpath = libpath
-        )
-      }
-    )
-  }
-
-  if (is_linux()) {
-    switch(short_r_version,
-      "4.2" = {
-        install_missing_pkgs(
-          packages = "XML",
-          packages_to_install = "XML",
-          libpath = libpath
-        )
-      },
-      "3.6" = {
-        install_missing_pkgs(
-          packages = "rjson",
-          packages_to_install = "url::https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz",
-          libpath = libpath
-        )
-      }
-    )
-  }
-
-  if (is_windows()) {
-    switch(short_r_version,
-      "4.0" = {
-        install_missing_pkgs(
-          packages = "terra",
-          packages_to_install = "url::https://cloud.r-project.org/bin/windows/contrib/4.0/terra_1.5-21.zip",
-          libpath = libpath
-        )
-      },
-      "3.6" = {
-        install_missing_pkgs(
-          packages = "terra",
-          packages_to_install = "url::https://cloud.r-project.org/bin/windows/contrib/3.6/terra_1.2-5.zip",
-          libpath = libpath
-        )
-      }
-    )
-  }
-
-  invisible()
 }
