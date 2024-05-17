@@ -7,19 +7,17 @@
 test_in_local(
   apps = apps_with_tests(repo_dir),
   ...,
-  install = TRUE,
   assert = TRUE,
   timeout = 10 * 60,
   retries = 2,
-  repo_dir = rprojroot::find_package_root_file()
+  repo_dir = rprojroot::find_package_root_file(),
+  local_pkgs = FALSE
 )
 }
 \arguments{
 \item{apps}{applications within \verb{dir} to run}
 
 \item{...}{ignored}
-
-\item{install}{If \code{TRUE}, installs shinyverse in the default libpath before running tests. App dependencies will always be installed if missing.}
 
 \item{assert}{logical value which will determine if \code{\link[=assert_test_output]{assert_test_output()}} will be called on the result}
 
@@ -28,6 +26,8 @@ test_in_local(
 \item{retries}{number of attempts to retry before declaring the test a failure}
 
 \item{repo_dir}{Location of local shinycoreci repo}
+
+\item{local_pkgs}{If \code{TRUE}, local packages will be used instead of the isolated shinyverse installation.}
 }
 \description{
 Test apps using \code{shiny::runTests()} using local libpath

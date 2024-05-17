@@ -1,6 +1,6 @@
 Package: shinycoreci
 Title: CI Testing for shiny
-Version: 0.0.0.9008
+Version: 0.0.0.9009
 Authors@R: c(
     person("Barret", "Schloerke", role = c("aut", "cre"), email = "barret@rstudio.com"),
     person("Winston", "Chang", role = "aut", email = "winston@rstudio.com"),
@@ -18,11 +18,12 @@ Imports:
     sessioninfo,
     rprojroot,
     rstudioapi (>= 0.11),
+    withr,
+    rappdirs,
     cli
 Suggests:
     renv,
     httpuv,
-    rappdirs,
     rmarkdown (>= 2.9),
     rsconnect (>= 1.0.1),
     testthat,
@@ -33,7 +34,6 @@ Suggests:
     dplyr,
     tidyr,
     later,
-    withr,
     shinytest
 Config/Needs/website: tidyverse/tidytemplate
 URL: https://github.com/rstudio/shinycoreci

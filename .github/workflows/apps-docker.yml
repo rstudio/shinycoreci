@@ -65,7 +65,7 @@ jobs:
           echo "sha: $SHORT_SHA"
           echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: steps.can-build.conclusion != 'skipped'
 
       - name: Log in to the Container registry

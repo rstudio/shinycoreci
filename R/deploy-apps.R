@@ -7,23 +7,22 @@
 #' @param apps A character vector of fully defined shiny application folders
 #' @param account,server args supplied to `[rsconnect::deployApp]`
 #' @param ... ignored
-#' @param install If TRUE, will install all of shinyverse into the default libpath
 #' @param extra_packages A character vector of extra packages to install
 #' @param cores number of cores to use when deploying
 #' @param retry If \code{TRUE}, try failure apps again. (Only happens once.)
 #' @param retrying_ For internal use only
+#' @inheritParams resolve_libpath
 #' @export
 deploy_apps <- function(
-  apps = apps_deploy,
-  account = "testing-apps",
-  server = "shinyapps.io",
-  ...,
-  install = TRUE,
-  extra_packages = NULL,
-  cores = 1,
-  retry = 2,
-  retrying_ = FALSE
-) {
+    apps = apps_deploy,
+    account = "testing-apps",
+    server = "shinyapps.io",
+    ...,
+    local_pkgs = FALSE,
+    extra_packages = NULL,
+    cores = 1,
+    retry = 2,
+    retrying_ = FALSE) {
   is_missing <- list(
     account = missing(account),
     server = missing(server),
@@ -33,32 +32,11 @@ deploy_apps <- function(
 
   apps <- resolve_app_name(apps)
 
-  on_ci <- isTRUE(as.logical(Sys.getenv("CI")))
-
-  shinyverse_lib_path <-
-    if (on_ci) {
-      if (retrying_) {
-        # Use standard libpath location
-        install_shinyverse_local(install = FALSE, install_apps_deps = FALSE)
-      } else {
-        # Install on first pass
-        # Install everything. No need to validated if pkgs are loaded as deploying in background process
-        install_shinyverse_local(install = install, validate_loaded = FALSE, extra_packages = extra_packages, install_apps_deps = FALSE)
-      }
-    } else {
-      if (retrying_) {
-        # Get lib path only as still same pkgs as before
-        shinyverse_libpath()
-      } else {
-        # Install on first pass
-        # Install everything. No need to validated if pkgs are loaded as deploying in background process
-        install_shinyverse(install = install, validate_loaded = FALSE, extra_packages = extra_packages, install_apps_deps = FALSE)
-      }
-    }
+  libpath <- resolve_libpath(local_pkgs = local_pkgs)
 
   if (!retrying_) {
     # Always make sure the app dependencies are available
-    install_missing_app_deps(apps)
+    install_missing_app_deps(apps, libpath = libpath)
   }
 
 
@@ -73,7 +51,7 @@ deploy_apps <- function(
   deploy_res <- callr::r(
     show = TRUE,
     spinner = TRUE, # helps with CI from timing out
-    libpath = shinyverse_lib_path, # use shinyverse library path
+    libpath = libpath, # use shinyverse library path
     args = list(
       apps_dirs = app_dirs,
       cores = cores,
@@ -111,7 +89,7 @@ deploy_apps <- function(
             appFiles = app_files
           )
         })
-        if (inherits(deployment_worked, 'try-error')) {
+        if (inherits(deployment_worked, "try-error")) {
           return(1)
         } else {
           return(as.numeric(!isTRUE(deployment_worked)))
@@ -154,7 +132,7 @@ deploy_apps <- function(
     fn_arg("retry", retry - 1)
   )
   fn <- paste0(
-    "deploy_apps(", paste0(args, collapse = ", "),")"
+    "deploy_apps(", paste0(args, collapse = ", "), ")"
   )
 
   if (is.numeric(retry) && length(retry) > 0 && retry > 0) {
@@ -164,9 +142,9 @@ deploy_apps <- function(
         apps = error_apps,
         account = account,
         server = server,
-        cores = 1,            # simplify it
+        cores = 1, # simplify it
         retrying_ = TRUE, # no need to update again, still in the original function exec
-        retry = retry - 1     # do not allow for infinite retries
+        retry = retry - 1 # do not allow for infinite retries
       )
     )
   }
@@ -177,7 +155,6 @@ deploy_apps <- function(
     fn,
     "\n"
   )
-
 }
 
 
@@ -185,7 +162,7 @@ validate_rsconnect_account <- function(account, server) {
   accts <- rsconnect::accounts()
   accts_found <- sum(
     (account %in% accts$name) &
-    (server %in% accts$server)
+      (server %in% accts$server)
   )
   if (accts_found == 0) {
     print(accts)

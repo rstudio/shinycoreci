@@ -30,45 +30,47 @@ shinycoreci [uses the following GitHub Runnner Images](https://github.com/rstudi
 Install the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))
-pak::pkg_install("rstudio/shinycoreci")
+pak::pak("rstudio/shinycoreci")
 ```
 
 These GitHub packages will be installed to make sure the latest package development is working as expected:
 
-- [r-lib/cachem](http://github.com/r-lib/cachem)
-- [r-lib/fastmap](http://github.com/r-lib/fastmap)
-- [r-lib/later](http://github.com/r-lib/later)
-- [rstudio/bslib](http://github.com/rstudio/bslib)
-- [rstudio/bsicons](http://github.com/rstudio/bsicons)
-- [ramnathv/htmlwidgets](http://github.com/ramnathv/htmlwidgets)
-- [rstudio/crosstalk](http://github.com/rstudio/crosstalk)
-- [rstudio/gt](http://github.com/rstudio/gt)
-- [rstudio/DT](http://github.com/rstudio/DT)
-- [rstudio/dygraphs](http://github.com/rstudio/dygraphs)
-- [rstudio/flexdashboard](http://github.com/rstudio/flexdashboard)
-- [rstudio/fontawesome](http://github.com/rstudio/fontawesome)
-- [rstudio/htmltools](http://github.com/rstudio/htmltools)
-- [rstudio/httpuv](http://github.com/rstudio/httpuv)
-- [rstudio/leaflet](http://github.com/rstudio/leaflet)
-- [rstudio/pool](http://github.com/rstudio/pool)
-- [rstudio/promises](http://github.com/rstudio/promises)
-- [rstudio/reactlog](http://github.com/rstudio/reactlog)
-- [rstudio/sass](http://github.com/rstudio/sass)
-- [rstudio/shiny](http://github.com/rstudio/shiny)
-- [rstudio/shinymeta](http://github.com/rstudio/shinymeta)
-- [rstudio/shinytest](http://github.com/rstudio/shinytest)
-- [rstudio/chromote](http://github.com/rstudio/chromote)
-- [rstudio/shinytest2](http://github.com/rstudio/shinytest2)
-- [rstudio/shinythemes](http://github.com/rstudio/shinythemes)
-- [rstudio/shinyvalidate](http://github.com/rstudio/shinyvalidate)
-- [rstudio/thematic](http://github.com/rstudio/thematic)
-- [rstudio/webdriver](http://github.com/rstudio/webdriver)
-- [rstudio/websocket](http://github.com/rstudio/websocket)
-- [ropensci/plotly](http://github.com/ropensci/plotly)
-- [schloerke/shinyjster](http://github.com/schloerke/shinyjster)
+- [rstudio/bsicons](https://github.com/rstudio/bsicons)
+- [rstudio/bslib](https://github.com/rstudio/bslib)
+- [r-lib/cachem](https://github.com/r-lib/cachem)
+- [rstudio/chromote](https://github.com/rstudio/chromote)
+- [rstudio/crosstalk](https://github.com/rstudio/crosstalk)
+- [rstudio/DT](https://github.com/rstudio/DT)
+- [rstudio/dygraphs](https://github.com/rstudio/dygraphs)
+- [r-lib/fastmap](https://github.com/r-lib/fastmap)
+- [rstudio/flexdashboard](https://github.com/rstudio/flexdashboard)
+- [rstudio/fontawesome](https://github.com/rstudio/fontawesome)
+- [rstudio/gt](https://github.com/rstudio/gt)
+- [rstudio/htmltools](https://github.com/rstudio/htmltools)
+- [ramnathv/htmlwidgets](https://github.com/ramnathv/htmlwidgets)
+- [rstudio/httpuv](https://github.com/rstudio/httpuv)
+- [r-lib/later](https://github.com/r-lib/later)
+- [rstudio/leaflet](https://github.com/rstudio/leaflet)
+- [ropensci/plotly](https://github.com/ropensci/plotly)
+- [rstudio/pool](https://github.com/rstudio/pool)
+- [rstudio/promises](https://github.com/rstudio/promises)
+- [rstudio/reactlog](https://github.com/rstudio/reactlog)
+- [rstudio/sass](https://github.com/rstudio/sass)
+- [rstudio/shiny](https://github.com/rstudio/shiny)
+- [rstudio/shinycoreci](https://github.com/rstudio/shinycoreci)
+- [schloerke/shinyjster](https://github.com/schloerke/shinyjster)
+- [rstudio/shinymeta](https://github.com/rstudio/shinymeta)
+- [rstudio/shinytest](https://github.com/rstudio/shinytest)
+- [rstudio/shinytest2](https://github.com/rstudio/shinytest2)
+- [rstudio/shinythemes](https://github.com/rstudio/shinythemes)
+- [rstudio/shinyvalidate](https://github.com/rstudio/shinyvalidate)
+- [rstudio/thematic](https://github.com/rstudio/thematic)
+- [rstudio/webdriver](https://github.com/rstudio/webdriver)
+- [rstudio/websocket](https://github.com/rstudio/websocket)
 
-Tools for manual and automated testing of shiny apps.
+#### R-Universe
+
+`{shinycoreci}` testing leverages rOpenSci [`r-universe`](https://r-universe.dev/search/), specifically the [`posit-dev-shinycoreci`](https://posit-dev-shinycoreci.r-universe.dev/builds) universe. This universe is used to install the latest development versions of the Shiny related packages (updated hourly) used in the testing apps without the need for a GitHub token. This last detail is important, as it allows GitHub Actions to install packages freely without the worry of being rate limited. This gives us the ability to attempt to install each app’s dependencies independently, leading to higher test coverage as a single dependencies does not block the entire test execution.
 
 ## Running manual tests
 
