@@ -48,21 +48,6 @@ runs:
         sudo apt-get update
         sudo apt-get install -y libglpk-dev
 
-    # - name: Get app packages dependencies
-    #   id: app-deps
-    #   if: runner.os == 'macOS'
-    #   shell: Rscript {0}
-    #   run: |
-    #     source("R/data-apps-deps.R")
-    #     cat("pkgs=", apps_deps, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
-    # # Must be done as packages are installed freely during testing
-    # - name: Install macOS brew dependencies for all apps
-    #   uses: rstudio/shiny-workflows/setup-macOS-dependencies@v1
-    #   if: ${{ runner.os == 'macOS' }}
-    #   with:
-    #     extra-packages: |
-    #       ${{ steps.app-deps.outputs.pkgs }}
-
     # We need to have the first repo to be `shinyverse` repo, then RSPM, then cran-url
     # Recreate logic from https://github.com/r-lib/actions/blob/413b6a4ba22b7bcaa726df1c8f88dcd574fbc8c4/setup-r/src/installer.ts#L598-L670
     # * Do not set RSPM input (use-public-rspm: false) to make `CRAN` repo the first repo
