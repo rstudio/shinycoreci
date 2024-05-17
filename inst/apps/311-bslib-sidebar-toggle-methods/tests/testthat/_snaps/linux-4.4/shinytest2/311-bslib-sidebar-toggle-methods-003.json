@@ -1,0 +1,22 @@
+{
+  "input": {
+    "adjective": "charming",
+    "animal": "elephant",
+    "show_all": 1,
+    "sidebar_inner": true,
+    "sidebar_outer": true,
+    "toggle_inner": 0,
+    "toggle_outer": 0
+  },
+  "output": {
+    "ui_content": {
+      "html": "<p>Hello, charming elephant!<\/p>",
+      "deps": [
+
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
