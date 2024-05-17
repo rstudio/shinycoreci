@@ -9,7 +9,7 @@ deploy_apps(
   account = "testing-apps",
   server = "shinyapps.io",
   ...,
-  local_pkgs = TRUE,
+  local_pkgs = FALSE,
   extra_packages = NULL,
   cores = 1,
   retry = 2,
