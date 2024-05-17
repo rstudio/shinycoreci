@@ -34,11 +34,6 @@ on:
         description: packagemanager url to be used for CRAN installations
         default: "https://packagemanager.posit.co/cran/latest"
         required: false
-      shinyverse-cran-url:
-        type: string
-        description: CRAN url to be used for shinyverse installations via r-universe
-        default: "https://posit-dev-shinycoreci.r-universe.dev"
-        required: false
       # rtools-35:
       #   type: boolean
       #   default: true
@@ -141,7 +136,6 @@ jobs:
           pandoc-version: ${{ inputs.pandoc-version }}
           extra-packages: ${{ inputs.extra-packages }}
           packagemanager-cran-url: ${{ inputs.packagemanager-cran-url }}
-          shinyverse-cran-url: ${{ inputs.shinyverse-cran-url }}
 
       # Install packages as necessary!
       - name: Run tests

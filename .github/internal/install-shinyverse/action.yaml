@@ -26,10 +26,6 @@ inputs:
     description: packagemanager url to be used for CRAN installations
     default: "https://packagemanager.posit.co/cran/latest"
     required: false
-  shinyverse-cran-url:
-    description: CRAN url to be used for shinyverse installations via r-universe
-    default: "https://posit-dev-shinycoreci.r-universe.dev"
-    required: false
   cran-url:
     description: CRAN url to be used for CRAN installations
     default: "https://cran.rstudio.com"

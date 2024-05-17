@@ -106,15 +106,6 @@ server <- function(input, output, session) {
   })
 
   output$all_pkg_info <- renderPrint({
-    # pkg_info <- sessioninfo::package_info("installed", include_base = FALSE)
-
-    # pkg_info %>%
-    #   dplyr::filter(package %in% pkgs, ) %>%
-    #   dplyr::filter
-    #   dplyr::select(package, version, loaded, attached, libPath)
-
-    # sub_pkg_info <- pkg_info[pkg_info$package %in% pkgs, ]
-
     dt %>%
       print(n = Inf, width = 1000)
   })

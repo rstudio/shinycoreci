@@ -70,7 +70,7 @@ These GitHub packages will be installed to make sure the latest package developm
 
 #### R-Universe
 
-`{shinycoreci}` testing leverages rOpenScie [`r-universe`](https://r-universe.dev/search/), specifically the [`posit-dev-shinycoreci`](https://posit-dev-shinycoreci.r-universe.dev/builds) universe. This universe is used to install the latest development versions of the Shiny related packages (updated hourly) used in the testing apps without the need for a GitHub token. This last detail is important, as it allows GitHub Actions to install packages freely without the worry of being rate limited. This gives us the ability to attempt to install each app’s dependencies independently, leading to higher test coverage as a single dependencies does not block the entire test execution.
+`{shinycoreci}` testing leverages rOpenSci [`r-universe`](https://r-universe.dev/search/), specifically the [`posit-dev-shinycoreci`](https://posit-dev-shinycoreci.r-universe.dev/builds) universe. This universe is used to install the latest development versions of the Shiny related packages (updated hourly) used in the testing apps without the need for a GitHub token. This last detail is important, as it allows GitHub Actions to install packages freely without the worry of being rate limited. This gives us the ability to attempt to install each app’s dependencies independently, leading to higher test coverage as a single dependencies does not block the entire test execution.
 
 ## Running manual tests
 
