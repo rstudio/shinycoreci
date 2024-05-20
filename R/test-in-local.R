@@ -133,7 +133,7 @@ test_in_local <- function(
   }
 
   # (break statements at beginning and end of while loop)
-  show_output <- FALSE
+  show_output <- TRUE # temp enable output for debugging
   while (TRUE) {
     # get all positions that should be tested
     to_test_positions <- which(test_dt$status %in% c(ci_status$fail, ci_status$default))
