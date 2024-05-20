@@ -4,6 +4,7 @@ on:
       - results**
   # Test matrix will call this workflow
   workflow_call:
+  workflow_dispatch:
   repository_dispatch:
     types:
       - all
