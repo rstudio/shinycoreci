@@ -135,6 +135,7 @@ jobs:
 
   build-results:
     uses: ./.github/workflows/build-results.yml
+    if: ${{ (! cancelled()) && (github.event_name != 'pull_request') }}
     needs:
       - macos-release
       - macos-oldrel-1
