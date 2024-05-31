@@ -1,0 +1,37 @@
+{
+  "input": {
+    "dynamic": [
+      "option1",
+      "option2"
+    ],
+    "input_type": "selectInput (multi)"
+  },
+  "output": {
+    "dynamic_value": " chr [1:2] \"option1\" \"option2\"",
+    "input_type_text": "selectInput (multi)",
+    "ui": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"dynamic-label\" for=\"dynamic\">Dynamic<\/label>\n  <div>\n    <select id=\"dynamic\" class=\"shiny-input-select\" multiple=\"multiple\"><option value=\"option1\" selected>Option 1<\/option>\n<option value=\"option2\" selected>Option 2<\/option><\/select>\n    <script type=\"application/json\" data-for=\"dynamic\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.15.2",
+          "src": {
+            "href": "selectize-0.15.2"
+          },
+          "meta": null,
+          "script": [
+            "js/selectize.min.js",
+            "accessibility/js/selectize-plugin-a11y.min.js"
+          ],
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
