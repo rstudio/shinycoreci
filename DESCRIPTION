@@ -34,7 +34,8 @@ Suggests:
     dplyr,
     tidyr,
     later,
-    shinytest
+    shinytest,
+    waldo
 Config/Needs/website: tidyverse/tidytemplate
 URL: https://github.com/rstudio/shinycoreci
 BugReports: https://github.com/rstudio/shinycoreci/issues
