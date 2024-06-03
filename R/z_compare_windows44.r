@@ -38,7 +38,8 @@ max_window44_diff <- function() {
         f = function(win44_file, win43_file) {
           tryCatch(
             {
-              shinytest2::screenshot_max_difference(win44_file, win43_file)
+              stop("Uncomment this code!")
+              # shinytest2::screenshot_max_difference(win44_file, win43_file)
             },
             error = function(e) {
               message("\nError comparing ", win44_file, " and ", win43_file, ": ", e$message)
