@@ -98,7 +98,7 @@ if (nrow(params$df) == 0) {
 }
 ```
 
-```{r, eval = render_rest, include = render_rest}
+```{r, eval = render_rest, echo = FALSE}
 shiny::markdown(
 '
 * Current [`posit-dev/py-shiny`](https://github.com/posit-dev/py-shiny) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shiny/pytest.yaml?branch=main)](https://github.com/posit-dev/py-shiny)
