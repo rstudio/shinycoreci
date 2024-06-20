@@ -98,6 +98,19 @@ if (nrow(params$df) == 0) {
 }
 ```
 
+```{r, eval = render_rest, include = render_rest}
+shiny::markdown(
+'
+* Current [`posit-dev/py-shiny`](https://github.com/posit-dev/py-shiny) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shiny/pytest.yaml?branch=main)](https://github.com/posit-dev/py-shiny)
+* Current [`posit-dev/py-shinyswatch`](https://github.com/posit-dev/py-shinyswatch) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shinyswatch/pytest.yaml?branch=main)](https://github.com/posit-dev/py-shinyswatch)
+* Current [`posit-dev/py-htmltools`](https://github.com/posit-dev/py-htmltools) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-htmltools/pytest.yaml?branch=main)](https://github.com/posit-dev/py-htmltools)
+* Current [`posit-dev/py-shinywidgets`](https://github.com/posit-dev/py-shinywidgets) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shinywidgets/pytest.yaml?branch=main)](https://github.com/posit-dev/py-shinywidgets)
+* Current [`posit-dev/py-shinylive`](https://github.com/posit-dev/py-shinylive) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shinylive/build.yml?branch=main)](https://github.com/posit-dev/py-shinylive)
+* Current [`posit-dev/r-shinylive`](https://github.com/posit-dev/r-shinylive) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/r-shinylive/R-CMD-check.yaml?branch=main)](https://github.com/posit-dev/r-shinylive)
+* Current [`posit-dev/py-shiny-site`](https://github.com/posit-dev/py-shiny-site) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shiny-site/deploy-docs.yml?branch=main)](https://github.com/posit-dev/py-shiny-site)
+'
+)
+```
 
 ```{r, eval = render_rest, include = FALSE}
 library(dplyr)
