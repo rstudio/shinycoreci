@@ -162,7 +162,7 @@ This repo contains several [GitHub Actions](https://github.com/features/actions)
 
 - [**Test apps:**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-test-matrix.yml) Run all automated tests (via `shiny::runTests()`). If on `main` branch, test results will be saved to `_test_results` branch.
 - [**Docker:**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-docker.yml) Create all SSO and SSP docker images. Docker images are hosted on [`rstudio/shinycoreci` via GitHub Packages](https://github.com/rstudio/shinycoreci/pkgs/container/shinycoreci).
-- [**Deploy**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml): Deploy all testing apps to [shinyapps.io](shinyapps.io) and [beta.rstudioconnect.com](https://beta.rstudioconnect.com)
+- [**Deploy**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deploy.yml): Deploy all testing apps to [shinyapps.io](http://shinyapps.io) and [beta.rstudioconnect.com](https://beta.rstudioconnect.com)
 - [**Build results website**](https://github.com/rstudio/shinycoreci/actions/workflows/build-results.yml): Builds results for **Test apps** workflow. This workflow is called from within **Test apps**. After all tests have completed, this workflow will process all results in `_test_results` branch into static files, storing the results in `gh-pages` branch. Final website location of results: <https://rstudio.github.io/shinycoreci/results/>
 - [**Package checks**](https://github.com/rstudio/shinycoreci/actions/workflows/R-CMD-check.yaml): There are three main tasks that this workflow achieves:
   1.  Creates the `website` via `{pkgdown}`
