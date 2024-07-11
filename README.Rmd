@@ -87,7 +87,7 @@ Commands used to test in different situations:
 * R Terminal / R GUI - `shinycoreci::test_in_browser()`
 * (Any) Web Browser - `shinycoreci::test_in_browser()`
 * [shinyapps.io](http://shinyapps.io) - `shinycoreci::test_in_shinyappsio()`
-* [RStudio Connect](http://beta.rstudioconnect.com) - `shinycoreci::test_in_connect()`
+* [Posit Connect](http://rsc.radixu.com) - `shinycoreci::test_in_connect()`
 * SSO - `shinycoreci::test_in_sso(release = "focal")`
   > Requires `Docker` application to be running
 * SSP - `shinycoreci::test_in_ssp(release = "centos7")`
