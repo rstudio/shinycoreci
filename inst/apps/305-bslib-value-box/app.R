@@ -3,4 +3,4 @@ library(bslib)
 library(bsicons)
 library(plotly)
 
-shiny::shinyAppDir(system.file("examples/value_box", package = "bslib"))
+shiny::shinyAppDir(system.file("examples-shiny/value_box", package = "bslib"))
