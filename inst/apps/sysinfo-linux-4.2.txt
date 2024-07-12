@@ -1,6 +1,6 @@
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20240609.1.0
+ gha_image 20240708.1.0
  version   R version 4.2.3 (2023-03-15)
  os        Ubuntu 20.04.6 LTS
  system    x86_64, linux-gnu
@@ -9,7 +9,7 @@
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2024-06-14
+ date      2024-07-12
  pandoc    3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package           * version     date (UTC) lib source
@@ -27,24 +27,24 @@
    boot                1.3-28.1    2022-11-22 [4] CRAN (R 4.2.3)
    brio                1.1.5       2024-04-24 [1] RSPM
    broom               1.0.6       2024-05-17 [1] RSPM
-   bsicons             0.1.2.9000  2024-06-14 [1] https://p~
-   bslib               0.7.0.9000  2024-06-14 [1] https://p~
+   bsicons             0.1.2.9000  2024-07-12 [1] https://p~
+   bslib               0.7.0.9000  2024-07-12 [1] https://p~
    cachem              1.1.0       2024-05-16 [1] RSPM
    Cairo               1.6-2       2023-11-28 [1] RSPM
  P callr               3.7.6       2024-03-25 [2] RSPM
    checkmate           2.3.1       2023-12-04 [1] RSPM
-   chromote            0.2.0.9000  2024-06-14 [1] https://p~
+   chromote            0.2.0.9000  2024-07-12 [1] https://p~
    class               7.3-21      2023-01-23 [4] CRAN (R 4.2.3)
    classInt            0.4-10      2023-09-05 [1] RSPM
- P cli                 3.6.2       2023-12-11 [2] RSPM
+ P cli                 3.6.3       2024-06-21 [2] RSPM
    clipr               0.8.0       2022-02-22 [1] RSPM
    cluster             2.1.4       2022-08-22 [4] CRAN (R 4.2.3)
    codetools           0.2-19      2023-02-01 [4] CRAN (R 4.2.3)
    colorspace          2.1-0       2023-01-23 [1] RSPM
    commonmark          1.9.1       2024-01-30 [1] RSPM
    cpp11               0.4.7       2023-12-02 [1] RSPM
- P crayon              1.5.2       2022-09-29 [2] RSPM
-   crosstalk           1.2.1.9000  2024-06-14 [1] https://p~
+ P crayon              1.5.3       2024-06-20 [2] RSPM
+   crosstalk           1.2.1.9000  2024-07-12 [1] https://p~
    curl                5.2.1       2024-03-01 [1] RSPM
    data.table          1.15.4      2024-03-30 [1] RSPM
    DBI                 1.2.3       2024-06-02 [1] RSPM
@@ -53,9 +53,9 @@
    desc                1.4.3       2023-12-10 [1] RSPM
    DiagrammeR          1.0.11      2024-02-02 [1] RSPM
    diffobj             0.3.5       2021-10-05 [1] RSPM
-   digest              0.6.35      2024-03-11 [1] RSPM
+   digest              0.6.36      2024-06-23 [1] RSPM
    dplyr               1.1.4       2023-11-17 [1] RSPM
-   DT                  0.33.1      2024-06-14 [1] https://p~
+   DT                  0.33.1      2024-07-12 [1] https://p~
    e1071               1.7-14      2023-12-06 [1] RSPM
    ellipsis            0.3.2       2021-04-29 [1] RSPM
    english             1.2-6       2021-08-21 [2] RSPM
@@ -63,8 +63,8 @@
  P fansi               1.0.6       2023-12-08 [2] RSPM
    farver              2.1.2       2024-05-13 [1] RSPM
    fastmap             1.2.0       2024-05-15 [1] RSPM
-   flexdashboard       0.6.2.9000  2024-06-14 [1] https://p~
-   fontawesome         0.5.2.9000  2024-06-14 [1] https://p~
+   flexdashboard       0.6.2.9000  2024-07-12 [1] https://p~
+   fontawesome         0.5.2.9000  2024-07-12 [1] https://p~
    foreign             0.8-84      2022-12-06 [4] CRAN (R 4.2.3)
    fs                  1.6.4       2024-04-25 [1] RSPM
    future              1.33.2      2024-03-26 [1] RSPM
@@ -73,14 +73,14 @@
    ggvis               0.4.9       2024-02-05 [1] RSPM
    globals             0.16.3      2024-03-08 [1] RSPM
  P glue                1.7.0       2024-01-09 [2] RSPM
-   gt                  0.10.1.9000 2024-06-14 [1] https://p~
+   gt                  0.11.0.9000 2024-07-12 [1] https://p~
    gtable              0.3.5       2024-04-22 [1] RSPM
    highcharter         0.9.4       2022-01-03 [1] RSPM
    highr               0.11        2024-05-26 [1] RSPM
  P hms                 1.1.3       2023-03-21 [2] RSPM
-   htmltools           0.5.8.9000  2024-06-14 [1] https://p~
-   htmlwidgets         1.6.4.9000  2024-06-14 [1] https://p~
-   httpuv              1.6.15.9000 2024-06-14 [1] https://p~
+   htmltools           0.5.8.9000  2024-07-12 [1] https://p~
+   htmlwidgets         1.6.4.9000  2024-07-12 [1] https://p~
+   httpuv              1.6.15.9000 2024-07-12 [1] https://p~
    httr                1.4.7       2023-08-15 [1] RSPM
    igraph              2.0.3       2024-03-13 [1] RSPM
    isoband             0.2.7       2022-12-20 [1] RSPM
@@ -88,12 +88,12 @@
  P jsonlite            1.8.8       2023-12-04 [2] RSPM
    juicyjuice          0.1.0       2022-11-10 [1] RSPM
    KernSmooth          2.23-20     2021-05-03 [4] CRAN (R 4.2.3)
-   knitr               1.47        2024-05-29 [1] RSPM
+   knitr               1.48        2024-07-07 [1] RSPM
    labeling            0.4.3       2023-08-29 [1] RSPM
-   later               1.3.2.9000  2024-06-14 [1] https://p~
+   later               1.3.2.9000  2024-07-12 [1] https://p~
    lattice             0.20-45     2021-09-22 [4] CRAN (R 4.2.3)
    lazyeval            0.2.2       2019-03-15 [1] RSPM
-   leaflet             2.2.2.9000  2024-06-14 [1] https://p~
+   leaflet             2.2.2.9000  2024-07-12 [1] https://p~
    leaflet.providers   2.0.0       2023-10-17 [1] RSPM
  P lifecycle           1.0.4       2023-11-07 [2] RSPM
    listenv             0.9.1       2024-01-29 [1] RSPM
@@ -122,10 +122,10 @@
    pingr               2.0.3       2023-12-10 [1] RSPM
    pkgbuild            1.4.4       2024-03-17 [1] RSPM
  P pkgconfig           2.0.3       2019-09-22 [2] RSPM
-   pkgload             1.3.4       2024-01-16 [1] RSPM
-   PKI                 0.1-12      2022-11-28 [1] RSPM
+   pkgload             1.4.0       2024-06-28 [1] RSPM
+   PKI                 0.1-14      2024-06-15 [1] RSPM
    plogr               0.2.0       2018-03-25 [1] RSPM
-   plotly              4.10.4.9000 2024-06-14 [1] https://p~
+   plotly              4.10.4.9000 2024-07-12 [1] https://p~
    plyr                1.8.9       2023-10-02 [1] RSPM
    png                 0.1-8       2022-11-29 [1] RSPM
    praise              1.0.0       2015-08-11 [1] RSPM
@@ -135,7 +135,7 @@
    promises            1.3.0       2024-04-05 [1] RSPM
    proxy               0.4-27      2022-06-09 [1] RSPM
    pryr                0.1.6       2023-01-17 [1] RSPM
- P ps                  1.7.6       2024-01-18 [2] RSPM
+ P ps                  1.7.7       2024-07-02 [2] RSPM
    purrr               1.0.2       2023-08-10 [1] RSPM
    quantmod            0.4.26      2024-02-14 [1] RSPM
    R.cache             0.16.0      2022-07-21 [1] RSPM
@@ -150,7 +150,7 @@
    Rcpp                1.0.12      2024-01-09 [1] RSPM
    reactable           0.4.4       2023-03-12 [1] RSPM
    reactlog            1.1.1       2022-09-26 [1] RSPM
-   reactR              0.5.0       2023-10-11 [1] RSPM
+   reactR              0.6.0       2024-06-26 [1] RSPM
    readr               2.1.5       2024-01-10 [1] RSPM
    rematch             2.0.0       2023-08-30 [2] RSPM
    rematch2            2.1.2       2020-05-01 [1] RSPM
@@ -167,21 +167,21 @@
    rstudioapi          0.16.0      2024-03-24 [1] RSPM
    rversions           2.1.2       2022-08-31 [1] RSPM
    s2                  1.1.6       2023-12-19 [1] RSPM
-   sass                0.4.9.9000  2024-06-14 [1] https://p~
+   sass                0.4.9.9000  2024-07-12 [1] https://p~
    scales              1.3.0       2023-11-28 [1] RSPM
    sessioninfo         1.2.2       2021-12-06 [1] RSPM
    sf                  1.0-16      2024-03-24 [1] RSPM
-   shiny               1.8.1.9001  2024-06-14 [1] https://p~
+   shiny               1.8.1.9001  2024-07-12 [1] https://p~
    shinyAce            0.4.2       2022-05-06 [1] RSPM
- P shinycoreci         0.0.0.9009  2024-06-14 [2] Custom
+ P shinycoreci         0.0.0.9009  2024-07-12 [2] Custom
    shinydashboard      0.7.2       2021-09-30 [1] RSPM
    shinyjs             2.1.0       2021-12-23 [1] RSPM
-   shinyjster          0.0.0.9010  2024-06-14 [1] https://p~
-   shinymeta           0.2.1       2024-06-14 [1] https://p~
+   shinyjster          0.0.0.9010  2024-07-12 [1] https://p~
+   shinymeta           0.2.1       2024-07-12 [1] https://p~
    shinytest           1.6.1       2024-05-30 [2] RSPM
-   shinytest2          0.3.2.9000  2024-06-14 [1] https://p~
+   shinytest2          0.3.2.9000  2024-07-12 [1] https://p~
    shinythemes         1.2.0       2021-01-25 [1] RSPM
-   shinyvalidate       0.1.3.9000  2024-06-14 [1] https://p~
+   shinyvalidate       0.1.3.9000  2024-07-12 [1] https://p~
    showimage           1.0.0       2018-01-24 [2] RSPM
    showtext            0.9-7       2024-03-02 [1] RSPM
    showtextdb          3.0         2020-06-04 [1] RSPM
@@ -199,7 +199,7 @@
    terra               1.7-78      2024-05-22 [1] RSPM
    testthat            3.2.1.1     2024-04-14 [1] RSPM
    textshaping         0.4.0       2024-05-24 [1] RSPM
-   thematic            0.1.5.9000  2024-06-14 [1] https://p~
+   thematic            0.1.5.9000  2024-07-12 [1] https://p~
  P tibble              3.2.1       2023-03-20 [2] RSPM
    tidyr               1.3.1       2024-01-24 [1] RSPM
    tidyselect          1.2.1       2024-03-11 [1] RSPM
@@ -217,16 +217,16 @@
    vroom               1.6.5       2023-12-05 [1] RSPM
    waldo               0.5.2       2023-11-02 [1] RSPM
    webdriver           1.0.6       2021-01-12 [2] RSPM
-   websocket           1.4.1.9000  2024-06-14 [1] https://p~
+   websocket           1.4.1.9000  2024-07-12 [1] https://p~
  P withr               3.0.0       2024-01-16 [2] RSPM
-   wk                  0.9.1       2023-11-29 [1] RSPM
+   wk                  0.9.2       2024-07-09 [1] RSPM
    wordcloud           2.6         2018-08-24 [1] RSPM
-   xfun                0.44        2024-05-15 [1] RSPM
-   XML                 3.99-0.16.1 2024-01-22 [1] RSPM
+   xfun                0.45        2024-06-16 [1] RSPM
+   XML                 3.99-0.17   2024-06-25 [1] RSPM
    xml2                1.3.6       2023-12-04 [1] RSPM
    xtable              1.8-4       2019-04-21 [1] RSPM
    xts                 0.14.0      2024-06-05 [1] RSPM
-   yaml                2.3.8       2023-12-11 [1] RSPM
+   yaml                2.3.9       2024-07-05 [1] RSPM
    zoo                 1.8-12      2023-04-13 [1] RSPM
 
  [1] /home/runner/.local/share/R/shinycoreci/R-4_2_3
