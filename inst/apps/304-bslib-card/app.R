@@ -4,4 +4,4 @@ library(plotly)
 library(leaflet)
 library(gt)
 
-shiny::shinyAppDir(system.file("examples/card", package = "bslib"))
+shiny::shinyAppDir(system.file("examples-shiny/card", package = "bslib"))
