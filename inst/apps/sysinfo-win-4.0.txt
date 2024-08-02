@@ -1,6 +1,6 @@
 -- Session info ----------------------------------------------------------------
  setting   value
- gha_image 20240721.1.0
+ gha_image 20240729.2.0
  version   R version 4.0.5 (2021-03-31)
  os        Windows Server x64 (build 20348)
  system    x86_64, mingw32
@@ -9,7 +9,7 @@
  collate   English_United States.1252
  ctype     English_United States.1252
  tz        UTC
- date      2024-07-25
+ date      2024-08-02
  pandoc    3.1.11 @ C:\\HOSTED~1\\windows\\pandoc\\31F387~1.11\\x64\\PANDOC~1.11\\pandoc.exe
 -- Packages --------------------------------------------------------------------
  ! package      * version    date (UTC) lib source
@@ -19,13 +19,14 @@
    base64enc      0.1-3      2015-07-28 [1] RSPM
    boot           1.3-27     2021-02-12 [4] CRAN (R 4.0.5)
    brio           1.1.5      2024-04-24 [1] RSPM
-   bslib          0.7.0      2024-03-29 [2] RSPM
+   bslib          0.8.0      2024-07-29 [2] RSPM
    cachem         1.1.0      2024-05-16 [1] RSPM
    Cairo          1.6-2      2023-11-28 [1] RSPM
  P callr          3.7.6      2024-03-25 [2] RSPM
-   checkmate      2.3.1      2023-12-04 [1] RSPM
+   checkmate      2.3.2      2024-07-29 [1] RSPM
    class          7.3-18     2021-01-24 [4] CRAN (R 4.0.5)
  P cli            3.6.3      2024-06-21 [2] RSPM
+   clipr          0.8.0      2022-02-22 [1] RSPM
    cluster        2.1.1      2021-02-14 [4] CRAN (R 4.0.5)
    codetools      0.2-18     2020-11-04 [4] CRAN (R 4.0.5)
    commonmark     1.9.1      2024-01-30 [1] RSPM
@@ -45,6 +46,7 @@
    fontawesome    0.5.2      2023-08-19 [2] RSPM
    foreign        0.8-81     2020-12-22 [4] CRAN (R 4.0.5)
    fs             1.6.4      2024-04-25 [1] RSPM
+   future         1.34.0     2024-07-29 [1] RSPM
    generics       0.1.3      2022-07-05 [2] RSPM
    globals        0.16.3     2024-03-08 [1] RSPM
  P glue           1.7.0      2024-01-09 [2] RSPM
@@ -62,7 +64,6 @@
    lattice        0.20-41    2020-04-02 [4] CRAN (R 4.0.5)
  P lifecycle      1.0.4      2023-11-07 [2] RSPM
  P magrittr       2.0.3      2022-03-30 [2] RSPM
-   markdown       1.13       2024-06-04 [1] RSPM
    MASS           7.3-53.1   2021-02-12 [4] CRAN (R 4.0.5)
    Matrix         1.3-2      2021-01-06 [4] CRAN (R 4.0.5)
    memoise        2.0.1      2021-11-26 [1] RSPM
@@ -80,7 +81,7 @@
  P pkgconfig      2.0.3      2019-09-22 [2] RSPM
    pkgload        1.4.0      2024-06-28 [1] RSPM
    PKI            0.1-14     2024-06-15 [2] RSPM
-   png            0.1-8      2022-11-29 [1] RSPM
+   png            0.1-8      2022-11-29 [2] RSPM
    praise         1.0.0      2015-08-11 [1] RSPM
  P prettyunits    1.2.0      2023-09-24 [2] RSPM
  P processx       3.8.4      2024-03-16 [2] RSPM
@@ -92,7 +93,6 @@
    ragg           1.3.2      2024-05-15 [1] RSPM
  P rappdirs       0.3.3      2021-01-31 [2] RSPM
    Rcpp           1.0.13     2024-07-17 [1] RSPM
-   reactlog       1.1.1      2022-09-26 [1] RSPM
    reactR         0.6.0      2024-06-26 [1] RSPM
    rematch        2.0.0      2023-08-30 [2] RSPM
    rematch2       2.1.2      2020-05-01 [1] RSPM
@@ -105,11 +105,10 @@
    rstudioapi     0.16.0     2024-03-24 [1] RSPM
    sass           0.4.9      2024-03-15 [2] RSPM
    sessioninfo    1.2.2      2021-12-06 [1] RSPM
-   shiny          1.8.1.1    2024-04-02 [2] RSPM
-   shinycoreci    0.0.0.9009 2024-07-25 [2] local
+   shiny          1.9.0      2024-07-29 [2] RSPM
+   shinycoreci    0.0.0.9009 2024-08-02 [2] local
    shinytest      1.6.1      2024-05-30 [2] RSPM
    showimage      1.0.0      2018-01-24 [2] RSPM
-   showtext       0.9-7      2024-03-02 [1] RSPM
    sourcetools    0.1.7-1    2023-02-01 [1] RSPM
    spatial        7.3-13     2021-01-24 [4] CRAN (R 4.0.5)
    stringi        1.8.4      2024-05-06 [2] RSPM
@@ -129,10 +128,10 @@
    waldo          0.5.2      2023-11-02 [1] RSPM
    webdriver      1.0.6      2021-01-12 [2] RSPM
    websocket      1.4.2      2024-07-22 [1] RSPM
- P withr          3.0.0      2024-01-16 [2] RSPM
+ P withr          3.0.1      2024-07-31 [2] RSPM
    xfun           0.46       2024-07-18 [1] RSPM
    xtable         1.8-4      2019-04-21 [1] RSPM
-   yaml           2.3.9      2024-07-05 [1] RSPM
+   yaml           2.3.10     2024-07-26 [1] RSPM
 
  [1] C:/Users/runneradmin/AppData/Local/R/shinycoreci/R-4_0_5
  [2] D:/a/_temp/Library
