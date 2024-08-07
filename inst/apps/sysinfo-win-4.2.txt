@@ -9,7 +9,7 @@
  collate   English_United States.utf8
  ctype     English_United States.utf8
  tz        UTC
- date      2024-08-02
+ date      2024-08-07
  pandoc    3.1.11 @ C:\\HOSTED~1\\windows\\pandoc\\31F387~1.11\\x64\\PANDOC~1.11\\pandoc.exe
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package      * version    date (UTC) lib source
@@ -106,9 +106,8 @@
    rstudioapi     0.16.0     2024-03-24 [1] RSPM
    sass           0.4.9      2024-03-15 [2] RSPM
    sessioninfo    1.2.2      2021-12-06 [1] RSPM
-   shiny          1.9.0      2024-07-29 [2] RSPM
-   shinycoreci    0.0.0.9009 2024-08-02 [2] local
-   shinyjs        2.1.0      2021-12-23 [1] RSPM
+   shiny          1.9.1      2024-08-01 [2] RSPM
+   shinycoreci    0.0.0.9009 2024-08-07 [2] local
    shinytest      1.6.1      2024-05-30 [2] RSPM
    showimage      1.0.0      2018-01-24 [2] RSPM
    showtext       0.9-7      2024-03-02 [1] RSPM
@@ -118,6 +117,7 @@
    stringr        1.5.1      2023-11-14 [2] RSPM
    survival       3.5-3      2023-02-12 [4] CRAN (R 4.2.3)
    sys            3.4.2      2023-05-23 [1] RSPM
+   systemfonts    1.1.0      2024-05-15 [1] RSPM
    testthat       3.2.1.1    2024-04-14 [1] RSPM
    textshaping    0.4.0      2024-05-24 [1] RSPM
  P tibble         3.2.1      2023-03-20 [2] RSPM
