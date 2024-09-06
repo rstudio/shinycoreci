@@ -62,7 +62,15 @@ file_test_results <- memoise::memoise(function(file) {
 })
 
 test_results_import <- function(file) {
-  json <- jsonlite::read_json(file, simplifyVector = TRUE)
+  lines <- paste0(readLines(file, warn = FALSE), collapse = "")
+  lines <- gsub(
+    "embedded nul in string: '[^']*'",
+    "embedded nul in string: '<REDACTED FOR JSON PARSING>'",
+    lines,
+    fixed = FALSE
+  )
+
+  json <- jsonlite::parse_json(lines, simplifyVector = TRUE)
   json$results$gha_branch_name <- json$gha_branch_name
   json$results$branch_name <- json$branch_name
   json$results
@@ -113,7 +121,7 @@ max_date_url <-
   )
 
 cat(
-  file = paste0(save_folder, "/index.html"), 
+  file = paste0(save_folder, "/index.html"),
   sep = "",
   "
 <!DOCTYPE html>
@@ -146,7 +154,7 @@ status_vals <- c(
   as.list()
 pb <- progress::progress_bar$new(
   total = as.numeric(as.difftime(max_date - min_date)) + 1,
-  format = ":current/:total eta::eta; :date - :status - :file",
+  format = ":current/:total eta::eta; :date - :status - :file\n",
   width = 100,
   force = TRUE,
   show_after = 0,
