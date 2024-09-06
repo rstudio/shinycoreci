@@ -62,13 +62,16 @@ file_test_results <- memoise::memoise(function(file) {
 })
 
 test_results_import <- function(file) {
+  print(file)
   lines <- paste0(readLines(file, warn = FALSE), collapse = "")
-  lines <- gsub(
-    "embedded nul in string: '[^']*'",
-    "embedded nul in string: '<REDACTED FOR JSON PARSING>'",
-    lines,
-    fixed = FALSE
-  )
+  try({
+    lines <- gsub(
+      "embedded nul in string: '[^']*'",
+      "embedded nul in string: '<REDACTED FOR JSON PARSING>'",
+      lines,
+      fixed = FALSE
+    )
+  })
 
   json <- jsonlite::parse_json(lines, simplifyVector = TRUE)
   json$results$gha_branch_name <- json$gha_branch_name
