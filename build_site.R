@@ -262,3 +262,53 @@ while (cur_date >= min_date) {
   pb$tick(1, tokens = list(status = status_vals$done, date = cur_date, file = save_file))
   cur_date <- cur_date - lubridate::days(1)
 }
+
+
+# Prune test results more than a year from the current max date
+prune_date <- max_date - lubridate::years(1)
+
+
+results_dirs <- list.dirs(save_folder)
+
+# Only keep directories with a date in them
+dir_is_full_date <- grepl("\\d{4}/\\d{2}/\\d{2}", results_dirs)
+date_dirs <- results_dirs[dir_is_full_date]
+parent_dirs <- results_dirs[!dir_is_full_date]
+
+pb_prune <- progress::progress_bar$new(
+  total = length(results_dirs),
+  format = ":current/:total eta::eta; :status - :date\n",
+  width = 100,
+  force = TRUE,
+  show_after = 0,
+  clear = FALSE
+)
+
+for (date_dir in date_dirs) {
+  pb_prune$tick(1, tokens = list(status = "Remove if old", date = date_dir))
+  date_str <- paste0(
+    basename(dirname(dirname(date_dir))),
+    "-",
+    basename(dirname(date_dir)),
+    "-",
+    basename(date_dir)
+  )
+  result_dir_date <- as.Date(date_str)
+  if (result_dir_date < prune_date) {
+    message("Removing ", date_dir)
+    unlink(date_dir, recursive = TRUE)
+  }
+}
+
+# Work newest to oldest
+# So that we delete the children folders, then the parent folders
+for (parent_dir in rev(parent_dirs)) {
+  pb_prune$tick(1, tokens = list(status = "Trim folders", date = parent_dir))
+  if (!dir.exists(parent_dir)) {
+    next
+  }
+  if (length(list.files(parent_dir)) == 0) {
+    message("Removing ", parent_dir)
+    unlink(parent_dir, recursive = TRUE)
+  }
+}
