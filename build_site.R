@@ -63,7 +63,10 @@ file_test_results <- memoise::memoise(function(file) {
 
 test_results_import <- function(file) {
   print(file)
-  lines <- paste0(readLines(file, warn = FALSE), collapse = "")
+  lines <- paste0(
+    readLines(file, warn = FALSE, skipNul = TRUE, encoding="latin1"),
+    collapse = ""
+  )
   try({
     lines <- gsub(
       "embedded nul in string: '[^']*'",
