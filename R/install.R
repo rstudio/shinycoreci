@@ -230,7 +230,7 @@ install_pkgs_with_callr <- function(
       upgrade = upgrade,
       dependencies = dependencies
     ),
-    show = verbose,
+    show = TRUE,
     libpath = libpath,
     supervise = TRUE,
     spinner = TRUE # helps with CI from timing out
