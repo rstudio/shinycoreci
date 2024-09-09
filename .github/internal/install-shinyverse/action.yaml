@@ -58,12 +58,13 @@ runs:
           sort(unique(unlist(unname(shinycoreci:::apps_deps_map)))),
           shinycoreci:::shinyverse_pkgs
         )
-        deps <- paste0(deps, collapse = " ")
-        cat("Deps found:\n"); str(deps)
-        cat("pkgs=", deps, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
+        cat("Deps found:\n", paste0("* ", deps, collapse = "\n"), "\n", sep = "")
+
+        out_deps <- paste0(deps, collapse = " ")
+        cat("pkgs=", out_deps, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
     - name: Install mac system dependencies for app packages
       if: runner.os == 'macOS'
       uses: rstudio/shiny-workflows/setup-macOS-dependencies@v1
       with:
-        extra-packages: ${{ steps.mac-deps.outputs.pkgs }}
+        extra-packages: ${{ steps.mac-deps.outputs.pkgs }} terra Cairo FreeType RMySQL textshaping units
