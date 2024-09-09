@@ -170,11 +170,7 @@ install_missing_pkgs <- function(
   # Only install shinycoreci if the libpath is shinycoreci_libpath()
   packages <- unique(c(
     packages,
-    get_extra_shinyverse_deps(c(
-      packages,
-      # if (libpath == shinycoreci_libpath()) "shinycoreci" ,
-      NULL
-    ))
+    get_extra_shinyverse_deps(packages)
   ))
 
   pkgs_to_install <- packages[!(packages %in% names(installed_pkgs))]
@@ -186,13 +182,32 @@ install_missing_pkgs <- function(
     )
     message("libpath: ", libpath)
 
-    install_pkgs_with_callr(
-      pkgs_to_install,
-      libpath = libpath,
-      upgrade = upgrade,
-      dependencies = dependencies,
-      verbose = verbose
-    )
+    if (
+      "shinycoreci" %in% pkgs_to_install &&
+      libpath == shinycoreci_libpath()
+    ) {
+      # Install shinycoreci from the universe, but with no dependencies
+      install_pkgs_with_callr(
+        "shinycoreci",
+        libpath = libpath,
+        upgrade = upgrade,
+        dependencies = FALSE,
+        verbose = verbose
+      )
+      # Update the installed status as an install error was not thrown
+      installed_pkgs[["shinycoreci"]] <- TRUE
+      pkgs_to_install <- pkgs_to_install[pkgs_to_install != "shinycoreci"]
+    }
+
+    if (length(pkgs_to_install) > 0) {
+      install_pkgs_with_callr(
+        pkgs_to_install,
+        libpath = libpath,
+        upgrade = upgrade,
+        dependencies = dependencies,
+        verbose = verbose
+      )
+    }
     # Update the installed status as an install error was not thrown
     for (package in pkgs_to_install) {
       # Set in environment
