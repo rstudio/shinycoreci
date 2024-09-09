@@ -1,4 +1,5 @@
 library(shinytest2)
+if (FALSE) library(shinycoreci) # for renv
 
 # Only take screenshots on mac + r-release to reduce diff noise
 release <- rversions::r_release()$version
