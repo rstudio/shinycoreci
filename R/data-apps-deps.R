@@ -9,7 +9,7 @@ apps_deps <- c("base64enc", "BH", "bsicons", "bslib", "Cairo", "clipr", "crossta
 "png", "progress", "promises", "pryr", "radiant", "ragg", "RColorBrewer", 
 "reactable", "reactlog", "reactR", "reshape2", "rlang", "rmarkdown", 
 "rprojroot", "rsconnect", "RSQLite", "rversions", "scales", "sessioninfo", 
-"sf", "shiny", "shinyAce", "shinydashboard", "shinyjs", "shinyjster", 
+"shiny", "shinyAce", "shinydashboard", "shinyjs", "shinyjster", 
 "shinymeta", "shinytest2", "shinythemes", "shinyvalidate", "showtext", 
 "sysfonts", "systemfonts", "testthat", "thematic", "tibble", 
 "tidyr", "tm", "waldo", "websocket", "withr", "wordcloud")
@@ -173,10 +173,10 @@ apps_deps_map <- list(`000-all` = c("shiny", "shinytest2"), `000-manual` = c("sh
     "bslib", "curl", "DT", "ggplot2", "ggridges", "hexbin", "htmltools", 
     "knitr", "reactable", "reshape2", "rlang", "rprojroot", "rsconnect", 
     "shiny", "thematic"), `301-bs-themes` = c("bslib", "DT", 
-    "ggplot2", "reshape2", "rversions", "sf", "shiny", "shinytest2", 
+    "ggplot2", "reshape2", "rversions", "shiny", "shinytest2", 
     "thematic", "withr"), `302-bootswatch-themes` = c("bslib", 
-    "DT", "ggplot2", "progress", "rversions", "sf", "shiny", 
-    "shinytest2", "thematic", "withr"), `303-bslib-html-template` = c("bslib", 
+    "DT", "ggplot2", "progress", "rversions", "shiny", "shinytest2", 
+    "thematic", "withr"), `303-bslib-html-template` = c("bslib", 
     "shiny", "shinytest2"), `304-bslib-card` = c("bslib", "gt", 
     "leaflet", "plotly", "rlang", "rversions", "shiny", "shinytest2"
     ), `305-bslib-value-box` = c("bsicons", "bslib", "plotly", 
