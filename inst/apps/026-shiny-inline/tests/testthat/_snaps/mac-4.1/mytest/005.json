@@ -10,9 +10,9 @@
       "deps": [
         {
           "name": "header-attrs",
-          "version": "2.27",
+          "version": "2.28",
           "src": {
-            "href": "header-attrs-2.27"
+            "href": "header-attrs-2.28"
           },
           "meta": null,
           "script": "header-attrs.js",
@@ -169,7 +169,7 @@
     },
     "out0a4534806ab07416": "A",
     "outa859f0ffc8c7802f": {
-      "src": "[image data hash: 8b36057ee803397fb28506e51a363f81]",
+      "src": "[image data hash: 2f07fd14d3a18c3fb5f9369e2942168c]",
       "width": 300,
       "height": 40,
       "alt": "Plot object",
@@ -204,7 +204,7 @@
       }
     },
     "outc41ba546fb6de017": {
-      "src": "[image data hash: 6f2d7c5bdc839259e0e785d1bd629ea2]",
+      "src": "[image data hash: a6810dc0a5ccabc727d3aa3aa16bcacc]",
       "width": 600,
       "height": 400,
       "alt": "Plot object",

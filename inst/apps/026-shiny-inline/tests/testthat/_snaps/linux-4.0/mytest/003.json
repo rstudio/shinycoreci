@@ -10,9 +10,9 @@
       "deps": [
         {
           "name": "header-attrs",
-          "version": "2.27",
+          "version": "2.28",
           "src": {
-            "href": "header-attrs-2.27"
+            "href": "header-attrs-2.28"
           },
           "meta": null,
           "script": "header-attrs.js",
