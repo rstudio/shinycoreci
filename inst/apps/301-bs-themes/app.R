@@ -2,7 +2,6 @@ library(shiny)
 library(bslib)
 library(thematic)
 library(ggplot2)
-library(sf)
 library(DT)
 library(reshape2)
 
