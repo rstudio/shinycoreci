@@ -6,7 +6,6 @@ if (!require("thematic")) {
   stop("thematic not installed")
 }
 library(ggplot2)
-library(sf)
 library(DT)
 
 # Get the 'original' version of this app from the bslib package
