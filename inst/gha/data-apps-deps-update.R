@@ -22,7 +22,7 @@ update_apps_deps <- function(repo_dir = ".") {
   revdeps$folder <- sub(".*/apps/(\\d\\d\\d-[^/]+)/.*", "\\1", revdeps$Source)
 
   apps_deps_map <- lapply(split(revdeps, revdeps$folder), function(revdeps_sub) {
-    sort(unique(revdeps_sub$Package))
+    sort(unique(c(revdeps_sub$Package, "shiny"))) # always include `{shiny}`
   })
 
   apps_deps_txt <- utils::capture.output(dput(apps_deps))
