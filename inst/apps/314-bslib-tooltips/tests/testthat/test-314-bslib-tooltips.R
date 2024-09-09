@@ -1,4 +1,5 @@
 library(shinytest2)
+if (FALSE) library(shinycoreci) # for renv
 
 source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
