@@ -255,6 +255,11 @@ assert_test_output <- function(output) {
   display_message("App test failures", ci_status$fail, include_result = TRUE)
   display_message("Apps which could NOT be tested", ci_status$no_install, include_result = TRUE)
 
+  # Cover case of complete install failure for all apps
+  if (!any(test_dt$status %in% c(ci_status$pass, ci_status$fail))) {
+    stop("No test results found!")
+  }
+
   if (any(test_dt$status %in% ci_status$fail)) {
     stop(
       concat_info("Failures detected in:", c(ci_status$fail), include_result = FALSE)
