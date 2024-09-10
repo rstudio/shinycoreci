@@ -4,8 +4,22 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 05433ceed8c28bb0bcbf2c841d4ba3765fdfacc0]",
+      "html": "[html data sha1: 88b69c28d1412ddf6f89a462014ce51e7c01c326]",
       "deps": [
+        {
+          "name": "header-attrs",
+          "version": "2.28",
+          "src": {
+            "href": "header-attrs-2.28"
+          },
+          "meta": null,
+          "script": "header-attrs.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
         {
           "name": "jquery",
           "version": "3.6.0",
