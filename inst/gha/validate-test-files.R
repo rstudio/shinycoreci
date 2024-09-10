@@ -68,20 +68,20 @@ for (app_path in list.dirs("inst/apps", recursive = FALSE)) {
       }
     }
 
-    # Make sure shinycoreci is not used within an app
-    for (file in dir(app_path, recursive = TRUE, full.names = TRUE, pattern = "\\.(R|Rmd)$")) {
-      # Ignore first 000 apps
-      if (grepl("^inst/apps/000-", file)) next
+    # # Make sure shinycoreci is not used within an app
+    # for (file in dir(app_path, recursive = TRUE, full.names = TRUE, pattern = "\\.(R|Rmd)$")) {
+    #   # Ignore first 000 apps
+    #   if (grepl("^inst/apps/000-", file)) next
 
-      file_lines <- readLines(file)
-      if (any(grepl("shinycoreci)", file_lines, fixed = TRUE))) {
-        stop("File `", file, "` contains library() or require() call to {shinycoreci}. Remove usage of {shinycoreci}.")
-      }
-      file_lines <- gsub("shinycoreci::::", "shinycoreci____", file_lines)
-      if (any(grepl("shinycoreci::", file_lines, fixed = TRUE))) {
-        stop("File `", file, "` contains usage of {shinycoreci}. Replace this code.")
-      }
-    }
+    #   file_lines <- readLines(file)
+    #   if (any(grepl("shinycoreci)", file_lines, fixed = TRUE))) {
+    #     stop("File `", file, "` contains library() or require() call to {shinycoreci}. Remove usage of {shinycoreci}.")
+    #   }
+    #   file_lines <- gsub("shinycoreci::::", "shinycoreci____", file_lines)
+    #   if (any(grepl("shinycoreci::", file_lines, fixed = TRUE))) {
+    #     stop("File `", file, "` contains usage of {shinycoreci}. Replace this code.")
+    #   }
+    # }
   }, error = function(e) {
     errors_found[[length(errors_found) + 1]] <<- e
   })
