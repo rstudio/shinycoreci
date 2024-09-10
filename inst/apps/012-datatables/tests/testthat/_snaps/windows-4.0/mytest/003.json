@@ -1152,6 +1152,42 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "carat",
+              "targets": 1
+            },
+            {
+              "name": "cut",
+              "targets": 2
+            },
+            {
+              "name": "color",
+              "targets": 3
+            },
+            {
+              "name": "clarity",
+              "targets": 4
+            },
+            {
+              "name": "price",
+              "targets": 5
+            },
+            {
+              "name": "x",
+              "targets": 6
+            },
+            {
+              "name": "y",
+              "targets": 7
+            },
+            {
+              "name": "z",
+              "targets": 8
             }
           ],
           "order": [
@@ -1195,9 +1231,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.13.4",
+          "version": "1.13.6",
           "src": {
-            "href": "dt-core-1.13.4"
+            "href": "dt-core-1.13.6"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1212,9 +1248,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0.9000",
+          "version": "1.2.1.9000",
           "src": {
-            "href": "crosstalk-1.2.0.9000"
+            "href": "crosstalk-1.2.1.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",

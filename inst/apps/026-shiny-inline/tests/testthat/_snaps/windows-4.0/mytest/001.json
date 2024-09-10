@@ -6,8 +6,22 @@
   },
   "output": {
     "__reactivedoc__": {
-      "html": "[html data sha1: 1c5f176d7a56aa00e45d4c96e342a49054daadb6]",
+      "html": "[html data sha1: 5e540738bcf7ec0d09d467fc08cb651649645301]",
       "deps": [
+        {
+          "name": "header-attrs",
+          "version": "2.28",
+          "src": {
+            "href": "header-attrs-2.28"
+          },
+          "meta": null,
+          "script": "header-attrs.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
         {
           "name": "jquery",
           "version": "3.6.0",
@@ -71,9 +85,9 @@
         },
         {
           "name": "selectize",
-          "version": "0.12.4",
+          "version": "0.15.2",
           "src": {
-            "href": "selectize-0.12.4"
+            "href": "selectize-0.15.2"
           },
           "meta": null,
           "script": [
@@ -120,6 +134,19 @@
           "meta": null,
           "script": null,
           "stylesheet": "css/ion.rangeSlider.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "htmltools-fill",
+          "version": "0.5.8.9000",
+          "src": {
+            "href": "htmltools-fill-0.5.8.9000"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "fill.css",
           "head": null,
           "attachment": null,
           "all_files": true

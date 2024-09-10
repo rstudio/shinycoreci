@@ -1252,6 +1252,14 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "z",
+              "targets": 1
             }
           ],
           "order": [
@@ -1295,9 +1303,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.13.4",
+          "version": "1.13.6",
           "src": {
-            "href": "dt-core-1.13.4"
+            "href": "dt-core-1.13.6"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1312,9 +1320,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0.9000",
+          "version": "1.2.1.9000",
           "src": {
-            "href": "crosstalk-1.2.0.9000"
+            "href": "crosstalk-1.2.1.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
@@ -1352,6 +1360,54 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "mpg",
+              "targets": 1
+            },
+            {
+              "name": "cyl",
+              "targets": 2
+            },
+            {
+              "name": "disp",
+              "targets": 3
+            },
+            {
+              "name": "hp",
+              "targets": 4
+            },
+            {
+              "name": "drat",
+              "targets": 5
+            },
+            {
+              "name": "wt",
+              "targets": 6
+            },
+            {
+              "name": "qsec",
+              "targets": 7
+            },
+            {
+              "name": "vs",
+              "targets": 8
+            },
+            {
+              "name": "am",
+              "targets": 9
+            },
+            {
+              "name": "gear",
+              "targets": 10
+            },
+            {
+              "name": "carb",
+              "targets": 11
             }
           ],
           "order": [
@@ -1394,9 +1450,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.13.4",
+          "version": "1.13.6",
           "src": {
-            "href": "dt-core-1.13.4"
+            "href": "dt-core-1.13.6"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1411,9 +1467,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0.9000",
+          "version": "1.2.1.9000",
           "src": {
-            "href": "crosstalk-1.2.0.9000"
+            "href": "crosstalk-1.2.1.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",

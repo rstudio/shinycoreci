@@ -14,13 +14,13 @@
   "output": {
     "code": "in <strong>ui.R<\/strong>: <br><code>tableOutput('tbl')<\/code><br><br>in <strong>server.R<\/strong>: <br><code>output$tbl <- renderTable({ head( mock, n = 6 )})&nbsp;&nbsp;<\/code>",
     "pre_align": {
-      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"align-label\" for=\"align\">Column alignment:<\/label>\n  <div>\n    <select id=\"align\"><option value=\"NULL\" selected>NULL<\/option>\n<option value=\"?\">?<\/option>\n<option value=\"c\">c<\/option>\n<option value=\"l\">l<\/option>\n<option value=\"c?r\">c?r<\/option>\n<option value=\"ccr\">ccr<\/option>\n<option value=\"rrr\">rrr<\/option><\/select>\n    <script type=\"application/json\" data-for=\"align\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>",
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"align-label\" for=\"align\">Column alignment:<\/label>\n  <div>\n    <select id=\"align\" class=\"shiny-input-select\"><option value=\"NULL\" selected>NULL<\/option>\n<option value=\"?\">?<\/option>\n<option value=\"c\">c<\/option>\n<option value=\"l\">l<\/option>\n<option value=\"c?r\">c?r<\/option>\n<option value=\"ccr\">ccr<\/option>\n<option value=\"rrr\">rrr<\/option><\/select>\n    <script type=\"application/json\" data-for=\"align\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>",
       "deps": [
         {
           "name": "selectize",
-          "version": "0.12.4",
+          "version": "0.15.2",
           "src": {
-            "href": "selectize-0.12.4"
+            "href": "selectize-0.15.2"
           },
           "meta": null,
           "script": [

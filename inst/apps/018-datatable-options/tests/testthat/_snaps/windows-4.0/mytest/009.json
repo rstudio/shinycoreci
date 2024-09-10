@@ -1393,6 +1393,30 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Sepal.Length",
+              "targets": 1
+            },
+            {
+              "name": "Sepal.Width",
+              "targets": 2
+            },
+            {
+              "name": "Petal.Length",
+              "targets": 3
+            },
+            {
+              "name": "Petal.Width",
+              "targets": 4
+            },
+            {
+              "name": "Species",
+              "targets": 5
             }
           ],
           "order": [
@@ -1436,9 +1460,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.13.4",
+          "version": "1.13.6",
           "src": {
-            "href": "dt-core-1.13.4"
+            "href": "dt-core-1.13.6"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1453,9 +1477,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0.9000",
+          "version": "1.2.1.9000",
           "src": {
-            "href": "crosstalk-1.2.0.9000"
+            "href": "crosstalk-1.2.1.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
@@ -1498,6 +1522,30 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Sepal.Length",
+              "targets": 1
+            },
+            {
+              "name": "Sepal.Width",
+              "targets": 2
+            },
+            {
+              "name": "Petal.Length",
+              "targets": 3
+            },
+            {
+              "name": "Petal.Width",
+              "targets": 4
+            },
+            {
+              "name": "Species",
+              "targets": 5
             }
           ],
           "order": [
@@ -1541,9 +1589,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.13.4",
+          "version": "1.13.6",
           "src": {
-            "href": "dt-core-1.13.4"
+            "href": "dt-core-1.13.6"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1558,9 +1606,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0.9000",
+          "version": "1.2.1.9000",
           "src": {
-            "href": "crosstalk-1.2.0.9000"
+            "href": "crosstalk-1.2.1.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
@@ -1591,6 +1639,30 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Sepal.Length",
+              "targets": 1
+            },
+            {
+              "name": "Sepal.Width",
+              "targets": 2
+            },
+            {
+              "name": "Petal.Length",
+              "targets": 3
+            },
+            {
+              "name": "Petal.Width",
+              "targets": 4
+            },
+            {
+              "name": "Species",
+              "targets": 5
             }
           ],
           "order": [
@@ -1634,9 +1706,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.13.4",
+          "version": "1.13.6",
           "src": {
-            "href": "dt-core-1.13.4"
+            "href": "dt-core-1.13.6"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1651,9 +1723,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0.9000",
+          "version": "1.2.1.9000",
           "src": {
-            "href": "crosstalk-1.2.0.9000"
+            "href": "crosstalk-1.2.1.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
@@ -1684,6 +1756,30 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Sepal.Length",
+              "targets": 1
+            },
+            {
+              "name": "Sepal.Width",
+              "targets": 2
+            },
+            {
+              "name": "Petal.Length",
+              "targets": 3
+            },
+            {
+              "name": "Petal.Width",
+              "targets": 4
+            },
+            {
+              "name": "Species",
+              "targets": 5
             }
           ],
           "order": [
@@ -1727,9 +1823,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.13.4",
+          "version": "1.13.6",
           "src": {
-            "href": "dt-core-1.13.4"
+            "href": "dt-core-1.13.6"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1744,9 +1840,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0.9000",
+          "version": "1.2.1.9000",
           "src": {
-            "href": "crosstalk-1.2.0.9000"
+            "href": "crosstalk-1.2.1.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
@@ -1777,6 +1873,30 @@
             {
               "orderable": false,
               "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "Sepal.Length",
+              "targets": 1
+            },
+            {
+              "name": "Sepal.Width",
+              "targets": 2
+            },
+            {
+              "name": "Petal.Length",
+              "targets": 3
+            },
+            {
+              "name": "Petal.Width",
+              "targets": 4
+            },
+            {
+              "name": "Species",
+              "targets": 5
             }
           ],
           "order": [
@@ -1821,9 +1941,9 @@
         },
         {
           "name": "dt-core",
-          "version": "1.13.4",
+          "version": "1.13.6",
           "src": {
-            "href": "dt-core-1.13.4"
+            "href": "dt-core-1.13.6"
           },
           "meta": null,
           "script": "js/jquery.dataTables.min.js",
@@ -1838,9 +1958,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.0.9000",
+          "version": "1.2.1.9000",
           "src": {
-            "href": "crosstalk-1.2.0.9000"
+            "href": "crosstalk-1.2.1.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
