@@ -79,8 +79,8 @@ shinyjster::shinyjster_js("
     jst.add(Jster.shiny.waitUntilStable);
     jst.add(Jster.shiny.waitUntilStable);
 
-    assert_equal_qs('a[href=\"#section-p1\"]', 'Page 1: ' + month);
-    assert_equal_qs('a[href=\"#section-p2\"]', 'Page 2: ' + month);
+    assert_equal_qs('a[href=\"#section-p1\"]', 'Page 1:\n' + month);
+    assert_equal_qs('a[href=\"#section-p2\"]', 'Page 2:\n' + month);
     assert_equal('sidebarContent', 'Sidebar Content: ' + month);
 
     assert_equal_qs('#section-hidden1 .value-output', 'VB1: ' + month);
