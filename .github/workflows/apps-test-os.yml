@@ -122,7 +122,7 @@ jobs:
           echo 'MAKEFLAGS=-j2' >> .Renviron
 
       - name: Install R, shinycoreci, and shinyverse
-        timeout-minutes: 30 # Should be < 10 mins
+        timeout-minutes: 180 # Should be < 10 mins, except for mac
         uses: ./.github/internal/install-shinyverse
         with:
           r-version: ${{ inputs.r-version }}
