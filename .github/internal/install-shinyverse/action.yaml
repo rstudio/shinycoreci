@@ -67,4 +67,4 @@ runs:
       if: runner.os == 'macOS'
       uses: rstudio/shiny-workflows/setup-macOS-dependencies@v1
       with:
-        extra-packages: ${{ steps.mac-deps.outputs.pkgs }}
+        extra-packages: ${{ steps.mac-deps.outputs.pkgs }} Cairo FreeType RMySQL textshaping units
