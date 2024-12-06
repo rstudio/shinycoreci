@@ -47,43 +47,6 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Short R version, SHA, and OS
-        id: short
-        shell: bash
-        run: |
-          # keep only the major.minor values
-          RVERSION=`echo '${{ inputs.r-version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
-          echo "r-version: $RVERSION"
-          echo "r-version=$RVERSION" >> $GITHUB_OUTPUT
-
-          SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
-          if [[ -z "$SHA" ]]; then
-            SHA="${{ github.sha }}"
-          fi
-          SHORT_SHA="${SHA:0:7}"
-          echo "sha: $SHORT_SHA"
-          echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
-
-          OS=`Rscript -e 'cat(sessionInfo()$running, "\n", sep = "")'`
-          echo "os-version=$OS" >> $GITHUB_OUTPUT
-
-      # The `github.sha` value is the commit sha as if the PR was merged. :-(
-      # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows#pull-request-event-pull_request
-      # Checking for the pull request sha and then pasting it to the possibly 'merged' sha.  If main branch, only the `.sha` exists. If a PR, the PR sha exists.
-      #  Either way, take the first 7 characters.
-      # Found `github.event.pull_request.head.sha` example here: https://github.com/actions/checkout/commit/cab31617d857bf9e70dc35fd9e4dafe350794082#diff-04c6e90faac2675aa89e2176d2eec7d8R92
-      # The webhook payload example (equivalent to `github.event.pull_request`) shows the keys `head > sha` : https://developer.github.com/v3/activity/events/types/#pullrequestevent
-      - name: Create failure branch name
-        id: failed_branch
-        shell: Rscript {0}
-        run: |
-          cat("name=", '${{ steps.short.outputs.sha }}', '${{ inputs.extra-key }}', '-', format(Sys.time(), '%Y_%m_%d_%H_%M'), "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
-      - name: Create GHA branch name (i.e., test run identifier)
-        id: gha_branch
-        shell: Rscript {0}
-        run: |
-          cat("name=gha-", '${{ steps.failed_branch.outputs.name }}', '-', '${{ steps.short.outputs.r-version }}', '-', '${{ runner.os }}', "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
-
       - name: Windows git setup
         if: runner.os == 'Windows'
         run: git config --global core.autocrlf false
@@ -130,6 +93,43 @@ jobs:
           http-user-agent: ${{ inputs.http-user-agent }}
           pandoc-version: ${{ inputs.pandoc-version }}
           extra-packages: ${{ inputs.extra-packages }}
+
+      - name: Short R version, SHA, and OS
+        id: short
+        shell: bash
+        run: |
+          # keep only the major.minor values
+          RVERSION=`echo '${{ inputs.r-version }}' | sed 's/\([0-9]\.[0-9]\).*/\1/'`
+          echo "r-version: $RVERSION"
+          echo "r-version=$RVERSION" >> $GITHUB_OUTPUT
+
+          SHA="${{github.event.pull_request.head.sha}}${{ github.sha }}"
+          if [[ -z "$SHA" ]]; then
+            SHA="${{ github.sha }}"
+          fi
+          SHORT_SHA="${SHA:0:7}"
+          echo "sha: $SHORT_SHA"
+          echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
+
+          OS=`Rscript -e 'cat(sessionInfo()$running, "\n", sep = "")'`
+          echo "os-version=$OS" >> $GITHUB_OUTPUT
+
+      # The `github.sha` value is the commit sha as if the PR was merged. :-(
+      # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows#pull-request-event-pull_request
+      # Checking for the pull request sha and then pasting it to the possibly 'merged' sha.  If main branch, only the `.sha` exists. If a PR, the PR sha exists.
+      #  Either way, take the first 7 characters.
+      # Found `github.event.pull_request.head.sha` example here: https://github.com/actions/checkout/commit/cab31617d857bf9e70dc35fd9e4dafe350794082#diff-04c6e90faac2675aa89e2176d2eec7d8R92
+      # The webhook payload example (equivalent to `github.event.pull_request`) shows the keys `head > sha` : https://developer.github.com/v3/activity/events/types/#pullrequestevent
+      - name: Create failure branch name
+        id: failed_branch
+        shell: Rscript {0}
+        run: |
+          cat("name=", '${{ steps.short.outputs.sha }}', '${{ inputs.extra-key }}', '-', format(Sys.time(), '%Y_%m_%d_%H_%M'), "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
+      - name: Create GHA branch name (i.e., test run identifier)
+        id: gha_branch
+        shell: Rscript {0}
+        run: |
+          cat("name=gha-", '${{ steps.failed_branch.outputs.name }}', '-', '${{ steps.short.outputs.r-version }}', '-', '${{ runner.os }}', "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
       # Install packages as necessary!
       - name: Run tests
