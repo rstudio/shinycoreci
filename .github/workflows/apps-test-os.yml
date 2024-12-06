@@ -111,9 +111,6 @@ jobs:
           echo "sha: $SHORT_SHA"
           echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
 
-          OS=`Rscript -e 'cat(sessionInfo()$running, "\n", sep = "")'`
-          echo "os-version=$OS" >> $GITHUB_OUTPUT
-
       # The `github.sha` value is the commit sha as if the PR was merged. :-(
       # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows#pull-request-event-pull_request
       # Checking for the pull request sha and then pasting it to the possibly 'merged' sha.  If main branch, only the `.sha` exists. If a PR, the PR sha exists.
