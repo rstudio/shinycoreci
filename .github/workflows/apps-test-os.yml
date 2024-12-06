@@ -147,7 +147,7 @@ jobs:
           if (is_pull_request) {
             # reduce apps to only changed apps
             files_changed <- jsonlite::parse_json('${{ steps.files_changed.outputs.added_modified }}', simplifyVector = TRUE)
-            has_altered_github <- any(unlist(lapply(strsplit(files_changed, "/"), function(folder_components) { folder_components[[1]] == ".github" }))
+            has_altered_github <- any(unlist(lapply(strsplit(files_changed, "/"), function(folder_components) { folder_components[[1]] == ".github" })))
             changed_app_folders <-
               Filter(strsplit(files_changed, "/"), f = function(item) {
                 length(item) >= 3 &&
