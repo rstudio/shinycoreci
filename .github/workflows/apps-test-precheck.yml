@@ -35,6 +35,10 @@ jobs:
           for FIL in ${FILES_CHANGED[@]}; do
             echo "Inspecting file: '$FIL'"
             # check if path is in apps
+            if [[ "$FIL" =~ ^".github" ]]; then
+              echo '.github folder was altered. Returning early'
+              exit 0
+            fi
             if [[ "$FIL" =~ ^"inst/apps" ]]; then
               SUBFIL=$(echo "$FIL" | cut -d/ -f 1-2)
               echo "first two folders of file: '$SUBFIL'"

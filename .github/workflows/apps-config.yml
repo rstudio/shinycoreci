@@ -9,13 +9,14 @@ on:
       # NOTE: Update badges and table in README when changing runner OS versions
       macos:
         description: macos OS value
-        value: "macos-12"
+        # https://github.com/rstudio/shiny-workflows/blob/fdfacec40c723210c92a287dcb67cdf7f5d621ef/.github/workflows/R-CMD-check.yaml#L23
+        value: "macos-latest"
       windows:
         description: windows OS value
-        value: "windows-2022"
+        value: "windows-latest"
       ubuntu:
         description: ubuntu OS value
-        value: "ubuntu-20.04"
+        value: "ubuntu-latest"
       cache-version:
         description: cache-version to be used when pulling library cache
         value: "5"
