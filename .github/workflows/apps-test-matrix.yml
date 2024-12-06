@@ -58,7 +58,9 @@ jobs:
     uses: ./.github/workflows/apps-test-os.yml
     with:
       r-version: ${{ needs.config.outputs.oldrel4 }}
-      os: ${{ needs.config.outputs.macos }}
+      os: macos-13
+      # TODO-future: Use config below when the oldrel4 r-version is >= 4.1
+      # os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
 
   ubuntu-release:
