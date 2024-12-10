@@ -9,7 +9,7 @@
  collate   English_United States.utf8
  ctype     English_United States.utf8
  tz        UTC
- date      2024-12-09
+ date      2024-12-10
  pandoc    3.1.11 @ C:\\HOSTED~1\\windows\\pandoc\\31F387~1.11\\x64\\PANDOC~1.11\\pandoc.exe
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package           * version     date (UTC) lib source
@@ -41,7 +41,7 @@
    colorspace          2.1-1       2024-07-26 [1] RSPM
    commonmark          1.9.2       2024-10-04 [1] RSPM
  P crayon              1.5.3       2024-06-20 [2] RSPM
-   crosstalk           1.2.1.9000  2024-11-10 [1] https://p~
+   crosstalk           1.2.1.9000  2024-12-10 [1] https://p~
    curl                6.0.1       2024-11-14 [1] RSPM
    data.table          1.16.4      2024-12-06 [1] RSPM
    DBI                 1.2.3       2024-06-02 [1] RSPM
@@ -69,7 +69,7 @@
    ggvis               0.4.9       2024-02-05 [1] RSPM
    globals             0.16.3      2024-03-08 [1] RSPM
  P glue                1.8.0       2024-09-30 [2] RSPM
-   gt                  0.11.1.9000 2024-12-06 [1] https://p~
+   gt                  0.11.1.9000 2024-12-09 [1] https://p~
    gtable              0.3.6       2024-10-25 [1] RSPM
    highcharter         0.9.4       2022-01-03 [1] RSPM
    highr               0.11        2024-05-26 [1] RSPM
@@ -78,7 +78,7 @@
    htmlwidgets         1.6.4.9000  2024-12-09 [1] https://p~
    httpuv              1.6.15.9000 2024-11-18 [1] https://p~
    httr                1.4.7       2023-08-15 [1] RSPM
-   igraph              2.1.2       2024-12-07 [1] CRAN (R 4.3.3)
+   igraph              2.1.2       2024-12-07 [1] RSPM
    isoband             0.2.7       2022-12-20 [1] RSPM
    jquerylib           0.1.4       2021-04-26 [1] RSPM
  P jsonlite            1.8.9       2024-09-20 [2] RSPM
@@ -95,7 +95,7 @@
    listenv             0.9.1       2024-01-29 [1] RSPM
    lobstr              1.1.2       2022-06-22 [1] RSPM
    lorem               1.0.0       2023-03-09 [1] RSPM
-   lubridate           1.9.4       2024-12-08 [1] CRAN (R 4.3.3)
+   lubridate           1.9.4       2024-12-08 [1] RSPM
  P magrittr            2.0.3       2022-03-30 [2] RSPM
    maps                3.4.2.1     2024-11-10 [1] RSPM
    markdown            1.13        2024-06-04 [1] RSPM
