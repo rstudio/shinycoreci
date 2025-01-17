@@ -7,8 +7,8 @@
   },
   "output": {
     "rockplot": {
-      "src": "[image data hash: 29be2446f5605c5436f161e76d1a8eb0]",
-      "width": 631.3281,
+      "src": "[image data hash: cf3e3d789edb0d992dd9a3fd7b072496]",
+      "width": 617.3281,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -21,8 +21,8 @@
               "top": 12659.84
             },
             "range": {
-              "left": 57.63,
-              "right": 629.8874,
+              "left": 57.6306,
+              "right": 615.8874,
               "bottom": 341.4,
               "top": 0.44
             },
@@ -36,10 +36,11 @@
           }
         ],
         "dims": {
-          "width": 631.3281,
+          "width": 617.3281,
           "height": 400
         }
-      }
+      },
+      "error": null
     },
     "rockvars": {
       "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"vars-label\" for=\"vars\">从岩石数据中选择一列作为自变量<\/label>\n  <div>\n    <select id=\"vars\" class=\"shiny-input-select\"><option value=\"周长\" selected>周长<\/option>\n<option value=\"形状\">形状<\/option>\n<option value=\"渗透性\">渗透性<\/option><\/select>\n    <script type=\"application/json\" data-for=\"vars\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>",

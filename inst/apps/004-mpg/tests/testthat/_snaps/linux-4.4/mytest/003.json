@@ -6,8 +6,8 @@
   "output": {
     "caption": "mpg ~ am",
     "mpgPlot": {
-      "src": "[image data hash: f30b95f731e256443f676634b61cfa11]",
-      "width": 631.3281,
+      "src": "[image data hash: 3f779075c7b23a6db935a4a10456f644]",
+      "width": 489.9844,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -20,8 +20,8 @@
               "top": 34.84
             },
             "range": {
-              "left": 59.0707,
-              "right": 601.0724,
+              "left": 59.1588,
+              "right": 459.6835,
               "bottom": 325.56,
               "top": 58.04
             },
@@ -35,7 +35,7 @@
           }
         ],
         "dims": {
-          "width": 631.3281,
+          "width": 489.9844,
           "height": 400
         }
       }

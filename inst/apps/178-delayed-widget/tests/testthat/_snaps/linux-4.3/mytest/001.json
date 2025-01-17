@@ -2,9 +2,9 @@
   "input": {
     "map_bounds": {
       "north": 80.1787,
-      "east": 338.2031,
+      "east": 258.75,
       "south": -80.1787,
-      "west": -338.2031
+      "west": -258.0469
     },
     "map_center": {
       "lng": 0,

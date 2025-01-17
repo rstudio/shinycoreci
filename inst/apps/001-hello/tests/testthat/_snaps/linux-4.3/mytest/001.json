@@ -4,8 +4,8 @@
   },
   "output": {
     "distPlot": {
-      "src": "[image data hash: a3f9a99bb16e34b90d7f87f6a6dc04e6]",
-      "width": 631.3281,
+      "src": "[image data hash: 400be5eab4631c439e317d1207e428a3]",
+      "width": 489.9844,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -18,8 +18,8 @@
               "top": 28.08
             },
             "range": {
-              "left": 59.0707,
-              "right": 601.0724,
+              "left": 59.1588,
+              "right": 459.6835,
               "bottom": 325.56,
               "top": 58.04
             },
@@ -33,7 +33,7 @@
           }
         ],
         "dims": {
-          "width": 631.3281,
+          "width": 489.9844,
           "height": 400
         }
       }
