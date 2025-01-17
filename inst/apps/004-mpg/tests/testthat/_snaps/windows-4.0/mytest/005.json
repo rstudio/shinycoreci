@@ -6,8 +6,8 @@
   "output": {
     "caption": "mpg ~ gear",
     "mpgPlot": {
-      "src": "[image data hash: 274e297a9ffc6bddcbc8ea63f8047a71]",
-      "width": 631.3281,
+      "src": "[image data hash: b0004ef7bc153f1322d692ed8143d827]",
+      "width": 628.6562,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -20,8 +20,8 @@
               "top": 34.84
             },
             "range": {
-              "left": 59.0707,
-              "right": 601.0724,
+              "left": 59.1017,
+              "right": 598.3846,
               "bottom": 325.56,
               "top": 58.04
             },
@@ -35,7 +35,7 @@
           }
         ],
         "dims": {
-          "width": 631.3281,
+          "width": 628.6562,
           "height": 400
         }
       }
