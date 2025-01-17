@@ -4,8 +4,8 @@
   },
   "output": {
     "scatterPlot": {
-      "src": "[image data hash: 7776644196647ebe9fd19b9d3fe270c8]",
-      "width": 370.8281,
+      "src": "[image data hash: 5aa12578ba9bdefa68e19abb7a57459b]",
+      "width": 457.5,
       "height": 300,
       "alt": "Plot object",
       "coordmap": {
@@ -18,8 +18,8 @@
               "top": 2.7761
             },
             "range": {
-              "left": 59.1721,
-              "right": 340.5204,
+              "left": 59.1046,
+              "right": 427.2269,
               "bottom": 225.56,
               "top": 58.04
             },
@@ -33,7 +33,7 @@
           }
         ],
         "dims": {
-          "width": 370.8281,
+          "width": 457.5,
           "height": 300
         }
       }

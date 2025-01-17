@@ -7,22 +7,22 @@
   },
   "output": {
     "plot": {
-      "src": "[image data hash: 658a37ea874f97b9dff1eff49427de10]",
-      "width": 631.3281,
+      "src": "[image data hash: b80a9252c3d3fd6c97a4123c8a7e893a]",
+      "width": 480,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
         "panels": [
           {
             "domain": {
-              "left": -0.3519,
-              "right": 1.3518,
+              "left": -0.148,
+              "right": 1.148,
               "bottom": -0.04,
               "top": 1.04
             },
             "range": {
               "left": 0,
-              "right": 631.3281,
+              "right": 480,
               "bottom": 399,
               "top": -1
             },
@@ -36,7 +36,7 @@
           }
         ],
         "dims": {
-          "width": 631.3281,
+          "width": 480,
           "height": 400
         }
       }

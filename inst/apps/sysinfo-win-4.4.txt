@@ -1,6 +1,6 @@
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20250105.1.0
+ gha_image 20250113.1.0
  version   R version 4.4.2 (2024-10-31 ucrt)
  os        Windows Server 2022 x64 (build 20348)
  system    x86_64, mingw32
@@ -9,7 +9,7 @@
  collate   English_United States.utf8
  ctype     English_United States.utf8
  tz        UTC
- date      2025-01-15
+ date      2025-01-17
  pandoc    3.1.11 @ C:\\HOSTED~1\\windows\\pandoc\\31F387~1.11\\x64\\PANDOC~1.11\\pandoc.exe
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package           * version     date (UTC) lib source
@@ -32,7 +32,7 @@
    Cairo               1.6-2       2023-11-28 [1] RSPM
  P callr               3.7.6       2024-03-25 [2] RSPM
    checkmate           2.3.2       2024-07-29 [1] RSPM
-   chromote            0.3.1       2024-12-27 [1] https://p~
+   chromote            0.3.1.9000  2025-01-16 [1] https://p~
    class               7.3-22      2023-05-03 [4] CRAN (R 4.4.2)
  P cli                 3.6.3       2024-06-21 [2] RSPM
    clipr               0.8.0       2022-02-22 [1] RSPM
@@ -40,6 +40,7 @@
    codetools           0.2-20      2024-03-31 [4] CRAN (R 4.4.2)
    colorspace          2.1-1       2024-07-26 [1] RSPM
    commonmark          1.9.2       2024-10-04 [1] RSPM
+   cpp11               0.5.1       2024-12-04 [1] RSPM
  P crayon              1.5.3       2024-06-20 [2] RSPM
    crosstalk           1.2.1.9000  2025-01-09 [1] https://p~
    curl                6.1.0       2025-01-06 [1] RSPM
@@ -121,7 +122,7 @@
    pkgload             1.4.0       2024-06-28 [1] RSPM
    PKI                 0.1-14      2024-06-15 [1] RSPM
    plogr               0.2.0       2018-03-25 [1] RSPM
-   plotly              4.10.4.9000 2024-12-16 [1] https://p~
+   plotly              4.10.4.9000 2025-01-15 [1] https://p~
    plyr                1.8.9       2023-10-02 [1] RSPM
    png                 0.1-8       2022-11-29 [1] RSPM
    praise              1.0.0       2015-08-11 [1] RSPM
@@ -165,7 +166,7 @@
    sessioninfo         1.2.2       2021-12-06 [1] RSPM
    shiny               1.10.0.9000 2025-01-14 [1] https://p~
    shinyAce            0.4.3       2024-10-19 [1] RSPM
- P shinycoreci         0.0.0.9009  2024-12-30 [2] https://p~
+ P shinycoreci         0.0.0.9009  2025-01-15 [2] https://p~
    shinydashboard      0.7.2       2021-09-30 [1] RSPM
    shinyjs             2.1.0       2021-12-23 [1] RSPM
    shinyjster          0.0.0.9010  2024-12-31 [1] https://p~
@@ -187,7 +188,7 @@
    survival            3.7-0       2024-06-05 [4] CRAN (R 4.4.2)
    sys                 3.4.3       2024-10-04 [1] RSPM
    sysfonts            0.8.9       2024-03-02 [1] RSPM
-   systemfonts         1.1.0       2024-05-15 [1] RSPM
+   systemfonts         1.2.0       2025-01-16 [1] CRAN (R 4.4.2)
    terra               1.8-10      2025-01-14 [1] RSPM
    testthat            3.2.3       2025-01-13 [1] RSPM
    textshaping         0.4.1       2024-12-06 [1] RSPM
@@ -209,7 +210,7 @@
    vroom               1.6.5       2023-12-05 [1] RSPM
    waldo               0.6.1       2024-11-07 [1] RSPM
    webdriver           1.0.6       2021-01-12 [2] RSPM
-   websocket           1.4.2       2024-12-17 [1] https://p~
+   websocket           1.4.2       2025-01-16 [1] https://p~
  P withr               3.0.2       2024-10-28 [2] RSPM
    wordcloud           2.6         2018-08-24 [1] RSPM
    xfun                0.50        2025-01-07 [1] RSPM

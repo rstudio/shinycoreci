@@ -6,8 +6,8 @@
     "fast": "This happens right away",
     "slow": "This happens later",
     "slow_plot": {
-      "src": "[image data hash: c82f583b3d25ef43654ff44e25b34b11]",
-      "width": 962,
+      "src": "[image data hash: f9fdb8e2f368349fa152d1d8bdf5ef0f]",
+      "width": 941,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -21,7 +21,7 @@
             },
             "range": {
               "left": 59.04,
-              "right": 931.76,
+              "right": 910.76,
               "bottom": 325.56,
               "top": 58.04
             },
@@ -35,7 +35,7 @@
           }
         ],
         "dims": {
-          "width": 962,
+          "width": 941,
           "height": 400
         }
       }
