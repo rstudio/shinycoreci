@@ -1,0 +1,45 @@
+{
+  "input": {
+    "bins": 22
+  },
+  "output": {
+    "distPlot": {
+      "src": "[image data hash: 3965dc29930c0ff43d02d5b372c29bb3]",
+      "width": 628.6562,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 40.88,
+              "right": 98.12,
+              "bottom": -1.48,
+              "top": 38.48
+            },
+            "range": {
+              "left": 59.0077,
+              "right": 598.4328,
+              "bottom": 325.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 628.6562,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}
