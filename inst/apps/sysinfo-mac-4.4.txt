@@ -1,6 +1,6 @@
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20250113.751
+ gha_image 20250120.774
  version   R version 4.4.2 (2024-10-31)
  os        macOS Sonoma 14.7.2
  system    aarch64, darwin20
@@ -9,7 +9,7 @@
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2025-01-17
+ date      2025-01-24
  pandoc    3.1.11 @ /usr/local/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package           * version     date (UTC) lib source
@@ -27,12 +27,12 @@
    brio                1.1.5       2024-04-24 [1] CRAN (R 4.4.0)
    broom               1.0.7       2024-09-26 [1] CRAN (R 4.4.1)
    bsicons             0.1.2.9000  2025-01-01 [1] https://p~
-   bslib               0.8.0.9000  2025-01-14 [1] https://p~
+   bslib               0.8.0.9000  2025-01-22 [1] https://p~
    cachem              1.1.0       2024-12-12 [1] https://p~
    Cairo               1.6-2       2023-11-28 [1] CRAN (R 4.4.0)
  P callr               3.7.6       2024-03-25 [2] CRAN (R 4.4.0)
    checkmate           2.3.2       2024-07-29 [1] CRAN (R 4.4.0)
-   chromote            0.3.1.9000  2025-01-16 [1] https://p~
+   chromote            0.3.1.9000  2025-01-22 [1] https://p~
    class               7.3-22      2023-05-03 [4] CRAN (R 4.4.2)
  P cli                 3.6.3       2024-06-21 [2] CRAN (R 4.4.0)
    clipr               0.8.0       2022-02-22 [1] CRAN (R 4.4.0)
@@ -43,7 +43,7 @@
    cpp11               0.5.1       2024-12-04 [1] CRAN (R 4.4.1)
  P crayon              1.5.3       2024-06-20 [2] CRAN (R 4.4.0)
    crosstalk           1.2.1.9000  2025-01-09 [1] https://p~
-   curl                6.1.0       2025-01-06 [1] CRAN (R 4.4.1)
+   curl                6.2.0       2025-01-23 [1] CRAN (R 4.4.2)
    data.table          1.16.4      2024-12-06 [1] CRAN (R 4.4.1)
    DBI                 1.2.3       2024-06-02 [1] CRAN (R 4.4.0)
    dbplyr              2.5.0       2024-03-19 [1] CRAN (R 4.4.0)
@@ -70,14 +70,14 @@
    ggvis               0.4.9       2024-02-05 [1] CRAN (R 4.4.0)
    globals             0.16.3      2024-03-08 [1] CRAN (R 4.4.0)
  P glue                1.8.0       2024-09-30 [2] CRAN (R 4.4.1)
-   gt                  0.11.1.9000 2025-01-08 [1] https://p~
+   gt                  0.11.1.9000 2025-01-22 [1] https://p~
    gtable              0.3.6       2024-10-25 [1] CRAN (R 4.4.1)
    highcharter         0.9.4       2022-01-03 [1] CRAN (R 4.4.0)
    highr               0.11        2024-05-26 [1] CRAN (R 4.4.0)
  P hms                 1.1.3       2023-03-21 [2] CRAN (R 4.4.0)
    htmltools           0.5.8.9000  2025-01-05 [1] https://p~
    htmlwidgets         1.6.4.9000  2025-01-08 [1] https://p~
-   httpuv              1.6.15.9000 2024-12-18 [1] https://p~
+   httpuv              1.6.15.9000 2025-01-17 [1] https://p~
    httr                1.4.7       2023-08-15 [1] CRAN (R 4.4.0)
    igraph              2.1.2       2024-12-07 [1] CRAN (R 4.4.1)
    isoband             0.2.7       2022-12-20 [1] CRAN (R 4.4.0)
@@ -152,25 +152,25 @@
    renv                1.0.11      2024-10-12 [1] CRAN (R 4.4.1)
    reshape2            1.4.4       2020-04-09 [1] CRAN (R 4.4.0)
    rjson               0.2.23      2024-09-16 [1] CRAN (R 4.4.1)
- P rlang               1.1.4       2024-06-04 [2] CRAN (R 4.4.0)
+ P rlang               1.1.4       2025-01-17 [2] CRAN (R 4.4.2)
    rlist               0.4.6.2     2021-09-03 [1] CRAN (R 4.4.0)
    rmarkdown           2.29        2024-11-04 [1] CRAN (R 4.4.1)
    rpart               4.1.23      2023-12-05 [4] CRAN (R 4.4.2)
  P rprojroot           2.0.4       2023-11-05 [2] CRAN (R 4.4.0)
-   rsconnect           1.3.3       2024-11-19 [1] CRAN (R 4.4.1)
+   rsconnect           1.3.4       2025-01-22 [1] CRAN (R 4.4.2)
    RSQLite             2.3.9       2024-12-03 [1] CRAN (R 4.4.1)
    rstudioapi          0.17.1      2024-10-22 [1] CRAN (R 4.4.1)
    rversions           2.1.2       2022-08-31 [1] CRAN (R 4.4.0)
-   sass                0.4.9.9000  2024-11-20 [1] https://p~
+   sass                0.4.9.9000  2025-01-19 [1] https://p~
    scales              1.3.0       2023-11-28 [1] CRAN (R 4.4.0)
    sessioninfo         1.2.2       2021-12-06 [1] CRAN (R 4.4.0)
-   shiny               1.10.0.9000 2025-01-14 [1] https://p~
+   shiny               1.10.0.9000 2025-01-22 [1] https://p~
    shinyAce            0.4.3       2024-10-19 [1] CRAN (R 4.4.1)
- P shinycoreci         0.0.0.9009  2025-01-15 [2] https://p~
+ P shinycoreci         0.0.0.9009  2025-01-17 [2] https://p~
    shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.4.0)
    shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.4.0)
    shinyjster          0.0.0.9010  2024-12-31 [1] https://p~
-   shinymeta           0.2.1       2024-11-20 [1] https://p~
+   shinymeta           0.2.1       2025-01-19 [1] https://p~
    shinytest           1.6.1       2024-05-30 [2] CRAN (R 4.4.0)
    shinytest2          0.3.2.9000  2025-01-10 [1] https://p~
    shinythemes         1.2.0       2025-01-01 [1] https://p~
@@ -188,7 +188,7 @@
    survival            3.7-0       2024-06-05 [4] CRAN (R 4.4.2)
    sys                 3.4.3       2024-10-04 [1] CRAN (R 4.4.1)
    sysfonts            0.8.9       2024-03-02 [1] CRAN (R 4.4.0)
-   systemfonts         1.2.0       2025-01-16 [1] CRAN (R 4.4.2)
+   systemfonts         1.2.1       2025-01-20 [1] CRAN (R 4.4.2)
    terra               1.8-10      2025-01-14 [1] CRAN (R 4.4.1)
    testthat            3.2.3       2025-01-13 [1] CRAN (R 4.4.1)
    textshaping         0.4.1       2024-12-06 [1] CRAN (R 4.4.1)

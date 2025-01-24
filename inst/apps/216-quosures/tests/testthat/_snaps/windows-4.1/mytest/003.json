@@ -36,7 +36,7 @@
     "observe_event__quoted": "5 - Clicks: 1",
     "plot__expected": "1:6",
     "plot__injected": {
-      "src": "[image data hash: aa7d58d2dca78c428da67bbd33c05364]",
+      "src": "[image data hash: ce43efa6b41a37832ca82bfa7595e8b0]",
       "width": 250,
       "height": 250,
       "alt": "Plot object",
@@ -71,7 +71,7 @@
       }
     },
     "plot__manual": {
-      "src": "[image data hash: aa7d58d2dca78c428da67bbd33c05364]",
+      "src": "[image data hash: ce43efa6b41a37832ca82bfa7595e8b0]",
       "width": 250,
       "height": 250,
       "alt": "Plot object",
@@ -106,7 +106,7 @@
       }
     },
     "plot__quoted": {
-      "src": "[image data hash: aa7d58d2dca78c428da67bbd33c05364]",
+      "src": "[image data hash: ce43efa6b41a37832ca82bfa7595e8b0]",
       "width": 250,
       "height": 250,
       "alt": "Plot object",
