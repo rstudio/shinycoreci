@@ -5,7 +5,7 @@
   },
   "output": {
     "plot": {
-      "src": "[image data hash: 5170cc6900254130012622853dc834ea]",
+      "src": "[image data hash: b3f9a0cd4de424137349c2b6af1b94bf]",
       "width": 628.6562,
       "height": 400,
       "alt": "Plot object",
@@ -19,8 +19,8 @@
               "top": 1.04
             },
             "range": {
-              "left": 59.1017,
-              "right": 598.3846,
+              "left": 59.0077,
+              "right": 598.4328,
               "bottom": 325.56,
               "top": 58.04
             },
