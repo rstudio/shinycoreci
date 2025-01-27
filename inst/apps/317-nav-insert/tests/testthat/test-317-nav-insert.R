@@ -205,3 +205,22 @@ test_that("subapps", {
     outer_btn_before
   )
 })
+
+test_that("web components are connected once", {
+  app$set_inputs(insert_type = "init_component")
+  app$click("do_insert")
+
+  expect_js(
+    app,
+    "document.querySelectorAll('init-component').length === 3"
+  )
+
+  expect_equal(
+    app$get_html("init-component"),
+    c(
+      "<init-component>Component</init-component>",
+      "<init-component>default</init-component>",
+      "<init-component>custom init text</init-component>"
+    )
+  )
+})
