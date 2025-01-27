@@ -9,7 +9,8 @@ action_choices <- c(
   "HTML Widget" = "htmlwidgets",
   "Input/Output (content)" = "input_output_content",
   "Input/Output (nav)" = "input_output_nav",
-  "Shiny sub-app" = "subapp"
+  "Shiny sub-app" = "subapp",
+  "Web Component" = "init_component"
 )
 
 ui <- page_navbar(
@@ -68,6 +69,22 @@ script_hello_world <- local({
 })
 
 script_singleton <- shiny::singleton(script_hello_world())
+
+init_component <- function(init = NULL) {
+  tag(
+    "init-component",
+    list(
+      init = init,
+      htmltools::htmlDependency(
+        "init-component",
+        "0.0.1",
+        src = ".",
+        script = "wc-init.js",
+        all_files = FALSE
+      )
+    )
+  )
+}
 
 singleton_has_run <- FALSE
 
@@ -199,6 +216,28 @@ nav_insert_subapp <- function() {
   )
 }
 
+nav_insert_init_component <- function() {
+  # `init_component()` renders differently if it goes through the cycle html ->
+  # rendered -> html -> rendered, because the HTML of the element *after* being
+  # attached to the DOM is different than it's initial HTML. In short, this
+  # tests that web components are handled in a way that the connected callback
+  # is only ever called once.
+
+  nav_insert(
+    id = "main",
+    select = TRUE,
+    nav_panel(
+      value = "Web Component",
+      tagList(
+        "Web",
+        init_component("Component")
+      ),
+      p(init_component()),
+      p(init_component("custom init text"))
+    )
+  )
+}
+
 server <- function(input, output, session) {
   choices <- reactiveVal(action_choices)
 
@@ -227,7 +266,8 @@ server <- function(input, output, session) {
         one_time_choice <- TRUE
         nav_insert_input_output_nav(input, output)
       },
-      "subapp" = nav_insert_subapp()
+      "subapp" = nav_insert_subapp(),
+      "init_component" = nav_insert_init_component()
     )
 
     if (one_time_choice) {
