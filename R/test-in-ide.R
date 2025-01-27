@@ -186,3 +186,25 @@ test_in_ide <- function(
     }
   )
 }
+
+ide_open_app <- function(app_name) {
+  app_name <- resolve_app_name(app_name)
+  owd <- setwd(app_path(app_name))
+  cli::cli_alert("Opening app {.field {app_name}}")
+  cli::cli_alert_info("App location: {.path {app_path(app_name)}}")
+
+  app_files <- dir(pattern = "(app|ui).[Rr]")
+  server_files <- dir(pattern = "server.[Rr]")
+  test_files <- dir("tests/testthat", pattern = "test-", full.names = TRUE)
+
+  files <- vapply(
+    c(app_files, server_files, test_files),
+    function(x) sprintf("{.path %s}", x),
+    character(1)
+  )
+
+  cli::cli_h3("Test app files")
+  cli::cli_ol(files)
+
+  invisible(owd)
+}
