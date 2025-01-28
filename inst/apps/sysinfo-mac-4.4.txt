@@ -1,3 +1,14 @@
+── Chrome Info ─────────────────────────────────────────────────────────────────
+---- {chromote} ----
+   System: aarch64-apple-darwin20
+R version: R version 4.4.2 (2024-10-31)
+ chromote: 0.4.0.9000
+
+---- Chrome ----
+   Path: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+Version: Google Chrome 132.0.6834.111
+   Args: --headless --no-sandbox --disable-dev-shm-usage
+         --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
  gha_image 20250120.774
