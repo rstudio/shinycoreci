@@ -1,0 +1,9 @@
+{
+  "input": {
+    "btn": 1,
+    "slider": 5
+  },
+  "output": {
+    "debug": "$btn\n[1] 1\nattr(,\"class\")\n[1] \"shinyActionButtonValue\" \"integer\"               \n\n$slider\n[1] 5\n\n$nav_link\nNULL"
+  }
+}
