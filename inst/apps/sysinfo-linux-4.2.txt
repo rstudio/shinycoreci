@@ -1,6 +1,17 @@
+── Chrome Info ─────────────────────────────────────────────────────────────────
+---- {chromote} ----
+   System: x86_64-pc-linux-gnu
+R version: R version 4.2.3 (2023-03-15)
+ chromote: 0.4.0.9000
+
+---- Chrome ----
+   Path: /usr/bin/google-chrome
+Version: Google Chrome 132.0.6834.83
+   Args: --headless --no-sandbox --disable-dev-shm-usage
+         --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20250126.1.0
+ gha_image 20250120.5.0
  version   R version 4.2.3 (2023-03-15)
  os        Ubuntu 24.04.1 LTS
  system    x86_64, linux-gnu
