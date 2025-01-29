@@ -1,3 +1,14 @@
+── Chrome Info ─────────────────────────────────────────────────────────────────
+---- {chromote} ----
+   System: x86_64-w64-mingw32
+R version: R version 4.3.3 (2024-02-29 ucrt)
+ chromote: 0.4.0.9000
+
+---- Chrome ----
+   Path: C:\Program Files\Google\Chrome\Application\chrome.exe
+Version: 132.0.6834.84
+   Args: --headless --disable-gpu --no-sandbox --disable-dev-shm-usage
+         --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
  gha_image 20250120.2.0
@@ -9,7 +20,7 @@
  collate   English_United States.utf8
  ctype     English_United States.utf8
  tz        UTC
- date      2025-01-28
+ date      2025-01-29
  pandoc    3.1.11 @ C:\\HOSTED~1\\windows\\pandoc\\31F387~1.11\\x64\\PANDOC~1.11\\pandoc.exe
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package           * version     date (UTC) lib source
@@ -27,7 +38,7 @@
    brio                1.1.5       2024-04-24 [1] RSPM
    broom               1.0.7       2024-09-26 [1] RSPM
    bsicons             0.1.2.9000  2025-01-01 [1] https://p~
-   bslib               0.8.0.9000  2025-01-22 [1] https://p~
+   bslib               0.8.0.9000  2025-01-28 [1] https://p~
    cachem              1.1.0       2024-12-12 [1] https://p~
    Cairo               1.6-2       2023-11-28 [1] RSPM
  P callr               3.7.6       2024-03-25 [2] RSPM
@@ -165,7 +176,7 @@
    sessioninfo         1.2.2       2021-12-06 [1] RSPM
    shiny               1.10.0.9000 2025-01-27 [1] https://p~
    shinyAce            0.4.3       2024-10-19 [1] RSPM
- P shinycoreci         0.0.0.9009  2025-01-27 [2] https://p~
+ P shinycoreci         0.0.0.9009  2025-01-28 [2] https://p~
    shinydashboard      0.7.2       2021-09-30 [1] RSPM
    shinyjs             2.1.0       2021-12-23 [1] RSPM
    shinyjster          0.0.0.9010  2024-12-31 [1] https://p~
