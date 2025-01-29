@@ -1,3 +1,14 @@
+── Chrome Info ─────────────────────────────────────────────────────────────────
+---- {chromote} ----
+   System: aarch64-apple-darwin20
+R version: R version 4.4.2 (2024-10-31)
+ chromote: 0.4.0.9000
+
+---- Chrome ----
+   Path: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+Version: Google Chrome 132.0.6834.159
+   Args: --headless --no-sandbox --disable-dev-shm-usage
+         --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
  gha_image 20250120.774
@@ -9,7 +20,7 @@
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2025-01-28
+ date      2025-01-29
  pandoc    3.1.11 @ /usr/local/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package           * version     date (UTC) lib source
@@ -27,7 +38,7 @@
    brio                1.1.5       2024-04-24 [1] CRAN (R 4.4.1)
    broom               1.0.7       2024-09-26 [1] CRAN (R 4.4.1)
    bsicons             0.1.2.9000  2025-01-01 [1] https://p~
-   bslib               0.8.0.9000  2025-01-22 [1] https://p~
+   bslib               0.8.0.9000  2025-01-28 [1] https://p~
    cachem              1.1.0       2024-12-12 [1] https://p~
    Cairo               1.6-2       2023-11-28 [1] CRAN (R 4.4.1)
  P callr               3.7.6       2024-03-25 [2] CRAN (R 4.4.0)
@@ -165,7 +176,7 @@
    sessioninfo         1.2.2       2021-12-06 [1] CRAN (R 4.4.0)
    shiny               1.10.0.9000 2025-01-27 [1] https://p~
    shinyAce            0.4.3       2024-10-19 [1] CRAN (R 4.4.1)
- P shinycoreci         0.0.0.9009  2025-01-27 [2] https://p~
+ P shinycoreci         0.0.0.9009  2025-01-28 [2] https://p~
    shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.4.0)
    shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.4.0)
    shinyjster          0.0.0.9010  2024-12-31 [1] https://p~
