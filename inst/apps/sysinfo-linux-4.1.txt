@@ -1,6 +1,17 @@
+── Chrome Info ─────────────────────────────────────────────────────────────────
+---- {chromote} ----
+   System: x86_64-pc-linux-gnu
+R version: R version 4.1.3 (2022-03-10)
+ chromote: 0.4.0.9000
+
+---- Chrome ----
+   Path: /usr/bin/google-chrome
+Version: Google Chrome 132.0.6834.110
+   Args: --headless --no-sandbox --disable-dev-shm-usage
+         --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20250120.5.0
+ gha_image 20250126.1.0
  version   R version 4.1.3 (2022-03-10)
  os        Ubuntu 24.04.1 LTS
  system    x86_64, linux-gnu
@@ -9,7 +20,7 @@
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2025-01-28
+ date      2025-01-29
  pandoc    3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package           * version     date (UTC) lib source
@@ -26,13 +37,13 @@
    boot                1.3-28      2021-05-03 [4] CRAN (R 4.1.3)
    brio                1.1.5       2024-04-24 [1] RSPM
    broom               1.0.7       2024-09-26 [1] RSPM
-   bsicons             0.1.2.9000  2025-01-28 [1] https://p~
-   bslib               0.8.0.9000  2025-01-28 [1] https://p~
+   bsicons             0.1.2.9000  2025-01-29 [1] https://p~
+   bslib               0.8.0.9000  2025-01-29 [1] https://p~
    cachem              1.1.0       2024-05-16 [1] RSPM
    Cairo               1.6-2       2023-11-28 [1] RSPM
  P callr               3.7.6       2024-03-25 [2] RSPM
    checkmate           2.3.2       2024-07-29 [1] RSPM
-   chromote            0.4.0.9000  2025-01-28 [1] https://p~
+   chromote            0.4.0.9000  2025-01-29 [1] https://p~
    class               7.3-20      2022-01-16 [4] CRAN (R 4.1.3)
  P cli                 3.6.3       2024-06-21 [2] RSPM
    clipr               0.8.0       2022-02-22 [1] RSPM
@@ -42,7 +53,7 @@
    commonmark          1.9.2       2024-10-04 [1] RSPM
    cpp11               0.5.1       2024-12-04 [1] RSPM
  P crayon              1.5.3       2024-06-20 [2] RSPM
-   crosstalk           1.2.1.9000  2025-01-28 [1] https://p~
+   crosstalk           1.2.1.9000  2025-01-29 [1] https://p~
    curl                6.2.0       2025-01-23 [1] RSPM
    data.table          1.16.4      2024-12-06 [1] RSPM
    DBI                 1.2.3       2024-06-02 [1] RSPM
@@ -53,15 +64,15 @@
    diffobj             0.3.5       2021-10-05 [1] RSPM
    digest              0.6.37      2024-08-19 [1] RSPM
    dplyr               1.1.4       2023-11-17 [1] RSPM
-   DT                  0.33.3      2025-01-28 [1] https://p~
+   DT                  0.33.3      2025-01-29 [1] https://p~
    ellipsis            0.3.2       2021-04-29 [1] RSPM
    english             1.2-6       2021-08-21 [2] RSPM
    evaluate            1.0.3       2025-01-10 [1] RSPM
    fansi               1.0.6       2023-12-08 [1] RSPM
    farver              2.1.2       2024-05-13 [1] RSPM
    fastmap             1.2.0       2024-05-15 [1] RSPM
-   flexdashboard       0.6.2.9000  2025-01-28 [1] https://p~
-   fontawesome         0.5.3.9000  2025-01-28 [1] https://p~
+   flexdashboard       0.6.2.9000  2025-01-29 [1] https://p~
+   fontawesome         0.5.3.9000  2025-01-29 [1] https://p~
    foreign             0.8-82      2022-01-16 [4] CRAN (R 4.1.3)
    fs                  1.6.5       2024-10-30 [1] RSPM
    future              1.34.0      2024-07-29 [1] RSPM
@@ -70,14 +81,14 @@
    ggvis               0.4.9       2024-02-05 [1] RSPM
    globals             0.16.3      2024-03-08 [1] RSPM
  P glue                1.8.0       2024-09-30 [2] RSPM
-   gt                  0.11.1.9000 2025-01-28 [1] https://p~
+   gt                  0.11.1.9000 2025-01-29 [1] https://p~
    gtable              0.3.6       2024-10-25 [1] RSPM
    highcharter         0.9.4       2022-01-03 [1] RSPM
    highr               0.11        2024-05-26 [1] RSPM
  P hms                 1.1.3       2023-03-21 [2] RSPM
-   htmltools           0.5.8.9000  2025-01-28 [1] https://p~
-   htmlwidgets         1.6.4.9000  2025-01-28 [1] https://p~
-   httpuv              1.6.15.9000 2025-01-28 [1] https://p~
+   htmltools           0.5.8.9000  2025-01-29 [1] https://p~
+   htmlwidgets         1.6.4.9000  2025-01-29 [1] https://p~
+   httpuv              1.6.15.9000 2025-01-29 [1] https://p~
    httr                1.4.7       2023-08-15 [1] RSPM
    igraph              2.1.4       2025-01-23 [1] RSPM
    isoband             0.2.7       2022-12-20 [1] RSPM
@@ -87,10 +98,10 @@
    KernSmooth          2.23-20     2021-05-03 [4] CRAN (R 4.1.3)
    knitr               1.49        2024-11-08 [1] RSPM
    labeling            0.4.3       2023-08-29 [1] RSPM
-   later               1.4.1.9000  2025-01-28 [1] https://p~
+   later               1.4.1.9000  2025-01-29 [1] https://p~
    lattice             0.20-45     2021-09-22 [4] CRAN (R 4.1.3)
    lazyeval            0.2.2       2019-03-15 [1] RSPM
-   leaflet             2.2.2.9000  2025-01-28 [1] https://p~
+   leaflet             2.2.2.9000  2025-01-29 [1] https://p~
    leaflet.providers   2.0.0       2023-10-17 [1] RSPM
  P lifecycle           1.0.4       2023-11-07 [2] RSPM
    listenv             0.9.1       2024-01-29 [1] RSPM
@@ -122,14 +133,14 @@
    pkgload             1.4.0       2024-06-28 [1] RSPM
    PKI                 0.1-14      2024-06-15 [1] RSPM
    plogr               0.2.0       2018-03-25 [1] RSPM
-   plotly              4.10.4.9000 2025-01-28 [1] https://p~
+   plotly              4.10.4.9000 2025-01-29 [1] https://p~
    plyr                1.8.9       2023-10-02 [1] RSPM
    png                 0.1-8       2022-11-29 [1] RSPM
    praise              1.0.0       2015-08-11 [1] RSPM
  P prettyunits         1.2.0       2023-09-24 [2] RSPM
  P processx            3.8.5       2025-01-08 [2] RSPM
  P progress            1.2.3       2023-12-06 [2] RSPM
-   promises            1.3.2.9000  2025-01-28 [1] https://p~
+   promises            1.3.2.9000  2025-01-29 [1] https://p~
    pryr                0.1.6       2023-01-17 [1] RSPM
  P ps                  1.8.1       2024-10-28 [2] RSPM
    purrr               1.0.2       2023-08-10 [1] RSPM
@@ -161,20 +172,20 @@
    RSQLite             2.3.9       2024-12-03 [1] RSPM
    rstudioapi          0.17.1      2024-10-22 [1] RSPM
    rversions           2.1.2       2022-08-31 [1] RSPM
-   sass                0.4.9.9000  2025-01-28 [1] https://p~
+   sass                0.4.9.9000  2025-01-29 [1] https://p~
    scales              1.3.0       2023-11-28 [1] RSPM
    sessioninfo         1.2.2       2021-12-06 [1] RSPM
-   shiny               1.10.0.9000 2025-01-28 [1] https://p~
+   shiny               1.10.0.9000 2025-01-29 [1] https://p~
    shinyAce            0.4.3       2024-10-19 [1] RSPM
- P shinycoreci         0.0.0.9009  2025-01-28 [2] Custom
+ P shinycoreci         0.0.0.9009  2025-01-29 [2] Custom
    shinydashboard      0.7.2       2021-09-30 [1] RSPM
    shinyjs             2.1.0       2021-12-23 [1] RSPM
-   shinyjster          0.0.0.9010  2025-01-28 [1] https://p~
-   shinymeta           0.2.1       2025-01-28 [1] https://p~
+   shinyjster          0.0.0.9010  2025-01-29 [1] https://p~
+   shinymeta           0.2.1       2025-01-29 [1] https://p~
    shinytest           1.6.1       2024-05-30 [2] RSPM
-   shinytest2          0.3.2.9000  2025-01-28 [1] https://p~
+   shinytest2          0.3.2.9000  2025-01-29 [1] https://p~
    shinythemes         1.2.0       2021-01-25 [1] RSPM
-   shinyvalidate       0.1.3.9000  2025-01-28 [1] https://p~
+   shinyvalidate       0.1.3.9000  2025-01-29 [1] https://p~
    showimage           1.0.0       2018-01-24 [2] RSPM
    showtext            0.9-7       2024-03-02 [1] RSPM
    showtextdb          3.0         2020-06-04 [1] RSPM
@@ -192,7 +203,7 @@
    terra               1.8-15      2025-01-24 [1] RSPM
    testthat            3.2.3       2025-01-13 [1] RSPM
    textshaping         1.0.0       2025-01-20 [1] RSPM
-   thematic            0.1.6.9000  2025-01-28 [1] https://p~
+   thematic            0.1.6.9000  2025-01-29 [1] https://p~
  P tibble              3.2.1       2023-03-20 [2] RSPM
    tidyr               1.3.1       2024-01-24 [1] RSPM
    tidyselect          1.2.1       2024-03-11 [1] RSPM

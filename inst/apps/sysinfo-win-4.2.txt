@@ -1,6 +1,17 @@
+── Chrome Info ─────────────────────────────────────────────────────────────────
+---- {chromote} ----
+   System: x86_64-w64-mingw32
+R version: R version 4.2.3 (2023-03-15 ucrt)
+ chromote: 0.4.0.9000
+
+---- Chrome ----
+   Path: C:\Program Files\Google\Chrome\Application\chrome.exe
+Version: 132.0.6834.111
+   Args: --headless --disable-gpu --no-sandbox --disable-dev-shm-usage
+         --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20250120.2.0
+ gha_image 20250127.1.0
  version   R version 4.2.3 (2023-03-15 ucrt)
  os        Windows Server x64 (build 20348)
  system    x86_64, mingw32
@@ -9,7 +20,7 @@
  collate   English_United States.utf8
  ctype     English_United States.utf8
  tz        UTC
- date      2025-01-28
+ date      2025-01-29
  pandoc    3.1.11 @ C:\\HOSTED~1\\windows\\pandoc\\31F387~1.11\\x64\\PANDOC~1.11\\pandoc.exe
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package        * version    date (UTC) lib source
@@ -23,13 +34,13 @@
    boot             1.3-28.1   2022-11-22 [4] CRAN (R 4.2.3)
    brio             1.1.5      2024-04-24 [1] RSPM
    broom            1.0.7      2024-09-26 [1] RSPM
-   bsicons          0.1.2.9000 2025-01-28 [1] https://p~
+   bsicons          0.1.2.9000 2025-01-29 [1] https://p~
    bslib            0.8.0      2024-07-29 [2] RSPM
    cachem           1.1.0      2024-05-16 [1] RSPM
    Cairo            1.6-2      2023-11-28 [1] RSPM
  P callr            3.7.6      2024-03-25 [2] RSPM
    checkmate        2.3.2      2024-07-29 [1] RSPM
-   chromote         0.4.0.9000 2025-01-28 [1] https://p~
+   chromote         0.4.0.9000 2025-01-29 [1] https://p~
    class            7.3-21     2023-01-23 [4] CRAN (R 4.2.3)
  P cli              3.6.3      2024-06-21 [2] RSPM
    clipr            0.8.0      2022-02-22 [1] RSPM
@@ -55,7 +66,7 @@
    fansi            1.0.6      2023-12-08 [1] RSPM
    farver           2.1.2      2024-05-13 [1] RSPM
    fastmap          1.2.0      2024-05-15 [1] RSPM
-   fontawesome      0.5.3.9000 2025-01-28 [1] https://p~
+   fontawesome      0.5.3.9000 2025-01-29 [1] https://p~
    foreign          0.8-84     2022-12-06 [4] CRAN (R 4.2.3)
    fs               1.6.5      2024-10-30 [1] RSPM
    future           1.34.0     2024-07-29 [1] RSPM
@@ -68,7 +79,7 @@
    highcharter      0.9.4      2022-01-03 [1] RSPM
    highr            0.11       2024-05-26 [1] RSPM
  P hms              1.1.3      2023-03-21 [2] RSPM
-   htmltools        0.5.8.9000 2025-01-28 [1] https://p~
+   htmltools        0.5.8.9000 2025-01-29 [1] https://p~
    htmlwidgets      1.6.4      2023-12-06 [2] RSPM
    httpuv           1.6.15     2024-03-26 [2] RSPM
    httr             1.4.7      2023-08-15 [1] RSPM
@@ -79,7 +90,7 @@
    KernSmooth       2.23-20    2021-05-03 [4] CRAN (R 4.2.3)
    knitr            1.49       2024-11-08 [1] RSPM
    labeling         0.4.3      2023-08-29 [1] RSPM
-   later            1.4.1.9000 2025-01-28 [1] https://p~
+   later            1.4.1.9000 2025-01-29 [1] https://p~
    lattice          0.20-45    2021-09-22 [4] CRAN (R 4.2.3)
    lazyeval         0.2.2      2019-03-15 [1] RSPM
  P lifecycle        1.0.4      2023-11-07 [2] RSPM
@@ -114,7 +125,7 @@
  P prettyunits      1.2.0      2023-09-24 [2] RSPM
  P processx         3.8.5      2025-01-08 [2] RSPM
    progress         1.2.3      2023-12-06 [2] RSPM
-   promises         1.3.2.9000 2025-01-28 [1] https://p~
+   promises         1.3.2.9000 2025-01-29 [1] https://p~
    pryr             0.1.6      2023-01-17 [1] RSPM
  P ps               1.8.1      2024-10-28 [2] RSPM
    purrr            1.0.2      2023-08-10 [1] RSPM
@@ -144,7 +155,7 @@
    scales           1.3.0      2023-11-28 [1] RSPM
    sessioninfo      1.2.2      2021-12-06 [1] RSPM
    shiny            1.10.0     2024-12-14 [2] RSPM
-   shinycoreci      0.0.0.9009 2025-01-28 [2] local
+   shinycoreci      0.0.0.9009 2025-01-29 [2] local
    shinydashboard   0.7.2      2021-09-30 [1] RSPM
    shinyjs          2.1.0      2021-12-23 [1] RSPM
    shinytest        1.6.1      2024-05-30 [2] RSPM
