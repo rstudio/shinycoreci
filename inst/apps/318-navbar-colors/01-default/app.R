@@ -22,7 +22,11 @@ ui <- page_navbar(
     ),
     p("Default navbar colors without any customization."),
     if (VERSION >= 5) {
-      bslib::input_dark_mode(mode = "light", id = "color_mode")
+      bslib::input_dark_mode(
+        mode = "light",
+        id = "color_mode",
+        style = css("--speed-fast" = 0, "--speed-normal" = 0)
+      )
     }
   ),
   nav_panel(

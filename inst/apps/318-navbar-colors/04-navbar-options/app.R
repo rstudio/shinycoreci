@@ -27,7 +27,11 @@ ui <- page_navbar(
       "and should be constant in all variations."
     ),
     if (VERSION >= 5) {
-      bslib::input_dark_mode(mode = "light", id = "color_mode")
+      bslib::input_dark_mode(
+        mode = "light",
+        id = "color_mode",
+        style = css("--speed-fast" = 0, "--speed-normal" = 0)
+      )
     }
   ),
   nav_panel(

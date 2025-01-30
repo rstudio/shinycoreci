@@ -30,7 +30,11 @@ ui <- page_navbar(
       "Test light/dark navbar background color variants set via $navbar-light-bg and $navbar-dark-bg."
     ),
     if (VERSION >= 5) {
-      bslib::input_dark_mode(mode = "light", id = "color_mode")
+      bslib::input_dark_mode(
+        mode = "light",
+        id = "color_mode",
+        style = css("--speed-fast" = 0, "--speed-normal" = 0)
+      )
     }
   ),
   nav_panel(

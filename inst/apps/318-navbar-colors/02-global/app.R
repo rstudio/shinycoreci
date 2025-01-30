@@ -30,7 +30,11 @@ ui <- page_navbar(
       "Navbar should be the same color in all variations regardless of preset."
     ),
     if (VERSION >= 5) {
-      bslib::input_dark_mode(mode = "light", id = "color_mode")
+      bslib::input_dark_mode(
+        mode = "light",
+        id = "color_mode",
+        style = css("--speed-fast" = 0, "--speed-normal" = 0)
+      )
     }
   ),
   nav_panel(

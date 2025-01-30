@@ -29,7 +29,11 @@ ui <- page_navbar(
       "and should have the primary color as the background with light-colored text."
     ),
     if (VERSION >= 5) {
-      bslib::input_dark_mode(mode = "light", id = "color_mode")
+      bslib::input_dark_mode(
+        mode = "light",
+        id = "color_mode",
+        style = css("--speed-fast" = 0, "--speed-normal" = 0)
+      )
     }
   ),
   nav_panel(
