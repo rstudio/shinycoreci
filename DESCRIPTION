@@ -2,41 +2,44 @@ Package: shinycoreci
 Title: CI Testing for shiny
 Version: 0.0.0.9009
 Authors@R: c(
-    person("Barret", "Schloerke", role = c("aut", "cre"), email = "barret@rstudio.com"),
-    person("Winston", "Chang", role = "aut", email = "winston@rstudio.com"),
-    person("Alan", "Dipert", role = "aut", email = "alan@rstudio.com"),
-    person("RStudio", role = c("cph", "fnd")))
-Description: Core shiny team tools to facilitate testing of the shiny-verse.
+    person("Barret", "Schloerke", , "barret@rstudio.com", role = c("aut", "cre")),
+    person("Winston", "Chang", , "winston@rstudio.com", role = "aut"),
+    person("Alan", "Dipert", , "alan@rstudio.com", role = "aut"),
+    person("RStudio", role = c("cph", "fnd"))
+  )
+Description: Core shiny team tools to facilitate testing of the
+    shiny-verse.
 License: MIT + file LICENSE
+URL: https://github.com/rstudio/shinycoreci
+BugReports: https://github.com/rstudio/shinycoreci/issues
+Imports:
+    callr,
+    cli,
+    jsonlite,
+    progress,
+    rappdirs,
+    rprojroot,
+    rstudioapi (>= 0.11),
+    sessioninfo,
+    utils,
+    withr
+Suggests:
+    chromote (>= 0.4.0),
+    dplyr,
+    english,
+    httpuv,
+    httr,
+    later,
+    renv,
+    rmarkdown (>= 2.9),
+    rsconnect (>= 1.0.1),
+    shiny,
+    shinytest,
+    testthat,
+    tibble,
+    tidyr,
+    waldo
+Config/Needs/website: tidyverse/tidytemplate
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Imports:
-    jsonlite,
-    progress,
-    callr,
-    sessioninfo,
-    rprojroot,
-    rstudioapi (>= 0.11),
-    withr,
-    rappdirs,
-    cli
-Suggests:
-    chromote (>= 0.4.0),
-    renv,
-    httpuv,
-    rmarkdown (>= 2.9),
-    rsconnect (>= 1.0.1),
-    testthat,
-    httr,
-    tibble,
-    shiny,
-    english,
-    dplyr,
-    tidyr,
-    later,
-    shinytest,
-    waldo
-Config/Needs/website: tidyverse/tidytemplate
-URL: https://github.com/rstudio/shinycoreci
-BugReports: https://github.com/rstudio/shinycoreci/issues
