@@ -21,3 +21,4 @@ www/nvd3/deprecated
 
 ^README_files$
 ^_gh-pages$
+^_dev$

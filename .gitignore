@@ -11,3 +11,4 @@ patches
 # Ignore all debug snapshots
 *_.png
 *_.new.png
+_dev
