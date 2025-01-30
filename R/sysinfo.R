@@ -14,11 +14,15 @@ write_sysinfo <- function(file = stdout(), libpath = resolve_libpath()) {
 
   pkg_info <- sessioninfo::package_info("installed", include_base = FALSE)
 
+  has_chromote <-
+    requireNamespace("chromote", quietly = TRUE) &&
+      utils::packageVersion("chromote") >= "0.4.0"
+
   cat(
-    if (rlang::is_installed("chromote", version = "0.4.0")) {
+    if (has_chromote) {
       c(
         format(cli::rule("Chrome Info")),
-        capture.output(print(chromote::chromote_info()))
+        utils::capture.output(print(chromote::chromote_info()))
       )
     } else {
       "{chromote} v0.4.0 or later is not installed."
