@@ -45,8 +45,8 @@ app_names <- c(
   "01-default",
   "02-global",
   "03-light-dark",
-  "04-navbar-options"
-  # "05-primary-dark"
+  "04-navbar-options",
+  "05-primary-dark"
 )
 
 for (app_name in app_names) {
