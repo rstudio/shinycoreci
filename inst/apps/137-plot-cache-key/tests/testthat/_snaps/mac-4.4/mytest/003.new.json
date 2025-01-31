@@ -1,0 +1,45 @@
+{
+  "input": {
+    "n": 250,
+    "newdata": 0
+  },
+  "output": {
+    "plot": {
+      "src": "[image data hash: c5e1ada2c48a45078f5de7d7f3f5ebc7]",
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -3.2738,
+              "right": 3.5571,
+              "bottom": -3.5691,
+              "top": 3.1357
+            },
+            "range": {
+              "left": 59.04,
+              "right": 799.76,
+              "bottom": 325.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 830,
+          "height": 400
+        }
+      },
+      "class": "shiny-scalable"
+    }
+  },
+  "export": {
+
+  }
+}

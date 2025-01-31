@@ -1,0 +1,47 @@
+{
+  "input": {
+
+  },
+  "output": {
+    "fast": "This happens right away",
+    "slow": "This happens later",
+    "slow_plot": {
+      "src": "[image data hash: e7833ee66df77bff6c3cc1b3b495f748]",
+      "width": 1170,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -3998.96,
+              "right": 103999.96,
+              "bottom": -4.8696,
+              "top": 4.7184
+            },
+            "range": {
+              "left": 59.04,
+              "right": 1139.76,
+              "bottom": 325.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 1170,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}
