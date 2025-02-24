@@ -7,7 +7,7 @@
   },
   "output": {
     "rockplot": {
-      "src": "[image data hash: f7e53d0fdb445419257ee654592daf10]",
+      "src": "[image data hash: f47509cc4a99ca115c1f422cb60d4361]",
       "width": 760,
       "height": 400,
       "alt": "Plot object",
@@ -39,7 +39,8 @@
           "width": 760,
           "height": 400
         }
-      }
+      },
+      "error": null
     },
     "rockvars": null,
     "summary这里也可以用中文": "     speed           dist           random         \n Min.   : 4.0   Min.   :  2.00   Length:50         \n 1st Qu.:12.0   1st Qu.: 26.00   Class :character  \n Median :15.0   Median : 36.00   Mode  :character  \n Mean   :15.4   Mean   : 42.98                     \n 3rd Qu.:19.0   3rd Qu.: 56.00                     \n Max.   :25.0   Max.   :120.00                     ",
