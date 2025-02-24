@@ -21,6 +21,7 @@ Imports:
     rprojroot,
     rstudioapi (>= 0.11),
     sessioninfo,
+    shiny (>= 1.10.0.9000),
     utils,
     withr
 Suggests:
@@ -33,7 +34,6 @@ Suggests:
     renv,
     rmarkdown (>= 2.9),
     rsconnect (>= 1.0.1),
-    shiny,
     shinytest,
     testthat,
     tibble,
@@ -43,3 +43,5 @@ Config/Needs/website: tidyverse/tidytemplate
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Remotes:  
+    rstudio/shiny@text-input-enter
