@@ -1,5 +1,6 @@
 library(shiny)
 
+
 # Define UI for slider demo app ----
 ui <- fluidPage(
 
@@ -84,3 +85,4 @@ server <- function(input, output, session) {
 
 # Create Shiny app ----
 shinyApp(ui, server)
+
