@@ -140,9 +140,9 @@ jobs:
         shell: Rscript {0}
         run: |
           # Allow for a 10% difference in the screenshot kernel
-          # 62.5 / (3x RGB channels * 25 * 25) = 62.5 / 625 = 10%
+          # 187.5 / (3x RGB channels * 25 * 25) = 187.5 / 1875 = 10%
           options(
-            shinytest2.compare_screenshot.threshold = 62.5,
+            shinytest2.compare_screenshot.threshold = 187.5,
             shinytest2.compare_screenshot.kernel_size = 25
           )
           
