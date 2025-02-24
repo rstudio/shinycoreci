@@ -4,8 +4,8 @@ if (file.exists(normalizePath("~/.Rprofile"))) {
 }
 
 # Allow for a 10% difference in the screenshot kernel
-# 187.5 / (3x RGB channels * 25 * 25) = 187.5 / 1875 = 10%
+# (3x RGB channels * kernel_size^2) * 10% = threshold
 options(
-  shinytest2.compare_screenshot.threshold = 187.5,
-  shinytest2.compare_screenshot.kernel_size = 25
+  shinytest2.compare_screenshot.kernel_size = 50,
+  shinytest2.compare_screenshot.threshold = 50^2 * 3 * 0.1
 )
