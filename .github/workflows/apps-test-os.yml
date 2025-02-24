@@ -139,13 +139,6 @@ jobs:
           WDM_GITHUBTOKENSECRET: ${{ secrets.GITHUB_TOKEN }}
         shell: Rscript {0}
         run: |
-          # Allow for a 10% difference in the screenshot kernel
-          # 187.5 / (3x RGB channels * 25 * 25) = 187.5 / 1875 = 10%
-          options(
-            shinytest2.compare_screenshot.threshold = 187.5,
-            shinytest2.compare_screenshot.kernel_size = 25
-          )
-          
           apps <- shinycoreci:::apps_with_tests()
           is_pull_request <- isTRUE(jsonlite::parse_json("${{ github.event_name == 'pull_request' }}"))
           if (is_pull_request) {
