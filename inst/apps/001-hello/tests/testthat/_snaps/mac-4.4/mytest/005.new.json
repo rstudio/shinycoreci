@@ -1,0 +1,15 @@
+{
+  "input": {
+    "bins": 22
+  },
+  "output": {
+    "distPlot": {
+      "message": "figure margins too large",
+      "call": "graphics::plot.new()",
+      "type": null
+    }
+  },
+  "export": {
+
+  }
+}
