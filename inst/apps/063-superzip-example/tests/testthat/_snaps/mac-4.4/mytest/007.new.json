@@ -1,0 +1,383 @@
+{
+  "input": {
+    "cities": null,
+    "color": "college",
+    "map_bounds": {
+      "north": 37.44,
+      "east": -93.8672,
+      "south": 37.44,
+      "west": -93.8672
+    },
+    "map_center": {
+      "lng": -93.8672,
+      "lat": 37.44
+    },
+    "map_zoom": 4,
+    "maxScore": 100,
+    "minScore": 0,
+    "nav": "Data explorer",
+    "size": "adultpop",
+    "states": "MA",
+    "threshold": 3,
+    "zipcodes": null,
+    "ziptable_cell_clicked": {
+
+    },
+    "ziptable_cells_selected": [
+
+    ],
+    "ziptable_columns_selected": null,
+    "ziptable_rows_all": null,
+    "ziptable_rows_current": null,
+    "ziptable_rows_selected": null,
+    "ziptable_search": "",
+    "ziptable_state": null
+  },
+  "output": {
+    "histCentile": {
+      "src": "[image data hash: 52d3897db83910d52b8d0779dac2b129]",
+      "width": 287.7778,
+      "height": 200,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -3.9999,
+              "right": 104,
+              "bottom": -42.8,
+              "top": 1112.8
+            },
+            "range": {
+              "left": 59.2,
+              "right": 257.4558,
+              "bottom": 125.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 287.7778,
+          "height": 200
+        }
+      }
+    },
+    "map": {
+      "x": {
+        "options": {
+          "crs": {
+            "crsClass": "L.CRS.EPSG3857",
+            "code": null,
+            "proj4def": null,
+            "projectedBounds": null,
+            "options": {
+
+            }
+          }
+        },
+        "setView": [
+          [
+            37.45,
+            -93.85
+          ],
+          4,
+          [
+
+          ]
+        ]
+      },
+      "evals": [
+
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+        {
+          "name": "jquery",
+          "version": "3.6.0",
+          "src": {
+            "href": "jquery-3.6.0"
+          },
+          "meta": null,
+          "script": "jquery-3.6.0.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "leaflet",
+          "version": "1.3.1",
+          "src": {
+            "href": "leaflet-1.3.1"
+          },
+          "meta": null,
+          "script": "leaflet.js",
+          "stylesheet": "leaflet.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "leafletfix",
+          "version": "1.0.0",
+          "src": {
+            "href": "leafletfix-1.0.0"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "leafletfix.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "proj4",
+          "version": "2.6.2",
+          "src": {
+            "href": "proj4-2.6.2"
+          },
+          "meta": null,
+          "script": "proj4.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "Proj4Leaflet",
+          "version": "1.0.1",
+          "src": {
+            "href": "Proj4Leaflet-1.0.1"
+          },
+          "meta": null,
+          "script": "proj4leaflet.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "rstudio_leaflet",
+          "version": "1.3.1",
+          "src": {
+            "href": "rstudio_leaflet-1.3.1"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "rstudio_leaflet.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "leaflet-binding",
+          "version": "2.2.2.9000",
+          "src": {
+            "href": "leaflet-binding-2.2.2.9000"
+          },
+          "meta": null,
+          "script": "leaflet.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        }
+      ]
+    },
+    "scatterCollegeIncome": {
+      "src": "[image data hash: 7ae1064e5388b71fc75eba5412411b1b]",
+      "width": 287.7778,
+      "height": 250,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -0.04,
+              "right": 1.04,
+              "bottom": -0.04,
+              "top": 1.04
+            },
+            "range": {
+              "left": 0,
+              "right": 287.7778,
+              "bottom": 249,
+              "top": -1
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 287.7778,
+          "height": 250
+        }
+      }
+    },
+    "ziptable": {
+      "x": {
+        "filter": "none",
+        "vertical": false,
+        "container": "<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>City<\/th>\n      <th>State<\/th>\n      <th>Zipcode<\/th>\n      <th>Rank<\/th>\n      <th>Score<\/th>\n      <th>Superzip<\/th>\n      <th>Population<\/th>\n      <th>College<\/th>\n      <th>Income<\/th>\n      <th>Lat<\/th>\n      <th>Long<\/th>\n      <th>Action<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
+        "options": {
+          "ajax": {
+            "type": "POST",
+            "data": "function(d) {\nd.search.caseInsensitive = true;\nd.search.smart = true;\nd.escape = false;\nvar encodeAmp = function(x) { x.value = x.value.replace(/&/g, \"%26\"); }\nencodeAmp(d.search);\n$.each(d.columns, function(i, v) {encodeAmp(v.search);});\n}"
+          },
+          "columnDefs": [
+            {
+              "className": "dt-right",
+              "targets": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            {
+              "orderable": false,
+              "targets": 0
+            },
+            {
+              "name": " ",
+              "targets": 0
+            },
+            {
+              "name": "City",
+              "targets": 1
+            },
+            {
+              "name": "State",
+              "targets": 2
+            },
+            {
+              "name": "Zipcode",
+              "targets": 3
+            },
+            {
+              "name": "Rank",
+              "targets": 4
+            },
+            {
+              "name": "Score",
+              "targets": 5
+            },
+            {
+              "name": "Superzip",
+              "targets": 6
+            },
+            {
+              "name": "Population",
+              "targets": 7
+            },
+            {
+              "name": "College",
+              "targets": 8
+            },
+            {
+              "name": "Income",
+              "targets": 9
+            },
+            {
+              "name": "Lat",
+              "targets": 10
+            },
+            {
+              "name": "Long",
+              "targets": 11
+            },
+            {
+              "name": "Action",
+              "targets": 12
+            }
+          ],
+          "order": [
+
+          ],
+          "autoWidth": false,
+          "orderClasses": false,
+          "serverSide": true,
+          "processing": true
+        },
+        "selection": {
+          "mode": "multiple",
+          "selected": null,
+          "target": "row",
+          "selectable": null
+        }
+      },
+      "evals": [
+        "options.ajax.data"
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+        {
+          "name": "jquery",
+          "version": "3.6.0",
+          "src": {
+            "href": "jquery-3.6.0"
+          },
+          "meta": null,
+          "script": "jquery-3.6.0.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "dt-core",
+          "version": "1.13.6",
+          "src": {
+            "href": "dt-core-1.13.6"
+          },
+          "meta": null,
+          "script": "js/jquery.dataTables.min.js",
+          "stylesheet": [
+            "css/jquery.dataTables.min.css",
+            "css/jquery.dataTables.extra.css"
+          ],
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.2.1.9000",
+          "src": {
+            "href": "crosstalk-1.2.1.9000"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.min.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
