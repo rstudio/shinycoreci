@@ -6,12 +6,12 @@ R version: R version 4.3.3 (2024-02-29 ucrt)
 
 ---- Chrome ----
    Path: C:\Program Files\Google\Chrome\Application\chrome.exe
-Version: 133.0.6943.127
+Version: 133.0.6943.142
    Args: --headless --disable-gpu --no-sandbox --disable-dev-shm-usage
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20250224.5.0
+ gha_image 20250303.1.0
  version   R version 4.3.3 (2024-02-29 ucrt)
  os        Windows Server 2022 x64 (build 20348)
  system    x86_64, mingw32
@@ -20,7 +20,7 @@ Version: 133.0.6943.127
  collate   English_United States.utf8
  ctype     English_United States.utf8
  tz        UTC
- date      2025-03-06
+ date      2025-03-07
  pandoc    3.1.11 @ C:\\HOSTED~1\\windows\\pandoc\\31F387~1.11\\x64\\PANDOC~1.11\\pandoc.exe
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -44,7 +44,7 @@ Version: 133.0.6943.127
    Cairo               1.6-2       2023-11-28 [1] RSPM
  P callr               3.7.6       2024-03-25 [2] RSPM
    checkmate           2.3.2       2024-07-29 [1] RSPM
-   chromote            0.4.0.9000  2025-03-05 [1] https://p~
+   chromote            0.4.0.9000  2025-03-06 [1] https://p~
    class               7.3-22      2023-05-03 [4] CRAN (R 4.3.3)
    classInt            0.4-11      2025-01-08 [1] RSPM
  P cli                 3.6.4       2025-02-13 [2] RSPM
@@ -182,10 +182,10 @@ Version: 133.0.6943.127
    sf                  1.0-19      2024-11-05 [1] RSPM
    shiny               1.10.0.9000 2025-03-03 [1] https://p~
    shinyAce            0.4.4       2025-02-03 [1] RSPM
- P shinycoreci         0.0.0.9009  2025-02-24 [2] https://p~
+ P shinycoreci         0.0.0.9009  2025-03-07 [2] https://p~
    shinydashboard      0.7.2       2021-09-30 [1] RSPM
    shinyjs             2.1.0       2021-12-23 [1] RSPM
-   shinyjster          0.0.0.9010  2025-02-26 [1] https://p~
+   shinyjster          0.0.0.9010  2025-03-07 [1] https://p~
    shinymeta           0.2.1       2025-02-18 [1] https://p~
    shinytest           1.6.1       2024-05-30 [2] RSPM
    shinytest2          0.3.2.9000  2025-02-10 [1] https://p~
