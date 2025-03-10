@@ -5,8 +5,8 @@
   },
   "output": {
     "regPlot": {
-      "src": "[image data hash: 7c3054bbb0d4fc1183bab0afb5b801b7]",
-      "width": 770,
+      "src": "[image data hash: 470c5634b8b360aec96ea860e8a87136]",
+      "width": 631.3281,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -19,8 +19,8 @@
               "top": 34.84
             },
             "range": {
-              "left": 57.6,
-              "right": 768.56,
+              "left": 57.63,
+              "right": 629.8874,
               "bottom": 341.4,
               "top": 0.44
             },
@@ -34,7 +34,7 @@
           }
         ],
         "dims": {
-          "width": 770,
+          "width": 631.3281,
           "height": 400
         }
       }
