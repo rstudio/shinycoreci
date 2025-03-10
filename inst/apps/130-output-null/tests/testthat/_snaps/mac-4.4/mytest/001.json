@@ -4,8 +4,8 @@
   },
   "output": {
     "plot": {
-      "src": "[image data hash: 3a9d1df32ee11999b8659f1042cad20d]",
-      "width": 1170,
+      "src": "[image data hash: 6bb1e43e0f1bfa014b3e86cc8b7f64b0]",
+      "width": 962,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -19,7 +19,7 @@
             },
             "range": {
               "left": 59.04,
-              "right": 1139.76,
+              "right": 931.76,
               "bottom": 325.56,
               "top": 58.04
             },
@@ -33,7 +33,7 @@
           }
         ],
         "dims": {
-          "width": 1170,
+          "width": 962,
           "height": 400
         }
       }

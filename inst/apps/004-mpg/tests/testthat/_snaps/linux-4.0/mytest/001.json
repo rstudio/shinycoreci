@@ -6,8 +6,8 @@
   "output": {
     "caption": "mpg ~ cyl",
     "mpgPlot": {
-      "src": "[image data hash: ec6c5d33a0df5caab468b55b6f25c0e8]",
-      "width": 489.9844,
+      "src": "[image data hash: 13ad8f4a88daf41a948da72f3d4a2b61]",
+      "width": 631.3281,
       "height": 400,
       "alt": "Plot object",
       "coordmap": {
@@ -20,8 +20,8 @@
               "top": 34.84
             },
             "range": {
-              "left": 59.1588,
-              "right": 459.6835,
+              "left": 59.0707,
+              "right": 601.0724,
               "bottom": 325.56,
               "top": 58.04
             },
@@ -35,7 +35,7 @@
           }
         ],
         "dims": {
-          "width": 489.9844,
+          "width": 631.3281,
           "height": 400
         }
       }
