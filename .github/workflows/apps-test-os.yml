@@ -134,11 +134,11 @@ jobs:
         run: |
           pak::repo_add("https://rstudio.r-universe.dev")
           pak::pak("chromote", upgrade = TRUE)
-          
+
           path <- chromote::chrome_versions_add("latest-stable", binary = "chrome-headless-shell")
           cat(
             sprintf("\nCHROMOTE_CHROME=%s\n", path),
-            Sys.getenv("GITHUB_ENV"),
+            file = Sys.getenv("GITHUB_ENV"),
             append = TRUE
           )
 
