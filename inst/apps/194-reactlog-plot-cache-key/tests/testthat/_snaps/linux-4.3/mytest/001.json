@@ -6,7 +6,7 @@
   },
   "output": {
     "plot": {
-      "src": "[image data hash: 02328ba34390fa28d8bb4b7430644509]",
+      "src": "[image data hash: f79d26d5c77ec7f309b01d61046f8d53]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -19,7 +19,7 @@
             },
             "range": {
               "left": 59.04,
-              "right": 449.76,
+              "right": 661.76,
               "bottom": 325.56,
               "top": 58.04
             },
@@ -33,11 +33,10 @@
           }
         ],
         "dims": {
-          "width": 480,
+          "width": 692,
           "height": 400
         }
       },
-      "error": null,
       "class": "shiny-scalable"
     },
     "reactlog_module-iframe": {
