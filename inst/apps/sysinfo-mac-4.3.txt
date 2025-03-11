@@ -5,22 +5,22 @@ R version: R version 4.3.3 (2024-02-29)
  chromote: 0.4.0.9000
 
 ---- Chrome ----
-   Path: /Users/runner/Library/Caches/org.R-project.R/R/chromote/chrome/133.0.6943.141/chrome-headless-shell-mac-arm64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
-Version: Google Chrome for Testing 133.0.6943.141
+   Path: /Users/runner/Library/Caches/org.R-project.R/R/chromote/chrome/134.0.6998.88/chrome-headless-shell-mac-arm64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
+Version: Google Chrome for Testing 134.0.6998.88
    Args: --headless --no-sandbox --disable-dev-shm-usage
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20250304.1018
+ gha_image 20250120.774
  version   R version 4.3.3 (2024-02-29)
- os        macOS Sonoma 14.7.4
+ os        macOS Sonoma 14.7.2
  system    aarch64, darwin20
  ui        X11
  language  (EN)
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2025-03-10
+ date      2025-03-11
  pandoc    3.1.11 @ /usr/local/bin/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -44,7 +44,7 @@ Version: Google Chrome for Testing 133.0.6943.141
    Cairo               1.6-2       2023-11-28 [1] CRAN (R 4.3.3)
  P callr               3.7.6       2024-03-25 [2] CRAN (R 4.3.3)
    checkmate           2.3.2       2024-07-29 [1] CRAN (R 4.3.3)
-   chromote            0.4.0.9000  2025-03-06 [1] https://p~
+   chromote            0.4.0.9000  2025-03-10 [1] https://p~
    class               7.3-22      2023-05-03 [4] CRAN (R 4.3.3)
    classInt            0.4-11      2025-01-08 [1] CRAN (R 4.3.3)
  P cli                 3.6.4       2025-02-13 [2] CRAN (R 4.3.3)
@@ -183,7 +183,7 @@ Version: Google Chrome for Testing 133.0.6943.141
    sf                  1.0-19      2024-11-05 [1] CRAN (R 4.3.3)
    shiny               1.10.0.9000 2025-03-03 [1] https://p~
    shinyAce            0.4.4       2025-02-03 [1] CRAN (R 4.3.3)
- P shinycoreci         0.0.0.9009  2025-03-07 [2] https://p~
+ P shinycoreci         0.0.0.9009  2025-03-10 [2] https://p~
    shinydashboard      0.7.2       2021-09-30 [1] CRAN (R 4.3.0)
    shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.3.0)
    shinyjster          0.0.0.9010  2025-03-07 [1] https://p~
