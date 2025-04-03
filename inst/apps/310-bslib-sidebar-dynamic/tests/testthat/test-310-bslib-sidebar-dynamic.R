@@ -37,6 +37,14 @@ expect_sidebar_shown_factory <- function(app) {
   }
 }
 
+js_output_exists <- function(id) {
+  selector <- sprintf("#ui_content_%s", id)
+  sprintf(
+    "$('%s').text().length > 0",
+    selector
+  )
+}
+
 js_sidebar_transition_complete <- function(id, which = c("inner", "outer")) {
   which <- match.arg(which)
   selector <- sprintf("#sidebar_%s_%s", which, id)
@@ -154,7 +162,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # Add second sidebar -----
   app$
     click("add_sidebar")$
-    wait_for_js("document.getElementById('layout_2') ? true : false")$
+    wait_for_js(js_output_exists(id = 2))$
     expect_values()
   expect_sidebar_main_text(2, "elegant jaguar")
 
@@ -188,7 +196,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # Add third sidebar -----
   app$
     click("add_sidebar")$
-    wait_for_js("document.getElementById('layout_3') ? true : false")$
+    wait_for_js(js_output_exists(id = 3))$
     # sidebar is closed immediately upon adding when open = "desktop"
     wait_for_js(js_sidebar_transition_complete(id = 3))$
     expect_values()
