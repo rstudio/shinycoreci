@@ -52,7 +52,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-          cache: 'maven'
 
       - name: Windows git setup
         if: runner.os == 'Windows'
