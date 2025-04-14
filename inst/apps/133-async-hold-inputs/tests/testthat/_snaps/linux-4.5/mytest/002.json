@@ -1,0 +1,12 @@
+{
+  "input": {
+    "choice": "c",
+    "go": 1
+  },
+  "output": {
+    "out": "a \na \na \na "
+  },
+  "export": {
+
+  }
+}
