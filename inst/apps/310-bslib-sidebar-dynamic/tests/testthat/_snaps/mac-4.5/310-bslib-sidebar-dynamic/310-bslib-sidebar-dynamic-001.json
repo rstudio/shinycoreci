@@ -1,0 +1,24 @@
+{
+  "input": {
+    "add_sidebar": 1,
+    "adjective_1": "cuddly",
+    "animal_1": "giraffe",
+    "remove_sidebar": 0,
+    "show_all": 0,
+    "sidebar_inner_1": true,
+    "sidebar_outer_1": true,
+    "toggle_last_inner": 0,
+    "toggle_last_outer": 0
+  },
+  "output": {
+    "ui_content_1": {
+      "html": "<p>Hello, cuddly giraffe!<\/p>",
+      "deps": [
+
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
