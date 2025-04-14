@@ -1,0 +1,16 @@
+{
+  "input": {
+    "variable": "cyl"
+  },
+  "output": {
+    "testResult": {
+      "html": "<b style=\"color: green\">\n  Test\n  <span id=\"res\">passed<\/span>\n  , move along\n<\/b>",
+      "deps": [
+
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
