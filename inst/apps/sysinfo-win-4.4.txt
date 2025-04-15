@@ -121,7 +121,7 @@ Version: Google Chrome for Testing 135.0.7049.84
    mgcv                1.9-1       2023-12-21 [4] CRAN (R 4.4.3)
    mime                0.13        2025-03-17 [1] RSPM
    munsell             0.5.1       2024-04-01 [1] RSPM
-   networkD3           0.4.1       2025-04-14 [1] CRAN (R 4.4.3)
+   networkD3           0.4.1       2025-04-14 [1] RSPM
    nlme                3.1-167     2025-01-27 [4] CRAN (R 4.4.3)
    NLP                 0.3-2       2024-11-20 [1] RSPM
    nnet                7.3-20      2025-01-01 [4] CRAN (R 4.4.3)
@@ -137,7 +137,7 @@ Version: Google Chrome for Testing 135.0.7049.84
    pkgload             1.4.0       2024-06-28 [1] RSPM
    PKI                 0.1-14      2024-06-15 [1] RSPM
    plogr               0.2.0       2018-03-25 [1] RSPM
-   plotly              4.10.4.9000 2025-03-16 [1] https://p~
+   plotly              4.10.4.9000 2025-04-15 [1] https://p~
    plyr                1.8.9       2023-10-02 [1] RSPM
    png                 0.1-8       2022-11-29 [1] RSPM
    praise              1.0.0       2015-08-11 [1] RSPM
