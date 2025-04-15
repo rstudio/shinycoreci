@@ -25,7 +25,7 @@ Version: Google Chrome for Testing 135.0.7049.84
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package           * version     date (UTC) lib source
-   AsioHeaders         1.28.2-1    2025-04-08 [1] CRAN (R 4.3.3)
+   AsioHeaders         1.30.2-1    2025-04-15 [1] CRAN (R 4.3.3)
    askpass             1.2.1       2024-10-04 [1] CRAN (R 4.3.3)
    assertthat          0.2.1       2019-03-21 [1] CRAN (R 4.3.3)
    backports           1.5.0       2024-05-23 [1] CRAN (R 4.3.3)
@@ -45,7 +45,7 @@ Version: Google Chrome for Testing 135.0.7049.84
    Cairo               1.6-2       2023-11-28 [1] CRAN (R 4.3.3)
  P callr               3.7.6       2024-03-25 [2] CRAN (R 4.3.3)
    checkmate           2.3.2       2024-07-29 [1] CRAN (R 4.3.3)
-   chromote            0.5.0.9000  2025-04-15 [1] Github (rstudio/chromote@3f80418)
+   chromote            0.5.0.9000  2025-04-15 [1] https://p~
    class               7.3-22      2023-05-03 [4] CRAN (R 4.3.3)
    classInt            0.4-11      2025-01-08 [1] CRAN (R 4.3.3)
  P cli                 3.6.4       2025-02-13 [2] CRAN (R 4.3.3)
