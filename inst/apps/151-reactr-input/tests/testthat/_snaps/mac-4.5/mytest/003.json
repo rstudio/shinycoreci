@@ -1,0 +1,12 @@
+{
+  "input": {
+    "._bookmark_": 1,
+    "simpleTextInput": "abcd1234"
+  },
+  "output": {
+    "simpleTextOutput": "abcd1234"
+  },
+  "export": {
+
+  }
+}
