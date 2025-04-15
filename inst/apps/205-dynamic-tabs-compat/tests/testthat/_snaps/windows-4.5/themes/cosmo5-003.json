@@ -1,0 +1,23 @@
+{
+  "input": {
+    "navbar-insert": 2,
+    "navbar-navbar": "Home",
+    "navbar-remove": 0,
+    "navlist-hide": 0,
+    "navlist-insert": 2,
+    "navlist-navlist": "B",
+    "navlist-remove": 0,
+    "navlist-show": 0,
+    "tabset-hide": 0,
+    "tabset-insert": 2,
+    "tabset-remove": 0,
+    "tabset-show": 0,
+    "tabset-tabset": "A"
+  },
+  "output": {
+
+  },
+  "export": {
+
+  }
+}
