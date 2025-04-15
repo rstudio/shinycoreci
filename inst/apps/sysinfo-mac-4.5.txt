@@ -137,7 +137,7 @@ Version: Google Chrome for Testing 135.0.7049.84
    pkgload             1.4.0       2024-06-28 [1] CRAN (R 4.5.0)
    PKI                 0.1-14      2024-06-15 [1] CRAN (R 4.5.0)
    plogr               0.2.0       2018-03-25 [1] CRAN (R 4.5.0)
-   plotly              4.10.4.9000 2025-03-16 [1] https://p~
+   plotly              4.10.4.9000 2025-04-15 [1] https://p~
    plyr                1.8.9       2023-10-02 [1] CRAN (R 4.5.0)
    png                 0.1-8       2022-11-29 [1] CRAN (R 4.5.0)
    praise              1.0.0       2015-08-11 [1] CRAN (R 4.5.0)
