@@ -5,8 +5,8 @@ R version: R version 4.4.3 (2025-02-28 ucrt)
  chromote: 0.5.0.9000
 
 ---- Chrome ----
-   Path: C:/Users/runneradmin/AppData/Local/R/cache/R/chromote/chrome/135.0.7049.84/chrome-headless-shell-win64/chrome-headless-shell.exe (set by CHROMOTE_CHROME envvar)
-Version: Google Chrome for Testing 135.0.7049.84
+   Path: C:/Users/runneradmin/AppData/Local/R/cache/R/chromote/chrome/135.0.7049.95/chrome-headless-shell-win64/chrome-headless-shell.exe (set by CHROMOTE_CHROME envvar)
+Version: Google Chrome for Testing 135.0.7049.95
    Args: --headless --disable-gpu --no-sandbox --disable-dev-shm-usage
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 135.0.7049.84
  collate   English_United States.utf8
  ctype     English_United States.utf8
  tz        UTC
- date      2025-04-15
+ date      2025-04-16
  pandoc    3.1.11 @ C:\\HOSTED~1\\windows\\pandoc\\31F387~1.11\\x64\\PANDOC~1.11\\pandoc.exe
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -39,7 +39,7 @@ Version: Google Chrome for Testing 135.0.7049.84
    brio                1.1.5       2024-04-24 [1] RSPM
    broom               1.0.8       2025-03-28 [1] RSPM
    bsicons             0.1.2.9000  2025-04-01 [1] https://p~
-   bslib               0.9.0.9000  2025-04-09 [1] https://p~
+   bslib               0.9.0.9000  2025-04-15 [1] https://p~
    cachem              1.1.0       2025-04-11 [1] https://p~
    Cairo               1.6-2       2023-11-28 [1] RSPM
  P callr               3.7.6       2024-03-25 [2] RSPM
@@ -121,7 +121,7 @@ Version: Google Chrome for Testing 135.0.7049.84
    mgcv                1.9-1       2023-12-21 [4] CRAN (R 4.4.3)
    mime                0.13        2025-03-17 [1] RSPM
    munsell             0.5.1       2024-04-01 [1] RSPM
-   networkD3           0.4.1       2025-04-14 [1] CRAN (R 4.4.3)
+   networkD3           0.4.1       2025-04-14 [1] RSPM
    nlme                3.1-167     2025-01-27 [4] CRAN (R 4.4.3)
    NLP                 0.3-2       2024-11-20 [1] RSPM
    nnet                7.3-20      2025-01-01 [4] CRAN (R 4.4.3)
@@ -137,7 +137,7 @@ Version: Google Chrome for Testing 135.0.7049.84
    pkgload             1.4.0       2024-06-28 [1] RSPM
    PKI                 0.1-14      2024-06-15 [1] RSPM
    plogr               0.2.0       2018-03-25 [1] RSPM
-   plotly              4.10.4.9000 2025-03-16 [1] https://p~
+   plotly              4.10.4.9000 2025-04-15 [1] https://p~
    plyr                1.8.9       2023-10-02 [1] RSPM
    png                 0.1-8       2022-11-29 [1] RSPM
    praise              1.0.0       2015-08-11 [1] RSPM
@@ -184,7 +184,7 @@ Version: Google Chrome for Testing 135.0.7049.84
    sf                  1.0-20      2025-03-24 [1] RSPM
    shiny               1.10.0.9000 2025-03-26 [1] https://p~
    shinyAce            0.4.4       2025-02-03 [1] RSPM
- P shinycoreci         0.0.0.9009  2025-04-03 [2] https://p~
+ P shinycoreci         0.0.0.9009  2025-04-16 [2] https://p~
    shinydashboard      0.7.2       2021-09-30 [1] RSPM
    shinyjs             2.1.0       2021-12-23 [1] RSPM
    shinyjster          0.0.0.9010  2025-04-06 [1] https://p~
@@ -215,7 +215,7 @@ Version: Google Chrome for Testing 135.0.7049.84
    tidyr               1.3.1       2024-01-24 [1] RSPM
    tidyselect          1.2.1       2024-03-11 [1] RSPM
    timechange          0.3.0       2024-01-18 [1] RSPM
-   tinytex             0.56        2025-02-26 [1] RSPM
+   tinytex             0.57        2025-04-15 [1] CRAN (R 4.4.3)
    tm                  0.7-16      2025-02-19 [1] RSPM
    translations        4.4.3       2025-02-28 [4] local
    TTR                 0.24.4      2023-11-28 [1] RSPM
