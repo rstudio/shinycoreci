@@ -1,0 +1,17 @@
+{
+  "input": {
+    "date": "2020-12-20",
+    "date_range": [
+      "2020-12-15",
+      "2020-12-24"
+    ],
+    "select": "AL",
+    "select_multiple": null
+  },
+  "output": {
+
+  },
+  "export": {
+
+  }
+}

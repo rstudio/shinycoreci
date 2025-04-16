@@ -1,0 +1,47 @@
+{
+  "input": {
+    "clusters": 3,
+    "xcol": "Sepal.Length",
+    "ycol": "Sepal.Width"
+  },
+  "output": {
+    "plot1": {
+      "src": "[image data hash: 091d3f023bccdd5a9ef61097390b1d44]",
+      "width": 631.3281,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 4.156,
+              "right": 8.044,
+              "bottom": 1.904,
+              "top": 4.496
+            },
+            "range": {
+              "left": 59.0707,
+              "right": 616.9206,
+              "bottom": 325.56,
+              "top": -1
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 631.3281,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}
