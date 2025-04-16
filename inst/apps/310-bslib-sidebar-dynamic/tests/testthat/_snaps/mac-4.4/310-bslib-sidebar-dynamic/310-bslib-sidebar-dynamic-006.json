@@ -1,0 +1,34 @@
+{
+  "input": {
+    "add_sidebar": 2,
+    "adjective_1": "silly",
+    "adjective_2": "elegant",
+    "animal_1": "panda",
+    "animal_2": "jaguar",
+    "remove_sidebar": 0,
+    "show_all": 0,
+    "sidebar_inner_1": true,
+    "sidebar_inner_2": false,
+    "sidebar_outer_1": true,
+    "sidebar_outer_2": false,
+    "toggle_last_inner": 0,
+    "toggle_last_outer": 0
+  },
+  "output": {
+    "ui_content_1": {
+      "html": "<p>Hello, silly panda!<\/p>",
+      "deps": [
+
+      ]
+    },
+    "ui_content_2": {
+      "html": "<p>Hello, elegant jaguar!<\/p>",
+      "deps": [
+
+      ]
+    }
+  },
+  "export": {
+
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "input": {
+    "error": 0,
+    "silent": 0,
+    "success": 0,
+    "type": "silent",
+    "validation": 0
+  },
+  "output": {
+    "async_output": {
+      "message": "",
+      "call": "NULL",
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
+    },
+    "observeEventStatus": "(none)",
+    "sync_output": {
+      "message": "",
+      "call": "NULL",
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
