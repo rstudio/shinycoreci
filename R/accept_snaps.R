@@ -32,7 +32,7 @@ accept_snaps <- function(
 
 
 # Removes all snaps that are below the minimum R version
-remove_snaps_cruft <- function(repo_dir = rprojroot::find_package_root_file(), min_r_version = "3.6") {
+remove_snaps_cruft <- function(repo_dir = rprojroot::find_package_root_file(), min_r_version = "4.1") {
   app_paths <- repo_apps_paths(repo_dir)
 
   pb <- progress_bar(
