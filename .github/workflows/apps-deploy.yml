@@ -42,8 +42,8 @@ jobs:
             r: "${{ needs.config.outputs.oldrel1 }}"
             type: "connect"
             account: "barret"
-            server_name: "rsc.radixu.com"
-            server_url: "https://rsc.radixu.com/__api__"
+            server_name: "dogfood.team.pct.posit.it"
+            server_url: "https://dogfood.team.pct.posit.it/__api__"
             cores: 1
             retry: 3
             # extra_app_text: ", apps = c('000-all', '000-manual', '300-bs-themer')"
