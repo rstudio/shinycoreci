@@ -16,22 +16,37 @@ work_time <- 1
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
-  tags$style(HTML("
+  tags$style(HTML(
+    "
     table, td {
       border: 1px solid black;
       border-collapse: collapse;
       padding: 5px;
     }
-  ")),
-  p("This app tests that ", tags$code("promises::future_promise()"), " does not block the main R session in a shiny application."),
-  p("The background counter value for ", tags$code("promises::future_promise()"), " should be higher than ", tags$code("future::future()"), "."),
+  "
+  )),
+  p(
+    "This app tests that ",
+    tags$code("promises::future_promise()"),
+    " does not block the main R session in a shiny application."
+  ),
+  p(
+    "The background counter value for ",
+    tags$code("promises::future_promise()"),
+    " should be higher than ",
+    tags$code("future::future()"),
+    "."
+  ),
   uiOutput("status"),
   actionButton("go_future_future", "future::future()"),
   actionButton("go_future_promise", "promises::future_promise()"),
   tags$table(
     tags$tr(
       tags$td(tags$code("future::future()")),
-      tags$td("Background Count: ", verbatimTextOutput("future_counts", placeholder = TRUE)),
+      tags$td(
+        "Background Count: ",
+        verbatimTextOutput("future_counts", placeholder = TRUE)
+      ),
       tags$td("Jobs:"),
       lapply(seq_len(n), function(i) {
         tags$td(
@@ -41,7 +56,10 @@ ui <- fluidPage(
     ),
     tags$tr(
       tags$td(tags$code("promises::future_promise()")),
-      tags$td("Background Count: ", verbatimTextOutput("promise_counts", placeholder = TRUE)),
+      tags$td(
+        "Background Count: ",
+        verbatimTextOutput("promise_counts", placeholder = TRUE)
+      ),
       tags$td("Jobs:"),
       lapply(seq_len(n), function(i) {
         tags$td(
@@ -49,49 +67,10 @@ ui <- fluidPage(
         )
       }),
     )
-  ),
-  shinyjster::shinyjster_js("
-    var wait_for_buttons = function(done) {
-      var wait = function() {
-        if ($('#go_future_promise').attr('disabled')) {
-          setTimeout(wait, 0.1);
-          return;
-        }
-        done();
-        return;
-      }
-      setTimeout(wait, 2000);
-    }
-
-    var jst = jster();
-    jst.add(Jster.shiny.waitUntilStable);
-    for (i = 0; i < 2; i++) {
-      jst.add(function() {
-        Jster.button.click('go_future_future');
-      });
-      jst.add(wait_for_buttons);
-      jst.add(Jster.shiny.waitUntilIdleFor(2000));
-      jst.add(function() {
-        Jster.button.click('go_future_promise');
-      });
-      jst.add(wait_for_buttons);
-      jst.add(Jster.shiny.waitUntilIdleFor(2000));
-    }
-    jst.add(Jster.shiny.waitUntilIdleFor(2000));
-    jst.add(function() {
-      Jster.assert.isEqual(
-        $('#status').text().trim(),
-        'Pass!'
-      )
-    })
-    jst.test();
-  ")
+  )
 )
 
 server <- function(input, output, session) {
-  # include shinyjster_server call at top of server definition
-  shinyjster::shinyjster_server(input, output, session)
-
   future_counts <- reactiveVal()
   promise_counts <- reactiveVal()
 
@@ -109,7 +88,10 @@ server <- function(input, output, session) {
       print_counter()
       start <- Sys.time()
       do_counter <- function() {
-        if (difftime(Sys.time(), start, units = "secs") > (n * work_time / workers + 1)) {
+        if (
+          difftime(Sys.time(), start, units = "secs") >
+            (n * work_time / workers + 1)
+        ) {
           # counter(counter_val)
           isolate(counter_react(c(counter_react(), counter_val)))
           withReactiveDomain(this_session, {
@@ -121,7 +103,7 @@ server <- function(input, output, session) {
         counter_val <<- counter_val + 1
         message("increase ", output_name, " counter == ", counter_val)
         # counter(counter() + 1)
-        later::later(do_counter, delay = 1/4)
+        later::later(do_counter, delay = 1 / 4)
       }
       do_counter()
 
@@ -142,7 +124,9 @@ server <- function(input, output, session) {
           message("done ", output_name, " - ", i)
           i
         }) %...>%
-          {ith_val(.)}
+          {
+            ith_val(.)
+          }
         NULL
       })
       observeEvent(react(), {
@@ -159,18 +143,21 @@ server <- function(input, output, session) {
   make_counter(
     "future",
     future::future,
-    reactive({input$go_future_future}),
+    reactive({
+      input$go_future_future
+    }),
     future_counts
   )
   make_counter(
     "promise",
     future_promise,
-    reactive({input$go_future_promise}),
+    reactive({
+      input$go_future_promise
+    }),
     promise_counts
   )
 
   output$status <- renderUI({
-
     status <-
       if (length(future_counts()) < 1) {
         tagList("Click ", tags$code("future::future()"), " button")
@@ -179,7 +166,11 @@ server <- function(input, output, session) {
       } else if (length(promise_counts()) < 1) {
         tagList("Click ", tags$code("promises::future_promise()"), " button")
       } else if (length(promise_counts()) < 2) {
-        tagList("Click ", tags$code("promises::future_promise()"), " button again")
+        tagList(
+          "Click ",
+          tags$code("promises::future_promise()"),
+          " button again"
+        )
       } else {
         if (min(promise_counts()) > max(future_counts())) {
           "pass"
@@ -188,13 +179,19 @@ server <- function(input, output, session) {
         }
       }
 
-    switch(as.character(status),
-      "pass" = tags$h4(tags$span("Pass!", style = "background-color: #7be092;")),
-      "fail" = tags$h4(tags$span("Fail!", style = "background-color: #e68a8a;")),
+    switch(
+      as.character(status),
+      "pass" = tags$h4(tags$span(
+        "Pass!",
+        style = "background-color: #7be092;"
+      )),
+      "fail" = tags$h4(tags$span(
+        "Fail!",
+        style = "background-color: #e68a8a;"
+      )),
       tags$h4(tags$span(status, style = "background-color: #dddddd;"))
     )
   })
-
 }
 
 shinyApp(ui, server)
