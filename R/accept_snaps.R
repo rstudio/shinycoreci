@@ -32,7 +32,11 @@ accept_snaps <- function(
 
 
 # Removes all snaps that are below the minimum R version
-remove_snaps_cruft <- function(repo_dir = rprojroot::find_package_root_file(), min_r_version = "4.1") {
+# Removes all sysinfo files for outdated R versions
+remove_outdated_cruft <- function(repo_dir = rprojroot::find_package_root_file(), min_r_version = "4.1") {
+  # inst/apps
+  apps_path <- repo_apps_path(repo_dir)
+  # c("inst/apps/123-NAME", ...)
   app_paths <- repo_apps_paths(repo_dir)
 
   pb <- progress_bar(
@@ -59,4 +63,17 @@ remove_snaps_cruft <- function(repo_dir = rprojroot::find_package_root_file(), m
       })
     })
   }
+
+  sys_info_files <- dir(apps_path, pattern = "\\d\\.\\d\\.txt$", full.names = TRUE)
+  lapply(sys_info_files, function(file) {
+    # If the file version number is less than `min_r_version` remove it
+    file_version <- sub("^.*-(\\d\\.\\d)\\.txt$", "\\1", basename(file))
+
+    if (utils::compareVersion(file_version, min_r_version) == -1) {
+      message(paste0("Removing ", basename(file)))
+      unlink(file)
+    }
+  })
+
+  invisible()
 }
