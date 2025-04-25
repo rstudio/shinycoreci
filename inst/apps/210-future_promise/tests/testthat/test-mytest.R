@@ -5,6 +5,10 @@ library(shinytest2)
 test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant())
 
+  on.exit({
+    print(app$get_logs())
+  })
+
   # Verify promise counts are higher than future counts
   expect_counts <- function() {
     future_counts = as.numeric(app$get_value(output = "future_counts"))
