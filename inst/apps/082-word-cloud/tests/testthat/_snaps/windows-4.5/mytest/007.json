@@ -7,7 +7,7 @@
   },
   "output": {
     "plot": {
-      "src": "[image data hash: 348c31fdeed346c76537eead8d9298e3]",
+      "src": "[image data hash: e9b0bc6bd53e273d480aeafe551186c2]",
       "width": 631.3281,
       "height": 400,
       "alt": "Plot object",
@@ -16,7 +16,7 @@
           {
             "domain": {
               "left": -0.3519,
-              "right": 1.3519,
+              "right": 1.3518,
               "bottom": -0.04,
               "top": 1.04
             },
