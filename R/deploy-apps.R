@@ -95,9 +95,12 @@ deploy_apps <- function(
         })
         if (inherits(deployment_worked, "try-error")) {
           # Debug manifest.json
-          withr::with_tempdir({
-            rsconnect::writeManifest(app_dir)
-            cat(paste0(readLines("manifest.json"), collapse = "\n"), "\n")
+          try({
+            withr::with_tempdir({
+              rsconnect::writeManifest(app_dir)
+              cat(paste0(readLines(file.path(appDir, "manifest.json")), collapse = "\n"), "\n")
+              unlink(file.path(appDir, "manifest.json"))
+            })
           })
           return(1)
         } else {
