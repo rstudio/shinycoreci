@@ -17,6 +17,14 @@ shinycoreci_is_local <- function() {
   )
 }
 
+shinyverse_repos_option <- function() {
+  c(
+    # Use the shinycoreci universe to avoid GH rate limits!
+    "AAA" = shinyverse_cran_url,
+    getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
+  )
+}
+
 
 
 # # Attempt to set up all the packages in the shinyverse, even if they are not directly depended upon.
@@ -127,11 +135,7 @@ get_extra_shinyverse_deps <- function(packages) {
     pkg_dep_packages <- pak_deps_map[[pkg]]
     if (is.null(pkg_dep_packages)) {
       withr::with_options(list(
-        repos = c(
-            # Use the shinycoreci universe to avoid GH rate limits!
-            "AAA" = shinyverse_cran_url,
-            getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
-          )
+        repos = shinyverse_repos_option()
       ), {
         stopifnot(utils::packageVersion("pak") >= "0.3.0")
         pak__pkg_deps <- utils::getFromNamespace("pkg_deps", "pak")
@@ -228,12 +232,8 @@ install_pkgs_with_callr <- function(
     ) {
   stopifnot(length(list(...)) == 0)
   callr::r(
-    function(shinyverse_cran_url, packages, upgrade, dependencies) {
-      options(repos = c(
-        # Use the shinycoreci universe to avoid GH rate limits!
-        "AAA" = shinyverse_cran_url,
-        getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
-      ))
+    function(repos_option, packages, upgrade, dependencies) {
+      options(repos = repos_option)
 
       # Performing a leap of faith that pak is installed.
       # Avoids weird installs when using pak to install shinycoreci
@@ -247,7 +247,7 @@ install_pkgs_with_callr <- function(
       )
     },
     list(
-      shinyverse_cran_url = shinyverse_cran_url,
+      repos_option = shinyverse_repos_option(),
       packages = packages,
       upgrade = upgrade,
       dependencies = dependencies
