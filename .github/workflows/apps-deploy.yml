@@ -34,7 +34,7 @@ jobs:
             type: "shinyappsio"
             account: "testing-apps"
             server_name: "shinyapps.io"
-            cores: 1
+            cores: 5
             retry: 3
             # extra_app_text: ", apps = c('000-all', '000-manual', '300-bs-themer')"
 
