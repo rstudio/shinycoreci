@@ -169,7 +169,7 @@
     },
     "out0a4534806ab07416": "A",
     "outa859f0ffc8c7802f": {
-      "src": "[image data hash: 3cdfa0c97ea569fc348c042f3fdd61f3]",
+      "src": "[image data hash: 667e6bbc9dfd323da0a4816b146eef3f]",
       "width": 100,
       "height": 40,
       "alt": "Plot object",
@@ -179,8 +179,8 @@
             "domain": {
               "left": 1739.6033,
               "right": 1993.3133,
-              "bottom": -42.2397,
-              "top": 296.0397
+              "bottom": -42.24,
+              "top": 296.04
             },
             "range": {
               "left": 0,
@@ -204,7 +204,7 @@
       }
     },
     "outc41ba546fb6de017": {
-      "src": "[image data hash: 1d7de2ca126c6342b976dcc43ec02bc1]",
+      "src": "[image data hash: 612d42b87479c4a2d345d7074049410e]",
       "width": 600,
       "height": 400,
       "alt": "Plot object",
