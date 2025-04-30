@@ -57,9 +57,13 @@ deploy_apps <- function(
       cores = cores,
       account = account,
       server = server,
-      progress_bar = progress_bar
+      progress_bar = progress_bar,
+      repos_option = shinyverse_repos_option()
     ),
-    function(apps_dirs, cores, account, server, progress_bar) {
+    function(apps_dirs, cores, account, server, progress_bar, repos_option) {
+      # Set the shinyverse repos option
+      options(repos = repos_option)
+
       pb <- progress_bar(
         total = ceiling(length(apps_dirs) / cores),
         format = "\n\n:name [:bar] :current/:total eta::eta elapsed::elapsed\n"
@@ -90,6 +94,14 @@ deploy_apps <- function(
           )
         })
         if (inherits(deployment_worked, "try-error")) {
+          # Debug manifest.json
+          try({
+            withr::with_tempdir({
+              rsconnect::writeManifest(app_dir)
+              cat(paste0(readLines(file.path(appDir, "manifest.json")), collapse = "\n"), "\n")
+              unlink(file.path(appDir, "manifest.json"))
+            })
+          })
           return(1)
         } else {
           return(as.numeric(!isTRUE(deployment_worked)))
