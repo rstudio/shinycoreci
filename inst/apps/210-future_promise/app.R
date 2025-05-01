@@ -1,5 +1,7 @@
 ### Keep this line to manually test this shiny application. Do not edit this line; shinycoreci::::is_manual_app
 
+options(future.debug = TRUE) # GREAT FOR REPREX INFO!
+
 library(shiny)
 library(future)
 library(promises)
