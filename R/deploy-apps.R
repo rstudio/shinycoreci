@@ -14,15 +14,16 @@
 #' @inheritParams resolve_libpath
 #' @export
 deploy_apps <- function(
-    apps = apps_deploy,
-    account = "testing-apps",
-    server = "shinyapps.io",
-    ...,
-    local_pkgs = FALSE,
-    extra_packages = NULL,
-    cores = 1,
-    retry = 2,
-    retrying_ = FALSE) {
+  apps = apps_deploy,
+  account = "testing-apps",
+  server = "shinyapps.io",
+  ...,
+  local_pkgs = FALSE,
+  extra_packages = NULL,
+  cores = 1,
+  retry = 2,
+  retrying_ = FALSE
+) {
   is_missing <- list(
     account = missing(account),
     server = missing(server),
@@ -38,7 +39,6 @@ deploy_apps <- function(
     # Always make sure the app dependencies are available
     install_missing_app_deps(apps, libpath = libpath)
   }
-
 
   cores <- validate_cores(cores)
   validate_rsconnect_account(account, server)
@@ -57,9 +57,13 @@ deploy_apps <- function(
       cores = cores,
       account = account,
       server = server,
-      progress_bar = progress_bar
+      progress_bar = progress_bar,
+      repos_option = shinyverse_repos_option()
     ),
-    function(apps_dirs, cores, account, server, progress_bar) {
+    function(apps_dirs, cores, account, server, progress_bar, repos_option) {
+      # Set the shinyverse repos option
+      options(repos = repos_option)
+
       pb <- progress_bar(
         total = ceiling(length(apps_dirs) / cores),
         format = "\n\n:name [:bar] :current/:total eta::eta elapsed::elapsed\n"
@@ -90,6 +94,14 @@ deploy_apps <- function(
           )
         })
         if (inherits(deployment_worked, "try-error")) {
+          # Debug manifest.json
+          try({
+            withr::with_tempdir({
+              rsconnect::writeManifest(app_dir)
+              cat(paste0(readLines(file.path(appDir, "manifest.json")), collapse = "\n"), "\n")
+              unlink(file.path(appDir, "manifest.json"))
+            })
+          })
           return(1)
         } else {
           return(as.numeric(!isTRUE(deployment_worked)))
@@ -132,7 +144,9 @@ deploy_apps <- function(
     fn_arg("retry", retry - 1)
   )
   fn <- paste0(
-    "deploy_apps(", paste0(args, collapse = ", "), ")"
+    "deploy_apps(",
+    paste0(args, collapse = ", "),
+    ")"
   )
 
   if (is.numeric(retry) && length(retry) > 0 && retry > 0) {
@@ -166,7 +180,9 @@ validate_rsconnect_account <- function(account, server) {
   )
   if (accts_found == 0) {
     print(accts)
-    stop("please set an account with `rsconnect::setAccountInfo()` to match directly to `rsconnect::accounts()` information")
+    stop(
+      "please set an account with `rsconnect::setAccountInfo()` to match directly to `rsconnect::accounts()` information"
+    )
   } else if (accts_found > 1) {
     print(accts)
     stop("more than one account matches `rsconnect::accounts()`. Fix it?")
