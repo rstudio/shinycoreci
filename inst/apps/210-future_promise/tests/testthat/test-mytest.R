@@ -6,6 +6,9 @@ test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant())
 
   on.exit({
+    if (!require("sessioninfo")) {
+      install.packages("sessioninfo")
+    }
     print(sessioninfo::session_info())
     print(app$get_logs())
   })
@@ -19,10 +22,15 @@ test_that("Migrated shinytest test: mytest.R", {
   }
 
   wait_for_idle <- function() {
-    app$wait_for_idle(duration = 3 * 1000, timeout = 24 * 60 * 60 * 1000) # wait a day (Inf)
+    app$wait_for_idle(duration = 3 * 1000, timeout = 30 * 1000) # wait a day (Inf)
   }
 
   app$click("go_future_future")
+
+  Sys.sleep(30)
+
+  logs = app$get_logs()
+  cat(format(logs), file = "debug-logs.txt", sep = "\n", collapse = "\n")
   wait_for_idle()
 
   app$click("go_future_promise")
