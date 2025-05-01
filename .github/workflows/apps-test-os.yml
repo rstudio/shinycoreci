@@ -183,7 +183,8 @@ jobs:
           }
           test_output <- shinycoreci::test_in_local(
             apps = apps,
-            assert = FALSE
+            assert = FALSE,
+            retries = 0
           )
           shinycoreci::save_test_results(
             test_output,
@@ -197,7 +198,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: debug-logs.txt
+          name: "${{ steps.gha_branch.outputs.name }}-debug-logs.txt"
           path: inst/apps/210-future_promise/tests/testthat/debug-logs.txt
 
       - name: Remove R options file
