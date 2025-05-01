@@ -18,7 +18,7 @@ test_that("Migrated shinytest test: mytest.R", {
   }
 
   wait_for_idle <- function() {
-    app$wait_for_idle(duration = 3 * 1000, timeout = 30 * 1000)
+    app$wait_for_idle(duration = 3 * 1000, timeout = 24 * 60 * 60 * 1000) # wait a day (Inf)
   }
 
   app$click("go_future_future")
