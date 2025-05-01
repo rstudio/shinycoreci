@@ -121,11 +121,15 @@ server <- function(input, output, session) {
       ith_val <- reactiveVal()
       observeEvent(react(), {
         message("start ", output_name, " - ", i)
-        fn({
-          Sys.sleep(work_time)
-          message("done ", output_name, " - ", i)
-          i
-        }) %...>%
+        fn(
+          {
+            message("working ", output_name, " - ", i)
+            Sys.sleep(work_time)
+            message("done ", output_name, " - ", i)
+            i
+          },
+          label = paste0("worker-", i)
+        ) %...>%
           {
             ith_val(.)
           }
