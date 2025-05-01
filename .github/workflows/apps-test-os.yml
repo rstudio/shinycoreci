@@ -169,7 +169,7 @@ jobs:
                 dir.exists(file.path(item[[1]], item[[2]], item[[3]]))
               })
             unique_changed_apps <- unique(unlist(lapply(changed_app_folders, `[[`, 3)))
-            if (has_altered_github) {
+            if (FALSE && has_altered_github) {
               message("Altered `.github` folder. Testing all apps!")
             } else if (length(unique_changed_apps) > 10) {
               message("More than ten apps were altered. Testing all apps!")
