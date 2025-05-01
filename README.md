@@ -45,6 +45,7 @@ These GitHub packages will be installed to make sure the latest package developm
 - [r-lib/fastmap](https://github.com/r-lib/fastmap)
 - [rstudio/flexdashboard](https://github.com/rstudio/flexdashboard)
 - [rstudio/fontawesome](https://github.com/rstudio/fontawesome)
+- [futureverse/future](https://github.com/futureverse/future)
 - [rstudio/gt](https://github.com/rstudio/gt)
 - [rstudio/htmltools](https://github.com/rstudio/htmltools)
 - [ramnathv/htmlwidgets](https://github.com/ramnathv/htmlwidgets)
