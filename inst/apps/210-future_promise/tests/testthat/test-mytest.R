@@ -1,6 +1,6 @@
-message("Installing futureverse/future@fb63bf12")
-pak::pak("futureverse/future@fb63bf12")
-message("Done installing futureverse/future@fb63bf12")
+message("Installing futureverse/future@668cd62a")
+pak::pak("futureverse/future@668cd62a")
+message("Done installing futureverse/future@668cd62a")
 
 skip_if_not_installed("future", "1.21.0")
 
