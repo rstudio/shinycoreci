@@ -23,7 +23,8 @@ Imports:
     rstudioapi (>= 0.11),
     sessioninfo,
     utils,
-    withr
+    withr,
+    future
 Suggests:
     dplyr,
     english,
@@ -39,8 +40,9 @@ Suggests:
     tibble,
     tidyr,
     waldo
-Remotes: 
-    rstudio/chromote
+Remotes:
+    rstudio/chromote,
+    futureverse/future@shinycoreci
 Config/Needs/website: tidyverse/tidytemplate
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
