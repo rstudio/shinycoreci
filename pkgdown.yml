@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.1.2
 pkgdown_sha: ~
 articles: {}
-last_built: 2025-04-30T17:11Z
+last_built: 2025-05-01T18:10Z
 urls:
   reference: https://rstudio.github.io/shinycoreci/reference
   article: https://rstudio.github.io/shinycoreci/articles
