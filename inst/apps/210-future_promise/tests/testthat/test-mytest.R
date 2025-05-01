@@ -1,3 +1,7 @@
+message("Installing futureverse/future@60a1db1")
+pak::pak("futureverse/future@60a1db1")
+message("Done installing futureverse/future@60a1db1")
+
 skip_if_not_installed("future", "1.21.0")
 
 library(shinytest2)
@@ -22,7 +26,7 @@ test_that("Migrated shinytest test: mytest.R", {
   }
 
   wait_for_idle <- function() {
-    app$wait_for_idle(duration = 3 * 1000, timeout = 30 * 1000) # wait a day (Inf)
+    app$wait_for_idle(duration = 3 * 1000, timeout = 30 * 1000)
   }
 
   app$click("go_future_future")
