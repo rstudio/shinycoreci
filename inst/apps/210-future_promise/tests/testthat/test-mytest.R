@@ -6,6 +6,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant())
 
   on.exit({
+    print(sessioninfo::session_info())
     print(app$get_logs())
   })
 
