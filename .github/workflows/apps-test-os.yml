@@ -160,7 +160,7 @@ jobs:
           is_pull_request <- isTRUE(jsonlite::parse_json("${{ github.event_name == 'pull_request' }}"))
           if (is_pull_request) {
             # reduce apps to only changed apps
-            files_changed <- jsonlite::parse_json('${{ steps.files_changed.outputs.added_modified }}', simplifyVector = TRUE)
+            files_changed <- jsonlite::parse_json('${{ steps.files_changed.outputs.all }}', simplifyVector = TRUE)
             has_altered_github <- any(unlist(lapply(strsplit(files_changed, "/"), function(folder_components) { folder_components[[1]] == ".github" })))
             changed_app_folders <-
               Filter(strsplit(files_changed, "/"), f = function(item) {
