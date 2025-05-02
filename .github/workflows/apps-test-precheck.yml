@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: |
           # It is possible that a file contains a space, use json to parse the array
-          readarray -t FILES_CHANGED <<<"$(jq -r '.[]' <<<'${{ steps.files_changed.outputs.added_modified }}')"
+          readarray -t FILES_CHANGED <<<"$(jq -r '.[]' <<<'${{ steps.files_changed.outputs.all }}')"
           # maintain that the file names are quoted by using [@]
           echo Files modified or changed: $FILES_CHANGED
           for FIL in ${FILES_CHANGED[@]}; do
