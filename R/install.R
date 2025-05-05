@@ -262,7 +262,7 @@ install_pkgs_with_callr <- function(
       packages = packages,
       upgrade = upgrade,
       dependencies = dependencies,
-      is_windows = is_windows(),
+      is_windows = is_windows()
     ),
     show = TRUE,
     libpath = libpath,
