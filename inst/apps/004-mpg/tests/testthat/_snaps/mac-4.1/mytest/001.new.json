@@ -1,0 +1,47 @@
+{
+  "input": {
+    "outliers": true,
+    "variable": "cyl"
+  },
+  "output": {
+    "caption": "mpg ~ cyl",
+    "mpgPlot": {
+      "src": "[image data hash: 62b885c5e4201fd3766a8bc0a7e0e0cf]",
+      "width": 631.3281,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": 0.38,
+              "right": 3.62,
+              "bottom": 9.46,
+              "top": 34.84
+            },
+            "range": {
+              "left": 59.04,
+              "right": 601.0881,
+              "bottom": 325.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 631.3281,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}
