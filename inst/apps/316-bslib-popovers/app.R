@@ -2,6 +2,7 @@ library(shiny)
 library(bslib)
 library(plotly)
 
+
 ui <- page_navbar(
   title = "Popover tests",
   fillable = FALSE,
@@ -69,15 +70,15 @@ ui <- page_navbar(
     layout_sidebar(
       card(
         card_header(
-            popover(
-              span(
-                "Card title with popover",
-                bsicons::bs_icon("question-circle-fill")
-              ),
-              "Popover message",
-              id = "popover",
-              placement = "right"
-            )
+          popover(
+            span(
+              "Card title with popover",
+              bsicons::bs_icon("question-circle-fill")
+            ),
+            "Popover message",
+            id = "popover",
+            placement = "right"
+          )
         ),
         plotlyOutput("bars")
       ),
@@ -103,11 +104,9 @@ ui <- page_navbar(
     ),
     actionLink("inc", "Increment number")
   )
-
 )
 
 server <- function(input, output, session) {
-
   observe({
     update_popover("popover", input$popover_msg)
   })
