@@ -7,28 +7,11 @@ on_ci <- function() {
 #' @keywords internal
 resolve_libpath <- function(..., local_pkgs = FALSE) {
   stopifnot(length(list(...)) == 0)
-  # if (on_ci()) {
-  #   # Notes 2025-05-02:
-  #   # In https://github.com/schloerke/tmp-debug-gha-install/pull/2, we found that a custom libpath broke pak on windows.
-  #   # Don't know why, but it did.
-  #   # Related issue in pak: https://github.com/r-lib/pak/issues/762
-
-  #   # To be consistent between platforms, we use the local libpath for when testing on CI
-  #   # However, all installs will still be done within a callr process
-
-  #   # If on CI, use the local libpath
-  #   .libPaths()[1]
-  # } else {
-  # If not on CI...
-
   # If using local_pkgs, use the standard libpath location
-  if (isTRUE(local_pkgs)) {
-    .libPaths()[1]
-  } else {
-    shinycoreci_libpath()
-  }
-  # }
+  libpath <- if (isTRUE(local_pkgs)) .libPaths()[1] else shinycoreci_libpath()
+  libpath
 }
+
 
 #' Shinyverse libpath
 #'
