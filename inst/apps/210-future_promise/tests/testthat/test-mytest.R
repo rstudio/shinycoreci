@@ -10,6 +10,11 @@ test_that("Migrated shinytest test: mytest.R", {
     future_counts = as.numeric(app$get_value(output = "future_counts"))
     promise_counts = as.numeric(app$get_value(output = "promise_counts"))
 
+    str(list(
+      future_counts = future_counts,
+      promise_counts = promise_counts
+    ))
+
     expect_gt(promise_counts, future_counts)
   }
 
