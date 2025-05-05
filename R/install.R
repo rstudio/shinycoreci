@@ -6,7 +6,6 @@ is_installed <- function(package, libpath) {
 }
 
 
-
 shinycoreci_is_local <- function() {
   # If `.git` folder exists, we can guess it is in dev mode
   dir.exists(
@@ -24,7 +23,6 @@ shinyverse_repos_option <- function() {
     getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
   )
 }
-
 
 
 # # Attempt to set up all the packages in the shinyverse, even if they are not directly depended upon.
@@ -71,19 +69,17 @@ shinyverse_repos_option <- function() {
 
 # }
 
-
-
 ## Used in GHA workflow
 # Install missing dependencies given an app name
 # If more than one app name is provided, run through all of them individually
 install_missing_app_deps <- function(
-    app_name = names(apps_deps_map),
-    ...,
-    libpath = .libPaths()[1],
-    upgrade = FALSE,
-    dependencies = NA,
-    verbose = TRUE
-    ) {
+  app_name = names(apps_deps_map),
+  ...,
+  libpath = .libPaths()[1],
+  upgrade = FALSE,
+  dependencies = NA,
+  verbose = TRUE
+) {
   stopifnot(length(list(...)) == 0)
 
   app_deps <-
@@ -97,7 +93,6 @@ install_missing_app_deps <- function(
       apps_deps_map[[resolve_app_name(app_name)]]
     }
 
-
   install_missing_pkgs(
     app_deps,
     libpath = libpath,
@@ -110,14 +105,12 @@ install_missing_app_deps <- function(
 }
 
 
-
 installed_pkgs <- new.env(parent = emptyenv())
 
 pak_deps_map <- new.env(parent = emptyenv())
 
 
 get_extra_shinyverse_deps <- function(packages) {
-
   if (length(packages) == 0) return(NULL)
 
   # Recursively find all shinycoreci packages as dependencies from `packages`
@@ -134,19 +127,25 @@ get_extra_shinyverse_deps <- function(packages) {
 
     pkg_dep_packages <- pak_deps_map[[pkg]]
     if (is.null(pkg_dep_packages)) {
-      withr::with_options(list(
-        repos = shinyverse_repos_option()
-      ), {
-        stopifnot(utils::packageVersion("pak") >= "0.3.0")
-        pak__pkg_deps <- utils::getFromNamespace("pkg_deps", "pak")
-        pkg_dep_packages <- pak__pkg_deps(pkg)$package
-        # str(list(pkg = pkg, pkg_dep_packages = pkg_dep_packages))
-      })
+      withr::with_options(
+        list(
+          repos = shinyverse_repos_option()
+        ),
+        {
+          stopifnot(utils::packageVersion("pak") >= "0.3.0")
+          pak__pkg_deps <- utils::getFromNamespace("pkg_deps", "pak")
+          pkg_dep_packages <- pak__pkg_deps(pkg)$package
+          # str(list(pkg = pkg, pkg_dep_packages = pkg_dep_packages))
+        }
+      )
       # Store in env does not need `<<-`
       pak_deps_map[[pkg]] <- pkg_dep_packages
     }
 
-    queue <- unique(c(queue, pkg_dep_packages[pkg_dep_packages %in% shinyverse_pkgs]))
+    queue <- unique(c(
+      queue,
+      pkg_dep_packages[pkg_dep_packages %in% shinyverse_pkgs]
+    ))
 
     if (pkg %in% shinyverse_pkgs) {
       ret <- c(ret, pkg)
@@ -159,13 +158,13 @@ get_extra_shinyverse_deps <- function(packages) {
 
 # packages is what is really installed given the value of packages
 install_missing_pkgs <- function(
-    packages,
-    ...,
-    libpath = .libPaths()[1],
-    upgrade = FALSE,
-    dependencies = NA,
-    prompt = "Installing packages: ",
-    verbose = TRUE
+  packages,
+  ...,
+  libpath = .libPaths()[1],
+  upgrade = FALSE,
+  dependencies = NA,
+  prompt = "Installing packages: ",
+  verbose = TRUE
 ) {
   stopifnot(length(list(...)) == 0)
 
@@ -187,8 +186,7 @@ install_missing_pkgs <- function(
     message("libpath: ", libpath)
 
     if (
-      "shinycoreci" %in% pkgs_to_install &&
-      libpath == shinycoreci_libpath()
+      "shinycoreci" %in% pkgs_to_install && libpath == shinycoreci_libpath()
     ) {
       # Install shinycoreci from the universe, but with no dependencies
       install_pkgs_with_callr(
@@ -223,13 +221,13 @@ install_missing_pkgs <- function(
 }
 
 install_pkgs_with_callr <- function(
-    packages,
-    ...,
-    libpath = .libPaths()[1],
-    upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
-    dependencies = NA, # pak::pkg_install(dependencies = NA)
-    verbose = TRUE
-    ) {
+  packages,
+  ...,
+  libpath = .libPaths()[1],
+  upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
+  dependencies = NA, # pak::pkg_install(dependencies = NA)
+  verbose = TRUE
+) {
   stopifnot(length(list(...)) == 0)
   callr::r(
     function(repos_option, packages, upgrade, dependencies) {
