@@ -234,12 +234,11 @@ install_pkgs_with_callr <- function(
       options(repos = repos_option)
 
       if (is_windows) {
-        pkgs_to_install <- setdiff(packages, rownames(installed.packages()))
         message(
           "Installing packages with install.packages(): ",
-          paste0(pkgs_to_install, collapse = ", ")
+          paste0(packages, collapse = ", ")
         )
-        install.packages(pkgs_to_install)
+        install.packages(packages)
       } else {
         # Performing a leap of faith that pak is installed.
         # Avoids weird installs when using pak to install shinycoreci
