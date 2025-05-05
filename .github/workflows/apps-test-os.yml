@@ -50,8 +50,8 @@ jobs:
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          distribution: "temurin"
-          java-version: "11"
+          distribution: 'temurin'
+          java-version: '11'
 
       - name: Windows git setup
         if: runner.os == 'Windows'
@@ -135,7 +135,7 @@ jobs:
           cat("name=gha-", '${{ steps.failed_branch.outputs.name }}', '-', '${{ steps.short.outputs.r-version }}', '-', '${{ runner.os }}', "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
       - name: Use chrome-headless-shell@latest-stable
-        id: setup_chromote
+        id: setup_chromote  
         shell: Rscript {0}
         run: |
           path <- chromote::chrome_versions_add("latest-stable", binary = "chrome-headless-shell")
@@ -169,7 +169,7 @@ jobs:
                 dir.exists(file.path(item[[1]], item[[2]], item[[3]]))
               })
             unique_changed_apps <- unique(unlist(lapply(changed_app_folders, `[[`, 3)))
-            if (FALSE && has_altered_github) {
+            if (has_altered_github) {
               message("Altered `.github` folder. Testing all apps!")
             } else if (length(unique_changed_apps) > 10) {
               message("More than ten apps were altered. Testing all apps!")
@@ -183,8 +183,7 @@ jobs:
           }
           test_output <- shinycoreci::test_in_local(
             apps = apps,
-            assert = FALSE,
-            retries = 0
+            assert = FALSE
           )
           shinycoreci::save_test_results(
             test_output,
@@ -193,13 +192,6 @@ jobs:
             username = '${GITHUB_ACTOR}'
           )
           shinycoreci::assert_test_output(test_output)
-
-      - name: Upload Debug file
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: "${{ steps.gha_branch.outputs.name }}-debug-logs.txt"
-          path: inst/apps/210-future_promise/tests/testthat/debug-logs.txt
 
       - name: Remove R options file
         if: always()
