@@ -19,7 +19,7 @@ on:
         value: "ubuntu-latest"
       cache-version:
         description: cache-version to be used when pulling library cache
-        value: "5"
+        value: "8"
       devel:
         description: Resolved r devel version
         # When R 4.3 was released, R version 4.4.0 was not recognized.
