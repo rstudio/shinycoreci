@@ -238,6 +238,9 @@ install_pkgs_with_callr <- function(
           "Installing packages with install.packages(): ",
           paste0(packages, collapse = ", ")
         )
+        # Throw if any installation produces a warning
+        # Ex: In install.packages(packages) : installation of package 'terra' had non-zero exit status
+        options(warn = 2)
         install.packages(packages)
       } else {
         # Performing a leap of faith that pak is installed.
