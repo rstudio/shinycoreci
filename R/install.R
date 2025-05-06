@@ -233,7 +233,7 @@ install_pkgs_with_callr <- function(
     function(repos_option, packages, upgrade, dependencies, is_windows) {
       options(repos = repos_option)
 
-      if (is_windows) {
+      if (FALSE) {
         message(
           "Installing packages with install.packages(): ",
           paste0(packages, collapse = ", ")
@@ -244,6 +244,7 @@ install_pkgs_with_callr <- function(
         # Avoids weird installs when using pak to install shinycoreci
         stopifnot(utils::packageVersion("pak") >= "0.3.0")
         pak__pkg_install <- utils::getFromNamespace("pkg_install", "pak")
+        print(packageDescription("pak"))
         message(
           "Installing packages with pak::pkg_install(): ",
           paste0(packages, collapse = ", ")
