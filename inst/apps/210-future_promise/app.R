@@ -6,7 +6,6 @@ library(shiny)
 library(future)
 library(promises)
 library(magrittr)
-plan(multisession)
 
 
 workers <- 2
