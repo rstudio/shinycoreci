@@ -4,7 +4,7 @@ apps_deps_map <- list(
   `000-all` = c("shiny", "shinycoreci", "shinytest2"),
   `000-manual` = c("shiny", "shinycoreci", "shinytest2"),
   `000-pkg-versions` = c("dplyr", "jsonlite", "sessioninfo", "shiny", "shinytest2", "tibble"),
-  `001-hello` = c("rsconnect", "shiny", "shinyjster", "shinytest2"),
+  `001-hello` = c("shiny", "shinyjster", "shinytest2"),
   `002-text` = c("shiny", "shinytest2"),
   `003-reactivity` = c("shiny", "shinytest2"),
   `004-mpg` = c("shiny", "shinytest2"),
