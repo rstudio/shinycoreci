@@ -1,9 +1,22 @@
+print("Installing futureverse/future@next-release")
+pak::pak("futureverse/future@next-release")
+print("Done installing futureverse/future@next-release")
+
+
 skip_if_not_installed("future", "1.21.0")
 
 library(shinytest2)
 
 test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant())
+
+  on.exit({
+    if (!require("sessioninfo")) {
+      install.packages("sessioninfo")
+    }
+    print(sessioninfo::session_info())
+    print(app$get_logs())
+  })
 
   # Verify promise counts are higher than future counts
   expect_counts <- function() {
