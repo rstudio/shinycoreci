@@ -2,10 +2,6 @@ print("Installing futureverse/future@next-release")
 pak::pak("futureverse/future@next-release")
 print("Done installing futureverse/future@next-release")
 
-# print("Installing rstudio/promises@future-is-resolved")
-# pak::pak("rstudio/promises@future-is-resolved")
-# print("Done installing rstudio/promises@future-is-resolved")
-
 skip_if_not_installed("future", "1.21.0")
 
 library(shinytest2)
