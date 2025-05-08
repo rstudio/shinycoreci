@@ -141,7 +141,7 @@ apps_deps_map <- list(
   `207-freeze-invalidate` = c("shiny", "shinyjster", "shinytest2"),
   `208-bind-cache-event` = c("magrittr", "shiny", "shinyjster", "shinytest2"),
   `209-datepicker` = c("jsonlite", "magrittr", "rlang", "shiny", "shinyjster", "shinytest2"),
-  `210-future_promise` = c("future", "later", "magrittr", "promises", "shiny", "shinyjs", "shinytest2"),
+  `210-future_promise` = c("future", "later", "magrittr", "promises", "sessioninfo", "shiny", "shinyjs", "shinytest2"),
   `211-sv-custom-inputs` = c("base64enc", "htmltools", "shiny", "shinyjster", "shinytest2", "shinyvalidate"),
   `212-daterangepicker` = c("jsonlite", "shiny", "shinyjster", "shinytest2"),
   `213-tab-panels` = c("bslib", "shiny", "shinytest2"),
