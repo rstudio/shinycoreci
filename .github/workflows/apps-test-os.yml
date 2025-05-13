@@ -197,6 +197,7 @@ jobs:
 
         # > If the workflow run is a re-run, with debugging enabled, then it opens a tmate shell that you can ssh into for interactive debugging.
       - uses: r-hub/actions/debug-shell@v1
+        if: always()
         with:
           connect-timeout-seconds: "300"
       - name: Remove R options file
