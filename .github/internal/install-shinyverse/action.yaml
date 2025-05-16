@@ -48,23 +48,25 @@ runs:
         http-user-agent: ${{ inputs.http-user-agent }}
         pandoc-version: ${{ inputs.pandoc-version }}
         extra-packages: ${{ inputs.extra-packages }}
+      env:
+        RSPM: ${{ if (runner.os == 'Linux') &&  }}
 
-    - name: Get packages for macOS system dependencies
-      if: runner.os == 'macOS'
-      id: mac-deps
-      shell: Rscript {0}
-      run: |
-        deps <- setdiff(
-          sort(unique(unlist(unname(shinycoreci:::apps_deps_map)))),
-          shinycoreci:::shinyverse_pkgs
-        )
-        cat("Deps found:\n", paste0("* ", deps, collapse = "\n"), "\n", sep = "")
+    # - name: Get packages for macOS system dependencies
+    #   if: runner.os == 'macOS'
+    #   id: mac-deps
+    #   shell: Rscript {0}
+    #   run: |
+    #     deps <- setdiff(
+    #       sort(unique(unlist(unname(shinycoreci:::apps_deps_map)))),
+    #       shinycoreci:::shinyverse_pkgs
+    #     )
+    #     cat("Deps found:\n", paste0("* ", deps, collapse = "\n"), "\n", sep = "")
 
-        out_deps <- paste0(deps, collapse = " ")
-        cat("pkgs=", out_deps, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
+    #     out_deps <- paste0(deps, collapse = " ")
+    #     cat("pkgs=", out_deps, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
-    - name: Install mac system dependencies for app packages
-      if: runner.os == 'macOS'
-      uses: rstudio/shiny-workflows/setup-macOS-dependencies@v1
-      with:
-        extra-packages: ${{ steps.mac-deps.outputs.pkgs }} Cairo FreeType RMySQL textshaping units
+    # - name: Install mac system dependencies for app packages
+    #   if: runner.os == 'macOS'
+    #   uses: rstudio/shiny-workflows/setup-macOS-dependencies@v1
+    #   with:
+    #     extra-packages: ${{ steps.mac-deps.outputs.pkgs }} Cairo FreeType RMySQL textshaping units
