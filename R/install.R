@@ -230,39 +230,30 @@ install_pkgs_with_callr <- function(
 ) {
   stopifnot(length(list(...)) == 0)
   callr::r(
-    function(repos_option, packages, upgrade, dependencies, is_windows) {
+    function(repos_option, packages, upgrade, dependencies) {
       options(repos = repos_option)
 
-      if (FALSE) {
-        message(
-          "Installing packages with install.packages(): ",
-          paste0(packages, collapse = ", ")
-        )
-        install.packages(packages)
-      } else {
-        # Performing a leap of faith that pak is installed.
-        # Avoids weird installs when using pak to install shinycoreci
-        stopifnot(utils::packageVersion("pak") >= "0.3.0")
-        pak__pkg_install <- utils::getFromNamespace("pkg_install", "pak")
-        print(packageDescription("pak"))
-        message(
-          "Installing packages with pak::pkg_install(): ",
-          paste0(packages, collapse = ", ")
-        )
-        pak__pkg_install(
-          packages,
-          ask = FALSE, # Not interactive, so don't ask
-          upgrade = upgrade,
-          dependencies = dependencies
-        )
-      }
+      # Performing a leap of faith that pak is installed.
+      # Avoids weird installs when using pak to install shinycoreci
+      stopifnot(utils::packageVersion("pak") >= "0.3.0")
+      pak__pkg_install <- utils::getFromNamespace("pkg_install", "pak")
+      print(packageDescription("pak"))
+      message(
+        "Installing packages with pak::pkg_install(): ",
+        paste0(packages, collapse = ", ")
+      )
+      pak__pkg_install(
+        packages,
+        ask = FALSE, # Not interactive, so don't ask
+        upgrade = upgrade,
+        dependencies = dependencies
+      )
     },
     list(
       repos_option = shinyverse_repos_option(),
       packages = packages,
       upgrade = upgrade,
-      dependencies = dependencies,
-      is_windows = is_windows()
+      dependencies = dependencies
     ),
     show = TRUE,
     libpath = libpath,
