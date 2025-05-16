@@ -50,8 +50,8 @@ jobs:
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
-          java-version: '11'
+          distribution: "temurin"
+          java-version: "11"
 
       - name: Windows git setup
         if: runner.os == 'Windows'
@@ -135,7 +135,7 @@ jobs:
           cat("name=gha-", '${{ steps.failed_branch.outputs.name }}', '-', '${{ steps.short.outputs.r-version }}', '-', '${{ runner.os }}', "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
       - name: Use chrome-headless-shell@latest-stable
-        id: setup_chromote  
+        id: setup_chromote
         shell: Rscript {0}
         run: |
           path <- chromote::chrome_versions_add("latest-stable", binary = "chrome-headless-shell")
@@ -193,6 +193,11 @@ jobs:
           )
           shinycoreci::assert_test_output(test_output)
 
+        # > If the workflow run is a re-run, with debugging enabled, then it opens a tmate shell that you can ssh into for interactive debugging.
+      - uses: r-hub/actions/debug-shell@v1
+        if: always()
+        with:
+          connect-timeout-seconds: "300"
       - name: Remove R options file
         if: always()
         shell: bash
