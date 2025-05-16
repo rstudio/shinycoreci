@@ -7,7 +7,11 @@ on:
         required: false
       os:
         type: string
-        default: ubuntu-latest
+        default: ubuntu-24.04
+        required: false
+      rspm:
+        type: string
+        default: "https://p3m.dev/cran/__linux__/noble/latest"
         required: false
       extra-key:
         type: string
@@ -45,13 +49,14 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      RSPM: ${{ inputs.rspm }}
 
     steps:
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
-          java-version: '11'
+          distribution: "temurin"
+          java-version: "11"
 
       - name: Windows git setup
         if: runner.os == 'Windows'
@@ -135,7 +140,7 @@ jobs:
           cat("name=gha-", '${{ steps.failed_branch.outputs.name }}', '-', '${{ steps.short.outputs.r-version }}', '-', '${{ runner.os }}', "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
 
       - name: Use chrome-headless-shell@latest-stable
-        id: setup_chromote  
+        id: setup_chromote
         shell: Rscript {0}
         run: |
           path <- chromote::chrome_versions_add("latest-stable", binary = "chrome-headless-shell")

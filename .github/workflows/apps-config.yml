@@ -16,7 +16,16 @@ on:
         value: "windows-latest"
       ubuntu:
         description: ubuntu OS value
-        value: "ubuntu-latest"
+        value: "ubuntu-24.04"
+      rspm-macos:
+        description: macOS RSPM
+        value: "https://p3m.dev/cran/latest"
+      rspm-windows:
+        description: windows RSPM
+        value: "https://p3m.dev/cran/latest"
+      rpspm-ubuntu:
+        description: ubuntu RSPM
+        value: "https://p3m.dev/cran/__linux__/noble/latest"
       cache-version:
         description: cache-version to be used when pulling library cache
         value: "8"

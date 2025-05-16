@@ -20,6 +20,7 @@ shinyverse_repos_option <- function() {
   c(
     # Use the shinycoreci universe to avoid GH rate limits!
     "AAA" = shinyverse_cran_url,
+    "RSPM" = Sys.getenv("RSPM", NULL),
     getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
   )
 }
