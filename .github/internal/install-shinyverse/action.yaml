@@ -50,6 +50,11 @@ runs:
         extra-packages: ${{ inputs.extra-packages }}
         pak-version: "devel"
 
+    - uses: r-hub/actions/setup-r-sysreqs@v1
+      with:
+        type: full
+        xquartz: true
+
     # - name: Get packages for macOS system dependencies
     #   if: runner.os == 'macOS'
     #   id: mac-deps
