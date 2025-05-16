@@ -34,7 +34,8 @@ Sidebar Content: `r renderText(getmonth())`
 
 ```{r}
 shinyjster::shinyjster_server(input, output, session)
-shinyjster::shinyjster_js("
+shinyjster::shinyjster_js(
+  "
   var jst = jster(1);
   function assert_equal(id, txt) {
     assert_equal_qs('#section-' + id, txt);
@@ -43,7 +44,7 @@ shinyjster::shinyjster_js("
     jst.add(function() {
       var el = $(qs);
       Jster.assert.isEqual(
-        el.text().replace(/\s+/g, ''),
+        el.text().replace(/\\s+/g, ' '),
         txt,
         {query_string: qs, element: el}
       );
@@ -145,7 +146,8 @@ shinyjster::shinyjster_js("
   assert_page(5, 'Jun');
 
   jst.test();
-")
+"
+)
 ```
 
 
@@ -159,7 +161,12 @@ Row
 
 ```{r}
 renderValueBox({
-  valueBox({paste0("VB1: ", getmonth())}, "Value Box 1")
+  valueBox(
+    {
+      paste0("VB1: ", getmonth())
+    },
+    "Value Box 1"
+  )
 })
 ```
 
@@ -167,7 +174,12 @@ renderValueBox({
 
 ```{r}
 renderValueBox({
-  valueBox({paste0("VB2: ", getmonth())}, "Value Box 2")
+  valueBox(
+    {
+      paste0("VB2: ", getmonth())
+    },
+    "Value Box 2"
+  )
 })
 ```
 
@@ -175,7 +187,12 @@ renderValueBox({
 
 ```{r}
 renderValueBox({
-  valueBox({paste0("VB3: ", getmonth())}, "Value Box 3")
+  valueBox(
+    {
+      paste0("VB3: ", getmonth())
+    },
+    "Value Box 3"
+  )
 })
 ```
 
@@ -190,7 +207,7 @@ Row 2 Plotly Content: `r renderText(getmonth())`
 library(plotly)
 renderPlotly({
   cars %>%
-    plot_ly(x = ~ speed, y = ~ dist) %>%
+    plot_ly(x = ~speed, y = ~dist) %>%
     add_markers() %>%
     layout(title = getmonth())
 })
@@ -203,9 +220,14 @@ renderPlotly({
 Row 2 Shiny Content: `r renderText(getmonth())`
 
 ```{r}
-renderPlot({
-  plot(cars, main = getmonth())
-}, alt = reactive({ paste0("Shiny plot alt text: ", getmonth()) }) )
+renderPlot(
+  {
+    plot(cars, main = getmonth())
+  },
+  alt = reactive({
+    paste0("Shiny plot alt text: ", getmonth())
+  })
+)
 
 ```
 
