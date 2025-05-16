@@ -48,6 +48,7 @@ runs:
         http-user-agent: ${{ inputs.http-user-agent }}
         pandoc-version: ${{ inputs.pandoc-version }}
         extra-packages: ${{ inputs.extra-packages }}
+        pak-version: "devel"
 
     - name: Get packages for macOS system dependencies
       if: runner.os == 'macOS'
