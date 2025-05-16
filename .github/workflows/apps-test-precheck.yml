@@ -11,12 +11,8 @@ jobs:
       - name: GitHub Pull
         uses: actions/checkout@v4
 
-      - name: Setup R
-        uses: r-lib/actions/setup-r@v2
       - name: Validate testing files
-        shell: Rscript {0}
-        run: |
-          source("inst/gha/validate-test-files.R", echo = TRUE)
+        run: python -u inst/gha/validate-test-files.py
 
       - name: Collect changed file names
         if: github.event_name == 'pull_request'
