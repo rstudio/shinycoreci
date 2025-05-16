@@ -181,11 +181,9 @@ jobs:
               cat("Testing apps:\n", paste0("* ", apps, "\n"))
             }
           }
-          apps <- c("000-all", "000-manual", "000-pkg-versions", "001-hello", "002-text", "003-reactivity")
           test_output <- shinycoreci::test_in_local(
             apps = apps,
-            assert = FALSE,
-            retries = 0,
+            assert = FALSE
           )
           shinycoreci::save_test_results(
             test_output,
