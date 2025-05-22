@@ -8,7 +8,8 @@ release <- paste0(
   collapse = "."
 )
 
-is_testing_on_ci <- identical(Sys.getenv("CI"), "true") && testthat::is_testing()
+is_testing_on_ci <- identical(Sys.getenv("CI"), "true") &&
+  testthat::is_testing()
 is_mac_release <- identical(paste0("mac-", release), platform_variant())
 
 DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
@@ -72,10 +73,13 @@ expect_visible_tip <- function(app, selector, expect_tabbable = FALSE) {
   )
 
   if (expect_tabbable) {
-    expect_js(app, sprintf(
-      "document.querySelector('%s').tabIndex === 0",
-      selector
-    ))
+    expect_js(
+      app,
+      sprintf(
+        "document.querySelector('%s').tabIndex === 0",
+        selector
+      )
+    )
   }
 }
 
@@ -89,17 +93,17 @@ click_close_button <- function(app) {
 
 expect_popover_content <- function(app, body = NULL, header = NULL) {
   if (!is.null(body)) {
-    body_actual <- app$
-      wait_for_js("document.querySelector('.popover-body') !== null")$
-      get_text(".popover-body")
+    body_actual <- app$wait_for_js(
+      "document.querySelector('.popover-body') !== null"
+    )$get_text(".popover-body")
 
     expect_equal(trimws(body_actual), body)
   }
 
   if (!is.null(header)) {
-    header_actual <- app$
-      wait_for_js("document.querySelector('.popover-header') !== null")$
-      get_text(".popover-header")
+    header_actual <- app$wait_for_js(
+      "document.querySelector('.popover-header') !== null"
+    )$get_text(".popover-header")
 
     expect_equal(trimws(header_actual), header)
   }
@@ -129,6 +133,7 @@ test_that("Can tab focus various cases/options", {
   expect_focus(app, "#pop-hello span")
   expect_visible_tip(app, "#pop-hello span")
   key_press("Tab")
+  Sys.sleep(0.1) # Give the popover time to transition active focus
   expect_focus(app, ".popover")
   key_press("Tab")
   # At this point, focus should be on the close button, but we can't explictly
@@ -203,10 +208,8 @@ test_that("Can tab focus various cases/options", {
 })
 
 
-
 # Tests for the 2nd tab (Tooltip cases)
 test_that("Can programmatically update/show/hide tooltip", {
-
   app$set_inputs("navbar" = "Popover updates")
 
   app$click("show_popover")
@@ -246,7 +249,6 @@ test_that("Can programmatically update/show/hide tooltip", {
 
 # Tests for the 3rd tab (Tooltip inputs)
 test_that("Can put input controls in the popover", {
-
   app$set_inputs("navbar" = "Popover inputs")
 
   app$run_js("$('#inc').focus()")
