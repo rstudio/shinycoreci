@@ -2185,9 +2185,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.2.1.9000",
+          "version": "2.2.2.9000",
           "src": {
-            "href": "leaflet-binding-2.2.1.9000"
+            "href": "leaflet-binding-2.2.2.9000"
           },
           "meta": null,
           "script": "leaflet.js",
@@ -2208,10 +2208,23 @@
       "html": "<div class=\"leaflet html-widget html-widget-output shiny-report-size html-fill-item\" id=\"map\" style=\"width:100%;height:400px;\"><\/div>\n<script>\n  HTMLWidgets.addPostRenderHandler(function() {\n  \n        console.log('onStaticRender called');\n        window.leaflet_calls.push('onStaticRender');\n      \n  });\n<\/script>",
       "deps": [
         {
-          "name": "htmlwidgets",
-          "version": "1.6.4",
+          "name": "htmltools-fill",
+          "version": "0.5.8.9000",
           "src": {
-            "href": "htmlwidgets-1.6.4"
+            "href": "htmltools-fill-0.5.8.9000"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "fill.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "htmlwidgets",
+          "version": "1.6.4.9000",
+          "src": {
+            "href": "htmlwidgets-1.6.4.9000"
           },
           "meta": null,
           "script": "htmlwidgets.js",
@@ -2300,9 +2313,9 @@
         },
         {
           "name": "leaflet-binding",
-          "version": "2.2.1.9000",
+          "version": "2.2.2.9000",
           "src": {
-            "href": "leaflet-binding-2.2.1.9000"
+            "href": "leaflet-binding-2.2.2.9000"
           },
           "meta": null,
           "script": "leaflet.js",
