@@ -1,7 +1,6 @@
 library(shinytest2)
 library(testthat)
 
-skip_on_platform("macos", reason = "Only testing this on Windows and Linux")
 test_that("Days of week and scatter points are present in chart", {
     app <- AppDriver$new(
         variant = shinytest2::platform_variant(),
