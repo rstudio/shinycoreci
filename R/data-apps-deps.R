@@ -66,7 +66,7 @@ apps_deps_map <- list(
   `114-modal-dialog` = c("shiny", "shinytest2"),
   `115-remove-modal` = c("bslib", "shiny", "shinytest2"),
   `117-shinythemes` = c("shiny", "shinytest2", "shinythemes"),
-  `118-highcharter-births` = c("dplyr", "highcharter", "shiny", "shinytest2", "tidyr"),
+  `118-highcharter-births` = c("dplyr", "highcharter", "shiny", "shinytest2", "testthat", "tidyr"),
   `119-namespaced-conditionalpanel-demo` = c("shiny", "shinytest2"),
   `121-async-timer` = c("future", "magrittr", "promises", "shiny", "shinyjster", "shinytest2"),
   `122-async-outputs` = c("future", "htmltools", "promises", "shiny", "shinyjster", "shinytest2"),
