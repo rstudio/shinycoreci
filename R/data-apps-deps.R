@@ -18,7 +18,7 @@ apps_deps_map <- list(
   `013-selectize` = c("shiny", "shinytest2"),
   `014-onflushed` = c("later", "shiny", "shinytest2"),
   `016-knitr-pdf` = c("rmarkdown", "shiny", "shinytest2"),
-  `017-select-vs-selectize` = c("shiny", "shinytest2"),
+  `017-select-vs-selectize` = c("shiny", "shinytest2", "testthat"),
   `018-datatable-options` = c("DT", "shiny", "shinytest2"),
   `019-mathjax` = c("shiny", "shinytest2"),
   `020-knit-html` = c("evaluate", "knitr", "rmarkdown", "shiny", "shinytest2"),
