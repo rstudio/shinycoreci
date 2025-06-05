@@ -1,4 +1,7 @@
 library(shinytest2)
+skip_on_platform(c("windows", "linux"),
+  reason = "Only testing snaps on macOS"
+)
 
 test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(
