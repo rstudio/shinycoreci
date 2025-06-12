@@ -68,7 +68,7 @@ apps_deps_map <- list(
   `117-shinythemes` = c("shiny", "shinytest2", "shinythemes"),
   `118-highcharter-births` = c("dplyr", "highcharter", "jsonlite", "shiny", "shinytest2", "testthat", "tidyr"),
   `119-namespaced-conditionalpanel-demo` = c("shiny", "shinytest2"),
-  `121-async-timer` = c("future", "magrittr", "promises", "shiny", "shinyjster", "shinytest2"),
+  `121-async-timer` = c("future", "magrittr", "promises", "shiny", "shinytest2"),
   `122-async-outputs` = c("future", "htmltools", "promises", "shiny", "shinyjster", "shinytest2"),
   `123-async-renderprint` = c("future", "promises", "shiny", "shinyjster", "shinytest2"),
   `124-async-download` = c("future", "promises", "shiny", "shinyjster", "shinytest2"),
