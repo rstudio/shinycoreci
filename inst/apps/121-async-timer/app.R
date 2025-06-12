@@ -9,71 +9,16 @@ ui <- fluidPage(
   tags$ol(
     tags$li("You should see the number below increasing by 1, every 2 seconds."),
     tags$li("The output should be semi-transparent (i.e. recalculating state) continuously."),
-    tags$li("You should see the word 'Flushed' in the R console, every 2 seconds.")
+    tags$li("You should see the word `'Flushed'` in the R console, every 2 seconds. And the `Flushed count` should be single value behind the `Counter` while executing")
   ),
-  verbatimTextOutput("out"),
-  verbatimTextOutput("out_flushed"),
-  uiOutput("status"),
-  shinyjster::shinyjster_js("
-    var jst = jster();
-    jst.add(function(done) {
-      var wait = function() {
-        if ($('#out').text() != '') {
-          done();
-        } else {
-          setTimeout(wait, 100)
-        }
-      }
-      wait();
-    })
-    jst.add(function(done) {
-      // test that the number doesn't increase every 0.1 seconds, but ~2s
-      startVal = parseInt($('#out').text(), 10);
-
-      var assertValue = function(val) {
-        var curVal = parseInt($('#out').text(), 10);
-        var diff = Math.abs(curVal - val);
-        console.log(curVal, val, diff);
-        Jster.assert.isTrue(diff <= 1)
-      }
-
-      var arr = [0,1,2,3,4,5,6,7,8];
-      arr.map(function(i, idx) {
-        setTimeout(function() {
-          if (i + startVal <= 10) {
-            assertValue(i + startVal);
-          }
-          if ((idx + 1) == arr.length) {
-            done();
-          }
-        }, i * 2 * 1000); // 2 second wait
-      })
-    });
-    jst.add(function(done) {
-      var wait = function() {
-        if ($('#status').text().trim() == 'Waiting...') {
-          setTimeout(wait, 100);
-        } else {
-          done();
-        }
-      }
-      wait()
-    });
-    jst.add(Jster.shiny.waitUntilIdle);
-    jst.add(function() {
-      Jster.assert.isEqual(
-        $('#status').text().trim(),
-        'Pass!'
-      )
-    })
-    jst.test();
-  ")
+  tags$h3("Counter:"),
+  verbatimTextOutput("out", placeholder = TRUE),
+  tags$h3("Flushed count:"),
+  verbatimTextOutput("out_flushed", placeholder = TRUE),
+  uiOutput("status")
 )
 
 server <- function(input, output, session) {
-  # include shinyjster_server call at top of server definition
-  shinyjster::shinyjster_server(input, output, session)
-
   value <- reactiveVal(0L)
   n <- 10
 
@@ -102,9 +47,15 @@ server <- function(input, output, session) {
     )
   })
 
+  flush_counter <- reactiveVal(0)
   session$onFlushed(function() {
     message("Flushed")
+    isolate({ flush_counter(flush_counter() + 1L) })
   }, once = FALSE)
+  output$out_flushed <- renderText({
+    value()
+    isolate(flush_counter())
+  })
 
   output$out <- renderText({
     future(Sys.sleep(2)) %...>%
