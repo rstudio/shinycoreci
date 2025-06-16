@@ -169,7 +169,7 @@
     },
     "out0a4534806ab07416": "A",
     "outa859f0ffc8c7802f": {
-      "src": "[image data hash: ce1405c84518b638be597ab27e05188c]",
+      "src": "[image data hash: fdb0f3865b09dc70370612585f179b5c]",
       "width": 150,
       "height": 40,
       "alt": "Plot object",
@@ -183,7 +183,7 @@
               "top": 296.04
             },
             "range": {
-              "left": 0,
+              "left": -6.5978e-14,
               "right": 150,
               "bottom": 39,
               "top": -1
