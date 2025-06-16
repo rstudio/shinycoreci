@@ -9,7 +9,7 @@ row <- function(w1, w2) {
   fluidRow(column2(w1), column2(w2))
 }
 
-label_initial <- HTML("An <i>escaped</i> Label")
+label_initial <- HTML("An <i>html</i> Label")
 
 ui <- fluidPage(
   p("Everytime you click on the button below, it should add labels to the column that doesn't (currently) have labels, and remove labels from the column that does (currently) have labels. Every label should say: '", tags$b(label_initial, .noWS = "outside"), "'."),
