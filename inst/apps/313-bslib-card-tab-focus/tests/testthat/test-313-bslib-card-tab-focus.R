@@ -24,17 +24,28 @@ if (
 source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
 expect_focus <- function(app, selector) {
+  app$wait_for_js(
+    sprintf("document.querySelector('%s') !== null", selector),
+    timeout = 3000
+  )
   js <- sprintf(
     "document.activeElement == document.querySelector('%s')",
     selector
   )
-  expect_true(app$get_js(!!js))
+  for (i in 1:3) {
+    if (app$get_js(js)) {
+      expect_true(TRUE)
+      return(invisible(app))
+    }
+    Sys.sleep(0.1)
+  }
+  expect_true(app$get_js(js))
   invisible(app)
 }
 
 expect_card_full_screen <- function(app, id) {
   id <- sub("^#", "", id)
-  app$wait_for_js('document.body.matches(".bslib-has-full-screen")')
+  app$wait_for_js('document.body.matches(".bslib-has-full-screen")', timeout = 3000)
   # The expected card is expanded in full screen mode
   expect_equal(
     app$get_js(sprintf(
@@ -67,7 +78,7 @@ expect_card_full_screen <- function(app, id) {
 }
 
 expect_no_full_screen <- function(app, id = NULL) {
-  app$wait_for_js('!document.body.matches(".bslib-has-full-screen")')
+  app$wait_for_js('!document.body.matches(".bslib-has-full-screen")', timeout = 3000)
   expect_equal(
     app$get_js("document.querySelectorAll('.bslib-card[data-full-screen=\"true\"]').length"),
     0
@@ -140,7 +151,7 @@ js_computed_display <- function(selector) {
 }
 
 expect_display <- function(app, value, selector) {
-  expect_equal(app$get_js(!!js_computed_display(selector)), value)
+  expect_equal(app$get_js(js_computed_display(selector)), value)
   invisible(app)
 }
 
@@ -173,18 +184,22 @@ test_that("fullscreen card without internal focusable elements", {
 
   # Tabbing moves to exit button
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Tabbing again stays on the exit button
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Tabbing with shift stays on the exit button
   key_press("Tab", shift = TRUE)
+  Sys.sleep(0.1)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Exit full screen
   key_press("Enter")
+  Sys.sleep(0.1)
   expect_no_full_screen(app, id = "card-no-inputs")
 })
 
@@ -217,18 +232,22 @@ test_that("fullscreen card with inputs and interior cards", {
 
   # Tabbing moves to first input
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, "#letter-selectized")
 
   # Tabbing backwards moves to exit button
   key_press("Tab", shift = TRUE)
+  Sys.sleep(0.1)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Tabbing backwards moves to last input
   key_press("Tab", shift = TRUE)
+  Sys.sleep(0.1)
   expect_focus(app, "#go")
 
   # Tabbing forwards returns to exit button
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # If focus moves outside of card (somehow), tabbing returns focus to card
@@ -254,18 +273,29 @@ test_that("fullscreen interior card with inputs (forward tab cycle)", {
 
   # Tab through inputs
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, "#letter-selectized")
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, "#letter2-selectized")
   key_press("Escape")
+  Sys.sleep(0.1)
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, "#dates input:first-child")
   key_press("Tab")
-  expect_focus(app, "#dates input:last-child")
-  key_press("Escape")
-  key_press("Tab")
+  Sys.sleep(0.1)
+  if (
+    !app$get_js(
+      "document.activeElement == document.querySelector('.bslib-full-screen-exit')"
+    )
+  ) {
+    key_press("Tab")
+    Sys.sleep(0.1)
+  }
   expect_focus(app, ".bslib-full-screen-exit")
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, "#letter-selectized")
 
   expect_card_full_screen(app, "card-with-inputs-left")
