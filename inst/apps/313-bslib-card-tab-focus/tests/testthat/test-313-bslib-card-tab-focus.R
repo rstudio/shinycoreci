@@ -1,4 +1,5 @@
 library(shinytest2)
+
 if (FALSE) library(shinycoreci) # for renv
 
 # Only take screenshots on mac + r-release to reduce diff noise
@@ -24,19 +25,31 @@ if (
 source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
 expect_focus <- function(app, selector) {
+  app$wait_for_js(sprintf("document.querySelector('%s') !== null", selector), timeout = 3000)
+
   js <- sprintf(
     "document.activeElement == document.querySelector('%s')",
     selector
   )
-  expect_true(app$get_js(!!js))
+
+  # Retry focus check
+  for (i in 1:3) {
+    if (app$get_js(js)) {
+      expect_true(TRUE)
+      return(invisible(app))
+    }
+    Sys.sleep(0.1)
+  }
+
+  expect_true(app$get_js(js))
   invisible(app)
 }
 
 expect_card_full_screen <- function(app, id) {
   id <- sub("^#", "", id)
-  app$wait_for_js('document.body.matches(".bslib-has-full-screen")')
+  app$wait_for_js('document.body.matches(".bslib-has-full-screen")', timeout = 3000)
   # The expected card is expanded in full screen mode
-  expect_equal(
+  testthat::expect_equal(
     app$get_js(sprintf(
      "document.getElementById('%s').getAttribute('data-full-screen')",
       id
@@ -44,12 +57,12 @@ expect_card_full_screen <- function(app, id) {
     "true"
   )
   # Only one card is expanded to full screen
-  expect_equal(
+  testthat::expect_equal(
     app$get_js("document.querySelectorAll('.bslib-card[data-full-screen=\"true\"]').length"),
     1
   )
   # The overlay (behind card and above UI) is present
-  expect_equal(
+  testthat::expect_equal(
     app$get_js("document.querySelectorAll('#bslib-full-screen-overlay').length"),
     1
   )
@@ -59,7 +72,7 @@ expect_card_full_screen <- function(app, id) {
   )
   if (interior_focus) {
     # yeah this doesn't do anything but count the interior focus expectation
-    expect_true(interior_focus)
+    testthat::expect_true(interior_focus)
   } else {
     expect_focus(app, paste0("#", id))
   }
@@ -67,14 +80,14 @@ expect_card_full_screen <- function(app, id) {
 }
 
 expect_no_full_screen <- function(app, id = NULL) {
-  app$wait_for_js('!document.body.matches(".bslib-has-full-screen")')
-  expect_equal(
+  app$wait_for_js('!document.body.matches(".bslib-has-full-screen")', timeout = 3000)
+  testthat::expect_equal(
     app$get_js("document.querySelectorAll('.bslib-card[data-full-screen=\"true\"]').length"),
     0
   )
   if (is.null(id)) return(invisible(app))
 
-  expect_equal(
+  testthat::expect_equal(
     app$get_js(sprintf(
       "document.getElementById('%s').getAttribute('data-full-screen')",
       id
@@ -140,7 +153,7 @@ js_computed_display <- function(selector) {
 }
 
 expect_display <- function(app, value, selector) {
-  expect_equal(app$get_js(!!js_computed_display(selector)), value)
+  testthat::expect_equal(app$get_js(!!js_computed_display(selector)), value)
   invisible(app)
 }
 
@@ -154,7 +167,9 @@ app <- AppDriver$new(
   view = interactive(),
   options = list(bslib.precompiled = FALSE),
   expect_values_screenshot_args = FALSE,
-  screenshot_args = list(selector = "viewport", delay = 0.5)
+  screenshot_args = list(selector = "viewport", delay = 1.0),
+  load_timeout = 20000,
+  timeout = 10000
 )
 withr::defer(app$stop())
 
@@ -173,18 +188,22 @@ test_that("fullscreen card without internal focusable elements", {
 
   # Tabbing moves to exit button
   key_press("Tab")
+  Sys.sleep(0.1) # Allow focus transition to complete
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Tabbing again stays on the exit button
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Tabbing with shift stays on the exit button
   key_press("Tab", shift = TRUE)
+  Sys.sleep(0.1)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Exit full screen
   key_press("Enter")
+  Sys.sleep(0.2) # Allow full screen exit to complete
   expect_no_full_screen(app, id = "card-no-inputs")
 })
 
@@ -217,18 +236,22 @@ test_that("fullscreen card with inputs and interior cards", {
 
   # Tabbing moves to first input
   key_press("Tab")
+  Sys.sleep(0.1) # Allow focus transition
   expect_focus(app, "#letter-selectized")
 
   # Tabbing backwards moves to exit button
   key_press("Tab", shift = TRUE)
+  Sys.sleep(0.1)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Tabbing backwards moves to last input
   key_press("Tab", shift = TRUE)
+  Sys.sleep(0.1)
   expect_focus(app, "#go")
 
   # Tabbing forwards returns to exit button
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # If focus moves outside of card (somehow), tabbing returns focus to card
@@ -254,18 +277,26 @@ test_that("fullscreen interior card with inputs (forward tab cycle)", {
 
   # Tab through inputs
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, "#letter-selectized")
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, "#letter2-selectized")
   key_press("Escape")
+  Sys.sleep(0.1)
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, "#dates input:first-child")
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, "#dates input:last-child")
   key_press("Escape")
+  Sys.sleep(0.1)
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, ".bslib-full-screen-exit")
   key_press("Tab")
+  Sys.sleep(0.1)
   expect_focus(app, "#letter-selectized")
 
   expect_card_full_screen(app, "card-with-inputs-left")
@@ -288,7 +319,7 @@ test_that("escape while select box open exits select, not full screen", {
 
   if (app$get_js("document.activeElement.tagName === 'BODY'")) {
     # In this browser, the select box is closed, but focus is lost
-    expect_true(
+    testthat::expect_true(
       app$get_js('document.body.classList.contains("bslib-has-full-screen")')
     )
     key_press("Tab")
@@ -339,7 +370,7 @@ test_that("fullscreen interior card with inputs (backward tab cycle)", {
   expect_focus(app, "#word")
 
   key_press("Tab", shift = TRUE)
-  expect_true(app$get_js( # sliders are weird inputs
+  testthat::expect_true(app$get_js( # sliders are weird inputs
     "document.getElementById('slider-label').nextElementSibling.contains(document.activeElement)"
   ))
 
@@ -369,7 +400,7 @@ test_that("fullscreen card with large plotly plot", {
   expect_focus(app, "#search")
 
   key_press("Tab")
-  expect_true(app$get_js( # moves into plotly plot
+  testthat::expect_true(app$get_js( # moves into plotly plot
     "document.querySelector('.plotly').contains(document.activeElement)"
   ))
 

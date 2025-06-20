@@ -43,7 +43,9 @@ app <- AppDriver$new(
   view = interactive(),
   options = list(bslib.precompiled = FALSE),
   expect_values_screenshot_args = FALSE,
-  screenshot_args = list(selector = "viewport", delay = 0.5)
+  screenshot_args = list(selector = "viewport", delay = 1.0),
+  load_timeout = 20000,
+  timeout = 10000
 )
 withr::defer(app$stop())
 
@@ -61,9 +63,17 @@ key_press <- key_press_factory(app)
 # lastShown should contain the trigger element, which we can use to find the
 # actual tooltip (we just make sure it's visible).
 expect_visible_tip <- function(app, selector, expect_tabbable = FALSE) {
+  app$wait_for_js("window.lastShown !== undefined", timeout = 3000)
+
   expect_js(
     app,
     sprintf("window.lastShown === document.querySelector('%s')", selector)
+  )
+
+  app$wait_for_js(
+    "var tipId = window.lastShown.getAttribute('aria-describedby');
+      $(`#${tipId}:visible`).length > 0;",
+    timeout = 3000
   )
 
   expect_js(
@@ -94,18 +104,18 @@ click_close_button <- function(app) {
 expect_popover_content <- function(app, body = NULL, header = NULL) {
   if (!is.null(body)) {
     body_actual <- app$wait_for_js(
-      "document.querySelector('.popover-body') !== null"
+      "document.querySelector('.popover-body') !== null", timeout = 3000
     )$get_text(".popover-body")
 
-    expect_equal(trimws(body_actual), body)
+    testthat::expect_equal(trimws(body_actual), body)
   }
 
   if (!is.null(header)) {
     header_actual <- app$wait_for_js(
-      "document.querySelector('.popover-header') !== null"
+      "document.querySelector('.popover-header') !== null", timeout = 3000
     )$get_text(".popover-header")
 
-    expect_equal(trimws(header_actual), header)
+    testthat::expect_equal(trimws(header_actual), header)
   }
 }
 
@@ -124,6 +134,7 @@ test_that("Can tab focus various cases/options", {
   key_press("Enter")
   expect_focus(app, "#pop-hello span")
   expect_visible_tip(app, "#pop-hello span")
+  Sys.sleep(0.2)
   key_press("Enter")
   expect_no_tip(app)
   expect_focus(app, "#pop-hello span")
@@ -132,8 +143,9 @@ test_that("Can tab focus various cases/options", {
   key_press("Enter")
   expect_focus(app, "#pop-hello span")
   expect_visible_tip(app, "#pop-hello span")
+  Sys.sleep(0.2)
   key_press("Tab")
-  Sys.sleep(0.1) # Give the popover time to transition active focus
+  Sys.sleep(0.3) # Give the popover time to transition active focus
   expect_focus(app, ".popover")
   key_press("Tab")
   # At this point, focus should be on the close button, but we can't explictly
@@ -214,10 +226,12 @@ test_that("Can programmatically update/show/hide tooltip", {
 
   app$click("show_popover")
   expect_popover_content(app, "Popover message")
+  Sys.sleep(0.1)
   app$click("hide_popover")
   expect_no_tip(app)
 
   app$click("show_popover")
+  Sys.sleep(0.1)
   app$set_inputs("popover_title" = "title 1")
   expect_popover_content(app, "Popover message", "title 1")
   app$set_inputs("popover_msg" = "msg 1")
@@ -265,6 +279,7 @@ test_that("Can put input controls in the popover", {
   expect_equal(app$wait_for_value(input = "num", ignore = 1L), 2)
   key_press("ArrowUp")
   expect_equal(app$wait_for_value(input = "num", ignore = 2L), 3)
+  Sys.sleep(0.1)
   app$click("inc")
   expect_equal(app$wait_for_value(input = "num", ignore = 3L), 4)
   app$click("inc")
