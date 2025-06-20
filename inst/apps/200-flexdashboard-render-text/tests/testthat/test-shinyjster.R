@@ -1,3 +1,3 @@
-skip("Skipping flexdashboard-render-text tests for all OS")
+skip_if(.Platform$OS.type != "windows")
 
 shinyjster::testthat_shinyjster()
