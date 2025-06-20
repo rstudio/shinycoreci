@@ -162,7 +162,7 @@ test_that("Can tab focus various cases/options", {
   key_press("Tab")
   key_press("Tab")
   key_press("Escape")
-  app$wait_for_idle()
+  Sys.sleep(0.5)
   expect_focus(app, "#pop-hello span")
   expect_no_tip(app)
 
@@ -233,7 +233,7 @@ test_that("Can programmatically update/show/hide tooltip", {
   app$click("hide_popover")
   app$click("show_popover")
   app$set_inputs("popover_msg" = "msg 2")
-  app$wait_for_idle()
+  Sys.sleep(0.5)
   expect_popover_content(app, "msg 2", "title 2")
   click_close_button(app)
   expect_no_tip(app)
