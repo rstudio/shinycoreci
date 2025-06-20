@@ -44,7 +44,7 @@ shinyjster::shinyjster_js(
     jst.add(function() {
       var el = $(qs);
       Jster.assert.isEqual(
-        el.text().replace(/\\s+/g, ' '),
+        el.text().replace(/\\s+/g, ' ').trim(),
         txt,
         {query_string: qs, element: el}
       );
