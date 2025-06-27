@@ -158,6 +158,7 @@ apps_deps_map <- list(
   `225-snapshot-info-option` = c("jsonlite", "shiny", "shinytest2", "testthat"),
   `226-snapshot-info-url` = c("jsonlite", "shiny", "shinytest2", "testthat"),
   `227-persistent-progress` = c("bslib", "shiny", "shinyjster", "shinytest2"),
+  `228-update-action-label` = c("bsicons", "bslib", "shiny", "shinyjster", "shinytest2"),
   `300-bs-themer` = c("bsicons", "bslib", "curl", "DT", "ggplot2", "ggridges", "hexbin", "htmltools", "knitr", "reactable", "reshape2", "rlang", "rprojroot", "rsconnect", "shiny", "thematic"),
   `301-bs-themes` = c("bslib", "DT", "ggplot2", "reshape2", "rversions", "shiny", "shinytest2", "thematic", "withr"),
   `302-bootswatch-themes` = c("bslib", "DT", "ggplot2", "progress", "rversions", "shiny", "shinytest2", "thematic", "withr"),
