@@ -159,6 +159,7 @@ default_connect_urls <- structure(c(`000-all` = "https://dogfood.team.pct.posit.
 `225-snapshot-info-option` = "https://dogfood.team.pct.posit.it/content/ff6723eb-26b4-48f8-a81f-80cedab9e199/", 
 `226-snapshot-info-url` = "https://dogfood.team.pct.posit.it/content/a9124c25-72ab-456d-a542-5f3f33494daa/", 
 `227-persistent-progress` = "https://dogfood.team.pct.posit.it/content/7232d97e-1aee-499f-a9b2-e6791af7920d/", 
+`228-update-action-label` = "https://dogfood.team.pct.posit.it/content/4d365475-8b97-45c7-8552-7079d4778ef1/", 
 `300-bs-themer` = "https://dogfood.team.pct.posit.it/content/1490d3b5-5f7c-46eb-a6c5-31782ebd1da5/", 
 `301-bs-themes` = "https://dogfood.team.pct.posit.it/content/be057a19-6bdd-4caf-8cb6-2361b6c21b32/", 
 `302-bootswatch-themes` = "https://dogfood.team.pct.posit.it/content/388fce49-4264-46bc-9650-54460ba5aa0d/", 
