@@ -117,14 +117,14 @@ app_card_full_screen_exit <- function(
   switch(method,
     "click button" = app$click(selector = ".bslib-full-screen-exit"),
     "click overlay" = app$click(selector = "#bslib-full-screen-overlay"),
-    "escape" = key_press("Escape"),
+    "escape" = key_press_and_sleep("Escape"),
     "enter button" = {
       app$run_js("document.querySelector('.bslib-full-screen-exit').focus()")
       key_press("Enter")
     },
     "space button" = {
       app$run_js("document.querySelector('.bslib-full-screen-exit').focus()")
-      key_press("Space")
+      key_press_and_sleep("Space")
     }
   )
 
@@ -159,7 +159,10 @@ app <- AppDriver$new(
 withr::defer(app$stop())
 
 key_press <- key_press_factory(app)
-
+key_press_and_sleep <- function(..., sleep = 0.25) {
+  key_press(...)
+  Sys.sleep(sleep)
+}
 test_that("initial state, no cards are expanded", {
   expect_no_full_screen(app)
 })
@@ -172,19 +175,19 @@ test_that("fullscreen card without internal focusable elements", {
   if (DO_SCREENSHOT) app$expect_screenshot()
 
   # Tabbing moves to exit button
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Tabbing again stays on the exit button
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Tabbing with shift stays on the exit button
-  key_press("Tab", shift = TRUE)
+  key_press_and_sleep("Tab", shift = TRUE)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Exit full screen
-  key_press("Enter")
+  key_press_and_sleep("Enter")
   expect_no_full_screen(app, id = "card-no-inputs")
 })
 
@@ -216,25 +219,25 @@ test_that("fullscreen card with inputs and interior cards", {
   if (DO_SCREENSHOT) app$expect_screenshot()
 
   # Tabbing moves to first input
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#letter-selectized")
 
   # Tabbing backwards moves to exit button
-  key_press("Tab", shift = TRUE)
+  key_press_and_sleep("Tab", shift = TRUE)
   expect_focus(app, ".bslib-full-screen-exit")
 
   # Tabbing backwards moves to last input
-  key_press("Tab", shift = TRUE)
+  key_press_and_sleep("Tab", shift = TRUE)
   expect_focus(app, "#go")
 
   # Tabbing forwards returns to exit button
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, ".bslib-full-screen-exit")
 
   # If focus moves outside of card (somehow), tabbing returns focus to card
   app$run_js("document.getElementById('neutral-focus-zone').focus()")
   expect_focus(app, "#neutral-focus-zone")
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#card-with-inputs")
 
   # Internal expand icons are hidden
@@ -253,19 +256,19 @@ test_that("fullscreen interior card with inputs (forward tab cycle)", {
   if (DO_SCREENSHOT) app$expect_screenshot()
 
   # Tab through inputs
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#letter-selectized")
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#letter2-selectized")
-  key_press("Escape")
-  key_press("Tab")
+  key_press_and_sleep("Escape")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#dates input:first-child")
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#dates input:last-child")
-  key_press("Escape")
-  key_press("Tab")
+  key_press_and_sleep("Escape")
+  key_press_and_sleep("Tab")
   expect_focus(app, ".bslib-full-screen-exit")
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#letter-selectized")
 
   expect_card_full_screen(app, "card-with-inputs-left")
@@ -280,18 +283,18 @@ test_that("escape while select box open exits select, not full screen", {
   app_card_full_screen_enter(app, "card-with-inputs-left")
 
   # Tab to expand select box
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#letter-selectized")
 
   # Escape doesn't leave full screen
-  key_press("Escape")
+  key_press_and_sleep("Escape")
 
   if (app$get_js("document.activeElement.tagName === 'BODY'")) {
     # In this browser, the select box is closed, but focus is lost
     expect_true(
       app$get_js('document.body.classList.contains("bslib-has-full-screen")')
     )
-    key_press("Tab")
+    key_press_and_sleep("Tab")
     expect_card_full_screen(app, "card-with-inputs-left")
     skip("Escape on selectize closes select box, but focus moves to body")
   }
@@ -299,10 +302,10 @@ test_that("escape while select box open exits select, not full screen", {
   expect_card_full_screen(app, "card-with-inputs-left")
 
   # Tab to expand next select box
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#letter2-selectized")
   # Escape doesn't leave full screen here either
-  key_press("Escape")
+  key_press_and_sleep("Escape")
   expect_card_full_screen(app, "card-with-inputs-left")
 
   app_card_full_screen_exit(app, "click overlay")
@@ -334,22 +337,22 @@ test_that("fullscreen interior card with inputs (backward tab cycle)", {
   expect_focus(app, "#card-with-inputs-right")
   if (DO_SCREENSHOT) app$expect_screenshot()
 
-  key_press("Tab")
-  key_press("Tab")
+  key_press_and_sleep("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#word")
 
-  key_press("Tab", shift = TRUE)
+  key_press_and_sleep("Tab", shift = TRUE)
   expect_true(app$get_js( # sliders are weird inputs
     "document.getElementById('slider-label').nextElementSibling.contains(document.activeElement)"
   ))
 
-  key_press("Tab", shift = TRUE)
+  key_press_and_sleep("Tab", shift = TRUE)
   expect_focus(app, ".bslib-full-screen-exit")
 
-  key_press("Tab", shift = TRUE)
+  key_press_and_sleep("Tab", shift = TRUE)
   expect_focus(app, "#sentence")
 
-  key_press("Tab", shift = TRUE)
+  key_press_and_sleep("Tab", shift = TRUE)
   expect_focus(app, "#word")
 
   app_card_full_screen_exit(app, "click button")
@@ -365,10 +368,10 @@ test_that("fullscreen card with large plotly plot", {
   app_card_full_screen_enter(app, "card-with-plot")
   # no screenshot here, it's too volatile
 
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#search")
 
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_true(app$get_js( # moves into plotly plot
     "document.querySelector('.plotly').contains(document.activeElement)"
   ))
