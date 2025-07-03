@@ -33,7 +33,7 @@ expect_focus <- function(app, selector) {
   expect_js(app, js, label = paste("Focus is on:", selector))
 }
 
-# Setup App  --------------------------------------------------
+# Setup App --------------------------------------------------
 app <- AppDriver$new(
   name = "316-bslib-popovers",
   variant = platform_variant(),
@@ -69,7 +69,7 @@ expect_visible_tip <- function(app, selector, expect_tabbable = FALSE) {
   expect_js(
     app,
     "var tipId = window.lastShown.getAttribute('aria-describedby');
-      $(`#${tipId}:visible`).length > 0;"
+$(`#${tipId}:visible`).length > 0;"
   )
 
   if (expect_tabbable) {
@@ -118,8 +118,8 @@ test_that("Can tab focus various cases/options", {
   expect_focus(app, ".nav-link.active")
 
   # Triggers ----------------------------------
-  #  These aren't <a> tags, so Tab+Enter (or click)
-  #  should show the popover
+  # These aren't <a> tags, so Tab+Enter (or click)
+  # should show the popover
   key_press("Tab")
   key_press("Enter")
   expect_focus(app, "#pop-hello span")
@@ -162,6 +162,7 @@ test_that("Can tab focus various cases/options", {
   key_press("Tab")
   key_press("Tab")
   key_press("Escape")
+  Sys.sleep(0.5)
   expect_focus(app, "#pop-hello span")
   expect_no_tip(app)
 
@@ -232,6 +233,7 @@ test_that("Can programmatically update/show/hide tooltip", {
   app$click("hide_popover")
   app$click("show_popover")
   app$set_inputs("popover_msg" = "msg 2")
+  Sys.sleep(0.5)
   expect_popover_content(app, "msg 2", "title 2")
   click_close_button(app)
   expect_no_tip(app)
