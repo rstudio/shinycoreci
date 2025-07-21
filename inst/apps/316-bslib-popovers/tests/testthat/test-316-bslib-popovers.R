@@ -81,13 +81,15 @@ key_press <- key_press_factory(app)
 expect_visible_tip <- function(app, selector, expect_tabbable = FALSE) {
   expect_js(
     app,
-    sprintf("window.lastShown === document.querySelector('%s')", selector)
+    sprintf("window.lastShown === document.querySelector('%s')", selector),
+    label = paste("Last shown element matches:", selector)
   )
 
   expect_js(
     app,
     "var tipId = window.lastShown.getAttribute('aria-describedby');
-$(`#${tipId}:visible`).length > 0;"
+$(`#${tipId}:visible`).length > 0;",
+    label = paste("Tooltip is visible for:", selector)
   )
 
   if (expect_tabbable) {
@@ -96,13 +98,18 @@ $(`#${tipId}:visible`).length > 0;"
       sprintf(
         "document.querySelector('%s').tabIndex === 0",
         selector
-      )
+      ),
+      label = paste("Tooltip is tabbable for:", selector)
     )
   }
 }
 
 expect_no_tip <- function(app) {
-  expect_js(app, "$('.popover:visible').length === 0;")
+  expect_js(
+    app,
+    "$('.popover:visible').length === 0;",
+    label = "No visible popover"
+  )
 }
 
 click_close_button <- function(app) {
@@ -111,17 +118,23 @@ click_close_button <- function(app) {
 
 expect_popover_content <- function(app, body = NULL, header = NULL) {
   if (!is.null(body)) {
-    body_actual <- app$wait_for_js(
-      "document.querySelector('.popover-body') !== null"
-    )$get_text(".popover-body")
+    expect_js(
+      app,
+      "document.querySelector('.popover-body') !== null",
+      label = "Popover body is present"
+    )
+    body_actual <- app$get_text(".popover-body")
 
     expect_equal(trimws(body_actual), body)
   }
 
   if (!is.null(header)) {
-    header_actual <- app$wait_for_js(
-      "document.querySelector('.popover-header') !== null"
-    )$get_text(".popover-header")
+    expect_js(
+      app,
+      "document.querySelector('.popover-header') !== null",
+      label = "Popover header is present"
+    )
+    header_actual <- app$get_text(".popover-header")
 
     expect_equal(trimws(header_actual), header)
   }
