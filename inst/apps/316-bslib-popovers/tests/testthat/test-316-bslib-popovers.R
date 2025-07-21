@@ -74,7 +74,14 @@ app$run_js(
   '$(document).on("shown.bs.popover", function(e) { window.lastShown = e.target; });'
 )
 
-key_press <- key_press_factory(app)
+key_press_coreci <- key_press_factory(app)
+key_press <- function(...) {
+  Sys.sleep(0.1) # Slow things down
+
+  key_press_coreci(...)
+
+  Sys.sleep(0.1) # Give the browser time to process the key event
+}
 
 # lastShown should contain the trigger element, which we can use to find the
 # actual tooltip (we just make sure it's visible).
@@ -164,7 +171,6 @@ test_that("Can tab focus various cases/options", {
   expect_focus(app, "#pop-hello span")
   expect_visible_tip(app, "#pop-hello span")
   key_press("Tab")
-  Sys.sleep(0.1) # Give the popover time to transition active focus
   expect_focus(app, ".popover")
   key_press("Tab")
   # At this point, focus should be on the close button, but we can't explictly
