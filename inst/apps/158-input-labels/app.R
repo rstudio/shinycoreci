@@ -81,7 +81,7 @@ ui <- fluidPage(
       }
       var check_label = function(name) {
         name = '' + name + num;
-        check_label_val(name, $('label[for=\"' + name + '\"]:visible').html().trim());
+        check_label_val(name, $('label[for=\"' + name + '\"]:visible').html() || '');
       }
       var check_selectize_label = function(name) {
         name = '' + name + num;
