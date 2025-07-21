@@ -20,9 +20,25 @@ DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
 source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
 expect_js <- function(app, js, label = NULL) {
-  expect_true(
-    app$wait_for_js(!!js)$get_js(!!js),
-    label = label
+  tryCatch(
+    {
+      expect_true(
+        app$wait_for_js(!!js)$get_js(!!js),
+        label = label
+      )
+    },
+    error = function(e) {
+      # Save a screenshot to help debug the failure
+      app$expect_screenshot()
+
+      if (is.null(label)) {
+        label <- "JavaScript expectation failed"
+      }
+      rlang::abort(
+        paste(label, ":", e$message),
+        parent = e
+      )
+    }
   )
   invisible(app)
 }
