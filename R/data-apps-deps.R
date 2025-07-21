@@ -174,7 +174,7 @@ apps_deps_map <- list(
   `313-bslib-card-tab-focus` = c("bslib", "plotly", "rversions", "shiny", "shinycoreci", "shinytest2", "testthat", "withr"),
   `314-bslib-tooltips` = c("bsicons", "bslib", "plotly", "shiny", "shinycoreci", "shinytest2", "withr"),
   `315-bslib-input-switch` = c("bslib", "shiny", "shinytest2", "withr"),
-  `316-bslib-popovers` = c("bsicons", "bslib", "plotly", "rversions", "shiny", "shinycoreci", "shinytest2", "testthat", "withr"),
+  `316-bslib-popovers` = c("bsicons", "bslib", "plotly", "rlang", "rversions", "shiny", "shinycoreci", "shinytest2", "testthat", "withr"),
   `317-nav-insert` = c("bslib", "htmltools", "leaflet", "rversions", "shiny", "shinycoreci", "shinytest2", "testthat", "withr"),
   `318-navbar-colors` = c("bslib", "jsonlite", "rlang", "rprojroot", "shiny", "shinytest2", "testthat", "withr"),
   `900-text-jster` = c("shiny", "shinyjster", "shinytest2"),

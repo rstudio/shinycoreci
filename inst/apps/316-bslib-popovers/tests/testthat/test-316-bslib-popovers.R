@@ -1,5 +1,7 @@
 library(shinytest2)
-if (FALSE) library(shinycoreci) # for renv
+if (FALSE) {
+  library(shinycoreci)
+} # for renv
 
 # Only take screenshots on mac + r-release to reduce diff noise
 release <- rversions::r_release()$version
@@ -18,9 +20,25 @@ DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
 source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
 expect_js <- function(app, js, label = NULL) {
-  expect_true(
-    app$wait_for_js(!!js)$get_js(!!js),
-    label = label
+  tryCatch(
+    {
+      expect_true(
+        app$wait_for_js(!!js)$get_js(!!js),
+        label = label
+      )
+    },
+    error = function(e) {
+      # Save a screenshot to help debug the failure
+      app$expect_screenshot()
+
+      if (is.null(label)) {
+        label <- "JavaScript expectation failed"
+      }
+      rlang::abort(
+        paste(label, ":", e$message),
+        parent = e
+      )
+    }
   )
   invisible(app)
 }
@@ -33,7 +51,7 @@ expect_focus <- function(app, selector) {
   expect_js(app, js, label = paste("Focus is on:", selector))
 }
 
-# Setup App  --------------------------------------------------
+# Setup App --------------------------------------------------
 app <- AppDriver$new(
   name = "316-bslib-popovers",
   variant = platform_variant(),
@@ -56,20 +74,29 @@ app$run_js(
   '$(document).on("shown.bs.popover", function(e) { window.lastShown = e.target; });'
 )
 
-key_press <- key_press_factory(app)
+key_press_coreci <- key_press_factory(app)
+key_press <- function(...) {
+  Sys.sleep(0.1) # Slow things down
+
+  key_press_coreci(...)
+
+  Sys.sleep(0.1) # Give the browser time to process the key event
+}
 
 # lastShown should contain the trigger element, which we can use to find the
 # actual tooltip (we just make sure it's visible).
 expect_visible_tip <- function(app, selector, expect_tabbable = FALSE) {
   expect_js(
     app,
-    sprintf("window.lastShown === document.querySelector('%s')", selector)
+    sprintf("window.lastShown === document.querySelector('%s')", selector),
+    label = paste("Last shown element matches:", selector)
   )
 
   expect_js(
     app,
     "var tipId = window.lastShown.getAttribute('aria-describedby');
-      $(`#${tipId}:visible`).length > 0;"
+$(`#${tipId}:visible`).length > 0;",
+    label = paste("Tooltip is visible for:", selector)
   )
 
   if (expect_tabbable) {
@@ -78,13 +105,18 @@ expect_visible_tip <- function(app, selector, expect_tabbable = FALSE) {
       sprintf(
         "document.querySelector('%s').tabIndex === 0",
         selector
-      )
+      ),
+      label = paste("Tooltip is tabbable for:", selector)
     )
   }
 }
 
 expect_no_tip <- function(app) {
-  expect_js(app, "$('.popover:visible').length === 0;")
+  expect_js(
+    app,
+    "$('.popover:visible').length === 0;",
+    label = "No visible popover"
+  )
 }
 
 click_close_button <- function(app) {
@@ -93,17 +125,23 @@ click_close_button <- function(app) {
 
 expect_popover_content <- function(app, body = NULL, header = NULL) {
   if (!is.null(body)) {
-    body_actual <- app$wait_for_js(
-      "document.querySelector('.popover-body') !== null"
-    )$get_text(".popover-body")
+    expect_js(
+      app,
+      "document.querySelector('.popover-body') !== null",
+      label = "Popover body is present"
+    )
+    body_actual <- app$get_text(".popover-body")
 
     expect_equal(trimws(body_actual), body)
   }
 
   if (!is.null(header)) {
-    header_actual <- app$wait_for_js(
-      "document.querySelector('.popover-header') !== null"
-    )$get_text(".popover-header")
+    expect_js(
+      app,
+      "document.querySelector('.popover-header') !== null",
+      label = "Popover header is present"
+    )
+    header_actual <- app$get_text(".popover-header")
 
     expect_equal(trimws(header_actual), header)
   }
@@ -118,8 +156,8 @@ test_that("Can tab focus various cases/options", {
   expect_focus(app, ".nav-link.active")
 
   # Triggers ----------------------------------
-  #  These aren't <a> tags, so Tab+Enter (or click)
-  #  should show the popover
+  # These aren't <a> tags, so Tab+Enter (or click)
+  # should show the popover
   key_press("Tab")
   key_press("Enter")
   expect_focus(app, "#pop-hello span")
@@ -133,7 +171,6 @@ test_that("Can tab focus various cases/options", {
   expect_focus(app, "#pop-hello span")
   expect_visible_tip(app, "#pop-hello span")
   key_press("Tab")
-  Sys.sleep(0.1) # Give the popover time to transition active focus
   expect_focus(app, ".popover")
   key_press("Tab")
   # At this point, focus should be on the close button, but we can't explictly
@@ -148,6 +185,7 @@ test_that("Can tab focus various cases/options", {
 
   click_close_button(app)
   expect_focus(app, "#pop-hello span")
+  app$wait_for_idle()
   expect_no_tip(app)
 
   key_press("Enter")
@@ -162,6 +200,7 @@ test_that("Can tab focus various cases/options", {
   key_press("Tab")
   key_press("Tab")
   key_press("Escape")
+  Sys.sleep(0.5)
   expect_focus(app, "#pop-hello span")
   expect_no_tip(app)
 
@@ -217,32 +256,49 @@ test_that("Can programmatically update/show/hide tooltip", {
   app$click("hide_popover")
   expect_no_tip(app)
 
+  # Set while visible
   app$click("show_popover")
   app$set_inputs("popover_title" = "title 1")
+  app$wait_for_idle()
   expect_popover_content(app, "Popover message", "title 1")
   app$set_inputs("popover_msg" = "msg 1")
+  app$wait_for_idle()
   expect_popover_content(app, "msg 1", "title 1")
-
   app$click("hide_popover")
   expect_no_tip(app)
 
+  # Set title while hidden
   app$set_inputs("popover_title" = "title 2")
+  app$wait_for_idle()
+  ## Temp open to confirm title change
   app$click("show_popover")
+  app$wait_for_idle()
   expect_popover_content(app, "msg 1", "title 2")
   app$click("hide_popover")
-  app$click("show_popover")
+  app$wait_for_idle()
+
+  # Set body while hidden
   app$set_inputs("popover_msg" = "msg 2")
+  app$wait_for_idle()
+  app$click("show_popover")
+  app$wait_for_idle()
+  ## Temp open to confirm title change
   expect_popover_content(app, "msg 2", "title 2")
   click_close_button(app)
+  app$wait_for_idle()
   expect_no_tip(app)
 
+  # Be sure content persists when switching tabs
   app$click("show_popover")
   expect_popover_content(app, "msg 2", "title 2")
   app$set_inputs("navbar" = "Popover cases")
+
   expect_no_tip(app)
   app$set_inputs("navbar" = "Popover updates")
+  app$wait_for_idle()
 
   app$click("show_popover")
+  app$wait_for_idle()
   expect_popover_content(app, "msg 2", "title 2")
 })
 
@@ -250,6 +306,7 @@ test_that("Can programmatically update/show/hide tooltip", {
 # Tests for the 3rd tab (Tooltip inputs)
 test_that("Can put input controls in the popover", {
   app$set_inputs("navbar" = "Popover inputs")
+  app$wait_for_idle()
 
   app$run_js("$('#inc').focus()")
   expect_focus(app, "#inc")
