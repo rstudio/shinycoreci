@@ -1,5 +1,7 @@
 library(shinytest2)
-if (FALSE) library(shinycoreci) # for renv
+if (FALSE) {
+  library(shinycoreci)
+} # for renv
 
 # Only take screenshots on mac + r-release to reduce diff noise
 release <- rversions::r_release()$version
@@ -223,7 +225,6 @@ test_that("Can programmatically update/show/hide tooltip", {
   expect_popover_content(app, "Popover message", "title 1")
   app$set_inputs("popover_msg" = "msg 1")
   expect_popover_content(app, "msg 1", "title 1")
-
   app$click("hide_popover")
   expect_no_tip(app)
 
