@@ -179,6 +179,7 @@ test_that("Can tab focus various cases/options", {
 
   click_close_button(app)
   expect_focus(app, "#pop-hello span")
+  app$wait_for_idle()
   expect_no_tip(app)
 
   key_press("Enter")
@@ -249,32 +250,49 @@ test_that("Can programmatically update/show/hide tooltip", {
   app$click("hide_popover")
   expect_no_tip(app)
 
+  # Set while visible
   app$click("show_popover")
   app$set_inputs("popover_title" = "title 1")
+  app$wait_for_idle()
   expect_popover_content(app, "Popover message", "title 1")
   app$set_inputs("popover_msg" = "msg 1")
+  app$wait_for_idle()
   expect_popover_content(app, "msg 1", "title 1")
   app$click("hide_popover")
   expect_no_tip(app)
 
+  # Set title while hidden
   app$set_inputs("popover_title" = "title 2")
+  app$wait_for_idle()
+  ## Temp open to confirm title change
   app$click("show_popover")
+  app$wait_for_idle()
   expect_popover_content(app, "msg 1", "title 2")
   app$click("hide_popover")
-  app$click("show_popover")
+  app$wait_for_idle()
+
+  # Set body while hidden
   app$set_inputs("popover_msg" = "msg 2")
-  Sys.sleep(0.5)
+  app$wait_for_idle()
+  app$click("show_popover")
+  app$wait_for_idle()
+  ## Temp open to confirm title change
   expect_popover_content(app, "msg 2", "title 2")
   click_close_button(app)
+  app$wait_for_idle()
   expect_no_tip(app)
 
+  # Be sure content persists when switching tabs
   app$click("show_popover")
   expect_popover_content(app, "msg 2", "title 2")
   app$set_inputs("navbar" = "Popover cases")
+
   expect_no_tip(app)
   app$set_inputs("navbar" = "Popover updates")
+  app$wait_for_idle()
 
   app$click("show_popover")
+  app$wait_for_idle()
   expect_popover_content(app, "msg 2", "title 2")
 })
 
@@ -282,6 +300,7 @@ test_that("Can programmatically update/show/hide tooltip", {
 # Tests for the 3rd tab (Tooltip inputs)
 test_that("Can put input controls in the popover", {
   app$set_inputs("navbar" = "Popover inputs")
+  app$wait_for_idle()
 
   app$run_js("$('#inc').focus()")
   expect_focus(app, "#inc")
