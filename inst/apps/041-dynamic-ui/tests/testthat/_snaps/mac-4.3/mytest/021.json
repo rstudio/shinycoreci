@@ -11,9 +11,9 @@
       "deps": [
         {
           "name": "bootstrap-datepicker-js",
-          "version": "1.9.0",
+          "version": "1.10.0",
           "src": {
-            "href": "bootstrap-datepicker-js-1.9.0"
+            "href": "bootstrap-datepicker-js-1.10.0"
           },
           "meta": null,
           "script": "js/bootstrap-datepicker.min.js",
@@ -24,9 +24,9 @@
         },
         {
           "name": "bootstrap-datepicker-css",
-          "version": "1.9.0",
+          "version": "1.10.0",
           "src": {
-            "href": "bootstrap-datepicker-css-1.9.0"
+            "href": "bootstrap-datepicker-css-1.10.0"
           },
           "meta": null,
           "script": null,
