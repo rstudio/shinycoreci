@@ -1,5 +1,7 @@
 library(shinytest2)
-if (FALSE) library(shinycoreci) # for renv
+if (FALSE) {
+  library(shinycoreci)
+} # for renv
 
 source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
 
@@ -27,6 +29,10 @@ app <- AppDriver$new(
 withr::defer(app$stop())
 
 key_press <- key_press_factory(app)
+key_press_and_sleep <- function(..., sleep = 0.25) {
+  key_press(...)
+  Sys.sleep(sleep)
+}
 
 # Before focusing any tooltips, set up an event handler to keep track of
 # the last tooltip shown
@@ -50,63 +56,61 @@ expect_visible_tip <- function(app, selector) {
 test_that("Can tab focus various cases/options", {
   expect_focus(app, "body")
 
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, ".nav-link.active")
 
   # Placement ----------------------------------
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-auto")
   expect_visible_tip(app, "#tip-auto")
 
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-left")
   expect_visible_tip(app, "#tip-left")
 
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-right")
   expect_visible_tip(app, "#tip-right")
 
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-top")
   expect_visible_tip(app, "#tip-top")
 
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-bottom")
   expect_visible_tip(app, "#tip-bottom")
 
   # Triggers ----------------------------------
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-hello span")
   expect_visible_tip(app, "#tip-hello span")
 
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-inline span")
   expect_visible_tip(app, "#tip-inline span")
 
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-action button")
   expect_visible_tip(app, "#tip-action button")
 
-  key_press("Tab")
-  key_press("Tab")
+  key_press_and_sleep("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-multiple :last-child")
   expect_visible_tip(app, "#tip-multiple :last-child")
 
   # Options ----------------------------------
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-offset")
   expect_visible_tip(app, "#tip-offset")
 
-  key_press("Tab")
+  key_press_and_sleep("Tab")
   expect_focus(app, "#tip-animation")
   expect_visible_tip(app, "#tip-animation")
 })
 
 
-
 # Tests for the 2nd tab (Tooltip cases)
 test_that("Can programmatically update/show/hide tooltip", {
-
   expect_no_tip <- function(app) {
     app$wait_for_js("$('.tooltip:visible').length === 0")
   }
