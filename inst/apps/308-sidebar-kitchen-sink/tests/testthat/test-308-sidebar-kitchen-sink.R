@@ -27,7 +27,7 @@ test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
     # TODO: rstudio/shinytest2#367
     screenshot_args = list(
       selector = "viewport",
-      delay = 0.5,
+      delay = 1.5,
       options = list(captureBeyondViewport = FALSE)
     )
   )
