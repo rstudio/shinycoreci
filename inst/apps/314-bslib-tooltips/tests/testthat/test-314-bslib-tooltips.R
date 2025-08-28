@@ -89,8 +89,8 @@ test_that("Can tab focus various cases/options", {
 
   key_press("Tab")
   key_press("Tab")
-  expect_focus(app, "#tip-multiple :last-child")
-  expect_visible_tip(app, "#tip-multiple :last-child")
+  expect_focus(app, "#tip-multiple > :last-child")
+  expect_visible_tip(app, "#tip-multiple > :last-child")
 
   # Options ----------------------------------
   key_press("Tab")
