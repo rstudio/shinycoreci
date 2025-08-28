@@ -474,9 +474,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.1.9000",
+          "version": "1.2.2.9000",
           "src": {
-            "href": "crosstalk-1.2.1.9000"
+            "href": "crosstalk-1.2.2.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
@@ -490,7 +490,7 @@
     "inputPanelOutput": "List of 5\n $ sliderInput        : int [1:2] 14 83\n $ selectizeInput     : chr \"AK\"\n $ selectizeMultiInput: chr [1:3] \"AK\" \"AR\" \"CO\"\n $ dateInput          : Date[1:1], format: \"2020-12-21\"\n $ dateRangeInput     : Date[1:2], format: \"2020-12-24\" \"2020-12-26\"",
     "inputPanelOutputHeader": "Below are the values bound to each input widget above",
     "plot": {
-      "src": "[image data hash: 07c5cacfa5a992b27cbdf910133a576f]",
+      "src": "[image data hash: 27c41ad24c92efae00dd35bed15c8fba]",
       "width": 968,
       "height": 400,
       "alt": "Plot object",
@@ -519,10 +519,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 84.4632,
-              "right": 373.496,
-              "bottom": 190.166,
-              "top": 60.7406
+              "left": 84.4681,
+              "right": 373.4993,
+              "bottom": 189.8641,
+              "top": 61.728
             }
           },
           {
@@ -548,10 +548,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 378.9755,
-              "right": 668.0083,
-              "bottom": 190.166,
-              "top": 60.7406
+              "left": 378.9787,
+              "right": 668.0099,
+              "bottom": 189.8641,
+              "top": 61.728
             }
           },
           {
@@ -577,10 +577,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 673.4877,
+              "left": 673.4894,
               "right": 962.5205,
-              "bottom": 190.166,
-              "top": 60.7406
+              "bottom": 189.8641,
+              "top": 61.728
             }
           },
           {
@@ -606,10 +606,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 84.4632,
-              "right": 373.496,
-              "bottom": 349.8436,
-              "top": 220.4182
+              "left": 84.4681,
+              "right": 373.4993,
+              "bottom": 349.0476,
+              "top": 220.9114
             }
           },
           {
@@ -635,10 +635,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 378.9755,
-              "right": 668.0083,
-              "bottom": 349.8436,
-              "top": 220.4182
+              "left": 378.9787,
+              "right": 668.0099,
+              "bottom": 349.0476,
+              "top": 220.9114
             }
           }
         ],

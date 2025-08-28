@@ -137,7 +137,7 @@
   },
   "output": {
     "parcoord": {
-      "src": "[image data hash: 6565dbb84433ab392677b8e5262e9985]",
+      "src": "[image data hash: 2753ac426314d7e7fa6a72153b1e036c]",
       "width": 386.6562,
       "height": 400,
       "alt": "Plot object",
@@ -151,8 +151,8 @@
               "top": 350.448
             },
             "range": {
-              "left": 57.5488,
-              "right": 385.2175,
+              "left": 57.6979,
+              "right": 385.2138,
               "bottom": 370.2,
               "top": 27.8
             },
@@ -267,9 +267,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.1.9000",
+          "version": "1.2.2.9000",
           "src": {
-            "href": "crosstalk-1.2.1.9000"
+            "href": "crosstalk-1.2.2.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
