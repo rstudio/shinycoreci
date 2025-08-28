@@ -137,7 +137,7 @@
   },
   "output": {
     "parcoord": {
-      "src": "[image data hash: 1f565b95ebeac620c6e6da0bee969daa]",
+      "src": "[image data hash: 676e10de5846429779e890f78d845191]",
       "width": 386.6562,
       "height": 400,
       "alt": "Plot object",
@@ -267,9 +267,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.2",
+          "version": "1.2.2.9000",
           "src": {
-            "href": "crosstalk-1.2.2"
+            "href": "crosstalk-1.2.2.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",

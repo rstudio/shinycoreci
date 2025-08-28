@@ -675,7 +675,7 @@
   },
   "output": {
     "histCentile": {
-      "src": "[image data hash: 4c7a90722c56571045dc0d937476cb2a]",
+      "src": "[image data hash: 818ece8de8c700489df5918f06a0a8c3]",
       "width": 287.7778,
       "height": 200,
       "alt": "Plot object",
@@ -834,7 +834,7 @@
       ]
     },
     "scatterCollegeIncome": {
-      "src": "[image data hash: d92f21211458bce91a01d99e074b2660]",
+      "src": "[image data hash: 56568e181e14270a4386dd26e814b3e3]",
       "width": 287.7778,
       "height": 250,
       "alt": "Plot object",
@@ -1003,9 +1003,9 @@
         },
         {
           "name": "crosstalk",
-          "version": "1.2.2",
+          "version": "1.2.2.9000",
           "src": {
-            "href": "crosstalk-1.2.2"
+            "href": "crosstalk-1.2.2.9000"
           },
           "meta": null,
           "script": "js/crosstalk.min.js",
