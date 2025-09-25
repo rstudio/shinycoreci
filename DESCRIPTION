@@ -25,6 +25,7 @@ Imports:
     utils,
     withr
 Suggests:
+    cli,
     dplyr,
     english,
     httpuv,
@@ -35,6 +36,7 @@ Suggests:
     rsconnect (>= 1.0.1),
     shiny,
     shinytest,
+    shinytest2,
     testthat,
     tibble,
     tidyr,
