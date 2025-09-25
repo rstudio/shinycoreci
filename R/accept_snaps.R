@@ -12,8 +12,10 @@ accept_snaps <- function(
 
   pb <- progress_bar(
     total = length(app_paths),
-    format = ":name [:bar] :current/:total"
+    format = ":name [:bar] :current/:total [:elapsed;:eta]"
   )
+
+  snaps_diffs <- list()
 
   for (app_path in app_paths) {
     pb$tick(tokens = list(name = basename(app_path)))
@@ -24,10 +26,43 @@ accept_snaps <- function(
       snaps_info <- testthat__snapshot_meta()
       if (nrow(snaps_info) == 0) next
 
-      cat("\n") # Fresh line for printing
-      testthat::snapshot_accept()
+      Map(snaps_info$cur, snaps_info$new, f = function(snap_path, new_snap_path) {
+        if (!grepl("\\.png$", snap_path)) {
+          return()
+        }
+
+        snaps_diffs[[file.path(app_path, snap_path)]] <<-
+          shinytest2::screenshot_max_difference(
+            old = snap_path, new = new_snap_path
+          )
+
+        NULL
+      })
+      ignore <- capture.output(
+        type = "message",
+        {
+          testthat::snapshot_accept()
+        }
+      )
     })
   }
+
+  if (length(snaps_diffs) > 0) {
+    snaps_diffs <- unlist(snaps_diffs)
+
+    snaps_diffs_big <- snaps_diffs[snaps_diffs > 10]
+    if (length(snaps_diffs_big) > 0) {
+      snaps_diffs_big <- sort(snaps_diffs_big, decreasing = FALSE)
+      ul <- cli::cli_ul()
+      Map(names(snaps_diffs_big), snaps_diffs_big, f = function(name, diff) {
+        cli::cli_li("{.file {name}}: {format(diff, nsmall = 2)}")
+      })
+      cli::cli_end(ul)
+      hist(snaps_diffs, main = "Histogram of snapshot diffs", xlab = "shinytest2::screenshot_max_difference()")
+    }
+  }
+
+  invisible(snaps_diffs)
 }
 
 
