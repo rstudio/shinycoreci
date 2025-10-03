@@ -1,7 +1,7 @@
 library(shinytest2)
 library(testthat)
 
-test_that("MathJax block contains mpg equation", {
+test_that("MathJax block contains a mpg equation", {
   app <- AppDriver$new(variant = shinytest2::platform_variant())
 
   app$wait_for_js("$('#MathJax-Span-1').length > 0", timeout = 10 * 1000)
