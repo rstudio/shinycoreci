@@ -5,13 +5,13 @@ R version: R version 4.2.3 (2023-03-15)
  chromote: 0.5.1.9000
 
 ---- Chrome ----
-   Path: /Users/runner/Library/Caches/org.R-project.R/R/chromote/chrome/140.0.7339.185/chrome-headless-shell-mac-arm64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
-Version: Google Chrome for Testing 140.0.7339.185
+   Path: /Users/runner/Library/Caches/org.R-project.R/R/chromote/chrome/141.0.7390.54/chrome-headless-shell-mac-arm64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
+Version: Google Chrome for Testing 141.0.7390.54
    Args: --headless --no-sandbox --disable-dev-shm-usage
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20250916.2338
+ gha_image 20250922.2357
  version   R version 4.2.3 (2023-03-15)
  os        macOS 15.6.1
  system    aarch64, darwin20
@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 140.0.7339.185
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2025-09-22
+ date      2025-10-02
  pandoc    3.1.11 @ /usr/local/bin/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -40,7 +40,7 @@ Version: Google Chrome for Testing 140.0.7339.185
    brio                1.1.5       2024-04-24 [1] CRAN (R 4.2.3)
    broom               1.0.6       2024-05-17 [1] CRAN (R 4.2.3)
    bsicons             0.1.2.9000  2023-11-05 [1] https://p~
-   bslib               0.9.0.9000  2025-09-04 [1] https://p~
+   bslib               0.9.0.9000  2025-09-22 [1] https://p~
    cachem              1.1.0       2024-05-16 [1] CRAN (R 4.2.3)
    callr               3.7.6       2024-03-25 [1] CRAN (R 4.2.3)
    checkmate           2.3.1       2023-12-04 [1] CRAN (R 4.2.3)
@@ -84,7 +84,7 @@ Version: Google Chrome for Testing 140.0.7339.185
    ggvis               0.4.9       2024-02-05 [1] CRAN (R 4.2.3)
    globals             0.18.0      2025-05-08 [1] CRAN (R 4.2.3)
  V glue                1.7.0       2024-09-30 [1] CRAN (R 4.2.3) (on disk 1.8.0)
-   gt                  1.0.0.9000  2025-09-17 [1] https://p~
+   gt                  1.1.0.9000  2025-10-01 [1] https://p~
    gtable              0.3.6       2024-10-25 [1] CRAN (R 4.2.3)
    highcharter         0.9.4       2022-01-03 [1] CRAN (R 4.2.0)
    highr               0.11        2024-05-26 [1] CRAN (R 4.2.3)
@@ -104,7 +104,7 @@ Version: Google Chrome for Testing 140.0.7339.185
    later               1.4.4.9000  2025-09-10 [1] https://p~
    lattice             0.20-45     2021-09-22 [3] CRAN (R 4.2.3)
    lazyeval            0.2.2       2019-03-15 [1] CRAN (R 4.2.0)
-   leaflet             2.2.3.9000  2025-09-04 [1] https://p~
+   leaflet             2.2.3.9000  2025-09-30 [1] https://p~
    leaflet.providers   2.0.0       2023-10-17 [1] CRAN (R 4.2.0)
    lifecycle           1.0.4       2023-11-07 [1] CRAN (R 4.2.3)
    listenv             0.9.1       2024-01-29 [1] CRAN (R 4.2.3)
@@ -127,7 +127,7 @@ Version: Google Chrome for Testing 140.0.7339.185
    openssl             2.2.0       2024-05-16 [1] CRAN (R 4.2.3)
    otel                0.2.0       2025-08-29 [1] CRAN (R 4.2.3)
    packrat             0.9.2       2023-09-05 [1] CRAN (R 4.2.0)
-   pak                 0.9.0.9000  2025-09-21 [1] local
+   pak                 0.9.0.9000  2025-10-01 [1] local
    parallelly          1.45.1      2025-07-24 [1] CRAN (R 4.2.3)
    parsedate           1.3.1       2022-10-27 [1] CRAN (R 4.2.0)
    pillar              1.9.0       2023-03-22 [1] CRAN (R 4.2.0)
@@ -144,7 +144,7 @@ Version: Google Chrome for Testing 140.0.7339.185
    prettyunits         1.2.0       2023-09-24 [1] CRAN (R 4.2.0)
    processx            3.8.4       2024-03-16 [1] CRAN (R 4.2.3)
    progress            1.2.3       2023-12-06 [1] CRAN (R 4.2.3)
-   promises            1.3.3.9004  2025-09-09 [1] https://p~
+   promises            1.3.3.9006  2025-09-30 [1] https://p~
    proxy               0.4-27      2022-06-09 [1] CRAN (R 4.2.0)
    pryr                0.1.6       2023-01-17 [1] CRAN (R 4.2.0)
    ps                  1.7.6       2024-01-18 [1] CRAN (R 4.2.3)
@@ -170,7 +170,7 @@ Version: Google Chrome for Testing 140.0.7339.185
    rjson               0.2.21      2022-01-09 [1] CRAN (R 4.2.0)
  V rlang               1.1.3       2025-04-11 [1] CRAN (R 4.2.3) (on disk 1.1.6)
    rlist               0.4.6.2     2021-09-03 [1] CRAN (R 4.2.0)
-   rmarkdown           2.29        2024-11-04 [1] CRAN (R 4.2.3)
+   rmarkdown           2.30        2025-09-28 [1] CRAN (R 4.2.3)
    rpart               4.1.19      2022-10-21 [3] CRAN (R 4.2.3)
  V rprojroot           2.0.4       2025-08-26 [1] CRAN (R 4.2.3) (on disk 2.1.1)
    rsconnect           1.3.0       2024-05-24 [1] CRAN (R 4.2.3)
@@ -185,7 +185,7 @@ Version: Google Chrome for Testing 140.0.7339.185
    sf                  1.0-16      2024-03-24 [1] CRAN (R 4.2.3)
    shiny               1.11.1.9000 2025-09-09 [1] https://p~
    shinyAce            0.4.4       2025-02-03 [1] CRAN (R 4.2.3)
-   shinycoreci         0.0.0.9009  2025-09-22 [1] Custom
+   shinycoreci         0.0.0.9009  2025-10-02 [1] Custom
    shinydashboard      0.7.3       2025-04-21 [1] CRAN (R 4.2.3)
    shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.2.0)
    shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
