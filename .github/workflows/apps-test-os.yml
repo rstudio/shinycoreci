@@ -273,7 +273,7 @@ jobs:
 
             # Capture push status and do not exit action
             PUSH_STATUS=0
-            output=$(git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" _test_results) && PUSH_STATUS=$? || PUSH_STATUS=$?
+            git push "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" _test_results || PUSH_STATUS=1
 
             # If push was successful, exit loop
             if [ "$PUSH_STATUS" = 0 ]; then
