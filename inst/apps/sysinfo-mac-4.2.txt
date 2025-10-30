@@ -145,7 +145,7 @@ Version: Google Chrome for Testing 141.0.7390.122
    prettyunits         1.2.0       2023-09-24 [1] CRAN (R 4.2.0)
    processx            3.8.4       2024-03-16 [1] CRAN (R 4.2.3)
    progress            1.2.3       2023-12-06 [1] CRAN (R 4.2.3)
-   promises            1.4.0.9000  2025-10-22 [1] https://p~
+   promises            1.4.0.9000  2025-10-30 [1] https://p~
    proxy               0.4-27      2022-06-09 [1] CRAN (R 4.2.0)
    pryr                0.1.6       2023-01-17 [1] CRAN (R 4.2.0)
    ps                  1.7.6       2024-01-18 [1] CRAN (R 4.2.3)
