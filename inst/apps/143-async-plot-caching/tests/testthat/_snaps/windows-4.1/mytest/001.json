@@ -4,7 +4,7 @@
   },
   "output": {
     "ggplotNN": {
-      "src": "[image data hash: 8bd525f0d8c24e1fbc611dfd19fed89e]",
+      "src": "[image data hash: a9774b7c122360886e219049c7bbe853]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -45,7 +45,7 @@
       "class": "shiny-scalable"
     },
     "ggplotNY": {
-      "src": "[image data hash: 8bd525f0d8c24e1fbc611dfd19fed89e]",
+      "src": "[image data hash: a9774b7c122360886e219049c7bbe853]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -86,7 +86,7 @@
       "class": "shiny-scalable"
     },
     "ggplotYN": {
-      "src": "[image data hash: 8bd525f0d8c24e1fbc611dfd19fed89e]",
+      "src": "[image data hash: a9774b7c122360886e219049c7bbe853]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -127,7 +127,7 @@
       "class": "shiny-scalable"
     },
     "ggplotYY": {
-      "src": "[image data hash: 8bd525f0d8c24e1fbc611dfd19fed89e]",
+      "src": "[image data hash: a9774b7c122360886e219049c7bbe853]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
