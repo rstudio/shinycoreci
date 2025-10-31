@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 142.0.7444.59
  collate   English_United States.utf8
  ctype     English_United States.utf8
  tz        UTC
- date      2025-10-30
+ date      2025-10-31
  pandoc    3.1.11 @ C:\\HOSTED~1\\windows\\pandoc\\31F387~1.11\\x64\\PANDOC~1.11\\pandoc.exe
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -42,6 +42,7 @@ Version: Google Chrome for Testing 142.0.7444.59
  bsicons             0.1.2.9000  2023-11-05 [1] https://p~
  bslib               0.9.0.9000  2025-10-24 [1] https://p~
  cachem              1.1.0       2024-05-16 [1] RSPM
+ Cairo               1.7-0       2025-10-29 [1] RSPM
  callr               3.7.6       2024-03-25 [1] RSPM
  checkmate           2.3.3       2025-08-18 [1] RSPM
  chromote            0.5.1.9000  2025-04-24 [1] https://p~
@@ -144,7 +145,7 @@ Version: Google Chrome for Testing 142.0.7444.59
  prettyunits         1.2.0       2023-09-24 [1] RSPM
  processx            3.8.6       2025-02-21 [1] RSPM
  progress            1.2.3       2023-12-06 [1] RSPM
- promises            1.4.0.9000  2025-10-22 [1] https://p~
+ promises            1.4.0.9000  2025-10-30 [1] https://p~
  proxy               0.4-27      2022-06-09 [1] RSPM
  pryr                0.1.6       2023-01-17 [1] RSPM
  ps                  1.9.1       2025-04-12 [1] RSPM
@@ -186,7 +187,7 @@ Version: Google Chrome for Testing 142.0.7444.59
  sf                  1.0-16      2024-03-24 [1] CRAN (R 4.2.3)
  shiny               1.11.1.9001 2025-10-28 [1] https://p~
  shinyAce            0.4.4       2025-02-03 [1] RSPM
- shinycoreci         0.0.0.9009  2025-10-30 [1] Custom
+ shinycoreci         0.0.0.9009  2025-10-31 [1] Custom
  shinydashboard      0.7.3       2025-04-21 [1] RSPM
  shinyjs             2.1.0       2021-12-23 [1] RSPM
  shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
