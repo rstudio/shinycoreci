@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 141.0.7390.122
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2025-10-30
+ date      2025-10-31
  pandoc    3.1.11 @ /usr/local/bin/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -143,7 +143,7 @@ Version: Google Chrome for Testing 141.0.7390.122
  prettyunits         1.2.0       2023-09-24 [1] CRAN (R 4.4.1)
  processx            3.8.6       2025-02-21 [1] CRAN (R 4.4.1)
  progress            1.2.3       2023-12-06 [1] CRAN (R 4.4.0)
- promises            1.4.0.9000  2025-10-22 [1] https://p~
+ promises            1.4.0.9000  2025-10-30 [1] https://p~
  proxy               0.4-27      2022-06-09 [1] CRAN (R 4.4.1)
  pryr                0.1.6       2023-01-17 [1] CRAN (R 4.4.0)
  ps                  1.9.1       2025-04-12 [1] CRAN (R 4.4.1)
@@ -185,7 +185,7 @@ Version: Google Chrome for Testing 141.0.7390.122
  sf                  1.0-21      2025-05-15 [1] CRAN (R 4.4.1)
  shiny               1.11.1.9001 2025-10-28 [1] https://p~
  shinyAce            0.4.4       2025-02-03 [1] CRAN (R 4.4.1)
- shinycoreci         0.0.0.9009  2025-10-06 [1] https://p~
+ shinycoreci         0.0.0.9009  2025-10-30 [1] https://p~
  shinydashboard      0.7.3       2025-04-21 [1] CRAN (R 4.4.1)
  shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.4.0)
  shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
@@ -234,7 +234,7 @@ Version: Google Chrome for Testing 141.0.7390.122
  withr               3.0.2       2024-10-28 [1] CRAN (R 4.4.1)
  wk                  0.9.4       2024-10-11 [1] CRAN (R 4.4.1)
  wordcloud           2.6         2018-08-24 [1] CRAN (R 4.4.1)
- xfun                0.53        2025-08-19 [1] CRAN (R 4.4.1)
+ xfun                0.54        2025-10-30 [1] CRAN (R 4.4.1)
  XML                 3.99-0.19   2025-08-22 [1] CRAN (R 4.4.1)
  xml2                1.4.1       2025-10-27 [1] CRAN (R 4.4.1)
  xtable              1.8-4       2019-04-21 [1] CRAN (R 4.4.1)
