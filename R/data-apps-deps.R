@@ -75,7 +75,7 @@ apps_deps_map <- list(
   `125-async-req` = c("future", "promises", "shiny", "shinyjster", "shinytest2"),
   `126-async-ticks` = c("future", "later", "promises", "shiny", "shinyjster", "shinytest2"),
   `128-plot-dim-error` = c("shiny", "shinyjster", "shinytest2"),
-  `129-async-perf` = c("future", "ggplot2", "promises", "shiny", "shinyjster", "shinytest2"),
+  `129-async-perf` = c("promises", "shiny", "shinyjster", "shinytest2"),
   `130-output-null` = c("shiny", "shinyjster", "shinytest2"),
   `131-renderplot-args` = c("shiny", "shinyjster", "shinytest2"),
   `132-async-events` = c("later", "promises", "shiny", "shinyjster", "shinytest2"),
