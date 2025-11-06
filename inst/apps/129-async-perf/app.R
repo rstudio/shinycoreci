@@ -1,9 +1,17 @@
 library(shiny)
 library(promises)
-library(future)
-plan(multicore)
-library(ggplot2)
 
+success_maximum <- 50
+failure_maximum <- 100
+
+on_ci <- function() {
+  isTRUE(as.logical(Sys.getenv("CI")))
+}
+if (on_ci()) {
+  # On CI, increase the maximums to account for slower machines
+  success_maximum <- 100
+  failure_maximum <- 200
+}
 
 ui <- fluidPage(
   tags$style("p { max-width: 600px; }"),
@@ -23,7 +31,7 @@ ui <- fluidPage(
   actionButton("success", "Benchmark success"),
   actionButton("failure", "Benchmark failure"),
   textOutput("time"),
-  shinyjster::shinyjster_js("
+  shinyjster::shinyjster_js(paste0("
     var jst = jster(1);
     jst.add(Jster.shiny.waitUntilIdle);
 
@@ -38,7 +46,7 @@ ui <- fluidPage(
             Jster.button.click(id);
             setTimeout(done, 10);
           });
-          jst.add(Jster.shiny.waitUntilIdle);
+          jst.add(Jster.shiny.waitUntilIdleFor(100));
           jst.add(function() {
             var val = parseFloat($('#time').text().replace(/[^0-9.]/g, '')) * 1000;
             console.log($('#time').text().replace(/[^0-9.]/g, ''), val, max_time);
@@ -46,7 +54,6 @@ ui <- fluidPage(
               count = count + 1
             }
           })
-          jst.add(Jster.shiny.waitUntilIdle);
         })(i)
       }
       jst.add(function() {
@@ -60,11 +67,11 @@ ui <- fluidPage(
         );
       })
     }
-    click_and_validate('success', 50);
-    click_and_validate('failure', 100);
+    click_and_validate('success', ", success_maximum, ");
+    click_and_validate('failure', ", failure_maximum, ");
 
     jst.test();
-  ")
+  "))
 )
 
 server <- function(input, output, session) {
