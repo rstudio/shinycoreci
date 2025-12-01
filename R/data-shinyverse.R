@@ -8,8 +8,7 @@ shinyverse_pkgs <- c("bsicons", "bslib", "cachem", "chromote", "crosstalk", "DT"
 "htmltools", "htmlwidgets", "httpuv", "later", "leaflet", "plotly", 
 "pool", "promises", "reactlog", "sass", "shiny", "shinycoreci", 
 "shinyjster", "shinymeta", "shinytest", "shinytest2", "shinythemes", 
-"shinyvalidate", "testthat", "thematic", "webdriver", "websocket"
-)
+"shinyvalidate", "thematic", "webdriver", "websocket")
 
 shinyverse_urls <- c("https://github.com/rstudio/bsicons", "https://github.com/rstudio/bslib", 
 "https://github.com/r-lib/cachem", "https://github.com/rstudio/chromote", 
@@ -25,6 +24,6 @@ shinyverse_urls <- c("https://github.com/rstudio/bsicons", "https://github.com/r
 "https://github.com/rstudio/shinycoreci", "https://github.com/schloerke/shinyjster", 
 "https://github.com/rstudio/shinymeta", "https://github.com/rstudio/shinytest", 
 "https://github.com/rstudio/shinytest2", "https://github.com/rstudio/shinythemes", 
-"https://github.com/rstudio/shinyvalidate", "https://github.com/schloerke/testthat", 
-"https://github.com/rstudio/thematic", "https://github.com/rstudio/webdriver", 
-"https://github.com/rstudio/websocket")
+"https://github.com/rstudio/shinyvalidate", "https://github.com/rstudio/thematic", 
+"https://github.com/rstudio/webdriver", "https://github.com/rstudio/websocket"
+)
