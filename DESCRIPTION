@@ -14,7 +14,7 @@ URL: https://github.com/rstudio/shinycoreci
 BugReports: https://github.com/rstudio/shinycoreci/issues
 Imports:
     callr,
-    chromote (>= 0.4.0.9000),
+    chromote (>= 0.5.0),
     cli,
     jsonlite,
     progress,
@@ -41,8 +41,6 @@ Suggests:
     tibble,
     tidyr,
     waldo
-Remotes: 
-    rstudio/chromote
 Config/Needs/website: tidyverse/tidytemplate
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
