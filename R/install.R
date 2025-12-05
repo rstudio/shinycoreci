@@ -111,7 +111,9 @@ pak_deps_map <- new.env(parent = emptyenv())
 
 
 get_extra_shinyverse_deps <- function(packages) {
-  if (length(packages) == 0) return(NULL)
+  if (length(packages) == 0) {
+    return(NULL)
+  }
 
   # Recursively find all shinycoreci packages as dependencies from `packages`
   ret <- c()
@@ -120,13 +122,31 @@ get_extra_shinyverse_deps <- function(packages) {
     pkg <- queue[1]
     queue <- queue[-1]
 
-    if (is.null(pkg)) break
-    if (is.na(pkg) && length(queue) == 0) break
-    if (is.na(pkg)) next
-    if (pkg %in% ret) next
+    if (is.null(pkg)) {
+      break
+    }
+    if (is.na(pkg) && length(queue) == 0) {
+      break
+    }
+    if (is.na(pkg)) {
+      next
+    }
+    if (pkg %in% ret) {
+      next
+    }
 
     pkg_dep_packages <- pak_deps_map[[pkg]]
     if (is.null(pkg_dep_packages)) {
+      # Install pak if not already installed
+      tryCatch(
+        {
+          pak::pak
+        },
+        error = function(e) {
+          install.packages("pak")
+        }
+      )
+
       withr::with_options(
         list(
           repos = shinyverse_repos_option()
@@ -232,6 +252,16 @@ install_pkgs_with_callr <- function(
   callr::r(
     function(repos_option, packages, upgrade, dependencies) {
       options(repos = repos_option)
+
+      # Install pak if not already installed
+      tryCatch(
+        {
+          pak::pak
+        },
+        error = function(e) {
+          install.packages("pak")
+        }
+      )
 
       # Performing a leap of faith that pak is installed.
       # Avoids weird installs when using pak to install shinycoreci
