@@ -1,0 +1,104 @@
+{
+  "input": {
+    "scatters-brush": null
+  },
+  "output": {
+    "scatters-plot1": {
+      "src": "[image data hash: 4fbf0acd901fc7034c86552f2fbbdbd9]",
+      "width": 455,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 7.7,
+              "right": 36.3,
+              "bottom": 10.4,
+              "top": 45.6
+            },
+            "mapping": {
+              "colour": "selected_",
+              "x": "cty",
+              "y": "hwy"
+            },
+            "range": {
+              "left": 33.1279,
+              "right": 449.5205,
+              "bottom": 368.5092,
+              "top": 5.4795
+            }
+          }
+        ],
+        "dims": {
+          "width": 455,
+          "height": 400
+        }
+      }
+    },
+    "scatters-plot2": {
+      "src": "[image data hash: 3c49533a1fb16b426a85da4d3e8840ce]",
+      "width": 455,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 3.6,
+              "bottom": 10.4,
+              "top": 45.6,
+              "discrete_limits": {
+                "x": [
+                  "4",
+                  "f",
+                  "r"
+                ]
+              }
+            },
+            "mapping": {
+              "colour": "selected_",
+              "x": "drv",
+              "y": "hwy"
+            },
+            "range": {
+              "left": 33.1279,
+              "right": 449.5205,
+              "bottom": 368.5092,
+              "top": 5.4795
+            }
+          }
+        ],
+        "dims": {
+          "width": 455,
+          "height": 400
+        }
+      }
+    },
+    "summary": "0 observation(s) selected"
+  },
+  "export": {
+
+  }
+}
