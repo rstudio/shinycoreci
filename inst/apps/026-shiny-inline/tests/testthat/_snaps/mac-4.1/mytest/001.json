@@ -140,9 +140,9 @@
         },
         {
           "name": "htmltools-fill",
-          "version": "0.5.9",
+          "version": "0.5.9.9000",
           "src": {
-            "href": "htmltools-fill-0.5.9"
+            "href": "htmltools-fill-0.5.9.9000"
           },
           "meta": null,
           "script": null,
@@ -169,7 +169,7 @@
     },
     "out0a4534806ab07416": "A",
     "outa859f0ffc8c7802f": {
-      "src": "[image data hash: ce1405c84518b638be597ab27e05188c]",
+      "src": "[image data hash: 19d0412d6cebdb03f6815e3001c5ff56]",
       "width": 150,
       "height": 40,
       "alt": "Plot object",
@@ -204,7 +204,7 @@
       }
     },
     "outc41ba546fb6de017": {
-      "src": "[image data hash: 8e7164d893badddcb0e43bf49143c626]",
+      "src": "[image data hash: 210591d128566ffdc69f33f686c2b815]",
       "width": 600,
       "height": 400,
       "alt": "Plot object",
