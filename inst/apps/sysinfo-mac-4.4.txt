@@ -127,7 +127,7 @@ Version: Google Chrome for Testing 143.0.7499.42
  openssl             2.3.4       2025-09-30 [1] CRAN (R 4.4.1)
  otel                0.2.0       2025-08-29 [1] CRAN (R 4.4.1)
  packrat             0.9.3       2025-06-16 [1] CRAN (R 4.4.1)
- pak                 0.9.1.9000  2025-12-10 [1] local
+ pak                 0.9.1.9000  2025-12-11 [1] local
  parallelly          1.45.1      2025-07-24 [1] CRAN (R 4.4.1)
  parsedate           1.3.2       2024-12-09 [1] CRAN (R 4.4.1)
  pillar              1.11.1      2025-09-17 [1] CRAN (R 4.4.1)
@@ -145,7 +145,7 @@ Version: Google Chrome for Testing 143.0.7499.42
  processx            3.8.6       2025-02-21 [1] CRAN (R 4.4.1)
  progress            1.2.3       2023-12-06 [1] CRAN (R 4.4.0)
  promises            1.5.0.9000  2025-11-19 [1] https://p~
- proxy               0.4-27      2022-06-09 [1] CRAN (R 4.4.1)
+ proxy               0.4-28      2025-12-11 [1] CRAN (R 4.4.3)
  pryr                0.1.6       2023-01-17 [1] CRAN (R 4.4.0)
  ps                  1.9.1       2025-04-12 [1] CRAN (R 4.4.1)
  purrr               1.2.0       2025-11-04 [1] CRAN (R 4.4.1)
