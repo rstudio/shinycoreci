@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 143.0.7499.42
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2025-12-11
+ date      2025-12-12
  pandoc    3.1.11 @ /usr/local/bin/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -129,7 +129,7 @@ Version: Google Chrome for Testing 143.0.7499.42
    openssl             2.2.0       2024-05-16 [1] CRAN (R 4.2.3)
    otel                0.2.0       2025-08-29 [1] CRAN (R 4.2.3)
    packrat             0.9.2       2023-09-05 [1] CRAN (R 4.2.0)
-   pak                 0.9.1.9000  2025-12-10 [1] local
+   pak                 0.9.1.9000  2025-12-11 [1] local
    parallelly          1.45.1      2025-07-24 [1] CRAN (R 4.2.3)
    parsedate           1.3.1       2022-10-27 [1] CRAN (R 4.2.0)
    pillar              1.9.0       2023-03-22 [1] CRAN (R 4.2.0)
@@ -185,9 +185,9 @@ Version: Google Chrome for Testing 143.0.7499.42
    scales              1.4.0       2025-04-24 [1] CRAN (R 4.2.3)
    sessioninfo         1.2.3       2025-02-05 [1] CRAN (R 4.2.3)
    sf                  1.0-16      2024-03-24 [1] CRAN (R 4.2.3)
-   shiny               1.12.1.9000 2025-12-09 [1] https://p~
+   shiny               1.12.1.9000 2025-12-11 [1] https://p~
    shinyAce            0.4.4       2025-02-03 [1] CRAN (R 4.2.3)
-   shinycoreci         0.0.0.9009  2025-12-11 [1] Custom
+   shinycoreci         0.0.0.9009  2025-12-12 [1] Custom
    shinydashboard      0.7.3       2025-04-21 [1] CRAN (R 4.2.3)
    shinyjs             2.1.0       2021-12-23 [1] CRAN (R 4.2.0)
    shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
