@@ -7,7 +7,11 @@ on:
         required: false
       os:
         type: string
-        default: ubuntu-latest
+        default: ubuntu-24.04
+        required: false
+      rspm:
+        type: string
+        default: "https://p3m.dev/cran/__linux__/noble/latest"
         required: false
       extra-key:
         type: string
@@ -45,6 +49,7 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      RSPM: ${{ inputs.rspm }}
 
     steps:
       - name: Set up JDK 11
