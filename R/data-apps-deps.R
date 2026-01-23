@@ -21,7 +21,7 @@ apps_deps_map <- list(
   `017-select-vs-selectize` = c("shiny", "shinytest2"),
   `018-datatable-options` = c("DT", "shiny", "shinytest2"),
   `019-mathjax` = c("jsonlite", "shiny", "shinytest2", "testthat"),
-  `020-knit-html` = c("evaluate", "knitr", "rmarkdown", "shiny", "shinytest2"),
+  `020-knit-html` = c("evaluate", "jsonlite", "knitr", "rmarkdown", "shiny", "shinytest2", "testthat"),
   `021-selectize-plot` = c("DT", "maps", "shiny", "shinytest2"),
   `022-unicode-chinese` = c("curl", "shiny", "shinyjster", "shinytest2", "showtext", "sysfonts"),
   `023-optgroup-server` = c("shiny", "shinytest2"),
