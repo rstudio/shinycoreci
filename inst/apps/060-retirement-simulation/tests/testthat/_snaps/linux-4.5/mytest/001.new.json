@@ -1,0 +1,97 @@
+{
+  "input": {
+    "a_annual_inf_std_dev": 1.5,
+    "a_annual_inflation": 2.5,
+    "a_annual_mean_return": 5,
+    "a_annual_ret_std_dev": 7,
+    "a_monthly_withdrawals": 10000,
+    "a_n_obs": 20,
+    "a_n_sim": 200,
+    "a_recalc": 0,
+    "a_start_capital": 2000000,
+    "b_annual_inf_std_dev": 1.5,
+    "b_annual_inflation": 2.5,
+    "b_annual_mean_return": 5,
+    "b_annual_ret_std_dev": 7,
+    "b_monthly_withdrawals": 10000,
+    "b_n_obs": 20,
+    "b_n_sim": 200,
+    "b_recalc": 0,
+    "b_start_capital": 2000000
+  },
+  "output": {
+    "a_distPlot": {
+      "src": "[image data hash: 2054a4f4dcdbb6a89c7fea4426e24753]",
+      "width": 570,
+      "height": 600,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -0.0967,
+              "right": 2.5155,
+              "bottom": -0.0304,
+              "top": 0.9781
+            },
+            "range": {
+              "left": 334.0032,
+              "right": 544.9008,
+              "bottom": 538.0448,
+              "top": 348.0032
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 570,
+          "height": 600
+        }
+      }
+    },
+    "b_distPlot": {
+      "src": "[image data hash: 3ce0383ae2e7bcf55d942e214242c988]",
+      "width": 570,
+      "height": 600,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -0.106,
+              "right": 2.7558,
+              "bottom": -0.0119,
+              "top": 0.8735
+            },
+            "range": {
+              "left": 334.0032,
+              "right": 544.9008,
+              "bottom": 538.0448,
+              "top": 348.0032
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 570,
+          "height": 600
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}
