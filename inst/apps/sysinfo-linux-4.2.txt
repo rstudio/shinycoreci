@@ -5,13 +5,13 @@ R version: R version 4.2.3 (2023-03-15)
  chromote: 0.5.1.9000
 
 ---- Chrome ----
-   Path: /home/runner/.cache/R/chromote/chrome/144.0.7559.109/chrome-headless-shell-linux64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
-Version: Google Chrome for Testing 144.0.7559.109
+   Path: /home/runner/.cache/R/chromote/chrome/145.0.7632.67/chrome-headless-shell-linux64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
+Version: Google Chrome for Testing 145.0.7632.67
    Args: --headless --no-sandbox --disable-dev-shm-usage
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20260119.4.1
+ gha_image 20260209.23.1
  version   R version 4.2.3 (2023-03-15)
  os        Ubuntu 24.04.3 LTS
  system    x86_64, linux-gnu
@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 144.0.7559.109
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2026-01-29
+ date      2026-02-13
  pandoc    3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -29,7 +29,7 @@ Version: Google Chrome for Testing 144.0.7559.109
  askpass             1.2.1       2024-10-04 [1] RSPM
  assertthat          0.2.1       2019-03-21 [1] RSPM
  backports           1.5.0       2024-05-23 [1] RSPM
- base64enc           0.1-3       2015-07-28 [1] RSPM
+ base64enc           0.1-6       2026-02-02 [1] RSPM
  BH                  1.90.0-1    2025-12-14 [1] RSPM
  bigD                0.3.1       2025-04-03 [1] RSPM
  bit                 4.6.0       2025-03-06 [1] RSPM
@@ -40,11 +40,11 @@ Version: Google Chrome for Testing 144.0.7559.109
  brio                1.1.5       2024-04-24 [1] RSPM
  broom               1.0.12      2026-01-27 [1] RSPM
  bsicons             0.1.2.9000  2025-12-30 [1] https://p~
- bslib               0.10.0.9000 2026-01-26 [1] https://p~
+ bslib               0.10.0.9000 2026-02-04 [1] https://p~
  cachem              1.1.0       2024-05-16 [1] RSPM
  Cairo               1.7-0       2025-10-29 [1] RSPM
  callr               3.7.6       2024-03-25 [1] RSPM
- checkmate           2.3.3       2025-08-18 [1] RSPM
+ checkmate           2.3.4       2026-02-03 [1] RSPM
  chromote            0.5.1.9000  2025-04-24 [1] https://p~
  class               7.3-21      2023-01-23 [3] CRAN (R 4.2.3)
  classInt            0.4-11      2025-01-08 [1] RSPM
@@ -66,7 +66,7 @@ Version: Google Chrome for Testing 144.0.7559.109
  DiagrammeR          1.0.11      2024-02-02 [1] RSPM
  diffobj             0.3.6       2025-04-21 [1] RSPM
  digest              0.6.39      2025-11-19 [1] RSPM
- dplyr               1.1.4       2023-11-17 [1] RSPM
+ dplyr               1.2.0       2026-02-03 [1] RSPM
  DT                  0.34.0.9000 2025-09-03 [1] https://p~
  e1071               1.7-17      2025-12-18 [1] RSPM
  ellipsis            0.3.2       2021-04-29 [1] RSPM
@@ -74,17 +74,17 @@ Version: Google Chrome for Testing 144.0.7559.109
  evaluate            1.0.5       2025-08-27 [1] RSPM
  farver              2.1.2       2024-05-13 [1] RSPM
  fastmap             1.2.0       2024-05-15 [1] RSPM
- flexdashboard       0.6.3.9000  2026-01-28 [1] https://p~
+ flexdashboard       0.6.3.9000  2026-01-29 [1] https://p~
  fontawesome         0.5.3.9000  2024-11-16 [1] https://p~
  foreign             0.8-84      2022-12-06 [3] CRAN (R 4.2.3)
  fs                  1.6.6       2025-04-12 [1] RSPM
  future              1.69.0      2026-01-16 [1] RSPM
  generics            0.1.4       2025-05-09 [1] RSPM
- ggplot2             4.0.1       2025-11-14 [1] RSPM
- ggvis               0.4.9       2024-02-05 [1] RSPM
- globals             0.18.0      2025-05-08 [1] RSPM
+ ggplot2             4.0.2       2026-02-03 [1] RSPM
+ ggvis               0.4.10      2026-02-10 [1] RSPM
+ globals             0.19.0      2026-02-02 [1] RSPM
  glue                1.8.0       2024-09-30 [1] RSPM
- gt                  1.3.0.9000  2026-01-22 [1] https://p~
+ gt                  1.3.0.9000  2026-02-10 [1] https://p~
  gtable              0.3.6       2024-10-25 [1] RSPM
  highcharter         0.9.4       2022-01-03 [1] RSPM
  highr               0.11        2024-05-26 [1] RSPM
@@ -103,7 +103,7 @@ Version: Google Chrome for Testing 144.0.7559.109
  KernSmooth          2.23-20     2021-05-03 [3] CRAN (R 4.2.3)
  knitr               1.51        2025-12-20 [1] RSPM
  labeling            0.4.3       2023-08-29 [1] RSPM
- later               1.4.5.9000  2026-01-08 [1] https://p~
+ later               1.4.5.9000  2026-02-13 [1] https://p~
  lattice             0.20-45     2021-09-22 [3] CRAN (R 4.2.3)
  lazyeval            0.2.2       2019-03-15 [1] RSPM
  leaflet             2.2.3.9000  2025-09-30 [1] https://p~
@@ -111,9 +111,8 @@ Version: Google Chrome for Testing 144.0.7559.109
  lifecycle           1.0.5       2026-01-08 [1] RSPM
  listenv             0.10.0      2025-11-02 [1] RSPM
  litedown            0.9         2025-12-18 [1] RSPM
- lobstr              1.1.3       2025-11-14 [1] RSPM
  lorem               1.0.0       2023-03-09 [1] RSPM
- lubridate           1.9.4       2024-12-08 [1] RSPM
+ lubridate           1.9.5       2026-02-04 [1] RSPM
  magrittr            2.0.4       2025-09-12 [1] RSPM
  maps                3.4.3       2025-05-26 [1] RSPM
  markdown            2.0         2025-03-23 [1] RSPM
@@ -129,14 +128,14 @@ Version: Google Chrome for Testing 144.0.7559.109
  openssl             2.3.4       2025-09-30 [1] RSPM
  otel                0.2.0       2025-08-29 [1] RSPM
  packrat             0.9.3       2025-06-16 [1] RSPM
- pak                 0.9.2.9000  2026-01-28 [2] local
+ pak                 0.9.2.9000  2026-02-11 [2] local
  parallelly          1.46.1      2026-01-08 [1] RSPM
  parsedate           1.3.2       2024-12-09 [1] RSPM
  pillar              1.11.1      2025-09-17 [1] RSPM
  pingr               2.0.5       2024-12-12 [1] RSPM
  pkgbuild            1.4.8       2025-05-26 [1] RSPM
  pkgconfig           2.0.3       2019-09-22 [1] RSPM
- pkgload             1.4.1       2025-09-23 [1] RSPM
+ pkgload             1.5.0       2026-02-03 [1] RSPM
  PKI                 0.1-15      2025-08-19 [1] RSPM
  plogr               0.2.0       2018-03-25 [1] RSPM
  plotly              4.12.0.9000 2026-01-24 [1] https://p~
@@ -148,7 +147,6 @@ Version: Google Chrome for Testing 144.0.7559.109
  progress            1.2.3       2023-12-06 [1] RSPM
  promises            1.5.0.9000  2025-11-19 [1] https://p~
  proxy               0.4-29      2025-12-29 [1] RSPM
- pryr                0.1.6       2023-01-17 [1] RSPM
  ps                  1.9.1       2025-04-12 [1] RSPM
  purrr               1.2.1       2026-01-09 [1] RSPM
  quantmod            0.4.28      2025-06-19 [1] RSPM
@@ -177,7 +175,7 @@ Version: Google Chrome for Testing 144.0.7559.109
  rpart               4.1.19      2022-10-21 [3] CRAN (R 4.2.3)
  rprojroot           2.1.1       2025-08-26 [1] RSPM
  rsconnect           1.7.0       2025-12-06 [1] RSPM
- RSQLite             2.4.5       2025-11-30 [1] RSPM
+ RSQLite             2.4.6       2026-02-06 [1] RSPM
  rstudioapi          0.18.0      2026-01-16 [1] RSPM
  rversions           3.0.0       2025-10-09 [1] RSPM
  s2                  1.1.9       2025-05-23 [1] RSPM
@@ -186,15 +184,15 @@ Version: Google Chrome for Testing 144.0.7559.109
  scales              1.4.0       2025-04-24 [1] RSPM
  sessioninfo         1.2.3       2025-02-05 [1] RSPM
  sf                  1.0-24      2026-01-13 [1] RSPM
- shiny               1.12.1.9000 2026-01-12 [1] https://p~
+ shiny               1.12.1.9000 2026-02-10 [1] https://p~
  shinyAce            0.4.4       2025-02-03 [1] RSPM
- shinycoreci         0.0.0.9009  2026-01-29 [1] Custom
+ shinycoreci         0.0.0.9009  2026-02-13 [1] Custom
  shinydashboard      0.7.3       2025-04-21 [1] RSPM
  shinyjs             2.1.1       2026-01-15 [1] RSPM
  shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
  shinymeta           0.2.1.9000  2025-04-11 [1] https://p~
  shinytest           1.6.1       2024-05-30 [1] RSPM
- shinytest2          0.5.0.9000  2026-01-09 [1] https://p~
+ shinytest2          0.5.0.9000  2026-02-09 [1] https://p~
  shinythemes         1.2.0       2021-01-25 [1] RSPM
  shinyvalidate       0.1.3.9000  2023-10-05 [1] https://p~
  showimage           1.0.0       2018-01-24 [1] RSPM
@@ -219,7 +217,7 @@ Version: Google Chrome for Testing 144.0.7559.109
  tibble              3.3.1       2026-01-11 [1] RSPM
  tidyr               1.3.2       2025-12-19 [1] RSPM
  tidyselect          1.2.1       2024-03-11 [1] RSPM
- timechange          0.3.0       2024-01-18 [1] RSPM
+ timechange          0.4.0       2026-01-29 [1] RSPM
  tinytex             0.58        2025-11-19 [1] RSPM
  tm                  0.7-17      2025-12-10 [1] RSPM
  TTR                 0.24.4      2023-11-28 [1] RSPM
@@ -228,7 +226,7 @@ Version: Google Chrome for Testing 144.0.7559.109
  utf8                1.2.6       2025-06-08 [1] RSPM
  V8                  8.0.1       2025-10-10 [1] RSPM
  vctrs               0.7.1       2026-01-23 [1] RSPM
- viridisLite         0.4.2       2023-05-02 [1] RSPM
+ viridisLite         0.4.3       2026-02-04 [1] RSPM
  visNetwork          2.1.4       2025-09-04 [1] RSPM
  vroom               1.7.0       2026-01-27 [1] RSPM
  waldo               0.6.2       2025-07-11 [1] RSPM
@@ -238,7 +236,7 @@ Version: Google Chrome for Testing 144.0.7559.109
  wk                  0.9.5       2025-12-18 [1] RSPM
  wordcloud           2.6         2018-08-24 [1] RSPM
  xfun                0.56        2026-01-18 [1] RSPM
- XML                 3.99-0.20   2025-11-08 [1] RSPM
+ XML                 3.99-0.22   2026-02-10 [1] RSPM
  xml2                1.5.2       2026-01-17 [1] RSPM
  xtable              1.8-4       2019-04-21 [1] RSPM
  xts                 0.14.1      2024-10-15 [1] RSPM
