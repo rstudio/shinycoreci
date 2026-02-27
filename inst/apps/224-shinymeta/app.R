@@ -26,13 +26,13 @@ selectColumn <- function(input, output, session, df) {
       ..(df()) %>%
         dplyr::pull(!!..(input$col))
     })
-  })
+  }, varname = "values")
 
   avg <- metaReactive({
     ..(values()) %>%
       mean() %>%
       round(1)
-  })
+  }, varname = "avg")
 
   output$average <- metaRender(renderText, {
     paste("Average of", ..(as.character(input$col)), "is", ..(avg()))
@@ -59,7 +59,7 @@ server <- function(input, output, session) {
   # include shinyjster_server call at top of server definition
   shinyjster::shinyjster_server(input, output)
 
-  dataset <- metaReactive({mtcars})
+  dataset <- metaReactive({mtcars}, varname = "dataset")
 
   x <- callModule(selectColumn, "x", dataset)
   y <- callModule(selectColumn, "y", dataset)
@@ -67,7 +67,7 @@ server <- function(input, output, session) {
   df_plot <- metaReactive({
     "# Combine x and y into data frame for plotting"
     data.frame(x = ..(x$values()), y = ..(y$values()))
-  })
+  }, varname = "df_plot")
 
   output$plot <- metaRender(renderPlot, {
     plot(..(df_plot()))
