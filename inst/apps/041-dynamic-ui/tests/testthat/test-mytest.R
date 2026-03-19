@@ -4,65 +4,46 @@ test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant(),
     seed = 100, shiny_args = list(display.mode = "normal"))
 
-  app$set_inputs(dynamic = 14)
-  app$expect_values()
-  app$expect_screenshot()
+  set_input_and_wait <- function(...) {
+    app$set_inputs(...)
+    app$wait_for_idle()
+  }
+  expect_screenshot_and_values <- function() {
+    app$expect_values()
+    app$expect_screenshot()
+  }
 
-  app$set_inputs(input_type = "text")
-  app$set_inputs(dynamic = "abcd")
-  app$expect_values()
-  app$expect_screenshot()
+  expect_dynamic_value <- function(input_type, value) {
+    set_input_and_wait(input_type = input_type)
+    set_input_and_wait(dynamic = value)
+    expect_screenshot_and_values()
+  }
 
-  app$set_inputs(input_type = "numeric")
-  app$set_inputs(dynamic = 100)
-  app$expect_values()
-  app$expect_screenshot()
+  expect_dynamic_value("slider", 14)
 
-  app$set_inputs(input_type = "checkbox")
-  app$wait_for_idle() # linux 3.6 has some issues; add some delay
-  app$set_inputs(dynamic = FALSE)
-  app$wait_for_idle() # linux 3.6 has some issues; add some delay
-  app$expect_values() # Should be `dynamic = FALSE`
-  app$expect_screenshot()
+  expect_dynamic_value("text", "abcd")
 
-  app$set_inputs(input_type = "checkboxGroup")
-  app$set_inputs(dynamic = c("option1", "option2"))
-  app$expect_values()
-  app$expect_screenshot()
+  expect_dynamic_value("numeric", 100)
+  expect_dynamic_value("checkbox", FALSE)
 
-  app$set_inputs(dynamic = "option1")
-  app$set_inputs(dynamic = character(0))
-  app$expect_values()
-  app$expect_screenshot()
+  expect_dynamic_value("checkboxGroup", c("option1", "option2"))
 
-  app$set_inputs(input_type = "radioButtons")
-  app$set_inputs(dynamic = "option1")
-  app$expect_values()
-  app$expect_screenshot()
+  set_input_and_wait(dynamic = "option1")
+  set_input_and_wait(dynamic = character(0))
+  expect_screenshot_and_values()
 
-  app$set_inputs(input_type = "selectInput")
-  app$set_inputs(dynamic = "option1")
-  app$expect_values()
-  app$expect_screenshot()
+  expect_dynamic_value("radioButtons", "option1")
 
-  app$set_inputs(input_type = "selectInput (multi)")
-  app$expect_values()
-  app$expect_screenshot()
+  expect_dynamic_value("selectInput", "option1")
 
-  app$set_inputs(dynamic = "option1")
-  app$set_inputs(dynamic = character(0))
-  app$expect_values()
-  app$expect_screenshot()
+  set_input_and_wait(input_type = "selectInput (multi)")
+  expect_screenshot_and_values()
 
-  app$set_inputs(input_type = "date")
-  app$wait_for_idle() # linux 4.0 has some issues; add some delay
-  app$set_inputs(dynamic = "2020-01-31")
-  app$wait_for_idle() # linux 4.0 has some issues; add some delay
-  app$expect_values()
-  app$expect_screenshot()
+  set_input_and_wait(dynamic = "option1")
+  set_input_and_wait(dynamic = character(0))
+  expect_screenshot_and_values()
 
-  app$set_inputs(input_type = "daterange")
-  app$set_inputs(dynamic = c("2020-01-08", "2020-01-31"))
-  app$expect_values()
-  app$expect_screenshot()
+  expect_dynamic_value("date", "2020-01-31")
+
+  expect_dynamic_value("daterange", c("2020-01-08", "2020-01-31"))
 })
