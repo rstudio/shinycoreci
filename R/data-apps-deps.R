@@ -109,7 +109,7 @@ apps_deps_map <- list(
   `164-no-whitespace` = c("shiny", "shinyjster", "shinytest2"),
   `165-trailing-comma` = c("shiny", "shinyjster", "shinytest2"),
   `166-dynamic-hosted-tab` = c("shiny", "shinyjster", "shinytest2"),
-  `167-resource-warnings` = "shiny",
+  `167-resource-warnings` = c("httpuv", "shiny"),
   `168-supporting-r-dir` = c("shiny", "shinyjster", "shinytest2", "withr"),
   `169-prerender` = c("rmarkdown", "shiny", "shinyjster", "shinytest2"),
   `170-date-range-max` = c("shiny", "shinyjster", "shinytest2"),
