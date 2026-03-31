@@ -24,6 +24,27 @@ shinyverse_repos_option <- function() {
   )
 }
 
+# Packages removed from CRAN that need to be installed from alternative sources.
+# Map from CRAN package name to pak-compatible reference (e.g. GitHub owner/repo).
+cran_archived_pkgs <- c(
+  "plogr" = "krlmlr/plogr",
+  "pryr" = "hadley/pryr"
+)
+
+# Remap any CRAN-archived packages to their alternative pak references
+remap_archived_pkgs <- function(packages) {
+  idx <- match(packages, names(cran_archived_pkgs))
+  remapped <- !is.na(idx)
+  if (any(remapped)) {
+    message(
+      "Remapping CRAN-archived packages to alternative sources: ",
+      paste0(packages[remapped], " -> ", cran_archived_pkgs[idx[remapped]], collapse = ", ")
+    )
+    packages[remapped] <- cran_archived_pkgs[idx[remapped]]
+  }
+  packages
+}
+
 
 # # Attempt to set up all the packages in the shinyverse, even if they are not directly depended upon.
 # attempt_to_install_universe <- function(
@@ -138,14 +159,9 @@ get_extra_shinyverse_deps <- function(packages) {
     pkg_dep_packages <- pak_deps_map[[pkg]]
     if (is.null(pkg_dep_packages)) {
       # Install pak if not already installed
-      tryCatch(
-        {
-          pak::pak
-        },
-        error = function(e) {
-          install.packages("pak")
-        }
-      )
+      if (!requireNamespace("pak", quietly = TRUE)) {
+        install.packages("pak")
+      }
 
       withr::with_options(
         list(
@@ -223,7 +239,7 @@ install_missing_pkgs <- function(
 
     if (length(pkgs_to_install) > 0) {
       install_pkgs_with_callr(
-        pkgs_to_install,
+        remap_archived_pkgs(pkgs_to_install),
         libpath = libpath,
         upgrade = upgrade,
         dependencies = dependencies,
@@ -254,14 +270,9 @@ install_pkgs_with_callr <- function(
       options(repos = repos_option)
 
       # Install pak if not already installed
-      tryCatch(
-        {
-          pak::pak
-        },
-        error = function(e) {
-          install.packages("pak")
-        }
-      )
+      if (!requireNamespace("pak", quietly = TRUE)) {
+        install.packages("pak")
+      }
 
       # Performing a leap of faith that pak is installed.
       # Avoids weird installs when using pak to install shinycoreci

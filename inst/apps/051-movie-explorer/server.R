@@ -4,9 +4,6 @@
 library(ggvis)
 library(dplyr)
 library(dbplyr)
-if (FALSE) {
-  library(plogr)
-}
 
 # Set up handles to database tables on app start
 db <- DBI::dbConnect(RSQLite::SQLite(), "movies.db")

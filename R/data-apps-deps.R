@@ -37,7 +37,7 @@ apps_deps_map <- list(
   `047-image-output` = c("png", "shiny", "shinytest2"),
   `048-including-html-text-and-markdown-files` = c("markdown", "shiny", "shinytest2"),
   `050-kmeans-example` = c("shiny", "shinytest2"),
-  `051-movie-explorer` = c("DBI", "dbplyr", "dplyr", "ggvis", "plogr", "RSQLite", "shiny", "shinytest2"),
+  `051-movie-explorer` = c("DBI", "dbplyr", "dplyr", "ggvis", "RSQLite", "shiny", "shinytest2"),
   `054-nvd3-line-chart-output` = c("shiny", "shinytest2"),
   `060-retirement-simulation` = c("shiny", "shinytest2", "shinythemes"),
   `061-server-to-client-custom-messages` = c("shiny", "shinytest2"),

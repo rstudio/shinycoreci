@@ -15,7 +15,7 @@ if (length(dir("_snaps")) > 1) {
 }
 
 themes <- list(
-  default4 = list(version = 5),
+  default5 = list(version = 5),
   default4 = list(version = 4),
   custom5 = list(
     version = 5,
