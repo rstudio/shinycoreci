@@ -21,7 +21,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
-          FILES=$(gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files --paginate --jq '[.[].filename]')
+          FILES=$(gh api repos/${{ github.repository }}/compare/${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} --jq '[.files[].filename]')
           echo "all=$FILES" >> $GITHUB_OUTPUT
 
       - name: Validate >= 1 Shiny app file is altered
