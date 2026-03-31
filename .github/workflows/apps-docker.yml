@@ -65,7 +65,7 @@ jobs:
           echo "sha: $SHORT_SHA"
           echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         if: steps.can-build.conclusion != 'skipped'
 
       - name: Log in to the Container registry
@@ -125,7 +125,7 @@ jobs:
     steps:
       # Inspiration: https://github.com/jcansdale-test/ghcr-delete-untagged-images/blob/36e56b47bfb6ee9208b4061959f6d0c615e3c5cc/.github/workflows/delete.yml
       - name: Delete untagged images
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.DOCKER_DELETE_IMAGES }}
           script: |
