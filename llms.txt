@@ -5,10 +5,10 @@
 shinycoreci [uses the following GitHub Runnner
 Images](https://github.com/rstudio/shinycoreci/blob/main/.github/workflows/apps-config.yml).
 
-| Image               | Details                                                                                                 |                                                                                                            Status                                                                                                             |
-|:--------------------|:--------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| Ubuntu 20.04        | [ubuntu-20.04](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2004-Readme.md)   |      [![status20](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=ubuntu20&badge=1)](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=ubuntu20&redirect=1)       |
-| macOS 12            | [macos-12](https://github.com/actions/runner-images/blob/main/images/macos/macos-12-Readme.md)          |    [![statusumac12](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=macos-12&badge=1)](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=macos-12&redirect=1)     |
+| Image | Details | Status |
+|:---|:---|:--:|
+| Ubuntu 20.04 | [ubuntu-20.04](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2004-Readme.md) | [![status20](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=ubuntu20&badge=1)](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=ubuntu20&redirect=1) |
+| macOS 12 | [macos-12](https://github.com/actions/runner-images/blob/main/images/macos/macos-12-Readme.md) | [![statusumac12](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=macos-12&badge=1)](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=macos-12&redirect=1) |
 | Windows Server 2022 | [windows-2022](https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md) | [![statuswin22](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=windows-2022&badge=1)](https://gh-runnerimagesdeploymentstatus.azurewebsites.net/api/status?imageName=windows-2022&redirect=1) |
 
 ## Installation
@@ -16,6 +16,7 @@ Images](https://github.com/rstudio/shinycoreci/blob/main/.github/workflows/apps-
 Install the development version from [GitHub](https://github.com/) with:
 
 ``` r
+
 pak::pak("rstudio/shinycoreci")
 ```
 
@@ -105,6 +106,7 @@ Terminal / R GUI).
 #### IDE Example
 
 ``` r
+
 # install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))
 
 # Install the latest from pak
@@ -354,6 +356,7 @@ Final results are available at:
 - Installing on fresh linux? Run these commands before testing:
 
 ``` r
+
 pkgs <- c('base64enc', 'bslib', 'Cairo', 'clipr', 'curl', 'dbplyr', 'DiagrammeR',
   'dplyr', 'DT', 'evaluate', 'flexdashboard', 'future', 'ggplot2',
   'ggvis', 'hexbin', 'htmltools', 'htmlwidgets',

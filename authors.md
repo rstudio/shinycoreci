@@ -16,14 +16,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/rstudio/shinycoreci/blob/main/DESCRIPTION)
 
-Schloerke B, Chang W, Dipert A (2025). *shinycoreci: CI Testing for
+Schloerke B, Chang W, Dipert A (2026). *shinycoreci: CI Testing for
 shiny*. R package version 0.0.0.9009,
 <https://github.com/rstudio/shinycoreci>.
 
     @Manual{,
       title = {shinycoreci: CI Testing for shiny},
       author = {Barret Schloerke and Winston Chang and Alan Dipert},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.0.0.9009},
       url = {https://github.com/rstudio/shinycoreci},
     }
