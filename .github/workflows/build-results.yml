@@ -87,8 +87,8 @@ jobs:
           git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
             git config --local user.name "${GITHUB_ACTOR}" && \
             git config --local pull.rebase false && \
-            git config --local --unset http.https://github.com/.extraheader && \
-            git config --local --list
+            git config --local --unset http.https://github.com/.extraheader || true
+          git config --local --list
 
           SHA="${{ github.sha }}"
           SHORT_SHA="${SHA:0:7}"
