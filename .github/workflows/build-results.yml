@@ -13,6 +13,9 @@ on:
 
 name: Build results website
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   build:
     if: github.repository == 'rstudio/shinycoreci'
