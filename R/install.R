@@ -24,6 +24,27 @@ shinyverse_repos_option <- function() {
   )
 }
 
+# Packages removed from CRAN that need to be installed from alternative sources.
+# Map from CRAN package name to pak-compatible reference (e.g. GitHub owner/repo).
+cran_archived_pkgs <- c(
+  "plogr" = "krlmlr/plogr",
+  "pryr" = "hadley/pryr"
+)
+
+# Remap any CRAN-archived packages to their alternative pak references
+remap_archived_pkgs <- function(packages) {
+  idx <- match(packages, names(cran_archived_pkgs))
+  remapped <- !is.na(idx)
+  if (any(remapped)) {
+    message(
+      "Remapping CRAN-archived packages to alternative sources: ",
+      paste0(packages[remapped], " -> ", cran_archived_pkgs[idx[remapped]], collapse = ", ")
+    )
+    packages[remapped] <- cran_archived_pkgs[idx[remapped]]
+  }
+  packages
+}
+
 
 # # Attempt to set up all the packages in the shinyverse, even if they are not directly depended upon.
 # attempt_to_install_universe <- function(
@@ -223,7 +244,7 @@ install_missing_pkgs <- function(
 
     if (length(pkgs_to_install) > 0) {
       install_pkgs_with_callr(
-        pkgs_to_install,
+        remap_archived_pkgs(pkgs_to_install),
         libpath = libpath,
         upgrade = upgrade,
         dependencies = dependencies,
