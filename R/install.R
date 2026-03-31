@@ -159,14 +159,9 @@ get_extra_shinyverse_deps <- function(packages) {
     pkg_dep_packages <- pak_deps_map[[pkg]]
     if (is.null(pkg_dep_packages)) {
       # Install pak if not already installed
-      tryCatch(
-        {
-          pak::pak
-        },
-        error = function(e) {
-          install.packages("pak")
-        }
-      )
+      if (!requireNamespace("pak", quietly = TRUE)) {
+        install.packages("pak")
+      }
 
       withr::with_options(
         list(
@@ -275,14 +270,9 @@ install_pkgs_with_callr <- function(
       options(repos = repos_option)
 
       # Install pak if not already installed
-      tryCatch(
-        {
-          pak::pak
-        },
-        error = function(e) {
-          install.packages("pak")
-        }
-      )
+      if (!requireNamespace("pak", quietly = TRUE)) {
+        install.packages("pak")
+      }
 
       # Performing a leap of faith that pak is installed.
       # Avoids weird installs when using pak to install shinycoreci
