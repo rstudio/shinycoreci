@@ -31,18 +31,44 @@ cran_archived_pkgs <- c(
   "pryr" = "hadley/pryr"
 )
 
-# Remap any CRAN-archived packages to their alternative pak references
-remap_archived_pkgs <- function(packages) {
-  idx <- match(packages, names(cran_archived_pkgs))
+# Use CRAN releases for packages whose dev versions are currently unstable on
+# older macOS R releases.
+macos_oldrel_cran_pkg_refs <- function(platform_val = platform(), r_version = getRversion()) {
+  if (
+    identical(platform_val, "mac") &&
+      utils::compareVersion(as.character(r_version), "4.3.0") < 0
+  ) {
+    return(c(
+      "htmltools" = "cran::htmltools",
+      "later" = "cran::later"
+    ))
+  }
+
+  character()
+}
+
+# Remap any packages to alternative pak references when needed.
+remap_pkg_refs <- function(packages, platform_val = platform(), r_version = getRversion()) {
+  pkg_ref_overrides <- c(
+    cran_archived_pkgs,
+    macos_oldrel_cran_pkg_refs(platform_val, r_version)
+  )
+
+  idx <- match(packages, names(pkg_ref_overrides))
   remapped <- !is.na(idx)
   if (any(remapped)) {
     message(
-      "Remapping CRAN-archived packages to alternative sources: ",
-      paste0(packages[remapped], " -> ", cran_archived_pkgs[idx[remapped]], collapse = ", ")
+      "Remapping package refs: ",
+      paste0(packages[remapped], " -> ", pkg_ref_overrides[idx[remapped]], collapse = ", ")
     )
-    packages[remapped] <- cran_archived_pkgs[idx[remapped]]
+    packages[remapped] <- pkg_ref_overrides[idx[remapped]]
   }
   packages
+}
+
+# Backward-compatible wrapper for older call sites.
+remap_archived_pkgs <- function(packages) {
+  remap_pkg_refs(packages)
 }
 
 
@@ -239,7 +265,7 @@ install_missing_pkgs <- function(
 
     if (length(pkgs_to_install) > 0) {
       install_pkgs_with_callr(
-        remap_archived_pkgs(pkgs_to_install),
+        remap_pkg_refs(pkgs_to_install),
         libpath = libpath,
         upgrade = upgrade,
         dependencies = dependencies,
