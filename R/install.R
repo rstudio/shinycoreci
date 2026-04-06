@@ -72,6 +72,41 @@ remap_archived_pkgs <- function(packages) {
 }
 
 
+install_macos_oldrel_cran_pkgs <- function(
+  packages,
+  ...,
+  libpath = .libPaths()[1],
+  upgrade = FALSE,
+  dependencies = NA,
+  verbose = TRUE,
+  platform_val = platform(),
+  r_version = getRversion()
+) {
+  stopifnot(length(list(...)) == 0)
+
+  pkg_ref_overrides <- macos_oldrel_cran_pkg_refs(platform_val, r_version)
+  pinned_pkgs <- intersect(packages, names(pkg_ref_overrides))
+
+  if (length(pinned_pkgs) == 0) {
+    return(packages)
+  }
+
+  install_pkgs_with_callr(
+    unname(pkg_ref_overrides[pinned_pkgs]),
+    libpath = libpath,
+    upgrade = upgrade,
+    dependencies = dependencies,
+    verbose = verbose
+  )
+
+  for (package in pinned_pkgs) {
+    installed_pkgs[[package]] <- TRUE
+  }
+
+  packages[!(packages %in% pinned_pkgs)]
+}
+
+
 # # Attempt to set up all the packages in the shinyverse, even if they are not directly depended upon.
 # attempt_to_install_universe <- function(
 #   ...,
@@ -238,7 +273,10 @@ install_missing_pkgs <- function(
     get_extra_shinyverse_deps(packages)
   ))
 
-  pkgs_to_install <- packages[!(packages %in% names(installed_pkgs))]
+  pkgs_to_install <- packages[
+    !(packages %in% names(installed_pkgs)) &
+      !vapply(packages, is_installed, logical(1), libpath = libpath)
+  ]
 
   if (length(pkgs_to_install) > 0) {
     message(
@@ -246,6 +284,14 @@ install_missing_pkgs <- function(
       paste0(pkgs_to_install, collapse = ", ")
     )
     message("libpath: ", libpath)
+
+    pkgs_to_install <- install_macos_oldrel_cran_pkgs(
+      pkgs_to_install,
+      libpath = libpath,
+      upgrade = upgrade,
+      dependencies = dependencies,
+      verbose = verbose
+    )
 
     if (
       "shinycoreci" %in% pkgs_to_install && libpath == shinycoreci_libpath()
