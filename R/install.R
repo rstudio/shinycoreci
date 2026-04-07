@@ -256,7 +256,9 @@ get_extra_shinyverse_deps <- function(packages) {
         {
           stopifnot(utils::packageVersion("pak") >= "0.3.0")
           pak__pkg_deps <- utils::getFromNamespace("pkg_deps", "pak")
-          pkg_dep_packages <- pak__pkg_deps(pkg)$package
+          # Remap archived/overridden packages so pak can resolve them
+          pkg_ref <- remap_pkg_refs(pkg)
+          pkg_dep_packages <- pak__pkg_deps(pkg_ref)$package
           # str(list(pkg = pkg, pkg_dep_packages = pkg_dep_packages))
         }
       )
