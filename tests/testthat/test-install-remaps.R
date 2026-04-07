@@ -1,11 +1,18 @@
 test_that("package refs are remapped for older macOS R", {
   expect_identical(
     remap_pkg_refs(
-      c("htmltools", "later", "shiny"),
+      c("bsicons", "crosstalk", "htmltools", "later", "shiny", "shinyjster"),
       platform_val = "mac",
       r_version = "4.2.3"
     ),
-    c("cran::htmltools", "cran::later", "shiny")
+    c(
+      "rstudio/bsicons",
+      "rstudio/crosstalk",
+      "cran::htmltools",
+      "cran::later",
+      "shiny",
+      "schloerke/shinyjster"
+    )
   )
 })
 
@@ -69,27 +76,31 @@ test_that("macOS oldrel CRAN pins are installed before the remaining packages", 
   testthat::local_mocked_bindings(
     get_extra_shinyverse_deps = function(packages) character(),
     is_installed = function(package, libpath) package %in% installed_now,
-    macos_oldrel_cran_pkg_refs = function(platform_val = platform(), r_version = getRversion()) {
-      c("htmltools" = "cran::htmltools", "later" = "cran::later")
+    macos_oldrel_pkg_refs = function(platform_val = platform(), r_version = getRversion()) {
+      c(
+        "htmltools" = "cran::htmltools",
+        "later" = "cran::later",
+        "shinyjster" = "schloerke/shinyjster"
+      )
     },
     install_pkgs_with_callr = function(packages, ..., libpath = .libPaths()[1], upgrade = TRUE, dependencies = NA, verbose = TRUE) {
       install_calls[[length(install_calls) + 1]] <<- packages
 
-      if (identical(packages, c("cran::htmltools", "cran::later"))) {
-        installed_now <<- c(installed_now, "htmltools", "later")
+      if (identical(packages, c("cran::htmltools", "cran::later", "schloerke/shinyjster"))) {
+        installed_now <<- c(installed_now, "htmltools", "later", "shinyjster")
       }
     },
     .package = "shinycoreci"
   )
 
   install_missing_pkgs(
-    c("htmltools", "later", "shiny"),
+    c("htmltools", "later", "shiny", "shinyjster"),
     libpath = tempfile("lib-"),
     verbose = FALSE
   )
 
   expect_identical(
     install_calls,
-    list(c("cran::htmltools", "cran::later"), "shiny")
+    list(c("cran::htmltools", "cran::later", "schloerke/shinyjster"), "shiny")
   )
 })

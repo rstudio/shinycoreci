@@ -31,16 +31,19 @@ cran_archived_pkgs <- c(
   "pryr" = "hadley/pryr"
 )
 
-# Use CRAN releases for packages whose dev versions are currently unstable on
-# older macOS R releases.
-macos_oldrel_cran_pkg_refs <- function(platform_val = platform(), r_version = getRversion()) {
+# Use alternative package refs for packages whose r-universe source archives
+# are currently unstable on older macOS R releases.
+macos_oldrel_pkg_refs <- function(platform_val = platform(), r_version = getRversion()) {
   if (
     identical(platform_val, "mac") &&
       utils::compareVersion(as.character(r_version), "4.3.0") < 0
   ) {
     return(c(
+      "bsicons" = "rstudio/bsicons",
+      "crosstalk" = "rstudio/crosstalk",
       "htmltools" = "cran::htmltools",
-      "later" = "cran::later"
+      "later" = "cran::later",
+      "shinyjster" = "schloerke/shinyjster"
     ))
   }
 
@@ -51,7 +54,7 @@ macos_oldrel_cran_pkg_refs <- function(platform_val = platform(), r_version = ge
 remap_pkg_refs <- function(packages, platform_val = platform(), r_version = getRversion()) {
   pkg_ref_overrides <- c(
     cran_archived_pkgs,
-    macos_oldrel_cran_pkg_refs(platform_val, r_version)
+    macos_oldrel_pkg_refs(platform_val, r_version)
   )
 
   idx <- match(packages, names(pkg_ref_overrides))
@@ -72,7 +75,7 @@ remap_archived_pkgs <- function(packages) {
 }
 
 
-install_macos_oldrel_cran_pkgs <- function(
+install_macos_oldrel_pinned_pkgs <- function(
   packages,
   ...,
   libpath = .libPaths()[1],
@@ -84,7 +87,7 @@ install_macos_oldrel_cran_pkgs <- function(
 ) {
   stopifnot(length(list(...)) == 0)
 
-  pkg_ref_overrides <- macos_oldrel_cran_pkg_refs(platform_val, r_version)
+  pkg_ref_overrides <- macos_oldrel_pkg_refs(platform_val, r_version)
   pinned_pkgs <- intersect(packages, names(pkg_ref_overrides))
 
   if (length(pinned_pkgs) == 0) {
@@ -285,7 +288,7 @@ install_missing_pkgs <- function(
     )
     message("libpath: ", libpath)
 
-    pkgs_to_install <- install_macos_oldrel_cran_pkgs(
+    pkgs_to_install <- install_macos_oldrel_pinned_pkgs(
       pkgs_to_install,
       libpath = libpath,
       upgrade = upgrade,
