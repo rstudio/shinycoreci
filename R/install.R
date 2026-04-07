@@ -16,11 +16,25 @@ shinycoreci_is_local <- function() {
   )
 }
 
-shinyverse_repos_option <- function() {
+is_macos_oldrel <- function(platform_val = platform(), r_version = getRversion()) {
+  identical(platform_val, "mac") &&
+    utils::compareVersion(as.character(r_version), "4.3.0") < 0
+}
+
+shinyverse_repos_option <- function(platform_val = platform(), r_version = getRversion()) {
+  repos <- getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
+
+  # On macOS with R < 4.3.0, r-universe source archives produce malformed
+  # DESCRIPTION files. Exclude r-universe; shinyverse packages are routed to
+  # GitHub refs via macos_oldrel_pkg_refs() instead.
+  if (is_macos_oldrel(platform_val, r_version)) {
+    return(repos)
+  }
+
   c(
     # Use the shinycoreci universe to avoid GH rate limits!
     "AAA" = shinyverse_cran_url,
-    getOption("repos", c("CRAN" = "https://cloud.r-project.org"))
+    repos
   )
 }
 
@@ -31,23 +45,31 @@ cran_archived_pkgs <- c(
   "pryr" = "hadley/pryr"
 )
 
-# Use alternative package refs for packages whose r-universe source archives
-# are currently unstable on older macOS R releases.
+# On macOS with R < 4.3.0, r-universe source archives produce malformed
+# DESCRIPTION files (e.g. "Line starting 'plotly/DESCRIPTION ...' is
+# malformed!"). Route ALL shinyverse packages to GitHub refs so pak never
+# touches r-universe on this platform.
 macos_oldrel_pkg_refs <- function(platform_val = platform(), r_version = getRversion()) {
-  if (
-    identical(platform_val, "mac") &&
-      utils::compareVersion(as.character(r_version), "4.3.0") < 0
-  ) {
-    return(c(
-      "bsicons" = "rstudio/bsicons",
-      "crosstalk" = "rstudio/crosstalk",
-      "htmltools" = "cran::htmltools",
-      "later" = "cran::later",
-      "shinyjster" = "schloerke/shinyjster"
-    ))
+  if (!is_macos_oldrel(platform_val, r_version)) {
+    return(character())
   }
 
-  character()
+  # Dev versions of these packages are incompatible with R < 4.3.0;
+  # pin them to their latest CRAN release instead of GitHub HEAD.
+  cran_pins <- c(
+    "htmltools" = "cran::htmltools",
+    "later" = "cran::later"
+  )
+
+  # Derive GitHub refs for every other shinyverse package from shinyverse_urls.
+  github_refs <- sub("^https://github.com/", "", shinyverse_urls)
+  names(github_refs) <- shinyverse_pkgs
+
+  # shinycoreci is installed from the local checkout; don't override it.
+  exclude <- c(names(cran_pins), "shinycoreci")
+  github_refs <- github_refs[!names(github_refs) %in% exclude]
+
+  c(cran_pins, github_refs)
 }
 
 # Remap any packages to alternative pak references when needed.
