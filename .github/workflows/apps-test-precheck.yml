@@ -37,6 +37,10 @@ jobs:
               echo '.github folder was altered. Returning early'
               exit 0
             fi
+            if [[ "$FIL" =~ ^"R/" ]] || [[ "$FIL" == "DESCRIPTION" ]] || [[ "$FIL" == "NAMESPACE" ]]; then
+              echo 'Package source file was altered. Returning early'
+              exit 0
+            fi
             if [[ "$FIL" =~ ^"inst/apps" ]]; then
               SUBFIL=$(echo "$FIL" | cut -d/ -f 1-2)
               echo "first two folders of file: '$SUBFIL'"
