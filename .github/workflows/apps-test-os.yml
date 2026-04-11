@@ -29,6 +29,10 @@ on:
         type: string
         default: "3.x"
         required: false
+      pak-version:
+        type: string
+        default: "devel"
+        required: false
       # rtools-35:
       #   type: boolean
       #   default: true
@@ -99,6 +103,7 @@ jobs:
           http-user-agent: ${{ inputs.http-user-agent }}
           pandoc-version: ${{ inputs.pandoc-version }}
           extra-packages: ${{ inputs.extra-packages }}
+          pak-version: ${{ inputs.pak-version }}
 
       - name: Short R version, SHA, and OS
         id: short
