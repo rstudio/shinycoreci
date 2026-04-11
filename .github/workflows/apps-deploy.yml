@@ -1,5 +1,9 @@
 name: Deploy
 
+env:
+  # Temporary workaround for Node 20 deprecation until r-lib/actions ships a newer runtime line.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   push:
     branches:

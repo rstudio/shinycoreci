@@ -34,6 +34,10 @@ on:
 
 name: Package checks
 
+env:
+  # Temporary workaround for Node 20 deprecation until r-lib/actions ships a newer runtime line.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   website:
     uses: rstudio/shiny-workflows/.github/workflows/website.yaml@v1

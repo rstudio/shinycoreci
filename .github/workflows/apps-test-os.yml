@@ -36,6 +36,10 @@ on:
 
 name: Test apps - single
 
+env:
+  # Temporary workaround for Node 20 deprecation until r-lib/actions ships a newer runtime line.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   test:
     runs-on: ${{ inputs.os }}
