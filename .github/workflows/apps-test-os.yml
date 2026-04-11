@@ -226,29 +226,42 @@ jobs:
       - name: Push test files to rstudio/shinycoreci `gha-` branch
         if: always()
         shell: bash
-        # git checkout -B -- Creates the branch <new_branch> and start it at <start_point>; if it already exists, then reset it to <start_point>.
-        # git push --force -- JUST in case the prior branch existed
+        # Keep the `gha-` branch limited to generated app artifacts so the push does
+        # not require workflow-writing permissions when the tested branch changes CI.
         run: |
-          git checkout -B ${{ steps.gha_branch.outputs.name }}
+          ORIGINAL_REF=$(git rev-parse --verify HEAD)
+          DEFAULT_BRANCH="${{ github.event.repository.default_branch }}"
+          ARTIFACT_COMMITS=()
 
           git add inst/apps/sysinfo-* && \
-            git commit -m '`sysinfo` Changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}' || \
+            git commit -m '`sysinfo` Changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}' && \
+            ARTIFACT_COMMITS+=("$(git rev-parse HEAD)") || \
             echo "No apps/sysinfo-* changes to commit"
 
           git add inst/apps && \
-            git commit -m 'App changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}'|| \
+            git commit -m 'App changes - rstudio/shinycoreci@${{ steps.short.outputs.sha }} ${{ inputs.extra-key }}' && \
+            ARTIFACT_COMMITS+=("$(git rev-parse HEAD)") || \
             echo "No app changes to commit"
+
+          if [ "${#ARTIFACT_COMMITS[@]}" -eq 0 ]; then
+            echo "No generated app artifacts to push"
+            git checkout "$ORIGINAL_REF"
+            exit 0
+          fi
+
+          git fetch origin "$DEFAULT_BRANCH"
+          git checkout -B ${{ steps.gha_branch.outputs.name }} "origin/$DEFAULT_BRANCH"
+
+          for COMMIT_SHA in "${ARTIFACT_COMMITS[@]}"; do
+            git cherry-pick "$COMMIT_SHA"
+          done
 
           git log -n 4 --pretty=oneline --simplify-by-decoration
 
-          # if any commits occured, then push to repo (compare to sha of current execution)
-          echo "`git rev-list --count HEAD ^${{ steps.short.outputs.sha }}`"
-          if (( `git rev-list --count HEAD ^${{ steps.short.outputs.sha }}` > 0 )); then
-            # This branch should never exist. Force push
-            git push --force "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" "HEAD:${{ steps.gha_branch.outputs.name }}"
-          fi
+          # This branch should never exist. Force push.
+          git push --force "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" "HEAD:${{ steps.gha_branch.outputs.name }}"
 
-          git checkout ${{ steps.current_branch.outputs.name }}
+          git checkout "$ORIGINAL_REF"
 
       - name: Push test results to rstudio/shinycoreci
         if: always()
