@@ -266,8 +266,22 @@ install_pkgs_with_callr <- function(
       )
       utils::install.packages(
         packages,
-        dependencies = dependencies
+        dependencies = dependencies,
+        type = "both"
       )
+
+      # install.packages() does not error on failure, so verify all requested
+      # packages were actually installed
+      failed <- packages[!vapply(packages, function(pkg) {
+        nzchar(system.file(package = pkg))
+      }, logical(1))]
+      if (length(failed) > 0) {
+        stop(
+          "Failed to install packages: ",
+          paste0(failed, collapse = ", "),
+          call. = FALSE
+        )
+      }
     },
     list(
       repos_option = all_repos_option(),
