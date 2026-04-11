@@ -53,9 +53,6 @@ jobs:
       r-version: ${{ needs.config.outputs.oldrel3 }}
       os: ${{ needs.config.outputs.macos }}
       cache-version: ${{ needs.config.outputs.cache-version }}
-      # Use stable pak for R 4.2 macOS to avoid devel pak regression
-      # causing 'htmltools/DESCRIPTIO...' malformed DCF errors during source builds
-      pak-version: "stable"
   macos-oldrel-4:
     needs: [config]
     uses: ./.github/workflows/apps-test-os.yml

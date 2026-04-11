@@ -24,25 +24,19 @@ shinyverse_repos_option <- function() {
   )
 }
 
-# Packages removed from CRAN that need to be installed from alternative sources.
-# Map from CRAN package name to pak-compatible reference (e.g. GitHub owner/repo).
-cran_archived_pkgs <- c(
-  "plogr" = "krlmlr/plogr",
-  "pryr" = "hadley/pryr"
+# R-universe repos for packages removed from CRAN.
+# Each entry is an r-universe URL where the archived package is available.
+cran_archived_repos <- c(
+  "https://krlmlr.r-universe.dev",   # plogr
+  "https://hadley.r-universe.dev"    # pryr
 )
 
-# Remap any CRAN-archived packages to their alternative pak references
-remap_archived_pkgs <- function(packages) {
-  idx <- match(packages, names(cran_archived_pkgs))
-  remapped <- !is.na(idx)
-  if (any(remapped)) {
-    message(
-      "Remapping CRAN-archived packages to alternative sources: ",
-      paste0(packages[remapped], " -> ", cran_archived_pkgs[idx[remapped]], collapse = ", ")
-    )
-    packages[remapped] <- cran_archived_pkgs[idx[remapped]]
-  }
-  packages
+# Build the full list of repos including archived package sources
+all_repos_option <- function() {
+  c(
+    shinyverse_repos_option(),
+    cran_archived_repos
+  )
 }
 
 
@@ -128,7 +122,7 @@ install_missing_app_deps <- function(
 
 installed_pkgs <- new.env(parent = emptyenv())
 
-pak_deps_map <- new.env(parent = emptyenv())
+pkg_deps_map <- new.env(parent = emptyenv())
 
 
 get_extra_shinyverse_deps <- function(packages) {
@@ -156,26 +150,23 @@ get_extra_shinyverse_deps <- function(packages) {
       next
     }
 
-    pkg_dep_packages <- pak_deps_map[[pkg]]
+    pkg_dep_packages <- pkg_deps_map[[pkg]]
     if (is.null(pkg_dep_packages)) {
-      # Install pak if not already installed
-      if (!requireNamespace("pak", quietly = TRUE)) {
-        install.packages("pak")
-      }
-
       withr::with_options(
         list(
-          repos = shinyverse_repos_option()
+          repos = all_repos_option()
         ),
         {
-          stopifnot(utils::packageVersion("pak") >= "0.3.0")
-          pak__pkg_deps <- utils::getFromNamespace("pkg_deps", "pak")
-          pkg_dep_packages <- pak__pkg_deps(pkg)$package
-          # str(list(pkg = pkg, pkg_dep_packages = pkg_dep_packages))
+          avail <- utils::available.packages()
+          pkg_dep_packages <- unlist(
+            tools::package_dependencies(pkg, db = avail, recursive = TRUE),
+            use.names = FALSE
+          )
+          if (is.null(pkg_dep_packages)) pkg_dep_packages <- character(0)
         }
       )
       # Store in env does not need `<<-`
-      pak_deps_map[[pkg]] <- pkg_dep_packages
+      pkg_deps_map[[pkg]] <- pkg_dep_packages
     }
 
     queue <- unique(c(
@@ -239,7 +230,7 @@ install_missing_pkgs <- function(
 
     if (length(pkgs_to_install) > 0) {
       install_pkgs_with_callr(
-        remap_archived_pkgs(pkgs_to_install),
+        pkgs_to_install,
         libpath = libpath,
         upgrade = upgrade,
         dependencies = dependencies,
@@ -260,39 +251,27 @@ install_pkgs_with_callr <- function(
   packages,
   ...,
   libpath = .libPaths()[1],
-  upgrade = TRUE, # pak::pkg_install(upgrade = FALSE)
-  dependencies = NA, # pak::pkg_install(dependencies = NA)
+  upgrade = TRUE,
+  dependencies = NA,
   verbose = TRUE
 ) {
   stopifnot(length(list(...)) == 0)
   callr::r(
-    function(repos_option, packages, upgrade, dependencies) {
+    function(repos_option, packages, dependencies) {
       options(repos = repos_option)
 
-      # Install pak if not already installed
-      if (!requireNamespace("pak", quietly = TRUE)) {
-        install.packages("pak")
-      }
-
-      # Performing a leap of faith that pak is installed.
-      # Avoids weird installs when using pak to install shinycoreci
-      stopifnot(utils::packageVersion("pak") >= "0.3.0")
-      pak__pkg_install <- utils::getFromNamespace("pkg_install", "pak")
       message(
-        "Installing packages with pak::pkg_install(): ",
+        "Installing packages with install.packages(): ",
         paste0(packages, collapse = ", ")
       )
-      pak__pkg_install(
+      utils::install.packages(
         packages,
-        ask = FALSE, # Not interactive, so don't ask
-        upgrade = upgrade,
         dependencies = dependencies
       )
     },
     list(
-      repos_option = shinyverse_repos_option(),
+      repos_option = all_repos_option(),
       packages = packages,
-      upgrade = upgrade,
       dependencies = dependencies
     ),
     show = TRUE,
