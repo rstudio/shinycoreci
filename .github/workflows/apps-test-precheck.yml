@@ -17,10 +17,10 @@ jobs:
       - name: Collect changed file names
         if: github.event_name == 'pull_request'
         id: files_changed
-        uses: Ana06/get-changed-files@v2.3.0
-        with:
-          format: "json"
-          filter: "*"
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -u inst/gha/get-changed-files.py
 
       - name: Validate >= 1 Shiny app file is altered
         if: github.event_name == 'pull_request'
