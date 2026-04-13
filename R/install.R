@@ -27,8 +27,13 @@ shinyverse_repos_option <- function() {
 # R-universe repos for packages removed from CRAN.
 # Each entry is an r-universe URL where the archived package is available.
 cran_archived_repos <- c(
-  "https://krlmlr.r-universe.dev",   # plogr
-  "https://hadley.r-universe.dev"    # pryr
+  "https://krlmlr.r-universe.dev"   # plogr
+)
+
+# Packages archived from CRAN that must be installed from GitHub.
+# Map of package name to GitHub "owner/repo" ref.
+github_only_pkgs <- c(
+  "pryr" = "hadley/pryr"
 )
 
 # Build the full list of repos including archived package sources
@@ -205,6 +210,23 @@ install_missing_pkgs <- function(
 
   pkgs_to_install <- packages[!(packages %in% names(installed_pkgs))]
 
+  # When upgrade is FALSE, skip packages already installed on disk.
+  # This avoids overwriting r-universe dev versions pre-installed by the
+
+  # lockfile with older CRAN release binaries.
+  if (!upgrade) {
+    already_on_disk <- vapply(
+      pkgs_to_install, is_installed, logical(1), libpath = libpath
+    )
+    if (any(already_on_disk)) {
+      # Mark them as installed so we don't check again
+      for (pkg in pkgs_to_install[already_on_disk]) {
+        installed_pkgs[[pkg]] <- TRUE
+      }
+      pkgs_to_install <- pkgs_to_install[!already_on_disk]
+    }
+  }
+
   if (length(pkgs_to_install) > 0) {
     message(
       prompt,
@@ -229,13 +251,26 @@ install_missing_pkgs <- function(
     }
 
     if (length(pkgs_to_install) > 0) {
-      install_pkgs_with_callr(
-        pkgs_to_install,
-        libpath = libpath,
-        upgrade = upgrade,
-        dependencies = dependencies,
-        verbose = verbose
-      )
+      # Separate packages that must be installed from GitHub
+      gh_pkgs <- pkgs_to_install[pkgs_to_install %in% names(github_only_pkgs)]
+      repo_pkgs <- pkgs_to_install[!pkgs_to_install %in% names(github_only_pkgs)]
+
+      if (length(repo_pkgs) > 0) {
+        install_pkgs_with_callr(
+          repo_pkgs,
+          libpath = libpath,
+          upgrade = upgrade,
+          dependencies = dependencies,
+          verbose = verbose
+        )
+      }
+      if (length(gh_pkgs) > 0) {
+        install_gh_pkgs_with_callr(
+          gh_pkgs,
+          libpath = libpath,
+          verbose = verbose
+        )
+      }
     }
     # Update the installed status as an install error was not thrown
     for (package in pkgs_to_install) {
@@ -292,5 +327,31 @@ install_pkgs_with_callr <- function(
     libpath = libpath,
     supervise = TRUE,
     spinner = TRUE # helps with CI from timing out
+  )
+}
+
+install_gh_pkgs_with_callr <- function(
+  packages,
+  ...,
+  libpath = .libPaths()[1],
+  verbose = TRUE
+) {
+  stopifnot(length(list(...)) == 0)
+  gh_refs <- github_only_pkgs[packages]
+  callr::r(
+    function(gh_refs) {
+      message(
+        "Installing packages from GitHub: ",
+        paste0(names(gh_refs), " (", gh_refs, ")", collapse = ", ")
+      )
+      for (ref in gh_refs) {
+        remotes::install_github(ref, upgrade = "never")
+      }
+    },
+    list(gh_refs = gh_refs),
+    show = TRUE,
+    libpath = libpath,
+    supervise = TRUE,
+    spinner = TRUE
   )
 }
