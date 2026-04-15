@@ -1,0 +1,197 @@
+name: External package checks
+
+on:
+  workflow_dispatch:
+  # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
+  # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
+  schedule:
+    - cron: "0 8 * * 1" # every monday
+
+permissions:
+  contents: read
+
+jobs:
+  trigger-package-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ secrets.OTHER_REPOS_AUTOMATION_TOKEN }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Add one object per target repository.
+          # Required keys:
+          #   owner, repo, workflow, ref, maintainer
+          - owner: rstudio
+            repo: reactlog
+            workflow: R-CMD-check.yaml
+            ref: main
+            maintainer: schloerke
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Trigger package checks
+        id: dispatch
+        shell: bash
+        env:
+          TARGET_OWNER: ${{ matrix.owner }}
+          TARGET_REPO: ${{ matrix.repo }}
+          TARGET_WORKFLOW: ${{ matrix.workflow }}
+          TARGET_REF: ${{ matrix.ref }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${GH_TOKEN}" ]]; then
+            echo "::error::Missing OTHER_REPOS_AUTOMATION_TOKEN secret."
+            exit 1
+          fi
+
+          dispatched_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          source_run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          token_actor="$(gh api /user --jq '.login')"
+
+          echo "dispatched_at=${dispatched_at}" >> "$GITHUB_OUTPUT"
+          echo "source_run_url=${source_run_url}" >> "$GITHUB_OUTPUT"
+          echo "token_actor=${token_actor}" >> "$GITHUB_OUTPUT"
+
+          echo "Triggering ${TARGET_OWNER}/${TARGET_REPO} ${TARGET_WORKFLOW} on ${TARGET_REF}."
+
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/actions/workflows/${TARGET_WORKFLOW}/dispatches" \
+            --input - <<<"$(jq -n --arg ref "${TARGET_REF}" '{ref: $ref}')"
+
+      - name: Watch remote package checks
+        id: watch
+        shell: bash
+        env:
+          TARGET_OWNER: ${{ matrix.owner }}
+          TARGET_REPO: ${{ matrix.repo }}
+          TARGET_WORKFLOW: ${{ matrix.workflow }}
+          TARGET_REF: ${{ matrix.ref }}
+          DISPATCHED_AT: ${{ steps.dispatch.outputs.dispatched_at }}
+          TOKEN_ACTOR: ${{ steps.dispatch.outputs.token_actor }}
+        run: |
+          set -euo pipefail
+
+          run_id=""
+
+          for _ in {1..30}; do
+            response="$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "/repos/${TARGET_OWNER}/${TARGET_REPO}/actions/workflows/${TARGET_WORKFLOW}/runs?event=workflow_dispatch&branch=${TARGET_REF}&per_page=20")"
+
+            run_id="$(jq -r \
+              --arg dispatched_at "${DISPATCHED_AT}" \
+              --arg token_actor "${TOKEN_ACTOR}" \
+              '[
+                .workflow_runs[]
+                | select(.created_at >= $dispatched_at)
+              ]
+              | sort_by(.created_at)
+              | (
+                  map(select((.triggering_actor.login // .actor.login // "") == $token_actor))
+                  | first
+                ) // first
+              | .id // empty' <<<"${response}")"
+
+            if [[ -n "${run_id}" ]]; then
+              break
+            fi
+
+            sleep 10
+          done
+
+          if [[ -z "${run_id}" ]]; then
+            echo "run_conclusion=dispatch_not_found" >> "$GITHUB_OUTPUT"
+            echo "should_open_issue=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "run_id=${run_id}" >> "$GITHUB_OUTPUT"
+
+          for _ in {1..90}; do
+            run_json="$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "/repos/${TARGET_OWNER}/${TARGET_REPO}/actions/runs/${run_id}")"
+
+            status="$(jq -r '.status' <<<"${run_json}")"
+            conclusion="$(jq -r '.conclusion // ""' <<<"${run_json}")"
+            run_url="$(jq -r '.html_url' <<<"${run_json}")"
+
+            echo "Remote status: ${status}${conclusion:+ (${conclusion})}"
+
+            if [[ "${status}" == "completed" ]]; then
+              echo "run_url=${run_url}" >> "$GITHUB_OUTPUT"
+              echo "run_conclusion=${conclusion}" >> "$GITHUB_OUTPUT"
+
+              case "${conclusion}" in
+                failure|timed_out|action_required|startup_failure|stale)
+                  echo "should_open_issue=true" >> "$GITHUB_OUTPUT"
+                  ;;
+                *)
+                  echo "should_open_issue=false" >> "$GITHUB_OUTPUT"
+                  ;;
+              esac
+
+              exit 0
+            fi
+
+            sleep 60
+          done
+
+          echo "run_url=https://github.com/${TARGET_OWNER}/${TARGET_REPO}/actions/runs/${run_id}" >> "$GITHUB_OUTPUT"
+          echo "run_conclusion=watch_timeout" >> "$GITHUB_OUTPUT"
+          echo "should_open_issue=true" >> "$GITHUB_OUTPUT"
+
+      - name: Create Copilot remediation issue
+        id: issue
+        if: steps.watch.outputs.should_open_issue == 'true'
+        uses: ./.github/internal/create-copilot-remediation-issue
+        with:
+          github-token: ${{ secrets.OTHER_REPOS_AUTOMATION_TOKEN }}
+          source-repository: ${{ github.repository }}
+          source-run-url: ${{ steps.dispatch.outputs.source_run_url }}
+          target-owner: ${{ matrix.owner }}
+          target-repo: ${{ matrix.repo }}
+          target-ref: ${{ matrix.ref }}
+          target-workflow: ${{ matrix.workflow }}
+          target-maintainer: ${{ matrix.maintainer }}
+          remote-run-conclusion: ${{ steps.watch.outputs.run_conclusion }}
+          remote-run-url: ${{ steps.watch.outputs.run_url }}
+
+      - name: Fail when remote package checks do not succeed
+        if: steps.watch.outputs.run_conclusion != 'success'
+        shell: bash
+        env:
+          REMOTE_RUN_CONCLUSION: ${{ steps.watch.outputs.run_conclusion }}
+          REMOTE_RUN_URL: ${{ steps.watch.outputs.run_url }}
+          ISSUE_URL: ${{ steps.issue.outputs.issue_url }}
+        run: |
+          set -euo pipefail
+
+          echo "::error::Remote package checks did not succeed."
+          echo "::error::Conclusion: ${REMOTE_RUN_CONCLUSION:-unknown}"
+
+          if [[ "${REMOTE_RUN_CONCLUSION}" == "dispatch_not_found" ]]; then
+            echo "::error::The remote workflow dispatch succeeded, but no matching workflow run could be found to watch."
+            echo "::error::This usually means the target workflow cannot be identified uniquely enough from the workflow_dispatch event list."
+          fi
+
+          if [[ -n "${REMOTE_RUN_URL}" ]]; then
+            echo "::error::Remote run: ${REMOTE_RUN_URL}"
+          fi
+
+          if [[ -n "${ISSUE_URL}" ]]; then
+            echo "::error::Copilot remediation issue: ${ISSUE_URL}"
+          fi
+
+          exit 1

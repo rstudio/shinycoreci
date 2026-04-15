@@ -169,6 +169,7 @@ This repo contains several [GitHub Actions](https://github.com/features/actions)
   1.  Creates the `website` via `{pkgdown}`
   2.  Performs `routine` procedures like making sure all documentation and README.md is up to date
   3.  Performs `R CMD check` on `{shinycoreci}`, across macOS, Windows, and Ubuntu (multiple R versions).
+- [**External package checks**](https://github.com/rstudio/shinycoreci/actions/workflows/external-package-checks.yml): Dispatches package-check workflows in other repos that opt in to `workflow_dispatch`, waits for them to finish, and opens a Copilot-assigned remediation issue in the target repo if a watched run fails. Targets are configured in the workflow matrix; currently `rstudio/reactlog`.
 - [**Update app deps**](https://github.com/rstudio/shinycoreci/actions/workflows/apps-deps.yml): Updates known dependencies of all Shiny applications in `./inst/apps`.
 - [**Trim old branches**](https://github.com/rstudio/shinycoreci/actions/workflows/trim-old-branches.yml): The current data model of **Test apps** workflow is to create many `gha-**` branches containing the changes of each test run on `main`. `gha-**` branches that have been stale for more than a week are removed.
 
@@ -183,6 +184,8 @@ There are a handful of methods that can be called to trigger the GHA actions.
 - `shinycoreci::trigger(event_type=)`: Sends a custom event to the GHA workflow. For example, this can be used to trigger **Trim old branches** with `shinycoreci::trigger("trim")`.
 
 A triggered workflow will run without having to push to the repo. Anyone with repo write access can call this command.
+
+Cross-repo package checks are managed by the **External package checks** workflow rather than the `shinycoreci::trigger*()` helpers. This workflow requires an `OTHER_REPOS_AUTOMATION_TOKEN` secret in `rstudio/shinycoreci`. For a fine-grained PAT, grant read/write access to `Actions`, `Contents`, `Issues`, and `Pull requests`, plus `Metadata: read`, for each target repo. Because the workflow assigns failure issues to Copilot, use a user token or GitHub App user-to-server token rather than `GITHUB_TOKEN`, and each target workflow must opt in to `workflow_dispatch`. To add another repo, append a new matrix entry in `.github/workflows/external-package-checks.yml` with `owner`, `repo`, `workflow`, `ref`, and `maintainer`.
 
 ### Schedule
 
@@ -202,6 +205,7 @@ Schedule of `rstudio/shinycoreci` workflows:
 - 2am UTC, M-F: **Deploy apps**; ~ 2 hrs
 - 3am UTC, M-F: **Docker**; ~ 1 hr
 - 5am UTC, M-F: **Test apps** (Internally calls **Build results website**); ~ 4 hrs
+- 8am UTC, M: **External package checks**; varies with target workflow runtime
 
 ### `build-results.yml`
 

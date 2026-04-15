@@ -1,0 +1,137 @@
+name: Create Copilot remediation issue
+description: Create or reuse a Copilot-assigned issue for a failing remote workflow run.
+
+inputs:
+  github-token:
+    description: GitHub token with permission to manage issues in the target repository.
+    required: true
+  source-repository:
+    description: Repository running the scheduler workflow.
+    required: true
+  source-run-url:
+    description: URL of the scheduler workflow run.
+    required: true
+  target-owner:
+    description: Owner of the repository whose workflow was dispatched.
+    required: true
+  target-repo:
+    description: Repository whose workflow was dispatched.
+    required: true
+  target-ref:
+    description: Branch or ref used for the remote workflow dispatch.
+    required: true
+  target-workflow:
+    description: Workflow file dispatched in the remote repository.
+    required: true
+  target-maintainer:
+    description: Maintainer who should review any Copilot-generated fix.
+    required: true
+  remote-run-conclusion:
+    description: Final conclusion reported by the remote workflow run.
+    required: true
+  remote-run-url:
+    description: URL of the remote workflow run.
+    required: false
+    default: ""
+  issue-title:
+    description: Optional override for the remediation issue title.
+    required: false
+    default: ""
+  custom-instructions:
+    description: Optional override for Copilot instructions.
+    required: false
+    default: ""
+
+outputs:
+  issue_url:
+    description: URL of the existing or newly created issue.
+    value: ${{ steps.create.outputs.issue_url }}
+
+runs:
+  using: composite
+  steps:
+    - name: Create or reuse issue
+      id: create
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        SOURCE_REPOSITORY: ${{ inputs.source-repository }}
+        SOURCE_RUN_URL: ${{ inputs.source-run-url }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_REF: ${{ inputs.target-ref }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        TARGET_MAINTAINER: ${{ inputs.target-maintainer }}
+        REMOTE_RUN_CONCLUSION: ${{ inputs.remote-run-conclusion }}
+        REMOTE_RUN_URL: ${{ inputs.remote-run-url }}
+        INPUT_ISSUE_TITLE: ${{ inputs.issue-title }}
+        INPUT_CUSTOM_INSTRUCTIONS: ${{ inputs.custom-instructions }}
+      run: |
+        set -euo pipefail
+
+        if [[ -n "${INPUT_ISSUE_TITLE}" ]]; then
+          title="${INPUT_ISSUE_TITLE}"
+        else
+          title="Automated fix: ${TARGET_REPO} package checks failing on ${TARGET_REF}"
+        fi
+
+        existing_issue_url="$(gh api \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues?state=open&per_page=100" \
+          | jq -r --arg title "${title}" '.[] | select(.pull_request | not) | select(.title == $title) | .html_url' \
+          | head -n 1 || true)"
+
+        if [[ -n "${existing_issue_url}" ]]; then
+          echo "issue_url=${existing_issue_url}" >> "$GITHUB_OUTPUT"
+          echo "Open remediation issue already exists: ${existing_issue_url}"
+          exit 0
+        fi
+
+        if [[ -n "${INPUT_CUSTOM_INSTRUCTIONS}" ]]; then
+          instructions="${INPUT_CUSTOM_INSTRUCTIONS}"
+        else
+          instructions="Investigate the failing package checks workflow run linked in this issue, create a pull request against ${TARGET_REF} with the fix, and request review from @${TARGET_MAINTAINER} before finishing."
+        fi
+
+        body_lines=(
+          "The scheduled package checks triggered from \`${SOURCE_REPOSITORY}\` failed for \`${TARGET_OWNER}/${TARGET_REPO}\` on \`${TARGET_REF}\`."
+          ""
+          "- Remote workflow: \`${TARGET_WORKFLOW}\`"
+          "- Remote conclusion: \`${REMOTE_RUN_CONCLUSION}\`"
+          "- Remote run: ${REMOTE_RUN_URL:-not available}"
+          "- Source scheduler run: ${SOURCE_RUN_URL}"
+          ""
+          "@copilot please investigate this failure, create a pull request against \`${TARGET_REF}\` with the fix, and request review from @${TARGET_MAINTAINER} before finishing."
+        )
+
+        printf -v body '%s\n' "${body_lines[@]}"
+        body="${body%$'\n'}"
+
+        payload="$(jq -n \
+          --arg title "${title}" \
+          --arg body "${body}" \
+          --arg target_repo "${TARGET_OWNER}/${TARGET_REPO}" \
+          --arg base_branch "${TARGET_REF}" \
+          --arg instructions "${instructions}" \
+          '{
+            title: $title,
+            body: $body,
+            assignees: ["copilot-swe-agent[bot]"],
+            agent_assignment: {
+              target_repo: $target_repo,
+              base_branch: $base_branch,
+              custom_instructions: $instructions
+            }
+          }')"
+
+        issue_response="$(gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues" \
+          --input - <<<"${payload}")"
+
+        issue_url="$(jq -r '.html_url' <<<"${issue_response}")"
+        echo "issue_url=${issue_url}" >> "$GITHUB_OUTPUT"
+        echo "Created remediation issue: ${issue_url}"
