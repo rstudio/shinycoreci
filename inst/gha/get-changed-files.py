@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import urllib.error
 import urllib.request
 
 
@@ -29,8 +30,14 @@ def get_changed_files(api_url, repository, pull_request_number, token):
             url,
             headers=headers,
         )
-        with urllib.request.urlopen(request) as response:
-            payload = json.load(response)
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                payload = json.load(response)
+        except urllib.error.HTTPError as exc:
+            body = exc.read().decode("utf-8", errors="replace")
+            sys.exit(f"GitHub API returned HTTP {exc.code} for {url}: {body}")
+        except urllib.error.URLError as exc:
+            sys.exit(f"Failed to connect to GitHub API at {url}: {exc.reason}")
 
         if not payload:
             break
