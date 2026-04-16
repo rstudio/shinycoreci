@@ -1,8 +1,6 @@
 name: External package checks
 
 on:
-  push:
-    branches: [r-cmd-checks-for-other-repos] # TEMPORARY: remove before merging
   workflow_dispatch:
   # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
   # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
