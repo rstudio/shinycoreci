@@ -2,6 +2,7 @@ name: Update app deps
 
 env:
   # Temporary workaround for Node 20 deprecation until r-lib/actions ships a newer runtime line.
+  # https://github.com/r-lib/actions/issues/1044
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 on:
