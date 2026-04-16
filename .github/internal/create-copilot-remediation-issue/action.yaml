@@ -125,12 +125,21 @@ runs:
             }
           }')"
 
+        set +e
         issue_response="$(gh api \
           --method POST \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues" \
-          --input - <<<"${payload}")"
+          --input - <<<"${payload}" 2>&1)"
+        status=$?
+        set -e
+
+        if [[ ${status} -ne 0 ]]; then
+          echo "::error::Failed to create remediation issue."
+          echo "${issue_response}"
+          exit ${status}
+        fi
 
         issue_url="$(jq -r '.html_url' <<<"${issue_response}")"
         echo "issue_url=${issue_url}" >> "$GITHUB_OUTPUT"
