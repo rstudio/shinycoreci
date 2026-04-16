@@ -16,8 +16,6 @@ jobs:
   trigger-package-checks:
     runs-on: ubuntu-latest
     timeout-minutes: 120
-    env:
-      GH_TOKEN: ${{ secrets.OTHER_REPOS_AUTOMATION_TOKEN }}
 
     strategy:
       fail-fast: false
@@ -36,10 +34,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.POSIT_SHINY_AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.POSIT_SHINY_AUTOMATION_PEM }}
+          owner: ${{ matrix.owner }}
+          repositories: ${{ matrix.repo }}
+
       - name: Trigger package checks
         id: dispatch
         shell: bash
         env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           TARGET_OWNER: ${{ matrix.owner }}
           TARGET_REPO: ${{ matrix.repo }}
           TARGET_WORKFLOW: ${{ matrix.workflow }}
@@ -48,7 +56,7 @@ jobs:
           set -euo pipefail
 
           if [[ -z "${GH_TOKEN}" ]]; then
-            echo "::error::Missing OTHER_REPOS_AUTOMATION_TOKEN secret."
+            echo "::error::Failed to generate GitHub App token. Check POSIT_SHINY_AUTOMATION_APP_ID and POSIT_SHINY_AUTOMATION_PEM secrets."
             exit 1
           fi
 
@@ -73,6 +81,7 @@ jobs:
         id: watch
         shell: bash
         env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           TARGET_OWNER: ${{ matrix.owner }}
           TARGET_REPO: ${{ matrix.repo }}
           TARGET_WORKFLOW: ${{ matrix.workflow }}
@@ -159,7 +168,7 @@ jobs:
         if: steps.watch.outputs.should_open_issue == 'true'
         uses: ./.github/internal/create-copilot-remediation-issue
         with:
-          github-token: ${{ secrets.OTHER_REPOS_AUTOMATION_TOKEN }}
+          github-token: ${{ steps.app-token.outputs.token }}
           source-repository: ${{ github.repository }}
           source-run-url: ${{ steps.dispatch.outputs.source_run_url }}
           target-owner: ${{ matrix.owner }}

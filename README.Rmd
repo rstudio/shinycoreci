@@ -188,7 +188,7 @@ There are a handful of methods that can be called to trigger the GHA actions.
 
 A triggered workflow will run without having to push to the repo. Anyone with repo write access can call this command.
 
-Cross-repo package checks are managed by the **External package checks** workflow rather than the `shinycoreci::trigger*()` helpers. This workflow requires an `OTHER_REPOS_AUTOMATION_TOKEN` secret in `rstudio/shinycoreci`. For a fine-grained PAT, grant read/write access to `Actions`, `Contents`, `Issues`, and `Pull requests`, plus `Metadata: read`, for each target repo. Because the workflow assigns failure issues to Copilot, use a user token or GitHub App user-to-server token rather than `GITHUB_TOKEN`, and each target workflow must opt in to `workflow_dispatch`. To add another repo, append a new matrix entry in `.github/workflows/external-package-checks.yml` with `owner`, `repo`, `workflow`, `ref`, and `maintainer`.
+Cross-repo package checks are managed by the **External package checks** workflow rather than the `shinycoreci::trigger*()` helpers. This workflow uses the **Posit Shiny Automations** GitHub App (org secrets `POSIT_SHINY_AUTOMATION_APP_ID` and `POSIT_SHINY_AUTOMATION_PEM` in `rstudio/shinycoreci`) to dispatch workflows, poll run status, and create Copilot remediation issues in target repos. Each target workflow must opt in to `workflow_dispatch`, and the GitHub App must be installed on each target repo. To add another repo, append a new matrix entry in `.github/workflows/external-package-checks.yml` with `owner`, `repo`, `workflow`, `ref`, and `maintainer`, and ensure the GitHub App is installed on that repo.
 
 
 ### Schedule

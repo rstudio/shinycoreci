@@ -31,7 +31,6 @@ Suggests:
     httpuv,
     httr,
     later,
-    pak,
     renv,
     rmarkdown (>= 2.9),
     rsconnect (>= 1.0.1),
@@ -45,4 +44,4 @@ Suggests:
 Config/Needs/website: tidyverse/tidytemplate
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+RoxygenNote: 7.3.2
