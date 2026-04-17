@@ -2,8 +2,6 @@ name: External package checks
 
 on:
   workflow_dispatch:
-  # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onschedule
-  # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_16
   schedule:
     - cron: "0 8 * * 1" # every monday
 
@@ -20,8 +18,23 @@ jobs:
       matrix:
         include:
           # Add one object per target repository.
+          # Before adding a repo, make sure the GitHub App is installed on it
+          # and the target workflow file already supports workflow_dispatch.
           # Required keys:
           #   owner, repo, workflow, ref, maintainer
+          # Example: another repo on its default branch.
+          # Replace workflow with a file that already supports workflow_dispatch.
+          # - owner: rstudio
+          #   repo: shiny
+          #   workflow: R-CMD-check.yaml
+          #   ref: main
+          #   maintainer: schloerke
+          # Example: a repo dispatched from a non-default branch.
+          # - owner: rstudio
+          #   repo: examplepkg
+          #   workflow: package-checks.yaml
+          #   ref: release
+          #   maintainer: someone
           - owner: rstudio
             repo: reactlog
             workflow: R-CMD-check.yaml
@@ -248,17 +261,33 @@ jobs:
           echo "::error::Remote package checks did not succeed."
           echo "::error::Conclusion: ${REMOTE_RUN_CONCLUSION:-unknown}"
 
-          if [[ "${REMOTE_RUN_CONCLUSION}" == "dispatch_not_found" ]]; then
-            echo "::error::The remote workflow dispatch succeeded, but no matching workflow run could be found to watch."
-            echo "::error::This usually means the target workflow cannot be identified uniquely enough from the workflow_dispatch event list."
-          fi
-
           if [[ -n "${REMOTE_RUN_URL}" ]]; then
             echo "::error::Remote run: ${REMOTE_RUN_URL}"
           fi
 
           if [[ -n "${ISSUE_URL}" ]]; then
             echo "::error::Remediation issue (${ISSUE_MODE:-unknown}): ${ISSUE_URL}"
+          fi
+
+          {
+            echo "## External package check handoff"
+            echo ""
+            echo "- Remote conclusion: ${REMOTE_RUN_CONCLUSION:-unknown}"
+            if [[ -n "${REMOTE_RUN_URL}" ]]; then
+              echo "- Remote run: ${REMOTE_RUN_URL}"
+            fi
+            if [[ -n "${ISSUE_URL}" ]]; then
+              echo "- Remediation issue (${ISSUE_MODE:-unknown}): ${ISSUE_URL}"
+            else
+              echo "- Remediation issue: not created"
+            fi
+            echo ""
+            echo "The scheduler still fails so this target repo failure is visible in dashboards."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [[ "${REMOTE_RUN_CONCLUSION}" == "dispatch_not_found" ]]; then
+            echo "::error::The remote workflow dispatch succeeded, but no matching workflow run could be found to watch."
+            echo "::error::This usually means the target workflow cannot be identified uniquely enough from the workflow_dispatch event list."
           fi
 
           exit 1
