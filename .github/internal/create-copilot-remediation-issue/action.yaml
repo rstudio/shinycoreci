@@ -1,10 +1,14 @@
 name: Create Copilot remediation issue
-description: Create or reuse a Copilot-assigned issue for a failing remote workflow run.
+description: Create or reuse a remediation issue for a failing remote workflow run, assigning it to Copilot when possible.
 
 inputs:
   github-token:
-    description: GitHub token with permission to manage issues in the target repository.
+    description: GitHub App token with permission to read and create issues in the target repository.
     required: true
+  copilot-token:
+    description: Optional user-scoped token used only for Copilot issue assignment. Falls back to a normal issue when omitted or rejected.
+    required: false
+    default: ""
   source-repository:
     description: Repository running the scheduler workflow.
     required: true
@@ -46,6 +50,9 @@ outputs:
   issue_url:
     description: URL of the existing or newly created issue.
     value: ${{ steps.create.outputs.issue_url }}
+  issue_mode:
+    description: Whether the issue was reused, created as a Copilot-assigned issue, or created as a normal issue.
+    value: ${{ steps.create.outputs.issue_mode }}
 
 runs:
   using: composite
@@ -54,7 +61,8 @@ runs:
       id: create
       shell: bash
       env:
-        GH_TOKEN: ${{ inputs.github-token }}
+        APP_GH_TOKEN: ${{ inputs.github-token }}
+        COPILOT_GH_TOKEN: ${{ inputs.copilot-token }}
         SOURCE_REPOSITORY: ${{ inputs.source-repository }}
         SOURCE_RUN_URL: ${{ inputs.source-run-url }}
         TARGET_OWNER: ${{ inputs.target-owner }}
@@ -69,13 +77,25 @@ runs:
       run: |
         set -euo pipefail
 
+        create_issue() {
+          local token="$1"
+          local payload="$2"
+
+          GH_TOKEN="${token}" gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues" \
+            --input - <<<"${payload}" 2>&1
+        }
+
         if [[ -n "${INPUT_ISSUE_TITLE}" ]]; then
           title="${INPUT_ISSUE_TITLE}"
         else
           title="Automated fix: ${TARGET_REPO} package checks failing on ${TARGET_REF}"
         fi
 
-        existing_issue_url="$(gh api \
+        existing_issue_url="$(GH_TOKEN="${APP_GH_TOKEN}" gh api \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues?state=open&per_page=100" \
@@ -84,6 +104,7 @@ runs:
 
         if [[ -n "${existing_issue_url}" ]]; then
           echo "issue_url=${existing_issue_url}" >> "$GITHUB_OUTPUT"
+          echo "issue_mode=existing" >> "$GITHUB_OUTPUT"
           echo "Open remediation issue already exists: ${existing_issue_url}"
           exit 0
         fi
@@ -94,7 +115,7 @@ runs:
           instructions="Investigate the failing package checks workflow run linked in this issue, create a pull request against ${TARGET_REF} with the fix, and request review from @${TARGET_MAINTAINER} before finishing."
         fi
 
-        body_lines=(
+        copilot_body_lines=(
           "The scheduled package checks triggered from \`${SOURCE_REPOSITORY}\` failed for \`${TARGET_OWNER}/${TARGET_REPO}\` on \`${TARGET_REF}\`."
           ""
           "- Remote workflow: \`${TARGET_WORKFLOW}\`"
@@ -105,12 +126,28 @@ runs:
           "@copilot please investigate this failure, create a pull request against \`${TARGET_REF}\` with the fix, and request review from @${TARGET_MAINTAINER} before finishing."
         )
 
-        printf -v body '%s\n' "${body_lines[@]}"
-        body="${body%$'\n'}"
+        fallback_body_lines=(
+          "The scheduled package checks triggered from \`${SOURCE_REPOSITORY}\` failed for \`${TARGET_OWNER}/${TARGET_REPO}\` on \`${TARGET_REF}\`."
+          ""
+          "- Remote workflow: \`${TARGET_WORKFLOW}\`"
+          "- Remote conclusion: \`${REMOTE_RUN_CONCLUSION}\`"
+          "- Remote run: ${REMOTE_RUN_URL:-not available}"
+          "- Source scheduler run: ${SOURCE_RUN_URL}"
+          "- Suggested maintainer: @${TARGET_MAINTAINER}"
+          ""
+          "Automatic Copilot assignment was unavailable for this run, so this issue was opened without a Copilot assignee."
+          "Please investigate manually or reassign this issue to Copilot from the GitHub issue UI using a user-scoped account with access to ${TARGET_OWNER}/${TARGET_REPO}."
+        )
 
-        payload="$(jq -n \
+        printf -v copilot_body '%s\n' "${copilot_body_lines[@]}"
+        copilot_body="${copilot_body%$'\n'}"
+
+        printf -v fallback_body '%s\n' "${fallback_body_lines[@]}"
+        fallback_body="${fallback_body%$'\n'}"
+
+        copilot_payload="$(jq -n \
           --arg title "${title}" \
-          --arg body "${body}" \
+          --arg body "${copilot_body}" \
           --arg target_repo "${TARGET_OWNER}/${TARGET_REPO}" \
           --arg base_branch "${TARGET_REF}" \
           --arg instructions "${instructions}" \
@@ -125,22 +162,48 @@ runs:
             }
           }')"
 
-        set +e
-        issue_response="$(gh api \
-          --method POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues" \
-          --input - <<<"${payload}" 2>&1)"
-        status=$?
-        set -e
+        fallback_payload="$(jq -n \
+          --arg title "${title}" \
+          --arg body "${fallback_body}" \
+          '{
+            title: $title,
+            body: $body
+          }')"
 
-        if [[ ${status} -ne 0 ]]; then
-          echo "::error::Failed to create remediation issue."
-          echo "${issue_response}"
-          exit ${status}
+        issue_mode=""
+
+        if [[ -n "${COPILOT_GH_TOKEN}" ]]; then
+          set +e
+          issue_response="$(create_issue "${COPILOT_GH_TOKEN}" "${copilot_payload}")"
+          status=$?
+          set -e
+
+          if [[ ${status} -eq 0 ]]; then
+            issue_mode="copilot_assigned"
+          else
+            echo "::warning::Failed to create a Copilot-assigned remediation issue. Falling back to a normal issue created by the GitHub App token."
+            echo "${issue_response}"
+          fi
+        else
+          echo "::notice::No user-scoped Copilot token configured. Creating a normal remediation issue with the GitHub App token."
+        fi
+
+        if [[ -z "${issue_mode}" ]]; then
+          set +e
+          issue_response="$(create_issue "${APP_GH_TOKEN}" "${fallback_payload}")"
+          status=$?
+          set -e
+
+          if [[ ${status} -ne 0 ]]; then
+            echo "::error::Failed to create remediation issue."
+            echo "${issue_response}"
+            exit ${status}
+          fi
+
+          issue_mode="normal"
         fi
 
         issue_url="$(jq -r '.html_url' <<<"${issue_response}")"
         echo "issue_url=${issue_url}" >> "$GITHUB_OUTPUT"
-        echo "Created remediation issue: ${issue_url}"
+        echo "issue_mode=${issue_mode}" >> "$GITHUB_OUTPUT"
+        echo "Created remediation issue (${issue_mode}): ${issue_url}"

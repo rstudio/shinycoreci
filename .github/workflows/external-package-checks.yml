@@ -217,12 +217,13 @@ jobs:
           echo "run_conclusion=watch_timeout" >> "$GITHUB_OUTPUT"
           echo "should_open_issue=true" >> "$GITHUB_OUTPUT"
 
-      - name: Create Copilot remediation issue
+      - name: Create remediation issue
         id: issue
         if: steps.watch.outputs.should_open_issue == 'true'
         uses: ./.github/internal/create-copilot-remediation-issue
         with:
           github-token: ${{ steps.app-token.outputs.token }}
+          copilot-token: ${{ secrets['POSIT_SHINY_AUTOMATION_COPILOT_TOKEN'] }}
           source-repository: ${{ github.repository }}
           source-run-url: ${{ steps.dispatch.outputs.source_run_url }}
           target-owner: ${{ matrix.owner }}
@@ -240,6 +241,7 @@ jobs:
           REMOTE_RUN_CONCLUSION: ${{ steps.watch.outputs.run_conclusion }}
           REMOTE_RUN_URL: ${{ steps.watch.outputs.run_url }}
           ISSUE_URL: ${{ steps.issue.outputs.issue_url }}
+          ISSUE_MODE: ${{ steps.issue.outputs.issue_mode }}
         run: |
           set -euo pipefail
 
@@ -256,7 +258,7 @@ jobs:
           fi
 
           if [[ -n "${ISSUE_URL}" ]]; then
-            echo "::error::Copilot remediation issue: ${ISSUE_URL}"
+            echo "::error::Remediation issue (${ISSUE_MODE:-unknown}): ${ISSUE_URL}"
           fi
 
           exit 1
