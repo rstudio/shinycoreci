@@ -88,6 +88,50 @@ tagList(
 .selectize-control {
   margin-bottom: 0 !important;
 }
+
+/* External package checks card */
+.external-checks {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0 1.5rem;
+  background: #fafbfc;
+}
+.external-checks h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.external-checks .scheduler-badge {
+  margin-left: auto;
+}
+.external-checks table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.external-checks th,
+.external-checks td {
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid #eceff1;
+  vertical-align: middle;
+}
+.external-checks th {
+  font-weight: 600;
+  color: #495057;
+  background: transparent;
+  border-bottom: 2px solid #dee2e6;
+}
+.external-checks tr:last-child td {
+  border-bottom: none;
+}
+.external-checks .muted {
+  color: #6c757d;
+  font-size: 0.85rem;
+}
 ```
 
 ```{r, echo = FALSE, include = TRUE}
@@ -110,6 +154,91 @@ shiny::markdown(
 * Current [`posit-dev/py-shiny-site`](https://github.com/posit-dev/py-shiny-site) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shiny-site/deploy-docs.yml?branch=main)](https://github.com/posit-dev/py-shiny-site)
 '
 )
+```
+
+```{r external_checks, eval = render_rest, echo = FALSE}
+# Render a status card for each target of the external-package-checks
+# scheduler (.github/workflows/external-package-checks.yml). The target list is
+# the same JSON config consumed by the workflow, so adding a repo there
+# automatically surfaces it here.
+local({
+  config_url <- "https://raw.githubusercontent.com/rstudio/shinycoreci/main/.github/external-package-checks.json"
+  scheduler_url <- "https://github.com/rstudio/shinycoreci/actions/workflows/external-package-checks.yml"
+  scheduler_badge <- "https://img.shields.io/github/actions/workflow/status/rstudio/shinycoreci/external-package-checks.yml?branch=main&label=scheduler"
+
+  targets <- tryCatch(
+    jsonlite::fromJSON(config_url, simplifyDataFrame = FALSE)$targets,
+    error = function(e) NULL
+  )
+  if (is.null(targets) || length(targets) == 0) {
+    return(invisible(NULL))
+  }
+
+  rows <- lapply(targets, function(t) {
+    repo_full <- paste0(t$owner, "/", t$repo)
+    repo_url <- paste0("https://github.com/", repo_full)
+    workflow_url <- paste0(repo_url, "/actions/workflows/", t$workflow)
+    badge_url <- paste0(
+      "https://img.shields.io/github/actions/workflow/status/",
+      repo_full, "/", t$workflow,
+      "?branch=", t$ref,
+      "&label=", utils::URLencode(t$workflow, reserved = TRUE)
+    )
+    issues_url <- paste0(
+      repo_url,
+      "/issues?q=is%3Aissue+is%3Aopen+in%3Atitle+%22Automated+fix%22+%22package+checks%22"
+    )
+    maintainer_url <- paste0("https://github.com/", t$maintainer)
+
+    shiny::tags$tr(
+      shiny::tags$td(shiny::tags$a(href = repo_url, shiny::tags$code(repo_full))),
+      shiny::tags$td(class = "muted", t$ref),
+      shiny::tags$td(
+        shiny::tags$a(
+          href = workflow_url,
+          shiny::tags$img(src = badge_url, alt = paste(repo_full, "workflow status"))
+        )
+      ),
+      shiny::tags$td(
+        shiny::tags$a(href = maintainer_url, paste0("@", t$maintainer))
+      ),
+      shiny::tags$td(
+        shiny::tags$a(href = issues_url, "Open remediation issues")
+      )
+    )
+  })
+
+  shiny::tags$section(
+    class = "external-checks",
+    shiny::tags$h2(
+      fontawesome::fa("tower-broadcast"),
+      "External package checks",
+      shiny::tags$a(
+        class = "scheduler-badge",
+        href = scheduler_url,
+        shiny::tags$img(src = scheduler_badge, alt = "Scheduler status")
+      )
+    ),
+    shiny::tags$p(
+      class = "muted",
+      "Weekly cross-repo R CMD check dispatches from ",
+      shiny::tags$code("rstudio/shinycoreci"),
+      ". Each badge reflects the most recent run of the target repository's own workflow on the watched ref."
+    ),
+    shiny::tags$table(
+      shiny::tags$thead(
+        shiny::tags$tr(
+          shiny::tags$th("Repository"),
+          shiny::tags$th("Ref"),
+          shiny::tags$th("Latest workflow"),
+          shiny::tags$th("Maintainer"),
+          shiny::tags$th("Remediation")
+        )
+      ),
+      shiny::tags$tbody(rows)
+    )
+  )
+})
 ```
 
 ```{r, eval = render_rest, include = FALSE}
