@@ -5,13 +5,13 @@ R version: R version 4.4.3 (2025-02-28)
  chromote: 0.5.1.9000
 
 ---- Chrome ----
-   Path: /Users/runner/Library/Caches/org.R-project.R/R/chromote/chrome/147.0.7727.56/chrome-headless-shell-mac-arm64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
-Version: Google Chrome for Testing 147.0.7727.56
+   Path: /Users/runner/Library/Caches/org.R-project.R/R/chromote/chrome/147.0.7727.57/chrome-headless-shell-mac-arm64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
+Version: Google Chrome for Testing 147.0.7727.57
    Args: --headless --no-sandbox --disable-dev-shm-usage
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20260330.0243.1
+ gha_image 20260414.0270.1
  version   R version 4.4.3 (2025-02-28)
  os        macOS Sequoia 15.7.4
  system    aarch64, darwin20
@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 147.0.7727.56
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2026-04-08
+ date      2026-04-21
  pandoc    3.8.3 @ /usr/local/bin/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -40,7 +40,7 @@ Version: Google Chrome for Testing 147.0.7727.56
    brio                1.1.5       2024-04-24 [1] CRAN (R 4.4.1)
    broom               1.0.12      2026-01-27 [1] CRAN (R 4.4.3)
    bsicons             0.1.2.9000  2025-12-30 [1] https://p~
-   bslib               0.10.0.9000 2026-03-17 [1] https://p~
+   bslib               0.10.0.9000 2026-04-16 [1] https://p~
    cachem              1.1.0       2024-05-16 [1] CRAN (R 4.4.1)
    Cairo               1.7-0       2025-10-29 [1] CRAN (R 4.4.1)
    callr               3.7.6       2024-03-25 [1] CRAN (R 4.4.0)
@@ -138,7 +138,7 @@ Version: Google Chrome for Testing 147.0.7727.56
    pkgconfig           2.0.3       2019-09-22 [1] CRAN (R 4.4.1)
    pkgload             1.5.0       2026-02-03 [1] CRAN (R 4.4.3)
    PKI                 0.1-15      2025-08-19 [1] CRAN (R 4.4.1)
-   plotly              4.12.0.9000 2026-04-01 [1] https://p~
+   plotly              4.12.0.9000 2026-04-16 [1] https://p~
    plyr                1.8.9       2023-10-02 [1] CRAN (R 4.4.1)
    png                 0.1-9       2026-03-15 [1] CRAN (R 4.4.3)
    praise              1.0.0       2015-08-11 [1] CRAN (R 4.4.1)
@@ -147,7 +147,7 @@ Version: Google Chrome for Testing 147.0.7727.56
    progress            1.2.3       2023-12-06 [1] CRAN (R 4.4.0)
    promises            1.5.0.9000  2025-11-19 [1] https://p~
    proxy               0.4-29      2025-12-29 [1] CRAN (R 4.4.3)
-   pryr                0.1.6.9000  2026-04-08 [1] Github (hadley/pryr@7f1600d)
+   pryr                0.1.6.9000  2026-04-21 [1] Github (hadley/pryr@7f1600d)
    ps                  1.9.1       2025-04-12 [1] CRAN (R 4.4.1)
    purrr               1.2.1       2026-01-09 [1] CRAN (R 4.4.3)
    quantmod            0.4.28      2025-06-19 [1] CRAN (R 4.4.1)
@@ -187,7 +187,7 @@ Version: Google Chrome for Testing 147.0.7727.56
    sf                  1.1-0       2026-02-24 [1] CRAN (R 4.4.3)
    shiny               1.13.0.9000 2026-02-24 [1] https://p~
    shinyAce            0.4.4       2025-02-03 [1] CRAN (R 4.4.1)
-   shinycoreci         0.0.0.9009  2026-04-08 [1] Custom
+   shinycoreci         0.0.0.9009  2026-04-21 [1] Custom
    shinydashboard      0.7.3       2025-04-21 [1] CRAN (R 4.4.1)
    shinyjs             2.1.1       2026-01-15 [1] CRAN (R 4.4.3)
    shinyjster          0.0.0.9010  2025-06-20 [1] https://p~

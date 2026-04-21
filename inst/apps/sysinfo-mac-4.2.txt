@@ -5,13 +5,13 @@ R version: R version 4.2.3 (2023-03-15)
  chromote: 0.5.1
 
 ---- Chrome ----
-   Path: /Users/runner/Library/Caches/org.R-project.R/R/chromote/chrome/147.0.7727.56/chrome-headless-shell-mac-arm64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
-Version: Google Chrome for Testing 147.0.7727.56
+   Path: /Users/runner/Library/Caches/org.R-project.R/R/chromote/chrome/147.0.7727.57/chrome-headless-shell-mac-arm64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
+Version: Google Chrome for Testing 147.0.7727.57
    Args: --headless --no-sandbox --disable-dev-shm-usage
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20260330.0243.1
+ gha_image 20260414.0270.1
  version   R version 4.2.3 (2023-03-15)
  os        macOS 15.7.4
  system    aarch64, darwin20
@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 147.0.7727.56
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2026-04-08
+ date      2026-04-21
  pandoc    3.8.3 @ /usr/local/bin/pandoc
 ── Packages ────────────────────────────────────────────────────────────────────
  ! package     * version    date (UTC) lib source
@@ -37,7 +37,7 @@ Version: Google Chrome for Testing 147.0.7727.56
    checkmate     2.3.1      2023-12-04 [1] CRAN (R 4.2.3)
    chromote      0.5.1      2025-04-24 [1] CRAN (R 4.2.3)
    class         7.3-21     2023-01-23 [3] CRAN (R 4.2.3)
- V cli           3.6.2      2025-04-23 [1] CRAN (R 4.2.3) (on disk 3.6.5)
+ V cli           3.6.2      2026-04-09 [1] CRAN (R 4.2.3) (on disk 3.6.6)
    cluster       2.1.4      2022-08-22 [3] CRAN (R 4.2.3)
    codetools     0.2-19     2023-02-01 [3] CRAN (R 4.2.3)
    commonmark    2.0.0      2025-07-07 [1] CRAN (R 4.2.3)
@@ -95,10 +95,10 @@ Version: Google Chrome for Testing 147.0.7727.56
    png           0.1-8      2022-11-29 [1] CRAN (R 4.2.0)
    praise        1.0.0      2015-08-11 [1] CRAN (R 4.2.0)
    prettyunits   1.2.0      2023-09-24 [1] CRAN (R 4.2.0)
- V processx      3.8.4      2026-04-01 [1] CRAN (R 4.2.3) (on disk 3.8.7)
+   processx      3.8.4      2024-03-16 [1] CRAN (R 4.2.3)
    progress      1.2.3      2023-12-06 [1] CRAN (R 4.2.3)
    promises      1.3.0      2024-04-05 [1] CRAN (R 4.2.3)
- V ps            1.7.6      2026-03-31 [1] CRAN (R 4.2.3) (on disk 1.9.2)
+ V ps            1.7.6      2026-04-20 [1] CRAN (R 4.2.3) (on disk 1.9.3)
    purrr         1.0.2      2023-08-10 [1] CRAN (R 4.2.0)
  V R6            2.5.1      2025-02-15 [1] CRAN (R 4.2.3) (on disk 2.6.1)
    rappdirs      0.3.3      2021-01-31 [1] CRAN (R 4.2.0)
@@ -115,7 +115,7 @@ Version: Google Chrome for Testing 147.0.7727.56
    sass          0.4.9      2024-03-15 [1] CRAN (R 4.2.3)
    sessioninfo   1.2.2      2021-12-06 [1] any (@1.2.2)
    shiny         1.8.1.1    2024-04-02 [1] CRAN (R 4.2.3)
-   shinycoreci   0.0.0.9009 2026-04-08 [1] local
+   shinycoreci   0.0.0.9009 2026-04-21 [1] local
    shinytest     1.5.4      2024-03-02 [1] CRAN (R 4.2.3)
    shinytest2    0.3.2      2024-04-28 [1] CRAN (R 4.2.3)
    showimage     1.0.0      2018-01-24 [1] CRAN (R 4.2.0)
