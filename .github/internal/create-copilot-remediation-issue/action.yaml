@@ -110,11 +110,12 @@ runs:
         fi
 
         conventional_pr_title_sentence="Use a Conventional Commits pull request title following https://www.conventionalcommits.org/en/v1.0.0/ in the form \`<type>(optional scope): <description>\` or \`<type>: <description>\`, choosing the type and scope that match the actual change."
+        review_handoff_sentence="Reviewer and assignee handoff is handled centrally by \`${SOURCE_REPOSITORY}\`; do not add a separate workflow such as \`copilot-pr-review-request.yaml\` just to request maintainer review. If scheduler compatibility requires a workflow change in this repository, limit it to \`${TARGET_WORKFLOW}\`."
 
         if [[ -n "${INPUT_CUSTOM_INSTRUCTIONS}" ]]; then
-          instructions="${INPUT_CUSTOM_INSTRUCTIONS} ${conventional_pr_title_sentence}"
+          instructions="${INPUT_CUSTOM_INSTRUCTIONS} ${conventional_pr_title_sentence} ${review_handoff_sentence}"
         else
-          instructions="Investigate the failing package checks workflow run linked in this issue. Create a pull request against ${TARGET_REF} with the fix. ${conventional_pr_title_sentence} Request review from @${TARGET_MAINTAINER} before finishing."
+          instructions="Investigate the failing package checks workflow run linked in this issue. Create a pull request against ${TARGET_REF} with the fix. ${conventional_pr_title_sentence} ${review_handoff_sentence} Request review from @${TARGET_MAINTAINER} before finishing."
         fi
 
         copilot_body_lines=(
@@ -125,7 +126,7 @@ runs:
           "- Remote run: ${REMOTE_RUN_URL:-not available}"
           "- Source scheduler run: ${SOURCE_RUN_URL}"
           ""
-          "@copilot please investigate this failure. Create a pull request against \`${TARGET_REF}\` with the fix. ${conventional_pr_title_sentence} Request review from @${TARGET_MAINTAINER} before finishing."
+          "@copilot please investigate this failure. Create a pull request against \`${TARGET_REF}\` with the fix. ${conventional_pr_title_sentence} ${review_handoff_sentence} Request review from @${TARGET_MAINTAINER} before finishing."
         )
 
         fallback_body_lines=(
@@ -139,6 +140,7 @@ runs:
           ""
           "Automatic Copilot assignment was unavailable for this run, so this issue was opened without a Copilot assignee."
           "If you later reassign this issue to Copilot, ask it to use a Conventional Commits pull request title in the form \`<type>(optional scope): <description>\` or \`<type>: <description>\` that matches the actual change."
+          "If you later reassign this issue to Copilot, do not add a separate workflow such as \`copilot-pr-review-request.yaml\` just to request maintainer review; ${SOURCE_REPOSITORY} handles reviewer and assignee handoff centrally."
           "Please investigate manually or reassign this issue to Copilot from the GitHub issue UI using a user-scoped account with access to ${TARGET_OWNER}/${TARGET_REPO}."
         )
 

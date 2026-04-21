@@ -11,6 +11,8 @@ name: External package checks
 # Requirements for each target repository:
 #   * The POSIT_SHINY_AUTOMATION GitHub App is installed on it.
 #   * The listed workflow file supports `workflow_dispatch` on the listed ref.
+#   * No repo-specific PR review workflow is needed; reviewer routing is
+#     handled centrally by shinycoreci.
 
 on:
   workflow_dispatch:
