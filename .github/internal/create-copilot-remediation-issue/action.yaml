@@ -109,10 +109,12 @@ runs:
           exit 0
         fi
 
+        conventional_pr_title_sentence="Use a Conventional Commits pull request title following https://www.conventionalcommits.org/en/v1.0.0/ in the form \`<type>(optional scope): <description>\` or \`<type>: <description>\`, choosing the type and scope that match the actual change."
+
         if [[ -n "${INPUT_CUSTOM_INSTRUCTIONS}" ]]; then
-          instructions="${INPUT_CUSTOM_INSTRUCTIONS}"
+          instructions="${INPUT_CUSTOM_INSTRUCTIONS} ${conventional_pr_title_sentence}"
         else
-          instructions="Investigate the failing package checks workflow run linked in this issue, create a pull request against ${TARGET_REF} with the fix, and request review from @${TARGET_MAINTAINER} before finishing."
+          instructions="Investigate the failing package checks workflow run linked in this issue. Create a pull request against ${TARGET_REF} with the fix. ${conventional_pr_title_sentence} Request review from @${TARGET_MAINTAINER} before finishing."
         fi
 
         copilot_body_lines=(
@@ -123,7 +125,7 @@ runs:
           "- Remote run: ${REMOTE_RUN_URL:-not available}"
           "- Source scheduler run: ${SOURCE_RUN_URL}"
           ""
-          "@copilot please investigate this failure, create a pull request against \`${TARGET_REF}\` with the fix, and request review from @${TARGET_MAINTAINER} before finishing."
+          "@copilot please investigate this failure. Create a pull request against \`${TARGET_REF}\` with the fix. ${conventional_pr_title_sentence} Request review from @${TARGET_MAINTAINER} before finishing."
         )
 
         fallback_body_lines=(
@@ -136,6 +138,7 @@ runs:
           "- Suggested maintainer: @${TARGET_MAINTAINER}"
           ""
           "Automatic Copilot assignment was unavailable for this run, so this issue was opened without a Copilot assignee."
+          "If you later reassign this issue to Copilot, ask it to use a Conventional Commits pull request title in the form \`<type>(optional scope): <description>\` or \`<type>: <description>\` that matches the actual change."
           "Please investigate manually or reassign this issue to Copilot from the GitHub issue UI using a user-scoped account with access to ${TARGET_OWNER}/${TARGET_REPO}."
         )
 

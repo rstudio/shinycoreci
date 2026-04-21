@@ -2,8 +2,11 @@ name: External package checks
 
 # Dispatches package-check workflows on other repositories on a schedule, and
 # opens a Copilot-assigned remediation issue against that repository when the
-# remote run fails. To add a repository, append a new matrix entry below with
-# the target owner, repo, workflow file, ref, and reviewing maintainer.
+# remote run fails.
+#
+# The target-repo list lives in .github/external-package-checks.json so the
+# configuration is shared with the results website (render-results.Rmd on the
+# _test_results branch). To add a repository, edit that JSON file only.
 #
 # Requirements for each target repository:
 #   * The POSIT_SHINY_AUTOMATION GitHub App is installed on it.
@@ -18,26 +21,31 @@ permissions:
   contents: read
 
 jobs:
+  plan:
+    # Load the target-repo list from the shared JSON config and expose it as a
+    # matrix for the check job below.
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.load.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Load target-repo matrix
+        id: load
+        shell: bash
+        run: |
+          set -euo pipefail
+          matrix="$(jq -c '{include: .targets}' .github/external-package-checks.json)"
+          echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
+
   check:
+    needs: plan
     name: ${{ matrix.owner }}/${{ matrix.repo }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
 
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - owner: rstudio
-            repo: reactlog
-            workflow: R-CMD-check.yaml
-            ref: main
-            maintainer: schloerke
-          # Template — copy, uncomment, and fill in to add another target repo:
-          # - owner: rstudio
-          #   repo: example
-          #   workflow: R-CMD-check.yaml
-          #   ref: main
-          #   maintainer: github-login
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
 
     steps:
       - name: Checkout repository

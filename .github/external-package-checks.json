@@ -1,0 +1,12 @@
+{
+  "comment": "Source of truth for the external-package-checks scheduler. Consumed by .github/workflows/external-package-checks.yml as its matrix, and by render-results.Rmd on the _test_results branch to render status badges. To add a repo, append an entry; no workflow edits required.",
+  "targets": [
+    {
+      "owner": "rstudio",
+      "repo": "reactlog",
+      "workflow": "R-CMD-check.yaml",
+      "ref": "main",
+      "maintainer": "schloerke"
+    }
+  ]
+}
