@@ -89,24 +89,45 @@ runs:
             --input - <<<"${payload}" 2>&1
         }
 
+        reuse_issue() {
+          local issue_url="$1"
+
+          echo "issue_url=${issue_url}" >> "$GITHUB_OUTPUT"
+          echo "issue_mode=existing" >> "$GITHUB_OUTPUT"
+          echo "Open remediation issue already exists: ${issue_url}"
+          exit 0
+        }
+
         if [[ -n "${INPUT_ISSUE_TITLE}" ]]; then
           title="${INPUT_ISSUE_TITLE}"
         else
           title="Automated fix: ${TARGET_REPO} package checks failing on ${TARGET_REF}"
         fi
 
-        existing_issue_url="$(GH_TOKEN="${APP_GH_TOKEN}" gh api \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues?state=open&per_page=100" \
-          | jq -r --arg title "${title}" '.[] | select(.pull_request | not) | select(.title == $title) | .html_url' \
-          | head -n 1 || true)"
+        remediation_marker="shinycoreci-remediation: ${TARGET_OWNER}/${TARGET_REPO}:${TARGET_WORKFLOW}:${TARGET_REF}"
+
+        find_existing_issue() {
+          GH_TOKEN="${APP_GH_TOKEN}" gh api --paginate \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues?state=open&per_page=100" \
+            | jq -s -r \
+              --arg title "${title}" \
+              --arg marker "${remediation_marker}" \
+              '[
+                .[][]
+                | select(.pull_request | not)
+                | select((.title == $title) or ((.body // "") | contains($marker)))
+              ]
+              | sort_by(.created_at)
+              | first
+              | .html_url // empty'
+        }
+
+        existing_issue_url="$(find_existing_issue || true)"
 
         if [[ -n "${existing_issue_url}" ]]; then
-          echo "issue_url=${existing_issue_url}" >> "$GITHUB_OUTPUT"
-          echo "issue_mode=existing" >> "$GITHUB_OUTPUT"
-          echo "Open remediation issue already exists: ${existing_issue_url}"
-          exit 0
+          reuse_issue "${existing_issue_url}"
         fi
 
         conventional_pr_title_sentence="Use a Conventional Commits pull request title following https://www.conventionalcommits.org/en/v1.0.0/ in the form \`<type>(optional scope): <description>\` or \`<type>: <description>\`, choosing the type and scope that match the actual change."
@@ -119,6 +140,8 @@ runs:
         fi
 
         copilot_body_lines=(
+          "<!-- ${remediation_marker} -->"
+          ""
           "The scheduled package checks triggered from \`${SOURCE_REPOSITORY}\` failed for \`${TARGET_OWNER}/${TARGET_REPO}\` on \`${TARGET_REF}\`."
           ""
           "- Remote workflow: \`${TARGET_WORKFLOW}\`"
@@ -130,6 +153,8 @@ runs:
         )
 
         fallback_body_lines=(
+          "<!-- ${remediation_marker} -->"
+          ""
           "The scheduled package checks triggered from \`${SOURCE_REPOSITORY}\` failed for \`${TARGET_OWNER}/${TARGET_REPO}\` on \`${TARGET_REF}\`."
           ""
           "- Remote workflow: \`${TARGET_WORKFLOW}\`"
@@ -186,6 +211,11 @@ runs:
           if [[ ${status} -eq 0 ]]; then
             issue_mode="copilot_assigned"
           else
+            existing_issue_url="$(find_existing_issue || true)"
+            if [[ -n "${existing_issue_url}" ]]; then
+              reuse_issue "${existing_issue_url}"
+            fi
+
             echo "::warning::Failed to create a Copilot-assigned remediation issue. Falling back to a normal issue created by the GitHub App token."
             echo "${issue_response}"
           fi
@@ -194,12 +224,22 @@ runs:
         fi
 
         if [[ -z "${issue_mode}" ]]; then
+          existing_issue_url="$(find_existing_issue || true)"
+          if [[ -n "${existing_issue_url}" ]]; then
+            reuse_issue "${existing_issue_url}"
+          fi
+
           set +e
           issue_response="$(create_issue "${APP_GH_TOKEN}" "${fallback_payload}")"
           status=$?
           set -e
 
           if [[ ${status} -ne 0 ]]; then
+            existing_issue_url="$(find_existing_issue || true)"
+            if [[ -n "${existing_issue_url}" ]]; then
+              reuse_issue "${existing_issue_url}"
+            fi
+
             echo "::error::Failed to create remediation issue."
             echo "${issue_response}"
             exit ${status}

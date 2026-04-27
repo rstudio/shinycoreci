@@ -62,6 +62,9 @@ jobs:
     name: ${{ matrix.owner }}/${{ matrix.repo }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    concurrency:
+      group: external-package-check-${{ matrix.owner }}-${{ matrix.repo }}-${{ matrix.workflow }}-${{ matrix.ref }}
+      cancel-in-progress: false
 
     strategy:
       fail-fast: false
