@@ -53,6 +53,9 @@ outputs:
   issue_mode:
     description: Whether the issue was reused, created as a Copilot-assigned issue, or created as a normal issue.
     value: ${{ steps.create.outputs.issue_mode }}
+  issue_assigned_to_copilot:
+    description: Whether the remediation issue is assigned to the Copilot coding agent.
+    value: ${{ steps.create.outputs.issue_assigned_to_copilot }}
 
 runs:
   using: composite
@@ -89,11 +92,31 @@ runs:
             --input - <<<"${payload}" 2>&1
         }
 
-        reuse_issue() {
-          local issue_url="$1"
+        is_copilot_assigned() {
+          local issue_json="$1"
+
+          jq -r '
+            [.assignees[]?.login | ascii_downcase]
+            | any(. == "copilot" or . == "copilot-swe-agent" or . == "copilot-swe-agent[bot]")
+          ' <<<"${issue_json}"
+        }
+
+        write_issue_outputs() {
+          local issue_json="$1"
+          local issue_mode="$2"
+
+          issue_url="$(jq -r '.html_url' <<<"${issue_json}")"
+          copilot_assigned="$(is_copilot_assigned "${issue_json}")"
 
           echo "issue_url=${issue_url}" >> "$GITHUB_OUTPUT"
-          echo "issue_mode=existing" >> "$GITHUB_OUTPUT"
+          echo "issue_mode=${issue_mode}" >> "$GITHUB_OUTPUT"
+          echo "issue_assigned_to_copilot=${copilot_assigned}" >> "$GITHUB_OUTPUT"
+        }
+
+        reuse_issue() {
+          local issue_json="$1"
+
+          write_issue_outputs "${issue_json}" "existing"
           echo "Open remediation issue already exists: ${issue_url}"
           exit 0
         }
@@ -111,7 +134,7 @@ runs:
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues?state=open&per_page=100" \
-            | jq -s -r \
+            | jq -s -c -r \
               --arg title "${title}" \
               --arg marker "${remediation_marker}" \
               '[
@@ -120,14 +143,13 @@ runs:
                 | select((.title == $title) or ((.body // "") | contains($marker)))
               ]
               | sort_by(.created_at)
-              | first
-              | .html_url // empty'
+              | first // empty'
         }
 
-        existing_issue_url="$(find_existing_issue || true)"
+        existing_issue_json="$(find_existing_issue || true)"
 
-        if [[ -n "${existing_issue_url}" ]]; then
-          reuse_issue "${existing_issue_url}"
+        if [[ -n "${existing_issue_json}" ]]; then
+          reuse_issue "${existing_issue_json}"
         fi
 
         conventional_pr_title_sentence="Use a Conventional Commits pull request title following https://www.conventionalcommits.org/en/v1.0.0/ in the form \`<type>(optional scope): <description>\` or \`<type>: <description>\`, choosing the type and scope that match the actual change."
@@ -211,9 +233,9 @@ runs:
           if [[ ${status} -eq 0 ]]; then
             issue_mode="copilot_assigned"
           else
-            existing_issue_url="$(find_existing_issue || true)"
-            if [[ -n "${existing_issue_url}" ]]; then
-              reuse_issue "${existing_issue_url}"
+            existing_issue_json="$(find_existing_issue || true)"
+            if [[ -n "${existing_issue_json}" ]]; then
+              reuse_issue "${existing_issue_json}"
             fi
 
             echo "::warning::Failed to create a Copilot-assigned remediation issue. Falling back to a normal issue created by the GitHub App token."
@@ -224,9 +246,9 @@ runs:
         fi
 
         if [[ -z "${issue_mode}" ]]; then
-          existing_issue_url="$(find_existing_issue || true)"
-          if [[ -n "${existing_issue_url}" ]]; then
-            reuse_issue "${existing_issue_url}"
+          existing_issue_json="$(find_existing_issue || true)"
+          if [[ -n "${existing_issue_json}" ]]; then
+            reuse_issue "${existing_issue_json}"
           fi
 
           set +e
@@ -235,9 +257,9 @@ runs:
           set -e
 
           if [[ ${status} -ne 0 ]]; then
-            existing_issue_url="$(find_existing_issue || true)"
-            if [[ -n "${existing_issue_url}" ]]; then
-              reuse_issue "${existing_issue_url}"
+            existing_issue_json="$(find_existing_issue || true)"
+            if [[ -n "${existing_issue_json}" ]]; then
+              reuse_issue "${existing_issue_json}"
             fi
 
             echo "::error::Failed to create remediation issue."
@@ -248,7 +270,5 @@ runs:
           issue_mode="normal"
         fi
 
-        issue_url="$(jq -r '.html_url' <<<"${issue_response}")"
-        echo "issue_url=${issue_url}" >> "$GITHUB_OUTPUT"
-        echo "issue_mode=${issue_mode}" >> "$GITHUB_OUTPUT"
+        write_issue_outputs "${issue_response}" "${issue_mode}"
         echo "Created remediation issue (${issue_mode}): ${issue_url}"

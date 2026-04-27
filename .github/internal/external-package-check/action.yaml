@@ -80,6 +80,9 @@ outputs:
   issue_url:
     description: URL of the remediation issue (if one was created or reused).
     value: ${{ steps.issue.outputs.issue_url }}
+  issue_assigned_to_copilot:
+    description: Whether the remediation issue is assigned to the Copilot coding agent.
+    value: ${{ steps.issue.outputs.issue_assigned_to_copilot }}
 
 runs:
   using: composite
@@ -216,7 +219,7 @@ runs:
 
     - name: Re-target Copilot PR to maintainer
       id: pr-fixup
-      if: steps.issue.outputs.issue_url != '' && steps.issue.outputs.issue_mode == 'copilot_assigned'
+      if: steps.issue.outputs.issue_url != '' && steps.issue.outputs.issue_assigned_to_copilot == 'true'
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github-token }}
@@ -235,17 +238,16 @@ runs:
         # assignee on the resulting PR, which is the wrong person for a
         # cross-repo scheduler. Replace them with the target repo's maintainer.
 
-        if [[ -z "${COPILOT_GH_TOKEN}" ]]; then
-          echo "No Copilot PAT configured; skipping PR reviewer fixup."
-          exit 0
+        pat_owner=""
+        if [[ -n "${COPILOT_GH_TOKEN}" ]]; then
+          pat_owner="$(GH_TOKEN="${COPILOT_GH_TOKEN}" gh api /user --jq '.login' 2>/dev/null || true)"
         fi
 
-        pat_owner="$(GH_TOKEN="${COPILOT_GH_TOKEN}" gh api /user --jq '.login' 2>/dev/null || true)"
         if [[ -z "${pat_owner}" ]]; then
-          echo "::warning::Could not resolve PAT owner login; skipping PR reviewer fixup."
-          exit 0
+          echo "::warning::Could not resolve PAT owner login; continuing without PAT owner cleanup."
+        else
+          echo "PAT owner resolved as: ${pat_owner}"
         fi
-        echo "PAT owner resolved as: ${pat_owner}"
 
         issue_number="${ISSUE_URL##*/}"
 
@@ -293,18 +295,20 @@ runs:
 
         echo "Found Copilot PR #${pr_number}; re-targeting reviewers/assignees."
 
-        # Remove PAT owner as requested reviewer (ignore if not present).
-        gh api \
-          --method DELETE \
-          -H "Accept: application/vnd.github+json" \
-          "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
-          -f "reviewers[]=${pat_owner}" >/dev/null 2>&1 || true
+        if [[ -n "${pat_owner}" ]]; then
+          # Remove PAT owner as requested reviewer (ignore if not present).
+          gh api \
+            --method DELETE \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
+            -f "reviewers[]=${pat_owner}" >/dev/null 2>&1 || true
+        fi
 
         reviewer_required=true
 
         # GitHub will not request review from the same user context that started
         # the Copilot task, so only enforce reviewer routing when they differ.
-        if [[ "${TARGET_MAINTAINER}" != "${pat_owner}" ]]; then
+        if [[ -z "${pat_owner}" || "${TARGET_MAINTAINER}" != "${pat_owner}" ]]; then
           current_reviewers="$(gh api \
             -H "Accept: application/vnd.github+json" \
             "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
@@ -326,12 +330,14 @@ runs:
           echo "Maintainer matches the Copilot token owner; skipping requested-reviewer enforcement."
         fi
 
-        # Swap assignees: remove PAT owner, add maintainer.
-        gh api \
-          --method DELETE \
-          -H "Accept: application/vnd.github+json" \
-          "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}/assignees" \
-          -f "assignees[]=${pat_owner}" >/dev/null 2>&1 || true
+        if [[ -n "${pat_owner}" ]]; then
+          # Swap assignees: remove PAT owner, add maintainer.
+          gh api \
+            --method DELETE \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}/assignees" \
+            -f "assignees[]=${pat_owner}" >/dev/null 2>&1 || true
+        fi
 
         current_assignees="$(gh api \
           -H "Accept: application/vnd.github+json" \
