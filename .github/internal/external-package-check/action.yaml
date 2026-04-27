@@ -287,8 +287,8 @@ runs:
         done
 
         if [[ -z "${pr_number}" ]]; then
-          echo "::warning::No Copilot PR linked to ${ISSUE_URL} after polling; reviewer fixup skipped."
-          exit 0
+          echo "::error::No Copilot PR linked to ${ISSUE_URL} after ${PR_FIXUP_ATTEMPTS} attempts; reviewer fixup failed."
+          exit 1
         fi
 
         echo "Found Copilot PR #${pr_number}; re-targeting reviewers/assignees."
@@ -300,14 +300,30 @@ runs:
           "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
           -f "reviewers[]=${pat_owner}" >/dev/null 2>&1 || true
 
-        # Request the maintainer as reviewer (skip if maintainer == PR author or already reviewing).
+        reviewer_required=true
+
+        # GitHub will not request review from the same user context that started
+        # the Copilot task, so only enforce reviewer routing when they differ.
         if [[ "${TARGET_MAINTAINER}" != "${pat_owner}" ]]; then
-          gh api \
-            --method POST \
+          current_reviewers="$(gh api \
             -H "Accept: application/vnd.github+json" \
             "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
-            -f "reviewers[]=${TARGET_MAINTAINER}" >/dev/null 2>&1 \
-            || echo "::warning::Could not request review from @${TARGET_MAINTAINER} on PR #${pr_number}."
+            --jq '[.users[].login]')"
+
+          if ! jq -e --arg login "${TARGET_MAINTAINER}" 'index($login)' <<<"${current_reviewers}" >/dev/null; then
+            gh api \
+              --method POST \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
+              -f "reviewers[]=${TARGET_MAINTAINER}" >/dev/null \
+              || {
+                echo "::error::Could not request review from @${TARGET_MAINTAINER} on PR #${pr_number}."
+                exit 1
+              }
+          fi
+        else
+          reviewer_required=false
+          echo "Maintainer matches the Copilot token owner; skipping requested-reviewer enforcement."
         fi
 
         # Swap assignees: remove PAT owner, add maintainer.
@@ -317,12 +333,42 @@ runs:
           "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}/assignees" \
           -f "assignees[]=${pat_owner}" >/dev/null 2>&1 || true
 
-        gh api \
-          --method POST \
+        current_assignees="$(gh api \
           -H "Accept: application/vnd.github+json" \
-          "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}/assignees" \
-          -f "assignees[]=${TARGET_MAINTAINER}" >/dev/null 2>&1 \
-          || echo "::warning::Could not assign @${TARGET_MAINTAINER} to PR #${pr_number}."
+          "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}" \
+          --jq '[.assignees[].login]')"
+
+        if ! jq -e --arg login "${TARGET_MAINTAINER}" 'index($login)' <<<"${current_assignees}" >/dev/null; then
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}/assignees" \
+            -f "assignees[]=${TARGET_MAINTAINER}" >/dev/null \
+            || {
+              echo "::error::Could not assign @${TARGET_MAINTAINER} to PR #${pr_number}."
+              exit 1
+            }
+        fi
+
+        final_reviewers="$(gh api \
+          -H "Accept: application/vnd.github+json" \
+          "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
+          --jq '[.users[].login]')"
+
+        final_assignees="$(gh api \
+          -H "Accept: application/vnd.github+json" \
+          "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}" \
+          --jq '[.assignees[].login]')"
+
+        if [[ "${reviewer_required}" == "true" ]] && ! jq -e --arg login "${TARGET_MAINTAINER}" 'index($login)' <<<"${final_reviewers}" >/dev/null; then
+          echo "::error::Maintainer @${TARGET_MAINTAINER} is not a requested reviewer on PR #${pr_number}."
+          exit 1
+        fi
+
+        if ! jq -e --arg login "${TARGET_MAINTAINER}" 'index($login)' <<<"${final_assignees}" >/dev/null; then
+          echo "::error::Maintainer @${TARGET_MAINTAINER} is not assigned to PR #${pr_number}."
+          exit 1
+        fi
 
         echo "pr_number=${pr_number}" >> "$GITHUB_OUTPUT"
         echo "Re-targeted PR #${pr_number} to @${TARGET_MAINTAINER}."
