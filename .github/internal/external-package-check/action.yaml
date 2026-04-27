@@ -132,26 +132,29 @@ runs:
           bot_login="${APP_SLUG}[bot]"
         fi
 
+        selector_args=(
+          --dispatched-at "${DISPATCHED_AT}"
+          --target-ref "${TARGET_REF}"
+        )
+
+        if [[ -n "${bot_login}" ]]; then
+          selector_args+=(--bot-login "${bot_login}")
+        fi
+
+        workflow_id="$(gh api \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          "/repos/${TARGET_OWNER}/${TARGET_REPO}/actions/workflows/${TARGET_WORKFLOW}" \
+          --jq '.id')"
+
         run_id=""
         for _ in $(seq 1 "${LOOKUP_ATTEMPTS}"); do
           response="$(gh api \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "/repos/${TARGET_OWNER}/${TARGET_REPO}/actions/workflows/${TARGET_WORKFLOW}/runs?event=workflow_dispatch&branch=${TARGET_REF}&per_page=20")"
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/actions/workflows/${workflow_id}/runs?per_page=50")"
 
-          run_id="$(jq -r \
-            --arg dispatched_at "${DISPATCHED_AT}" \
-            --arg bot_login "${bot_login}" \
-            '[
-              .workflow_runs[]
-              | select(.created_at >= $dispatched_at)
-            ]
-            | sort_by(.created_at)
-            | (
-                map(select(($bot_login != "") and ((.triggering_actor.login // .actor.login // "") == $bot_login)))
-                | first
-              ) // first
-            | .id // empty' <<<"${response}")"
+          run_id="$(bash "${GITHUB_ACTION_PATH}/select-workflow-run.sh" "${selector_args[@]}" <<<"${response}")"
 
           [[ -n "${run_id}" ]] && break
           sleep "${LOOKUP_INTERVAL}"
