@@ -16,6 +16,11 @@ name: External package checks
 
 on:
   workflow_dispatch:
+    inputs:
+      target_repo:
+        description: Optional target repository in owner/repo form. Leave empty to run all configured targets.
+        required: false
+        default: ""
   schedule:
     - cron: "0 8 * * 1" # every Monday at 08:00 UTC
 
@@ -34,9 +39,22 @@ jobs:
       - name: Load target-repo matrix
         id: load
         shell: bash
+        env:
+          TARGET_REPO: ${{ github.event.inputs.target_repo || '' }}
         run: |
           set -euo pipefail
-          matrix="$(jq -c '{include: .targets}' .github/external-package-checks.json)"
+
+          if [[ -n "${TARGET_REPO}" ]]; then
+            matrix="$(jq -c --arg target_repo "${TARGET_REPO}" '{include: [.targets[] | select((.owner + "/" + .repo) == $target_repo)]}' .github/external-package-checks.json)"
+
+            if [[ "$(jq -r '.include | length' <<<"${matrix}")" == "0" ]]; then
+              echo "::error::No configured external package check target matches ${TARGET_REPO}."
+              exit 1
+            fi
+          else
+            matrix="$(jq -c '{include: .targets}' .github/external-package-checks.json)"
+          fi
+
           echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
 
   check:
