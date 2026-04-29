@@ -1,0 +1,76 @@
+repositories:
+  - rstudio/shiny
+  - rstudio/bslib
+  - rstudio/htmltools
+  - rstudio/httpuv
+  - rstudio/shinycoreci
+
+scan:
+  schedule: every 4h on weekdays
+  max_issues_per_repo: 25
+  max_issues_total: 150
+  cursor_file: cursors.json
+  default_lookback_days: 14
+  skip_authors:
+    - dependabot[bot]
+    - github-actions[bot]
+  skip_labels:
+    - ai-triage:done
+    - ai-triage:accepted
+    - human-reviewed
+  include_updated_issues: true
+  include_created_issues: true
+
+engine:
+  provider: aws-bedrock-anthropic
+  gh_aw_engine_id: claude
+  required_env:
+    - CLAUDE_CODE_USE_BEDROCK
+    - AWS_REGION
+    - ANTHROPIC_MODEL
+  forbidden_secrets:
+    - ANTHROPIC_API_KEY
+    - CLAUDE_CODE_OAUTH_TOKEN
+  forbidden_direct_endpoints:
+    - api.anthropic.com
+    - statsig.anthropic.com
+
+state:
+  branch: triage-state
+  memory_dir: /tmp/gh-aw/repo-memory-triage
+  files:
+    cursors: cursors.json
+    issue_snapshots: issues/<owner-repo>.jsonl
+    triage_results: triage-results/<YYYY-MM-DD>.jsonl
+    duplicate_candidates: duplicates/candidates.jsonl
+
+project:
+  owner: rstudio
+  title: Shiny Team Triage
+  url_variable: TRIAGE_PROJECT_URL
+  add_priorities:
+    - priority: P0
+    - priority: P1
+  fields:
+    Priority: [P0, P1, P2, P3]
+    Issue type: [bug, regression, feature, question, wrong location, duplicate]
+    Triage status: [new, ai-reviewed, human-reviewed, needs-info, accepted, closed]
+    Confidence: [high, medium, low]
+    Well-defined: [true, false]
+    Priority rank: number
+    Evidence link: text
+    Repository: text
+
+automation:
+  default_mode: report-only
+  writes_variable: TRIAGE_APPLY_WRITES
+  ai_threat_detection: false
+  allow_direct_comments: false
+  allow_auto_close: false
+  allow_auto_transfer: false
+  require_human_review_for:
+    - priority: P0
+    - security-sensitive
+    - public comment
+    - wrong location
+    - low confidence

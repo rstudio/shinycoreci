@@ -1,0 +1,22 @@
+{
+  "rstudio/shiny": {
+    "createdAt": null,
+    "updatedAt": null
+  },
+  "rstudio/bslib": {
+    "createdAt": null,
+    "updatedAt": null
+  },
+  "rstudio/htmltools": {
+    "createdAt": null,
+    "updatedAt": null
+  },
+  "rstudio/httpuv": {
+    "createdAt": null,
+    "updatedAt": null
+  },
+  "rstudio/shinycoreci": {
+    "createdAt": null,
+    "updatedAt": null
+  }
+}
