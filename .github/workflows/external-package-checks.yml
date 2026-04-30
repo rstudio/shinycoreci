@@ -1,8 +1,9 @@
 name: External package checks
 
 # Dispatches package-check workflows on other repositories on a schedule, and
-# opens a Copilot-assigned remediation issue against that repository when the
-# remote run fails.
+# opens a remediation issue and, when AWS Bedrock is configured, uses Claude
+# Code Action with Anthropic models to generate a remediation PR against that
+# repository when the remote run fails.
 #
 # The target-repo list lives in .github/external-package-checks.json so the
 # configuration is shared with the results website (render-results.Rmd on the
@@ -13,6 +14,8 @@ name: External package checks
 #   * The listed workflow file supports `workflow_dispatch` on the listed ref.
 #   * No repo-specific PR review workflow is needed; reviewer routing is
 #     handled centrally by shinycoreci.
+#   * To run the automated solver, configure AWS_BEDROCK_ROLE_TO_ASSUME and
+#     allow that role to invoke the selected Anthropic Bedrock model.
 
 on:
   workflow_dispatch:
@@ -26,6 +29,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   plan:
@@ -82,12 +86,19 @@ jobs:
           private-key: ${{ secrets.POSIT_SHINY_AUTOMATION_PEM }}
           owner: ${{ matrix.owner }}
           repositories: ${{ matrix.repo }}
+          permission-actions: write
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
 
       - name: Run external package check
         uses: ./.github/internal/external-package-check
         with:
           github-token: ${{ steps.app-token.outputs.token }}
-          copilot-token: ${{ secrets.POSIT_SHINY_AUTOMATION_COPILOT_TOKEN }}
+          bedrock-role-to-assume: ${{ secrets.AWS_BEDROCK_ROLE_TO_ASSUME }}
+          bedrock-region: ${{ vars.AWS_BEDROCK_REGION || 'us-east-1' }}
+          bedrock-model-id: ${{ vars.AWS_BEDROCK_ANTHROPIC_MODEL_ID || 'us.anthropic.claude-sonnet-4-5-20250929-v1:0' }}
+          bedrock-fallback-model-id: ${{ vars.AWS_BEDROCK_ANTHROPIC_FALLBACK_MODEL_ID || vars.AWS_BEDROCK_ANTHROPIC_SMALL_FAST_MODEL_ID || '' }}
           app-slug: ${{ steps.app-token.outputs.app-slug }}
           target-owner: ${{ matrix.owner }}
           target-repo: ${{ matrix.repo }}

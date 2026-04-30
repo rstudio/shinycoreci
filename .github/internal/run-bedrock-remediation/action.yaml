@@ -1,0 +1,280 @@
+name: Run Bedrock remediation
+description: Use Claude Code Action with Anthropic models on AWS Bedrock to create a remediation pull request.
+
+inputs:
+  github-token:
+    description: GitHub App installation token for the target repository. Needs actions:read, contents:write, issues:write, and pull-requests:write.
+    required: true
+  aws-role-to-assume:
+    description: AWS IAM role ARN that can invoke Anthropic models through Bedrock.
+    required: true
+  aws-region:
+    description: AWS region for Bedrock runtime calls.
+    required: true
+  bedrock-model-id:
+    description: Bedrock Anthropic model ID or inference profile ID used by Claude Code.
+    required: true
+  bedrock-fallback-model-id:
+    description: Optional Bedrock Anthropic model ID to use as Claude Code's fallback model.
+    required: false
+    default: ""
+  target-owner:
+    description: Owner of the repository to fix.
+    required: true
+  target-repo:
+    description: Repository to fix.
+    required: true
+  target-workflow:
+    description: Workflow file that failed.
+    required: true
+  target-ref:
+    description: Branch or ref to fix.
+    required: true
+  target-maintainer:
+    description: Maintainer who should review the generated PR.
+    required: true
+  issue-url:
+    description: Remediation issue URL to link from the generated PR.
+    required: true
+  remote-run-id:
+    description: GitHub Actions run ID for the failed remote workflow.
+    required: false
+    default: ""
+  remote-run-url:
+    description: URL of the failed remote workflow run.
+    required: false
+    default: ""
+  remote-run-conclusion:
+    description: Final conclusion reported by the failed remote workflow run.
+    required: true
+  source-repository:
+    description: Repository running the scheduler workflow.
+    required: true
+  source-run-url:
+    description: URL of the scheduler workflow run.
+    required: true
+  max-turns:
+    description: Maximum Claude Code agent turns.
+    required: false
+    default: "20"
+
+outputs:
+  pr_url:
+    description: URL of the generated remediation PR, when one was created.
+    value: ${{ steps.solve.outputs.pr_url }}
+  pr_number:
+    description: Number of the generated remediation PR, when one was created.
+    value: ${{ steps.solve.outputs.pr_number }}
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout target repository
+      uses: actions/checkout@v6
+      with:
+        repository: ${{ inputs.target-owner }}/${{ inputs.target-repo }}
+        ref: ${{ inputs.target-ref }}
+        token: ${{ inputs.github-token }}
+
+    - name: Sanitize AWS role session name
+      id: session-name
+      shell: bash
+      env:
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+      run: |
+        set -euo pipefail
+        raw="shinycoreci-${TARGET_OWNER}-${TARGET_REPO}-${GITHUB_RUN_ID:-manual}"
+        value="$(sed 's/[^a-zA-Z0-9_+=,.@-]/_/g' <<<"${raw}" | cut -c1-64)"
+        echo "value=${value}" >> "$GITHUB_OUTPUT"
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v6
+      with:
+        role-to-assume: ${{ inputs.aws-role-to-assume }}
+        role-session-name: ${{ steps.session-name.outputs.value }}
+        aws-region: ${{ inputs.aws-region }}
+
+    - name: Download remote workflow log
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        REMOTE_RUN_ID: ${{ inputs.remote-run-id }}
+        REMOTE_RUN_URL: ${{ inputs.remote-run-url }}
+      run: |
+        set -euo pipefail
+
+        mkdir -p .shinycoreci-remediation
+        echo ".shinycoreci-remediation/" >> .git/info/exclude
+
+        log_file=".shinycoreci-remediation/remote-run.log"
+        if [[ -n "${REMOTE_RUN_ID}" ]]; then
+          if ! GH_TOKEN="${TARGET_GH_TOKEN}" gh run view "${REMOTE_RUN_ID}" --repo "${TARGET_OWNER}/${TARGET_REPO}" --log > "${log_file}"; then
+            {
+              echo "Could not download logs for remote run ${REMOTE_RUN_ID}."
+              echo "Remote run URL: ${REMOTE_RUN_URL:-not available}"
+            } > "${log_file}"
+          fi
+        else
+          {
+            echo "No remote run ID was available."
+            echo "Remote run URL: ${REMOTE_RUN_URL:-not available}"
+          } > "${log_file}"
+        fi
+
+    - name: Run Claude Code Action
+      id: claude
+      uses: anthropics/claude-code-action@v1.0.92
+      with:
+        use_bedrock: "true"
+        github_token: ${{ inputs.github-token }}
+        base_branch: ${{ inputs.target-ref }}
+        branch_prefix: shinycoreci-bedrock-
+        additional_permissions: "actions: read"
+        allowed_bots: "github-actions[bot],posit-shiny-automation[bot]"
+        prompt: |
+          You are fixing a failed cross-repository package check for ${{ inputs.target-owner }}/${{ inputs.target-repo }}.
+
+          Context:
+          - Target branch/ref: ${{ inputs.target-ref }}
+          - Failed workflow: ${{ inputs.target-workflow }}
+          - Remote conclusion: ${{ inputs.remote-run-conclusion }}
+          - Remote run: ${{ inputs.remote-run-url || 'not available' }}
+          - Scheduler repository: ${{ inputs.source-repository }}
+          - Scheduler run: ${{ inputs.source-run-url }}
+          - Remediation issue: ${{ inputs.issue-url }}
+
+          The remote workflow log is available at .shinycoreci-remediation/remote-run.log. Investigate the failure, modify only files needed to fix it, and run focused verification when possible. Prefer the existing project conventions.
+
+          Do not add a repository-specific reviewer workflow; ${{ inputs.source-repository }} handles reviewer and assignee handoff centrally. If scheduler compatibility requires a workflow change in this repository, limit it to ${{ inputs.target-workflow }}.
+
+          Leave the final git commit, branch push, pull request creation, reviewer assignment, and issue comment to this workflow. Do not commit, push, create pull requests, or modify .shinycoreci-remediation.
+        claude_args: |
+          --model ${{ inputs.bedrock-model-id }}
+          ${{ inputs.bedrock-fallback-model-id != '' && format('--fallback-model {0}', inputs.bedrock-fallback-model-id) || '' }}
+          --max-turns ${{ inputs.max-turns }}
+          --allowedTools Bash,Read,Write,Edit,WebFetch,WebSearch
+
+    - name: Finalize remediation pull request
+      id: solve
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        TARGET_REF: ${{ inputs.target-ref }}
+        TARGET_MAINTAINER: ${{ inputs.target-maintainer }}
+        ISSUE_URL: ${{ inputs.issue-url }}
+        REMOTE_RUN_URL: ${{ inputs.remote-run-url }}
+        REMOTE_RUN_CONCLUSION: ${{ inputs.remote-run-conclusion }}
+        SOURCE_REPOSITORY: ${{ inputs.source-repository }}
+        SOURCE_RUN_URL: ${{ inputs.source-run-url }}
+        CLAUDE_BRANCH_NAME: ${{ steps.claude.outputs.branch_name }}
+      run: |
+        set -euo pipefail
+
+        git remote set-url origin "https://x-access-token:${TARGET_GH_TOKEN}@github.com/${TARGET_OWNER}/${TARGET_REPO}.git"
+        git config user.name "shinycoreci-bedrock[bot]"
+        git config user.email "shinycoreci-bedrock[bot]@users.noreply.github.com"
+        git fetch origin "${TARGET_REF}:refs/remotes/origin/${TARGET_REF}" --depth=1
+
+        rm -rf .shinycoreci-remediation
+
+        status="$(git status --porcelain --untracked-files=all)"
+        current_branch="$(git branch --show-current || true)"
+        branch="${CLAUDE_BRANCH_NAME:-${current_branch}}"
+
+        if [[ -z "${branch}" || "${branch}" == "HEAD" || "${branch}" == "${TARGET_REF}" ]]; then
+          safe_workflow="$(tr -c '[:alnum:]_.-' '-' <<<"${TARGET_WORKFLOW}" | sed -E 's/-+/-/g; s/^-//; s/-$//')"
+          branch="shinycoreci/bedrock-remediation-${GITHUB_RUN_ID:-manual}-${GITHUB_RUN_ATTEMPT:-1}-${safe_workflow}"
+          git switch -c "${branch}"
+        elif [[ "${current_branch}" != "${branch}" ]]; then
+          if git show-ref --verify --quiet "refs/heads/${branch}"; then
+            git switch "${branch}"
+          else
+            git switch -c "${branch}"
+          fi
+        fi
+
+        if [[ -n "${status}" ]]; then
+          git add -A
+          diff_stat="$(git diff --cached --stat)"
+          pr_title="fix: remediate ${TARGET_REPO} package checks"
+          git commit -m "${pr_title}" -m "Automated by shinycoreci using Claude Code Action with Anthropic models on AWS Bedrock."
+        else
+          diff_stat="$(git diff --stat "origin/${TARGET_REF}...HEAD" || true)"
+        fi
+
+        ahead_count="$(git rev-list --count "origin/${TARGET_REF}..HEAD" 2>/dev/null || echo 0)"
+        if [[ "${ahead_count}" == "0" ]]; then
+          issue_number="${ISSUE_URL##*/}"
+          GH_TOKEN="${TARGET_GH_TOKEN}" gh issue comment "${issue_number}" \
+            --repo "${TARGET_OWNER}/${TARGET_REPO}" \
+            --body "AWS Bedrock remediation ran through Claude Code Action, but no file changes were available to propose." || true
+          echo "pr_url=" >> "$GITHUB_OUTPUT"
+          echo "pr_number=" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        git push --set-upstream origin "${branch}"
+
+        issue_number="${ISSUE_URL##*/}"
+        pr_url="$(GH_TOKEN="${TARGET_GH_TOKEN}" gh pr list \
+          --repo "${TARGET_OWNER}/${TARGET_REPO}" \
+          --head "${branch}" \
+          --state open \
+          --json url \
+          --jq '.[0].url // empty')"
+
+        if [[ -z "${pr_url}" ]]; then
+          pr_title="fix: remediate ${TARGET_REPO} package checks"
+          body_file="$(mktemp)"
+          {
+            echo "Automated remediation for the failed package checks dispatched by \`${SOURCE_REPOSITORY}\`."
+            echo ""
+            echo "- Remote workflow: \`${TARGET_WORKFLOW}\`"
+            echo "- Remote conclusion: \`${REMOTE_RUN_CONCLUSION}\`"
+            echo "- Remote run: ${REMOTE_RUN_URL:-not available}"
+            echo "- Scheduler run: ${SOURCE_RUN_URL}"
+            echo "- Solver: Claude Code Action using Anthropic models on AWS Bedrock"
+            echo ""
+            echo "Diff summary:"
+            echo "\`\`\`"
+            echo "${diff_stat}"
+            echo "\`\`\`"
+            echo ""
+            echo "Closes #${issue_number}"
+          } > "${body_file}"
+
+          pr_url="$(GH_TOKEN="${TARGET_GH_TOKEN}" gh pr create \
+            --repo "${TARGET_OWNER}/${TARGET_REPO}" \
+            --base "${TARGET_REF}" \
+            --head "${branch}" \
+            --title "${pr_title}" \
+            --body-file "${body_file}" \
+            --reviewer "${TARGET_MAINTAINER}" \
+            --assignee "${TARGET_MAINTAINER}")"
+        else
+          pr_number="${pr_url##*/}"
+          GH_TOKEN="${TARGET_GH_TOKEN}" gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
+            -f "reviewers[]=${TARGET_MAINTAINER}" >/dev/null 2>&1 || true
+          GH_TOKEN="${TARGET_GH_TOKEN}" gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}/assignees" \
+            -f "assignees[]=${TARGET_MAINTAINER}" >/dev/null 2>&1 || true
+        fi
+
+        GH_TOKEN="${TARGET_GH_TOKEN}" gh issue comment "${issue_number}" \
+          --repo "${TARGET_OWNER}/${TARGET_REPO}" \
+          --body "Opened AWS Bedrock remediation PR: ${pr_url}" || true
+
+        echo "pr_url=${pr_url}" >> "$GITHUB_OUTPUT"
+        echo "pr_number=${pr_url##*/}" >> "$GITHUB_OUTPUT"
+        echo "Opened remediation PR: ${pr_url}"

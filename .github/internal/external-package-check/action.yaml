@@ -1,19 +1,32 @@
 name: External package check (per repo)
 description: >
   Dispatch a remote package-checks workflow, wait for its result, and on failure
-  open a Copilot remediation issue and re-target the resulting Copilot PR at the
-  correct maintainer.
+  open a remediation issue and optionally use Claude Code Action with
+  Anthropic models on AWS Bedrock to create a remediation PR for the correct
+  maintainer.
 
 inputs:
   github-token:
     description: >
       GitHub App installation token scoped to the target repository. Needs
-      actions:write, contents:read, issues:write, pull-requests:write.
+      actions:write, contents:write, issues:write, pull-requests:write.
     required: true
-  copilot-token:
+  bedrock-role-to-assume:
     description: >
-      Optional user-scoped PAT used only to assign the Copilot coding agent to
-      the remediation issue. If omitted, a normal issue is opened as fallback.
+      Optional AWS IAM role ARN that can invoke Anthropic models through
+      Bedrock. If omitted, only a remediation issue is opened.
+    required: false
+    default: ""
+  bedrock-region:
+    description: AWS region for Bedrock runtime calls.
+    required: false
+    default: us-east-1
+  bedrock-model-id:
+    description: Bedrock Anthropic model ID or inference profile ID used by Claude Code.
+    required: false
+    default: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+  bedrock-fallback-model-id:
+    description: Optional Bedrock Anthropic model ID to use as Claude Code's fallback model.
     required: false
     default: ""
   target-owner:
@@ -29,7 +42,7 @@ inputs:
     description: Branch or ref to dispatch the target workflow on.
     required: true
   target-maintainer:
-    description: GitHub login of the maintainer who should review any Copilot fix.
+    description: GitHub login of the maintainer who should review any automated fix.
     required: true
   app-slug:
     description: >
@@ -61,14 +74,10 @@ inputs:
     description: Seconds between watch attempts.
     required: false
     default: "60"
-  pr-fixup-attempts:
-    description: How many times to poll for the Copilot PR to appear before giving up on reviewer fixup.
+  bedrock-max-turns:
+    description: Maximum Claude Code agent turns for Bedrock remediation.
     required: false
     default: "20"
-  pr-fixup-interval-seconds:
-    description: Seconds between Copilot PR lookup attempts.
-    required: false
-    default: "30"
 
 outputs:
   run_conclusion:
@@ -77,12 +86,15 @@ outputs:
   run_url:
     description: URL of the dispatched remote workflow run.
     value: ${{ steps.watch.outputs.run_url }}
+  run_id:
+    description: ID of the dispatched remote workflow run.
+    value: ${{ steps.watch.outputs.run_id }}
   issue_url:
     description: URL of the remediation issue (if one was created or reused).
     value: ${{ steps.issue.outputs.issue_url }}
-  issue_assigned_to_copilot:
-    description: Whether the remediation issue is assigned to the Copilot coding agent.
-    value: ${{ steps.issue.outputs.issue_assigned_to_copilot }}
+  remediation_pr_url:
+    description: URL of the Bedrock-generated remediation PR, if one was created.
+    value: ${{ steps.bedrock.outputs.pr_url }}
 
 runs:
   using: composite
@@ -203,10 +215,9 @@ runs:
     - name: Open remediation issue
       id: issue
       if: steps.watch.outputs.should_open_issue == 'true'
-      uses: ./.github/internal/create-copilot-remediation-issue
+      uses: ./.github/internal/create-remediation-issue
       with:
         github-token: ${{ inputs.github-token }}
-        copilot-token: ${{ inputs.copilot-token }}
         source-repository: ${{ inputs.source-repository }}
         source-run-url: ${{ inputs.source-run-url }}
         target-owner: ${{ inputs.target-owner }}
@@ -217,170 +228,38 @@ runs:
         remote-run-conclusion: ${{ steps.watch.outputs.run_conclusion }}
         remote-run-url: ${{ steps.watch.outputs.run_url }}
 
-    - name: Re-target Copilot PR to maintainer
-      id: pr-fixup
-      if: steps.issue.outputs.issue_url != '' && steps.issue.outputs.issue_assigned_to_copilot == 'true'
+    - name: Run Bedrock remediation
+      id: bedrock
+      if: steps.issue.outputs.issue_url != '' && inputs.bedrock-role-to-assume != ''
+      uses: ./.github/internal/run-bedrock-remediation
+      with:
+        github-token: ${{ inputs.github-token }}
+        aws-role-to-assume: ${{ inputs.bedrock-role-to-assume }}
+        aws-region: ${{ inputs.bedrock-region }}
+        bedrock-model-id: ${{ inputs.bedrock-model-id }}
+        bedrock-fallback-model-id: ${{ inputs.bedrock-fallback-model-id }}
+        target-owner: ${{ inputs.target-owner }}
+        target-repo: ${{ inputs.target-repo }}
+        target-workflow: ${{ inputs.target-workflow }}
+        target-ref: ${{ inputs.target-ref }}
+        target-maintainer: ${{ inputs.target-maintainer }}
+        issue-url: ${{ steps.issue.outputs.issue_url }}
+        remote-run-id: ${{ steps.watch.outputs.run_id }}
+        remote-run-url: ${{ steps.watch.outputs.run_url }}
+        remote-run-conclusion: ${{ steps.watch.outputs.run_conclusion }}
+        source-repository: ${{ inputs.source-repository }}
+        source-run-url: ${{ inputs.source-run-url }}
+        max-turns: ${{ inputs.bedrock-max-turns }}
+
+    - name: Note missing Bedrock credentials
+      if: steps.issue.outputs.issue_url != '' && inputs.bedrock-role-to-assume == ''
       shell: bash
-      env:
-        GH_TOKEN: ${{ inputs.github-token }}
-        COPILOT_GH_TOKEN: ${{ inputs.copilot-token }}
-        TARGET_OWNER: ${{ inputs.target-owner }}
-        TARGET_REPO: ${{ inputs.target-repo }}
-        TARGET_MAINTAINER: ${{ inputs.target-maintainer }}
-        ISSUE_URL: ${{ steps.issue.outputs.issue_url }}
-        PR_FIXUP_ATTEMPTS: ${{ inputs.pr-fixup-attempts }}
-        PR_FIXUP_INTERVAL: ${{ inputs.pr-fixup-interval-seconds }}
       run: |
         set -euo pipefail
-
-        # The Copilot PR is authored by whoever holds the user-scoped PAT that
-        # assigned the coding agent. GitHub auto-adds that user as reviewer and
-        # assignee on the resulting PR, which is the wrong person for a
-        # cross-repo scheduler. Replace them with the target repo's maintainer.
-
-        pat_owner=""
-        if [[ -n "${COPILOT_GH_TOKEN}" ]]; then
-          pat_owner="$(GH_TOKEN="${COPILOT_GH_TOKEN}" gh api /user --jq '.login' 2>/dev/null || true)"
-        fi
-
-        if [[ -z "${pat_owner}" ]]; then
-          echo "::warning::Could not resolve PAT owner login; continuing without PAT owner cleanup."
-        else
-          echo "PAT owner resolved as: ${pat_owner}"
-        fi
-
-        issue_number="${ISSUE_URL##*/}"
-
-        # Poll for a PR that declares it closes this issue. Copilot links the
-        # PR to the issue via the "Development" section, which populates
-        # closingIssuesReferences in GraphQL.
-        pr_number=""
-        for attempt in $(seq 1 "${PR_FIXUP_ATTEMPTS}"); do
-          pr_number="$(gh api graphql \
-            -f query='
-              query($owner:String!,$repo:String!,$issue:Int!) {
-                repository(owner:$owner,name:$repo) {
-                  issue(number:$issue) {
-                    timelineItems(first:50, itemTypes:[CONNECTED_EVENT, CROSS_REFERENCED_EVENT]) {
-                      nodes {
-                        __typename
-                        ... on ConnectedEvent { subject { ... on PullRequest { number state isDraft } } }
-                        ... on CrossReferencedEvent { source { ... on PullRequest { number state isDraft } } }
-                      }
-                    }
-                  }
-                }
-              }' \
-            -f owner="${TARGET_OWNER}" \
-            -f repo="${TARGET_REPO}" \
-            -F issue="${issue_number}" \
-            --jq '[
-              .data.repository.issue.timelineItems.nodes[]
-              | (.subject // .source)
-              | select(type == "object" and .number != null and .state == "OPEN")
-              | .number
-            ] | first // empty')"
-
-          if [[ -n "${pr_number}" ]]; then
-            break
-          fi
-          echo "Attempt ${attempt}: no linked Copilot PR yet; waiting."
-          sleep "${PR_FIXUP_INTERVAL}"
-        done
-
-        if [[ -z "${pr_number}" ]]; then
-          echo "::error::No Copilot PR linked to ${ISSUE_URL} after ${PR_FIXUP_ATTEMPTS} attempts; reviewer fixup failed."
-          exit 1
-        fi
-
-        echo "Found Copilot PR #${pr_number}; re-targeting reviewers/assignees."
-
-        if [[ -n "${pat_owner}" ]]; then
-          # Remove PAT owner as requested reviewer (ignore if not present).
-          gh api \
-            --method DELETE \
-            -H "Accept: application/vnd.github+json" \
-            "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
-            -f "reviewers[]=${pat_owner}" >/dev/null 2>&1 || true
-        fi
-
-        reviewer_required=true
-
-        # GitHub will not request review from the same user context that started
-        # the Copilot task, so only enforce reviewer routing when they differ.
-        if [[ -z "${pat_owner}" || "${TARGET_MAINTAINER}" != "${pat_owner}" ]]; then
-          current_reviewers="$(gh api \
-            -H "Accept: application/vnd.github+json" \
-            "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
-            --jq '[.users[].login]')"
-
-          if ! jq -e --arg login "${TARGET_MAINTAINER}" 'index($login)' <<<"${current_reviewers}" >/dev/null; then
-            gh api \
-              --method POST \
-              -H "Accept: application/vnd.github+json" \
-              "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
-              -f "reviewers[]=${TARGET_MAINTAINER}" >/dev/null \
-              || {
-                echo "::error::Could not request review from @${TARGET_MAINTAINER} on PR #${pr_number}."
-                exit 1
-              }
-          fi
-        else
-          reviewer_required=false
-          echo "Maintainer matches the Copilot token owner; skipping requested-reviewer enforcement."
-        fi
-
-        if [[ -n "${pat_owner}" ]]; then
-          # Swap assignees: remove PAT owner, add maintainer.
-          gh api \
-            --method DELETE \
-            -H "Accept: application/vnd.github+json" \
-            "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}/assignees" \
-            -f "assignees[]=${pat_owner}" >/dev/null 2>&1 || true
-        fi
-
-        current_assignees="$(gh api \
-          -H "Accept: application/vnd.github+json" \
-          "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}" \
-          --jq '[.assignees[].login]')"
-
-        if ! jq -e --arg login "${TARGET_MAINTAINER}" 'index($login)' <<<"${current_assignees}" >/dev/null; then
-          gh api \
-            --method POST \
-            -H "Accept: application/vnd.github+json" \
-            "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}/assignees" \
-            -f "assignees[]=${TARGET_MAINTAINER}" >/dev/null \
-            || {
-              echo "::error::Could not assign @${TARGET_MAINTAINER} to PR #${pr_number}."
-              exit 1
-            }
-        fi
-
-        final_reviewers="$(gh api \
-          -H "Accept: application/vnd.github+json" \
-          "/repos/${TARGET_OWNER}/${TARGET_REPO}/pulls/${pr_number}/requested_reviewers" \
-          --jq '[.users[].login]')"
-
-        final_assignees="$(gh api \
-          -H "Accept: application/vnd.github+json" \
-          "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues/${pr_number}" \
-          --jq '[.assignees[].login]')"
-
-        if [[ "${reviewer_required}" == "true" ]] && ! jq -e --arg login "${TARGET_MAINTAINER}" 'index($login)' <<<"${final_reviewers}" >/dev/null; then
-          echo "::error::Maintainer @${TARGET_MAINTAINER} is not a requested reviewer on PR #${pr_number}."
-          exit 1
-        fi
-
-        if ! jq -e --arg login "${TARGET_MAINTAINER}" 'index($login)' <<<"${final_assignees}" >/dev/null; then
-          echo "::error::Maintainer @${TARGET_MAINTAINER} is not assigned to PR #${pr_number}."
-          exit 1
-        fi
-
-        echo "pr_number=${pr_number}" >> "$GITHUB_OUTPUT"
-        echo "Re-targeted PR #${pr_number} to @${TARGET_MAINTAINER}."
+        echo "::notice::No Bedrock role configured. Opened a remediation issue, but did not run the automated solver."
 
     - name: Fail job if remote checks did not succeed
-      if: steps.watch.outputs.run_conclusion != 'success'
+      if: ${{ always() && steps.watch.outputs.run_conclusion != '' && steps.watch.outputs.run_conclusion != 'success' }}
       shell: bash
       env:
         TARGET_OWNER: ${{ inputs.target-owner }}
@@ -389,12 +268,14 @@ runs:
         REMOTE_RUN_URL: ${{ steps.watch.outputs.run_url }}
         ISSUE_URL: ${{ steps.issue.outputs.issue_url }}
         ISSUE_MODE: ${{ steps.issue.outputs.issue_mode }}
+        REMEDIATION_PR_URL: ${{ steps.bedrock.outputs.pr_url }}
       run: |
         set -euo pipefail
 
         echo "::error::Remote package checks for ${TARGET_OWNER}/${TARGET_REPO} did not succeed (${REMOTE_RUN_CONCLUSION:-unknown})."
         [[ -n "${REMOTE_RUN_URL}" ]] && echo "::error::Remote run: ${REMOTE_RUN_URL}"
         [[ -n "${ISSUE_URL}" ]] && echo "::error::Remediation issue (${ISSUE_MODE:-unknown}): ${ISSUE_URL}"
+        [[ -n "${REMEDIATION_PR_URL}" ]] && echo "::error::Remediation PR: ${REMEDIATION_PR_URL}"
 
         {
           echo "## ${TARGET_OWNER}/${TARGET_REPO} handoff"
@@ -405,6 +286,11 @@ runs:
             echo "- Remediation issue (${ISSUE_MODE:-unknown}): ${ISSUE_URL}"
           else
             echo "- Remediation issue: not created"
+          fi
+          if [[ -n "${REMEDIATION_PR_URL}" ]]; then
+            echo "- Remediation PR: ${REMEDIATION_PR_URL}"
+          else
+            echo "- Remediation PR: not created"
           fi
         } >> "$GITHUB_STEP_SUMMARY"
 

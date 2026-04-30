@@ -1,0 +1,191 @@
+name: Create remediation issue
+description: Create or reuse a remediation issue for a failing remote workflow run.
+
+inputs:
+  github-token:
+    description: GitHub App token with permission to read and create issues in the target repository.
+    required: true
+  source-repository:
+    description: Repository running the scheduler workflow.
+    required: true
+  source-run-url:
+    description: URL of the scheduler workflow run.
+    required: true
+  target-owner:
+    description: Owner of the repository whose workflow was dispatched.
+    required: true
+  target-repo:
+    description: Repository whose workflow was dispatched.
+    required: true
+  target-ref:
+    description: Branch or ref used for the remote workflow dispatch.
+    required: true
+  target-workflow:
+    description: Workflow file dispatched in the remote repository.
+    required: true
+  target-maintainer:
+    description: Maintainer who should review any automated fix.
+    required: true
+  remote-run-conclusion:
+    description: Final conclusion reported by the remote workflow run.
+    required: true
+  remote-run-url:
+    description: URL of the remote workflow run.
+    required: false
+    default: ""
+  issue-title:
+    description: Optional override for the remediation issue title.
+    required: false
+    default: ""
+  custom-instructions:
+    description: Optional additional remediation instructions to include in the issue.
+    required: false
+    default: ""
+
+outputs:
+  issue_url:
+    description: URL of the existing or newly created issue.
+    value: ${{ steps.create.outputs.issue_url }}
+  issue_number:
+    description: Number of the existing or newly created issue.
+    value: ${{ steps.create.outputs.issue_number }}
+  issue_mode:
+    description: Whether the issue was reused or created.
+    value: ${{ steps.create.outputs.issue_mode }}
+
+runs:
+  using: composite
+  steps:
+    - name: Create or reuse issue
+      id: create
+      shell: bash
+      env:
+        APP_GH_TOKEN: ${{ inputs.github-token }}
+        SOURCE_REPOSITORY: ${{ inputs.source-repository }}
+        SOURCE_RUN_URL: ${{ inputs.source-run-url }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_REF: ${{ inputs.target-ref }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        TARGET_MAINTAINER: ${{ inputs.target-maintainer }}
+        REMOTE_RUN_CONCLUSION: ${{ inputs.remote-run-conclusion }}
+        REMOTE_RUN_URL: ${{ inputs.remote-run-url }}
+        INPUT_ISSUE_TITLE: ${{ inputs.issue-title }}
+        INPUT_CUSTOM_INSTRUCTIONS: ${{ inputs.custom-instructions }}
+      run: |
+        set -euo pipefail
+
+        create_issue() {
+          local payload="$1"
+
+          GH_TOKEN="${APP_GH_TOKEN}" gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues" \
+            --input - <<<"${payload}" 2>&1
+        }
+
+        write_issue_outputs() {
+          local issue_json="$1"
+          local issue_mode="$2"
+
+          issue_url="$(jq -r '.html_url' <<<"${issue_json}")"
+          issue_number="$(jq -r '.number' <<<"${issue_json}")"
+
+          echo "issue_url=${issue_url}" >> "$GITHUB_OUTPUT"
+          echo "issue_number=${issue_number}" >> "$GITHUB_OUTPUT"
+          echo "issue_mode=${issue_mode}" >> "$GITHUB_OUTPUT"
+        }
+
+        reuse_issue() {
+          local issue_json="$1"
+
+          write_issue_outputs "${issue_json}" "existing"
+          echo "Open remediation issue already exists: ${issue_url}"
+          exit 0
+        }
+
+        if [[ -n "${INPUT_ISSUE_TITLE}" ]]; then
+          title="${INPUT_ISSUE_TITLE}"
+        else
+          title="Automated fix: ${TARGET_REPO} package checks failing on ${TARGET_REF}"
+        fi
+
+        remediation_marker="shinycoreci-remediation: ${TARGET_OWNER}/${TARGET_REPO}:${TARGET_WORKFLOW}:${TARGET_REF}"
+
+        find_existing_issue() {
+          GH_TOKEN="${APP_GH_TOKEN}" gh api --paginate \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/issues?state=open&per_page=100" \
+            | jq -s -c -r \
+              --arg title "${title}" \
+              --arg marker "${remediation_marker}" \
+              '[
+                .[][]
+                | select(.pull_request | not)
+                | select((.title == $title) or ((.body // "") | contains($marker)))
+              ]
+              | sort_by(.created_at)
+              | first // empty'
+        }
+
+        existing_issue_json="$(find_existing_issue || true)"
+
+        if [[ -n "${existing_issue_json}" ]]; then
+          reuse_issue "${existing_issue_json}"
+        fi
+
+        conventional_pr_title_sentence="Use a Conventional Commits pull request title following https://www.conventionalcommits.org/en/v1.0.0/ in the form \`<type>(optional scope): <description>\` or \`<type>: <description>\`, choosing the type and scope that match the actual change."
+        review_handoff_sentence="Reviewer and assignee handoff is handled centrally by \`${SOURCE_REPOSITORY}\`; do not add a separate workflow just to request maintainer review. If scheduler compatibility requires a workflow change in this repository, limit it to \`${TARGET_WORKFLOW}\`."
+
+        body_lines=(
+          "<!-- ${remediation_marker} -->"
+          ""
+          "The scheduled package checks triggered from \`${SOURCE_REPOSITORY}\` failed for \`${TARGET_OWNER}/${TARGET_REPO}\` on \`${TARGET_REF}\`."
+          ""
+          "- Remote workflow: \`${TARGET_WORKFLOW}\`"
+          "- Remote conclusion: \`${REMOTE_RUN_CONCLUSION}\`"
+          "- Remote run: ${REMOTE_RUN_URL:-not available}"
+          "- Source scheduler run: ${SOURCE_RUN_URL}"
+          "- Suggested maintainer: @${TARGET_MAINTAINER}"
+          ""
+          "An AWS Bedrock-backed Anthropic solver will attempt to investigate this failure and open a pull request against \`${TARGET_REF}\` when Bedrock credentials are configured for the scheduler."
+          "${conventional_pr_title_sentence}"
+          "${review_handoff_sentence}"
+        )
+
+        if [[ -n "${INPUT_CUSTOM_INSTRUCTIONS}" ]]; then
+          body_lines+=("" "Additional instructions: ${INPUT_CUSTOM_INSTRUCTIONS}")
+        fi
+
+        printf -v issue_body '%s\n' "${body_lines[@]}"
+        issue_body="${issue_body%$'\n'}"
+
+        payload="$(jq -n \
+          --arg title "${title}" \
+          --arg body "${issue_body}" \
+          '{
+            title: $title,
+            body: $body
+          }')"
+
+        set +e
+        issue_response="$(create_issue "${payload}")"
+        status=$?
+        set -e
+
+        if [[ ${status} -ne 0 ]]; then
+          existing_issue_json="$(find_existing_issue || true)"
+          if [[ -n "${existing_issue_json}" ]]; then
+            reuse_issue "${existing_issue_json}"
+          fi
+
+          echo "::error::Failed to create remediation issue."
+          echo "${issue_response}"
+          exit ${status}
+        fi
+
+        write_issue_outputs "${issue_response}" "created"
+        echo "Created remediation issue (created): ${issue_url}"
