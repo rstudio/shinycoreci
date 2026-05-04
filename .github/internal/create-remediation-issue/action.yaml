@@ -190,9 +190,11 @@ runs:
         payload="$(jq -n \
           --arg title "${title}" \
           --arg body "${issue_body}" \
+          --arg maintainer "${TARGET_MAINTAINER}" \
           '{
             title: $title,
-            body: $body
+            body: $body,
+            assignees: [$maintainer]
           }')"
 
         set +e
