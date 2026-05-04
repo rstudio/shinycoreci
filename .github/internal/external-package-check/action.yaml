@@ -230,7 +230,10 @@ runs:
 
     - name: Run Bedrock remediation
       id: bedrock
-      if: steps.issue.outputs.issue_url != '' && inputs.bedrock-role-to-assume != ''
+      if: >-
+        steps.issue.outputs.issue_url != ''
+        && inputs.bedrock-role-to-assume != ''
+        && steps.issue.outputs.existing_pr_url == ''
       uses: ./.github/internal/run-bedrock-remediation
       with:
         github-token: ${{ inputs.github-token }}
@@ -258,6 +261,15 @@ runs:
         set -euo pipefail
         echo "::notice::No Bedrock role configured. Opened a remediation issue, but did not run the automated solver."
 
+    - name: Note existing remediation PR
+      if: steps.issue.outputs.existing_pr_url != ''
+      shell: bash
+      env:
+        EXISTING_PR_URL: ${{ steps.issue.outputs.existing_pr_url }}
+      run: |
+        set -euo pipefail
+        echo "::notice::Skipping Bedrock remediation; open remediation PR already exists: ${EXISTING_PR_URL}"
+
     - name: Fail job if remote checks did not succeed
       if: ${{ always() && steps.watch.outputs.run_conclusion != '' && steps.watch.outputs.run_conclusion != 'success' }}
       shell: bash
@@ -268,7 +280,7 @@ runs:
         REMOTE_RUN_URL: ${{ steps.watch.outputs.run_url }}
         ISSUE_URL: ${{ steps.issue.outputs.issue_url }}
         ISSUE_MODE: ${{ steps.issue.outputs.issue_mode }}
-        REMEDIATION_PR_URL: ${{ steps.bedrock.outputs.pr_url }}
+        REMEDIATION_PR_URL: ${{ steps.bedrock.outputs.pr_url || steps.issue.outputs.existing_pr_url }}
       run: |
         set -euo pipefail
 

@@ -52,6 +52,12 @@ outputs:
   issue_mode:
     description: Whether the issue was reused or created.
     value: ${{ steps.create.outputs.issue_mode }}
+  existing_pr_url:
+    description: >
+      URL of an already-open pull request cross-referenced from the reused
+      issue, when one exists. Empty when the issue was newly created or has no
+      open linked PR.
+    value: ${{ steps.create.outputs.existing_pr_url }}
 
 runs:
   using: composite
@@ -89,6 +95,7 @@ runs:
         write_issue_outputs() {
           local issue_json="$1"
           local issue_mode="$2"
+          local existing_pr_url="${3:-}"
 
           issue_url="$(jq -r '.html_url' <<<"${issue_json}")"
           issue_number="$(jq -r '.number' <<<"${issue_json}")"
@@ -96,13 +103,30 @@ runs:
           echo "issue_url=${issue_url}" >> "$GITHUB_OUTPUT"
           echo "issue_number=${issue_number}" >> "$GITHUB_OUTPUT"
           echo "issue_mode=${issue_mode}" >> "$GITHUB_OUTPUT"
+          echo "existing_pr_url=${existing_pr_url}" >> "$GITHUB_OUTPUT"
+        }
+
+        find_open_linked_pr() {
+          local issue_number="$1"
+
+          GH_TOKEN="${APP_GH_TOKEN}" gh api graphql \
+            -f query='query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){issue(number:$number){timelineItems(first:100,itemTypes:[CROSS_REFERENCED_EVENT]){nodes{__typename ... on CrossReferencedEvent{source{__typename ... on PullRequest{url state isDraft}}}}}}}}' \
+            -F owner="${TARGET_OWNER}" -F repo="${TARGET_REPO}" -F number="${issue_number}" \
+            --jq '[.data.repository.issue.timelineItems.nodes[].source | select(.__typename=="PullRequest" and .state=="OPEN") | .url] | first // empty' 2>/dev/null || true
         }
 
         reuse_issue() {
           local issue_json="$1"
+          local existing_issue_number
+          existing_issue_number="$(jq -r '.number' <<<"${issue_json}")"
+          local existing_pr_url
+          existing_pr_url="$(find_open_linked_pr "${existing_issue_number}")"
 
-          write_issue_outputs "${issue_json}" "existing"
+          write_issue_outputs "${issue_json}" "existing" "${existing_pr_url}"
           echo "Open remediation issue already exists: ${issue_url}"
+          if [[ -n "${existing_pr_url}" ]]; then
+            echo "Open remediation PR already linked: ${existing_pr_url}"
+          fi
           exit 0
         }
 
