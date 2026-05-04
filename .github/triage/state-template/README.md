@@ -1,6 +1,6 @@
 # Triage State Template
 
-The running workflow stores durable state in repo memory on the `triage-state` branch, mounted at `/tmp/gh-aw/repo-memory-triage/`.
+The running workflow stores durable state on the `triage-state` branch, checked out during the workflow at `.triage-state/`.
 
 Expected state files:
 

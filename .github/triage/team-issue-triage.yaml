@@ -23,9 +23,8 @@ scan:
 
 engine:
   provider: aws-bedrock-anthropic
-  gh_aw_engine_id: claude
+  action: anthropics/claude-code-action
   required_env:
-    - CLAUDE_CODE_USE_BEDROCK
     - AWS_REGION
     - ANTHROPIC_MODEL
   forbidden_secrets:
@@ -34,10 +33,12 @@ engine:
   forbidden_direct_endpoints:
     - api.anthropic.com
     - statsig.anthropic.com
+    - api.githubcopilot.com
+    - githubcopilot.com
 
 state:
   branch: triage-state
-  memory_dir: /tmp/gh-aw/repo-memory-triage
+  directory: .triage-state
   files:
     cursors: cursors.json
     issue_snapshots: issues/<owner-repo>.jsonl
@@ -49,8 +50,8 @@ project:
   title: Shiny Team Triage
   url_variable: TRIAGE_PROJECT_URL
   add_priorities:
-    - priority: P0
-    - priority: P1
+    - "priority: P0"
+    - "priority: P1"
   fields:
     Priority: [P0, P1, P2, P3]
     Issue type: [bug, regression, feature, question, wrong location, duplicate]
@@ -64,12 +65,13 @@ project:
 automation:
   default_mode: report-only
   writes_variable: TRIAGE_APPLY_WRITES
+  structured_outputs: true
   ai_threat_detection: false
   allow_direct_comments: false
   allow_auto_close: false
   allow_auto_transfer: false
   require_human_review_for:
-    - priority: P0
+    - "priority: P0"
     - security-sensitive
     - public comment
     - wrong location

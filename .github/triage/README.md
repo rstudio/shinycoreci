@@ -1,15 +1,15 @@
 # Team Issue Triage Setup
 
-This directory configures the scheduled `gh-aw` workflow in `.github/workflows/team-issue-triage.md`. The committed runtime lock runs Claude Code through AWS Bedrock Anthropic only: AWS OIDC supplies credentials, `CLAUDE_CODE_USE_BEDROCK=1` selects Bedrock mode, and the lock has no direct `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN` path.
+This directory configures the scheduled workflow in `.github/workflows/team-issue-triage.yml`. The workflow runs Claude Code through `anthropics/claude-code-action` using AWS Bedrock Anthropic only. AWS OIDC supplies model credentials, `use_bedrock: "true"` selects Bedrock mode, and the workflow intentionally avoids GitHub Copilot services and direct Anthropic API/OAuth secrets.
 
 ## What Is Included
 
 - A cross-repository triage workflow that scans `rstudio/shiny`, `rstudio/bslib`, `rstudio/htmltools`, `rstudio/httpuv`, and `rstudio/shinycoreci`.
 - A small label taxonomy and priority rubric.
-- Repo-memory state stored on the `triage-state` branch.
-- Safe outputs for labels, approved comments, central report issues, and project item additions.
+- Durable state stored on the `triage-state` branch.
+- Structured Claude output that is validated before any label, comment, report, or project write happens.
 - Report-only behavior by default through the deterministic dry-run guard.
-- AI threat detection disabled so safe-output handling does not add a second model call path outside Bedrock.
+- No GitHub Copilot MCP endpoint or direct Anthropic API/OAuth path.
 
 ## Required GitHub Variables
 
@@ -18,7 +18,7 @@ Set these repository or organization variables:
 ```bash
 gh variable set AWS_REGION --body "us-east-1"
 gh variable set ANTHROPIC_MODEL --body "<bedrock-inference-profile-or-model-id>"
-gh variable set AWS_BEDROCK_ROLE_TO_ASSUME --body "arn:aws:iam::<account-id>:role/gh-aw-triage"
+gh variable set AWS_BEDROCK_ROLE_TO_ASSUME --body "arn:aws:iam::<account-id>:role/shiny-triage-bedrock"
 gh variable set TRIAGE_PROJECT_URL --body "https://github.com/orgs/rstudio/projects/<project-number>"
 gh variable set TRIAGE_APPLY_WRITES --body "false"
 ```
@@ -29,19 +29,17 @@ Keep `TRIAGE_APPLY_WRITES=false` for the dry run. Change it to `true`, or use th
 
 ## Required GitHub Secrets
 
-Set these secrets after creating the corresponding tokens:
+Set these secrets after creating a GitHub App installed on all allowlisted repositories. The workflow currently uses the same app secret names as the rest of the Shiny automation:
 
 ```bash
-gh aw secrets set GH_AW_GITHUB_MCP_SERVER_TOKEN --value "<read-token-for-gh-aw-github-tools>"
-gh aw secrets set GH_AW_TRIAGE_WRITE_TOKEN --value "<issues-labels-comments-write-token>"
-gh aw secrets set GH_AW_WRITE_PROJECT_TOKEN --value "<projects-read-write-token>"
+gh secret set POSIT_SHINY_AUTOMATION_APP_ID --body "<app-client-id-or-app-id>"
+gh secret set POSIT_SHINY_AUTOMATION_PEM --body-file ./triage-github-app.private-key.pem
+gh secret set TRIAGE_PROJECT_TOKEN --body "<projects-read-write-token>"
 ```
 
-`GH_AW_GITHUB_MCP_SERVER_TOKEN` needs read access to contents, issues, pull requests, labels, search, and projects for the allowlisted repositories.
+The GitHub App needs read access to contents, actions, issues, and pull requests for the allowlisted repositories. It also needs issue write access because a second installation token is created for the deterministic post-processing step. The Claude step receives only the read-only token.
 
-`GH_AW_TRIAGE_WRITE_TOKEN` needs issue label/comment write access for the allowlisted repositories. It is only used by safe-output jobs, not by the agent.
-
-`GH_AW_WRITE_PROJECT_TOKEN` needs organization Projects read/write access. For an org-owned project, use a fine-grained PAT with organization `Projects: Read and write`, plus repository `Contents: Read`, `Issues: Read`, and `Pull requests: Read` for the participating repos.
+`TRIAGE_PROJECT_TOKEN` needs organization Projects read/write access. For an org-owned project, use a fine-grained PAT with organization `Projects: Read and write`, plus repository `Contents: Read`, `Issues: Read`, and `Pull requests: Read` for the participating repos.
 
 Do not set `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN`. Bedrock authentication is supplied by AWS OIDC.
 
@@ -74,15 +72,14 @@ Also make sure the selected Anthropic model is enabled in Amazon Bedrock for `AW
 Create the project board once, then put its URL in `TRIAGE_PROJECT_URL`:
 
 ```bash
-export GH_AW_PROJECT_GITHUB_TOKEN="<projects-read-write-token>"
-gh aw project new "Shiny Team Triage" --owner rstudio --link rstudio/shinycoreci --with-project-setup
+gh project create --owner rstudio --title "Shiny Team Triage"
 ```
 
-The workflow expects fields named `Priority`, `Priority rank`, `Repository`, `Issue type`, `Triage status`, `Confidence`, `Well-defined`, and `Evidence link`. The `--with-project-setup` command creates a useful starting board, but you may need to add or rename fields to match `.github/triage/team-issue-triage.yaml`.
+The workflow expects fields named `Priority`, `Priority rank`, `Repository`, `Issue type`, `Triage status`, `Confidence`, `Well-defined`, and `Evidence link`. You may need to add or rename fields to match `.github/triage/team-issue-triage.yaml`.
 
 ## Labels
 
-The safe-output configuration can create missing labels when writes are enabled. For a cleaner rollout, create the labels in each participating repository first:
+The post-processing step can apply missing labels when writes are enabled. For a cleaner rollout, create the labels in each participating repository first:
 
 ```bash
 for repo in rstudio/shiny rstudio/bslib rstudio/htmltools rstudio/httpuv rstudio/shinycoreci; do
@@ -104,29 +101,24 @@ Create `ai-triage:report` in `rstudio/shinycoreci` if you want report issues lab
 
 ## Local Validation
 
-Compile and validate after changing workflow frontmatter:
+Validate the workflow and check that no Copilot or direct Anthropic endpoint remains:
 
 ```bash
-gh aw compile team-issue-triage --validate --no-emit
+ruby -e 'require "yaml"; YAML.load_file(".github/workflows/team-issue-triage.yml"); YAML.load_file(".github/triage/team-issue-triage.yaml")'
+rg 'api\.githubcopilot|github/gh-aw|GH_AW|gh aw|api\.anthropic\.com|statsig\.anthropic\.com|ANTHROPIC_API_KEY|CLAUDE_CODE_OAUTH_TOKEN' .github/workflows/team-issue-triage.yml
 ```
 
-The checked-in lock is intentionally Bedrock-only patched because local `gh-aw v0.43.20` still injects direct Claude API/OAuth secret handling when it regenerates built-in Claude workflows. If you intentionally regenerate `.github/workflows/team-issue-triage.lock.yml`, re-check the lock before pushing:
-
-```bash
-rg 'ANTHROPIC_API_KEY|CLAUDE_CODE_OAUTH_TOKEN|api\.anthropic\.com|statsig\.anthropic\.com' .github/workflows/team-issue-triage.lock.yml
-```
-
-That command should return no matches.
+The `rg` command should return no matches from `.github/workflows/team-issue-triage.yml`.
 
 Run a staged manual trial after the branch is pushed and variables/secrets exist:
 
 ```bash
-gh aw run team-issue-triage --ref triage-state
+gh workflow run team-issue-triage.yml --ref triage-state
 ```
 
 ## Rollout
 
-1. Keep `TRIAGE_APPLY_WRITES=false` and review staged safe-output previews.
-2. Enable labels only by reviewing `add_labels` previews and then setting `TRIAGE_APPLY_WRITES=true` for manual runs.
+1. Keep `TRIAGE_APPLY_WRITES=false` and review dry-run previews.
+2. Enable labels only after reviewing dry-run previews, then set `TRIAGE_APPLY_WRITES=true` for manual runs.
 3. Add project writes once `TRIAGE_PROJECT_URL` and project fields are confirmed.
 4. Leave direct comments staged until the team approves the templates and false-positive rate.
