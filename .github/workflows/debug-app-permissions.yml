@@ -6,6 +6,11 @@ name: Debug app permissions
 # Delete after debugging.
 
 on:
+  push:
+    branches:
+      - r-cmd-checks-for-other-repos
+    paths:
+      - .github/workflows/debug-app-permissions.yml
   workflow_dispatch:
     inputs:
       target_owner:
@@ -21,6 +26,10 @@ permissions:
   contents: read
   id-token: write
 
+env:
+  TARGET_OWNER: ${{ github.event.inputs.target_owner || 'rstudio' }}
+  TARGET_REPO: ${{ github.event.inputs.target_repo || 'reactlog' }}
+
 jobs:
   actions-write:
     runs-on: ubuntu-latest
@@ -31,8 +40,8 @@ jobs:
         with:
           app-id: ${{ secrets.POSIT_SHINY_AUTOMATION_APP_ID }}
           private-key: ${{ secrets.POSIT_SHINY_AUTOMATION_PEM }}
-          owner: ${{ github.event.inputs.target_owner }}
-          repositories: ${{ github.event.inputs.target_repo }}
+          owner: ${{ env.TARGET_OWNER }}
+          repositories: ${{ env.TARGET_REPO }}
           permission-actions: write
       - run: |
           if [[ "${{ steps.t.outcome }}" == "success" ]]; then
@@ -51,8 +60,8 @@ jobs:
         with:
           app-id: ${{ secrets.POSIT_SHINY_AUTOMATION_APP_ID }}
           private-key: ${{ secrets.POSIT_SHINY_AUTOMATION_PEM }}
-          owner: ${{ github.event.inputs.target_owner }}
-          repositories: ${{ github.event.inputs.target_repo }}
+          owner: ${{ env.TARGET_OWNER }}
+          repositories: ${{ env.TARGET_REPO }}
           permission-contents: write
       - run: |
           if [[ "${{ steps.t.outcome }}" == "success" ]]; then
@@ -71,8 +80,8 @@ jobs:
         with:
           app-id: ${{ secrets.POSIT_SHINY_AUTOMATION_APP_ID }}
           private-key: ${{ secrets.POSIT_SHINY_AUTOMATION_PEM }}
-          owner: ${{ github.event.inputs.target_owner }}
-          repositories: ${{ github.event.inputs.target_repo }}
+          owner: ${{ env.TARGET_OWNER }}
+          repositories: ${{ env.TARGET_REPO }}
           permission-issues: write
       - run: |
           if [[ "${{ steps.t.outcome }}" == "success" ]]; then
@@ -91,8 +100,8 @@ jobs:
         with:
           app-id: ${{ secrets.POSIT_SHINY_AUTOMATION_APP_ID }}
           private-key: ${{ secrets.POSIT_SHINY_AUTOMATION_PEM }}
-          owner: ${{ github.event.inputs.target_owner }}
-          repositories: ${{ github.event.inputs.target_repo }}
+          owner: ${{ env.TARGET_OWNER }}
+          repositories: ${{ env.TARGET_REPO }}
           permission-pull-requests: write
       - run: |
           if [[ "${{ steps.t.outcome }}" == "success" ]]; then
@@ -111,8 +120,8 @@ jobs:
         with:
           app-id: ${{ secrets.POSIT_SHINY_AUTOMATION_APP_ID }}
           private-key: ${{ secrets.POSIT_SHINY_AUTOMATION_PEM }}
-          owner: ${{ github.event.inputs.target_owner }}
-          repositories: ${{ github.event.inputs.target_repo }}
+          owner: ${{ env.TARGET_OWNER }}
+          repositories: ${{ env.TARGET_REPO }}
       - run: |
           if [[ "${{ steps.t.outcome }}" == "success" ]]; then
             echo "::notice::GRANTED default (no permission overrides)"
