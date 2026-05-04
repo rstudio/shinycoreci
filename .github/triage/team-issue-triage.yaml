@@ -1,0 +1,70 @@
+# Single source of truth for repos this workflow triages.
+# To add one: install the GitHub App, then append owner/repo below.
+# All entries must share one owner.
+repositories:
+  - rstudio/reactlog
+
+# Where report actions open issues. Must be listed above.
+report_repo: rstudio/reactlog
+
+scan:
+  schedule: weekly Thursday 08:00 UTC
+  max_issues_per_repo: 25
+  max_issues_total: 150
+  cursor_file: cursors.json
+  default_lookback_days: 14
+  skip_authors:
+    - dependabot[bot]
+    - github-actions[bot]
+  skip_labels:
+    - ai-triage:done
+    - ai-triage:accepted
+    - human-reviewed
+  include_updated_issues: true
+  include_created_issues: true
+
+engine:
+  provider: aws-bedrock-anthropic
+  action: anthropics/claude-code-action
+  env:
+    - AWS_REGION
+    - ANTHROPIC_MODEL
+  forbidden_secrets:
+    - ANTHROPIC_API_KEY
+    - CLAUDE_CODE_OAUTH_TOKEN
+  forbidden_direct_endpoints:
+    - api.anthropic.com
+    - statsig.anthropic.com
+    - api.githubcopilot.com
+    - githubcopilot.com
+
+state:
+  branch: triage-state
+  directory: .triage-state
+  files:
+    cursors: cursors.json
+    issue_snapshots: issues/<owner-repo>.jsonl
+    triage_results: triage-results/<YYYY-MM-DD>.jsonl
+    duplicate_candidates: duplicates/candidates.jsonl
+
+project:
+  url_variable: TRIAGE_PROJECT_URL
+  token_secret: TRIAGE_PROJECT_TOKEN
+  add_priorities:
+    - "priority: P0"
+    - "priority: P1"
+
+automation:
+  default_mode: report-only
+  writes_variable: TRIAGE_APPLY_WRITES
+  structured_outputs: true
+  ai_threat_detection: false
+  allow_direct_comments: false
+  allow_auto_close: false
+  allow_auto_transfer: false
+  require_human_review_for:
+    - "priority: P0"
+    - security-sensitive
+    - public comment
+    - wrong location
+    - low confidence

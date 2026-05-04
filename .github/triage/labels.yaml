@@ -1,0 +1,61 @@
+classification:
+  - name: regression
+    confidence: high
+    requirement: Evidence that current or development behavior differs materially from an older released version.
+  - name: duplicate
+    confidence: high
+    requirement: Linked candidate duplicate and short rationale.
+  - name: wrong location
+    confidence: medium
+    requirement: Target repository or upstream location and reason.
+  - name: needs reprex
+    confidence: medium
+    requirement: Missing runnable minimal code, app, data, or steps.
+  - name: needs clarification
+    confidence: medium
+    requirement: Missing a specific expected behavior, environment detail, screenshot, log, or scope decision.
+
+priority:
+  - name: "priority: P0"
+    rank: 100
+    meaning: Production-breaking, security-sensitive, data loss, or severe release blocker.
+    human_review: true
+  - name: "priority: P1"
+    rank: 75
+    meaning: High-confidence regression or severe bug affecting many users or current release work.
+    add_to_project: true
+  - name: "priority: P2"
+    rank: 50
+    meaning: Valid bug or well-defined request with moderate impact or a workaround.
+  - name: "priority: P3"
+    rank: 25
+    meaning: Low-impact bug, docs polish, papercut, or unclear low-severity request.
+
+review:
+  - ai-triage:needs-review
+  - ai-triage:accepted
+  - ai-triage:corrected
+  - ai-triage:bad-label
+  - ai-triage:bad-comment
+  - ai-triage:done
+
+reporting:
+  - ai-triage:report
+
+allowed_safe_output_labels:
+  - regression
+  - duplicate
+  - wrong location
+  - needs reprex
+  - needs clarification
+  - "priority: P0"
+  - "priority: P1"
+  - "priority: P2"
+  - "priority: P3"
+  - ai-triage:needs-review
+  - ai-triage:accepted
+  - ai-triage:corrected
+  - ai-triage:bad-label
+  - ai-triage:bad-comment
+  - ai-triage:done
+  - ai-triage:report
