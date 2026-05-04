@@ -174,7 +174,7 @@ runs:
 
         if [[ -z "${run_id}" ]]; then
           echo "run_conclusion=dispatch_not_found" >> "$GITHUB_OUTPUT"
-          echo "should_open_issue=false" >> "$GITHUB_OUTPUT"
+          echo "should_open_issue=true" >> "$GITHUB_OUTPUT"
           exit 0
         fi
 
