@@ -37,6 +37,7 @@ env:
   TRIAGE_RUBRIC: .github/triage/issue-triage-rubric.md
   TRIAGE_STATE_DIR: .triage-state
   AWS_REGION: ${{ vars['AWS_REGION'] || vars['AWS_BEDROCK_REGION'] || 'us-east-1' }}
+  ANTHROPIC_MODEL: us.anthropic.claude-sonnet-4-6
 
 jobs:
   triage:
@@ -108,7 +109,7 @@ jobs:
         id: read-token
         uses: actions/create-github-app-token@v3
         with:
-          client-id: ${{ secrets['POSIT_SHINY_AUTOMATION_APP_ID'] }}
+          client-id: ${{ secrets['POSIT_SHINY_AUTOMATION_CLIENT_ID'] }}
           private-key: ${{ secrets['POSIT_SHINY_AUTOMATION_PEM'] }}
           owner: ${{ steps.repos.outputs.owner }}
           repositories: ${{ steps.repos.outputs.repo_names }}
@@ -121,7 +122,7 @@ jobs:
         id: write-token
         uses: actions/create-github-app-token@v3
         with:
-          client-id: ${{ secrets['POSIT_SHINY_AUTOMATION_APP_ID'] }}
+          client-id: ${{ secrets['POSIT_SHINY_AUTOMATION_CLIENT_ID'] }}
           private-key: ${{ secrets['POSIT_SHINY_AUTOMATION_PEM'] }}
           owner: ${{ steps.repos.outputs.owner }}
           repositories: ${{ steps.repos.outputs.repo_names }}
@@ -198,7 +199,7 @@ jobs:
 
             Return structured output only. Use `actions=[]` when no action is needed. Every action must separate facts from the reporter, classification hypothesis, duplicate search, wrong-location check, regression evidence, reproduction plan, impact, priority, and recommended next action in its rationale or report body.
           claude_args: |
-            --model ${{ vars['ANTHROPIC_MODEL'] }}
+            --model ${{ env.ANTHROPIC_MODEL }}
             --max-turns 20
             --allowedTools Bash(gh:*),Bash(jq:*),Bash(date:*),Bash(mkdir:*),Bash(test:*),Bash(touch:*),Read,Write,Edit
             --json-schema '{"type":"object","additionalProperties":false,"properties":{"summary":{"type":"string"},"actions":{"type":"array","maxItems":30,"items":{"type":"object","additionalProperties":false,"properties":{"action":{"type":"string","enum":["triage","report"]},"repo":{"type":"string"},"issue_number":{"type":"string"},"labels":{"type":"array","maxItems":6,"items":{"type":"string"}},"add_to_project":{"type":"boolean"},"comment":{"type":"string"},"comment_approved":{"type":"boolean"},"report_title":{"type":"string"},"report_body":{"type":"string"},"confidence":{"type":"string","enum":["high","medium","low"]},"rationale":{"type":"string"}},"required":["action","confidence","rationale"]}}},"required":["summary","actions"]}'
