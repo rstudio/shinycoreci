@@ -57,15 +57,61 @@ jobs:
           token: ${{ github.token }}
           persist-credentials: false
 
+      - name: Resolve allowlisted repositories from config
+        id: repos
+        shell: python
+        env:
+          TRIAGE_CONFIG: ${{ env.TRIAGE_CONFIG }}
+        run: |
+          import os, sys, yaml, pathlib
+
+          cfg_path = pathlib.Path(os.environ["TRIAGE_CONFIG"])
+          cfg = yaml.safe_load(cfg_path.read_text())
+
+          repos = cfg.get("repositories") or []
+          if not repos:
+              sys.exit(f"{cfg_path}: 'repositories:' must list at least one entry.")
+
+          owners, names, owner_repos = set(), [], []
+          for entry in repos:
+              if "/" not in str(entry):
+                  sys.exit(f"Repository entry must be 'owner/repo': {entry!r}")
+              owner, name = str(entry).split("/", 1)
+              owners.add(owner)
+              names.append(name)
+              owner_repos.append(f"{owner}/{name}")
+
+          if len(owners) != 1:
+              sys.exit(f"All repositories must share one owner; found {sorted(owners)}.")
+          owner = owners.pop()
+
+          report_repo = cfg.get("report_repo") or owner_repos[0]
+          if report_repo not in owner_repos:
+              sys.exit(
+                  f"report_repo={report_repo!r} must be one of the allowlisted repositories "
+                  f"({owner_repos}). Add it to repositories: first."
+              )
+
+          out = pathlib.Path(os.environ["GITHUB_OUTPUT"])
+          with out.open("a") as f:
+              f.write(f"owner={owner}\n")
+              f.write(f"repo_names={','.join(names)}\n")
+              f.write(f"owner_repos={','.join(owner_repos)}\n")
+              f.write(f"report_repo={report_repo}\n")
+
+          print(f"owner={owner}")
+          print(f"repo_names={','.join(names)}")
+          print(f"owner_repos={','.join(owner_repos)}")
+          print(f"report_repo={report_repo}")
+
       - name: Generate read-only GitHub App token
         id: read-token
         uses: actions/create-github-app-token@v3
         with:
           client-id: ${{ secrets['POSIT_SHINY_AUTOMATION_APP_ID'] }}
           private-key: ${{ secrets['POSIT_SHINY_AUTOMATION_PEM'] }}
-          owner: rstudio
-          repositories: |
-            shiny,bslib,htmltools,httpuv,shinycoreci
+          owner: ${{ steps.repos.outputs.owner }}
+          repositories: ${{ steps.repos.outputs.repo_names }}
           permission-actions: read
           permission-contents: read
           permission-issues: read
@@ -77,9 +123,8 @@ jobs:
         with:
           client-id: ${{ secrets['POSIT_SHINY_AUTOMATION_APP_ID'] }}
           private-key: ${{ secrets['POSIT_SHINY_AUTOMATION_PEM'] }}
-          owner: rstudio
-          repositories: |
-            shiny,bslib,htmltools,httpuv,shinycoreci
+          owner: ${{ steps.repos.outputs.owner }}
+          repositories: ${{ steps.repos.outputs.repo_names }}
           permission-contents: read
           permission-issues: write
           permission-pull-requests: read
@@ -166,18 +211,23 @@ jobs:
           TRIAGE_PROJECT_URL: ${{ vars['TRIAGE_PROJECT_URL'] }}
           TRIAGE_ISSUE_TOKEN: ${{ steps.write-token.outputs.token }}
           TRIAGE_PROJECT_TOKEN: ${{ secrets['TRIAGE_PROJECT_TOKEN'] }}
+          TRIAGE_ALLOWED_REPOS: ${{ steps.repos.outputs.owner_repos }}
+          TRIAGE_REPORT_REPO: ${{ steps.repos.outputs.report_repo }}
         run: |
           node <<'NODE'
           const fs = require('fs');
           const { execFileSync } = require('child_process');
 
-          const allowedRepos = new Set([
-            'rstudio/shiny',
-            'rstudio/bslib',
-            'rstudio/htmltools',
-            'rstudio/httpuv',
-            'rstudio/shinycoreci'
-          ]);
+          const allowedRepos = new Set(
+            (process.env.TRIAGE_ALLOWED_REPOS || '')
+              .split(',')
+              .map((r) => r.trim())
+              .filter(Boolean)
+          );
+          if (allowedRepos.size === 0) {
+            console.error('TRIAGE_ALLOWED_REPOS is empty. Refusing to process actions.');
+            process.exit(1);
+          }
           const allowedLabels = new Set([
             'regression',
             'duplicate',
@@ -196,7 +246,11 @@ jobs:
             'ai-triage:done'
           ]);
 
-          const reportRepo = 'rstudio/shinycoreci';
+          const reportRepo = process.env.TRIAGE_REPORT_REPO;
+          if (!reportRepo || !allowedRepos.has(reportRepo)) {
+            console.error(`TRIAGE_REPORT_REPO=${reportRepo} must be in TRIAGE_ALLOWED_REPOS.`);
+            process.exit(1);
+          }
           const maxItems = 30;
           const maxLabelsPerItem = 6;
           const maxCommentLength = 4000;

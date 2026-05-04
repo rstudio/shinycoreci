@@ -1,9 +1,14 @@
+# Single source of truth for the repos this workflow will triage.
+# To onboard another repo:
+#   1. Install the GitHub App on it (and grant issues: write).
+#   2. Add it below using the `owner/repo` form.
+# All entries must share the same owner.
 repositories:
-  - rstudio/shiny
-  - rstudio/bslib
-  - rstudio/htmltools
-  - rstudio/httpuv
-  - rstudio/shinycoreci
+  - rstudio/reactlog
+
+# Where the workflow files "report" issues (auto-opened summaries).
+# Must be a repo the GitHub App can write issues to. Pick from `repositories:`.
+report_repo: rstudio/reactlog
 
 scan:
   schedule: every 4h on weekdays

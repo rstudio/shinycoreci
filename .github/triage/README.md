@@ -4,12 +4,19 @@ This directory configures the scheduled workflow in `.github/workflows/team-issu
 
 ## What Is Included
 
-- A cross-repository triage workflow that scans `rstudio/shiny`, `rstudio/bslib`, `rstudio/htmltools`, `rstudio/httpuv`, and `rstudio/shinycoreci`.
+- A cross-repository triage workflow scoped to whatever is listed under `repositories:` in [`team-issue-triage.yaml`](./team-issue-triage.yaml). Initial rollout: `rstudio/reactlog` only. The workflow's GitHub App allowlist and the post-processing validator both read this file at runtime, so onboarding a new repo is a single-line edit (plus installing the App on it).
 - A small label taxonomy and priority rubric.
 - Durable state stored on the `triage-state` branch.
 - Structured Claude output that is validated before any label, comment, report, or project write happens.
 - Report-only behavior by default through the deterministic dry-run guard.
 - No GitHub Copilot MCP endpoint or direct Anthropic API/OAuth path.
+
+## Adding More Repositories
+
+1. Install the `posit-shiny-automation` GitHub App on the new repo (issues: write, contents/actions/PRs: read).
+2. Append the `owner/repo` to `repositories:` in [`team-issue-triage.yaml`](./team-issue-triage.yaml). All entries must share the same owner.
+3. (Optional) Update `report_repo:` if you want auto-opened reports to land somewhere different. It must be in `repositories:`.
+4. Create the labels in the new repo (see the loop below — substitute the new repo name).
 
 ## Required GitHub Variables
 
@@ -82,7 +89,7 @@ The workflow expects fields named `Priority`, `Priority rank`, `Repository`, `Is
 The post-processing step can apply missing labels when writes are enabled. For a cleaner rollout, create the labels in each participating repository first:
 
 ```bash
-for repo in rstudio/shiny rstudio/bslib rstudio/htmltools rstudio/httpuv rstudio/shinycoreci; do
+for repo in $(yq -r '.repositories[]' .github/triage/team-issue-triage.yaml); do
   gh label create "regression" --repo "$repo" --color "d73a4a" --description "Current behavior appears worse than an older released version" || true
   gh label create "duplicate" --repo "$repo" --color "cfd3d7" --description "Substantially covered by another issue" || true
   gh label create "wrong location" --repo "$repo" --color "fbca04" --description "Likely belongs in another repository or upstream" || true
@@ -97,7 +104,7 @@ for repo in rstudio/shiny rstudio/bslib rstudio/htmltools rstudio/httpuv rstudio
 done
 ```
 
-Create `ai-triage:report` in `rstudio/shinycoreci` if you want report issues labeled before the first write-enabled run.
+Create `ai-triage:report` in the repository named in `report_repo:` (currently `rstudio/reactlog`) if you want report issues labeled before the first write-enabled run.
 
 ## Local Validation
 
