@@ -23,7 +23,6 @@ priority:
   - name: "priority: P1"
     rank: 75
     meaning: High-confidence regression or severe bug affecting many users or current release work.
-    add_to_project: true
   - name: "priority: P2"
     rank: 50
     meaning: Valid bug or well-defined request with moderate impact or a workaround.

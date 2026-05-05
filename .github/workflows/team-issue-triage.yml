@@ -14,11 +14,6 @@ on:
         required: false
         type: number
         default: 150
-      apply_writes:
-        description: Apply configured outputs instead of producing previews.
-        required: false
-        type: boolean
-        default: false
 
 permissions:
   actions: read
@@ -191,10 +186,9 @@ jobs:
             Decision rules:
             - Use only labels listed in `${{ env.TRIAGE_LABELS }}`. Never invent labels.
             - Assign exactly one priority label when confidence is medium or high.
-            - Add `ai-triage:needs-review` when confidence is low, when a decision is risky, or when project/comment actions should wait for a human.
+            - Add `ai-triage:needs-review` when confidence is low, when a decision is risky, or when comment actions should wait for a human.
             - Only label `regression` after evidence shows current or development behavior differs materially from an older released version.
             - Only label `duplicate` when you include a linked duplicate candidate and a short rationale.
-            - Set `add_to_project=true` only for P0/P1 issues.
             - Set `comment_approved=true` only for low-risk clarification or reprex requests that match the rubric.
 
             Return structured output only. Use `actions=[]` when no action is needed. Every action must separate facts from the reporter, classification hypothesis, duplicate search, wrong-location check, regression evidence, reproduction plan, impact, priority, and recommended next action in its rationale or report body.
@@ -207,7 +201,7 @@ jobs:
             --model ${{ env.ANTHROPIC_MODEL }}
             --max-turns 20
             --allowedTools Bash(gh:*),Bash(jq:*),Bash(date:*),Bash(mkdir:*),Bash(test:*),Bash(touch:*),Read,Write,Edit
-            --json-schema '{"type":"object","additionalProperties":false,"properties":{"summary":{"type":"string"},"actions":{"type":"array","maxItems":30,"items":{"type":"object","additionalProperties":false,"properties":{"action":{"type":"string","enum":["triage","report"]},"repo":{"type":"string"},"issue_number":{"type":"string"},"labels":{"type":"array","maxItems":6,"items":{"type":"string"}},"add_to_project":{"type":"boolean"},"comment":{"type":"string"},"comment_approved":{"type":"boolean"},"report_title":{"type":"string"},"report_body":{"type":"string"},"confidence":{"type":"string","enum":["high","medium","low"]},"rationale":{"type":"string"}},"required":["action","confidence","rationale"]}}},"required":["summary","actions"]}'
+            --json-schema '{"type":"object","additionalProperties":false,"properties":{"summary":{"type":"string"},"actions":{"type":"array","maxItems":30,"items":{"type":"object","additionalProperties":false,"properties":{"action":{"type":"string","enum":["triage","report"]},"repo":{"type":"string"},"issue_number":{"type":"string"},"labels":{"type":"array","maxItems":6,"items":{"type":"string"}},"comment":{"type":"string"},"comment_approved":{"type":"boolean"},"report_title":{"type":"string"},"report_body":{"type":"string"},"confidence":{"type":"string","enum":["high","medium","low"]},"rationale":{"type":"string"}},"required":["action","confidence","rationale"]}}},"required":["summary","actions"]}'
 
       - name: Resolve allowed labels from config
         id: labels-config
@@ -232,11 +226,7 @@ jobs:
       - name: Validate and process triage actions
         env:
           CLAUDE_OUTPUT: ${{ steps.claude.outputs.structured_output }}
-          TRIAGE_APPLY_WRITES: ${{ vars['TRIAGE_APPLY_WRITES'] || 'false' }}
-          TRIAGE_INPUT_APPLY_WRITES: ${{ inputs.apply_writes || 'false' }}
-          TRIAGE_PROJECT_URL: ${{ vars['TRIAGE_PROJECT_URL'] }}
           TRIAGE_ISSUE_TOKEN: ${{ steps.write-token.outputs.token }}
-          TRIAGE_PROJECT_TOKEN: ${{ secrets['TRIAGE_PROJECT_TOKEN'] }}
           TRIAGE_ALLOWED_REPOS: ${{ steps.repos.outputs.owner_repos }}
           TRIAGE_REPORT_REPO: ${{ steps.repos.outputs.report_repo }}
           TRIAGE_ALLOWED_LABELS: ${{ steps.labels-config.outputs.allowed }}
@@ -285,7 +275,6 @@ jobs:
             '## Confidence',
           ];
           const reportLabels = ['ai-triage:report', 'ai-generated-issue'];
-          const applyWrites = process.env.TRIAGE_APPLY_WRITES === 'true' || process.env.TRIAGE_INPUT_APPLY_WRITES === 'true';
           const summary = [];
 
           const runUrl = process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID
@@ -318,7 +307,7 @@ jobs:
           function parseOutput() {
             const raw = process.env.CLAUDE_OUTPUT || '';
             if (!raw.trim()) {
-              fail('Claude did not produce structured output. No writes were applied.');
+              fail('Claude did not produce structured output. Cannot process triage actions.');
             }
             try {
               return JSON.parse(raw);
@@ -384,10 +373,6 @@ jobs:
             if (finalBody.length > maxReportLength) {
               fail(`Report body is too long: ${finalBody.length} > ${maxReportLength}`);
             }
-            if (!applyWrites) {
-              summary.push(`Preview report issue: ${title}`);
-              return;
-            }
             if (!process.env.TRIAGE_ISSUE_TOKEN) {
               fail('A write-capable GitHub token is required to create report issues.');
             }
@@ -401,24 +386,6 @@ jobs:
             summary.push(`Created report issue: ${title}`);
           }
 
-          function addProjectItem(repo, issueNumber) {
-            const projectUrl = process.env.TRIAGE_PROJECT_URL || '';
-            const match = projectUrl.match(/^https:\/\/github\.com\/(?:orgs|users)\/([^/]+)\/projects\/(\d+)$/);
-            if (!match) {
-              fail('TRIAGE_PROJECT_URL must look like https://github.com/orgs/<owner>/projects/<number> or https://github.com/users/<owner>/projects/<number>.');
-            }
-            if (!applyWrites) {
-              summary.push(`Preview project add: ${repo}#${issueNumber}`);
-              return;
-            }
-            if (!process.env.TRIAGE_PROJECT_TOKEN) {
-              fail('TRIAGE_PROJECT_TOKEN is required for project writes.');
-            }
-            const issueUrl = `https://github.com/${repo}/issues/${issueNumber}`;
-            gh(['project', 'item-add', match[2], '--owner', match[1], '--url', issueUrl], { token: process.env.TRIAGE_PROJECT_TOKEN });
-            summary.push(`Added to project: ${repo}#${issueNumber}`);
-          }
-
           function processTriage(item) {
             const repo = String(item.repo || '');
             const issueNumber = String(item.issue_number || '');
@@ -430,17 +397,13 @@ jobs:
 
             const target = `${repo}#${issueNumber}`;
             if (labels.length) {
-              if (!applyWrites) {
-                summary.push(`Preview labels for ${target}: ${labels.join(', ')}`);
-              } else {
-                if (!process.env.TRIAGE_ISSUE_TOKEN) {
-                  fail('A write-capable GitHub token is required for label writes.');
-                }
-                for (const label of labels) {
-                  gh(['issue', 'edit', issueNumber, '--repo', repo, '--add-label', label]);
-                }
-                summary.push(`Applied labels to ${target}: ${labels.join(', ')}`);
+              if (!process.env.TRIAGE_ISSUE_TOKEN) {
+                fail('A write-capable GitHub token is required for label writes.');
               }
+              for (const label of labels) {
+                gh(['issue', 'edit', issueNumber, '--repo', repo, '--add-label', label]);
+              }
+              summary.push(`Applied labels to ${target}: ${labels.join(', ')}`);
             }
 
             if (item.comment) {
@@ -449,8 +412,6 @@ jobs:
               }
               if (!bool(item.comment_approved)) {
                 summary.push(`Skipped unapproved comment for ${target}`);
-              } else if (!applyWrites) {
-                summary.push(`Preview comment for ${target}`);
               } else {
                 if (!process.env.TRIAGE_ISSUE_TOKEN) {
                   fail('A write-capable GitHub token is required for comments.');
@@ -458,10 +419,6 @@ jobs:
                 gh(['issue', 'comment', issueNumber, '--repo', repo, '--body-file', '-'], { input: String(item.comment) });
                 summary.push(`Posted comment to ${target}`);
               }
-            }
-
-            if (bool(item.add_to_project)) {
-              addProjectItem(repo, issueNumber);
             }
           }
 
@@ -485,7 +442,7 @@ jobs:
             }
           }
 
-          const heading = applyWrites ? 'Team Issue Triage Applied Changes' : 'Team Issue Triage Preview';
+          const heading = 'Team Issue Triage Applied Changes';
           const body = [`# ${heading}`, '', `Claude summary: ${output.summary || 'No summary provided.'}`, '', ...summary.map((line) => `- ${line}`), ''].join('\n');
           if (process.env.GITHUB_STEP_SUMMARY) {
             fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, body);

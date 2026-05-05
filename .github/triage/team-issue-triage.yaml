@@ -47,16 +47,7 @@ state:
     triage_results: triage-results/<YYYY-MM-DD>.jsonl
     duplicate_candidates: duplicates/candidates.jsonl
 
-project:
-  url_variable: TRIAGE_PROJECT_URL
-  token_secret: TRIAGE_PROJECT_TOKEN
-  add_priorities:
-    - "priority: P0"
-    - "priority: P1"
-
 automation:
-  default_mode: report-only
-  writes_variable: TRIAGE_APPLY_WRITES
   structured_outputs: true
   ai_threat_detection: false
   allow_direct_comments: false
