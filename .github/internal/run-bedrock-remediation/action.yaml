@@ -150,6 +150,8 @@ runs:
 
           Do not add a repository-specific reviewer workflow; ${{ inputs.source-repository }} handles reviewer and assignee handoff centrally. If scheduler compatibility requires a workflow change in this repository, limit it to ${{ inputs.target-workflow }}.
 
+          Any commit message you write must follow Conventional Commits (https://www.conventionalcommits.org/en/v1.0.0/) in the form `<type>(optional scope): <description>`. Prefer `fix(ci): ...` for package-check fixes; the wrapping workflow uses the same format for the final PR title.
+
           Leave the final git commit, branch push, pull request creation, reviewer assignment, and issue comment to this workflow. Do not commit, push, create pull requests, or modify .shinycoreci-remediation.
         claude_args: |
           --model ${{ inputs.bedrock-model-id }}
@@ -202,8 +204,16 @@ runs:
         if [[ -n "${status}" ]]; then
           git add -A
           diff_stat="$(git diff --cached --stat)"
-          pr_title="fix: remediate ${TARGET_REPO} package checks"
-          git commit -m "${pr_title}" -m "Automated by shinycoreci using Claude Code Action with Anthropic models on AWS Bedrock."
+          pr_title="fix(ci): remediate ${TARGET_REPO} package checks on ${TARGET_REF}"
+          commit_body="$(printf '%s\n' \
+            "Automated by shinycoreci using Claude Code Action with Anthropic models on AWS Bedrock." \
+            "" \
+            "Refs: ${ISSUE_URL}" \
+            "Remote workflow: ${TARGET_WORKFLOW}" \
+            "Remote conclusion: ${REMOTE_RUN_CONCLUSION}" \
+            "Remote run: ${REMOTE_RUN_URL:-not available}" \
+            "Scheduler run: ${SOURCE_RUN_URL}")"
+          git commit -m "${pr_title}" -m "${commit_body}"
         else
           diff_stat="$(git diff --stat "origin/${TARGET_REF}...HEAD" || true)"
         fi
@@ -230,21 +240,35 @@ runs:
           --jq '.[0].url // empty')"
 
         if [[ -z "${pr_url}" ]]; then
-          pr_title="fix: remediate ${TARGET_REPO} package checks"
+          pr_title="fix(ci): remediate ${TARGET_REPO} package checks on ${TARGET_REF}"
           body_file="$(mktemp)"
           {
+            echo "## Summary"
+            echo ""
             echo "Automated remediation for the failed package checks dispatched by \`${SOURCE_REPOSITORY}\`."
             echo ""
-            echo "- Remote workflow: \`${TARGET_WORKFLOW}\`"
-            echo "- Remote conclusion: \`${REMOTE_RUN_CONCLUSION}\`"
-            echo "- Remote run: ${REMOTE_RUN_URL:-not available}"
-            echo "- Scheduler run: ${SOURCE_RUN_URL}"
-            echo "- Solver: Claude Code Action using Anthropic models on AWS Bedrock"
+            echo "## Failure context"
             echo ""
-            echo "Diff summary:"
+            echo "| Field | Value |"
+            echo "| --- | --- |"
+            echo "| Target ref | \`${TARGET_REF}\` |"
+            echo "| Remote workflow | \`${TARGET_WORKFLOW}\` |"
+            echo "| Remote conclusion | \`${REMOTE_RUN_CONCLUSION}\` |"
+            echo "| Remote run | ${REMOTE_RUN_URL:-not available} |"
+            echo "| Scheduler run | ${SOURCE_RUN_URL} |"
+            echo "| Solver | Claude Code Action using Anthropic models on AWS Bedrock |"
+            echo ""
+            echo "## Diff summary"
+            echo ""
             echo "\`\`\`"
             echo "${diff_stat}"
             echo "\`\`\`"
+            echo ""
+            echo "## Reviewer checklist"
+            echo ""
+            echo "- [ ] Title follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) (\`<type>(scope): <description>\`)."
+            echo "- [ ] Changes are scoped to fixing the failure described above."
+            echo "- [ ] No repository-specific reviewer workflow was added; reviewer routing stays in \`${SOURCE_REPOSITORY}\`."
             echo ""
             echo "Closes #${issue_number}"
           } > "${body_file}"

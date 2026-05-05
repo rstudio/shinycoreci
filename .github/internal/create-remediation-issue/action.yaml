@@ -41,6 +41,13 @@ inputs:
     description: Optional additional remediation instructions to include in the issue.
     required: false
     default: ""
+  issue-labels:
+    description: >
+      Comma-separated list of labels to apply to the remediation issue. Each
+      label is auto-created in the target repository if it does not already
+      exist.
+    required: false
+    default: "ai-generated-issue"
 
 outputs:
   issue_url:
@@ -78,6 +85,7 @@ runs:
         REMOTE_RUN_URL: ${{ inputs.remote-run-url }}
         INPUT_ISSUE_TITLE: ${{ inputs.issue-title }}
         INPUT_CUSTOM_INSTRUCTIONS: ${{ inputs.custom-instructions }}
+        INPUT_ISSUE_LABELS: ${{ inputs.issue-labels }}
       run: |
         set -euo pipefail
 
@@ -136,6 +144,43 @@ runs:
           title="Automated fix: ${TARGET_REPO} package checks failing on ${TARGET_REF}"
         fi
 
+        # Parse the comma-separated label list into a clean JSON array, then
+        # ensure each label exists in the target repository so the issue
+        # creation call below does not fail with "label does not exist".
+        labels_json="$(jq -nc \
+          --arg raw "${INPUT_ISSUE_LABELS}" \
+          '[$raw | split(",") | .[] | gsub("^\\s+|\\s+$"; "") | select(length > 0)] | unique')"
+
+        ensure_label_exists() {
+          local label="$1"
+
+          if GH_TOKEN="${APP_GH_TOKEN}" gh api \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "/repos/${TARGET_OWNER}/${TARGET_REPO}/labels/$(jq -rn --arg s "${label}" '$s|@uri')" \
+              >/dev/null 2>&1; then
+            return 0
+          fi
+
+          local payload
+          payload="$(jq -n \
+            --arg name "${label}" \
+            --arg color "ededed" \
+            --arg description "Automatically opened by shinycoreci scheduler with AI assistance." \
+            '{name: $name, color: $color, description: $description}')"
+
+          GH_TOKEN="${APP_GH_TOKEN}" gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "/repos/${TARGET_OWNER}/${TARGET_REPO}/labels" \
+            --input - <<<"${payload}" >/dev/null 2>&1 || true
+        }
+
+        while IFS= read -r label; do
+          [[ -n "${label}" ]] && ensure_label_exists "${label}"
+        done < <(jq -r '.[]' <<<"${labels_json}")
+
         remediation_marker="shinycoreci-remediation: ${TARGET_OWNER}/${TARGET_REPO}:${TARGET_WORKFLOW}:${TARGET_REF}"
 
         find_existing_issue() {
@@ -161,27 +206,46 @@ runs:
           reuse_issue "${existing_issue_json}"
         fi
 
-        conventional_pr_title_sentence="Use a Conventional Commits pull request title following https://www.conventionalcommits.org/en/v1.0.0/ in the form \`<type>(optional scope): <description>\` or \`<type>: <description>\`, choosing the type and scope that match the actual change."
+        conventional_pr_title_sentence="Use a Conventional Commits pull request title following https://www.conventionalcommits.org/en/v1.0.0/ in the form \`<type>(optional scope): <description>\` or \`<type>: <description>\`, choosing the type and scope that match the actual change. Prefer \`fix(ci): ...\` for package-check fixes."
         review_handoff_sentence="Reviewer and assignee handoff is handled centrally by \`${SOURCE_REPOSITORY}\`; do not add a separate workflow just to request maintainer review. If scheduler compatibility requires a workflow change in this repository, limit it to \`${TARGET_WORKFLOW}\`."
 
         body_lines=(
           "<!-- ${remediation_marker} -->"
           ""
+          "> [!NOTE]"
+          "> This issue was opened automatically by the \`${SOURCE_REPOSITORY}\` scheduler. An AI-assisted solver may attempt a fix; review carefully before merging."
+          ""
+          "## Summary"
+          ""
           "The scheduled package checks triggered from \`${SOURCE_REPOSITORY}\` failed for \`${TARGET_OWNER}/${TARGET_REPO}\` on \`${TARGET_REF}\`."
           ""
-          "- Remote workflow: \`${TARGET_WORKFLOW}\`"
-          "- Remote conclusion: \`${REMOTE_RUN_CONCLUSION}\`"
-          "- Remote run: ${REMOTE_RUN_URL:-not available}"
-          "- Source scheduler run: ${SOURCE_RUN_URL}"
-          "- Suggested maintainer: @${TARGET_MAINTAINER}"
+          "## Failure details"
           ""
-          "An AWS Bedrock-backed Anthropic solver will attempt to investigate this failure and open a pull request against \`${TARGET_REF}\` when Bedrock credentials are configured for the scheduler."
-          "${conventional_pr_title_sentence}"
-          "${review_handoff_sentence}"
+          "| Field | Value |"
+          "| --- | --- |"
+          "| Target repository | \`${TARGET_OWNER}/${TARGET_REPO}\` |"
+          "| Target ref | \`${TARGET_REF}\` |"
+          "| Remote workflow | \`${TARGET_WORKFLOW}\` |"
+          "| Remote conclusion | \`${REMOTE_RUN_CONCLUSION}\` |"
+          "| Remote run | ${REMOTE_RUN_URL:-not available} |"
+          "| Source scheduler | \`${SOURCE_REPOSITORY}\` |"
+          "| Scheduler run | ${SOURCE_RUN_URL} |"
+          "| Suggested maintainer | @${TARGET_MAINTAINER} |"
+          ""
+          "## Next steps"
+          ""
+          "1. An AWS Bedrock-backed Anthropic solver will attempt to investigate this failure and open a pull request against \`${TARGET_REF}\` when Bedrock credentials are configured for the scheduler."
+          "2. ${conventional_pr_title_sentence}"
+          "3. ${review_handoff_sentence}"
         )
 
         if [[ -n "${INPUT_CUSTOM_INSTRUCTIONS}" ]]; then
-          body_lines+=("" "Additional instructions: ${INPUT_CUSTOM_INSTRUCTIONS}")
+          body_lines+=(
+            ""
+            "## Additional instructions"
+            ""
+            "${INPUT_CUSTOM_INSTRUCTIONS}"
+          )
         fi
 
         printf -v issue_body '%s\n' "${body_lines[@]}"
@@ -191,10 +255,12 @@ runs:
           --arg title "${title}" \
           --arg body "${issue_body}" \
           --arg maintainer "${TARGET_MAINTAINER}" \
+          --argjson labels "${labels_json}" \
           '{
             title: $title,
             body: $body,
-            assignees: [$maintainer]
+            assignees: [$maintainer],
+            labels: $labels
           }')"
 
         set +e
