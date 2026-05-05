@@ -41,6 +41,7 @@ review:
 
 reporting:
   - ai-triage:report
+  - ai-generated-issue
 
 allowed_safe_output_labels:
   - regression
@@ -59,3 +60,4 @@ allowed_safe_output_labels:
   - ai-triage:bad-comment
   - ai-triage:done
   - ai-triage:report
+  - ai-generated-issue

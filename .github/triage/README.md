@@ -29,6 +29,15 @@ Do not set `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN`; Bedrock auth comes 
 
 All allowlisted repos must share one owner because `actions/create-github-app-token` receives a single owner.
 
+## Issue and Commit Style
+
+To keep automated outputs predictable:
+
+- Report issues opened by the workflow use a conventional-commit-style title: `triage(<scope>): <imperative summary>` (max 72 chars, no trailing period). `<scope>` is the short repo name, or `cross-repo` when spanning repos.
+- Report bodies must include these sections, in order: `## Summary`, `## Affected repositories`, `## Evidence`, `## Recommended next action`, `## Confidence`. The workflow appends a standard footer with the workflow run link, model, timestamp, and applied labels.
+- Every report issue is labeled `ai-triage:report` and `ai-generated-issue`. Both labels must exist in the report repo before enabling writes; if they are missing the workflow falls back to creating the issue without labels.
+- The `triage-state` branch update is committed as `chore(triage): update team issue triage state` with a body referencing the workflow run.
+
 ## Validation
 
 ```bash
