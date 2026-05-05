@@ -78,6 +78,14 @@ inputs:
     description: Maximum Claude Code agent turns for Bedrock remediation.
     required: false
     default: "20"
+  bedrock-max-attempts:
+    description: >
+      Maximum number of remediation attempts (initial + retries) the Bedrock
+      remediation will make. After each attempt the PR branch is dispatched
+      against the failing workflow; if it still fails Claude is re-invoked.
+      Capped at 2.
+    required: false
+    default: "2"
 
 outputs:
   run_conclusion:
@@ -246,6 +254,7 @@ runs:
         target-workflow: ${{ inputs.target-workflow }}
         target-ref: ${{ inputs.target-ref }}
         target-maintainer: ${{ inputs.target-maintainer }}
+        app-slug: ${{ inputs.app-slug }}
         issue-url: ${{ steps.issue.outputs.issue_url }}
         remote-run-id: ${{ steps.watch.outputs.run_id }}
         remote-run-url: ${{ steps.watch.outputs.run_url }}
@@ -253,6 +262,7 @@ runs:
         source-repository: ${{ inputs.source-repository }}
         source-run-url: ${{ inputs.source-run-url }}
         max-turns: ${{ inputs.bedrock-max-turns }}
+        max-attempts: ${{ inputs.bedrock-max-attempts }}
 
     - name: Note missing Bedrock credentials
       if: steps.issue.outputs.issue_url != '' && inputs.bedrock-role-to-assume == ''

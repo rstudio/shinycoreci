@@ -33,6 +33,12 @@ inputs:
   target-maintainer:
     description: Maintainer who should review the generated PR.
     required: true
+  app-slug:
+    description: >
+      Slug of the GitHub App that issued github-token (e.g. "posit-shiny-automation").
+      Used to disambiguate workflow_dispatch runs created during verification.
+    required: false
+    default: ""
   issue-url:
     description: Remediation issue URL to link from the generated PR.
     required: true
@@ -57,6 +63,30 @@ inputs:
     description: Maximum Claude Code agent turns.
     required: false
     default: "20"
+  max-attempts:
+    description: >
+      Maximum number of remediation attempts (initial attempt + retries) Claude
+      will make. Each attempt dispatches the target workflow on the PR branch,
+      watches the run, and on failure re-invokes Claude with the new logs to
+      push additional commits onto the same PR branch. Capped at 2.
+    required: false
+    default: "2"
+  verify-watch-attempts:
+    description: How many times to poll for the verification run to complete.
+    required: false
+    default: "90"
+  verify-watch-interval-seconds:
+    description: Seconds between verification watch attempts.
+    required: false
+    default: "60"
+  verify-lookup-attempts:
+    description: How many times to poll for the verification run to appear.
+    required: false
+    default: "30"
+  verify-lookup-interval-seconds:
+    description: Seconds between verification lookup attempts.
+    required: false
+    default: "10"
 
 outputs:
   pr_url:
@@ -65,10 +95,28 @@ outputs:
   pr_number:
     description: Number of the generated remediation PR, when one was created.
     value: ${{ steps.solve.outputs.pr_number }}
+  verification_conclusion:
+    description: >
+      Final conclusion of the dispatched target workflow run on the PR branch
+      after the last remediation attempt. Empty if no PR was opened.
+    value: ${{ steps.verify-2.outputs.conclusion || steps.verify-1.outputs.conclusion }}
+  attempts_used:
+    description: Number of remediation attempts actually executed (1 or 2).
+    value: ${{ steps.verify-2.outputs.attempt || steps.verify-1.outputs.attempt || '0' }}
 
 runs:
   using: composite
   steps:
+    - name: Prepare verifier script
+      id: verifier
+      shell: bash
+      run: |
+        set -euo pipefail
+        path="${RUNNER_TEMP}/shinycoreci-bedrock-verify.sh"
+        cp "${GITHUB_ACTION_PATH}/verify.sh" "${path}"
+        chmod +x "${path}"
+        echo "path=${path}" >> "$GITHUB_OUTPUT"
+
     - name: Checkout target repository
       uses: actions/checkout@v6
       with:
@@ -133,7 +181,7 @@ runs:
         base_branch: ${{ inputs.target-ref }}
         branch_prefix: shinycoreci-bedrock-
         additional_permissions: "actions: read"
-        allowed_bots: "github-actions[bot],posit-shiny-automation[bot]"
+        allowed_bots: ${{ inputs.app-slug != '' && format('github-actions[bot],posit-shiny-automation[bot],{0}[bot]', inputs.app-slug) || 'github-actions[bot],posit-shiny-automation[bot]' }}
         prompt: |
           You are fixing a failed cross-repository package check for ${{ inputs.target-owner }}/${{ inputs.target-repo }}.
 
@@ -301,4 +349,222 @@ runs:
 
         echo "pr_url=${pr_url}" >> "$GITHUB_OUTPUT"
         echo "pr_number=${pr_url##*/}" >> "$GITHUB_OUTPUT"
+        echo "branch=${branch}" >> "$GITHUB_OUTPUT"
         echo "Opened remediation PR: ${pr_url}"
+
+    - name: Verify remediation (attempt 1)
+      id: verify-1
+      if: steps.solve.outputs.pr_url != ''
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        PR_BRANCH: ${{ steps.solve.outputs.branch }}
+        PR_URL: ${{ steps.solve.outputs.pr_url }}
+        ISSUE_URL: ${{ inputs.issue-url }}
+        APP_SLUG: ${{ inputs.app-slug }}
+        LOOKUP_ATTEMPTS: ${{ inputs.verify-lookup-attempts }}
+        LOOKUP_INTERVAL: ${{ inputs.verify-lookup-interval-seconds }}
+        WATCH_ATTEMPTS: ${{ inputs.verify-watch-attempts }}
+        WATCH_INTERVAL: ${{ inputs.verify-watch-interval-seconds }}
+      run: |
+        set -euo pipefail
+        bash "${{ steps.verifier.outputs.path }}" 1
+
+    - name: Run Claude Code Action (retry attempt 2)
+      id: claude-retry
+      if: >-
+        steps.verify-1.outputs.conclusion != ''
+        && steps.verify-1.outputs.conclusion != 'success'
+        && fromJSON(inputs.max-attempts) >= 2
+      uses: anthropics/claude-code-action@v1.0.92
+      with:
+        use_bedrock: "true"
+        github_token: ${{ inputs.github-token }}
+        base_branch: ${{ steps.solve.outputs.branch }}
+        branch_prefix: shinycoreci-bedrock-retry-
+        additional_permissions: "actions: read"
+        allowed_bots: ${{ inputs.app-slug != '' && format('github-actions[bot],posit-shiny-automation[bot],shinycoreci-bedrock[bot],{0}[bot]', inputs.app-slug) || 'github-actions[bot],posit-shiny-automation[bot],shinycoreci-bedrock[bot]' }}
+        prompt: |
+          You are continuing a remediation attempt for ${{ inputs.target-owner }}/${{ inputs.target-repo }}.
+          The first remediation attempt opened PR ${{ steps.solve.outputs.pr_url }} on branch `${{ steps.solve.outputs.branch }}`,
+          but the dispatched verification run still failed with conclusion `${{ steps.verify-1.outputs.conclusion }}`.
+
+          Context:
+          - PR branch (already contains your previous fix): ${{ steps.solve.outputs.branch }}
+          - Failed verification run: ${{ steps.verify-1.outputs.run_url }}
+          - Original failed workflow: ${{ inputs.target-workflow }}
+          - Remediation issue: ${{ inputs.issue-url }}
+
+          The latest verification log is available at .shinycoreci-remediation/remote-run.log. Review it together with your prior changes (already on disk via the PR branch) and add additional fixes that resolve the remaining failures. Do not revert your earlier work unless it was clearly wrong.
+
+          Same constraints as before: do not add a repository-specific reviewer workflow; restrict any workflow change to ${{ inputs.target-workflow }}. Any commit message must follow Conventional Commits (`fix(ci): ...` for package-check fixes).
+
+          Leave the final git commit, branch push, and PR update to this workflow. Do not commit, push, or modify .shinycoreci-remediation.
+        claude_args: |
+          --model ${{ inputs.bedrock-model-id }}
+          ${{ inputs.bedrock-fallback-model-id != '' && format('--fallback-model {0}', inputs.bedrock-fallback-model-id) || '' }}
+          --max-turns ${{ inputs.max-turns }}
+          --allowedTools Bash,Read,Write,Edit,WebFetch,WebSearch
+
+    - name: Finalize retry commit on PR branch
+      id: solve-retry
+      if: steps.claude-retry.outcome == 'success'
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_REF: ${{ inputs.target-ref }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        ISSUE_URL: ${{ inputs.issue-url }}
+        REMOTE_RUN_URL: ${{ steps.verify-1.outputs.run_url }}
+        REMOTE_RUN_CONCLUSION: ${{ steps.verify-1.outputs.conclusion }}
+        SOURCE_RUN_URL: ${{ inputs.source-run-url }}
+        PR_BRANCH: ${{ steps.solve.outputs.branch }}
+        PR_URL: ${{ steps.solve.outputs.pr_url }}
+        CLAUDE_BRANCH_NAME: ${{ steps.claude-retry.outputs.branch_name }}
+      run: |
+        set -euo pipefail
+
+        git remote set-url origin "https://x-access-token:${TARGET_GH_TOKEN}@github.com/${TARGET_OWNER}/${TARGET_REPO}.git"
+        git config user.name "shinycoreci-bedrock[bot]"
+        git config user.email "shinycoreci-bedrock[bot]@users.noreply.github.com"
+
+        rm -rf .shinycoreci-remediation || true
+
+        pr_title="fix(ci): follow-up remediation for ${TARGET_REPO} package checks"
+        commit_body="$(printf '%s\n' \
+          "Second AWS Bedrock remediation attempt addressing remaining failures." \
+          "" \
+          "Refs: ${ISSUE_URL}" \
+          "PR: ${PR_URL}" \
+          "Previous verification conclusion: ${REMOTE_RUN_CONCLUSION}" \
+          "Previous verification run: ${REMOTE_RUN_URL:-not available}" \
+          "Scheduler run: ${SOURCE_RUN_URL}")"
+
+        retry_branch="${CLAUDE_BRANCH_NAME:-}"
+        current_branch="$(git branch --show-current || true)"
+        [[ -z "${retry_branch}" ]] && retry_branch="${current_branch}"
+
+        git add -A
+        if ! git diff --cached --quiet; then
+          git commit -m "${pr_title}" -m "${commit_body}"
+        fi
+
+        retry_ref="$(git rev-parse HEAD)"
+        git fetch origin "${PR_BRANCH}:refs/remotes/origin/${PR_BRANCH}" --depth=50
+
+        if [[ -z "${retry_branch}" || "${retry_branch}" == "${PR_BRANCH}" || "${current_branch}" == "${PR_BRANCH}" ]]; then
+          ahead_count="$(git rev-list --count "origin/${PR_BRANCH}..HEAD" 2>/dev/null || echo 0)"
+          if [[ "${ahead_count}" != "0" ]]; then
+            git push origin "HEAD:${PR_BRANCH}"
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          fi
+          exit 0
+        fi
+
+        # Squash retry branch into the PR branch with a single conventional commit.
+        git fetch origin "${retry_branch}:refs/remotes/origin/${retry_branch}" --depth=50 || true
+        git switch "${PR_BRANCH}" 2>/dev/null || git switch -c "${PR_BRANCH}" "origin/${PR_BRANCH}"
+        git reset --hard "origin/${PR_BRANCH}"
+
+        if ! git merge --squash "${retry_ref}" 2>/dev/null && \
+           ! git merge --squash "${retry_branch}" 2>/dev/null && \
+           ! git merge --squash "origin/${retry_branch}" 2>/dev/null; then
+          echo "::warning::Retry branch ${retry_branch} could not be squashed onto ${PR_BRANCH}; skipping."
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        if git diff --cached --quiet; then
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        git commit -m "${pr_title}" -m "${commit_body}"
+        git push origin "HEAD:${PR_BRANCH}"
+
+        # Try to delete the throwaway retry branch (best effort).
+        GH_TOKEN="${TARGET_GH_TOKEN}" gh api \
+          --method DELETE \
+          -H "Accept: application/vnd.github+json" \
+          "/repos/${TARGET_OWNER}/${TARGET_REPO}/git/refs/heads/${retry_branch}" >/dev/null 2>&1 || true
+
+        echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+    - name: Verify remediation (attempt 2)
+      id: verify-2
+      if: steps.solve-retry.outputs.pushed == 'true'
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        PR_BRANCH: ${{ steps.solve.outputs.branch }}
+        PR_URL: ${{ steps.solve.outputs.pr_url }}
+        ISSUE_URL: ${{ inputs.issue-url }}
+        APP_SLUG: ${{ inputs.app-slug }}
+        LOOKUP_ATTEMPTS: ${{ inputs.verify-lookup-attempts }}
+        LOOKUP_INTERVAL: ${{ inputs.verify-lookup-interval-seconds }}
+        WATCH_ATTEMPTS: ${{ inputs.verify-watch-attempts }}
+        WATCH_INTERVAL: ${{ inputs.verify-watch-interval-seconds }}
+      run: |
+        set -euo pipefail
+        bash "${{ steps.verifier.outputs.path }}" 2
+
+    - name: Comment final remediation status
+      if: always() && steps.solve.outputs.pr_url != ''
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        ISSUE_URL: ${{ inputs.issue-url }}
+        PR_URL: ${{ steps.solve.outputs.pr_url }}
+        ATTEMPT_1_CONCLUSION: ${{ steps.verify-1.outputs.conclusion }}
+        ATTEMPT_1_RUN_URL: ${{ steps.verify-1.outputs.run_url }}
+        ATTEMPT_2_CONCLUSION: ${{ steps.verify-2.outputs.conclusion }}
+        ATTEMPT_2_RUN_URL: ${{ steps.verify-2.outputs.run_url }}
+      run: |
+        set -euo pipefail
+
+        [[ -z "${ATTEMPT_1_CONCLUSION}" ]] && exit 0
+
+        final_conclusion="${ATTEMPT_2_CONCLUSION:-${ATTEMPT_1_CONCLUSION}}"
+        attempts_used=1
+        [[ -n "${ATTEMPT_2_CONCLUSION}" ]] && attempts_used=2
+
+        if [[ "${final_conclusion}" == "success" ]]; then
+          status_line="Verification succeeded after ${attempts_used} attempt(s)."
+        else
+          status_line="Verification still failing after ${attempts_used} attempt(s) (final conclusion: \`${final_conclusion}\`). Manual review required."
+        fi
+
+        if [[ -n "${ATTEMPT_2_CONCLUSION}" ]]; then
+          attempt_2_line="- Attempt 2 conclusion: \`${ATTEMPT_2_CONCLUSION}\` (${ATTEMPT_2_RUN_URL:-no run url})"
+        else
+          attempt_2_line="- Attempt 2: not run"
+        fi
+
+        body="$(printf '%s\n' \
+          "${status_line}" \
+          "" \
+          "- PR: ${PR_URL}" \
+          "- Attempt 1 conclusion: \`${ATTEMPT_1_CONCLUSION}\` (${ATTEMPT_1_RUN_URL:-no run url})" \
+          "${attempt_2_line}")"
+
+        issue_number="${ISSUE_URL##*/}"
+        GH_TOKEN="${TARGET_GH_TOKEN}" gh issue comment "${issue_number}" \
+          --repo "${TARGET_OWNER}/${TARGET_REPO}" \
+          --body "${body}" || true
+
+        pr_number="${PR_URL##*/}"
+        GH_TOKEN="${TARGET_GH_TOKEN}" gh pr comment "${pr_number}" \
+          --repo "${TARGET_OWNER}/${TARGET_REPO}" \
+          --body "${body}" || true
