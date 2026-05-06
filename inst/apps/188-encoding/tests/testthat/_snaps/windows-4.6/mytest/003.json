@@ -1,0 +1,11 @@
+{
+  "input": {
+    "select": "å"
+  },
+  "output": {
+    "txt": "å"
+  },
+  "export": {
+
+  }
+}
