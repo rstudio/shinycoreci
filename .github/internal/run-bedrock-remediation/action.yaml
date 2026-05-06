@@ -328,10 +328,6 @@ runs:
             -f "assignees[]=${TARGET_MAINTAINER}" >/dev/null 2>&1 || true
         fi
 
-        GH_TOKEN="${TARGET_GH_TOKEN}" gh issue comment "${issue_number}" \
-          --repo "${TARGET_OWNER}/${TARGET_REPO}" \
-          --body "Opened AWS Bedrock remediation PR: ${pr_url}" || true
-
         echo "pr_url=${pr_url}" >> "$GITHUB_OUTPUT"
         echo "pr_number=${pr_url##*/}" >> "$GITHUB_OUTPUT"
         echo "branch=${branch}" >> "$GITHUB_OUTPUT"
