@@ -7,10 +7,12 @@ name: External package checks
 #
 # The target-repo list lives in .github/external-package-checks.json so the
 # configuration is shared with the results website (render-results.Rmd on the
-# _test_results branch). To add a repository, edit that JSON file only.
+# _test_results branch). Targets may live in different GitHub orgs; to add a
+# repository, edit that JSON file only.
 #
 # Requirements for each target repository:
-#   * The POSIT_SHINY_AUTOMATION GitHub App is installed on it.
+#   * The POSIT_SHINY_AUTOMATION GitHub App is installed on the target owner
+#     and repository (for example rstudio/* or posit-dev/*).
 #   * The listed workflow file supports `workflow_dispatch` on the listed ref.
 #   * No repo-specific PR review workflow is needed; reviewer routing is
 #     handled centrally by shinycoreci.
@@ -84,6 +86,8 @@ jobs:
         with:
           app-id: ${{ secrets.POSIT_SHINY_AUTOMATION_APP_ID }}
           private-key: ${{ secrets.POSIT_SHINY_AUTOMATION_PEM }}
+          # Mint the installation token against the current matrix owner so a
+          # single app can dispatch checks across multiple orgs.
           owner: ${{ matrix.owner }}
           repositories: ${{ matrix.repo }}
           permission-actions: write

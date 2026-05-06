@@ -1,5 +1,5 @@
 {
-  "comment": "Source of truth for the external-package-checks scheduler. Consumed by .github/workflows/external-package-checks.yml as its matrix, and by render-results.Rmd on the _test_results branch to render status badges. To add a repo, append an entry; no workflow edits required.",
+  "comment": "Source of truth for the external-package-checks scheduler. Consumed by .github/workflows/external-package-checks.yml as its matrix, and by render-results.Rmd on the _test_results branch to render status badges. Targets may span multiple GitHub orgs such as rstudio and posit-dev. To add a repo, append an entry with its owner; no workflow edits required.",
   "targets": [
     {
       "owner": "rstudio",
