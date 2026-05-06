@@ -7,6 +7,7 @@
 - `team-issue-triage.yaml`: repo allowlist, report repo, scan limits, Bedrock/provider guardrails, and state paths.
 - `labels.yaml`: label taxonomy and `allowed_safe_output_labels`, which the post-processing validator reads at runtime.
 - `issue-triage-rubric.md`: compact decision rubric passed to Claude.
+- `scripts/`: repository resolution, GitHub App token map generation, and `gh` token routing helpers.
 
 State is written to the long-lived `triage-state` branch as `cursors.json`, `issues/*.jsonl`, `triage-results/*.jsonl`, and `duplicates/candidates.jsonl`.
 
@@ -14,7 +15,7 @@ State is written to the long-lived `triage-state` branch as `cursors.json`, `iss
 
 Required secrets/vars:
 
-- Org secrets inherited by this repo: `POSIT_SHINY_AUTOMATION_CLIENT_ID`, `POSIT_SHINY_AUTOMATION_PEM`.
+- Org or repo secrets inherited by this workflow repo: `POSIT_SHINY_AUTOMATION_CLIENT_ID`, `POSIT_SHINY_AUTOMATION_PEM`.
 - Repo secret or var: `AWS_BEDROCK_ROLE_TO_ASSUME`.
 - Optional vars: `AWS_REGION`/`AWS_BEDROCK_REGION`, `ANTHROPIC_MODEL`.
 
@@ -26,7 +27,17 @@ Do not set `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN`; Bedrock auth comes 
 2. Add `owner/repo` to `repositories:` in `team-issue-triage.yaml`.
 3. Create the labels listed in `labels.yaml` before adding the repo to the workflow allowlist.
 
-All allowlisted repos must share one owner because `actions/create-github-app-token` receives a single owner.
+Allowlisted repos may span owners. The workflow resolves the GitHub App installation for each repository, groups repositories by installation, and writes temporary read/write token maps for the run. Each `gh --repo owner/repo` call is routed to the matching installation token, so commands should target one repository at a time.
+
+For example, this shape is supported when the same GitHub App is installed on all three repositories with the requested permissions:
+
+```yaml
+repositories:
+  - rstudio/repo-a
+  - posit-dev/repo-b
+  - another-org/repo-c
+report_repo: rstudio/repo-a
+```
 
 ## Issue and Commit Style
 
@@ -41,6 +52,9 @@ To keep automated outputs predictable:
 
 ```bash
 python3 -c 'import yaml; [yaml.safe_load(open(p)) for p in [".github/workflows/team-issue-triage.yml", ".github/triage/team-issue-triage.yaml", ".github/triage/labels.yaml"]]'
+python3 -m py_compile .github/triage/scripts/resolve-repositories.py
+node --check .github/triage/scripts/create-github-app-token-map.mjs
+node --check .github/triage/scripts/gh-token-router.mjs
 rg 'api\.githubcopilot|api\.anthropic\.com|statsig\.anthropic\.com|ANTHROPIC_API_KEY|CLAUDE_CODE_OAUTH_TOKEN' .github/workflows/team-issue-triage.yml
 ```
 

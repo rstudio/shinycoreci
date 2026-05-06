@@ -1,6 +1,6 @@
 # Single source of truth for repos this workflow triages.
 # To add one: install the GitHub App, then append owner/repo below.
-# All entries must share one owner.
+# Entries may span owners if the same GitHub App is installed on each repo.
 repositories:
   - rstudio/reactlog
 
