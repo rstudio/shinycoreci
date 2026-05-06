@@ -48,7 +48,7 @@ accept_snaps <- function(
 
         NULL
       })
-      ignore <- capture.output(
+      ignore <- utils::capture.output(
         type = "message",
         {
           testthat::snapshot_accept()
@@ -70,7 +70,7 @@ accept_snaps <- function(
         cli::cli_li("{.file {name}}: {format(diff, nsmall = 2)}")
       })
       cli::cli_end(ul)
-      hist(snaps_diffs, main = "Histogram of snapshot diffs", xlab = "shinytest2::screenshot_max_difference()")
+      graphics::hist(snaps_diffs, main = "Histogram of snapshot diffs", xlab = "shinytest2::screenshot_max_difference()")
     }
   }
 
