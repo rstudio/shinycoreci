@@ -98,8 +98,8 @@ deploy_apps <- function(
           try({
             withr::with_tempdir({
               rsconnect::writeManifest(app_dir)
-              cat(paste0(readLines(file.path(appDir, "manifest.json")), collapse = "\n"), "\n")
-              unlink(file.path(appDir, "manifest.json"))
+              cat(paste0(readLines(file.path(app_dir, "manifest.json")), collapse = "\n"), "\n")
+              unlink(file.path(app_dir, "manifest.json"))
             })
           })
           return(1)
