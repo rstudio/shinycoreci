@@ -251,7 +251,6 @@ runs:
 
         if [[ -n "${status}" ]]; then
           git add -A
-          diff_stat="$(git diff --cached --stat)"
           pr_title="fix(ci): remediate ${TARGET_REPO} package checks on ${TARGET_REF}"
           commit_body="$(printf '%s\n' \
             "Automated by shinycoreci using Claude Code Action with Anthropic models on AWS Bedrock." \
@@ -262,8 +261,6 @@ runs:
             "Remote run: ${REMOTE_RUN_URL:-not available}" \
             "Scheduler run: ${SOURCE_RUN_URL}")"
           git commit -m "${pr_title}" -m "${commit_body}"
-        else
-          diff_stat="$(git diff --stat "origin/${TARGET_REF}...HEAD" || true)"
         fi
 
         ahead_count="$(git rev-list --count "origin/${TARGET_REF}..HEAD" 2>/dev/null || echo 0)"
@@ -305,18 +302,6 @@ runs:
             echo "| Remote run | ${REMOTE_RUN_URL:-not available} |"
             echo "| Scheduler run | ${SOURCE_RUN_URL} |"
             echo "| Solver | Claude Code Action using Anthropic models on AWS Bedrock |"
-            echo ""
-            echo "## Diff summary"
-            echo ""
-            echo "\`\`\`"
-            echo "${diff_stat}"
-            echo "\`\`\`"
-            echo ""
-            echo "## Reviewer checklist"
-            echo ""
-            echo "- [ ] Title follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) (\`<type>(scope): <description>\`)."
-            echo "- [ ] Changes are scoped to fixing the failure described above."
-            echo "- [ ] No repository-specific reviewer workflow was added; reviewer routing stays in \`${SOURCE_REPOSITORY}\`."
             echo ""
             echo "Closes #${issue_number}"
           } > "${body_file}"

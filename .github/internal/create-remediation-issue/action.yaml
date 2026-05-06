@@ -206,9 +206,6 @@ runs:
           reuse_issue "${existing_issue_json}"
         fi
 
-        conventional_pr_title_sentence="Use a Conventional Commits pull request title following https://www.conventionalcommits.org/en/v1.0.0/ in the form \`<type>(optional scope): <description>\` or \`<type>: <description>\`, choosing the type and scope that match the actual change. Prefer \`fix(ci): ...\` for package-check fixes."
-        review_handoff_sentence="Reviewer and assignee handoff is handled centrally by \`${SOURCE_REPOSITORY}\`; do not add a separate workflow just to request maintainer review. If scheduler compatibility requires a workflow change in this repository, limit it to \`${TARGET_WORKFLOW}\`."
-
         body_lines=(
           "<!-- ${remediation_marker} -->"
           ""
@@ -231,12 +228,6 @@ runs:
           "| Source scheduler | \`${SOURCE_REPOSITORY}\` |"
           "| Scheduler run | ${SOURCE_RUN_URL} |"
           "| Suggested maintainer | @${TARGET_MAINTAINER} |"
-          ""
-          "## Next steps"
-          ""
-          "1. An AWS Bedrock-backed Anthropic solver will attempt to investigate this failure and open a pull request against \`${TARGET_REF}\` when Bedrock credentials are configured for the scheduler."
-          "2. ${conventional_pr_title_sentence}"
-          "3. ${review_handoff_sentence}"
         )
 
         if [[ -n "${INPUT_CUSTOM_INSTRUCTIONS}" ]]; then
