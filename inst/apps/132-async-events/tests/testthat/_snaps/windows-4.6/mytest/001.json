@@ -1,0 +1,17 @@
+{
+  "input": {
+    "error": 0,
+    "silent": 0,
+    "success": 0,
+    "type": "success",
+    "validation": 0
+  },
+  "output": {
+    "async_output": "normal value",
+    "observeEventStatus": "(none)",
+    "sync_output": "normal value"
+  },
+  "export": {
+
+  }
+}

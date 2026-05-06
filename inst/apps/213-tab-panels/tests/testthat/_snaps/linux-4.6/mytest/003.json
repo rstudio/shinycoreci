@@ -1,0 +1,14 @@
+{
+  "input": {
+    "add": 1,
+    "addFoo": 0,
+    "removeFoo": 0,
+    "tabs": "Dynamic-1"
+  },
+  "output": {
+
+  },
+  "export": {
+
+  }
+}
