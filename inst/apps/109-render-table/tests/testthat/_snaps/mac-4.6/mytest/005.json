@@ -1,0 +1,45 @@
+{
+  "input": {
+    "align": "ccr",
+    "colnames": "T",
+    "dataset": "mock",
+    "digits": "NULL",
+    "format": [
+      "striped",
+      "bordered"
+    ],
+    "na": "NA",
+    "obs": 6,
+    "rownames": "F",
+    "spacing": "xs",
+    "width": "auto"
+  },
+  "output": {
+    "code": "in <strong>ui.R<\/strong>: <br><code>tableOutput('tbl')<\/code><br><br>in <strong>server.R<\/strong>: <br><code>output$tbl <- renderTable({ head( mock, n = 6 )},&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;\n                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n                   &nbsp;&nbsp;&nbsp;&nbsp;striped = TRUE, bordered = TRUE,&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;\n                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n                     &nbsp;&nbsp;&nbsp;&nbsp;spacing = 'xs',&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;\n                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n                     &nbsp;&nbsp;&nbsp;&nbsp;align = 'ccr')&nbsp;&nbsp;<\/code>",
+    "pre_align": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"align-label\" for=\"align\">Column alignment:<\/label>\n  <div>\n    <select id=\"align\" class=\"shiny-input-select\"><option value=\"NULL\" selected>NULL<\/option>\n<option value=\"?\">?<\/option>\n<option value=\"c\">c<\/option>\n<option value=\"l\">l<\/option>\n<option value=\"c?r\">c?r<\/option>\n<option value=\"ccr\">ccr<\/option>\n<option value=\"rrr\">rrr<\/option><\/select>\n    <script type=\"application/json\" data-for=\"align\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.15.2",
+          "src": {
+            "href": "selectize-0.15.2"
+          },
+          "meta": null,
+          "script": [
+            "js/selectize.min.js",
+            "accessibility/js/selectize-plugin-a11y.min.js"
+          ],
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    },
+    "view": "<table  class = 'table shiny-table table-striped table-bordered spacing-xs' style = 'width:auto;'>\n<thead> <tr> <th style='text-align: center;'> v1 <\/th> <th style='text-align: center;'> v2 <\/th> <th style='text-align: right;'> v3 <\/th>  <\/tr> <\/thead> <tbody>\n  <tr> <td align=\"center\"> 1.00 <\/td> <td align=\"center\"> a <\/td> <td align=\"right\"> TRUE <\/td> <\/tr>\n  <tr> <td align=\"center\"> 2.00 <\/td> <td align=\"center\"> b <\/td> <td align=\"right\"> TRUE <\/td> <\/tr>\n  <tr> <td align=\"center\" class='NA'> NA <\/td> <td align=\"center\"> c <\/td> <td align=\"right\"> FALSE <\/td> <\/tr>\n  <tr> <td align=\"center\"> 9.00 <\/td> <td align=\"center\"> d <\/td> <td align=\"right\" class='NA'> NA <\/td> <\/tr>\n  <tr> <td align=\"center\" class='NA'> NA <\/td> <td align=\"center\"> e <\/td> <td align=\"right\"> FALSE <\/td> <\/tr>\n  <tr> <td align=\"center\"> 7.00 <\/td> <td align=\"center\" class='NA'> NA <\/td> <td align=\"right\"> TRUE <\/td> <\/tr>\n   <\/tbody> <\/table>"
+  },
+  "export": {
+
+  }
+}

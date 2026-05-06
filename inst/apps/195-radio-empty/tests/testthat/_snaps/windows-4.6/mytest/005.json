@@ -1,0 +1,21 @@
+{
+  "input": {
+    "empty": 1,
+    "radio": null,
+    "radio2": null,
+    "rerender": 1
+  },
+  "output": {
+    "dynamic": {
+      "html": "<div id=\"radio2\" class=\"form-group shiny-input-radiogroup shiny-input-container\" role=\"radiogroup\" aria-labelledby=\"radio2-label\">\n  <label class=\"control-label\" id=\"radio2-label\" for=\"radio2\">Dynamic radios<\/label>\n  <div class=\"shiny-options-group\">\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"radio2\" value=\"a\"/>\n        <span>a<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"radio2\" value=\"b\"/>\n        <span>b<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"radio2\" value=\"c\"/>\n        <span>c<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"radio2\" value=\"d\"/>\n        <span>d<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"radio2\" value=\"e\"/>\n        <span>e<\/span>\n      <\/label>\n    <\/div>\n  <\/div>\n<\/div>",
+      "deps": [
+
+      ]
+    },
+    "txt": "NULL",
+    "txt2": "NULL"
+  },
+  "export": {
+
+  }
+}
