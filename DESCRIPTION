@@ -25,7 +25,6 @@ Imports:
     utils,
     withr
 Suggests:
-    cli,
     dplyr,
     english,
     httpuv,

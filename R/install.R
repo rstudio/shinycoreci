@@ -160,7 +160,7 @@ get_extra_shinyverse_deps <- function(packages) {
     if (is.null(pkg_dep_packages)) {
       # Install pak if not already installed
       if (!requireNamespace("pak", quietly = TRUE)) {
-        install.packages("pak")
+        utils::install.packages("pak")
       }
 
       withr::with_options(
@@ -271,7 +271,7 @@ install_pkgs_with_callr <- function(
 
       # Install pak if not already installed
       if (!requireNamespace("pak", quietly = TRUE)) {
-        install.packages("pak")
+        utils::install.packages("pak")
       }
 
       # Performing a leap of faith that pak is installed.
