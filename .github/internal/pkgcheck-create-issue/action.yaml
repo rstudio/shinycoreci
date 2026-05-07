@@ -1,0 +1,89 @@
+name: Create remediation issue
+description: Create or reuse a remediation issue for a failing remote workflow run.
+
+inputs:
+  github-token:
+    description: GitHub App token with permission to read and create issues in the target repository.
+    required: true
+  source-repository:
+    description: Repository running the scheduler workflow.
+    required: true
+  source-run-url:
+    description: URL of the scheduler workflow run.
+    required: true
+  target-owner:
+    description: Owner of the repository whose workflow was dispatched.
+    required: true
+  target-repo:
+    description: Repository whose workflow was dispatched.
+    required: true
+  target-ref:
+    description: Branch or ref used for the remote workflow dispatch.
+    required: true
+  target-workflow:
+    description: Workflow file dispatched in the remote repository.
+    required: true
+  target-maintainer:
+    description: Maintainer who should review any automated fix.
+    required: true
+  remote-run-conclusion:
+    description: Final conclusion reported by the remote workflow run.
+    required: true
+  remote-run-url:
+    description: URL of the remote workflow run.
+    required: false
+    default: ""
+  issue-title:
+    description: Optional override for the remediation issue title.
+    required: false
+    default: ""
+  custom-instructions:
+    description: Optional additional remediation instructions to include in the issue.
+    required: false
+    default: ""
+  issue-labels:
+    description: >
+      Comma-separated list of labels to apply to the remediation issue. Each
+      label is auto-created in the target repository if it does not already
+      exist.
+    required: false
+    default: "ai-generated-issue"
+
+outputs:
+  issue_url:
+    description: URL of the existing or newly created issue.
+    value: ${{ steps.create.outputs.issue_url }}
+  issue_number:
+    description: Number of the existing or newly created issue.
+    value: ${{ steps.create.outputs.issue_number }}
+  issue_mode:
+    description: Whether the issue was reused or created.
+    value: ${{ steps.create.outputs.issue_mode }}
+  existing_pr_url:
+    description: >
+      URL of an already-open pull request cross-referenced from the reused
+      issue, when one exists. Empty when the issue was newly created or has no
+      open linked PR.
+    value: ${{ steps.create.outputs.existing_pr_url }}
+
+runs:
+  using: composite
+  steps:
+    - name: Create or reuse issue
+      id: create
+      shell: bash
+      env:
+        APP_GH_TOKEN: ${{ inputs.github-token }}
+        SOURCE_REPOSITORY: ${{ inputs.source-repository }}
+        SOURCE_RUN_URL: ${{ inputs.source-run-url }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_REF: ${{ inputs.target-ref }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        TARGET_MAINTAINER: ${{ inputs.target-maintainer }}
+        REMOTE_RUN_CONCLUSION: ${{ inputs.remote-run-conclusion }}
+        REMOTE_RUN_URL: ${{ inputs.remote-run-url }}
+        INPUT_ISSUE_TITLE: ${{ inputs.issue-title }}
+        INPUT_CUSTOM_INSTRUCTIONS: ${{ inputs.custom-instructions }}
+        INPUT_ISSUE_LABELS: ${{ inputs.issue-labels }}
+      run: bash "$GITHUB_ACTION_PATH/create-or-reuse-issue.sh"
