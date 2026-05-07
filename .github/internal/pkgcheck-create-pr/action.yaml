@@ -112,9 +112,8 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        path="${RUNNER_TEMP}/shinycoreci-bedrock-verify.sh"
-        cp "${GITHUB_ACTION_PATH}/verify.sh" "${path}"
-        chmod +x "${path}"
+        path="${RUNNER_TEMP}/shinycoreci-bedrock-verify.py"
+        cp "${GITHUB_ACTION_PATH}/verify.py" "${path}"
         echo "path=${path}" >> "$GITHUB_OUTPUT"
 
     - name: Checkout target repository
@@ -151,7 +150,8 @@ runs:
         TARGET_REPO: ${{ inputs.target-repo }}
         REMOTE_RUN_ID: ${{ inputs.remote-run-id }}
         REMOTE_RUN_URL: ${{ inputs.remote-run-url }}
-      run: bash "$GITHUB_ACTION_PATH/download-remote-log.sh"
+      run: |
+        python3 "$GITHUB_ACTION_PATH/download-remote-log.py"
 
     - name: Run Claude Code Action
       id: claude
@@ -204,7 +204,8 @@ runs:
         SOURCE_REPOSITORY: ${{ inputs.source-repository }}
         SOURCE_RUN_URL: ${{ inputs.source-run-url }}
         CLAUDE_BRANCH_NAME: ${{ steps.claude.outputs.branch_name }}
-      run: bash "$GITHUB_ACTION_PATH/finalize-pr.sh"
+      run: |
+        python3 "$GITHUB_ACTION_PATH/finalize-pr.py"
 
     - name: Verify remediation (attempt 1)
       id: verify-1
@@ -225,7 +226,7 @@ runs:
         WATCH_INTERVAL: ${{ inputs.verify-watch-interval-seconds }}
       run: |
         set -euo pipefail
-        bash "${{ steps.verifier.outputs.path }}" 1
+        python3 "${{ steps.verifier.outputs.path }}" 1
 
     - name: Run Claude Code Action (retry attempt 2)
       id: claude-retry
@@ -280,7 +281,8 @@ runs:
         PR_BRANCH: ${{ steps.solve.outputs.branch }}
         PR_URL: ${{ steps.solve.outputs.pr_url }}
         CLAUDE_BRANCH_NAME: ${{ steps.claude-retry.outputs.branch_name }}
-      run: bash "$GITHUB_ACTION_PATH/finalize-retry-commit.sh"
+      run: |
+        python3 "$GITHUB_ACTION_PATH/finalize-retry-commit.py"
 
     - name: Verify remediation (attempt 2)
       id: verify-2
@@ -301,7 +303,7 @@ runs:
         WATCH_INTERVAL: ${{ inputs.verify-watch-interval-seconds }}
       run: |
         set -euo pipefail
-        bash "${{ steps.verifier.outputs.path }}" 2
+        python3 "${{ steps.verifier.outputs.path }}" 2
 
     - name: Comment final remediation status
       if: always() && steps.solve.outputs.pr_url != ''
@@ -316,4 +318,5 @@ runs:
         ATTEMPT_1_RUN_URL: ${{ steps.verify-1.outputs.run_url }}
         ATTEMPT_2_CONCLUSION: ${{ steps.verify-2.outputs.conclusion }}
         ATTEMPT_2_RUN_URL: ${{ steps.verify-2.outputs.run_url }}
-      run: bash "$GITHUB_ACTION_PATH/comment-final-status.sh"
+      run: |
+        python3 "$GITHUB_ACTION_PATH/comment-final-status.py"
