@@ -11,18 +11,18 @@ Use this rubric for every issue. Keep decisions conservative and auditable.
 5. Wrong-location check: identify whether another Shiny team repo or upstream dependency is the better home.
 6. Regression check: only apply `regression` when older behavior is materially different and evidence is cited.
 7. Reproduction plan: include commands, minimal app, or test idea. Use `needs reprex` when a real repro is absent.
-8. Impact and priority: assign P0, P1, P2, or P3 with a short rationale.
+8. Impact and priority: assign `Priority: Critical`, `Priority: High`, `Priority: Medium`, or `Priority: Low` with a short rationale.
 9. Recommended next action: label, ask for info, route, or escalate.
 
 ## Priority Guide
 
-P0 means production-breaking, security-sensitive, data loss, or severe release blocker. Add `ai-triage:needs-review` and do not post external comments without human review.
+`Priority: Critical` means production-breaking, security-sensitive, data loss, or severe release blocker. Add `ai-triage:needs-review` and do not post external comments without human review.
 
-P1 means high-confidence regression or severe bug affecting many users or active release work.
+`Priority: High` means high-confidence regression or severe bug affecting many users or active release work.
 
-P2 means valid bug or well-defined request with moderate impact or a reasonable workaround.
+`Priority: Medium` means valid bug or well-defined request with moderate impact or a reasonable workaround.
 
-P3 means low-impact bug, documentation polish, papercut, or unclear low-severity request.
+`Priority: Low` means low-impact bug, documentation polish, papercut, or unclear low-severity request.
 
 ## Safety Rules
 

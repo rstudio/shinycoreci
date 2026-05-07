@@ -16,17 +16,21 @@ classification:
     requirement: Missing a specific expected behavior, environment detail, screenshot, log, or scope decision.
 
 priority:
-  - name: "priority: P0"
+  - name: "Priority: Critical"
+    color: C90000
     rank: 100
     meaning: Production-breaking, security-sensitive, data loss, or severe release blocker.
     human_review: true
-  - name: "priority: P1"
+  - name: "Priority: High"
+    color: E63700
     rank: 75
     meaning: High-confidence regression or severe bug affecting many users or current release work.
-  - name: "priority: P2"
+  - name: "Priority: Medium"
+    color: FFCC00
     rank: 50
     meaning: Valid bug or well-defined request with moderate impact or a workaround.
-  - name: "priority: P3"
+  - name: "Priority: Low"
+    color: 008A08
     rank: 25
     meaning: Low-impact bug, docs polish, papercut, or unclear low-severity request.
 
@@ -48,10 +52,10 @@ allowed_safe_output_labels:
   - wrong location
   - needs reprex
   - needs clarification
-  - "priority: P0"
-  - "priority: P1"
-  - "priority: P2"
-  - "priority: P3"
+  - "Priority: Critical"
+  - "Priority: High"
+  - "Priority: Medium"
+  - "Priority: Low"
   - ai-triage:needs-review
   - ai-triage:accepted
   - ai-triage:corrected

@@ -54,7 +54,7 @@ automation:
   allow_auto_close: false
   allow_auto_transfer: false
   require_human_review_for:
-    - "priority: P0"
+    - "Priority: Critical"
     - security-sensitive
     - public comment
     - wrong location
