@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     concurrency:
-      group: external-package-check-${{ matrix.owner }}-${{ matrix.repo }}-${{ matrix.workflow }}-${{ matrix.ref }}
+      group: pkgcheck-run-${{ matrix.owner }}-${{ matrix.repo }}-${{ matrix.workflow }}-${{ matrix.ref }}
       cancel-in-progress: false
 
     strategy:
@@ -96,7 +96,7 @@ jobs:
           permission-pull-requests: write
 
       - name: Run external package check
-        uses: ./.github/internal/external-package-check
+        uses: ./.github/internal/pkgcheck-run
         with:
           github-token: ${{ steps.app-token.outputs.token }}
           bedrock-role-to-assume: ${{ secrets.AWS_BEDROCK_ROLE_TO_ASSUME }}

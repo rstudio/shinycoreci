@@ -150,7 +150,7 @@ runs:
     - name: Open remediation issue
       id: issue
       if: steps.watch.outputs.should_open_issue == 'true'
-      uses: ./.github/internal/create-remediation-issue
+      uses: ./.github/internal/pkgcheck-create-issue
       with:
         github-token: ${{ inputs.github-token }}
         source-repository: ${{ inputs.source-repository }}
@@ -169,7 +169,7 @@ runs:
         steps.issue.outputs.issue_url != ''
         && inputs.bedrock-role-to-assume != ''
         && steps.issue.outputs.existing_pr_url == ''
-      uses: ./.github/internal/run-remediation
+      uses: ./.github/internal/pkgcheck-create-pr
       with:
         github-token: ${{ inputs.github-token }}
         aws-role-to-assume: ${{ inputs.bedrock-role-to-assume }}
