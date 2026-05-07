@@ -253,7 +253,7 @@ runs:
           git add -A
           pr_title="fix(ci): remediate ${TARGET_REPO} package checks on ${TARGET_REF}"
           commit_body="$(printf '%s\n' \
-            "Automated by shinycoreci using Claude Code Action with Anthropic models on AWS Bedrock." \
+            "Automated remediation" \
             "" \
             "Refs: ${ISSUE_URL}" \
             "Remote workflow: ${TARGET_WORKFLOW}" \
@@ -268,7 +268,7 @@ runs:
           issue_number="${ISSUE_URL##*/}"
           GH_TOKEN="${TARGET_GH_TOKEN}" gh issue comment "${issue_number}" \
             --repo "${TARGET_OWNER}/${TARGET_REPO}" \
-            --body "AWS Bedrock remediation ran through Claude Code Action, but no file changes were available to propose." || true
+            --body "Automated remediation did not produce any file changes" || true
           echo "pr_url=" >> "$GITHUB_OUTPUT"
           echo "pr_number=" >> "$GITHUB_OUTPUT"
           exit 0
@@ -301,7 +301,6 @@ runs:
             echo "| Remote conclusion | \`${REMOTE_RUN_CONCLUSION}\` |"
             echo "| Remote run | ${REMOTE_RUN_URL:-not available} |"
             echo "| Scheduler run | ${SOURCE_RUN_URL} |"
-            echo "| Solver | Claude Code Action using Anthropic models on AWS Bedrock |"
             echo ""
             echo "Closes #${issue_number}"
           } > "${body_file}"
@@ -418,7 +417,7 @@ runs:
 
         pr_title="fix(ci): follow-up remediation for ${TARGET_REPO} package checks"
         commit_body="$(printf '%s\n' \
-          "Second AWS Bedrock remediation attempt addressing remaining failures." \
+          "Automated remediation (second attempt)" \
           "" \
           "Refs: ${ISSUE_URL}" \
           "PR: ${PR_URL}" \
