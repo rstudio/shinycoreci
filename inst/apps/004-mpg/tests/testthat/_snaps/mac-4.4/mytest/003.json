@@ -6,7 +6,7 @@
   "output": {
     "caption": "mpg ~ am",
     "mpgPlot": {
-      "src": "[image data hash: c4643f71a7523f95364b2e6b822e0746]",
+      "src": "[image data hash: 6f35cb433b443c4e2a68f9d0d04459ad]",
       "width": 631.3281,
       "height": 400,
       "alt": "Plot object",
@@ -20,8 +20,8 @@
               "top": 34.84
             },
             "range": {
-              "left": 59.0707,
-              "right": 601.0724,
+              "left": 59.04,
+              "right": 601.0881,
               "bottom": 325.56,
               "top": 58.04
             },
