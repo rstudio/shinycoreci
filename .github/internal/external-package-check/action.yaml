@@ -169,7 +169,7 @@ runs:
         steps.issue.outputs.issue_url != ''
         && inputs.bedrock-role-to-assume != ''
         && steps.issue.outputs.existing_pr_url == ''
-      uses: ./.github/internal/run-bedrock-remediation
+      uses: ./.github/internal/run-remediation
       with:
         github-token: ${{ inputs.github-token }}
         aws-role-to-assume: ${{ inputs.bedrock-role-to-assume }}
