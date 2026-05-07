@@ -175,13 +175,18 @@ jobs:
                 dir.exists(file.path(item[[1]], item[[2]], item[[3]]))
               })
             unique_changed_apps <- unique(unlist(lapply(changed_app_folders, `[[`, 3)))
-            if (has_altered_github) {
+            if (has_altered_github && length(unique_changed_apps) == 0) {
               message("Altered `.github` folder. Testing all apps!")
-            } else if (length(unique_changed_apps) > 10) {
-              message("More than ten apps were altered. Testing all apps!")
-            } else if (length(changed_app_folders) > 250) {
-              message("More than 250 app files were altered. Testing all apps!")
             } else {
+              if (has_altered_github) {
+                message("Altered `.github` folder and app files. Testing changed apps only.")
+              }
+              if (length(unique_changed_apps) > 10) {
+                message("More than ten apps were altered. Testing changed apps only.")
+              }
+              if (length(changed_app_folders) > 250) {
+                message("More than 250 app files were altered. Testing changed apps only.")
+              }
               apps <- apps[apps %in% unique_changed_apps]
               if (length(apps) == 0) stop("No apps to check")
               cat("Testing apps:\n", paste0("* ", apps, "\n"))

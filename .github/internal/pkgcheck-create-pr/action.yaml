@@ -1,0 +1,322 @@
+name: Run Bedrock remediation
+description: Use Claude Code Action with Anthropic models on AWS Bedrock to create a remediation pull request.
+
+inputs:
+  github-token:
+    description: GitHub App installation token for the target repository. Needs actions:read, contents:write, issues:write, and pull-requests:write.
+    required: true
+  aws-role-to-assume:
+    description: AWS IAM role ARN that can invoke Anthropic models through Bedrock.
+    required: true
+  aws-region:
+    description: AWS region for Bedrock runtime calls.
+    required: true
+  bedrock-model-id:
+    description: Bedrock Anthropic model ID or inference profile ID used by Claude Code.
+    required: true
+  bedrock-fallback-model-id:
+    description: Optional Bedrock Anthropic model ID to use as Claude Code's fallback model.
+    required: false
+    default: ""
+  target-owner:
+    description: Owner of the repository to fix.
+    required: true
+  target-repo:
+    description: Repository to fix.
+    required: true
+  target-workflow:
+    description: Workflow file that failed.
+    required: true
+  target-ref:
+    description: Branch or ref to fix.
+    required: true
+  target-maintainer:
+    description: Maintainer who should review the generated PR.
+    required: true
+  app-slug:
+    description: >
+      Slug of the GitHub App that issued github-token (e.g. "posit-shiny-automation").
+      Used to disambiguate workflow_dispatch runs created during verification.
+    required: false
+    default: ""
+  issue-url:
+    description: Remediation issue URL to link from the generated PR.
+    required: true
+  remote-run-id:
+    description: GitHub Actions run ID for the failed remote workflow.
+    required: false
+    default: ""
+  remote-run-url:
+    description: URL of the failed remote workflow run.
+    required: false
+    default: ""
+  remote-run-conclusion:
+    description: Final conclusion reported by the failed remote workflow run.
+    required: true
+  source-repository:
+    description: Repository running the scheduler workflow.
+    required: true
+  source-run-url:
+    description: URL of the scheduler workflow run.
+    required: true
+  max-turns:
+    description: Maximum Claude Code agent turns.
+    required: false
+    default: "20"
+  max-attempts:
+    description: >
+      Maximum number of remediation attempts (initial attempt + retries) Claude
+      will make. Each attempt dispatches the target workflow on the PR branch,
+      watches the run, and on failure re-invokes Claude with the new logs to
+      push additional commits onto the same PR branch. Capped at 2.
+    required: false
+    default: "2"
+  verify-watch-attempts:
+    description: How many times to poll for the verification run to complete.
+    required: false
+    default: "90"
+  verify-watch-interval-seconds:
+    description: Seconds between verification watch attempts.
+    required: false
+    default: "60"
+  verify-lookup-attempts:
+    description: How many times to poll for the verification run to appear.
+    required: false
+    default: "30"
+  verify-lookup-interval-seconds:
+    description: Seconds between verification lookup attempts.
+    required: false
+    default: "10"
+
+outputs:
+  pr_url:
+    description: URL of the generated remediation PR, when one was created.
+    value: ${{ steps.solve.outputs.pr_url }}
+  pr_number:
+    description: Number of the generated remediation PR, when one was created.
+    value: ${{ steps.solve.outputs.pr_number }}
+  verification_conclusion:
+    description: >
+      Final conclusion of the dispatched target workflow run on the PR branch
+      after the last remediation attempt. Empty if no PR was opened.
+    value: ${{ steps.verify-2.outputs.conclusion || steps.verify-1.outputs.conclusion }}
+  attempts_used:
+    description: Number of remediation attempts actually executed (1 or 2).
+    value: ${{ steps.verify-2.outputs.attempt || steps.verify-1.outputs.attempt || '0' }}
+
+runs:
+  using: composite
+  steps:
+    - name: Prepare verifier script
+      id: verifier
+      shell: bash
+      run: |
+        set -euo pipefail
+        path="${RUNNER_TEMP}/shinycoreci-bedrock-verify.py"
+        cp "${GITHUB_ACTION_PATH}/verify.py" "${path}"
+        echo "path=${path}" >> "$GITHUB_OUTPUT"
+
+    - name: Checkout target repository
+      uses: actions/checkout@v6
+      with:
+        repository: ${{ inputs.target-owner }}/${{ inputs.target-repo }}
+        ref: ${{ inputs.target-ref }}
+        token: ${{ inputs.github-token }}
+
+    - name: Sanitize AWS role session name
+      id: session-name
+      shell: bash
+      env:
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+      run: |
+        set -euo pipefail
+        raw="shinycoreci-${TARGET_OWNER}-${TARGET_REPO}-${GITHUB_RUN_ID:-manual}"
+        value="$(sed 's/[^a-zA-Z0-9_+=,.@-]/_/g' <<<"${raw}" | cut -c1-64)"
+        echo "value=${value}" >> "$GITHUB_OUTPUT"
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v6
+      with:
+        role-to-assume: ${{ inputs.aws-role-to-assume }}
+        role-session-name: ${{ steps.session-name.outputs.value }}
+        aws-region: ${{ inputs.aws-region }}
+
+    - name: Download remote workflow log
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        REMOTE_RUN_ID: ${{ inputs.remote-run-id }}
+        REMOTE_RUN_URL: ${{ inputs.remote-run-url }}
+      run: |
+        python3 "$GITHUB_ACTION_PATH/download-remote-log.py"
+
+    - name: Run Claude Code Action
+      id: claude
+      uses: anthropics/claude-code-action@v1.0.92
+      with:
+        use_bedrock: "true"
+        github_token: ${{ inputs.github-token }}
+        base_branch: ${{ inputs.target-ref }}
+        branch_prefix: shinycoreci-bedrock-
+        additional_permissions: "actions: read"
+        allowed_bots: ${{ inputs.app-slug != '' && format('github-actions[bot],posit-shiny-automation[bot],{0}[bot]', inputs.app-slug) || 'github-actions[bot],posit-shiny-automation[bot]' }}
+        prompt: |
+          You are fixing a failed cross-repository package check for ${{ inputs.target-owner }}/${{ inputs.target-repo }}.
+
+          Context:
+          - Target branch/ref: ${{ inputs.target-ref }}
+          - Failed workflow: ${{ inputs.target-workflow }}
+          - Remote conclusion: ${{ inputs.remote-run-conclusion }}
+          - Remote run: ${{ inputs.remote-run-url || 'not available' }}
+          - Scheduler repository: ${{ inputs.source-repository }}
+          - Scheduler run: ${{ inputs.source-run-url }}
+          - Remediation issue: ${{ inputs.issue-url }}
+
+          The remote workflow log is available at .shinycoreci-remediation/remote-run.log. Investigate the failure, modify only files needed to fix it, and run focused verification when possible. Prefer the existing project conventions.
+
+          Do not add a repository-specific reviewer workflow; ${{ inputs.source-repository }} handles reviewer and assignee handoff centrally. If scheduler compatibility requires a workflow change in this repository, limit it to ${{ inputs.target-workflow }}.
+
+          Any commit message you write must follow Conventional Commits (https://www.conventionalcommits.org/en/v1.0.0/) in the form `<type>(optional scope): <description>`. Prefer `fix(ci): ...` for package-check fixes; the wrapping workflow uses the same format for the final PR title.
+
+          Leave the final git commit, branch push, pull request creation, reviewer assignment, and issue comment to this workflow. Do not commit, push, create pull requests, or modify .shinycoreci-remediation.
+        claude_args: |
+          --model ${{ inputs.bedrock-model-id }}
+          ${{ inputs.bedrock-fallback-model-id != '' && format('--fallback-model {0}', inputs.bedrock-fallback-model-id) || '' }}
+          --max-turns ${{ inputs.max-turns }}
+          --allowedTools Bash,Read,Write,Edit,WebFetch,WebSearch
+
+    - name: Finalize remediation pull request
+      id: solve
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        TARGET_REF: ${{ inputs.target-ref }}
+        TARGET_MAINTAINER: ${{ inputs.target-maintainer }}
+        ISSUE_URL: ${{ inputs.issue-url }}
+        REMOTE_RUN_URL: ${{ inputs.remote-run-url }}
+        REMOTE_RUN_CONCLUSION: ${{ inputs.remote-run-conclusion }}
+        SOURCE_REPOSITORY: ${{ inputs.source-repository }}
+        SOURCE_RUN_URL: ${{ inputs.source-run-url }}
+        CLAUDE_BRANCH_NAME: ${{ steps.claude.outputs.branch_name }}
+      run: |
+        python3 "$GITHUB_ACTION_PATH/finalize-pr.py"
+
+    - name: Verify remediation (attempt 1)
+      id: verify-1
+      if: steps.solve.outputs.pr_url != ''
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        PR_BRANCH: ${{ steps.solve.outputs.branch }}
+        PR_URL: ${{ steps.solve.outputs.pr_url }}
+        ISSUE_URL: ${{ inputs.issue-url }}
+        APP_SLUG: ${{ inputs.app-slug }}
+        LOOKUP_ATTEMPTS: ${{ inputs.verify-lookup-attempts }}
+        LOOKUP_INTERVAL: ${{ inputs.verify-lookup-interval-seconds }}
+        WATCH_ATTEMPTS: ${{ inputs.verify-watch-attempts }}
+        WATCH_INTERVAL: ${{ inputs.verify-watch-interval-seconds }}
+      run: |
+        set -euo pipefail
+        python3 "${{ steps.verifier.outputs.path }}" 1
+
+    - name: Run Claude Code Action (retry attempt 2)
+      id: claude-retry
+      if: >-
+        steps.verify-1.outputs.conclusion != ''
+        && steps.verify-1.outputs.conclusion != 'success'
+        && fromJSON(inputs.max-attempts) >= 2
+      uses: anthropics/claude-code-action@v1.0.92
+      with:
+        use_bedrock: "true"
+        github_token: ${{ inputs.github-token }}
+        base_branch: ${{ steps.solve.outputs.branch }}
+        branch_prefix: shinycoreci-bedrock-retry-
+        additional_permissions: "actions: read"
+        allowed_bots: ${{ inputs.app-slug != '' && format('github-actions[bot],posit-shiny-automation[bot],shinycoreci-bedrock[bot],{0}[bot]', inputs.app-slug) || 'github-actions[bot],posit-shiny-automation[bot],shinycoreci-bedrock[bot]' }}
+        prompt: |
+          You are continuing a remediation attempt for ${{ inputs.target-owner }}/${{ inputs.target-repo }}.
+          The first remediation attempt opened PR ${{ steps.solve.outputs.pr_url }} on branch `${{ steps.solve.outputs.branch }}`,
+          but the dispatched verification run still failed with conclusion `${{ steps.verify-1.outputs.conclusion }}`.
+
+          Context:
+          - PR branch (already contains your previous fix): ${{ steps.solve.outputs.branch }}
+          - Failed verification run: ${{ steps.verify-1.outputs.run_url }}
+          - Original failed workflow: ${{ inputs.target-workflow }}
+          - Remediation issue: ${{ inputs.issue-url }}
+
+          The latest verification log is available at .shinycoreci-remediation/remote-run.log. Review it together with your prior changes (already on disk via the PR branch) and add additional fixes that resolve the remaining failures. Do not revert your earlier work unless it was clearly wrong.
+
+          Same constraints as before: do not add a repository-specific reviewer workflow; restrict any workflow change to ${{ inputs.target-workflow }}. Any commit message must follow Conventional Commits (`fix(ci): ...` for package-check fixes).
+
+          Leave the final git commit, branch push, and PR update to this workflow. Do not commit, push, or modify .shinycoreci-remediation.
+        claude_args: |
+          --model ${{ inputs.bedrock-model-id }}
+          ${{ inputs.bedrock-fallback-model-id != '' && format('--fallback-model {0}', inputs.bedrock-fallback-model-id) || '' }}
+          --max-turns ${{ inputs.max-turns }}
+          --allowedTools Bash,Read,Write,Edit,WebFetch,WebSearch
+
+    - name: Finalize retry commit on PR branch
+      id: solve-retry
+      if: steps.claude-retry.outcome == 'success'
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_REF: ${{ inputs.target-ref }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        ISSUE_URL: ${{ inputs.issue-url }}
+        REMOTE_RUN_URL: ${{ steps.verify-1.outputs.run_url }}
+        REMOTE_RUN_CONCLUSION: ${{ steps.verify-1.outputs.conclusion }}
+        SOURCE_RUN_URL: ${{ inputs.source-run-url }}
+        PR_BRANCH: ${{ steps.solve.outputs.branch }}
+        PR_URL: ${{ steps.solve.outputs.pr_url }}
+        CLAUDE_BRANCH_NAME: ${{ steps.claude-retry.outputs.branch_name }}
+      run: |
+        python3 "$GITHUB_ACTION_PATH/finalize-retry-commit.py"
+
+    - name: Verify remediation (attempt 2)
+      id: verify-2
+      if: steps.solve-retry.outputs.pushed == 'true'
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        PR_BRANCH: ${{ steps.solve.outputs.branch }}
+        PR_URL: ${{ steps.solve.outputs.pr_url }}
+        ISSUE_URL: ${{ inputs.issue-url }}
+        APP_SLUG: ${{ inputs.app-slug }}
+        LOOKUP_ATTEMPTS: ${{ inputs.verify-lookup-attempts }}
+        LOOKUP_INTERVAL: ${{ inputs.verify-lookup-interval-seconds }}
+        WATCH_ATTEMPTS: ${{ inputs.verify-watch-attempts }}
+        WATCH_INTERVAL: ${{ inputs.verify-watch-interval-seconds }}
+      run: |
+        set -euo pipefail
+        python3 "${{ steps.verifier.outputs.path }}" 2
+
+    - name: Comment final remediation status
+      if: always() && steps.solve.outputs.pr_url != ''
+      shell: bash
+      env:
+        TARGET_GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        ISSUE_URL: ${{ inputs.issue-url }}
+        PR_URL: ${{ steps.solve.outputs.pr_url }}
+        ATTEMPT_1_CONCLUSION: ${{ steps.verify-1.outputs.conclusion }}
+        ATTEMPT_1_RUN_URL: ${{ steps.verify-1.outputs.run_url }}
+        ATTEMPT_2_CONCLUSION: ${{ steps.verify-2.outputs.conclusion }}
+        ATTEMPT_2_RUN_URL: ${{ steps.verify-2.outputs.run_url }}
+      run: |
+        python3 "$GITHUB_ACTION_PATH/comment-final-status.py"

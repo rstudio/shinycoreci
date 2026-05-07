@@ -1,0 +1,113 @@
+name: External package checks
+
+# Dispatches package-check workflows on other repositories on a schedule, and
+# opens a remediation issue and, when AWS Bedrock is configured, uses Claude
+# Code Action with Anthropic models to generate a remediation PR against that
+# repository when the remote run fails.
+#
+# The target-repo list lives in .github/external-package-checks.json so the
+# configuration is shared with the results website (render-results.Rmd on the
+# _test_results branch). Targets may live in different GitHub orgs; to add a
+# repository, edit that JSON file only.
+#
+# Requirements for each target repository:
+#   * The POSIT_SHINY_AUTOMATION GitHub App is installed on the target owner
+#     and repository (for example rstudio/* or posit-dev/*).
+#   * The listed workflow file supports `workflow_dispatch` on the listed ref.
+#   * No repo-specific PR review workflow is needed; reviewer routing is
+#     handled centrally by shinycoreci.
+#   * To run the automated solver, configure AWS_BEDROCK_ROLE_TO_ASSUME and
+#     allow that role to invoke the selected Anthropic Bedrock model.
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_repo:
+        description: Optional target repository in owner/repo form. Leave empty to run all configured targets.
+        required: false
+        default: ""
+  schedule:
+    - cron: "0 8 * * 1" # every Monday at 08:00 UTC
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  plan:
+    # Load the target-repo list from the shared JSON config and expose it as a
+    # matrix for the check job below.
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.load.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Load target-repo matrix
+        id: load
+        shell: bash
+        env:
+          TARGET_REPO: ${{ github.event.inputs.target_repo || '' }}
+        run: |
+          set -euo pipefail
+
+          if [[ -n "${TARGET_REPO}" ]]; then
+            matrix="$(jq -c --arg target_repo "${TARGET_REPO}" '{include: [.targets[] | select((.owner + "/" + .repo) == $target_repo)]}' .github/external-package-checks.json)"
+
+            if [[ "$(jq -r '.include | length' <<<"${matrix}")" == "0" ]]; then
+              echo "::error::No configured external package check target matches ${TARGET_REPO}."
+              exit 1
+            fi
+          else
+            matrix="$(jq -c '{include: .targets}' .github/external-package-checks.json)"
+          fi
+
+          echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
+
+  check:
+    needs: plan
+    name: ${{ matrix.owner }}/${{ matrix.repo }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    concurrency:
+      group: pkgcheck-run-${{ matrix.owner }}-${{ matrix.repo }}-${{ matrix.workflow }}-${{ matrix.ref }}
+      cancel-in-progress: false
+
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Generate GitHub App installation token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.POSIT_SHINY_AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.POSIT_SHINY_AUTOMATION_PEM }}
+          # Mint the installation token against the current matrix owner so a
+          # single app can dispatch checks across multiple orgs.
+          owner: ${{ matrix.owner }}
+          repositories: ${{ matrix.repo }}
+          permission-actions: write
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+
+      - name: Run external package check
+        uses: ./.github/internal/pkgcheck-run
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          bedrock-role-to-assume: ${{ secrets.AWS_BEDROCK_ROLE_TO_ASSUME }}
+          bedrock-region: ${{ vars.AWS_BEDROCK_REGION || 'us-east-1' }}
+          bedrock-model-id: ${{ vars.AWS_BEDROCK_ANTHROPIC_MODEL_ID || 'us.anthropic.claude-sonnet-4-5-20250929-v1:0' }}
+          bedrock-fallback-model-id: ${{ vars.AWS_BEDROCK_ANTHROPIC_FALLBACK_MODEL_ID || vars.AWS_BEDROCK_ANTHROPIC_SMALL_FAST_MODEL_ID || '' }}
+          app-slug: ${{ steps.app-token.outputs.app-slug }}
+          target-owner: ${{ matrix.owner }}
+          target-repo: ${{ matrix.repo }}
+          target-workflow: ${{ matrix.workflow }}
+          target-ref: ${{ matrix.ref }}
+          target-maintainer: ${{ matrix.maintainer }}
+          source-repository: ${{ github.repository }}
+          source-run-url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
