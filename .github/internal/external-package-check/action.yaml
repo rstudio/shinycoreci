@@ -145,80 +145,7 @@ runs:
         LOOKUP_INTERVAL: ${{ inputs.dispatch-lookup-interval-seconds }}
         WATCH_ATTEMPTS: ${{ inputs.watch-attempts }}
         WATCH_INTERVAL: ${{ inputs.watch-interval-seconds }}
-      run: |
-        set -euo pipefail
-
-        # The App token's effective actor is "<app-slug>[bot]". Used to filter
-        # concurrent runs on the same workflow down to the one we dispatched.
-        bot_login=""
-        if [[ -n "${APP_SLUG}" ]]; then
-          bot_login="${APP_SLUG}[bot]"
-        fi
-
-        run_id=""
-        for _ in $(seq 1 "${LOOKUP_ATTEMPTS}"); do
-          response="$(gh api \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "/repos/${TARGET_OWNER}/${TARGET_REPO}/actions/workflows/${TARGET_WORKFLOW}/runs?event=workflow_dispatch&branch=${TARGET_REF}&per_page=20")"
-
-          run_id="$(jq -r \
-            --arg dispatched_at "${DISPATCHED_AT}" \
-            --arg bot_login "${bot_login}" \
-            '[
-              .workflow_runs[]
-              | select(.created_at >= $dispatched_at)
-            ]
-            | sort_by(.created_at)
-            | (
-                map(select(($bot_login != "") and ((.triggering_actor.login // .actor.login // "") == $bot_login)))
-                | first
-              ) // first
-            | .id // empty' <<<"${response}")"
-
-          [[ -n "${run_id}" ]] && break
-          sleep "${LOOKUP_INTERVAL}"
-        done
-
-        if [[ -z "${run_id}" ]]; then
-          echo "run_conclusion=dispatch_not_found" >> "$GITHUB_OUTPUT"
-          echo "should_open_issue=true" >> "$GITHUB_OUTPUT"
-          exit 0
-        fi
-
-        echo "run_id=${run_id}" >> "$GITHUB_OUTPUT"
-
-        for _ in $(seq 1 "${WATCH_ATTEMPTS}"); do
-          run_json="$(gh api \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "/repos/${TARGET_OWNER}/${TARGET_REPO}/actions/runs/${run_id}")"
-
-          status="$(jq -r '.status' <<<"${run_json}")"
-          conclusion="$(jq -r '.conclusion // ""' <<<"${run_json}")"
-          run_url="$(jq -r '.html_url' <<<"${run_json}")"
-          echo "Remote status: ${status}${conclusion:+ (${conclusion})}"
-
-          if [[ "${status}" == "completed" ]]; then
-            echo "run_url=${run_url}" >> "$GITHUB_OUTPUT"
-            echo "run_conclusion=${conclusion}" >> "$GITHUB_OUTPUT"
-            case "${conclusion}" in
-              failure|timed_out|action_required|startup_failure|stale)
-                echo "should_open_issue=true" >> "$GITHUB_OUTPUT"
-                ;;
-              *)
-                echo "should_open_issue=false" >> "$GITHUB_OUTPUT"
-                ;;
-            esac
-            exit 0
-          fi
-
-          sleep "${WATCH_INTERVAL}"
-        done
-
-        echo "run_url=https://github.com/${TARGET_OWNER}/${TARGET_REPO}/actions/runs/${run_id}" >> "$GITHUB_OUTPUT"
-        echo "run_conclusion=watch_timeout" >> "$GITHUB_OUTPUT"
-        echo "should_open_issue=true" >> "$GITHUB_OUTPUT"
+      run: bash "$GITHUB_ACTION_PATH/watch-remote-run.sh"
 
     - name: Open remediation issue
       id: issue
@@ -291,33 +218,4 @@ runs:
         ISSUE_URL: ${{ steps.issue.outputs.issue_url }}
         ISSUE_MODE: ${{ steps.issue.outputs.issue_mode }}
         REMEDIATION_PR_URL: ${{ steps.bedrock.outputs.pr_url || steps.issue.outputs.existing_pr_url }}
-      run: |
-        set -euo pipefail
-
-        echo "::error::Remote package checks for ${TARGET_OWNER}/${TARGET_REPO} did not succeed (${REMOTE_RUN_CONCLUSION:-unknown})."
-        [[ -n "${REMOTE_RUN_URL}" ]] && echo "::error::Remote run: ${REMOTE_RUN_URL}"
-        [[ -n "${ISSUE_URL}" ]] && echo "::error::Remediation issue (${ISSUE_MODE:-unknown}): ${ISSUE_URL}"
-        [[ -n "${REMEDIATION_PR_URL}" ]] && echo "::error::Remediation PR: ${REMEDIATION_PR_URL}"
-
-        {
-          echo "## ${TARGET_OWNER}/${TARGET_REPO} handoff"
-          echo ""
-          echo "- Remote conclusion: ${REMOTE_RUN_CONCLUSION:-unknown}"
-          [[ -n "${REMOTE_RUN_URL}" ]] && echo "- Remote run: ${REMOTE_RUN_URL}"
-          if [[ -n "${ISSUE_URL}" ]]; then
-            echo "- Remediation issue (${ISSUE_MODE:-unknown}): ${ISSUE_URL}"
-          else
-            echo "- Remediation issue: not created"
-          fi
-          if [[ -n "${REMEDIATION_PR_URL}" ]]; then
-            echo "- Remediation PR: ${REMEDIATION_PR_URL}"
-          else
-            echo "- Remediation PR: not created"
-          fi
-        } >> "$GITHUB_STEP_SUMMARY"
-
-        if [[ "${REMOTE_RUN_CONCLUSION}" == "dispatch_not_found" ]]; then
-          echo "::error::The remote workflow dispatch succeeded, but no matching workflow run could be found to watch."
-        fi
-
-        exit 1
+      run: bash "$GITHUB_ACTION_PATH/fail-job-summary.sh"
