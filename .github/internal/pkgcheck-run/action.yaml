@@ -1,0 +1,221 @@
+name: External package check (per repo)
+description: >
+  Dispatch a remote package-checks workflow, wait for its result, and on failure
+  open a remediation issue and optionally use Claude Code Action with
+  Anthropic models on AWS Bedrock to create a remediation PR for the correct
+  maintainer.
+
+inputs:
+  github-token:
+    description: >
+      GitHub App installation token scoped to the target repository. Needs
+      actions:write, contents:write, issues:write, pull-requests:write.
+    required: true
+  bedrock-role-to-assume:
+    description: >
+      Optional AWS IAM role ARN that can invoke Anthropic models through
+      Bedrock. If omitted, only a remediation issue is opened.
+    required: false
+    default: ""
+  bedrock-region:
+    description: AWS region for Bedrock runtime calls.
+    required: false
+    default: us-east-1
+  bedrock-model-id:
+    description: Bedrock Anthropic model ID or inference profile ID used by Claude Code.
+    required: false
+    default: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+  bedrock-fallback-model-id:
+    description: Optional Bedrock Anthropic model ID to use as Claude Code's fallback model.
+    required: false
+    default: ""
+  target-owner:
+    description: Owner of the repository whose workflow should be dispatched.
+    required: true
+  target-repo:
+    description: Repository whose workflow should be dispatched.
+    required: true
+  target-workflow:
+    description: Workflow file (e.g. R-CMD-check.yaml) to dispatch in the target repository.
+    required: true
+  target-ref:
+    description: Branch or ref to dispatch the target workflow on.
+    required: true
+  target-maintainer:
+    description: GitHub login of the maintainer who should review any automated fix.
+    required: true
+  app-slug:
+    description: >
+      Slug of the GitHub App that issued github-token (e.g. "posit-shiny-automation").
+      Used to disambiguate the dispatched run from other concurrent runs on the
+      target workflow. Exposed as the app-slug output of
+      actions/create-github-app-token@v2.
+    required: false
+    default: ""
+  source-repository:
+    description: Repository running this scheduler (github.repository).
+    required: true
+  source-run-url:
+    description: URL of this scheduler workflow run.
+    required: true
+  dispatch-lookup-attempts:
+    description: How many times to poll for the dispatched run to appear.
+    required: false
+    default: "30"
+  dispatch-lookup-interval-seconds:
+    description: Seconds between dispatch lookup attempts.
+    required: false
+    default: "10"
+  watch-attempts:
+    description: How many times to poll for the dispatched run to complete.
+    required: false
+    default: "90"
+  watch-interval-seconds:
+    description: Seconds between watch attempts.
+    required: false
+    default: "60"
+  bedrock-max-turns:
+    description: Maximum Claude Code agent turns for Bedrock remediation.
+    required: false
+    default: "20"
+  bedrock-max-attempts:
+    description: >
+      Maximum number of remediation attempts (initial + retries) the Bedrock
+      remediation will make. After each attempt the PR branch is dispatched
+      against the failing workflow; if it still fails Claude is re-invoked.
+      Capped at 2.
+    required: false
+    default: "2"
+
+outputs:
+  run_conclusion:
+    description: Conclusion reported by the dispatched remote workflow run.
+    value: ${{ steps.watch.outputs.run_conclusion }}
+  run_url:
+    description: URL of the dispatched remote workflow run.
+    value: ${{ steps.watch.outputs.run_url }}
+  run_id:
+    description: ID of the dispatched remote workflow run.
+    value: ${{ steps.watch.outputs.run_id }}
+  issue_url:
+    description: URL of the remediation issue (if one was created or reused).
+    value: ${{ steps.issue.outputs.issue_url }}
+  remediation_pr_url:
+    description: URL of the Bedrock-generated remediation PR, if one was created.
+    value: ${{ steps.bedrock.outputs.pr_url }}
+
+runs:
+  using: composite
+  steps:
+    - name: Dispatch remote workflow
+      id: dispatch
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        TARGET_REF: ${{ inputs.target-ref }}
+      run: |
+        set -euo pipefail
+
+        dispatched_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+        echo "dispatched_at=${dispatched_at}" >> "$GITHUB_OUTPUT"
+
+        echo "Dispatching ${TARGET_OWNER}/${TARGET_REPO} ${TARGET_WORKFLOW} on ${TARGET_REF}."
+        gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          "/repos/${TARGET_OWNER}/${TARGET_REPO}/actions/workflows/${TARGET_WORKFLOW}/dispatches" \
+          --input - <<<"$(jq -n --arg ref "${TARGET_REF}" '{ref: $ref}')"
+
+    - name: Watch remote workflow run
+      id: watch
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        TARGET_WORKFLOW: ${{ inputs.target-workflow }}
+        TARGET_REF: ${{ inputs.target-ref }}
+        DISPATCHED_AT: ${{ steps.dispatch.outputs.dispatched_at }}
+        APP_SLUG: ${{ inputs.app-slug }}
+        LOOKUP_ATTEMPTS: ${{ inputs.dispatch-lookup-attempts }}
+        LOOKUP_INTERVAL: ${{ inputs.dispatch-lookup-interval-seconds }}
+        WATCH_ATTEMPTS: ${{ inputs.watch-attempts }}
+        WATCH_INTERVAL: ${{ inputs.watch-interval-seconds }}
+      run: bash "$GITHUB_ACTION_PATH/watch-remote-run.sh"
+
+    - name: Open remediation issue
+      id: issue
+      if: steps.watch.outputs.should_open_issue == 'true'
+      uses: ./.github/internal/pkgcheck-create-issue
+      with:
+        github-token: ${{ inputs.github-token }}
+        source-repository: ${{ inputs.source-repository }}
+        source-run-url: ${{ inputs.source-run-url }}
+        target-owner: ${{ inputs.target-owner }}
+        target-repo: ${{ inputs.target-repo }}
+        target-ref: ${{ inputs.target-ref }}
+        target-workflow: ${{ inputs.target-workflow }}
+        target-maintainer: ${{ inputs.target-maintainer }}
+        remote-run-conclusion: ${{ steps.watch.outputs.run_conclusion }}
+        remote-run-url: ${{ steps.watch.outputs.run_url }}
+
+    - name: Run Bedrock remediation
+      id: bedrock
+      if: >-
+        steps.issue.outputs.issue_url != ''
+        && inputs.bedrock-role-to-assume != ''
+        && steps.issue.outputs.existing_pr_url == ''
+      uses: ./.github/internal/pkgcheck-create-pr
+      with:
+        github-token: ${{ inputs.github-token }}
+        aws-role-to-assume: ${{ inputs.bedrock-role-to-assume }}
+        aws-region: ${{ inputs.bedrock-region }}
+        bedrock-model-id: ${{ inputs.bedrock-model-id }}
+        bedrock-fallback-model-id: ${{ inputs.bedrock-fallback-model-id }}
+        target-owner: ${{ inputs.target-owner }}
+        target-repo: ${{ inputs.target-repo }}
+        target-workflow: ${{ inputs.target-workflow }}
+        target-ref: ${{ inputs.target-ref }}
+        target-maintainer: ${{ inputs.target-maintainer }}
+        app-slug: ${{ inputs.app-slug }}
+        issue-url: ${{ steps.issue.outputs.issue_url }}
+        remote-run-id: ${{ steps.watch.outputs.run_id }}
+        remote-run-url: ${{ steps.watch.outputs.run_url }}
+        remote-run-conclusion: ${{ steps.watch.outputs.run_conclusion }}
+        source-repository: ${{ inputs.source-repository }}
+        source-run-url: ${{ inputs.source-run-url }}
+        max-turns: ${{ inputs.bedrock-max-turns }}
+        max-attempts: ${{ inputs.bedrock-max-attempts }}
+
+    - name: Note missing Bedrock credentials
+      if: steps.issue.outputs.issue_url != '' && inputs.bedrock-role-to-assume == ''
+      shell: bash
+      run: |
+        set -euo pipefail
+        echo "::notice::No Bedrock role configured. Opened a remediation issue, but did not run the automated solver."
+
+    - name: Note existing remediation PR
+      if: steps.issue.outputs.existing_pr_url != ''
+      shell: bash
+      env:
+        EXISTING_PR_URL: ${{ steps.issue.outputs.existing_pr_url }}
+      run: |
+        set -euo pipefail
+        echo "::notice::Skipping Bedrock remediation; open remediation PR already exists: ${EXISTING_PR_URL}"
+
+    - name: Fail job if remote checks did not succeed
+      if: ${{ always() && steps.watch.outputs.run_conclusion != '' && steps.watch.outputs.run_conclusion != 'success' }}
+      shell: bash
+      env:
+        TARGET_OWNER: ${{ inputs.target-owner }}
+        TARGET_REPO: ${{ inputs.target-repo }}
+        REMOTE_RUN_CONCLUSION: ${{ steps.watch.outputs.run_conclusion }}
+        REMOTE_RUN_URL: ${{ steps.watch.outputs.run_url }}
+        ISSUE_URL: ${{ steps.issue.outputs.issue_url }}
+        ISSUE_MODE: ${{ steps.issue.outputs.issue_mode }}
+        REMEDIATION_PR_URL: ${{ steps.bedrock.outputs.pr_url || steps.issue.outputs.existing_pr_url }}
+      run: bash "$GITHUB_ACTION_PATH/fail-job-summary.sh"
