@@ -145,7 +145,8 @@ runs:
         LOOKUP_INTERVAL: ${{ inputs.dispatch-lookup-interval-seconds }}
         WATCH_ATTEMPTS: ${{ inputs.watch-attempts }}
         WATCH_INTERVAL: ${{ inputs.watch-interval-seconds }}
-      run: python3 "$GITHUB_ACTION_PATH/watch-remote-run.py"
+      run: |
+        python3 "$GITHUB_ACTION_PATH/watch-remote-run.py"
 
     - name: Open remediation issue
       id: issue
@@ -218,4 +219,5 @@ runs:
         ISSUE_URL: ${{ steps.issue.outputs.issue_url }}
         ISSUE_MODE: ${{ steps.issue.outputs.issue_mode }}
         REMEDIATION_PR_URL: ${{ steps.bedrock.outputs.pr_url || steps.issue.outputs.existing_pr_url }}
-      run: python3 "$GITHUB_ACTION_PATH/fail-job-summary.py"
+      run: |
+        python3 "$GITHUB_ACTION_PATH/fail-job-summary.py"
