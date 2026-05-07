@@ -172,5 +172,21 @@ def main() -> int:
     return 0
 
 
+def _surface_subprocess_error(e: subprocess.CalledProcessError) -> int:
+    """Print captured stdout/stderr from a failed subprocess so the Action log
+    shows the underlying gh/git error instead of just a Python traceback."""
+    cmd = " ".join(e.cmd) if isinstance(e.cmd, list) else str(e.cmd)
+    print(f"::error::Command failed (exit {e.returncode}): {cmd}", file=sys.stderr)
+    for payload in (e.stdout, e.stderr):
+        if payload:
+            sys.stderr.write(payload)
+            if not payload.endswith("\n"):
+                sys.stderr.write("\n")
+    return e.returncode or 1
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except subprocess.CalledProcessError as e:
+        sys.exit(_surface_subprocess_error(e))
