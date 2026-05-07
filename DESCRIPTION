@@ -25,7 +25,6 @@ Imports:
     utils,
     withr
 Suggests:
-    cli,
     dplyr,
     english,
     httpuv,
@@ -43,6 +42,6 @@ Suggests:
     tidyr,
     waldo
 Config/Needs/website: tidyverse/tidytemplate
+Config/roxygen2/version: 8.0.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3

@@ -31,14 +31,24 @@ accept_snaps <- function(
           return()
         }
 
-        snaps_diffs[[file.path(app_path, snap_path)]] <<-
+        snaps_diffs[[file.path(app_path, snap_path)]] <<- tryCatch(
           shinytest2::screenshot_max_difference(
             old = snap_path, new = new_snap_path
-          )
+          ),
+          error = function(e) {
+            warning(
+              "Could not compute screenshot diff for ",
+              file.path(app_path, snap_path), ": ",
+              conditionMessage(e),
+              call. = FALSE
+            )
+            NA_real_
+          }
+        )
 
         NULL
       })
-      ignore <- capture.output(
+      ignore <- utils::capture.output(
         type = "message",
         {
           testthat::snapshot_accept()
@@ -50,6 +60,8 @@ accept_snaps <- function(
   if (length(snaps_diffs) > 0) {
     snaps_diffs <- unlist(snaps_diffs)
 
+    # Drop NAs from failed diff computations before filtering
+    snaps_diffs <- snaps_diffs[!is.na(snaps_diffs)]
     snaps_diffs_big <- snaps_diffs[snaps_diffs > 10]
     if (length(snaps_diffs_big) > 0) {
       snaps_diffs_big <- sort(snaps_diffs_big, decreasing = FALSE)
@@ -58,7 +70,7 @@ accept_snaps <- function(
         cli::cli_li("{.file {name}}: {format(diff, nsmall = 2)}")
       })
       cli::cli_end(ul)
-      hist(snaps_diffs, main = "Histogram of snapshot diffs", xlab = "shinytest2::screenshot_max_difference()")
+      graphics::hist(snaps_diffs, main = "Histogram of snapshot diffs", xlab = "shinytest2::screenshot_max_difference()")
     }
   }
 
