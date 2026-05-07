@@ -19,7 +19,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from pathlib import Path
 
 
 def env(name: str, default: str = "") -> str:
