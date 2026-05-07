@@ -5,8 +5,8 @@ R version: R version 4.6.0 (2026-04-24)
  chromote: 0.5.1.9000
 
 ---- Chrome ----
-   Path: /home/runner/.cache/R/chromote/chrome/147.0.7727.55/chrome-headless-shell-linux64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
-Version: Google Chrome for Testing 147.0.7727.55
+   Path: /home/runner/.cache/R/chromote/chrome/148.0.7778.96/chrome-headless-shell-linux64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
+Version: Google Chrome for Testing 148.0.7778.96
    Args: --headless --no-sandbox --disable-dev-shm-usage
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 147.0.7727.55
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2026-05-05
+ date      2026-05-06
  pandoc    3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -94,7 +94,7 @@ Version: Google Chrome for Testing 147.0.7727.55
  httpuv              1.6.17      2026-03-18 [1] RSPM
  httr                1.4.8       2026-02-13 [1] RSPM
  httr2               1.2.2       2025-12-08 [1] RSPM
- igraph              2.3.0       2026-04-21 [1] RSPM
+ igraph              2.3.1       2026-05-04 [1] RSPM
  isoband             0.3.0       2025-12-07 [1] RSPM
  jose                2.0.0       2026-04-22 [1] RSPM
  jquerylib           0.1.4       2021-04-26 [1] RSPM
@@ -185,7 +185,7 @@ Version: Google Chrome for Testing 147.0.7727.55
  sf                  1.1-0       2026-02-24 [1] RSPM
  shiny               1.13.0.9000 2026-04-30 [1] https://p~
  shinyAce            0.4.4       2025-02-03 [1] RSPM
- shinycoreci         0.0.0.9009  2026-05-05 [1] Custom
+ shinycoreci         0.0.0.9009  2026-05-06 [1] Custom
  shinydashboard      0.7.3       2025-04-21 [1] RSPM
  shinyjs             2.1.1       2026-01-15 [1] RSPM
  shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
