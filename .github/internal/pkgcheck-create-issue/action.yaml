@@ -86,4 +86,4 @@ runs:
         INPUT_ISSUE_TITLE: ${{ inputs.issue-title }}
         INPUT_CUSTOM_INSTRUCTIONS: ${{ inputs.custom-instructions }}
         INPUT_ISSUE_LABELS: ${{ inputs.issue-labels }}
-      run: bash "$GITHUB_ACTION_PATH/create-or-reuse-issue.sh"
+      run: python3 "$GITHUB_ACTION_PATH/create-or-reuse-issue.py"
