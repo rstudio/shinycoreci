@@ -47,8 +47,8 @@ def main() -> int:
 
     git("remote", "set-url", "origin",
         f"https://x-access-token:{env('TARGET_GH_TOKEN')}@github.com/{repo}.git")
-    git("config", "user.name", "shinycoreci-bedrock[bot]")
-    git("config", "user.email", "shinycoreci-bedrock[bot]@users.noreply.github.com")
+    git("config", "user.name", "shinycoreci-claude[bot]")
+    git("config", "user.email", "shinycoreci-claude[bot]@users.noreply.github.com")
 
     shutil.rmtree(".shinycoreci-remediation", ignore_errors=True)
 

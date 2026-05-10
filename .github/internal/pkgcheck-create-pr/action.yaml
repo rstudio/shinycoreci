@@ -1,21 +1,18 @@
-name: Run Bedrock remediation
-description: Use Claude Code Action with Anthropic models on AWS Bedrock to create a remediation pull request.
+name: Run Claude Code remediation
+description: Use Claude Code Action authenticated with a `claude setup-token` OAuth token to create a remediation pull request.
 
 inputs:
   github-token:
     description: GitHub App installation token for the target repository. Needs actions:read, contents:write, issues:write, and pull-requests:write.
     required: true
-  aws-role-to-assume:
-    description: AWS IAM role ARN that can invoke Anthropic models through Bedrock.
+  claude-code-oauth-token:
+    description: Claude Code OAuth token generated with `claude setup-token`.
     required: true
-  aws-region:
-    description: AWS region for Bedrock runtime calls.
+  claude-model:
+    description: Anthropic model name passed to Claude Code's `--model` flag.
     required: true
-  bedrock-model-id:
-    description: Bedrock Anthropic model ID or inference profile ID used by Claude Code.
-    required: true
-  bedrock-fallback-model-id:
-    description: Optional Bedrock Anthropic model ID to use as Claude Code's fallback model.
+  claude-fallback-model:
+    description: Optional Anthropic model name passed to Claude Code's `--fallback-model` flag.
     required: false
     default: ""
   target-owner:
@@ -112,7 +109,7 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        path="${RUNNER_TEMP}/shinycoreci-bedrock-verify.py"
+        path="${RUNNER_TEMP}/shinycoreci-claude-verify.py"
         cp "${GITHUB_ACTION_PATH}/verify.py" "${path}"
         echo "path=${path}" >> "$GITHUB_OUTPUT"
 
@@ -122,25 +119,6 @@ runs:
         repository: ${{ inputs.target-owner }}/${{ inputs.target-repo }}
         ref: ${{ inputs.target-ref }}
         token: ${{ inputs.github-token }}
-
-    - name: Sanitize AWS role session name
-      id: session-name
-      shell: bash
-      env:
-        TARGET_OWNER: ${{ inputs.target-owner }}
-        TARGET_REPO: ${{ inputs.target-repo }}
-      run: |
-        set -euo pipefail
-        raw="shinycoreci-${TARGET_OWNER}-${TARGET_REPO}-${GITHUB_RUN_ID:-manual}"
-        value="$(sed 's/[^a-zA-Z0-9_+=,.@-]/_/g' <<<"${raw}" | cut -c1-64)"
-        echo "value=${value}" >> "$GITHUB_OUTPUT"
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v6
-      with:
-        role-to-assume: ${{ inputs.aws-role-to-assume }}
-        role-session-name: ${{ steps.session-name.outputs.value }}
-        aws-region: ${{ inputs.aws-region }}
 
     - name: Download remote workflow log
       shell: bash
@@ -157,10 +135,10 @@ runs:
       id: claude
       uses: anthropics/claude-code-action@v1.0.92
       with:
-        use_bedrock: "true"
+        claude_code_oauth_token: ${{ inputs.claude-code-oauth-token }}
         github_token: ${{ inputs.github-token }}
         base_branch: ${{ inputs.target-ref }}
-        branch_prefix: shinycoreci-bedrock-
+        branch_prefix: shinycoreci-claude-
         additional_permissions: "actions: read"
         allowed_bots: ${{ inputs.app-slug != '' && format('github-actions[bot],posit-shiny-automation[bot],{0}[bot]', inputs.app-slug) || 'github-actions[bot],posit-shiny-automation[bot]' }}
         prompt: |
@@ -183,8 +161,8 @@ runs:
 
           Leave the final git commit, branch push, pull request creation, reviewer assignment, and issue comment to this workflow. Do not commit, push, create pull requests, or modify .shinycoreci-remediation.
         claude_args: |
-          --model ${{ inputs.bedrock-model-id }}
-          ${{ inputs.bedrock-fallback-model-id != '' && format('--fallback-model {0}', inputs.bedrock-fallback-model-id) || '' }}
+          --model ${{ inputs.claude-model }}
+          ${{ inputs.claude-fallback-model != '' && format('--fallback-model {0}', inputs.claude-fallback-model) || '' }}
           --max-turns ${{ inputs.max-turns }}
           --allowedTools Bash,Read,Write,Edit,WebFetch,WebSearch
 
@@ -236,12 +214,12 @@ runs:
         && fromJSON(inputs.max-attempts) >= 2
       uses: anthropics/claude-code-action@v1.0.92
       with:
-        use_bedrock: "true"
+        claude_code_oauth_token: ${{ inputs.claude-code-oauth-token }}
         github_token: ${{ inputs.github-token }}
         base_branch: ${{ steps.solve.outputs.branch }}
-        branch_prefix: shinycoreci-bedrock-retry-
+        branch_prefix: shinycoreci-claude-retry-
         additional_permissions: "actions: read"
-        allowed_bots: ${{ inputs.app-slug != '' && format('github-actions[bot],posit-shiny-automation[bot],shinycoreci-bedrock[bot],{0}[bot]', inputs.app-slug) || 'github-actions[bot],posit-shiny-automation[bot],shinycoreci-bedrock[bot]' }}
+        allowed_bots: ${{ inputs.app-slug != '' && format('github-actions[bot],posit-shiny-automation[bot],shinycoreci-claude[bot],{0}[bot]', inputs.app-slug) || 'github-actions[bot],posit-shiny-automation[bot],shinycoreci-claude[bot]' }}
         prompt: |
           You are continuing a remediation attempt for ${{ inputs.target-owner }}/${{ inputs.target-repo }}.
           The first remediation attempt opened PR ${{ steps.solve.outputs.pr_url }} on branch `${{ steps.solve.outputs.branch }}`,
@@ -259,8 +237,8 @@ runs:
 
           Leave the final git commit, branch push, and PR update to this workflow. Do not commit, push, or modify .shinycoreci-remediation.
         claude_args: |
-          --model ${{ inputs.bedrock-model-id }}
-          ${{ inputs.bedrock-fallback-model-id != '' && format('--fallback-model {0}', inputs.bedrock-fallback-model-id) || '' }}
+          --model ${{ inputs.claude-model }}
+          ${{ inputs.claude-fallback-model != '' && format('--fallback-model {0}', inputs.claude-fallback-model) || '' }}
           --max-turns ${{ inputs.max-turns }}
           --allowedTools Bash,Read,Write,Edit,WebFetch,WebSearch
 
