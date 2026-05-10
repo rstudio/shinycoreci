@@ -170,7 +170,7 @@ runs:
 
           Start with .shinycoreci-target/.shinycoreci-remediation/remote-run.log and make the smallest targeted fix under .shinycoreci-target. Prefer updating the failing CI or package-check configuration over broad refactors, and run focused verification when possible. Prefer the existing project conventions.
 
-          Do not add a repository-specific reviewer workflow; ${{ inputs.source-repository }} handles reviewer and assignee handoff centrally. If scheduler compatibility requires a workflow change in this repository, limit it to ${{ inputs.target-workflow }}.
+          Do not add a repository-specific reviewer workflow; ${{ inputs.source-repository }} handles reviewer and assignee handoff centrally. You are not permitted to create or modify any files under .shinycoreci-target/.github/workflows/ (including ${{ inputs.target-workflow }}); the GitHub App token used to push your branch does not carry the `workflows` permission, so any such edits will cause the push to be rejected. If the only viable fix would require editing a workflow file, stop and explain that in your final message instead.
 
           Any commit message you write must follow Conventional Commits (https://www.conventionalcommits.org/en/v1.0.0/) in the form `<type>(optional scope): <description>`. Prefer `fix(ci): ...` for package-check fixes; the wrapping workflow uses the same format for the final PR title.
 
