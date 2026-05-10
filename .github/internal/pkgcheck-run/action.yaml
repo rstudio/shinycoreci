@@ -164,7 +164,7 @@ runs:
       if: >-
         steps.issue.outputs.issue_url != ''
         && inputs.claude-code-oauth-token != ''
-        && steps.issue.outputs.existing_pr_url == ''
+        && steps.issue.outputs.should_create_pr == 'true'
       uses: ./.github/internal/pkgcheck-create-pr
       with:
         github-token: ${{ inputs.github-token }}

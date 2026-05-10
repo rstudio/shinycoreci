@@ -13,6 +13,8 @@ name: External package checks
 # Requirements for each target repository:
 #   * The POSIT_SHINY_AUTOMATION GitHub App is installed on the target owner
 #     and repository (for example rstudio/* or posit-dev/*).
+#     It needs actions, contents, issues, pull requests, and workflows write
+#     permissions so generated fixes can touch CI workflow files when needed.
 #   * The listed workflow file supports `workflow_dispatch` on the listed ref.
 #   * No repo-specific PR review workflow is needed; reviewer routing is
 #     handled centrally by shinycoreci.
@@ -96,6 +98,7 @@ jobs:
           permission-contents: write
           permission-issues: write
           permission-pull-requests: write
+          permission-workflows: write
 
       - name: Run external package check
         uses: ./.github/internal/pkgcheck-run

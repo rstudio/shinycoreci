@@ -65,6 +65,11 @@ outputs:
       issue, when one exists. Empty when the issue was newly created or has no
       open linked PR.
     value: ${{ steps.create.outputs.existing_pr_url }}
+  should_create_pr:
+    description: >
+      Whether the caller should run the automated remediation PR flow. True for
+      newly created issues and reused issues with no open linked PR.
+    value: ${{ steps.create.outputs.should_create_pr }}
 
 runs:
   using: composite
