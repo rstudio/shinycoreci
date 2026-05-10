@@ -59,7 +59,7 @@ inputs:
   max-turns:
     description: Maximum Claude Code agent turns.
     required: false
-    default: "20"
+    default: "40"
   max-attempts:
     description: >
       Maximum number of remediation attempts (initial attempt + retries) Claude
@@ -168,7 +168,7 @@ runs:
           - Scheduler run: ${{ inputs.source-run-url }}
           - Remediation issue: ${{ inputs.issue-url }}
 
-          The target repository checkout is available at .shinycoreci-target. The remote workflow log is available at .shinycoreci-target/.shinycoreci-remediation/remote-run.log. Investigate the failure, modify only files under .shinycoreci-target that are needed to fix it, and run focused verification when possible. Prefer the existing project conventions.
+          Start with .shinycoreci-target/.shinycoreci-remediation/remote-run.log and make the smallest targeted fix under .shinycoreci-target. Prefer updating the failing CI or package-check configuration over broad refactors, and run focused verification when possible. Prefer the existing project conventions.
 
           Do not add a repository-specific reviewer workflow; ${{ inputs.source-repository }} handles reviewer and assignee handoff centrally. If scheduler compatibility requires a workflow change in this repository, limit it to ${{ inputs.target-workflow }}.
 

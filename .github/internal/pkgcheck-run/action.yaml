@@ -73,7 +73,7 @@ inputs:
   claude-max-turns:
     description: Maximum Claude Code agent turns for the remediation run.
     required: false
-    default: "20"
+    default: "40"
   claude-max-attempts:
     description: >
       Maximum number of remediation attempts (initial + retries) Claude Code
