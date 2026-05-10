@@ -20,7 +20,7 @@ inputs:
   claude-model:
     description: Anthropic model name passed to Claude Code's `--model` flag.
     required: false
-    default: claude-sonnet-4-5
+    default: claude-sonnet-4-6
   claude-fallback-model:
     description: Optional Anthropic model name passed to Claude Code's `--fallback-model` flag.
     required: false
