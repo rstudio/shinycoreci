@@ -113,15 +113,30 @@ runs:
         cp "${GITHUB_ACTION_PATH}/verify.py" "${path}"
         echo "path=${path}" >> "$GITHUB_OUTPUT"
 
+    - name: Prepare target checkout path
+      id: target-checkout
+      shell: bash
+      run: |
+        set -euo pipefail
+        path=".shinycoreci-target"
+        rm -rf "${GITHUB_WORKSPACE}/${path}"
+        if [[ -d "${GITHUB_WORKSPACE}/.git/info" ]]; then
+          grep -qxF "${path}/" "${GITHUB_WORKSPACE}/.git/info/exclude" \
+            || echo "${path}/" >> "${GITHUB_WORKSPACE}/.git/info/exclude"
+        fi
+        echo "path=${path}" >> "$GITHUB_OUTPUT"
+
     - name: Checkout target repository
       uses: actions/checkout@v6
       with:
         repository: ${{ inputs.target-owner }}/${{ inputs.target-repo }}
         ref: ${{ inputs.target-ref }}
         token: ${{ inputs.github-token }}
+        path: ${{ steps.target-checkout.outputs.path }}
 
     - name: Download remote workflow log
       shell: bash
+      working-directory: ${{ steps.target-checkout.outputs.path }}
       env:
         TARGET_GH_TOKEN: ${{ inputs.github-token }}
         TARGET_OWNER: ${{ inputs.target-owner }}
@@ -153,14 +168,15 @@ runs:
           - Scheduler run: ${{ inputs.source-run-url }}
           - Remediation issue: ${{ inputs.issue-url }}
 
-          The remote workflow log is available at .shinycoreci-remediation/remote-run.log. Investigate the failure, modify only files needed to fix it, and run focused verification when possible. Prefer the existing project conventions.
+          The target repository checkout is available at .shinycoreci-target. The remote workflow log is available at .shinycoreci-target/.shinycoreci-remediation/remote-run.log. Investigate the failure, modify only files under .shinycoreci-target that are needed to fix it, and run focused verification when possible. Prefer the existing project conventions.
 
           Do not add a repository-specific reviewer workflow; ${{ inputs.source-repository }} handles reviewer and assignee handoff centrally. If scheduler compatibility requires a workflow change in this repository, limit it to ${{ inputs.target-workflow }}.
 
           Any commit message you write must follow Conventional Commits (https://www.conventionalcommits.org/en/v1.0.0/) in the form `<type>(optional scope): <description>`. Prefer `fix(ci): ...` for package-check fixes; the wrapping workflow uses the same format for the final PR title.
 
-          Leave the final git commit, branch push, pull request creation, reviewer assignment, and issue comment to this workflow. Do not commit, push, create pull requests, or modify .shinycoreci-remediation.
+          Leave the final git commit, branch push, pull request creation, reviewer assignment, and issue comment to this workflow. Do not commit, push, create pull requests, or modify .shinycoreci-target/.shinycoreci-remediation.
         claude_args: |
+          --add-dir ${{ steps.target-checkout.outputs.path }}
           --model ${{ inputs.claude-model }}
           ${{ inputs.claude-fallback-model != '' && format('--fallback-model {0}', inputs.claude-fallback-model) || '' }}
           --max-turns ${{ inputs.max-turns }}
@@ -169,6 +185,7 @@ runs:
     - name: Finalize remediation pull request
       id: solve
       shell: bash
+      working-directory: ${{ steps.target-checkout.outputs.path }}
       env:
         TARGET_GH_TOKEN: ${{ inputs.github-token }}
         TARGET_OWNER: ${{ inputs.target-owner }}
@@ -189,6 +206,7 @@ runs:
       id: verify-1
       if: steps.solve.outputs.pr_url != ''
       shell: bash
+      working-directory: ${{ steps.target-checkout.outputs.path }}
       env:
         TARGET_GH_TOKEN: ${{ inputs.github-token }}
         TARGET_OWNER: ${{ inputs.target-owner }}
@@ -231,12 +249,13 @@ runs:
           - Original failed workflow: ${{ inputs.target-workflow }}
           - Remediation issue: ${{ inputs.issue-url }}
 
-          The latest verification log is available at .shinycoreci-remediation/remote-run.log. Review it together with your prior changes (already on disk via the PR branch) and add additional fixes that resolve the remaining failures. Do not revert your earlier work unless it was clearly wrong.
+          The target repository checkout is available at .shinycoreci-target. The latest verification log is available at .shinycoreci-target/.shinycoreci-remediation/remote-run.log. Review it together with your prior changes (already on disk via the PR branch under .shinycoreci-target) and add additional fixes under .shinycoreci-target that resolve the remaining failures. Do not revert your earlier work unless it was clearly wrong.
 
           Same constraints as before: do not add a repository-specific reviewer workflow; restrict any workflow change to ${{ inputs.target-workflow }}. Any commit message must follow Conventional Commits (`fix(ci): ...` for package-check fixes).
 
-          Leave the final git commit, branch push, and PR update to this workflow. Do not commit, push, or modify .shinycoreci-remediation.
+          Leave the final git commit, branch push, and PR update to this workflow. Do not commit, push, or modify .shinycoreci-target/.shinycoreci-remediation.
         claude_args: |
+          --add-dir ${{ steps.target-checkout.outputs.path }}
           --model ${{ inputs.claude-model }}
           ${{ inputs.claude-fallback-model != '' && format('--fallback-model {0}', inputs.claude-fallback-model) || '' }}
           --max-turns ${{ inputs.max-turns }}
@@ -246,6 +265,7 @@ runs:
       id: solve-retry
       if: steps.claude-retry.outcome == 'success'
       shell: bash
+      working-directory: ${{ steps.target-checkout.outputs.path }}
       env:
         TARGET_GH_TOKEN: ${{ inputs.github-token }}
         TARGET_OWNER: ${{ inputs.target-owner }}
@@ -266,6 +286,7 @@ runs:
       id: verify-2
       if: steps.solve-retry.outputs.pushed == 'true'
       shell: bash
+      working-directory: ${{ steps.target-checkout.outputs.path }}
       env:
         TARGET_GH_TOKEN: ${{ inputs.github-token }}
         TARGET_OWNER: ${{ inputs.target-owner }}
