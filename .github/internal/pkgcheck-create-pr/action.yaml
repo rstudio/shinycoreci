@@ -251,7 +251,7 @@ runs:
 
           The target repository checkout is available at .shinycoreci-target. The latest verification log is available at .shinycoreci-target/.shinycoreci-remediation/remote-run.log. Review it together with your prior changes (already on disk via the PR branch under .shinycoreci-target) and add additional fixes under .shinycoreci-target that resolve the remaining failures. Do not revert your earlier work unless it was clearly wrong.
 
-          Same constraints as before: do not add a repository-specific reviewer workflow; restrict any workflow change to ${{ inputs.target-workflow }}. Any commit message must follow Conventional Commits (`fix(ci): ...` for package-check fixes).
+          Same constraints as before: do not add a repository-specific reviewer workflow; do not edit anything under .shinycoreci-target/.github/workflows/. Any commit message must follow Conventional Commits (`fix(ci): ...` for package-check fixes).
 
           Leave the final git commit, branch push, and PR update to this workflow. Do not commit, push, or modify .shinycoreci-target/.shinycoreci-remediation.
         claude_args: |
