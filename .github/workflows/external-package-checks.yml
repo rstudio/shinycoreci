@@ -36,10 +36,43 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
+  authorize:
+    name: Authorize manual dispatch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restrict manual dispatch to org members
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+          REPOSITORY_OWNER_TYPE: ${{ github.event.repository.owner.type }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          set -euo pipefail
+
+          if [[ "${EVENT_NAME}" != "workflow_dispatch" ]]; then
+            echo "Non-manual ${EVENT_NAME} run is allowed."
+            exit 0
+          fi
+
+          if [[ "${REPOSITORY_OWNER_TYPE}" != "Organization" ]]; then
+            echo "::error::Manual dispatch is only supported for organization-owned repositories."
+            exit 1
+          fi
+
+          if gh api --silent "/orgs/${REPOSITORY_OWNER}/members/${ACTOR}"; then
+            echo "Manual dispatch by ${ACTOR} is allowed for ${REPOSITORY_OWNER}."
+            exit 0
+          fi
+
+          echo "::error::Manual dispatch is restricted to members of the ${REPOSITORY_OWNER} organization."
+          exit 1
+
   plan:
+    needs: authorize
     # Load the target-repo list from the shared JSON config and expose it as a
     # matrix for the check job below.
     runs-on: ubuntu-latest
