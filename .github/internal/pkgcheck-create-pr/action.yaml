@@ -133,6 +133,7 @@ runs:
         ref: ${{ inputs.target-ref }}
         token: ${{ inputs.github-token }}
         path: ${{ steps.target-checkout.outputs.path }}
+        persist-credentials: false
 
     - name: Download remote workflow log
       shell: bash

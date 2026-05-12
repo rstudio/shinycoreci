@@ -80,6 +80,8 @@ jobs:
       matrix: ${{ steps.load.outputs.matrix }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Load target-repo matrix
         id: load
         shell: bash
@@ -117,6 +119,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Generate GitHub App installation token
         id: app-token
