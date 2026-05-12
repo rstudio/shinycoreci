@@ -81,6 +81,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          # Avoid leaving a default repo-scoped token in git config; downstream
+          # steps should use explicit GitHub App credentials only.
           persist-credentials: false
       - name: Load target-repo matrix
         id: load
@@ -120,6 +122,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
+          # Prevent accidental pushes with the default GITHUB_TOKEN; remediation
+          # writes must use the scoped GitHub App installation token.
           persist-credentials: false
 
       - name: Generate GitHub App installation token
