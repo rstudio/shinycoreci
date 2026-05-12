@@ -72,8 +72,8 @@ def main() -> int:
 
     git("remote", "set-url", "origin",
         f"https://x-access-token:{env('TARGET_GH_TOKEN')}@github.com/{repo}.git")
-    git("config", "user.name", "shinycoreci-bedrock[bot]")
-    git("config", "user.email", "shinycoreci-bedrock[bot]@users.noreply.github.com")
+    git("config", "user.name", "shinycoreci-claude[bot]")
+    git("config", "user.email", "shinycoreci-claude[bot]@users.noreply.github.com")
     git("fetch", "origin", f"{target_ref}:refs/remotes/origin/{target_ref}", "--depth=1")
 
     shutil.rmtree(".shinycoreci-remediation", ignore_errors=True)
@@ -86,7 +86,7 @@ def main() -> int:
         slug = safe_workflow_slug(workflow)
         run_id = env("GITHUB_RUN_ID") or "manual"
         run_attempt = env("GITHUB_RUN_ATTEMPT") or "1"
-        branch = f"shinycoreci/bedrock-remediation-{run_id}-{run_attempt}-{slug}"
+        branch = f"shinycoreci/claude-remediation-{run_id}-{run_attempt}-{slug}"
         git("switch", "-c", branch)
     elif cur != branch:
         if git("show-ref", "--verify", "--quiet", f"refs/heads/{branch}",

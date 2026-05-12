@@ -1,9 +1,9 @@
 name: External package check (per repo)
 description: >
   Dispatch a remote package-checks workflow, wait for its result, and on failure
-  open a remediation issue and optionally use Claude Code Action with
-  Anthropic models on AWS Bedrock to create a remediation PR for the correct
-  maintainer.
+  open a remediation issue and optionally use Claude Code Action (authenticated
+  with a `claude setup-token` OAuth token) to create a remediation PR for the
+  correct maintainer.
 
 inputs:
   github-token:
@@ -11,22 +11,18 @@ inputs:
       GitHub App installation token scoped to the target repository. Needs
       actions:write, contents:write, issues:write, pull-requests:write.
     required: true
-  bedrock-role-to-assume:
+  claude-code-oauth-token:
     description: >
-      Optional AWS IAM role ARN that can invoke Anthropic models through
-      Bedrock. If omitted, only a remediation issue is opened.
+      Optional Claude Code OAuth token (generated with `claude setup-token`).
+      If omitted, only a remediation issue is opened.
     required: false
     default: ""
-  bedrock-region:
-    description: AWS region for Bedrock runtime calls.
+  claude-model:
+    description: Anthropic model name passed to Claude Code's `--model` flag.
     required: false
-    default: us-east-1
-  bedrock-model-id:
-    description: Bedrock Anthropic model ID or inference profile ID used by Claude Code.
-    required: false
-    default: us.anthropic.claude-sonnet-4-5-20250929-v1:0
-  bedrock-fallback-model-id:
-    description: Optional Bedrock Anthropic model ID to use as Claude Code's fallback model.
+    default: claude-sonnet-4-6
+  claude-fallback-model:
+    description: Optional Anthropic model name passed to Claude Code's `--fallback-model` flag.
     required: false
     default: ""
   target-owner:
@@ -74,16 +70,15 @@ inputs:
     description: Seconds between watch attempts.
     required: false
     default: "60"
-  bedrock-max-turns:
-    description: Maximum Claude Code agent turns for Bedrock remediation.
+  claude-max-turns:
+    description: Maximum Claude Code agent turns for the remediation run.
     required: false
-    default: "20"
-  bedrock-max-attempts:
+    default: "40"
+  claude-max-attempts:
     description: >
-      Maximum number of remediation attempts (initial + retries) the Bedrock
-      remediation will make. After each attempt the PR branch is dispatched
-      against the failing workflow; if it still fails Claude is re-invoked.
-      Capped at 2.
+      Maximum number of remediation attempts (initial + retries) Claude Code
+      will make. After each attempt the PR branch is dispatched against the
+      failing workflow; if it still fails Claude is re-invoked. Capped at 2.
     required: false
     default: "2"
 
@@ -101,8 +96,8 @@ outputs:
     description: URL of the remediation issue (if one was created or reused).
     value: ${{ steps.issue.outputs.issue_url }}
   remediation_pr_url:
-    description: URL of the Bedrock-generated remediation PR, if one was created.
-    value: ${{ steps.bedrock.outputs.pr_url }}
+    description: URL of the Claude-generated remediation PR, if one was created.
+    value: ${{ steps.claude.outputs.pr_url }}
 
 runs:
   using: composite
@@ -164,19 +159,18 @@ runs:
         remote-run-conclusion: ${{ steps.watch.outputs.run_conclusion }}
         remote-run-url: ${{ steps.watch.outputs.run_url }}
 
-    - name: Run Bedrock remediation
-      id: bedrock
+    - name: Run Claude Code remediation
+      id: claude
       if: >-
         steps.issue.outputs.issue_url != ''
-        && inputs.bedrock-role-to-assume != ''
-        && steps.issue.outputs.existing_pr_url == ''
+        && inputs.claude-code-oauth-token != ''
+        && steps.issue.outputs.should_create_pr == 'true'
       uses: ./.github/internal/pkgcheck-create-pr
       with:
         github-token: ${{ inputs.github-token }}
-        aws-role-to-assume: ${{ inputs.bedrock-role-to-assume }}
-        aws-region: ${{ inputs.bedrock-region }}
-        bedrock-model-id: ${{ inputs.bedrock-model-id }}
-        bedrock-fallback-model-id: ${{ inputs.bedrock-fallback-model-id }}
+        claude-code-oauth-token: ${{ inputs.claude-code-oauth-token }}
+        claude-model: ${{ inputs.claude-model }}
+        claude-fallback-model: ${{ inputs.claude-fallback-model }}
         target-owner: ${{ inputs.target-owner }}
         target-repo: ${{ inputs.target-repo }}
         target-workflow: ${{ inputs.target-workflow }}
@@ -189,15 +183,15 @@ runs:
         remote-run-conclusion: ${{ steps.watch.outputs.run_conclusion }}
         source-repository: ${{ inputs.source-repository }}
         source-run-url: ${{ inputs.source-run-url }}
-        max-turns: ${{ inputs.bedrock-max-turns }}
-        max-attempts: ${{ inputs.bedrock-max-attempts }}
+        max-turns: ${{ inputs.claude-max-turns }}
+        max-attempts: ${{ inputs.claude-max-attempts }}
 
-    - name: Note missing Bedrock credentials
-      if: steps.issue.outputs.issue_url != '' && inputs.bedrock-role-to-assume == ''
+    - name: Note missing Claude Code credentials
+      if: steps.issue.outputs.issue_url != '' && inputs.claude-code-oauth-token == ''
       shell: bash
       run: |
         set -euo pipefail
-        echo "::notice::No Bedrock role configured. Opened a remediation issue, but did not run the automated solver."
+        echo "::notice::No Claude Code OAuth token configured. Opened a remediation issue, but did not run the automated solver."
 
     - name: Note existing remediation PR
       if: steps.issue.outputs.existing_pr_url != ''
@@ -206,7 +200,7 @@ runs:
         EXISTING_PR_URL: ${{ steps.issue.outputs.existing_pr_url }}
       run: |
         set -euo pipefail
-        echo "::notice::Skipping Bedrock remediation; open remediation PR already exists: ${EXISTING_PR_URL}"
+        echo "::notice::Skipping Claude Code remediation; open remediation PR already exists: ${EXISTING_PR_URL}"
 
     - name: Fail job if remote checks did not succeed
       if: ${{ always() && steps.watch.outputs.run_conclusion != '' && steps.watch.outputs.run_conclusion != 'success' }}
@@ -218,6 +212,6 @@ runs:
         REMOTE_RUN_URL: ${{ steps.watch.outputs.run_url }}
         ISSUE_URL: ${{ steps.issue.outputs.issue_url }}
         ISSUE_MODE: ${{ steps.issue.outputs.issue_mode }}
-        REMEDIATION_PR_URL: ${{ steps.bedrock.outputs.pr_url || steps.issue.outputs.existing_pr_url }}
+        REMEDIATION_PR_URL: ${{ steps.claude.outputs.pr_url || steps.issue.outputs.existing_pr_url }}
       run: |
         python3 "$GITHUB_ACTION_PATH/fail-job-summary.py"

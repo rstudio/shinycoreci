@@ -49,12 +49,18 @@ def gh_api(
     )
 
 
-def write_outputs(issue: dict[str, Any], mode: str, existing_pr_url: str = "") -> None:
+def write_outputs(
+    issue: dict[str, Any],
+    mode: str,
+    existing_pr_url: str = "",
+) -> None:
+    should_create_pr = "false" if existing_pr_url else "true"
     with open(os.environ["GITHUB_OUTPUT"], "a") as f:
         f.write(f"issue_url={issue['html_url']}\n")
         f.write(f"issue_number={issue['number']}\n")
         f.write(f"issue_mode={mode}\n")
         f.write(f"existing_pr_url={existing_pr_url}\n")
+        f.write(f"should_create_pr={should_create_pr}\n")
 
 
 def parse_labels(raw: str) -> list[str]:
@@ -70,7 +76,9 @@ def ensure_label_exists(label: str) -> None:
     payload = json.dumps({
         "name": label,
         "color": "ededed",
-        "description": "Automatically opened by shinycoreci scheduler with AI assistance.",
+        "description": (
+            "Automatically opened by shinycoreci scheduler with AI assistance."
+        ),
     })
     gh_api(
         ["--method", "POST", f"/repos/{owner}/{repo}/labels", "--input", "-"],
@@ -151,7 +159,10 @@ def find_open_linked_pr(issue_number: int) -> str:
     ).get("nodes") or []
     for node in nodes:
         src = node.get("source") or {}
-        if src.get("__typename") == "PullRequest" and src.get("state") == "OPEN":
+        if (
+            src.get("__typename") == "PullRequest"
+            and src.get("state") == "OPEN"
+        ):
             return src.get("url") or ""
     return ""
 
@@ -175,7 +186,8 @@ def build_issue_body(marker: str, custom_instructions: str) -> str:
         "",
         "> [!NOTE]",
         f"> This issue was opened automatically by the `{src_repo}` scheduler."
-        " An AI-assisted solver may attempt a fix; review carefully before merging.",
+        " An AI-assisted solver may attempt a fix; review carefully before"
+        " merging.",
         "",
         "## Summary",
         "",

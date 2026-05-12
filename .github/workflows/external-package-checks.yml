@@ -1,9 +1,9 @@
 name: External package checks
 
 # Dispatches package-check workflows on other repositories on a schedule, and
-# opens a remediation issue and, when AWS Bedrock is configured, uses Claude
-# Code Action with Anthropic models to generate a remediation PR against that
-# repository when the remote run fails.
+# opens a remediation issue and, when a Claude Code OAuth token is configured,
+# uses Claude Code Action to generate a remediation PR against that repository
+# when the remote run fails.
 #
 # The target-repo list lives in .github/external-package-checks.json so the
 # configuration is shared with the results website (render-results.Rmd on the
@@ -13,11 +13,16 @@ name: External package checks
 # Requirements for each target repository:
 #   * The POSIT_SHINY_AUTOMATION GitHub App is installed on the target owner
 #     and repository (for example rstudio/* or posit-dev/*).
+#     It needs actions, contents, issues, and pull requests write permissions.
+#     Claude is not permitted to modify workflow files in the target repo, so
+#     the `workflows` permission is intentionally not requested.
 #   * The listed workflow file supports `workflow_dispatch` on the listed ref.
 #   * No repo-specific PR review workflow is needed; reviewer routing is
 #     handled centrally by shinycoreci.
-#   * To run the automated solver, configure AWS_BEDROCK_ROLE_TO_ASSUME and
-#     allow that role to invoke the selected Anthropic Bedrock model.
+#   * To run the automated solver, configure the CLAUDE_CODE_OAUTH_TOKEN secret
+#     (generated with `claude setup-token`) on the org or repo. Optionally set
+#     the CLAUDE_MODEL and CLAUDE_FALLBACK_MODEL repository variables to pick
+#     specific Claude models.
 
 on:
   workflow_dispatch:
@@ -31,10 +36,43 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
+  authorize:
+    name: Authorize manual dispatch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restrict manual dispatch to org members
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+          REPOSITORY_OWNER_TYPE: ${{ github.event.repository.owner.type }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          set -euo pipefail
+
+          if [[ "${EVENT_NAME}" != "workflow_dispatch" ]]; then
+            echo "Non-manual ${EVENT_NAME} run is allowed."
+            exit 0
+          fi
+
+          if [[ "${REPOSITORY_OWNER_TYPE}" != "Organization" ]]; then
+            echo "::error::Manual dispatch is only supported for organization-owned repositories."
+            exit 1
+          fi
+
+          if gh api --silent "/orgs/${REPOSITORY_OWNER}/members/${ACTOR}"; then
+            echo "Manual dispatch by ${ACTOR} is allowed for ${REPOSITORY_OWNER}."
+            exit 0
+          fi
+
+          echo "::error::Manual dispatch is restricted to members of the ${REPOSITORY_OWNER} organization."
+          exit 1
+
   plan:
+    needs: authorize
     # Load the target-repo list from the shared JSON config and expose it as a
     # matrix for the check job below.
     runs-on: ubuntu-latest
@@ -42,6 +80,10 @@ jobs:
       matrix: ${{ steps.load.outputs.matrix }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          # Avoid leaving a default repo-scoped token in git config; downstream
+          # steps should use explicit GitHub App credentials only.
+          persist-credentials: false
       - name: Load target-repo matrix
         id: load
         shell: bash
@@ -79,10 +121,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          # Prevent accidental pushes with the default GITHUB_TOKEN; remediation
+          # writes must use the scoped GitHub App installation token.
+          persist-credentials: false
 
       - name: Generate GitHub App installation token
         id: app-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3.1.1
         with:
           app-id: ${{ secrets.POSIT_SHINY_AUTOMATION_APP_ID }}
           private-key: ${{ secrets.POSIT_SHINY_AUTOMATION_PEM }}
@@ -99,10 +145,11 @@ jobs:
         uses: ./.github/internal/pkgcheck-run
         with:
           github-token: ${{ steps.app-token.outputs.token }}
-          bedrock-role-to-assume: ${{ secrets.AWS_BEDROCK_ROLE_TO_ASSUME }}
-          bedrock-region: ${{ vars.AWS_BEDROCK_REGION || 'us-east-1' }}
-          bedrock-model-id: ${{ vars.AWS_BEDROCK_ANTHROPIC_MODEL_ID || 'us.anthropic.claude-sonnet-4-5-20250929-v1:0' }}
-          bedrock-fallback-model-id: ${{ vars.AWS_BEDROCK_ANTHROPIC_FALLBACK_MODEL_ID || vars.AWS_BEDROCK_ANTHROPIC_SMALL_FAST_MODEL_ID || '' }}
+          claude-code-oauth-token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude-model: ${{ vars.CLAUDE_MODEL || 'claude-sonnet-4-6' }}
+          claude-fallback-model: ${{ vars.CLAUDE_FALLBACK_MODEL || '' }}
+          claude-max-turns: ${{ vars.CLAUDE_MAX_TURNS || '40' }}
+          claude-max-attempts: ${{ vars.CLAUDE_MAX_ATTEMPTS || '2' }}
           app-slug: ${{ steps.app-token.outputs.app-slug }}
           target-owner: ${{ matrix.owner }}
           target-repo: ${{ matrix.repo }}

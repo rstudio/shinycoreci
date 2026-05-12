@@ -1,21 +1,18 @@
-name: Run Bedrock remediation
-description: Use Claude Code Action with Anthropic models on AWS Bedrock to create a remediation pull request.
+name: Run Claude Code remediation
+description: Use Claude Code Action authenticated with a `claude setup-token` OAuth token to create a remediation pull request.
 
 inputs:
   github-token:
     description: GitHub App installation token for the target repository. Needs actions:read, contents:write, issues:write, and pull-requests:write.
     required: true
-  aws-role-to-assume:
-    description: AWS IAM role ARN that can invoke Anthropic models through Bedrock.
+  claude-code-oauth-token:
+    description: Claude Code OAuth token generated with `claude setup-token`.
     required: true
-  aws-region:
-    description: AWS region for Bedrock runtime calls.
+  claude-model:
+    description: Anthropic model name passed to Claude Code's `--model` flag.
     required: true
-  bedrock-model-id:
-    description: Bedrock Anthropic model ID or inference profile ID used by Claude Code.
-    required: true
-  bedrock-fallback-model-id:
-    description: Optional Bedrock Anthropic model ID to use as Claude Code's fallback model.
+  claude-fallback-model:
+    description: Optional Anthropic model name passed to Claude Code's `--fallback-model` flag.
     required: false
     default: ""
   target-owner:
@@ -62,7 +59,7 @@ inputs:
   max-turns:
     description: Maximum Claude Code agent turns.
     required: false
-    default: "20"
+    default: "40"
   max-attempts:
     description: >
       Maximum number of remediation attempts (initial attempt + retries) Claude
@@ -112,8 +109,21 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        path="${RUNNER_TEMP}/shinycoreci-bedrock-verify.py"
+        path="${RUNNER_TEMP}/shinycoreci-claude-verify.py"
         cp "${GITHUB_ACTION_PATH}/verify.py" "${path}"
+        echo "path=${path}" >> "$GITHUB_OUTPUT"
+
+    - name: Prepare target checkout path
+      id: target-checkout
+      shell: bash
+      run: |
+        set -euo pipefail
+        path=".shinycoreci-target"
+        rm -rf "${GITHUB_WORKSPACE}/${path}"
+        if [[ -d "${GITHUB_WORKSPACE}/.git/info" ]]; then
+          grep -qxF "${path}/" "${GITHUB_WORKSPACE}/.git/info/exclude" \
+            || echo "${path}/" >> "${GITHUB_WORKSPACE}/.git/info/exclude"
+        fi
         echo "path=${path}" >> "$GITHUB_OUTPUT"
 
     - name: Checkout target repository
@@ -122,28 +132,12 @@ runs:
         repository: ${{ inputs.target-owner }}/${{ inputs.target-repo }}
         ref: ${{ inputs.target-ref }}
         token: ${{ inputs.github-token }}
-
-    - name: Sanitize AWS role session name
-      id: session-name
-      shell: bash
-      env:
-        TARGET_OWNER: ${{ inputs.target-owner }}
-        TARGET_REPO: ${{ inputs.target-repo }}
-      run: |
-        set -euo pipefail
-        raw="shinycoreci-${TARGET_OWNER}-${TARGET_REPO}-${GITHUB_RUN_ID:-manual}"
-        value="$(sed 's/[^a-zA-Z0-9_+=,.@-]/_/g' <<<"${raw}" | cut -c1-64)"
-        echo "value=${value}" >> "$GITHUB_OUTPUT"
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v6
-      with:
-        role-to-assume: ${{ inputs.aws-role-to-assume }}
-        role-session-name: ${{ steps.session-name.outputs.value }}
-        aws-region: ${{ inputs.aws-region }}
+        path: ${{ steps.target-checkout.outputs.path }}
+        persist-credentials: false
 
     - name: Download remote workflow log
       shell: bash
+      working-directory: ${{ steps.target-checkout.outputs.path }}
       env:
         TARGET_GH_TOKEN: ${{ inputs.github-token }}
         TARGET_OWNER: ${{ inputs.target-owner }}
@@ -157,10 +151,10 @@ runs:
       id: claude
       uses: anthropics/claude-code-action@v1.0.92
       with:
-        use_bedrock: "true"
+        claude_code_oauth_token: ${{ inputs.claude-code-oauth-token }}
         github_token: ${{ inputs.github-token }}
         base_branch: ${{ inputs.target-ref }}
-        branch_prefix: shinycoreci-bedrock-
+        branch_prefix: shinycoreci-claude-
         additional_permissions: "actions: read"
         allowed_bots: ${{ inputs.app-slug != '' && format('github-actions[bot],posit-shiny-automation[bot],{0}[bot]', inputs.app-slug) || 'github-actions[bot],posit-shiny-automation[bot]' }}
         prompt: |
@@ -175,22 +169,24 @@ runs:
           - Scheduler run: ${{ inputs.source-run-url }}
           - Remediation issue: ${{ inputs.issue-url }}
 
-          The remote workflow log is available at .shinycoreci-remediation/remote-run.log. Investigate the failure, modify only files needed to fix it, and run focused verification when possible. Prefer the existing project conventions.
+          Start with .shinycoreci-target/.shinycoreci-remediation/remote-run.log and make the smallest targeted fix under .shinycoreci-target. Prefer updating the failing CI or package-check configuration over broad refactors, and run focused verification when possible. Prefer the existing project conventions.
 
-          Do not add a repository-specific reviewer workflow; ${{ inputs.source-repository }} handles reviewer and assignee handoff centrally. If scheduler compatibility requires a workflow change in this repository, limit it to ${{ inputs.target-workflow }}.
+          Do not add a repository-specific reviewer workflow; ${{ inputs.source-repository }} handles reviewer and assignee handoff centrally. You are not permitted to create or modify any files under .shinycoreci-target/.github/workflows/ (including ${{ inputs.target-workflow }}); the GitHub App token used to push your branch does not carry the `workflows` permission, so any such edits will cause the push to be rejected. If the only viable fix would require editing a workflow file, stop and explain that in your final message instead.
 
           Any commit message you write must follow Conventional Commits (https://www.conventionalcommits.org/en/v1.0.0/) in the form `<type>(optional scope): <description>`. Prefer `fix(ci): ...` for package-check fixes; the wrapping workflow uses the same format for the final PR title.
 
-          Leave the final git commit, branch push, pull request creation, reviewer assignment, and issue comment to this workflow. Do not commit, push, create pull requests, or modify .shinycoreci-remediation.
+          Leave the final git commit, branch push, pull request creation, reviewer assignment, and issue comment to this workflow. Do not commit, push, create pull requests, or modify .shinycoreci-target/.shinycoreci-remediation.
         claude_args: |
-          --model ${{ inputs.bedrock-model-id }}
-          ${{ inputs.bedrock-fallback-model-id != '' && format('--fallback-model {0}', inputs.bedrock-fallback-model-id) || '' }}
+          --add-dir ${{ steps.target-checkout.outputs.path }}
+          --model ${{ inputs.claude-model }}
+          ${{ inputs.claude-fallback-model != '' && format('--fallback-model {0}', inputs.claude-fallback-model) || '' }}
           --max-turns ${{ inputs.max-turns }}
           --allowedTools Bash,Read,Write,Edit,WebFetch,WebSearch
 
     - name: Finalize remediation pull request
       id: solve
       shell: bash
+      working-directory: ${{ steps.target-checkout.outputs.path }}
       env:
         TARGET_GH_TOKEN: ${{ inputs.github-token }}
         TARGET_OWNER: ${{ inputs.target-owner }}
@@ -211,6 +207,7 @@ runs:
       id: verify-1
       if: steps.solve.outputs.pr_url != ''
       shell: bash
+      working-directory: ${{ steps.target-checkout.outputs.path }}
       env:
         TARGET_GH_TOKEN: ${{ inputs.github-token }}
         TARGET_OWNER: ${{ inputs.target-owner }}
@@ -236,12 +233,12 @@ runs:
         && fromJSON(inputs.max-attempts) >= 2
       uses: anthropics/claude-code-action@v1.0.92
       with:
-        use_bedrock: "true"
+        claude_code_oauth_token: ${{ inputs.claude-code-oauth-token }}
         github_token: ${{ inputs.github-token }}
         base_branch: ${{ steps.solve.outputs.branch }}
-        branch_prefix: shinycoreci-bedrock-retry-
+        branch_prefix: shinycoreci-claude-retry-
         additional_permissions: "actions: read"
-        allowed_bots: ${{ inputs.app-slug != '' && format('github-actions[bot],posit-shiny-automation[bot],shinycoreci-bedrock[bot],{0}[bot]', inputs.app-slug) || 'github-actions[bot],posit-shiny-automation[bot],shinycoreci-bedrock[bot]' }}
+        allowed_bots: ${{ inputs.app-slug != '' && format('github-actions[bot],posit-shiny-automation[bot],shinycoreci-claude[bot],{0}[bot]', inputs.app-slug) || 'github-actions[bot],posit-shiny-automation[bot],shinycoreci-claude[bot]' }}
         prompt: |
           You are continuing a remediation attempt for ${{ inputs.target-owner }}/${{ inputs.target-repo }}.
           The first remediation attempt opened PR ${{ steps.solve.outputs.pr_url }} on branch `${{ steps.solve.outputs.branch }}`,
@@ -253,14 +250,15 @@ runs:
           - Original failed workflow: ${{ inputs.target-workflow }}
           - Remediation issue: ${{ inputs.issue-url }}
 
-          The latest verification log is available at .shinycoreci-remediation/remote-run.log. Review it together with your prior changes (already on disk via the PR branch) and add additional fixes that resolve the remaining failures. Do not revert your earlier work unless it was clearly wrong.
+          The target repository checkout is available at .shinycoreci-target. The latest verification log is available at .shinycoreci-target/.shinycoreci-remediation/remote-run.log. Review it together with your prior changes (already on disk via the PR branch under .shinycoreci-target) and add additional fixes under .shinycoreci-target that resolve the remaining failures. Do not revert your earlier work unless it was clearly wrong.
 
-          Same constraints as before: do not add a repository-specific reviewer workflow; restrict any workflow change to ${{ inputs.target-workflow }}. Any commit message must follow Conventional Commits (`fix(ci): ...` for package-check fixes).
+          Same constraints as before: do not add a repository-specific reviewer workflow; do not edit anything under .shinycoreci-target/.github/workflows/. Any commit message must follow Conventional Commits (`fix(ci): ...` for package-check fixes).
 
-          Leave the final git commit, branch push, and PR update to this workflow. Do not commit, push, or modify .shinycoreci-remediation.
+          Leave the final git commit, branch push, and PR update to this workflow. Do not commit, push, or modify .shinycoreci-target/.shinycoreci-remediation.
         claude_args: |
-          --model ${{ inputs.bedrock-model-id }}
-          ${{ inputs.bedrock-fallback-model-id != '' && format('--fallback-model {0}', inputs.bedrock-fallback-model-id) || '' }}
+          --add-dir ${{ steps.target-checkout.outputs.path }}
+          --model ${{ inputs.claude-model }}
+          ${{ inputs.claude-fallback-model != '' && format('--fallback-model {0}', inputs.claude-fallback-model) || '' }}
           --max-turns ${{ inputs.max-turns }}
           --allowedTools Bash,Read,Write,Edit,WebFetch,WebSearch
 
@@ -268,6 +266,7 @@ runs:
       id: solve-retry
       if: steps.claude-retry.outcome == 'success'
       shell: bash
+      working-directory: ${{ steps.target-checkout.outputs.path }}
       env:
         TARGET_GH_TOKEN: ${{ inputs.github-token }}
         TARGET_OWNER: ${{ inputs.target-owner }}
@@ -288,6 +287,7 @@ runs:
       id: verify-2
       if: steps.solve-retry.outputs.pushed == 'true'
       shell: bash
+      working-directory: ${{ steps.target-checkout.outputs.path }}
       env:
         TARGET_GH_TOKEN: ${{ inputs.github-token }}
         TARGET_OWNER: ${{ inputs.target-owner }}
