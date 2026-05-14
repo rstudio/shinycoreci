@@ -4,7 +4,7 @@
   },
   "output": {
     "scatterPlot": {
-      "src": "[image data hash: 203a876ccae49ca5d922407a429f8ce7]",
+      "src": "[image data hash: f259c69c20a7bf711521bef2730ad335]",
       "width": 370.8281,
       "height": 300,
       "alt": "Plot object",
@@ -18,7 +18,7 @@
               "top": 2.7761
             },
             "range": {
-              "left": 59.1722,
+              "left": 59.1721,
               "right": 340.5204,
               "bottom": 225.56,
               "top": 58.04
