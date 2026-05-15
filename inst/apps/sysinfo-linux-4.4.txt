@@ -11,7 +11,7 @@ Version: Google Chrome for Testing 148.0.7778.167
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20260413.86.1
+ gha_image 20260513.135.3
  version   R version 4.4.3 (2025-02-28)
  os        Ubuntu 24.04.4 LTS
  system    x86_64, linux-gnu
@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 148.0.7778.167
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2026-05-14
+ date      2026-05-15
  pandoc    3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -37,7 +37,7 @@ Version: Google Chrome for Testing 148.0.7778.167
  boot                1.3-31      2024-08-28 [3] CRAN (R 4.4.3)
  brio                1.1.5       2024-04-24 [1] RSPM
  broom               1.0.12      2026-01-27 [1] RSPM
- bslib               0.10.0.9000 2026-05-13 [1] https://p~
+ bslib               0.10.0.9000 2026-05-14 [1] https://p~
  cachem              1.1.0       2024-05-16 [1] RSPM
  callr               3.7.6       2024-03-25 [1] RSPM
  checkmate           2.3.4       2026-02-03 [1] RSPM
@@ -159,8 +159,8 @@ Version: Google Chrome for Testing 148.0.7778.167
  scales              1.4.0       2025-04-24 [1] RSPM
  sessioninfo         1.2.3       2025-02-05 [1] RSPM
  sf                  1.1-1       2026-05-06 [1] RSPM
- shiny               1.13.0.9000 2026-05-11 [1] https://p~
- shinycoreci         0.0.0.9009  2026-05-14 [1] Custom
+ shiny               1.13.0.9000 2026-05-14 [1] https://p~
+ shinycoreci         0.0.0.9009  2026-05-15 [1] Custom
  shinyjs             2.1.1       2026-01-15 [1] RSPM
  shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
  shinytest           1.6.1       2024-05-30 [1] RSPM
