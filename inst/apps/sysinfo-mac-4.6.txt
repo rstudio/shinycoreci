@@ -11,16 +11,16 @@ Version: Google Chrome for Testing 148.0.7778.167
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20260427.0018.1
+ gha_image 20260511.0048.1
  version   R version 4.6.0 (2026-04-24)
- os        macOS Sequoia 15.7.4
+ os        macOS Sequoia 15.7.5
  system    aarch64, darwin23
  ui        X11
  language  (EN)
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2026-05-14
+ date      2026-05-15
  pandoc    3.8.3 @ /usr/local/bin/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -37,9 +37,9 @@ Version: Google Chrome for Testing 148.0.7778.167
  blob                1.3.0       2026-01-14 [1] RSPM
  boot                1.3-32      2025-08-29 [3] CRAN (R 4.6.0)
  brio                1.1.5       2024-04-24 [1] RSPM
- broom               1.0.12      2026-01-27 [1] RSPM
+ broom               1.0.13      2026-05-14 [1] CRAN (R 4.6.0)
  bsicons             0.1.2.9000  2025-12-30 [1] https://p~
- bslib               0.10.0.9000 2026-05-13 [1] https://p~
+ bslib               0.10.0.9000 2026-05-14 [1] https://p~
  cachem              1.1.0       2025-10-20 [1] https://p~
  Cairo               1.7-0       2025-10-29 [1] CRAN (R 4.6.0)
  callr               3.7.6       2024-03-25 [1] RSPM
@@ -123,7 +123,7 @@ Version: Google Chrome for Testing 148.0.7778.167
  nlme                3.1-169     2026-03-27 [3] CRAN (R 4.6.0)
  NLP                 0.3-2       2024-11-20 [1] RSPM
  nnet                7.3-20      2025-01-01 [3] CRAN (R 4.6.0)
- openssl             2.4.0       2026-04-15 [1] RSPM
+ openssl             2.4.1       2026-05-14 [1] CRAN (R 4.6.0)
  otel                0.2.0       2025-08-29 [1] RSPM
  packrat             0.9.3       2025-06-16 [1] RSPM
  pak                 0.9.5       2026-04-27 [1] RSPM
@@ -159,7 +159,7 @@ Version: Google Chrome for Testing 148.0.7778.167
  Rcpp                1.1.1-1.1   2026-04-24 [1] RSPM
  RcppTOML            0.2.3       2025-03-08 [1] RSPM
  reactable           0.4.5       2025-12-01 [1] RSPM
- reactlog            1.1.1.9000  2026-05-12 [1] https://p~
+ reactlog            1.1.1.9000  2026-05-14 [1] https://p~
  reactR              0.6.1       2024-09-14 [1] RSPM
  readr               2.2.0       2026-02-19 [1] RSPM
  rematch             2.0.0       2023-08-30 [1] RSPM
@@ -181,9 +181,9 @@ Version: Google Chrome for Testing 148.0.7778.167
  scales              1.4.0       2025-04-24 [1] RSPM
  sessioninfo         1.2.3       2025-02-05 [1] RSPM
  sf                  1.1-1       2026-05-06 [1] RSPM
- shiny               1.13.0.9000 2026-05-11 [1] https://p~
+ shiny               1.13.0.9000 2026-05-14 [1] https://p~
  shinyAce            0.4.4       2025-02-03 [1] RSPM
- shinycoreci         0.0.0.9009  2026-05-12 [1] https://p~
+ shinycoreci         0.0.0.9009  2026-05-15 [1] https://p~
  shinydashboard      0.7.3       2025-04-21 [1] RSPM
  shinyjs             2.1.1       2026-01-15 [1] RSPM
  shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
