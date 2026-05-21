@@ -132,6 +132,80 @@ tagList(
   color: #6c757d;
   font-size: 0.85rem;
 }
+
+/* Issue Triage card */
+.issue-triage {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0 1.5rem;
+  background: #fafbfc;
+}
+.issue-triage h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.issue-triage .triage-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+.badge-critical {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+.badge-high {
+  background-color: #ffeeba;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+.badge-other {
+  background-color: #e2e3e5;
+  color: #383d41;
+  border: 1px solid #d6d8db;
+}
+.issue-triage table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.issue-triage th,
+.issue-triage td {
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid #eceff1;
+  vertical-align: middle;
+}
+.issue-triage th {
+  font-weight: 600;
+  color: #495057;
+  background: transparent;
+  border-bottom: 2px solid #dee2e6;
+}
+.issue-triage tr:last-child td {
+  border-bottom: none;
+}
+.issue-triage .muted {
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+.issue-triage .date-badge {
+  margin-left: auto;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #e9ecef;
+  color: #495057;
+  border-radius: 0.25rem;
+}
+
 ```
 
 ```{r, echo = FALSE, include = TRUE}
@@ -145,7 +219,7 @@ if (nrow(params$df) == 0) {
 ```{r, eval = render_rest, echo = FALSE}
 shiny::markdown(
 '
-* Current [`posit-dev/py-shiny`](https://github.com/posit-dev/py-shiny) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shiny/pytest.yaml?branch=main)](https://github.com/posit-dev/py-shiny)
+* Current [`posit-dev/py-shiny`](https://github.com/posit-dev/py-shiny) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shiny/pytest.yaml?branch=main&event=push)](https://github.com/posit-dev/py-shiny)
 * Current [`posit-dev/py-shinyswatch`](https://github.com/posit-dev/py-shinyswatch) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shinyswatch/pytest.yaml?branch=main)](https://github.com/posit-dev/py-shinyswatch)
 * Current [`posit-dev/py-htmltools`](https://github.com/posit-dev/py-htmltools) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-htmltools/pytest.yaml?branch=main)](https://github.com/posit-dev/py-htmltools)
 * Current [`posit-dev/py-shinywidgets`](https://github.com/posit-dev/py-shinywidgets) status: [![](https://img.shields.io/github/actions/workflow/status/posit-dev/py-shinywidgets/py-check.yaml?branch=main)](https://github.com/posit-dev/py-shinywidgets)
@@ -233,6 +307,126 @@ local({
           shiny::tags$th("Latest workflow"),
           shiny::tags$th("Maintainer"),
           shiny::tags$th("Remediation")
+        )
+      ),
+      shiny::tags$tbody(rows)
+    )
+  )
+})
+```
+
+```{r issue_triage, eval = render_rest, echo = FALSE}
+local({
+  api_url <- "https://api.github.com/repos/posit-dev/shiny-issue-triage/contents/triage-results?ref=triage-state"
+  
+  old_ua <- getOption("HTTPUserAgent")
+  options(HTTPUserAgent = "rstudio/shinycoreci")
+  on.exit(options(HTTPUserAgent = old_ua), add = TRUE)
+  
+  files_df <- tryCatch(
+    jsonlite::fromJSON(api_url),
+    error = function(e) NULL
+  )
+  if (is.null(files_df) || !is.data.frame(files_df)) {
+    return(invisible(NULL))
+  }
+  
+  jsonl_files <- files_df[grepl("\\.jsonl$", files_df$name), ]
+  if (nrow(jsonl_files) == 0) {
+    return(invisible(NULL))
+  }
+  
+  ordered_files <- jsonl_files[order(jsonl_files$name, decreasing = TRUE), ]
+  latest_file <- ordered_files[1, ]
+  latest_date <- gsub("\\.jsonl$", "", latest_file$name)
+  
+  lines <- tryCatch(
+    readLines(latest_file$download_url, warn = FALSE),
+    error = function(e) NULL
+  )
+  if (is.null(lines) || length(lines) == 0) {
+    return(invisible(NULL))
+  }
+  
+  issues <- lapply(lines, function(line) {
+    if (nchar(trimws(line)) == 0) return(NULL)
+    tryCatch(
+      jsonlite::fromJSON(line),
+      error = function(e) NULL
+    )
+  })
+  issues <- issues[!vapply(issues, is.null, logical(1))]
+  if (length(issues) == 0) {
+    return(invisible(NULL))
+  }
+  
+  is_high_or_critical <- function(issue) {
+    labels <- issue$labels
+    if (length(labels) == 0) return(FALSE)
+    any(grepl("high|critical", labels, ignore.case = TRUE))
+  }
+  
+  high_issues <- issues[vapply(issues, is_high_or_critical, logical(1))]
+  
+  if (length(high_issues) == 0) {
+    return(
+      shiny::tags$section(
+        class = "issue-triage",
+        shiny::tags$h2(
+          fontawesome::fa("triangle-exclamation"),
+          "Latest Issue Triage",
+          shiny::tags$span(class = "date-badge", latest_date)
+        ),
+        shiny::tags$p(
+          class = "muted",
+          "No high or critical priority issues triaged in the latest run."
+        )
+      )
+    )
+  }
+  
+  rows <- lapply(high_issues, function(issue) {
+    repo_full <- issue$repo
+    repo_url <- paste0("https://github.com/", repo_full)
+    issue_num <- paste0("#", issue$issue)
+    issue_url <- issue$url
+    
+    label_tags <- lapply(issue$labels, function(label) {
+      class_name <- "badge-other"
+      if (grepl("critical", label, ignore.case = TRUE)) {
+        class_name <- "badge-critical"
+      } else if (grepl("high", label, ignore.case = TRUE)) {
+        class_name <- "badge-high"
+      }
+      shiny::tags$span(class = paste("triage-badge", class_name), label)
+    })
+    
+    shiny::tags$tr(
+      shiny::tags$td(shiny::tags$a(href = repo_url, shiny::tags$code(repo_full))),
+      shiny::tags$td(shiny::tags$a(href = issue_url, issue_num)),
+      shiny::tags$td(label_tags)
+    )
+  })
+  
+  shiny::tags$section(
+    class = "issue-triage",
+    shiny::tags$h2(
+      fontawesome::fa("triangle-exclamation"),
+      "Latest Issue Triage",
+      shiny::tags$span(class = "date-badge", latest_date)
+    ),
+    shiny::tags$p(
+      class = "muted",
+      "Latest triaged issues with High or Critical priority from ",
+      shiny::tags$code("posit-dev/shiny-issue-triage"),
+      " (triage-state branch)."
+    ),
+    shiny::tags$table(
+      shiny::tags$thead(
+        shiny::tags$tr(
+          shiny::tags$th("Repository"),
+          shiny::tags$th("Issue"),
+          shiny::tags$th("Priority / Labels")
         )
       ),
       shiny::tags$tbody(rows)
