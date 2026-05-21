@@ -71,10 +71,19 @@ test_in_local <- function(
     }
 
     log_file <- tempfile("coreci-log-", fileext = ".log")
+    px <- NULL
+    on.exit({
+      if (!is.null(px) && px$is_alive()) {
+        if (requireNamespace("ps", quietly = TRUE)) {
+          try(px$kill_tree(), silent = TRUE)
+        }
+        try(px$kill(close_connections = TRUE), silent = TRUE)
+      }
+    }, add = TRUE)
 
     tryCatch(
       {
-        test_result <- callr::r(
+        px <- callr::r_bg(
           function(app_path_) {
             withr::with_envvar(
               list(NOT_CRAN = "true"),
@@ -87,6 +96,14 @@ test_in_local <- function(
                   add = TRUE
                 )
 
+                if (requireNamespace("chromote", quietly = TRUE)) {
+                  chromote::set_chrome_args(c(
+                    chromote::default_chrome_args(),
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage"
+                  ))
+                }
+
                 shiny::runTests(
                   appDir = app_path_,
                   assert = FALSE
@@ -98,12 +115,23 @@ test_in_local <- function(
             app_path_ = repo_app_path(app_name, repo_dir = repo_dir)
           ),
           libpath = libpath,
-          timeout = timeout,
           stdout = log_file,
           stderr = "2>&1",
-          show = show_output,
           supervise = TRUE
         )
+
+        px$wait(timeout = timeout * 1000)
+
+        if (px$is_alive()) {
+          message("Test timed out! Killing process tree...")
+          if (requireNamespace("ps", quietly = TRUE)) {
+            try(px$kill_tree(), silent = TRUE)
+          }
+          try(px$kill(close_connections = TRUE), silent = TRUE)
+          stop(paste0("Application test suite timed out after ", timeout, " seconds."))
+        }
+
+        test_result <- px$get_result()
         result <- test_result$result[[1]]
         status <-
           if (is.null(result)) {
@@ -122,7 +150,6 @@ test_in_local <- function(
         )
       },
       error = function(e) {
-        # return a failed test
         list(
           status = ci_status$fail,
           result = e,
