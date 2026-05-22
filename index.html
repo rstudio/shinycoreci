@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>CI Testing for shiny • shinycoreci</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -262,6 +262,8 @@
 </ol>
 </li>
 <li>
+<a href="https://github.com/rstudio/shinycoreci/actions/workflows/external-package-checks.yml" class="external-link"><strong>External package checks</strong></a>: Dispatches package-check workflows in other repos that opt in to <code>workflow_dispatch</code>, waits for them to finish, and opens or reuses a remediation issue in the target repo if a watched run fails. The workflow still fails when the remote run fails so that downstream dashboards can report the target repo status accurately. When the <code>CLAUDE_CODE_OAUTH_TOKEN</code> secret is configured, <code>anthropics/claude-code-action</code> investigates the failed run with the configured Claude model, then <code>shinycoreci</code> pushes a remediation branch and opens a PR for the configured maintainer. Targets are configured in <code>.github/external-package-checks.json</code> with an owner per repo, so the same scheduler can include repos from <code>rstudio</code>, <code>posit-dev</code>, or any other org where the GitHub App is installed; currently <code>rstudio/reactlog</code>.</li>
+<li>
 <a href="https://github.com/rstudio/shinycoreci/actions/workflows/apps-deps.yml" class="external-link"><strong>Update app deps</strong></a>: Updates known dependencies of all Shiny applications in <code>./inst/apps</code>.</li>
 <li>
 <a href="https://github.com/rstudio/shinycoreci/actions/workflows/trim-old-branches.yml" class="external-link"><strong>Trim old branches</strong></a>: The current data model of <strong>Test apps</strong> workflow is to create many <code>gha-**</code> branches containing the changes of each test run on <code>main</code>. <code>gha-**</code> branches that have been stale for more than a week are removed.</li>
@@ -283,6 +285,7 @@
 <code>shinycoreci::trigger(event_type=)</code>: Sends a custom event to the GHA workflow. For example, this can be used to trigger <strong>Trim old branches</strong> with <code>shinycoreci::trigger("trim")</code>.</li>
 </ul>
 <p>A triggered workflow will run without having to push to the repo. Anyone with repo write access can call this command.</p>
+<p>Cross-repo package checks are managed by the <strong>External package checks</strong> workflow rather than the <code>shinycoreci::trigger*()</code> helpers. This workflow uses the <strong>Posit Shiny Automations</strong> GitHub App (org secrets <code>POSIT_SHINY_AUTOMATION_APP_ID</code> and <code>POSIT_SHINY_AUTOMATION_PEM</code> in <code>rstudio/shinycoreci</code>) to dispatch workflows, poll run status, create remediation issues, and push remediation branches in target repos. Manual dispatch is restricted to members of the repository owner org before any app or Claude secrets are used; scheduled runs are still allowed. If the optional org/repo secret <code>CLAUDE_CODE_OAUTH_TOKEN</code> is configured (generated locally with <code>claude setup-token</code> and stored in GitHub secrets), the workflow runs <code>anthropics/claude-code-action</code> against the Anthropic API using that token and opens a PR assigned to the target maintainer. The model defaults to <code>claude-sonnet-4-6</code> and can be overridden with the <code>CLAUDE_MODEL</code> repository variable; <code>CLAUDE_FALLBACK_MODEL</code> can optionally be set for Claude Code’s <code>--fallback-model</code> argument, <code>CLAUDE_MAX_TURNS</code> defaults to <code>40</code>, and <code>CLAUDE_MAX_ATTEMPTS</code> defaults to <code>2</code>. If a watched run fails, <code>shinycoreci</code> still fails the scheduler job after opening the issue and optional PR so that dashboards can report the failure while the issue tracks remediation. Target repos only need the dispatched package-check workflow to opt in to <code>workflow_dispatch</code>; they do not need a separate reviewer workflow because shinycoreci handles reviewer and assignee handoff centrally. To add another repo, append a new target entry in <code>.github/external-package-checks.json</code> with <code>owner</code>, <code>repo</code>, <code>workflow</code>, <code>ref</code>, and <code>maintainer</code>, and ensure the GitHub App is installed on that owner/repo with actions, contents, issues, and pull request write permissions. The remediation flow intentionally does not request the <code>workflows</code> permission, so Claude must not modify any files under <code>.github/workflows/</code> in the target repo.</p>
 </div>
 <div class="section level3">
 <h3 id="schedule">Schedule<a class="anchor" aria-label="anchor" href="#schedule"></a>
@@ -298,6 +301,7 @@
 <li>2am UTC, M-F: <strong>Deploy apps</strong>; ~ 2 hrs</li>
 <li>3am UTC, M-F: <strong>Docker</strong>; ~ 1 hr</li>
 <li>5am UTC, M-F: <strong>Test apps</strong> (Internally calls <strong>Build results website</strong>); ~ 4 hrs</li>
+<li>8am UTC, M: <strong>External package checks</strong>; varies with target workflow runtime</li>
 </ul>
 </div>
 <div class="section level3">
