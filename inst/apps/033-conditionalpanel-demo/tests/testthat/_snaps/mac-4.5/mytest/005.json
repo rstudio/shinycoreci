@@ -4,7 +4,7 @@
   },
   "output": {
     "scatterPlot": {
-      "src": "[image data hash: 18e7349e77f8b9e90a5c518a9f5d07d8]",
+      "src": "[image data hash: 50d43b696d74b0b719fc301828213ef1]",
       "width": 370.8281,
       "height": 300,
       "alt": "Plot object",
@@ -12,10 +12,10 @@
         "panels": [
           {
             "domain": {
-              "left": -2.9156,
-              "right": 3.5434,
-              "bottom": -3.5509,
-              "top": 2.6629
+              "left": -2.688,
+              "right": 2.5827,
+              "bottom": -2.7264,
+              "top": 3.316
             },
             "range": {
               "left": 59.1721,

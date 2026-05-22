@@ -75,6 +75,13 @@ jobs:
         shell: bash
         run: |
           CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          if [ "$CURRENT_BRANCH" = "HEAD" ]; then
+            if [ -n "${{ github.head_ref }}" ]; then
+              CURRENT_BRANCH="${{ github.head_ref }}"
+            else
+              CURRENT_BRANCH="${{ github.ref_name }}"
+            fi
+          fi
           echo "name=$CURRENT_BRANCH" >> $GITHUB_OUTPUT
 
       - name: Collect changed file names

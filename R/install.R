@@ -265,8 +265,12 @@ install_pkgs_with_callr <- function(
   verbose = TRUE
 ) {
   stopifnot(length(list(...)) == 0)
+  user_agent <- getOption("HTTPUserAgent")
   callr::r(
-    function(repos_option, packages, upgrade, dependencies) {
+    function(repos_option, user_agent, packages, upgrade, dependencies) {
+      if (!is.null(user_agent)) {
+        options(HTTPUserAgent = user_agent)
+      }
       options(repos = repos_option)
 
       # Install pak if not already installed
@@ -291,6 +295,7 @@ install_pkgs_with_callr <- function(
     },
     list(
       repos_option = shinyverse_repos_option(),
+      user_agent = user_agent,
       packages = packages,
       upgrade = upgrade,
       dependencies = dependencies
