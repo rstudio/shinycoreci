@@ -1,3 +1,5 @@
+library(shiny)
+
 myPlotUI <- function(id, label = "My Plot") {
   ns <- NS(id)
   tagList(
