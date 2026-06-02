@@ -1,3 +1,5 @@
+library(shiny)
+
 shinyApp(
   fluidPage(
     p(

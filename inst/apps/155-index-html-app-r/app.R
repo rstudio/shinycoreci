@@ -1,3 +1,5 @@
+library(shiny)
+
 server <- function(input, output, session) {
   shinyjster::shinyjster_server(input, output, session)
 

@@ -1,3 +1,5 @@
+library(shiny)
+
 shinyApp(
   ui = basicPage(
     # Hide the cursor when focusing

@@ -1,3 +1,5 @@
+library(shiny)
+
 shinyApp(
   ui = fluidPage(
     shinyjster::shinyjster_js("

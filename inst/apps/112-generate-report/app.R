@@ -1,3 +1,5 @@
+library(shiny)
+
 shinyApp(
   ui = fluidPage(
     sliderInput("slider", "Slider", 1, 100, 50),
