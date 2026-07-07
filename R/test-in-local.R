@@ -104,7 +104,8 @@ test_in_local <- function(
                   ))
                 }
 
-                shinycoreci:::coreci_snapshot_bootstrap()
+                # This function runs in a callr child where shinycoreci is not attached.
+                utils::getFromNamespace("ci_setup_consistent_snapshots", "shinycoreci")()
 
                 shiny::runTests(
                   appDir = app_path_,

@@ -1,20 +1,22 @@
-coreci_snapshot_state <- new.env(parent = emptyenv())
+ci_snapshot_state <- new.env(parent = emptyenv())
 
-coreci_snapshot_font_dir <- function() {
-  dir <- system.file("fonts/coreci", package = "shinycoreci")
+utils::globalVariables(c("self", "private"))
+
+ci_snapshot_font_dir <- function() {
+  dir <- system.file("ci/fonts", package = "shinycoreci")
   if (nzchar(dir)) {
     return(normalizePath(dir, winslash = "/", mustWork = TRUE))
   }
 
   normalizePath(
-    rprojroot::find_package_root_file("inst/fonts/coreci"),
+    rprojroot::find_package_root_file("inst/ci/fonts"),
     winslash = "/",
     mustWork = TRUE
   )
 }
 
-coreci_snapshot_font_files <- function() {
-  dir <- coreci_snapshot_font_dir()
+ci_snapshot_font_files <- function() {
+  dir <- ci_snapshot_font_dir()
   files <- c(
     sans_regular = "NotoSans-Regular.ttf",
     sans_bold = "NotoSans-Bold.ttf",
@@ -27,12 +29,12 @@ coreci_snapshot_font_files <- function() {
   stats::setNames(normalizePath(file.path(dir, files), winslash = "/", mustWork = FALSE), names(files))
 }
 
-coreci_snapshot_register_fonts <- function() {
+ci_snapshot_register_fonts <- function() {
   if (!requireNamespace("systemfonts", quietly = TRUE)) {
     return(invisible(FALSE))
   }
 
-  fonts <- coreci_snapshot_font_files()
+  fonts <- ci_snapshot_font_files()
   if (!all(file.exists(fonts))) {
     stop("CoreCI snapshot font files are missing", call. = FALSE)
   }
@@ -61,7 +63,7 @@ coreci_snapshot_register_fonts <- function() {
   )
 
   for (alias in sans_aliases) {
-    coreci_snapshot_register_font(
+    ci_snapshot_register_font(
       alias,
       plain = fonts[["sans_regular"]],
       bold = fonts[["sans_bold"]],
@@ -71,7 +73,7 @@ coreci_snapshot_register_fonts <- function() {
   }
 
   for (alias in mono_aliases) {
-    coreci_snapshot_register_font(
+    ci_snapshot_register_font(
       alias,
       plain = fonts[["mono_regular"]],
       bold = fonts[["mono_bold"]],
@@ -83,7 +85,7 @@ coreci_snapshot_register_fonts <- function() {
   invisible(TRUE)
 }
 
-coreci_snapshot_register_font <- function(alias, plain, bold, italic, bolditalic) {
+ci_snapshot_register_font <- function(alias, plain, bold, italic, bolditalic) {
   tryCatch(
     {
       systemfonts::register_font(
@@ -104,7 +106,7 @@ coreci_snapshot_register_font <- function(alias, plain, bold, italic, bolditalic
   )
 }
 
-coreci_snapshot_set_plot_options <- function() {
+ci_snapshot_set_plot_options <- function() {
   opts <- list()
   if (is.null(getOption("shiny.useragg"))) {
     opts[["shiny.useragg"]] <- TRUE
@@ -118,23 +120,23 @@ coreci_snapshot_set_plot_options <- function() {
   invisible(opts)
 }
 
-coreci_snapshot_font_data_uri <- function(path) {
+ci_snapshot_font_data_uri <- function(path) {
   raw <- readBin(path, "raw", n = file.info(path)$size)
   paste0("data:font/ttf;base64,", jsonlite::base64_enc(raw))
 }
 
-coreci_snapshot_css_string <- function(x) {
+ci_snapshot_css_string <- function(x) {
   paste0("\"", gsub("\"", "\\\\\"", x, fixed = TRUE), "\"")
 }
 
-coreci_snapshot_font_css <- function() {
-  if (!is.null(coreci_snapshot_state$font_css)) {
-    return(coreci_snapshot_state$font_css)
+ci_snapshot_font_css <- function() {
+  if (!is.null(ci_snapshot_state$font_css)) {
+    return(ci_snapshot_state$font_css)
   }
 
-  fonts <- coreci_snapshot_font_files()
+  fonts <- ci_snapshot_font_files()
   font_faces <- function(family, regular, bold, italic = regular, bolditalic = bold) {
-    family <- coreci_snapshot_css_string(family)
+    family <- ci_snapshot_css_string(family)
     sprintf(
       paste(
         "@font-face{font-family:%s;font-style:normal;font-weight:400;src:url(%s) format('truetype');}",
@@ -144,13 +146,13 @@ coreci_snapshot_font_css <- function() {
         sep = "\n"
       ),
       family,
-      coreci_snapshot_font_data_uri(regular),
+      ci_snapshot_font_data_uri(regular),
       family,
-      coreci_snapshot_font_data_uri(bold),
+      ci_snapshot_font_data_uri(bold),
       family,
-      coreci_snapshot_font_data_uri(italic),
+      ci_snapshot_font_data_uri(italic),
       family,
-      coreci_snapshot_font_data_uri(bolditalic)
+      ci_snapshot_font_data_uri(bolditalic)
     )
   }
 
@@ -169,18 +171,18 @@ coreci_snapshot_font_css <- function() {
     )
   )
 
-  coreci_snapshot_state$font_css <- paste(css, collapse = "\n")
-  coreci_snapshot_state$font_css
+  ci_snapshot_state$font_css <- paste(css, collapse = "\n")
+  ci_snapshot_state$font_css
 }
 
-coreci_snapshot_inject_browser_fonts <- function(app) {
-  css <- coreci_snapshot_font_css()
+ci_snapshot_inject_browser_fonts <- function(app) {
+  css <- ci_snapshot_font_css()
   script <- sprintf(
     paste(
       "(() => {",
-      "  if (document.getElementById('coreci-snapshot-fonts')) return;",
+      "  if (document.getElementById('ci-snapshot-fonts')) return;",
       "  const style = document.createElement('style');",
-      "  style.id = 'coreci-snapshot-fonts';",
+      "  style.id = 'ci-snapshot-fonts';",
       "  style.textContent = %s;",
       "  document.head.appendChild(style);",
       "  const generic = /system-ui|-apple-system|BlinkMacSystemFont|Segoe UI|Roboto|Helvetica Neue|Arial|Noto Sans|Liberation Sans|sans-serif|monospace|Menlo|Monaco|Consolas|Courier/i;",
@@ -206,13 +208,13 @@ coreci_snapshot_inject_browser_fonts <- function(app) {
   invisible(app)
 }
 
-coreci_snapshot_child_bootstrap <- function() {
-  coreci_snapshot_register_fonts()
-  coreci_snapshot_set_plot_options()
+ci_setup_consistent_snapshots_child <- function() {
+  ci_snapshot_register_fonts()
+  ci_snapshot_set_plot_options()
   invisible(TRUE)
 }
 
-coreci_snapshot_merge_shiny_options <- function(options) {
+ci_snapshot_merge_shiny_options <- function(options) {
   options <- options %||% list()
   defaults <- list(
     shiny.useragg = TRUE,
@@ -222,15 +224,15 @@ coreci_snapshot_merge_shiny_options <- function(options) {
   utils::modifyList(defaults, options)
 }
 
-coreci_snapshot_child_profile_expr <- function() {
+ci_snapshot_child_profile_expr <- function() {
   paste(
     sprintf(".libPaths(%s)", paste(deparse(.libPaths()), collapse = "")),
-    "try(if (requireNamespace('shinycoreci', quietly = TRUE)) shinycoreci:::coreci_snapshot_child_bootstrap(), silent = TRUE)",
+    "try(if (requireNamespace('shinycoreci', quietly = TRUE)) utils::getFromNamespace('ci_setup_consistent_snapshots_child', 'shinycoreci')(), silent = TRUE)",
     sep = "\n"
   )
 }
 
-coreci_snapshot_with_child_profile <- function(app_dir, code) {
+ci_snapshot_with_child_profile <- function(app_dir, code) {
   if (is.null(app_dir) || !dir.exists(app_dir)) {
     return(force(code))
   }
@@ -247,48 +249,51 @@ coreci_snapshot_with_child_profile <- function(app_dir, code) {
     }
   }, add = TRUE)
 
-  writeLines(c(old_profile, coreci_snapshot_child_profile_expr()), profile, useBytes = TRUE)
+  writeLines(c(old_profile, ci_snapshot_child_profile_expr()), profile, useBytes = TRUE)
   force(code)
 }
 
-coreci_snapshot_patch_shinytest2 <- function() {
+ci_snapshot_patch_shinytest2 <- function() {
   if (!requireNamespace("shinytest2", quietly = TRUE)) {
     return(invisible(FALSE))
   }
-  if (isTRUE(coreci_snapshot_state$shinytest2_patched)) {
+  if (isTRUE(ci_snapshot_state$shinytest2_patched)) {
     return(invisible(TRUE))
   }
 
   ns <- asNamespace("shinytest2")
   original_start <- get("app_start_shiny", ns)
   patched_start <- function(self, private, ...) {
-    coreci_snapshot_with_child_profile(self$get_dir(), {
+    ci_snapshot_with_child_profile(self$get_dir(), {
       original_start(self, private, ...)
     })
   }
-  assignInNamespace("app_start_shiny", patched_start, ns = "shinytest2")
+  utils::assignInNamespace("app_start_shiny", patched_start, ns = "shinytest2")
 
   app_driver <- get("AppDriver", ns)
   patched_initialize <- function(...) {
     args <- list(...)
-    args$options <- shinycoreci:::coreci_snapshot_merge_shiny_options(args$options)
+    merge_options <- utils::getFromNamespace("ci_snapshot_merge_shiny_options", "shinycoreci")
+    inject_fonts <- utils::getFromNamespace("ci_snapshot_inject_browser_fonts", "shinycoreci")
+
+    args$options <- merge_options(args$options)
 
     do.call(
       get("app_initialize", asNamespace("shinytest2")),
       c(list(self = self, private = private), args)
     )
-    shinycoreci:::coreci_snapshot_inject_browser_fonts(self)
+    inject_fonts(self)
     invisible(self)
   }
   app_driver$set("public", "initialize", patched_initialize, overwrite = TRUE)
 
-  coreci_snapshot_state$shinytest2_patched <- TRUE
+  ci_snapshot_state$shinytest2_patched <- TRUE
   invisible(TRUE)
 }
 
-coreci_snapshot_bootstrap <- function() {
-  coreci_snapshot_register_fonts()
-  coreci_snapshot_set_plot_options()
-  coreci_snapshot_patch_shinytest2()
+ci_setup_consistent_snapshots <- function() {
+  ci_snapshot_register_fonts()
+  ci_snapshot_set_plot_options()
+  ci_snapshot_patch_shinytest2()
   invisible(TRUE)
 }
