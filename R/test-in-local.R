@@ -104,8 +104,6 @@ test_in_local <- function(
                   ))
                 }
 
-                shinycoreci:::coreci_snapshot_bootstrap()
-
                 shiny::runTests(
                   appDir = app_path_,
                   assert = FALSE
