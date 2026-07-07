@@ -5,13 +5,13 @@
   },
   "output": {
     "image1": {
-      "src": "[image data hash: 9d9a0c2e4f3dfbb71b8e0c08a90c1a41]",
+      "src": "[image data hash: 60f13858c08678e06cfaf487fe06b57f]",
       "width": 300.65625,
       "height": 300,
       "alt": "This is alternate text"
     },
     "image2": {
-      "src": "[image data hash: 7436eed79a70324ffe4a22a08b098fd2]",
+      "src": "[image data hash: 5ec9af4c7c553fb8369d047ee8c8cf65]",
       "alt": "Face"
     }
   },
