@@ -1,7 +1,5 @@
 ci_snapshot_state <- new.env(parent = emptyenv())
 
-utils::globalVariables(c("self", "private"))
-
 ci_snapshot_font_dir <- function() {
   dir <- system.file("ci/fonts", package = "shinycoreci")
   if (nzchar(dir)) {
@@ -111,9 +109,6 @@ ci_snapshot_set_plot_options <- function() {
   if (is.null(getOption("shiny.useragg"))) {
     opts[["shiny.useragg"]] <- TRUE
   }
-  if (is.null(getOption("shiny.usecairo"))) {
-    opts[["shiny.usecairo"]] <- FALSE
-  }
   if (length(opts) > 0) {
     do.call(options, opts)
   }
@@ -217,11 +212,38 @@ ci_setup_consistent_snapshots_child <- function() {
 ci_snapshot_merge_shiny_options <- function(options) {
   options <- options %||% list()
   defaults <- list(
-    shiny.useragg = TRUE,
-    shiny.usecairo = FALSE
+    shiny.useragg = TRUE
   )
 
   utils::modifyList(defaults, options)
+}
+
+ci_snapshot_app_driver <- function() {
+  if (!requireNamespace("shinytest2", quietly = TRUE)) {
+    return(NULL)
+  }
+
+  app_driver <- shinytest2::AppDriver
+  list(
+    new = function(...) {
+      args <- list(...)
+      args$options <- ci_snapshot_merge_shiny_options(args$options)
+      app <- do.call(app_driver$new, args)
+      ci_snapshot_inject_browser_fonts(app)
+    }
+  )
+}
+
+ci_setup_consistent_snapshots_test <- function(env = parent.frame()) {
+  ci_snapshot_register_fonts()
+  ci_snapshot_set_plot_options()
+
+  app_driver <- ci_snapshot_app_driver()
+  if (!is.null(app_driver) && !exists("AppDriver", envir = env, inherits = FALSE)) {
+    assign("AppDriver", app_driver, envir = env)
+  }
+
+  invisible(TRUE)
 }
 
 ci_snapshot_child_profile_expr <- function() {
@@ -253,47 +275,34 @@ ci_snapshot_with_child_profile <- function(app_dir, code) {
   force(code)
 }
 
-ci_snapshot_patch_shinytest2 <- function() {
-  if (!requireNamespace("shinytest2", quietly = TRUE)) {
-    return(invisible(FALSE))
+ci_snapshot_test_setup_expr <- function() {
+  "try(if (requireNamespace('shinycoreci', quietly = TRUE)) utils::getFromNamespace('ci_setup_consistent_snapshots_test', 'shinycoreci')(), silent = TRUE)"
+}
+
+ci_snapshot_with_test_setup <- function(app_dir, code) {
+  setup_dir <- file.path(app_dir, "tests", "testthat")
+  if (!dir.exists(setup_dir)) {
+    return(force(code))
   }
-  if (isTRUE(ci_snapshot_state$shinytest2_patched)) {
-    return(invisible(TRUE))
-  }
 
-  ns <- asNamespace("shinytest2")
-  original_start <- get("app_start_shiny", ns)
-  patched_start <- function(self, private, ...) {
-    ci_snapshot_with_child_profile(self$get_dir(), {
-      original_start(self, private, ...)
-    })
-  }
-  utils::assignInNamespace("app_start_shiny", patched_start, ns = "shinytest2")
+  setup <- file.path(setup_dir, "setup-zzz-coreci-snapshots.R")
+  setup_exists <- file.exists(setup)
+  old_setup <- if (setup_exists) readLines(setup, warn = FALSE) else character()
 
-  app_driver <- get("AppDriver", ns)
-  patched_initialize <- function(...) {
-    args <- list(...)
-    merge_options <- utils::getFromNamespace("ci_snapshot_merge_shiny_options", "shinycoreci")
-    inject_fonts <- utils::getFromNamespace("ci_snapshot_inject_browser_fonts", "shinycoreci")
+  on.exit({
+    if (setup_exists) {
+      writeLines(old_setup, setup, useBytes = TRUE)
+    } else {
+      unlink(setup)
+    }
+  }, add = TRUE)
 
-    args$options <- merge_options(args$options)
-
-    do.call(
-      get("app_initialize", asNamespace("shinytest2")),
-      c(list(self = self, private = private), args)
-    )
-    inject_fonts(self)
-    invisible(self)
-  }
-  app_driver$set("public", "initialize", patched_initialize, overwrite = TRUE)
-
-  ci_snapshot_state$shinytest2_patched <- TRUE
-  invisible(TRUE)
+  writeLines(c(old_setup, ci_snapshot_test_setup_expr()), setup, useBytes = TRUE)
+  force(code)
 }
 
 ci_setup_consistent_snapshots <- function() {
   ci_snapshot_register_fonts()
   ci_snapshot_set_plot_options()
-  ci_snapshot_patch_shinytest2()
   invisible(TRUE)
 }

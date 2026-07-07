@@ -5,6 +5,24 @@ is_installed <- function(package, libpath) {
   nzchar(system.file(package = package, lib.loc = libpath))
 }
 
+is_loaded_from_libpath <- function(package, libpath) {
+  if (!package %in% loadedNamespaces()) {
+    return(FALSE)
+  }
+
+  loaded_path <- normalizePath(getNamespaceInfo(package, "path"), winslash = "/", mustWork = TRUE)
+  package_paths <- c(
+    system.file(package = package, lib.loc = libpath),
+    file.path(libpath, package)
+  )
+  package_paths <- package_paths[nzchar(package_paths) & dir.exists(package_paths)]
+  if (length(package_paths) == 0) {
+    return(FALSE)
+  }
+
+  any(normalizePath(package_paths, winslash = "/", mustWork = TRUE) == loaded_path)
+}
+
 
 shinycoreci_is_local <- function() {
   # If `.git` folder exists, we can guess it is in dev mode
@@ -213,7 +231,7 @@ install_missing_pkgs <- function(
   ))
 
   pkgs_to_install <- packages[!(packages %in% names(installed_pkgs))]
-  if ("shinycoreci" %in% pkgs_to_install && is_installed("shinycoreci", libpath)) {
+  if ("shinycoreci" %in% pkgs_to_install && is_loaded_from_libpath("shinycoreci", libpath)) {
     installed_pkgs[["shinycoreci"]] <- TRUE
     pkgs_to_install <- pkgs_to_install[pkgs_to_install != "shinycoreci"]
   }

@@ -25,3 +25,27 @@ test_that("stable snapshot fonts are registered and exposed as CSS", {
   expect_identical(systemfonts::match_fonts("sans")$path, fonts[["sans_regular"]])
   expect_identical(systemfonts::match_fonts("CoreCI Sans")$path, fonts[["sans_regular"]])
 })
+
+test_that("stable snapshot bootstrap does not patch shinytest2 internals", {
+  skip_if_not_installed("shinytest2")
+
+  ns <- asNamespace("shinytest2")
+  original_start <- get("app_start_shiny", ns)
+  original_initialize <- shinytest2::AppDriver$public_methods$initialize
+
+  ci_setup_consistent_snapshots()
+
+  expect_identical(get("app_start_shiny", ns), original_start)
+  expect_identical(shinytest2::AppDriver$public_methods$initialize, original_initialize)
+})
+
+test_that("stable snapshot options preserve explicit graphics choices", {
+  expect_identical(
+    ci_snapshot_merge_shiny_options(NULL),
+    list(shiny.useragg = TRUE)
+  )
+  expect_identical(
+    ci_snapshot_merge_shiny_options(list(shiny.useragg = FALSE, shiny.usecairo = TRUE)),
+    list(shiny.useragg = FALSE, shiny.usecairo = TRUE)
+  )
+})

@@ -106,10 +106,19 @@ test_in_local <- function(
 
                 # This function runs in a callr child where shinycoreci is not attached.
                 utils::getFromNamespace("ci_setup_consistent_snapshots", "shinycoreci")()
-
-                shiny::runTests(
-                  appDir = app_path_,
-                  assert = FALSE
+                utils::getFromNamespace("ci_snapshot_with_child_profile", "shinycoreci")(
+                  app_path_,
+                  {
+                    utils::getFromNamespace("ci_snapshot_with_test_setup", "shinycoreci")(
+                      app_path_,
+                      {
+                        shiny::runTests(
+                          appDir = app_path_,
+                          assert = FALSE
+                        )
+                      }
+                    )
+                  }
                 )
               }
             )
