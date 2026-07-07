@@ -47,7 +47,7 @@ runs:
         cache-version: ${{ inputs.cache-version }}
         http-user-agent: ${{ inputs.http-user-agent }}
         pandoc-version: ${{ inputs.pandoc-version }}
-        extra-packages: ${{ inputs.extra-packages }}
+        extra-packages: ${{ inputs.extra-packages }} any::ragg any::systemfonts
         pak-version: "devel"
 
     - name: Get packages for macOS system dependencies
