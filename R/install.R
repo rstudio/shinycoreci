@@ -213,6 +213,10 @@ install_missing_pkgs <- function(
   ))
 
   pkgs_to_install <- packages[!(packages %in% names(installed_pkgs))]
+  if ("shinycoreci" %in% pkgs_to_install && is_installed("shinycoreci", libpath)) {
+    installed_pkgs[["shinycoreci"]] <- TRUE
+    pkgs_to_install <- pkgs_to_install[pkgs_to_install != "shinycoreci"]
+  }
 
   if (length(pkgs_to_install) > 0) {
     message(
