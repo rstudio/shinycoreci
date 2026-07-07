@@ -11,9 +11,9 @@ Version: Google Chrome for Testing 150.0.7871.49
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20260630.0213.1
+ gha_image 20260630.0202.1
  version   R version 4.6.1 (2026-06-24)
- os        macOS Tahoe 26.4
+ os        macOS Sequoia 15.7.7
  system    aarch64, darwin23
  ui        X11
  language  (EN)

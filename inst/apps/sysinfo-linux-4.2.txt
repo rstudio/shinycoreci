@@ -11,7 +11,7 @@ Version: Google Chrome for Testing 150.0.7871.46
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20260628.225.1
+ gha_image 20260705.232.1
  version   R version 4.2.3 (2023-03-15)
  os        Ubuntu 24.04.4 LTS
  system    x86_64, linux-gnu
