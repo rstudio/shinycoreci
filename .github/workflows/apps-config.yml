@@ -10,13 +10,13 @@ on:
       macos:
         description: macos OS value
         # https://github.com/rstudio/shiny-workflows/blob/fdfacec40c723210c92a287dcb67cdf7f5d621ef/.github/workflows/R-CMD-check.yaml#L23
-        value: "macos-15"
+        value: "macos-latest"
       windows:
         description: windows OS value
-        value: "windows-2025"
+        value: "windows-latest"
       ubuntu:
         description: ubuntu OS value
-        value: "ubuntu-24.04"
+        value: "ubuntu-latest"
       cache-version:
         description: cache-version to be used when pulling library cache
         value: "14"
