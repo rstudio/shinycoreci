@@ -49,3 +49,23 @@ test_that("stable snapshot options preserve explicit graphics choices", {
     list(shiny.useragg = FALSE, shiny.usecairo = TRUE)
   )
 })
+
+test_that("stable snapshot variants split mutable macOS runner majors", {
+  expect_identical(
+    ci_snapshot_variant("mac-4.6", running = "macOS Sequoia 15.7.7"),
+    "mac-4.6-macos-15"
+  )
+  expect_identical(
+    ci_snapshot_variant("mac-4.6", running = "macOS Tahoe 26.4"),
+    "mac-4.6-macos-26"
+  )
+  expect_identical(
+    ci_snapshot_variant("linux-4.6", running = "Ubuntu 24.04.3 LTS"),
+    "linux-4.6"
+  )
+  expect_identical(
+    ci_snapshot_variant("custom-mac-variant", running = "macOS Tahoe 26.4"),
+    "custom-mac-variant"
+  )
+  expect_null(ci_snapshot_variant(NULL, running = "macOS Tahoe 26.4"))
+})
