@@ -49,9 +49,9 @@ runs:
         pandoc-version: ${{ inputs.pandoc-version }}
         pak-version: "devel"
         extra-packages: |
-          ${{ inputs.extra-packages }}
           any::ragg
           any::systemfonts
+          ${{ inputs.extra-packages }}
 
     - name: Get packages for macOS system dependencies
       if: runner.os == 'macOS'
