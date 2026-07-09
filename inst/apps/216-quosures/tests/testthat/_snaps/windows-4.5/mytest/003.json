@@ -9,19 +9,19 @@
     "event_reactive__quoted": "8 - Clicks: 1",
     "image__expected": "shocked face",
     "image__injected": {
-      "src": "[image data hash: 7436eed79a70324ffe4a22a08b098fd2]",
+      "src": "[image data hash: 5ec9af4c7c553fb8369d047ee8c8cf65]",
       "height": "150px",
       "width": "150px",
       "alt": "Face"
     },
     "image__manual": {
-      "src": "[image data hash: 7436eed79a70324ffe4a22a08b098fd2]",
+      "src": "[image data hash: 5ec9af4c7c553fb8369d047ee8c8cf65]",
       "height": "150px",
       "width": "150px",
       "alt": "Face"
     },
     "image__quoted": {
-      "src": "[image data hash: 7436eed79a70324ffe4a22a08b098fd2]",
+      "src": "[image data hash: 5ec9af4c7c553fb8369d047ee8c8cf65]",
       "height": "150px",
       "width": "150px",
       "alt": "Face"
@@ -36,7 +36,7 @@
     "observe_event__quoted": "5 - Clicks: 1",
     "plot__expected": "1:6",
     "plot__injected": {
-      "src": "[image data hash: aa7d58d2dca78c428da67bbd33c05364]",
+      "src": "[image data hash: 1383b5954de098e06bb4f5644975bf52]",
       "width": 250,
       "height": 250,
       "alt": "Plot object",
@@ -71,7 +71,7 @@
       }
     },
     "plot__manual": {
-      "src": "[image data hash: aa7d58d2dca78c428da67bbd33c05364]",
+      "src": "[image data hash: 1383b5954de098e06bb4f5644975bf52]",
       "width": 250,
       "height": 250,
       "alt": "Plot object",
@@ -106,7 +106,7 @@
       }
     },
     "plot__quoted": {
-      "src": "[image data hash: aa7d58d2dca78c428da67bbd33c05364]",
+      "src": "[image data hash: 1383b5954de098e06bb4f5644975bf52]",
       "width": 250,
       "height": 250,
       "alt": "Plot object",

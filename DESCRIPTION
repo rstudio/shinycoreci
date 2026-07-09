@@ -38,6 +38,7 @@ Suggests:
     shiny,
     shinytest,
     shinytest2,
+    systemfonts,
     testthat,
     tibble,
     tidyr,

@@ -145,7 +145,16 @@ jobs:
         id: setup_chromote
         shell: Rscript {0}
         run: |
-          path <- chromote::chrome_versions_add("latest-stable", binary = "chrome-headless-shell")
+          path <- NULL
+          for (attempt in seq_len(3)) {
+            path <- tryCatch(
+              chromote::chrome_versions_add("latest-stable", binary = "chrome-headless-shell"),
+              error = identity
+            )
+            if (is.character(path) && file.exists(path)) break
+            if (attempt == 3) stop(path)
+            Sys.sleep(15 * attempt)
+          }
           cat(
             sprintf("\nCHROMOTE_CHROME=%s\n", path),
             file = Sys.getenv("GITHUB_ENV"),

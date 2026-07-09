@@ -4,7 +4,7 @@
   },
   "output": {
     "ggplotNN": {
-      "src": "[image data hash: 6f8fdbab98b8e768710a933b2f10fa04]",
+      "src": "[image data hash: 785b53cc69d9db7ee4caabfd2fb43a24]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -45,7 +45,7 @@
       "class": "shiny-scalable"
     },
     "ggplotNY": {
-      "src": "[image data hash: 6f8fdbab98b8e768710a933b2f10fa04]",
+      "src": "[image data hash: 785b53cc69d9db7ee4caabfd2fb43a24]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -86,7 +86,7 @@
       "class": "shiny-scalable"
     },
     "ggplotYN": {
-      "src": "[image data hash: 6f8fdbab98b8e768710a933b2f10fa04]",
+      "src": "[image data hash: 785b53cc69d9db7ee4caabfd2fb43a24]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -127,7 +127,7 @@
       "class": "shiny-scalable"
     },
     "ggplotYY": {
-      "src": "[image data hash: 6f8fdbab98b8e768710a933b2f10fa04]",
+      "src": "[image data hash: 785b53cc69d9db7ee4caabfd2fb43a24]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -168,7 +168,7 @@
       "class": "shiny-scalable"
     },
     "plotNN": {
-      "src": "[image data hash: a91a85a412c9d20a3b99b36c83fba7bf]",
+      "src": "[image data hash: 50e86910e9a711dc09aaf471d85dbadc]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -202,7 +202,7 @@
       "class": "shiny-scalable"
     },
     "plotNY": {
-      "src": "[image data hash: a91a85a412c9d20a3b99b36c83fba7bf]",
+      "src": "[image data hash: 50e86910e9a711dc09aaf471d85dbadc]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -236,7 +236,7 @@
       "class": "shiny-scalable"
     },
     "plotYN": {
-      "src": "[image data hash: a91a85a412c9d20a3b99b36c83fba7bf]",
+      "src": "[image data hash: 50e86910e9a711dc09aaf471d85dbadc]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [
@@ -270,7 +270,7 @@
       "class": "shiny-scalable"
     },
     "plotYY": {
-      "src": "[image data hash: a91a85a412c9d20a3b99b36c83fba7bf]",
+      "src": "[image data hash: 50e86910e9a711dc09aaf471d85dbadc]",
       "alt": "Plot object",
       "coordmap": {
         "panels": [

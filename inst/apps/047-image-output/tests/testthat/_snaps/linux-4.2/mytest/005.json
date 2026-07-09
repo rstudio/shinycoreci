@@ -5,13 +5,13 @@
   },
   "output": {
     "image1": {
-      "src": "[image data hash: 63e113fa2912dec06ef5661e5e6b6967]",
+      "src": "[image data hash: 6985018dd30ecdd3d64c9f98c4eef63d]",
       "width": 300.65625,
       "height": 300,
       "alt": "This is alternate text"
     },
     "image2": {
-      "src": "[image data hash: 580da756194f3f14e4e36b728a78fe0d]",
+      "src": "[image data hash: a9b3513d6be6877a1ce554a02b6cf78b]",
       "filetype": "image/jpeg",
       "alt": "This is a chainring"
     }
