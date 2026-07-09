@@ -10,7 +10,7 @@ on:
       macos:
         description: macos OS value
         # https://github.com/rstudio/shiny-workflows/blob/fdfacec40c723210c92a287dcb67cdf7f5d621ef/.github/workflows/R-CMD-check.yaml#L23
-        value: "macos-latest"
+        value: "macos-26"
       windows:
         description: windows OS value
         value: "windows-latest"

@@ -218,44 +218,8 @@ ci_snapshot_merge_shiny_options <- function(options) {
   utils::modifyList(defaults, options)
 }
 
-ci_snapshot_os_running <- function() {
-  info <- tryCatch(utils::sessionInfo(), error = function(e) NULL)
-  if (is.null(info) || is.null(info$running)) {
-    return("")
-  }
-  info$running
-}
-
-ci_snapshot_macos_major <- function(running = ci_snapshot_os_running()) {
-  if (!is.character(running) || length(running) != 1) {
-    return(NULL)
-  }
-  if (!grepl("macOS", running, fixed = TRUE)) {
-    return(NULL)
-  }
-
-  matched <- regmatches(running, regexec("macOS[^0-9]*([0-9]+)(\\.|$)", running))[[1]]
-  if (length(matched) < 2) {
-    return(NULL)
-  }
-
-  matched[[2]]
-}
-
-ci_snapshot_variant <- function(
-  variant = shinytest2::platform_variant(),
-  running = ci_snapshot_os_running()
-) {
-  if (!is.character(variant) || length(variant) != 1 || is.na(variant)) {
-    return(variant)
-  }
-
-  macos_major <- ci_snapshot_macos_major(running)
-  if (is.null(macos_major) || !grepl("^mac-[0-9]+\\.[0-9]+$", variant)) {
-    return(variant)
-  }
-
-  paste0(variant, "-macos-", macos_major)
+ci_snapshot_variant <- function(variant = shinytest2::platform_variant()) {
+  variant
 }
 
 ci_snapshot_app_driver <- function() {
