@@ -110,7 +110,7 @@ shinycoreci::test_in_ide()
 
 To view the latest test results, please visit <https://rstudio.github.io/shinycoreci/results/>. This link will update to the latest results when they are pushed.
 
-If you see failures, this indicates that a test has failed. If it is related to a `{shinytest2}` snapshot failure, we can view and approve these failures with `shinycoreci::fix_snaps()`. Your working directory must be in a local checkout of the `rstudio/shinycoreci` repo. Once `shinycoreci::fix_snaps()` has finished running, use [GitHub Desktop](https://desktop.github.com/) to view the changes.
+If you see failures, this indicates that a test has failed. If it is related to a `{shinytest2}` snapshot failure, we can view and approve these failures with `shinycoreci::fix_snaps()`. Your working directory must be in a local checkout of the `rstudio/shinycoreci` repo. Once `shinycoreci::fix_snaps()` has finished running, use [GitHub Desktop](https://desktop.github.com/) to view the changes. Snapshot tests use a default `{shinytest2}` screenshot threshold of 5 to tolerate minor anti-aliasing differences; set `SHINYCORECI_SCREENSHOT_THRESHOLD` in the test environment to tune it, or to an empty string to disable this default. Per-call screenshot thresholds continue to take precedence.
 
 If you receive the error `No information found for sha: ABC1234 . Do you have a valid sha?`, you may have to provide the git sha value directly: `shinycoreci::fix_snaps(sha = "XYZ5678")`.
 

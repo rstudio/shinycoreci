@@ -62,6 +62,8 @@ accept_snaps <- function(
 
     # Drop NAs from failed diff computations before filtering
     snaps_diffs <- snaps_diffs[!is.na(snaps_diffs)]
+    # Screenshot comparisons ignore diffs through the runtime threshold of 5;
+    # accepted diffs from 5 to 10 are real but small.
     snaps_diffs_big <- snaps_diffs[snaps_diffs > 10]
     if (length(snaps_diffs_big) > 0) {
       snaps_diffs_big <- sort(snaps_diffs_big, decreasing = FALSE)

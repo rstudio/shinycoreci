@@ -115,6 +115,16 @@ ci_snapshot_set_plot_options <- function() {
   invisible(opts)
 }
 
+ci_snapshot_set_screenshot_options <- function() {
+  if (is.null(getOption("shinytest2.compare_screenshot.threshold"))) {
+    threshold <- Sys.getenv("SHINYCORECI_SCREENSHOT_THRESHOLD", "5")
+    if (nzchar(threshold)) {
+      options(shinytest2.compare_screenshot.threshold = as.numeric(threshold))
+    }
+  }
+  invisible()
+}
+
 ci_snapshot_font_data_uri <- function(path) {
   raw <- readBin(path, "raw", n = file.info(path)$size)
   paste0("data:font/ttf;base64,", jsonlite::base64_enc(raw))
@@ -206,6 +216,7 @@ ci_snapshot_inject_browser_fonts <- function(app) {
 ci_setup_consistent_snapshots_child <- function() {
   ci_snapshot_register_fonts()
   ci_snapshot_set_plot_options()
+  ci_snapshot_set_screenshot_options()
   invisible(TRUE)
 }
 
@@ -246,6 +257,7 @@ ci_snapshot_app_driver <- function() {
 ci_setup_consistent_snapshots_test <- function(env = parent.frame()) {
   ci_snapshot_register_fonts()
   ci_snapshot_set_plot_options()
+  ci_snapshot_set_screenshot_options()
 
   app_driver <- ci_snapshot_app_driver()
   if (!is.null(app_driver) && !exists("AppDriver", envir = env, inherits = FALSE)) {
@@ -313,5 +325,6 @@ ci_snapshot_with_test_setup <- function(app_dir, code) {
 ci_setup_consistent_snapshots <- function() {
   ci_snapshot_register_fonts()
   ci_snapshot_set_plot_options()
+  ci_snapshot_set_screenshot_options()
   invisible(TRUE)
 }
