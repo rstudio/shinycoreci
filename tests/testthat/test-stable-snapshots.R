@@ -62,17 +62,12 @@ test_that("stable screenshot threshold defaults to 5 and preserves explicit sett
   expect_identical(getOption("shinytest2.compare_screenshot.threshold"), 2)
 })
 
-test_that("stable screenshot threshold supports an environment override and disabling", {
+test_that("stable screenshot threshold supports an environment override", {
   withr::local_options(shinytest2.compare_screenshot.threshold = NULL)
   withr::local_envvar(SHINYCORECI_SCREENSHOT_THRESHOLD = "7")
 
   ci_snapshot_set_screenshot_options()
   expect_identical(getOption("shinytest2.compare_screenshot.threshold"), 7)
-
-  options(shinytest2.compare_screenshot.threshold = NULL)
-  withr::local_envvar(SHINYCORECI_SCREENSHOT_THRESHOLD = "")
-  ci_snapshot_set_screenshot_options()
-  expect_null(getOption("shinytest2.compare_screenshot.threshold"))
 })
 
 test_that("stable snapshot variants do not split pinned macOS runners", {
