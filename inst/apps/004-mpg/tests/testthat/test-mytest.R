@@ -1,6 +1,5 @@
 library(shinytest2)
 
-# Temporary app-folder change for the CI precheck; safe to revert.
 test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(
     variant = shinytest2::platform_variant(),
