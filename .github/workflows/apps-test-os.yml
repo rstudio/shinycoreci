@@ -246,6 +246,8 @@ jobs:
         # git checkout -B -- Creates the branch <new_branch> and start it at <start_point>; if it already exists, then reset it to <start_point>.
         # git push --force -- JUST in case the prior branch existed
         run: |
+          trap 'git checkout ${{ steps.current_branch.outputs.name }}' EXIT
+
           git checkout -B ${{ steps.gha_branch.outputs.name }}
 
           git add inst/apps/sysinfo-* && \
@@ -265,8 +267,6 @@ jobs:
             git push --force "https://$GITHUB_ACTOR:${{secrets.GITHUB_TOKEN}}@github.com/rstudio/shinycoreci.git" "HEAD:${{ steps.gha_branch.outputs.name }}"
           fi
 
-          git checkout ${{ steps.current_branch.outputs.name }}
-
       - name: Push test results to rstudio/shinycoreci
         if: always()
         shell: bash
@@ -279,6 +279,8 @@ jobs:
             echo "Exiting! (safely)"
             exit 0
           fi
+
+          trap 'git checkout ${{ steps.current_branch.outputs.name }}' EXIT
 
           git fetch origin _test_results
           git checkout _test_results --
@@ -302,10 +304,11 @@ jobs:
             fi
 
             # Wait 5-15 seconds to avoid deadlock
-            sleep $[ ($RANDOM % 10) + 5 ]s
-            ((counter++))
-            [[ counter -gt 15 ]] && echo "Too many attempts!" && exit 1
+            sleep $(( (RANDOM % 10) + 5 ))
+            counter=$((counter + 1))
+            if [ $counter -gt 15 ]; then
+              echo "Too many attempts!"
+              exit 1
+            fi
             echo "Push failed. Trying again. Try #$counter"
           done
-
-          git checkout ${{ steps.current_branch.outputs.name }}
