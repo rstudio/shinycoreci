@@ -131,7 +131,12 @@ Your working directory must be in a local checkout of the
 `rstudio/shinycoreci` repo. Once
 [`shinycoreci::fix_snaps()`](https://rstudio.github.io/shinycoreci/reference/fix_snaps.md)
 has finished running, use [GitHub Desktop](https://desktop.github.com/)
-to view the changes.
+to view the changes. Snapshot tests use a default
+[shinytest2](https://rstudio.github.io/shinytest2/) screenshot threshold
+of 5 to tolerate minor anti-aliasing differences; set
+`SHINYCORECI_SCREENSHOT_THRESHOLD` in the test environment to tune it,
+or to an empty string to disable this default. Per-call screenshot
+thresholds continue to take precedence.
 
 If you receive the error
 `No information found for sha: ABC1234 . Do you have a valid sha?`, you
