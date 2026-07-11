@@ -121,7 +121,7 @@ apps_deps_map <- list(
   `173-invalidatelater-leak` = c("pryr", "shiny", "shinyjster", "shinytest2"),
   `174-throttle-debounce` = c("magrittr", "shiny", "shinyjster", "shinytest2"),
   `175-setInputValue` = c("shiny", "shinyjster", "shinytest2"),
-  `178-delayed-widget` = c("htmlwidgets", "leaflet", "shiny", "shinyjster", "shinytest2"),
+  `178-delayed-widget` = c("htmlwidgets", "leaflet", "shiny", "shinycoreci", "shinyjster", "shinytest2"),
   `179-nondelayed-widget` = c("htmlwidgets", "leaflet", "shiny", "shinyjster", "shinytest2"),
   `180-delayed-staticwidget` = c("htmlwidgets", "leaflet", "shiny", "shinyjster", "shinytest2"),
   `181-report-image` = c("Cairo", "htmltools", "jsonlite", "ragg", "shiny", "shinytest2", "showtext", "sysfonts", "systemfonts"),
