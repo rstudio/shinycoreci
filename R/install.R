@@ -222,6 +222,8 @@ install_missing_pkgs <- function(
 ) {
   stopifnot(length(list(...)) == 0)
 
+  packages <- remap_archived_pkgs(packages)
+
   # Make sure to get underlying dependencies
   # Always add shiny as it is always needed
   # Only install shinycoreci if the libpath is shinycoreci_libpath()
