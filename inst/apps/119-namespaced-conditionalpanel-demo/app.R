@@ -35,8 +35,14 @@ myPlotUI <- function(id, label = "My Plot") {
 }
 
 myPlot <- function(input, output, session, deviates) {
-  x <- reactive(rnorm(input$n))
-  y <- reactive(rnorm(input$n))
+  x <- reactive({
+    set.seed(100)
+    rnorm(input$n)
+  })
+  y <- reactive({
+    set.seed(200)
+    rnorm(input$n)
+  })
   output$scatterPlot <- renderPlot(plot(x(), y()))
 }
 
