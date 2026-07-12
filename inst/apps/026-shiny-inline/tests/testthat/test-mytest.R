@@ -11,16 +11,16 @@ test_that("Migrated shinytest test: mytest.R", {
   app$wait_for_value(input = "asp")
 
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 
   app$set_inputs(asp = 0.3)
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 
   app$set_inputs(asp = 0.02)
   app$set_inputs(asp = 0.3)
   app$set_inputs(asp = 0.02)
   app$set_inputs(size = 3.25)
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 })

@@ -29,7 +29,7 @@ expect_js <- function(app, js, label = NULL) {
     },
     error = function(e) {
       # Save a screenshot to help debug the failure
-      shinycoreci::expect_stable_screenshot(app)
+      app$expect_screenshot()
 
       if (is.null(label)) {
         label <- "JavaScript expectation failed"
@@ -347,7 +347,7 @@ test_that("Can put input controls in the popover", {
   key_press("Tab")
   expect_focus(app, 'input#sel-selectized')
 
-  #if (DO_SCREENSHOT) shinycoreci::expect_stable_screenshot(app)
+  #if (DO_SCREENSHOT) app$expect_screenshot()
 
   key_press("Escape")
   expect_visible_tip(app, "#btn4")

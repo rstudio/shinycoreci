@@ -13,5 +13,5 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(header = FALSE)
   app$set_inputs(quote = "")
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 })

@@ -13,7 +13,7 @@ test_that("Migrated shinytest test: mytest.R", {
         some((x) => x)
     '))
     app$expect_values()
-    shinycoreci::expect_stable_screenshot(app, threshold = 2)
+    app$expect_screenshot(threshold = 2)
   }
 
   expect_tab("b")

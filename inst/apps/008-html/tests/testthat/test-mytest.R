@@ -8,5 +8,5 @@ test_that("Migrated shinytest test: mytest.R", {
     options = list("shiny.json.digits" = 4)
   )
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 })

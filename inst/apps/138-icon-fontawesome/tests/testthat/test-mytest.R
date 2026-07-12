@@ -5,7 +5,7 @@ test_that("Migrated shinytest test: mytest.R", {
     seed = 100, shiny_args = list(display.mode = "normal"))
 
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 
   # Make sure no warnings about `Font Awesome` were thrown
   # See https://github.com/rstudio/fontawesome/pull/96

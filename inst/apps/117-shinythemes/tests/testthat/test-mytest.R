@@ -5,17 +5,20 @@ test_that("Migrated shinytest test: mytest.R", {
     seed = 100, shiny_args = list(display.mode = "normal"))
 
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 
   app$set_inputs(`shinytheme-selector` = "lumen")
+  Sys.sleep(2) # wait for css
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 
   app$set_inputs(`shinytheme-selector` = "spacelab")
+  Sys.sleep(2) # wait for css
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 
   app$set_inputs(`shinytheme-selector` = "yeti")
+  Sys.sleep(2) # wait for css
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 })

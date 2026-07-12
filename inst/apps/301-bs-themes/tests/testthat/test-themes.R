@@ -81,12 +81,7 @@ for (theme_name in names(themes)) {
       app$expect_values()
       # Allow for a 10% difference in the screenshot kernel
       # 3000 / (3x RGB channels * 100 * 100) = 3000 / 30000 = 10%
-      shinycoreci::expect_stable_screenshot(
-        app,
-        threshold = 3000,
-        kernel_size = 100,
-        ready = "document.querySelector('#inputPanelOutput').textContent.trim().length > 0"
-      )
+      app$expect_screenshot(threshold = 3000, kernel_size = 100)
     }
     appshot()
 

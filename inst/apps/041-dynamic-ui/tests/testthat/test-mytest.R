@@ -10,7 +10,7 @@ test_that("Migrated shinytest test: mytest.R", {
   }
   expect_screenshot_and_values <- function() {
     app$expect_values()
-    shinycoreci::expect_stable_screenshot(app)
+    app$expect_screenshot()
   }
 
   expect_dynamic_value <- function(input_type, value) {

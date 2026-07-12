@@ -7,9 +7,9 @@ test_that("Migrated shinytest test: mytest.R", {
   )
 
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
   app$set_inputs(`counter1-button` = "click")
   app$set_inputs(`counter1-button` = "click")
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 })

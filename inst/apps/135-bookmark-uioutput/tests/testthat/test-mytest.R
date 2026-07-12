@@ -5,20 +5,20 @@ test_that("Migrated shinytest test: mytest.R", {
 
   app$wait_for_idle()
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 
   app$set_inputs(._bookmark_ = "click")
   app$wait_for_idle()
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app, threshold = 2)
+  app$expect_screenshot(threshold = 2)
 
   app$set_inputs(x = 10)
   app$set_inputs(._bookmark_ = "click")
   app$wait_for_idle()
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app, threshold = 2)
+  app$expect_screenshot(threshold = 2)
 
   app$set_inputs(reset = "click")
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app, threshold = 2)
+  app$expect_screenshot(threshold = 2)
 })

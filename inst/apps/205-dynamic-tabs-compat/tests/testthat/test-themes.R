@@ -26,7 +26,7 @@ for (version in c(4,5)) {
 
 
       app$expect_values()
-      shinycoreci::expect_stable_screenshot(app)
+      app$expect_screenshot()
 
       app$set_inputs(`navbar-insert` = "click")
       app$set_inputs(`navbar-insert` = "click")
@@ -37,18 +37,21 @@ for (version in c(4,5)) {
       app$set_inputs(`tabset-tabset` = "A")
       app$set_inputs(`navlist-navlist` = "B")
       app$expect_values()
-      shinycoreci::expect_stable_screenshot(app)
+      Sys.sleep(1)
+      app$expect_screenshot()
 
       app$set_inputs(`navlist-remove` = "click")
       app$set_inputs(`tabset-remove` = "click")
       app$set_inputs(`tabset-hide` = "click")
       app$set_inputs(`navbar-remove` = "click")
       app$expect_values()
-      shinycoreci::expect_stable_screenshot(app)
+      Sys.sleep(1)
+      app$expect_screenshot()
 
       app$set_inputs(`navbar-navbar` = "A")
       app$expect_values()
-      shinycoreci::expect_stable_screenshot(app)
+      Sys.sleep(1)
+      app$expect_screenshot()
     })
 
   }

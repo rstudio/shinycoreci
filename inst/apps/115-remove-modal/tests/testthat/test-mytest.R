@@ -10,7 +10,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(openModalBtn = "click")
   app$wait_for_js("window.modalShown", timeout = 3000)
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app, threshold = 2)
+  app$expect_screenshot(threshold = 2)
 
 
   # Verify modal is closed
@@ -19,5 +19,5 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(closeModalBtn = "click")
   app$wait_for_js("window.modalHidden", timeout = 3000)
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 })

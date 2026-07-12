@@ -11,8 +11,9 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(dates = c("2000-01-19", "2018-01-31"))
   # app$setInputs(progress = "click")
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app, threshold = 2)
+  app$expect_screenshot(threshold = 2)
   app$set_inputs(._bookmark_ = "click")
+  Sys.sleep(1) # wait for modal
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app, threshold = 2)
+  app$expect_screenshot(threshold = 2)
 })

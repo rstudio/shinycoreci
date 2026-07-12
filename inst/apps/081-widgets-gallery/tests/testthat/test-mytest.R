@@ -7,7 +7,7 @@ test_that("Migrated shinytest test: mytest.R", {
   expect_screenshot <- function() {
     # Allow for a 10% difference in the screenshot kernel
     # 3000 / (3x RGB channels * 100 * 100) = 3000 / 30000 = 10%
-    shinycoreci::expect_stable_screenshot(app, threshold = 3000, kernel_size = 100)
+    app$expect_screenshot(threshold = 3000, kernel_size = 100)
   }
 
   app$wait_for_value(output = "checkboxOut")

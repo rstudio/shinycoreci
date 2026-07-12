@@ -11,12 +11,12 @@ test_that("Migrated shinytest test: mytest.R", {
 
   ## Commenting because the screenshot may or may not get the right
   ## timing with the progress notification in the corner
-  # shinycoreci::expect_stable_screenshot(app)
+  # app$expect_screenshot()
 
   # Must wait at least 3 seconds for each click to return
   # with a 2 second buffer on top of that
   app$wait_for_idle(timeout = (3 * 3 + 2) * 1000)
 
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 })

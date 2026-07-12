@@ -15,12 +15,12 @@ test_that("Migrated shinytest test: mytest.R", {
   app$wait_for_value(input = "rawdata_rows_current", ignore = list(NULL,
     ""))
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 
   app$set_inputs(state = "California")
   # Wait until the DT table is has new values
   app$wait_for_value(output = "parcoord", ignore = list(init_parcoord))
 
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 })

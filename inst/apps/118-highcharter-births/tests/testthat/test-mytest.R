@@ -14,7 +14,7 @@ expect_screenshot_mac_release <- local({
   function(app, ..., threshold = 2) {
     if (!DO_SCREENSHOT) return(invisible(app))
 
-    shinycoreci::expect_stable_screenshot(app, ..., threshold = threshold)
+    app$expect_screenshot(..., threshold = threshold)
   }
 })
 
@@ -26,6 +26,7 @@ test_that("Migrated shinytest test: mytest.R", {
     options = list("shiny.json.digits" = 4)
   )
 
+  Sys.sleep(2) # wait for widget
   app$expect_values()
   expect_screenshot_mac_release(app)
 
@@ -33,6 +34,7 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(year = c(1997, 2005))
   app$set_inputs(plot_type = "column")
   app$set_inputs(theme = "fivethirtyeight")
+  Sys.sleep(2) # wait for widget / css
   app$expect_values()
   expect_screenshot_mac_release(app)
 })

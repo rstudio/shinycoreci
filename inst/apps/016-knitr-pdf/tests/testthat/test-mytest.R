@@ -9,11 +9,11 @@ test_that("Migrated shinytest test: mytest.R", {
   )
 
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
   app$set_inputs(format = "HTML", wait_ = FALSE)
   app$set_inputs(x = "disp")
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
   app$expect_download("downloadReport")
 
   # Note: PDF and Word output are different each time, so we only test HTML

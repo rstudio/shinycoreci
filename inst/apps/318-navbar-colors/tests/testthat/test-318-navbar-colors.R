@@ -67,13 +67,13 @@ for (app_name in app_names) {
       test_that(sprintf("%s - %s (bs%s)", app_name, preset, version), {
         app <- app_new(app_name, version, preset)
 
-        shinycoreci::expect_stable_screenshot(app, name = "01-light", threshold = 10, quiet = FALSE)
+        app$expect_screenshot(name = "01-light", threshold = 10, quiet = FALSE)
 
         if (version >= 5) {
           app$run_js(
             "document.getElementById('color_mode').setAttribute('mode', 'dark')"
           )
-          shinycoreci::expect_stable_screenshot(app, name = "02-dark", threshold = 10, quiet = FALSE)
+          app$expect_screenshot(name = "02-dark", threshold = 10, quiet = FALSE)
         }
 
         app$stop()

@@ -15,7 +15,7 @@ expect_screenshot_mac_release <- local({
   function(app, ..., threshold = 2) {
     if (!DO_SCREENSHOT) return(invisible(app))
 
-    shinycoreci::expect_stable_screenshot(app, ..., threshold = threshold)
+    app$expect_screenshot(..., threshold = threshold)
   }
 })
 

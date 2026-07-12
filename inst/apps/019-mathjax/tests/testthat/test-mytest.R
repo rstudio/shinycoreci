@@ -13,7 +13,7 @@ expect_screenshot_mac_release <- local({
   DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
   function(app, ..., threshold = 2) {
     if (!DO_SCREENSHOT) return(invisible(app))
-    shinycoreci::expect_stable_screenshot(app, ..., threshold = threshold)
+    app$expect_screenshot(..., threshold = threshold)
   }
 })
 
@@ -25,10 +25,12 @@ test_that("Migrated shinytest test: mytest.R", {
     shiny_args = list(display.mode = "normal")
   )
 
+  Sys.sleep(3) # wait for mathjax to process
   app$expect_values()
   expect_screenshot_mac_release(app)
 
   app$set_inputs(ex5_visible = TRUE)
+  Sys.sleep(2) # wait for mathjax to process
   app$expect_values()
   expect_screenshot_mac_release(app)
 })

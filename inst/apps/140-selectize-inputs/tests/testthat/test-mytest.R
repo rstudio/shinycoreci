@@ -17,5 +17,5 @@ test_that("Migrated shinytest test: mytest.R", {
   app$wait_for_value(input = "server-12-select")
   app$wait_for_value(input = "server-13-select")
   app$expect_values()
-  shinycoreci::expect_stable_screenshot(app)
+  app$expect_screenshot()
 })
