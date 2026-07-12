@@ -4,8 +4,11 @@ library(shiny)
 
 shinyOptions(snapshotsortc = TRUE)
 
-if (.Platform$OS.type == "windows") {
-  # Windows does not like UTF-8
+use_ascii_items <- .Platform$OS.type == "windows" ||
+  (Sys.info()[["sysname"]] == "Darwin" && getRversion() < "4.3.0")
+
+if (use_ascii_items) {
+  # Windows and macOS with R < 4.3 do not handle these UTF-8 names reliably
   items <- c("aa", "bb", "AA", "BB", "a_", "b_", "_A", "_B")
   items_expected <- c("AA", "BB", "_A", "_B", "a_", "aa", "b_", "bb")
 } else {
@@ -94,7 +97,14 @@ server <- function(input, output, session) {
     if (is_match()) {
       "PASS"
     } else {
-      paste0("FAIL: Names do not match: ", paste0(items_expected, collapse = "\n"))
+      paste0(
+        "FAIL: Names do not match. Expected: ",
+        paste0(items_expected, collapse = ", "),
+        "; received input: ",
+        paste0(names(input$content$input), collapse = ", "),
+        "; received output: ",
+        paste0(names(input$content$output), collapse = ", ")
+      )
     }
   })
  }
