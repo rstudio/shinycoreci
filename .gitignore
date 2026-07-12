@@ -12,3 +12,4 @@ patches
 *_.png
 *_.new.png
 _dev
+.worktrees/
