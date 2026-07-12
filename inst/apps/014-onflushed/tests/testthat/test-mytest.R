@@ -8,8 +8,7 @@ test_that("Migrated shinytest test: mytest.R", {
     options = list("shiny.json.digits" = 4)
   )
   app$expect_values()
-  app$expect_screenshot()
-  Sys.sleep(2) # wait for flush
+  shinycoreci::expect_stable_screenshot(app)
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

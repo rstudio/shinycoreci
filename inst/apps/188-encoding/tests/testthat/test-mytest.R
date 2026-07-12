@@ -4,8 +4,8 @@ test_that("Migrated shinytest test: mytest.R", {
   app <- AppDriver$new(variant = shinytest2::platform_variant())
 
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
   app$set_inputs(select = "å")
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

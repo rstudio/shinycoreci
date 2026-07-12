@@ -6,8 +6,8 @@ test_that("Migrated shinytest test: mytest.R", {
 
   app$wait_for_value(input = "inCheckboxGroup")
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
   app$set_inputs(control_num = 8)
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

@@ -26,15 +26,14 @@ test_that("{shinytest2} recording: value_box", {
     view = interactive(),
     options = list(bslib.precompiled = FALSE)
   )
-  expect_screenshot <- function(..., wait = 1, viewport = TRUE, threshold = 3) {
-    Sys.sleep(wait)
+  expect_screenshot <- function(..., viewport = TRUE, threshold = 3) {
     args <- rlang::list2(..., threshold = threshold)
     if (viewport) {
       rect <- c(x = 0, y = 0, width = width, height = height)
       new_args <- list(screenshot_args = list(cliprect = rect))
       args <- modifyList(new_args, args)
     }
-    rlang::inject(app$expect_screenshot(!!!args))
+    rlang::inject(shinycoreci::expect_stable_screenshot(app, !!!args))
   }
 
   expect_screenshot()
@@ -48,5 +47,5 @@ test_that("{shinytest2} recording: value_box", {
 
   app$run_js('$(".bslib-full-screen-exit").click()')
   app$set_window_size(width = 500, height = 1600)
-  expect_screenshot(wait = 3, viewport = FALSE)
+  expect_screenshot(viewport = FALSE)
 })

@@ -6,9 +6,9 @@ test_that("Migrated shinytest test: mytest.R", {
   app$wait_for_value(output = "validateNeed_async")
 
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 
   app$set_inputs(boom = "click")
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

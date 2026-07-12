@@ -49,7 +49,7 @@ test_that("{shinytest2} recording: accordion-select", {
   # Test accordion_panel_set()
   set_selected(c("A", "D"))
   set_selected(c("A", "D", "H"))
-  app$expect_screenshot(threshold = 5)
+  shinycoreci::expect_stable_screenshot(app, threshold = 5)
 
   # Test accordion_panel_remove()
   set_displayed(c("D", "F"))
@@ -68,7 +68,7 @@ test_that("{shinytest2} recording: accordion-select", {
 
   set_displayed(c("A", "D", "F", "J", "K", "Z"))
   expect_selected(c("D", "J", "K"))
-  app$expect_screenshot(threshold = 5)
+  shinycoreci::expect_stable_screenshot(app, threshold = 5)
 
   # redo tests with accordion(autoclose = TRUE)
   set_inputs(open_on_insert = FALSE)
@@ -77,7 +77,7 @@ test_that("{shinytest2} recording: accordion-select", {
   # Last one (D) should be selected
   set_selected("B", expected = "B")
   set_selected(c("C", "D"), expected = "D")
-  app$expect_screenshot(threshold = 5)
+  shinycoreci::expect_stable_screenshot(app, threshold = 5)
 
   set_displayed(c("A", "D", "F", "Z"))
   expect_selected("D")
@@ -89,5 +89,5 @@ test_that("{shinytest2} recording: accordion-select", {
 
   set_displayed(c("A", "D", "F", "J", "K", "Z"))
   expect_selected("K")
-  app$expect_screenshot(threshold = 5)
+  shinycoreci::expect_stable_screenshot(app, threshold = 5)
 })

@@ -8,27 +8,26 @@ test_that("Migrated shinytest test: mytest.R", {
   app$run_js(script = "$('#date input').bsDatepicker('show')",
     timeout = 10000)
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
   app$run_js(script = "$('#date input').bsDatepicker('hide')",
     timeout = 10000)
 
   app$run_js(script = "$('#date_range input:first').bsDatepicker('show')",
     timeout = 10000)
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
   app$run_js(script = "$('#date_range input:first').bsDatepicker('hide')",
     timeout = 10000)
 
   wait_til_open <- function(css = ".selectize-dropdown-content *") {
     app$wait_for_js(paste0("$(\"", css, "\").length > 0"), timeout = 3000)
-    Sys.sleep(1) # wait for dropdown
   }
 
   # Take snapshot of dropdown once it has content
   app$run_js(script = "$('#select')[0].selectize.open()", timeout = 10000)
   wait_til_open()
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 
   # Do the same for the selectInput(multiple=T)
   app$run_js(script = "$('#select')[0].selectize.close()", timeout = 10000)
@@ -36,13 +35,13 @@ test_that("Migrated shinytest test: mytest.R", {
     timeout = 10000)
   wait_til_open()
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 
   # Make sure the item styling is sensible
   app$run_js(script = "$('#select_multiple')[0].selectize.setValue(['MN', 'CA'])",
     timeout = 10000)
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
   app$run_js(script = "$('#select_multiple')[0].selectize.close()",
     timeout = 10000)
 })

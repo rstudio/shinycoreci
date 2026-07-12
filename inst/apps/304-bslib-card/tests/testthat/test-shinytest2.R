@@ -25,8 +25,7 @@ test_that("{shinytest2} recording: card", {
     view = interactive(),
     options = list(bslib.precompiled = FALSE)
   )
-  expect_screenshot <- function(..., wait = 2, viewport = TRUE, threshold = 3) {
-    Sys.sleep(wait)
+  expect_screenshot <- function(..., viewport = TRUE, threshold = 3) {
     args <- rlang::list2(..., threshold = threshold)
     # Make sure the window does not resize when taking screenshots.
     # We want to make sure the card contents use their natural height and thus
@@ -37,7 +36,7 @@ test_that("{shinytest2} recording: card", {
       new_args <- list(screenshot_args = list(cliprect = rect))
       args <- modifyList(new_args, args)
     }
-    rlang::inject(app$expect_screenshot(!!!args))
+    rlang::inject(shinycoreci::expect_stable_screenshot(app, !!!args))
   }
 
   expect_screenshot()

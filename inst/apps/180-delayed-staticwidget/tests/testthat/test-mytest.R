@@ -10,7 +10,6 @@ test_that("Migrated shinytest test: mytest.R", {
 
   app$wait_for_value(output = "status")
 
-  Sys.sleep(2) # wait for map
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

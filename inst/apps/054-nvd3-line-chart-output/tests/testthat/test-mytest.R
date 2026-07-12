@@ -8,18 +8,15 @@ test_that("Migrated shinytest test: mytest.R", {
     options = list("shiny.json.digits" = 4)
   )
 
-  Sys.sleep(2) # wait for widget
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 
   app$set_inputs(sineAmplitude = -1.5)
-  Sys.sleep(2) # wait for widget
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 
   app$set_inputs(sineAmplitude = -0.1)
   app$set_inputs(sinePhase = 100)
-  Sys.sleep(2) # wait for widget
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

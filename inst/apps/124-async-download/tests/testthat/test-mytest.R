@@ -19,7 +19,7 @@ test_that("Migrated shinytest test: mytest.R", {
   cat('\n\n')
   Sys.sleep(4)
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
   print(app$get_logs())
   cat('\n\n')
 })

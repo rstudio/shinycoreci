@@ -172,7 +172,7 @@ test_that("fullscreen card without internal focusable elements", {
   app_reset_no_full_screen(app)
 
   app_card_full_screen_enter(app, "card-no-inputs")
-  if (DO_SCREENSHOT) app$expect_screenshot()
+  if (DO_SCREENSHOT) shinycoreci::expect_stable_screenshot(app)
 
   # Tabbing moves to exit button
   key_press_and_sleep("Tab")
@@ -216,7 +216,7 @@ test_that("fullscreen card with inputs and interior cards", {
   app_reset_no_full_screen(app)
 
   app_card_full_screen_enter(app, "card-with-inputs")
-  if (DO_SCREENSHOT) app$expect_screenshot()
+  if (DO_SCREENSHOT) shinycoreci::expect_stable_screenshot(app)
 
   # Tabbing moves to first input
   key_press_and_sleep("Tab")
@@ -253,7 +253,7 @@ test_that("fullscreen interior card with inputs (forward tab cycle)", {
   app_reset_no_full_screen(app)
 
   app_card_full_screen_enter(app, "card-with-inputs-left")
-  if (DO_SCREENSHOT) app$expect_screenshot()
+  if (DO_SCREENSHOT) shinycoreci::expect_stable_screenshot(app)
 
   # Tab through inputs
   key_press_and_sleep("Tab")
@@ -335,7 +335,7 @@ test_that("fullscreen interior card with inputs (backward tab cycle)", {
   app$run_js("document.body.focus()")
   app_card_full_screen_enter(app, "card-with-inputs-right")
   expect_focus(app, "#card-with-inputs-right")
-  if (DO_SCREENSHOT) app$expect_screenshot()
+  if (DO_SCREENSHOT) shinycoreci::expect_stable_screenshot(app)
 
   key_press_and_sleep("Tab")
   key_press_and_sleep("Tab")

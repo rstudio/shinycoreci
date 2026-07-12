@@ -33,7 +33,7 @@ test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
   )
 
   expect_screenshot <- function() {
-    if (DO_SCREENSHOT) app$expect_screenshot()
+    if (DO_SCREENSHOT) shinycoreci::expect_stable_screenshot(app)
   }
 
   expect_screenshot()
@@ -51,7 +51,6 @@ test_that("{shinytest2} recording: 308-sidebar-kitchen-sink", {
 
   app$set_inputs(navbar = "Global card sidebar")
   app$set_inputs(card_tab_sidebar = "Tab 2")
-  Sys.sleep(1) # Wait for the tab to receive focus
   expect_screenshot()
 
   app$click("toggle_sidebar")

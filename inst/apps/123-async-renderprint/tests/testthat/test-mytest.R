@@ -6,5 +6,5 @@ test_that("Migrated shinytest test: mytest.R", {
 
   app$wait_for_idle()
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

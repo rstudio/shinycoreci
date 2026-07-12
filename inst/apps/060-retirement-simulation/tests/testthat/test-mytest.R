@@ -12,7 +12,7 @@ test_that("Migrated shinytest test: mytest.R", {
   a_dist <- app$wait_for_value(output = "a_distPlot")
   b_dist <- app$wait_for_value(output = "b_distPlot")
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 
 
   app$set_inputs(a_recalc = "click")
@@ -28,5 +28,5 @@ test_that("Migrated shinytest test: mytest.R", {
   app$wait_for_value(output = "b_distPlot", ignore = list(NULL,
     b_dist))
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

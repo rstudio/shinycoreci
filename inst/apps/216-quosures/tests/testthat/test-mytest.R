@@ -10,10 +10,10 @@ test_that("Migrated shinytest test: mytest.R", {
   )
 
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 
   app$set_inputs(n = "click")
 
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

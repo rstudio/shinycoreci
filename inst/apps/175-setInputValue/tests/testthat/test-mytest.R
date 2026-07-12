@@ -5,5 +5,5 @@ test_that("Migrated shinytest test: mytest.R", {
 
   app$wait_for_value(output = "result")
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

@@ -7,5 +7,5 @@ test_that("Migrated shinytest test: mytest.R", {
   app$set_inputs(slider = 75)
   app$expect_download("report")
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

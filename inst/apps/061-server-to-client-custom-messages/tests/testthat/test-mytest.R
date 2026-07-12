@@ -5,8 +5,8 @@ test_that("Migrated shinytest test: mytest.R", {
     seed = 100, shiny_args = list(display.mode = "normal"))
 
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
   app$set_inputs(controller = 20)
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })

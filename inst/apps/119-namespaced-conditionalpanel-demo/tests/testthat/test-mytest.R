@@ -10,15 +10,15 @@ test_that("Migrated shinytest test: mytest.R", {
 
   app$wait_for_idle()
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 
   app$set_inputs(`plot1-n` = 180)
   app$wait_for_idle()
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 
   app$set_inputs(`plot2-n` = 190)
   app$wait_for_idle()
   app$expect_values()
-  app$expect_screenshot()
+  shinycoreci::expect_stable_screenshot(app)
 })
