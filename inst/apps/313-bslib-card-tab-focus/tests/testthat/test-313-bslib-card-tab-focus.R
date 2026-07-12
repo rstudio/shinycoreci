@@ -16,9 +16,9 @@ DO_SCREENSHOT <- is_testing_on_ci && is_mac_release
 if (
   is_mac_release &&
   length(dir("_snaps")) > 0 &&
-  !identical(dir("_snaps"), platform_variant())
+  !platform_variant() %in% dir("_snaps")
 ) {
-  stop("Outdated snaps folder found!")
+  stop("Snapshot folder for the current platform variant was not found!")
 }
 
 source(system.file("helpers", "keyboard.R", package = "shinycoreci"))
