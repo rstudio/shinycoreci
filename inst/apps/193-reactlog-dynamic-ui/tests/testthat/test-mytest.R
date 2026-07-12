@@ -13,8 +13,8 @@ release <- paste0(
 if (!identical(paste0("mac-", release), shinytest2::platform_variant())) {
   skip("Not mac + r-release")
 }
-if (length(dir("_snaps")) > 1) {
-  stop("More than 1 _snaps folder found!")
+if (!platform_variant() %in% dir("_snaps")) {
+  stop("Snapshot folder for the current platform variant was not found!")
 }
 
 
