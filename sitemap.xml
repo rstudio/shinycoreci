@@ -11,6 +11,7 @@
 <url><loc>https://rstudio.github.io/shinycoreci/reference/deploy_apps.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/reference/docker.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/reference/docker_clean.html</loc></url>
+<url><loc>https://rstudio.github.io/shinycoreci/reference/expect_stable_screenshot.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/reference/find_deps_installed.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/reference/fix_snaps.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/reference/github_user.html</loc></url>
@@ -33,7 +34,6 @@
 <url><loc>https://rstudio.github.io/shinycoreci/reference/view_test_diff.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/reference/view_test_images.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/reference/write_sysinfo.html</loc></url>
-<url><loc>https://rstudio.github.io/shinycoreci/results/2025/07/11/index.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/results/2025/07/12/index.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/results/2025/07/13/index.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/results/2025/07/14/index.html</loc></url>
@@ -399,6 +399,7 @@
 <url><loc>https://rstudio.github.io/shinycoreci/results/2026/07/09/index.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/results/2026/07/10/index.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/results/2026/07/11/index.html</loc></url>
+<url><loc>https://rstudio.github.io/shinycoreci/results/2026/07/12/index.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/results/index.html</loc></url>
 <url><loc>https://rstudio.github.io/shinycoreci/todo.html</loc></url>
 </urlset>
