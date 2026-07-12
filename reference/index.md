@@ -25,9 +25,6 @@
 - [`docker_clean()`](https://rstudio.github.io/shinycoreci/reference/docker_clean.md)
   : Clean up docker files
 
-- [`expect_stable_screenshot()`](https://rstudio.github.io/shinycoreci/reference/expect_stable_screenshot.md)
-  : Capture a screenshot after the browser has finished rendering
-
 - [`fix_snaps()`](https://rstudio.github.io/shinycoreci/reference/fix_snaps.md)
   :
 
