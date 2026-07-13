@@ -442,9 +442,9 @@
         },
         {
           "name": "bs3compat",
-          "version": "0.10.0.9000",
+          "version": "0.11.0.9000",
           "src": {
-            "href": "bs3compat-0.10.0.9000"
+            "href": "bs3compat-0.11.0.9000"
           },
           "meta": null,
           "script": [
@@ -503,7 +503,7 @@
     "inputPanelOutput": "List of 5\n $ sliderInput        : int [1:2] 14 83\n $ selectizeInput     : chr \"AK\"\n $ selectizeMultiInput: chr [1:3] \"AK\" \"AR\" \"CO\"\n $ dateInput          : Date[1:1], format: \"2020-12-21\"\n $ dateRangeInput     : Date[1:2], format: \"2020-12-24\" \"2020-12-26\"",
     "inputPanelOutputHeader": "Below are the values bound to each input widget above",
     "plot": {
-      "src": "[image data hash: 07c5cacfa5a992b27cbdf910133a576f]",
+      "src": "[image data hash: 889f06577aba709118d49f88efd0f0f9]",
       "width": 968,
       "height": 400,
       "alt": "Plot object",
@@ -532,10 +532,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 84.4632,
-              "right": 373.496,
-              "bottom": 190.166,
-              "top": 60.7406
+              "left": 83.0569,
+              "right": 372.5585,
+              "bottom": 189.6658,
+              "top": 59.7402
             }
           },
           {
@@ -561,10 +561,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 378.9755,
-              "right": 668.0083,
-              "bottom": 190.166,
-              "top": 60.7406
+              "left": 378.038,
+              "right": 667.5395,
+              "bottom": 189.6658,
+              "top": 59.7402
             }
           },
           {
@@ -590,10 +590,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 673.4877,
+              "left": 673.019,
               "right": 962.5205,
-              "bottom": 190.166,
-              "top": 60.7406
+              "bottom": 189.6658,
+              "top": 59.7402
             }
           },
           {
@@ -619,10 +619,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 84.4632,
-              "right": 373.496,
+              "left": 83.0569,
+              "right": 372.5585,
               "bottom": 349.8436,
-              "top": 220.4182
+              "top": 219.9181
             }
           },
           {
@@ -648,10 +648,10 @@
               "panelvar1": "cut"
             },
             "range": {
-              "left": 378.9755,
-              "right": 668.0083,
+              "left": 378.038,
+              "right": 667.5395,
               "bottom": 349.8436,
-              "top": 220.4182
+              "top": 219.9181
             }
           }
         ],

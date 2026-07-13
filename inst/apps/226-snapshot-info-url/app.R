@@ -35,33 +35,35 @@ ui <- fluidPage(
   ),br(),
   tags$script(HTML(paste0("
     $(function() {
-      var counter = 0;
-      var wait = function() {
-        try {
-          console.log('Counter: ', counter)
-          var url = Shiny.shinyapp.getTestSnapshotBaseUrl({full: true}) + '&input=", paste0(items, collapse = ","), "&output=", paste0(items, collapse = ","), "&format=json&sortC=1';
-          $('#link').text(url);
-          $('#link').attr('href', url);
-          Shiny.setInputValue('url', url);
-          var items = ", jsonlite::toJSON(items), ";
-          items.map(function(item) {
-            Shiny.setInputValue(item, item + '_value');
-          });
-          Shiny.setInputValue('url', url);
-          $.get(url, function(data) {
-            console.log('Data: ', data);
-            Shiny.setInputValue('lines', JSON.stringify(data, null, '  '));
-            Shiny.setInputValue('content', data);
-          })
-        } catch (e) {
-          console.log('Error: ', e);
-          if (counter < 100) {
-            counter++;
-            setTimeout(wait, 100);
-          }
-        }
+      window.snapshotRequestedAfterServerAck = false;
+      var items = ", jsonlite::toJSON(items), ";
+
+      Shiny.addCustomMessageHandler('snapshot-ready', function(message) {
+        var url = Shiny.shinyapp.getTestSnapshotBaseUrl({full: true}) + '&input=", paste0(items, collapse = ","), "&output=", paste0(items, collapse = ","), "&format=json&sortC=1';
+        $('#link').text(url);
+        $('#link').attr('href', url);
+        Shiny.setInputValue('url', url);
+        window.snapshotRequestedAfterServerAck = true;
+
+        $.get(url, function(data) {
+          console.log('Data: ', data);
+          Shiny.setInputValue('lines', JSON.stringify(data, null, '  '));
+          Shiny.setInputValue('content', data);
+        });
+      });
+
+      var sendInputs = function() {
+        items.map(function(item) {
+          Shiny.setInputValue(item, item + '_value');
+        });
+        Shiny.setInputValue('snapshot_ready_request', true);
+      };
+
+      if (typeof Shiny.setInputValue === 'function') {
+        sendInputs();
+      } else {
+        $(document).one('shiny:connected', sendInputs);
       }
-      wait()
     });
   "))),
   "Items: ", uiItems, br(),
@@ -71,6 +73,16 @@ server <- function(input, output, session) {
   lapply(items, function(item) {
     output[[item]] <- renderText({item})
   })
+
+  observeEvent(input$snapshot_ready_request, {
+    expected_values <- paste0(items, "_value")
+    actual_values <- unname(vapply(items, function(item) input[[item]], character(1)))
+    req(identical(actual_values, expected_values))
+
+    session$onFlushed(function() {
+      session$sendCustomMessage("snapshot-ready", list())
+    }, once = TRUE)
+  }, once = TRUE)
 
   output$time <- renderPrint({
     Sys.time()
@@ -92,7 +104,13 @@ server <- function(input, output, session) {
     if (is_match()) {
       "PASS"
     } else {
-      paste0("FAIL: Names do not match: ", paste0(items_expected, collapse = "\n"))
+      paste(
+        "FAIL: Names do not match",
+        paste0("Expected: ", paste(items_expected, collapse = ", ")),
+        paste0("Actual input: ", paste(names(input$content$input), collapse = ", ")),
+        paste0("Actual output: ", paste(names(input$content$output), collapse = ", ")),
+        sep = "\n"
+      )
     }
   })
  }

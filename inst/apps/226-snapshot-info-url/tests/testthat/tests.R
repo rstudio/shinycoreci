@@ -3,6 +3,10 @@ test_that("text passes", {
 
   app$wait_for_js("$('#status').text().length > 0")
 
+  testthat::expect_true(
+    app$get_js("window.snapshotRequestedAfterServerAck === true")
+  )
+
   testthat::expect_equal(
     app$get_js("$('#status').text()"),
     "PASS"
