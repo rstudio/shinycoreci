@@ -1,5 +1,4 @@
 library(shiny)
-library(pryr)
 
 # It's possible for this test to fail when reactlog is enabled
 op <- options(shiny.reactlog = FALSE)
@@ -56,7 +55,7 @@ server <- function(input, output, session) {
   shinyjster::shinyjster_server(input, output)
 
   i <- 0
-  last_mem <- mem_used()
+  last_mem <- lobstr::mem_used()
   last_10 <- rep(0, 10)
 
   output$hist1 <- renderPlot({
@@ -66,7 +65,7 @@ server <- function(input, output, session) {
 
   info <- reactive({
     invalidateLater(500)
-    cur_mem <- mem_used()
+    cur_mem <- lobstr::mem_used()
     on.exit({
       i <<- i + 1
       last_mem <<- cur_mem

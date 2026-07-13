@@ -118,7 +118,7 @@ apps_deps_map <- list(
   `169-prerender` = c("rmarkdown", "shiny", "shinyjster", "shinytest2"),
   `170-date-range-max` = c("shiny", "shinyjster", "shinytest2"),
   `171-path-traversal` = c("shiny", "shinyjster", "shinytest2"),
-  `173-invalidatelater-leak` = c("pryr", "shiny", "shinyjster", "shinytest2"),
+  `173-invalidatelater-leak` = c("lobstr", "shiny", "shinyjster", "shinytest2"),
   `174-throttle-debounce` = c("magrittr", "shiny", "shinyjster", "shinytest2"),
   `175-setInputValue` = c("shiny", "shinyjster", "shinytest2"),
   `178-delayed-widget` = c("htmlwidgets", "leaflet", "shiny", "shinycoreci", "shinyjster", "shinytest2"),
