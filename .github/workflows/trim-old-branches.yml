@@ -18,7 +18,7 @@ jobs:
     name: Trim Old Branches
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         name: GitHub Pull
 
       # https://github.com/actions/checkout/pull/112/files#diff-04c6e90faac2675aa89e2176d2eec7d8R194-R200
@@ -32,7 +32,9 @@ jobs:
         # do not delete the most recent 5 branches
         # delete all branches whose latest commit is older than a week.
         run: |
-          git config --local --unset http.https://github.com/.extraheader
+          # checkout@v4 stored credentials in http.*.extraheader; checkout@v6+
+          # keeps them under $RUNNER_TEMP instead, so --unset may no-op (exit 5).
+          git config --local --unset-all http.https://github.com/.extraheader || true
           git config --local --list
           echo ""
           echo "All Branches:"
