@@ -232,14 +232,15 @@ jobs:
         # set local email to actor
         # set local name to actor
         # set to merge when pulling (used for test results)
-        # need to unset the extra header to allow for regular https push
+        # checkout@v4 stored credentials in http.*.extraheader; checkout@v6+
+        # keeps them under $RUNNER_TEMP instead, so --unset may no-op (exit 5).
         # display config
         run: |
-          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
-            git config --local user.name "${GITHUB_ACTOR}" && \
-            git config --local pull.rebase false && \
-            git config --local --unset http.https://github.com/.extraheader && \
-            git config --local --list
+          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --local user.name "${GITHUB_ACTOR}"
+          git config --local pull.rebase false
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git config --local --list
 
       - name: Push test files to rstudio/shinycoreci `gha-` branch
         if: always()

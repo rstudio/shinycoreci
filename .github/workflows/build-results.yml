@@ -83,11 +83,13 @@ jobs:
           # set to merge when pulling (used for test results)
           # need to unset the extra header to allow for regular https push
           # display config
-          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com" && \
-            git config --local user.name "${GITHUB_ACTOR}" && \
-            git config --local pull.rebase false && \
-            git config --local --unset http.https://github.com/.extraheader && \
-            git config --local --list
+          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --local user.name "${GITHUB_ACTOR}"
+          git config --local pull.rebase false
+          # checkout@v4 stored credentials in http.*.extraheader; checkout@v6+
+          # keeps them under $RUNNER_TEMP instead, so --unset may no-op (exit 5).
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git config --local --list
 
           SHA="${{ github.sha }}"
           SHORT_SHA="${SHA:0:7}"

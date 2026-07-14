@@ -32,7 +32,9 @@ jobs:
         # do not delete the most recent 5 branches
         # delete all branches whose latest commit is older than a week.
         run: |
-          git config --local --unset http.https://github.com/.extraheader
+          # checkout@v4 stored credentials in http.*.extraheader; checkout@v6+
+          # keeps them under $RUNNER_TEMP instead, so --unset may no-op (exit 5).
+          git config --local --unset-all http.https://github.com/.extraheader || true
           git config --local --list
           echo ""
           echo "All Branches:"
