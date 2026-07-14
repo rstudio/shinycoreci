@@ -10,6 +10,8 @@ test_that("Migrated shinytest test: mytest.R", {
   app$expect_screenshot()
   app$set_inputs(tabset = "Using safeError()")
   app$expect_values()
+  app$wait_for_value(output = "safeErrorIntentionalError")
+  app$wait_for_value(output = "safeErrorAccidentalError")
   app$expect_screenshot()
   app$set_inputs(sanitize = "FALSE")
   app$expect_values()
