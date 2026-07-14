@@ -1,7 +1,12 @@
-if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
-if (!requireNamespace("yaml", quietly = TRUE)) install.packages("yaml")
-if (!requireNamespace("withr", quietly = TRUE)) install.packages("withr")
-if (!requireNamespace("jsonlite", quietly = TRUE)) install.packages("jsonlite")
+pkgs <- c("renv", "yaml", "withr", "jsonlite")
+missing_pkgs <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
+if (length(missing_pkgs) > 0) {
+  if (requireNamespace("pak", quietly = TRUE)) {
+    pak::pkg_install(missing_pkgs)
+  } else {
+    install.packages(missing_pkgs)
+  }
+}
 
 update_apps_deps <- function(repo_dir = ".") {
   withr::local_dir(repo_dir)
