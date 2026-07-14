@@ -167,7 +167,7 @@ apps_deps_map <- list(
   `301-bs-themes` = c("bslib", "DT", "ggplot2", "reshape2", "rversions", "shiny", "shinytest2", "thematic", "withr"),
   `302-bootswatch-themes` = c("bslib", "DT", "ggplot2", "progress", "rversions", "shiny", "shinytest2", "thematic", "withr"),
   `303-bslib-html-template` = c("bslib", "shiny", "shinytest2"),
-  `304-bslib-card` = c("bslib", "gt", "leaflet", "plotly", "rlang", "rversions", "shiny", "shinytest2"),
+  `304-bslib-card` = c("bslib", "DT", "gt", "leaflet", "plotly", "rlang", "rversions", "shiny", "shinytest2"),
   `305-bslib-value-box` = c("bsicons", "bslib", "plotly", "rlang", "rversions", "shiny", "shinytest2"),
   `306-accordion-add-remove` = c("bslib", "magrittr", "shiny", "shinytest2"),
   `307-accordion-replace` = c("bsicons", "bslib", "shiny", "shinyjster", "shinytest2"),
