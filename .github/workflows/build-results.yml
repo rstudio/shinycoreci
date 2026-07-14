@@ -13,6 +13,10 @@ on:
 
 name: Build results website
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     if: github.repository == 'rstudio/shinycoreci'
@@ -25,18 +29,13 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: '"Two workflows enter, one workflow leaves"'
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          all_but_latest: true
-
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: _test_results
           # Only need current files
           fetch-depth: 0
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: gh-pages
           path: _gh-pages
