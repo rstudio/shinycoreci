@@ -5,8 +5,8 @@ R version: R version 4.2.3 (2023-03-15)
  chromote: 0.5.1.9000
 
 ---- Chrome ----
-   Path: /Users/runner/Library/Caches/org.R-project.R/R/chromote/chrome/150.0.7871.115/chrome-headless-shell-mac-arm64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
-Version: Google Chrome for Testing 150.0.7871.115
+   Path: /Users/runner/Library/Caches/org.R-project.R/R/chromote/chrome/151.0.7922.34/chrome-headless-shell-mac-arm64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
+Version: Google Chrome for Testing 151.0.7922.34
    Args: --headless --no-sandbox --disable-dev-shm-usage
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 150.0.7871.115
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2026-07-14
+ date      2026-07-16
  pandoc    3.8.3 @ /usr/local/bin/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -129,7 +129,7 @@ Version: Google Chrome for Testing 150.0.7871.115
  openssl             2.4.2       2026-06-09 [1] RSPM
  otel                0.2.0       2025-08-29 [1] RSPM
  packrat             0.9.3       2025-06-16 [1] RSPM
- pak                 0.10.0.9000 2026-07-12 [1] local
+ pak                 0.10.0.9000 2026-07-15 [1] local
  parallelly          1.48.0      2026-06-29 [1] RSPM
  parsedate           1.3.2       2024-12-09 [1] RSPM
  pillar              1.11.1      2025-09-17 [1] RSPM
@@ -183,9 +183,9 @@ Version: Google Chrome for Testing 150.0.7871.115
  scales              1.4.0       2025-04-24 [1] RSPM
  sessioninfo         1.2.4       2026-06-04 [1] RSPM
  sf                  1.0-16      2024-03-24 [1] CRAN (R 4.2.3)
- shiny               1.14.0.9000 2026-06-24 [1] https://p~
+ shiny               1.14.0.9000 2026-07-15 [1] https://p~
  shinyAce            0.4.4       2025-02-03 [1] RSPM
- shinycoreci         0.0.0.9009  2026-07-14 [1] local
+ shinycoreci         0.0.0.9009  2026-07-16 [1] local
  shinydashboard      0.7.3       2025-04-21 [1] RSPM
  shinyjs             2.1.1       2026-01-15 [1] RSPM
  shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
@@ -223,7 +223,7 @@ Version: Google Chrome for Testing 150.0.7871.115
  tzdb                0.5.0       2025-03-15 [1] RSPM
  units               1.0-1       2026-03-11 [1] RSPM
  utf8                1.2.6       2025-06-08 [1] RSPM
- V8                  4.4.2       2024-02-15 [1] CRAN (R 4.2.3)
+ V8                  8.2.0       2026-04-21 [1] RSPM
  vctrs               0.7.3       2026-04-11 [1] RSPM
  viridisLite         0.4.3       2026-02-04 [1] RSPM
  visNetwork          2.1.4       2025-09-04 [1] RSPM
