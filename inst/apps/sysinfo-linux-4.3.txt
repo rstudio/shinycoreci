@@ -5,13 +5,13 @@ R version: R version 4.3.3 (2024-02-29)
  chromote: 0.5.1.9000
 
 ---- Chrome ----
-   Path: /home/runner/.cache/R/chromote/chrome/150.0.7871.46/chrome-headless-shell-linux64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
-Version: Google Chrome for Testing 150.0.7871.46
+   Path: /home/runner/.cache/R/chromote/chrome/150.0.7871.124/chrome-headless-shell-linux64/chrome-headless-shell (set by CHROMOTE_CHROME envvar)
+Version: Google Chrome for Testing 150.0.7871.124
    Args: --headless --no-sandbox --disable-dev-shm-usage
          --force-color-profile=srgb --disable-extensions --mute-audio
 ── Session info ────────────────────────────────────────────────────────────────
  setting   value
- gha_image 20260705.232.1
+ gha_image 20260714.240.1
  version   R version 4.3.3 (2024-02-29)
  os        Ubuntu 24.04.4 LTS
  system    x86_64, linux-gnu
@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 150.0.7871.46
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2026-07-14
+ date      2026-07-16
  pandoc    3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -184,9 +184,9 @@ Version: Google Chrome for Testing 150.0.7871.46
  scales              1.4.0       2025-04-24 [1] RSPM
  sessioninfo         1.2.4       2026-06-04 [1] RSPM
  sf                  1.1-1       2026-05-06 [1] RSPM
- shiny               1.14.0.9000 2026-06-24 [1] https://p~
+ shiny               1.14.0.9000 2026-07-15 [1] https://p~
  shinyAce            0.4.4       2025-02-03 [1] RSPM
- shinycoreci         0.0.0.9009  2026-07-14 [1] local
+ shinycoreci         0.0.0.9009  2026-07-16 [1] local
  shinydashboard      0.7.3       2025-04-21 [1] RSPM
  shinyjs             2.1.1       2026-01-15 [1] RSPM
  shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
