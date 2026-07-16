@@ -208,7 +208,7 @@ jobs:
           git push origin "HEAD:${BRANCH_NAME}"
           body_file="$(mktemp)"
           printf '%s\n' \
-            "Claude accepted minute snapshot changes from the latest nightly run before the Monday meeting." \
+            "Claude accepted minute snapshot changes from the latest nightly run." \
             "" \
             "Dashboard analysis: https://rstudio.github.io/shinycoreci/results/${DASHBOARD_PATH}/snapshot-analysis/" \
             > "$body_file"
