@@ -173,7 +173,10 @@ ci_snapshot_font_css <- function() {
       "CoreCI Mono",
       regular = fonts[["mono_regular"]],
       bold = fonts[["mono_bold"]]
-    )
+    ),
+    # Hide scrollbars for consistent screenshots
+    "::-webkit-scrollbar { display: none !important; }",
+    "html { scrollbar-width: none !important; -ms-overflow-style: none !important; }"
   )
 
   ci_snapshot_state$font_css <- paste(css, collapse = "\n")

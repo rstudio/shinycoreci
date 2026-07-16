@@ -1,0 +1,273 @@
+name: Claude snapshot analysis
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 16 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: claude-snapshot-analysis
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    if: github.repository == 'rstudio/shinycoreci'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    env:
+      SNAPSHOT_MODEL: ${{ vars.CLAUDE_SNAPSHOT_MODEL || 'claude-sonnet-5' }}
+      CLAUDE_TOKEN_CONFIGURED: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v7.0.0
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Checkout test results
+        uses: actions/checkout@v7.0.0
+        with:
+          ref: _test_results
+          path: _test_results
+          fetch-depth: 1
+
+      - name: Checkout results dashboard
+        uses: actions/checkout@v7.0.0
+        with:
+          ref: gh-pages
+          path: _gh-pages
+          fetch-depth: 0
+
+      - name: Prepare latest nightly context
+        id: prepare
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 .github/internal/snapshot-analysis/prepare.py \
+            --results-dir _test_results/__test_results \
+            --out-dir snapshot-analysis >> "$GITHUB_OUTPUT"
+
+      - name: Write skipped report
+        if: steps.prepare.outputs.has_snapshot_failures != 'true' || env.CLAUDE_TOKEN_CONFIGURED != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p snapshot-analysis
+          if [[ "${{ steps.prepare.outputs.has_snapshot_failures }}" != "true" ]]; then
+            printf '%s\n' \
+              '## Summary' \
+              'No snapshot-related failures were found in the latest nightly run.' \
+              '' \
+              '## Minute Changes Accepted' \
+              'None.' \
+              '' \
+              '## Needs Human Review' \
+              'None.' \
+              '' \
+              '## Commands Run' \
+              '- Claude Code skipped because there were no snapshot differences to inspect.' \
+              > snapshot-analysis/claude-report.md
+          else
+            printf '%s\n' \
+              '## Summary' \
+              'Snapshot-related failures were found, but `CLAUDE_CODE_OAUTH_TOKEN` is not configured for this repository.' \
+              '' \
+              '## Minute Changes Accepted' \
+              'None.' \
+              '' \
+              '## Needs Human Review' \
+              'All snapshot failures from the latest nightly run need manual review.' \
+              '' \
+              '## Commands Run' \
+              '- Claude Code skipped because the OAuth token secret is missing.' \
+              > snapshot-analysis/claude-report.md
+          fi
+
+      - name: Fetch snapshot result branches
+        if: steps.prepare.outputs.has_snapshot_failures == 'true' && env.CLAUDE_TOKEN_CONFIGURED == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config --add remote.origin.fetch '+refs/heads/gha-*:refs/remotes/origin/gha-*'
+          git fetch origin '+refs/heads/gha-*:refs/remotes/origin/gha-*'
+
+      - name: Check snapshot result branches
+        if: steps.prepare.outputs.has_snapshot_failures == 'true' && env.CLAUDE_TOKEN_CONFIGURED == 'true'
+        id: gha_branches
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git branch -r --list "origin/gha-${{ steps.prepare.outputs.base_sha }}*" | grep -q .; then
+            echo "has_branches=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_branches=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Write missing branch report
+        if: steps.prepare.outputs.has_snapshot_failures == 'true' && env.CLAUDE_TOKEN_CONFIGURED == 'true' && steps.gha_branches.outputs.has_branches != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p snapshot-analysis
+          printf '%s\n' \
+            '## Summary' \
+            'Snapshot-related failures were found, but the matching `gha-*` result branches are no longer available.' \
+            '' \
+            '## Minute Changes Accepted' \
+            'None.' \
+            '' \
+            '## Needs Human Review' \
+            'All snapshot failures from the latest nightly run need manual review because `fix_snaps()` cannot run without the test-run branches.' \
+            '' \
+            '## Commands Run' \
+            "- Checked for branches matching \`origin/gha-${{ steps.prepare.outputs.base_sha }}*\`: none found." \
+            > snapshot-analysis/claude-report.md
+
+      - name: Create snapshot PR branch
+        if: steps.prepare.outputs.has_snapshot_failures == 'true' && env.CLAUDE_TOKEN_CONFIGURED == 'true' && steps.gha_branches.outputs.has_branches == 'true'
+        id: branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch="claude-snapshot-analysis-${{ steps.prepare.outputs.base_sha }}-${GITHUB_RUN_ID}"
+          git checkout -b "$branch"
+          echo "name=$branch" >> "$GITHUB_OUTPUT"
+
+      - uses: r-lib/actions/setup-r@v2.12.1
+        if: steps.prepare.outputs.has_snapshot_failures == 'true' && env.CLAUDE_TOKEN_CONFIGURED == 'true' && steps.gha_branches.outputs.has_branches == 'true'
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2.12.1
+        if: steps.prepare.outputs.has_snapshot_failures == 'true' && env.CLAUDE_TOKEN_CONFIGURED == 'true' && steps.gha_branches.outputs.has_branches == 'true'
+        with:
+          cache-version: snapshot-analysis-1
+          extra-packages: |
+            any::shinytest2
+            any::testthat
+
+      - name: Install shinycoreci
+        if: steps.prepare.outputs.has_snapshot_failures == 'true' && env.CLAUDE_TOKEN_CONFIGURED == 'true' && steps.gha_branches.outputs.has_branches == 'true'
+        shell: bash
+        run: R CMD INSTALL .
+
+      - name: Mark Claude start time
+        if: steps.prepare.outputs.has_snapshot_failures == 'true' && env.CLAUDE_TOKEN_CONFIGURED == 'true' && steps.gha_branches.outputs.has_branches == 'true'
+        id: claude-start
+        shell: bash
+        run: echo "epoch=$(date +%s)" >> "$GITHUB_OUTPUT"
+
+      - name: Run Claude snapshot analysis
+        if: steps.prepare.outputs.has_snapshot_failures == 'true' && env.CLAUDE_TOKEN_CONFIGURED == 'true' && steps.gha_branches.outputs.has_branches == 'true'
+        id: claude
+        continue-on-error: true
+        uses: anthropics/claude-code-base-action@v0.0.63
+        env:
+          CLAUDE_WORKING_DIR: ${{ github.workspace }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt_file: ${{ steps.prepare.outputs.prompt_file }}
+          model: ${{ env.SNAPSHOT_MODEL }}
+          max_turns: ${{ vars.CLAUDE_SNAPSHOT_MAX_TURNS || '30' }}
+          allowed_tools: Bash,Read,Write,Edit,Glob,Grep
+          timeout_minutes: "90"
+
+      - name: Collect accepted snapshot changes
+        if: steps.prepare.outputs.has_snapshot_failures == 'true' && env.CLAUDE_TOKEN_CONFIGURED == 'true' && steps.gha_branches.outputs.has_branches == 'true'
+        id: changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --name-only -- inst/apps > snapshot-analysis/changed-files.txt
+          if [[ -s snapshot-analysis/changed-files.txt ]]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open accepted snapshot PR
+        if: steps.changes.outputs.has_changes == 'true' && steps.claude.outputs.conclusion == 'success'
+        id: pr
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH_NAME: ${{ steps.branch.outputs.name }}
+          DASHBOARD_PATH: ${{ steps.prepare.outputs.dashboard_path }}
+        run: |
+          set -euo pipefail
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config user.name "${GITHUB_ACTOR}"
+          git add inst/apps
+          git commit -m "test: accept minute snapshots for ${{ steps.prepare.outputs.base_sha }}"
+          git push origin "HEAD:${BRANCH_NAME}"
+          body_file="$(mktemp)"
+          printf '%s\n' \
+            "Claude accepted minute snapshot changes from the latest nightly run." \
+            "" \
+            "Dashboard analysis: https://rstudio.github.io/shinycoreci/results/${DASHBOARD_PATH}/snapshot-analysis/" \
+            > "$body_file"
+          pr_url="$(gh pr create \
+            --base main \
+            --head "$BRANCH_NAME" \
+            --title "Accept minute snapshots for ${{ steps.prepare.outputs.date }}" \
+            --body-file "$body_file")"
+          echo "url=$pr_url" >> "$GITHUB_OUTPUT"
+
+      - name: Publish dashboard analysis
+        if: always() && steps.prepare.outputs.context_file != ''
+        shell: bash
+        env:
+          EXECUTION_FILE: ${{ steps.claude.outputs.execution_file || '' }}
+          PR_URL: ${{ steps.pr.outputs.url || '' }}
+          WORKFLOW_START: ${{ steps.claude-start.outputs.epoch || '0' }}
+          SKIPPED: ${{ steps.prepare.outputs.has_snapshot_failures != 'true' || secrets.CLAUDE_CODE_OAUTH_TOKEN == '' || steps.gha_branches.outputs.has_branches == 'false' }}
+        run: |
+          set -euo pipefail
+          args=(
+            --context "${{ steps.prepare.outputs.context_file }}"
+            --gh-pages _gh-pages
+            --model "$SNAPSHOT_MODEL"
+            --execution-file "$EXECUTION_FILE"
+            --report-file snapshot-analysis/claude-report.md
+            --changed-files snapshot-analysis/changed-files.txt
+            --pr-url "$PR_URL"
+            --workflow-start "$WORKFLOW_START"
+          )
+          if [[ "$SKIPPED" == "true" ]]; then
+            args+=(--skipped)
+          fi
+          python3 .github/internal/snapshot-analysis/publish.py "${args[@]}"
+
+      - name: Commit and push dashboard analysis
+        if: always() && steps.prepare.outputs.context_file != ''
+        shell: bash
+        working-directory: _gh-pages
+        run: |
+          set -euo pipefail
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config user.name "${GITHUB_ACTOR}"
+          git add results
+          if git diff --cached --quiet; then
+            echo "No dashboard changes to publish."
+            exit 0
+          fi
+          git commit -m "Add snapshot analysis for ${{ steps.prepare.outputs.date }}"
+          counter=0
+          git pull --rebase origin gh-pages
+          until git push origin HEAD:gh-pages
+          do
+            sleep $((RANDOM % 10 + 5))
+            if [[ $counter -gt 15 ]]; then
+              echo "Too many push attempts."
+              exit 1
+            fi
+            counter=$((counter + 1))
+            echo "Push failed. Trying again. Try #$counter"
+            git pull --rebase origin gh-pages
+          done
