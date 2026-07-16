@@ -116,7 +116,7 @@ def build_prompt(context):
     if context["snapshot_failure_count"] == 0:
         action = (
             "No snapshot-related failures were found in the latest nightly run. "
-            "do not run fix_snaps. Summarize that there is no snapshot work for this meeting."
+            "do not run fix_snaps. Summarize that there is no snapshot work."
         )
     else:
         action = f"""
