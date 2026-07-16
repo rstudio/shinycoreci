@@ -140,7 +140,7 @@ Then inspect `git diff -- inst/apps`. Keep only minute/mechanical snapshot updat
     failures_text = "\n".join(failure_lines) if failure_lines else "- No failures in the latest run."
 
     return f"""
-You are preparing the Monday shinycoreci snapshot review summary.
+You are preparing a shinycoreci snapshot review summary.
 
 Latest nightly run:
 - Date: {context["date"]}
