@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 151.0.7922.34
  collate   en_US.UTF-8
  ctype     en_US.UTF-8
  tz        UTC
- date      2026-07-20
+ date      2026-07-22
  pandoc    3.8.3 @ /usr/local/bin/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -62,7 +62,7 @@ Version: Google Chrome for Testing 151.0.7922.34
  debugme             1.2.0       2024-04-25 [1] RSPM
  desc                1.4.3       2023-12-10 [1] RSPM
  DiagrammeR          1.0.12      2026-04-27 [1] RSPM
- diffobj             0.3.8       2026-07-17 [1] CRAN (R 4.6.1)
+ diffobj             0.3.8       2026-07-17 [1] RSPM
  digest              0.6.39      2025-11-19 [1] RSPM
  dplyr               1.2.1       2026-04-03 [1] RSPM
  DT                  0.34.1.9000 2026-05-18 [1] https://p~
@@ -76,7 +76,7 @@ Version: Google Chrome for Testing 151.0.7922.34
  fontawesome         0.5.3.9000  2024-11-16 [1] https://p~
  foreign             0.8-91      2026-01-29 [3] CRAN (R 4.6.1)
  fs                  2.1.0       2026-04-18 [1] RSPM
- future              1.70.0      2026-03-14 [1] RSPM
+ future              1.75.0      2026-07-20 [1] RSPM
  generics            0.1.4       2025-05-09 [1] RSPM
  ggplot2             4.0.3       2026-04-22 [1] RSPM
  ggvis               0.4.10      2026-02-10 [1] RSPM
@@ -127,7 +127,7 @@ Version: Google Chrome for Testing 151.0.7922.34
  openssl             2.4.2       2026-06-09 [1] RSPM
  otel                0.2.0       2025-08-29 [1] RSPM
  packrat             0.9.3       2025-06-16 [1] RSPM
- pak                 0.11.0.9000 2026-07-19 [1] local
+ pak                 0.11.0.9000 2026-07-21 [1] local
  parallelly          1.48.0      2026-06-29 [1] RSPM
  parsedate           1.3.2       2024-12-09 [1] RSPM
  pillar              1.11.1      2025-09-17 [1] RSPM
@@ -135,7 +135,7 @@ Version: Google Chrome for Testing 151.0.7922.34
  pkgbuild            1.4.8       2025-05-26 [1] RSPM
  pkgconfig           2.0.3       2019-09-22 [1] RSPM
  pkgload             1.5.3       2026-06-15 [1] RSPM
- plotly              4.12.0.9000 2026-06-05 [1] https://p~
+ plotly              4.12.0.9000 2026-07-21 [1] https://p~
  plyr                1.8.9       2023-10-02 [1] RSPM
  png                 0.1-9       2026-03-15 [1] RSPM
  praise              1.0.0       2015-08-11 [1] RSPM
@@ -183,7 +183,7 @@ Version: Google Chrome for Testing 151.0.7922.34
  sf                  1.1-1       2026-05-06 [1] RSPM
  shiny               1.14.0.9000 2026-07-17 [1] https://p~
  shinyAce            0.4.4       2025-02-03 [1] RSPM
- shinycoreci         0.0.0.9009  2026-07-20 [1] local
+ shinycoreci         0.0.0.9009  2026-07-22 [1] local
  shinydashboard      0.7.3       2025-04-21 [1] RSPM
  shinyjs             2.1.1       2026-01-15 [1] RSPM
  shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
@@ -198,7 +198,7 @@ Version: Google Chrome for Testing 151.0.7922.34
  slam                0.1-56      2026-07-13 [1] RSPM
  snowflakeauth       0.2.2       2026-02-25 [1] RSPM
  sourcetools         0.1.7-2     2026-03-28 [1] RSPM
- sp                  2.2-3       2026-07-19 [1] CRAN (R 4.6.1)
+ sp                  2.2-3       2026-07-19 [1] RSPM
  spatial             7.3-18      2025-01-01 [3] CRAN (R 4.6.1)
  stringi             1.8.7       2025-03-27 [1] RSPM
  stringr             1.6.0       2025-11-04 [1] RSPM
