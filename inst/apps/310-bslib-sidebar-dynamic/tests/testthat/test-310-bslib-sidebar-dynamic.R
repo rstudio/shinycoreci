@@ -96,7 +96,7 @@ test_that("310-bslib-sidebar-dynamic: dynamically added sidebars are fully funct
   # Add first sidebar -----
   app$
     click("add_sidebar")$
-    wait_for_js("document.getElementById('layout_1') ? true : false")$
+    wait_for_js(js_output_exists(id = 1))$
     wait_for_js(js_sidebar_transition_complete(id = 1))$
     expect_values()
 

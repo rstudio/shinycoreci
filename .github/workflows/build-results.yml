@@ -32,15 +32,13 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: _test_results
-          # Only need current files
-          fetch-depth: 0
+          fetch-depth: 1
 
       - uses: actions/checkout@v6
         with:
           ref: gh-pages
           path: _gh-pages
-          # Only need current files
-          fetch-depth: 0
+          fetch-depth: 1
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -51,10 +49,10 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: any::sessioninfo
-          cache-version: results-1
+          cache-version: results-2
           extra-packages: |
-            rstudio/shiny
-            rstudio/bslib
+            any::shiny
+            any::bslib
             any::dplyr
             any::DT
             any::fontawesome
