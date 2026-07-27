@@ -297,7 +297,13 @@ install_pkgs_with_callr <- function(
       }
       options(repos = repos_option)
 
-      # Install pak if not already installed
+      if (.Platform$OS.type == "windows") {
+        pkg_libs <- Sys.getenv("PKG_LIBS", "")
+        if (!grepl("ws2_32", pkg_libs)) {
+          Sys.setenv(PKG_LIBS = trimws(paste(pkg_libs, "-lws2_32")))
+        }
+      }
+
       if (!requireNamespace("pak", quietly = TRUE)) {
         utils::install.packages("pak")
       }

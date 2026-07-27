@@ -44,34 +44,47 @@ test_that("toggle_switch()", {
   set_input_if_not("check_spelling", TRUE)
 
   app$click("toggle_spelling")
-  expect_false(app$get_value(input = "check_spelling"))
+  val1 <- app$wait_for_value(input = "check_spelling", ignore = list(TRUE))
+  expect_false(val1)
 
   app$click("toggle_spelling")
-  expect_true(app$get_value(input = "check_spelling"))
+  val2 <- app$wait_for_value(input = "check_spelling", ignore = list(FALSE))
+  expect_true(val2)
 })
 
 test_that("toggle_switch(value = )", {
   set_input_if_not("auto_correction", FALSE)
   app$click("toggle_enable_auto_correct")
-  expect_true(app$get_value(input = "auto_correction"))
+  val1 <- app$wait_for_value(input = "auto_correction", ignore = list(FALSE))
+  expect_true(val1)
 
   set_input_if_not("auto_capitalization", TRUE)
   app$click("toggle_disable_capitalization")
-  expect_false(app$get_value(input = "auto_capitalization"))
+  val2 <- app$wait_for_value(
+    input = "auto_capitalization", ignore = list(TRUE)
+  )
+  expect_false(val2)
 })
 
 test_that("update_switch(value = )", {
   spelling_current <- app$get_value(input = "check_spelling")
   app$click("update_toggle_spelling")
-  expect_equal(app$get_value(input = "check_spelling"), !spelling_current)
+  val1 <- app$wait_for_value(
+    input = "check_spelling", ignore = list(spelling_current)
+  )
+  expect_equal(val1, !spelling_current)
 
   set_input_if_not("auto_correction", FALSE)
   app$click("update_enable_auto_correct")
-  expect_true(app$get_value(input = "auto_correction"))
+  val2 <- app$wait_for_value(input = "auto_correction", ignore = list(FALSE))
+  expect_true(val2)
 
   set_input_if_not("auto_capitalization", TRUE)
   app$click("update_disable_capitalization")
-  expect_false(app$get_value(input = "auto_capitalization"))
+  val3 <- app$wait_for_value(
+    input = "auto_capitalization", ignore = list(TRUE)
+  )
+  expect_false(val3)
 })
 
 test_that("update_switch(label = )", {
