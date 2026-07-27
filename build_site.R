@@ -91,16 +91,8 @@ parse_data_files <- function(files) {
 log_files <- Sys.glob("__test_results/*.json")
 
 log_df <-
-  log_files %>%
-  lapply(file.info) %>%
-  bind_rows() %>%
-  {
-    dt <- .
-    dt$file <- rownames(dt)
-    rownames(dt) <- NULL
-    dt
-  } %>%
-  as_tibble() %>%
+  file.info(log_files) %>%
+  tibble::as_tibble(rownames = "file") %>%
   select(file, mtime) %>%
   mutate(
     date = {
@@ -115,9 +107,12 @@ if (interactive()) {
   log_df <- head(log_df, 50)
 }
 
-
 min_date <- min(log_df$date)
 max_date <- max(log_df$date)
+
+if (identical(Sys.getenv("CI", "false"), "true")) {
+  min_date <- max(min_date, max_date - lubridate::days(14))
+}
 
 max_date_url <-
   paste0(
