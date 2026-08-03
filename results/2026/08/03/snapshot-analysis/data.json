@@ -1,0 +1,14 @@
+{
+  "date": "2026-08-03",
+  "base_sha": "aa581bc",
+  "model": "claude-sonnet-5",
+  "cost_usd": 0,
+  "duration_seconds": 0,
+  "num_turns": null,
+  "summary": "No snapshot-related failures were found in the latest nightly run.",
+  "analysis_href": "snapshot-analysis/",
+  "pr_url": "",
+  "changed_files": [],
+  "published_at": "2026-08-03 16:52:45 UTC",
+  "report": "## Summary\nNo snapshot-related failures were found in the latest nightly run.\n\n## Minute Changes Accepted\nNone.\n\n## Needs Human Review\nNone.\n\n## Commands Run\n- Claude Code skipped because there were no snapshot differences to inspect."
+}
