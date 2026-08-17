@@ -1,0 +1,14 @@
+{
+  "date": "2026-08-17",
+  "base_sha": "ff06b06",
+  "model": "claude-sonnet-5",
+  "cost_usd": 0.9958623,
+  "duration_seconds": 142,
+  "num_turns": 30,
+  "summary": "Repo state is clean now. Let me set up a todo list and take a more targeted approach: apply only the patches for the two relevant macOS branches instead of merging all 15.",
+  "analysis_href": "snapshot-analysis/",
+  "pr_url": "",
+  "changed_files": [],
+  "published_at": "2026-08-17 16:15:47 UTC",
+  "report": "Repo state is clean now. Let me set up a todo list and take a more targeted approach: apply only the patches for the two relevant macOS branches instead of merging all 15."
+}
