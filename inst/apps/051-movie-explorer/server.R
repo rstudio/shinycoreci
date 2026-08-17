@@ -3,27 +3,13 @@
 
 library(ggvis)
 library(dplyr)
-library(dbplyr)
 
-# Set up handles to database tables on app start
-db <- DBI::dbConnect(RSQLite::SQLite(), "movies.db")
-omdb <- tbl(db, "omdb")
-tomatoes <- tbl(db, "tomatoes")
-
-# Join tables, filtering out those with <10 reviews, and select specified columns
-all_movies <- inner_join(omdb, tomatoes, by = "ID") %>%
-  filter(Reviews >= 10) %>%
-  select(ID, imdbID, Title, Year, Rating_m = Rating.x, Runtime, Genre, Released,
-    Director, Writer, imdbRating, imdbVotes, Language, Country, Oscars,
-    Rating = Rating.y, Meter, Reviews, Fresh, Rotten, userMeter, userRating, userReviews,
-    BoxOffice, Production, Cast)
+all_movies <- readRDS("movies.rds")
 
 
 function(input, output, session) {
 
-  # Filter the movies, returning a data frame
   movies <- reactive({
-    # Due to dplyr issue #318, we need temp variables for input values
     reviews <- input$reviews
     oscars <- input$oscars
     minyear <- input$year[1]
@@ -31,7 +17,6 @@ function(input, output, session) {
     minboxoffice <- input$boxoffice[1] * 1e6
     maxboxoffice <- input$boxoffice[2] * 1e6
 
-    # Apply filters
     m <- all_movies %>%
       filter(
         Reviews >= reviews,
@@ -43,22 +28,15 @@ function(input, output, session) {
       ) %>%
       arrange(Oscars)
 
-    # Optional: filter by genre
     if (input$genre != "All") {
-      genre <- paste0("%", input$genre, "%")
-      m <- m %>% filter(Genre %like% genre)
+      m <- m %>% filter(grepl(input$genre, Genre, fixed = TRUE))
     }
-    # Optional: filter by director
     if (!is.null(input$director) && input$director != "") {
-      director <- paste0("%", input$director, "%")
-      m <- m %>% filter(Director %like% director)
+      m <- m %>% filter(grepl(input$director, Director, ignore.case = TRUE))
     }
-    # Optional: filter by cast member
     if (!is.null(input$cast) && input$cast != "") {
-      cast <- paste0("%", input$cast, "%")
-      m <- m %>% filter(Cast %like% cast)
+      m <- m %>% filter(grepl(input$cast, Cast, ignore.case = TRUE))
     }
-
 
     m <- as.data.frame(m)
 

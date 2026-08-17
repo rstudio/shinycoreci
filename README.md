@@ -243,7 +243,7 @@ pkgs <- c('base64enc', 'bslib', 'Cairo', 'clipr', 'curl', 'dbplyr', 'DiagrammeR'
   'maps', 'markdown', 'memoise', 'networkD3', 'plotly', 'png',
   'progress', 'promises', 'pryr', 'radiant', 'ragg', 'RColorBrewer',
   'reactable', 'reactlog', 'reactR', 'rlang', 'rmarkdown', 'rprojroot',
-  'rsconnect', 'RSQLite', 'rversions', 'scales', 'sf', 'shiny',
+  'rsconnect', 'rversions', 'scales', 'sf', 'shiny',
   'shinyAce', 'shinydashboard', 'shinyjs', 'shinymeta',
   'shinytest2', 'shinythemes', 'shinyvalidate', 'showtext', 'sysfonts',
   'systemfonts', 'testthat', 'thematic', 'tidyr', 'tm', 'websocket',
