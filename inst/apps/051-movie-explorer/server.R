@@ -4,7 +4,37 @@
 library(ggvis)
 library(dplyr)
 
-all_movies <- readRDS("movies.rds")
+all_movies <- read.csv(
+  "movies.csv",
+  colClasses = c(
+    ID = "integer",
+    imdbID = "character",
+    Title = "character",
+    Year = "integer",
+    Rating_m = "character",
+    Runtime = "numeric",
+    Genre = "character",
+    Released = "character",
+    Director = "character",
+    Writer = "character",
+    imdbRating = "numeric",
+    imdbVotes = "numeric",
+    Language = "character",
+    Country = "character",
+    Oscars = "integer",
+    Rating = "numeric",
+    Meter = "integer",
+    Reviews = "integer",
+    Fresh = "integer",
+    Rotten = "integer",
+    userMeter = "numeric",
+    userRating = "numeric",
+    userReviews = "numeric",
+    BoxOffice = "numeric",
+    Production = "character",
+    Cast = "character"
+  )
+)
 
 
 function(input, output, session) {
