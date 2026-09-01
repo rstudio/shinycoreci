@@ -20,7 +20,7 @@ Version: Google Chrome for Testing 152.0.7977.64
  collate   C.UTF-8
  ctype     C.UTF-8
  tz        UTC
- date      2026-08-31
+ date      2026-09-01
  pandoc    3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc
  quarto    NA
 ── Packages ────────────────────────────────────────────────────────────────────
@@ -109,7 +109,7 @@ Version: Google Chrome for Testing 152.0.7977.64
  lifecycle           1.0.5       2026-01-08 [1] RSPM
  listenv             1.0.0       2026-06-22 [1] RSPM
  litedown            0.11        2026-08-26 [1] RSPM
- lobstr              1.2.1       2026-04-04 [1] RSPM
+ lobstr              1.2.2       2026-09-01 [1] RSPM
  lorem               1.0.0       2023-03-09 [1] RSPM
  lubridate           1.9.5       2026-02-04 [1] RSPM
  magrittr            2.0.5       2026-04-04 [1] RSPM
@@ -183,7 +183,7 @@ Version: Google Chrome for Testing 152.0.7977.64
  sf                  1.1-2       2026-07-23 [1] RSPM
  shiny               1.14.0.9000 2026-08-26 [1] https://p~
  shinyAce            0.4.4       2025-02-03 [1] RSPM
- shinycoreci         0.0.0.9009  2026-08-31 [1] local
+ shinycoreci         0.0.0.9009  2026-09-01 [1] local
  shinydashboard      0.7.3       2025-04-21 [1] RSPM
  shinyjs             2.1.1       2026-01-15 [1] RSPM
  shinyjster          0.0.0.9010  2025-06-20 [1] https://p~
@@ -196,7 +196,7 @@ Version: Google Chrome for Testing 152.0.7977.64
  showtext            0.9-8       2026-03-21 [1] RSPM
  showtextdb          3.0         2020-06-04 [1] RSPM
  slam                0.1-56      2026-07-13 [1] RSPM
- snowflakeauth       0.2.2       2026-02-25 [1] RSPM
+ snowflakeauth       0.3.0       2026-08-31 [1] RSPM
  sourcetools         0.1.7-2     2026-03-28 [1] RSPM
  sp                  2.2-3       2026-07-19 [1] RSPM
  spatial             7.3-18      2025-01-01 [3] CRAN (R 4.4.3)
