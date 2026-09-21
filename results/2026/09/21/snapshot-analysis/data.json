@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-21",
+  "base_sha": "951986f",
+  "model": "claude-sonnet-5",
+  "cost_usd": 1.3568317499999996,
+  "duration_seconds": 148,
+  "num_turns": 30,
+  "summary": "Good, we're already in the right directory (the earlier `cd` error was harmless since we were already there). Let's verify the state and run `accept_snaps()`.",
+  "analysis_href": "snapshot-analysis/",
+  "pr_url": "https://github.com/rstudio/shinycoreci/pull/383",
+  "changed_files": [
+    "inst/apps/sysinfo-linux-4.2.txt",
+    "inst/apps/sysinfo-linux-4.3.txt",
+    "inst/apps/sysinfo-linux-4.4.txt",
+    "inst/apps/sysinfo-linux-4.5.txt",
+    "inst/apps/sysinfo-linux-4.6.txt",
+    "inst/apps/sysinfo-mac-4.2.txt",
+    "inst/apps/sysinfo-mac-4.3.txt",
+    "inst/apps/sysinfo-mac-4.4.txt",
+    "inst/apps/sysinfo-mac-4.5.txt",
+    "inst/apps/sysinfo-mac-4.6.txt",
+    "inst/apps/sysinfo-win-4.2.txt",
+    "inst/apps/sysinfo-win-4.3.txt",
+    "inst/apps/sysinfo-win-4.4.txt",
+    "inst/apps/sysinfo-win-4.5.txt",
+    "inst/apps/sysinfo-win-4.6.txt"
+  ],
+  "published_at": "2026-09-21 16:16:15 UTC",
+  "report": "Good, we're already in the right directory (the earlier `cd` error was harmless since we were already there). Let's verify the state and run `accept_snaps()`."
+}
