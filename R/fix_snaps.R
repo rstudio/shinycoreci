@@ -101,9 +101,11 @@ fix_snaps <- function(
       # Merge latest results from base branch; Keep original branch version if necessary
       git_cmd_("git merge ", original_git_branch, " --strategy-option ours")
 
-      # Make patch file given diff
-      # git_cmd_(paste0("git format-patch '", original_git_branch, "' --stdout > ", patch_file))
-      git_cmd_("git diff --binary ", original_git_branch, " -- inst/apps > ", patch_file)
+      git_cmd_(
+        "git diff --binary ", original_git_branch,
+        " -- inst/apps ':(exclude)*/.Rprofile' ':(exclude)*/setup-zzz-coreci-snapshots.R' > ",
+        patch_file
+      )
     }
 
     patch_file
@@ -263,13 +265,29 @@ fix_snaps <- function(
     f = function(branch, patch_file) {
       pb$tick(tokens = list(name = patch_file))
 
-      # Do not discard whitespace changes
-      # File comparisons will find differences in whitespace changes
-      git_cmd_("git apply --whitespace=nowarn --reject '", patch_file, "'")
+      tryCatch(
+        git_cmd_("git apply --whitespace=nowarn --reject '", patch_file, "'"),
+        error = function(e) {
+          rej_files <- dir(
+            file.path(repo_dir, "inst/apps"),
+            pattern = "\\.rej$",
+            recursive = TRUE
+          )
+          if (length(rej_files) == 0) {
+            stop(e)
+          }
+        }
+      )
     }
   )
 
   accept_snaps(repo_dir)
+  unlink(dir(
+    file.path(repo_dir, "inst/apps"),
+    pattern = "\\.rej$",
+    recursive = TRUE,
+    full.names = TRUE
+  ))
 
   if (length(apps_rejected) > 0) {
     message("Removing changes from rejected apps")
