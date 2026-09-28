@@ -5,3 +5,5 @@ License: MIT
 DisplayMode: Showcase
 Tags: knitr
 Type: Shiny
+Imports:
+    litedown

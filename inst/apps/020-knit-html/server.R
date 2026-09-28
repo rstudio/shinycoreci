@@ -2,6 +2,7 @@
 evaluate2 <- function(...) evaluate::evaluate(...)
 environment(evaluate2) <- asNamespace("knitr")
 knitr::knit_hooks$set(evaluate = evaluate2)
+requireNamespace("litedown", quietly = TRUE)
 
 function(input, output) {
 
