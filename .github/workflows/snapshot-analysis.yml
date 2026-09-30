@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 120
 
     env:
-      SNAPSHOT_MODEL: ${{ vars.CLAUDE_SNAPSHOT_MODEL || 'claude-sonnet-5' }}
+      SNAPSHOT_MODEL: ${{ vars.CLAUDE_SNAPSHOT_MODEL || 'claude-sonnet-5-5' }}
       CLAUDE_TOKEN_CONFIGURED: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
 
     steps:
