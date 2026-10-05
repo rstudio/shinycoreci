@@ -5262,6 +5262,20 @@ display: none;
 </head>
 
 <body>
+<!-- shinycoreci-snapshot-analysis:begin -->
+<section class="snapshot-ai-analysis" style="border:1px solid #dee2e6;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0 1.5rem;background:#fafbfc;">
+  <h2 style="font-size:1.1rem;margin:0 0 .5rem;">Claude Snapshot Analysis</h2>
+  <p style="margin:.25rem 0;color:#495057;">All 15 nightly failures (2026-10-05, SHA 6476c92) were the same `041-dynamic-ui` snapshot diff across Linux, macOS and Windows on R 4.2-4.6. The updated shiny build no longer emits `data-date-dates-disabled=&quot;null&quot;` on the date input. This is an equivalent change, so all of it was accepted.</p>
+  <p style="margin:.5rem 0 0;color:#6c757d;font-size:.9rem;">
+    Model: <code>claude-sonnet-5-5</code> ·
+    Cost: <strong>$0.2798</strong> ·
+    Time: <strong>25s</strong> ·
+    <a href="https://github.com/rstudio/shinycoreci/pull/386">Accepted snapshot PR</a> ·
+    <a href="snapshot-analysis/">Full analysis</a>
+  </p>
+</section>
+<!-- shinycoreci-snapshot-analysis:end -->
+
 
 
 <div class="container-fluid main-container">
