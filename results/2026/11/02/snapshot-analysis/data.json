@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-02",
+  "base_sha": "d8ffd8f",
+  "model": "claude-sonnet-5-5",
+  "cost_usd": 0.9234943500000001,
+  "duration_seconds": 42,
+  "num_turns": 28,
+  "summary": "The 2026-11-02 nightly (d8ffd8f) had 490 failures, almost all `can_not_install` on macOS R 4.2 (the `websocket` source build failed against openssl@4); only 1 was snapshot-related. `fix_snaps` applied 15 patches, and I kept the minute changes: a tiny embedded-PNG drift in `020-knit-html` (mac-4.6) and routine sysinfo metadata refreshes.",
+  "analysis_href": "snapshot-analysis/",
+  "pr_url": "https://github.com/rstudio/shinycoreci/pull/388",
+  "changed_files": [
+    "inst/apps/020-knit-html/tests/testthat/_snaps/mac-4.6/mytest/001.json",
+    "inst/apps/020-knit-html/tests/testthat/_snaps/mac-4.6/mytest/003.json",
+    "inst/apps/sysinfo-linux-4.2.txt",
+    "inst/apps/sysinfo-linux-4.3.txt",
+    "inst/apps/sysinfo-linux-4.4.txt",
+    "inst/apps/sysinfo-linux-4.5.txt",
+    "inst/apps/sysinfo-linux-4.6.txt",
+    "inst/apps/sysinfo-mac-4.5.txt",
+    "inst/apps/sysinfo-mac-4.6.txt",
+    "inst/apps/sysinfo-win-4.2.txt",
+    "inst/apps/sysinfo-win-4.3.txt",
+    "inst/apps/sysinfo-win-4.4.txt",
+    "inst/apps/sysinfo-win-4.5.txt",
+    "inst/apps/sysinfo-win-4.6.txt"
+  ],
+  "published_at": "2026-11-02 16:12:42 UTC",
+  "report": "## Summary\nThe 2026-11-02 nightly (d8ffd8f) had 490 failures, almost all `can_not_install` on macOS R 4.2 (the `websocket` source build failed against openssl@4); only 1 was snapshot-related. `fix_snaps` applied 15 patches, and I kept the minute changes: a tiny embedded-PNG drift in `020-knit-html` (mac-4.6) and routine sysinfo metadata refreshes.\n\n## Minute Changes Accepted\n- `020-knit-html` `_snaps/mac-4.6/mytest/001.json` and `003.json`: only the base64 PNG in the `report` html output changed. The PNG is still 504x360, the byte size moved about 1-2% (18844 to 18459 and 20853 to 20658), and all non-image content is identical. This is the same kind of rendering drift accepted in the previous snapshot PRs.\n- `inst/apps/sysinfo-linux-4.2` to `4.6`, `sysinfo-mac-4.5`, `sysinfo-mac-4.6`, and `sysinfo-win-4.2` to `4.6`: generated environment metadata (dates, Chrome 156/157, gha_image, R patch version, package versions).\n\n## Needs Human Review\n- `inst/apps/sysinfo-mac-4.2.txt`, `sysinfo-mac-4.3.txt`, `sysinfo-mac-4.4.txt` (reverted): these reflect a broken macOS run, not a real environment change. The package list shrank from 227 to about 150 lines, and chromote dropped to CRAN 0.5.1 from 0.5.1.9000. This matches the `websocket` build failure against openssl@4 (`/opt/homebrew/Cellar/openssl@4/4.1.0`) on macOS 4.2/4.3/4.4, which caused the 000-all to 149-onRender `can_not_install` failures. Needs a CI/infra fix (pin openssl or the `websocket` build), not a snapshot update.\n- The rest of the 490 failures (about 489) are macOS R 4.2 install failures and are not snapshot-related, so nothing was changed for them.\n\n## Commands Run\n- `Rscript -e 'shinycoreci::fix_snaps(sha = \"d8ffd8f\", ask_apps = FALSE, ask_branches = FALSE, ask_if_not_main = FALSE)'` - passed (15 patches applied cleanly)\n- `git status --short` / `git diff -- inst/apps` - passed (inspected the diffs)\n- Python comparison of the `020-knit-html` JSON before and after (PNG dimensions and non-image content) - passed\n- `git checkout -- inst/apps/sysinfo-mac-4.2.txt inst/apps/sysinfo-mac-4.3.txt inst/apps/sysinfo-mac-4.4.txt` - passed (reverted the degraded sysinfo)"
+}

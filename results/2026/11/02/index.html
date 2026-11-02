@@ -5262,6 +5262,20 @@ display: none;
 </head>
 
 <body>
+<!-- shinycoreci-snapshot-analysis:begin -->
+<section class="snapshot-ai-analysis" style="border:1px solid #dee2e6;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0 1.5rem;background:#fafbfc;">
+  <h2 style="font-size:1.1rem;margin:0 0 .5rem;">Claude Snapshot Analysis</h2>
+  <p style="margin:.25rem 0;color:#495057;">The 2026-11-02 nightly (d8ffd8f) had 490 failures, almost all `can_not_install` on macOS R 4.2 (the `websocket` source build failed against openssl@4); only 1 was snapshot-related. `fix_snaps` applied 15 patches, and I kept the minute changes: a tiny embedded-PNG drift in `020-knit-html` (mac-4.6) and routine sysinfo metadata refreshes.</p>
+  <p style="margin:.5rem 0 0;color:#6c757d;font-size:.9rem;">
+    Model: <code>claude-sonnet-5-5</code> ·
+    Cost: <strong>$0.9235</strong> ·
+    Time: <strong>42s</strong> ·
+    <a href="https://github.com/rstudio/shinycoreci/pull/388">Accepted snapshot PR</a> ·
+    <a href="snapshot-analysis/">Full analysis</a>
+  </p>
+</section>
+<!-- shinycoreci-snapshot-analysis:end -->
+
 
 
 <div class="container-fluid main-container">
