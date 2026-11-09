@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-09",
+  "base_sha": "d8ffd8f",
+  "model": "claude-sonnet-5-5",
+  "cost_usd": null,
+  "duration_seconds": null,
+  "num_turns": null,
+  "summary": "No Claude report was produced.",
+  "analysis_href": "snapshot-analysis/",
+  "pr_url": "",
+  "changed_files": [],
+  "published_at": "2026-11-09 16:10:12 UTC",
+  "report": ""
+}
