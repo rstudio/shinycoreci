@@ -40,30 +40,17 @@ runs:
         sudo apt-get update
         sudo apt-get install -y libglpk-dev
 
-    # Older macOS R jobs build websocket from source with AsioHeaders that require OpenSSL 3.
-    - name: Use OpenSSL 3 for older macOS R versions
-      if: runner.os == 'macOS' && (startsWith(inputs.r-version, '4.2.') || startsWith(inputs.r-version, '4.3.') || startsWith(inputs.r-version, '4.4.'))
-      id: macos-openssl
-      shell: bash
-      run: |
-        openssl_pkgconfig="$(brew --prefix openssl@3)/lib/pkgconfig"
-        if [[ ! -f "$openssl_pkgconfig/openssl.pc" ]]; then
-          brew install openssl@3
-        fi
-        echo "PKG_CONFIG_PATH=$openssl_pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}" >> "$GITHUB_ENV"
-        echo "cache-suffix=-openssl3" >> "$GITHUB_OUTPUT"
-
     - name: Install R and shinycoreci
-      uses: rstudio/shiny-workflows/setup-r-package@v1
+      # Return to @v1 once it includes the macOS OpenSSL fix.
+      uses: rstudio/shiny-workflows/setup-r-package@afe89f3bf7cbb31a03369091d84f6c39f015f1b4
       env:
-        SHINYCORECI_BOOTSTRAP_PAK: ${{ runner.os == 'Linux' }}
+        # The pak download timed out at R's default of 60 seconds on Ubuntu.
+        R_DEFAULT_INTERNET_TIMEOUT: ${{ runner.os == 'Linux' && '300' || env.R_DEFAULT_INTERNET_TIMEOUT }}
       with:
         r-version: ${{ inputs.r-version }}
-        cache-version: ${{ inputs.cache-version }}${{ steps.macos-openssl.outputs.cache-suffix }}
+        cache-version: ${{ inputs.cache-version }}
         http-user-agent: ${{ inputs.http-user-agent }}
         pandoc-version: ${{ inputs.pandoc-version }}
-        # The package-install hook installs pak with retries on Linux.
-        pak-version: ${{ runner.os == 'Linux' && 'none' || 'devel' }}
         extra-packages: |
           any::ragg
           any::systemfonts
