@@ -41,8 +41,7 @@ runs:
         sudo apt-get install -y libglpk-dev
 
     - name: Install R and shinycoreci
-      # Return to @v1 once it includes the macOS OpenSSL fix.
-      uses: rstudio/shiny-workflows/setup-r-package@afe89f3bf7cbb31a03369091d84f6c39f015f1b4
+      uses: rstudio/shiny-workflows/setup-r-package@v1
       env:
         # The pak download timed out at R's default of 60 seconds on Ubuntu.
         R_DEFAULT_INTERNET_TIMEOUT: ${{ runner.os == 'Linux' && '300' || env.R_DEFAULT_INTERNET_TIMEOUT }}
