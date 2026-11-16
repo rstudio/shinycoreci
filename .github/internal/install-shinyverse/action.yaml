@@ -42,12 +42,14 @@ runs:
 
     - name: Install R and shinycoreci
       uses: rstudio/shiny-workflows/setup-r-package@v1
+      env:
+        # The pak download timed out at R's default of 60 seconds on Ubuntu.
+        R_DEFAULT_INTERNET_TIMEOUT: ${{ runner.os == 'Linux' && '300' || env.R_DEFAULT_INTERNET_TIMEOUT }}
       with:
         r-version: ${{ inputs.r-version }}
         cache-version: ${{ inputs.cache-version }}
         http-user-agent: ${{ inputs.http-user-agent }}
         pandoc-version: ${{ inputs.pandoc-version }}
-        pak-version: "devel"
         extra-packages: |
           any::ragg
           any::systemfonts
