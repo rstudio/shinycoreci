@@ -6,6 +6,23 @@ ci_status <- list(
   did_not_return_result = "did_not_return_result"
 )
 
+# Shorten a single app's log for console display.
+#
+# Aggregating full install logs can exhaust R's C stack on macOS.
+# save_test_results() still receives and saves the original logs.
+truncate_log <- function(log, head = 800L, tail = 1200L) {
+  log <- paste0(log, collapse = "\n")
+  n <- nchar(log)
+  if (n <= head + tail) {
+    return(log)
+  }
+  paste0(
+    substr(log, 1L, head),
+    "\n... [", n - head - tail, " characters truncated; see __test_results/ for the full log] ...\n",
+    substr(log, n - tail + 1L, n)
+  )
+}
+
 #' Test apps using `shiny::runTests()` using local libpath
 #'
 #' @param apps applications within \verb{dir} to run
@@ -264,7 +281,7 @@ assert_test_output <- function(output) {
       sub_app_name,
       sub_test_dt$log,
       FUN = function(app_name, log) {
-        result_str <- if (include_result) log else ""
+        result_str <- if (include_result) truncate_log(log) else ""
         paste0("* ", app_name, result_str)
       }
     )
@@ -299,9 +316,10 @@ assert_test_output <- function(output) {
     stop("No test results found!")
   }
 
-  if (any(test_dt$status %in% ci_status$fail)) {
+  incomplete_statuses <- unique(test_dt$status[!test_dt$status %in% ci_status$pass])
+  if (length(incomplete_statuses) > 0L) {
     stop(
-      concat_info("Failures detected in:", c(ci_status$fail), include_result = FALSE)
+      concat_info("Failures detected in:", incomplete_statuses, include_result = FALSE)
     )
   } else {
     message("All app tests passed!")

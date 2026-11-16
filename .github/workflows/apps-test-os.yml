@@ -164,6 +164,7 @@ jobs:
 
       # Install packages as necessary!
       - name: Run tests
+        id: run-tests
         timeout-minutes: 180 # 3 hrs
         env:
           # firefox needs creds to download drivers?
@@ -213,6 +214,7 @@ jobs:
             pr_number = '${{github.event.pull_request.number}}',
             username = '${GITHUB_ACTOR}'
           )
+          cat("results-saved=true\n", file = Sys.getenv("GITHUB_OUTPUT"), append = TRUE)
           shinycoreci::assert_test_output(test_output)
 
         # > If the workflow run is a re-run, with debugging enabled, then it opens a tmate shell that you can ssh into for interactive debugging.
@@ -243,7 +245,7 @@ jobs:
           git config --local --list
 
       - name: Push test files to rstudio/shinycoreci `gha-` branch
-        if: always()
+        if: ${{ !cancelled() && steps.gha_branch.outputs.name != '' && (steps.run-tests.outcome == 'success' || steps.run-tests.outcome == 'failure') }}
         shell: bash
         # git checkout -B -- Creates the branch <new_branch> and start it at <start_point>; if it already exists, then reset it to <start_point>.
         # git push --force -- JUST in case the prior branch existed
@@ -270,7 +272,7 @@ jobs:
           fi
 
       - name: Push test results to rstudio/shinycoreci
-        if: always()
+        if: ${{ !cancelled() && steps.run-tests.outputs.results-saved == 'true' }}
         shell: bash
         # Add saved test results (in __test_results/) to _test_results branch
         # (this assumes the __test_results branch already exists, which was setup manually like this
