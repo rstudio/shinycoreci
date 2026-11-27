@@ -33,12 +33,12 @@ key_press_factory <- function(app) {
     )
 
     modifiers <- 0
-    if (shift)   modifiers <- modifiers + 8
+    if (shift) modifiers <- modifiers + 8
     if (command) modifiers <- modifiers + 4
     if (control) modifiers <- modifiers + 2
-    if (alt)     modifiers <- modifiers + 1
+    if (alt) modifiers <- modifiers + 1
 
-    events <-
+    keydown <- if (!is.null(virtual_code)) {
       brwsr$Input$dispatchKeyEvent(
         "rawKeyDown",
         windowsVirtualKeyCode = virtual_code,
@@ -46,7 +46,18 @@ key_press_factory <- function(app) {
         key = key,
         modifiers = modifiers,
         wait_ = FALSE
-      )$then(function(value) {
+      )
+    } else {
+      brwsr$Input$dispatchKeyEvent(
+        "keyDown",
+        text = which,
+        modifiers = modifiers,
+        wait_ = FALSE
+      )
+    }
+
+    events <-
+      keydown$then(function(value) {
         brwsr$Input$dispatchKeyEvent(
           "keyUp",
           windowsVirtualKeyCode = virtual_code,
